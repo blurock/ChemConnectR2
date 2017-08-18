@@ -15,5 +15,6 @@
 	</classpathentry>
 	<classpathentry kind="con" path="com.gwtplugins.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="lib" path="/opt/yaml/yamlbeans.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ChemConnectCoreClientServerCommon"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

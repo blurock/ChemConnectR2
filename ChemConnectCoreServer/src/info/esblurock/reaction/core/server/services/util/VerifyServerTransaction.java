@@ -1,4 +1,4 @@
-package info.esblurock.reaction.core.server.services;
+package info.esblurock.reaction.core.server.services.util;
 
 import java.io.IOException;
 import java.util.ArrayList;

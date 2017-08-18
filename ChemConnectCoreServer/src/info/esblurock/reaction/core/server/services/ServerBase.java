@@ -8,6 +8,8 @@ import javax.servlet.http.HttpSession;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
+import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
+import info.esblurock.reaction.core.server.services.util.VerifyServerTransaction;
 
 public class ServerBase  extends RemoteServiceServlet {
 

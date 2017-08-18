@@ -1,4 +1,4 @@
-package info.esblurock.reaction.core.server.services;
+package info.esblurock.reaction.core.server.services.util;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
