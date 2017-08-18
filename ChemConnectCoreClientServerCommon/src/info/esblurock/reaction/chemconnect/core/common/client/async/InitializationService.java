@@ -4,7 +4,9 @@ import java.io.IOException;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+@RemoteServiceRelativePath("initialization")
 public interface InitializationService extends RemoteService {
 	   public static class Util
 	   {
