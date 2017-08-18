@@ -5,6 +5,7 @@ import com.googlecode.objectify.annotation.Index;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 
+@SuppressWarnings("serial")
 @Entity
 public class InitializationFile extends DatabaseObject {
 

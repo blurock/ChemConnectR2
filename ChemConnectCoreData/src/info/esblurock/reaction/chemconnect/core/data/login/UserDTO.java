@@ -2,7 +2,6 @@ package info.esblurock.reaction.chemconnect.core.data.login;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 public class UserDTO implements Serializable {
 
