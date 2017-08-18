@@ -1,4 +1,4 @@
-package info.esblurock.reaction.core.common.client.async;
+package info.esblurock.reaction.chemconnect.core.common.client.async;
 
 import java.io.IOException;
 

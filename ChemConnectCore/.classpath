@@ -28,5 +28,9 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry combineaccessrules="false" kind="src" path="/ChemConnectCoreClientServerCommon"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ChemConnectCoreData"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ChemConnectCoreServer"/>
+	<classpathentry kind="con" path="com.gwtplugins.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
