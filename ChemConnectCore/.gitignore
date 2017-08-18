@@ -5,4 +5,4 @@
 **/*.jar
 **/*.devmode.js
 **/*.nocache.js
-
+**/*.gwt.rpc

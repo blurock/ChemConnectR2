@@ -1,0 +1,27 @@
+interpreter: info.esblurock.reaction.core.server.initialization.InitializeRDFYaml
+Organizations:
+    Blurock:
+        org:Organization:
+            org:organization: 
+            org:subOrganizationOf: 
+            org:OrganizationalUnit: 
+            org:classification: 
+        dct:description:
+            dc:identifier: blurock
+            dcat:dataset: 
+            dct:publisher: Administration
+            dct:title: Blurock Consulting AB
+            dcat:keyword: developer, kinetics, combustion, chemistry
+            dct:description: Blurock Consulting AB is the developer of numerous software packages
+        vcard:Location:
+            vcard:street-address: Bandelsvägen 1
+            vcard:locality: Lund
+            vcard:country-name: Sweden
+            vcard:postcode: 
+            geo:lat: 
+            geo:long:
+        vcard:Contact:
+            vcard:hasEmail: edward.blurock@esblurock.info
+            org:hasSite: http://www.chemicalkinetics.info
+            org:siteOf: http://www.esblurock.info
+ 

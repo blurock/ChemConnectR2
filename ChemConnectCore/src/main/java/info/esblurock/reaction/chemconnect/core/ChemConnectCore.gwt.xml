@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE module PUBLIC "-//Google Inc.//DTD GWT//EN" "http://gwtproject.org/doctype/2.8.1/gwt-module.dtd">
-<module>
+<module rename-to="chemconnectcore">
 	<inherits
 		name='info.esblurock.reaction.chemconnect.core.common.ChemConnectCoreClientServerCommon' />
 	<inherits

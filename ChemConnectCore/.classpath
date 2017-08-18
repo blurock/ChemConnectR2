@@ -32,5 +32,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ChemConnectCoreData"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ChemConnectCoreServer"/>
 	<classpathentry kind="con" path="com.gwtplugins.gwt.eclipse.core.GWT_CONTAINER"/>
+	<classpathentry kind="lib" path="/opt/yaml/yamlbeans.jar"/>
 	<classpathentry kind="output" path="src/main/webapp/WEB-INF/classes"/>
 </classpath>

@@ -1,0 +1,17 @@
+interpreter: info.esblurock.reaction.core.server.initialization.InitializeRDFYaml
+RDF:
+    isA:
+        - RCM: apparatus
+        - JSR: apparatus
+        - FlowTube: apparatus
+        - ShockTube: apparatus
+        - LaminarFlame: apparatus
+        - GC: apparatus
+        - MS: apparatus
+    synonym:
+        - RCM: Rapid Compression Machine
+        - JSR: Jet-Stirred Reactor
+        - FlowTube: Flow Tube
+        - ShockTube: ShockTube
+        - GC: Gas Spectroscopy
+        - MS: Mass Spectroscopy

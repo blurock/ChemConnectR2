@@ -1,0 +1,12 @@
+interpreter: info.esblurock.reaction.core.server.initialization.InitializeRDFYaml
+RDF:
+    ApparatusAttributeValuePair:
+        - RCM: CompressionRatio
+        - RCM: Volume
+        - RCM: OperativeTemperatureLower
+        - RCM: OperativeTemperatureUpper
+        - RCM: OperativePressureLower
+        - RCM: OperativePressureUpper
+        - RCM: PistonRate
+
+  
