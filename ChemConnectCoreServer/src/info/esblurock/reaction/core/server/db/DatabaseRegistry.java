@@ -5,6 +5,7 @@ import javax.servlet.ServletContextListener;
 import info.esblurock.reaction.chemconnect.core.data.contact.RegisterContactData;
 import info.esblurock.reaction.chemconnect.core.data.description.RegisterDescriptionData;
 import info.esblurock.reaction.chemconnect.core.data.initialization.RegisterInitializationData;
+import info.esblurock.reaction.chemconnect.core.data.rdf.RegisterRDFData;
 
 import javax.servlet.ServletContextEvent;
 
@@ -19,6 +20,7 @@ public class DatabaseRegistry  implements ServletContextListener  {
 		RegisterContactData.register();
 		RegisterDescriptionData.register();
 		RegisterInitializationData.register();
+		RegisterRDFData.register();
 	}
 
 }

@@ -1,0 +1,123 @@
+Unit Result: PlanckTemperature
+	symbol	: Θ_P
+	quantityKind	: ThermodynamicTemperature
+	conversionOffset	: 0.0
+	conversionMultiplier	: 1.416785E32
+	label	: Planck Temperature
+	type	: TemperatureUnit
+	literal	: Θ_P
+	type	: Thing
+	type	: EnumerationElement
+	type	: Thing
+	type	: Unit
+	type	: ScienceAndEngineeringUnit
+	type	: PhysicalUnit
+	type	: ThermodynamicsUnit
+-------------------------------
+Unit Result: DegreeCelsius
+	code	: 0515
+	type	: SIUnit
+	label	: Degree Celsius
+	type	: DerivedUnit
+	quantityKind	: ThermodynamicTemperature
+	symbol	: degC
+	type	: TemperatureUnit
+	conversionMultiplier	: 1
+	conversionOffset	: 273.15
+	abbreviation	: degC
+	literal	: degC
+	type	: Thing
+	type	: Thing
+	type	: PhysicalUnit
+	type	: EnumerationElement
+	type	: ScienceAndEngineeringUnit
+	type	: Unit
+	type	: ThermodynamicsUnit
+-------------------------------
+Unit Result: Kelvin
+	type	: SIBaseUnit
+	symbol	: K
+	quantityKind	: ThermodynamicTemperature
+	conversionOffset	: 0.0
+	conversionMultiplier	: 1
+	code	: 0930
+	abbreviation	: K
+	label	: Kelvin
+	type	: TemperatureUnit
+	literal	: K
+	type	: EnumerationElement
+	type	: Thing
+	type	: Thing
+	type	: Unit
+	type	: BaseUnit
+	type	: PhysicalUnit
+	type	: ScienceAndEngineeringUnit
+	type	: SIUnit
+	type	: ThermodynamicsUnit
+-------------------------------
+Unit Result: DegreeCentigrade
+	type	: NotUsedWithSIUnit
+	symbol	: DegC
+	quantityKind	: ThermodynamicTemperature
+	code	: 0520
+	abbreviation	: DegC
+	label	: Degree Centigrade
+	type	: TemperatureUnit
+	literal	: DegC
+	type	: EnumerationElement
+	type	: PhysicalUnit
+	type	: Thing
+	type	: Unit
+	type	: Thing
+	type	: ScienceAndEngineeringUnit
+	type	: NonSIUnit
+	type	: ThermodynamicsUnit
+-------------------------------
+Unit Result: DegreeRankine
+	type	: NotUsedWithSIUnit
+	symbol	: degR
+	quantityKind	: ThermodynamicTemperature
+	conversionOffset	: 0.0
+	conversionMultiplier	: 0.5555555555555555556E0
+	code	: 0545
+	abbreviation	: degR
+	label	: Degree Rankine
+	type	: TemperatureUnit
+	literal	: degR
+	type	: NonSIUnit
+	type	: EnumerationElement
+	type	: Unit
+	type	: Thing
+	type	: Thing
+	type	: ScienceAndEngineeringUnit
+	type	: PhysicalUnit
+	type	: ThermodynamicsUnit
+-------------------------------
+Unit Result: DegreeFahrenheit
+	type	: NotUsedWithSIUnit
+	symbol	: degF
+	quantityKind	: ThermodynamicTemperature
+	conversionOffset	: 255.37037037037037037E0
+	conversionMultiplier	: 0.5555555555555555556E0
+	code	: 0525
+	abbreviation	: degF
+	label	: Degree Fahrenheit
+	type	: TemperatureUnit
+	literal	: degF
+	type	: NonSIUnit
+	type	: ScienceAndEngineeringUnit
+	type	: PhysicalUnit
+	type	: Unit
+	type	: Thing
+	type	: Thing
+	type	: EnumerationElement
+	type	: ThermodynamicsUnit
+-------------------------------
+Unit Result: null
+-------------------------------
+Unit Result: SystemOfQuantities_USCustomary
+-------------------------------
+Unit Result: SystemOfQuantities_Planck
+-------------------------------
+Unit Result: SystemOfQuantities_SI
+End
