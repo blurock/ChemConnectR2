@@ -3,6 +3,7 @@ package info.esblurock.reaction.ontology.test.dataset;
 import static org.junit.Assert.*;
 
 import java.util.Iterator;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -15,6 +16,7 @@ import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.sparql.core.ResultBinding;
 
 import info.esblurock.reaction.ontology.OntologyBase;
+import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 
 
 public class SimpleReadDatasetInformation {
@@ -29,8 +31,10 @@ public class SimpleReadDatasetInformation {
 				"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" + 
 				"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" + 
 				"PREFIX dataset: <http://www.esblurock.info/dataset#>\n" + 
-				"SELECT ?object  ?subobject  ?pred ?uuu ?xxx ?vvv\n" + 
-				"	WHERE {?object ?pred rdfs:Resource " 
+				"SELECT ?object ?subobject ?card \n" + 
+				"	WHERE {?object rdfs:subClassOf dataset:ChemConnectDataStructure . " 
+				+ "          ?sub owl:onClass ?subobject . "
+				+ "		?sub owl:maxQualifiedCardinality ?card"
 				+ "}";
 		/*
 				+ " .\n" + 
@@ -66,16 +70,12 @@ public class SimpleReadDatasetInformation {
 		System.out.println("Results:\n" + results.hasNext());
 		System.out.println("Results:\n" + results.getResultVars());
 		
-		while(results.hasNext()) {
-			Object solution = results.next();
-			ResultBinding result = (ResultBinding) solution;
-			Iterator<String> names = result.varNames();
-			while(names.hasNext()) {
-				String name = names.next();
-				System.out.println(name + ":\t " + result.get(name));
-			}
-			
-			System.out.println("\n");
+		List<String> lst = DatasetOntologyParsing.getMainDataStructures();
+		System.out.println(lst);
+		for(String structure : lst) {
+			System.out.println(structure);
+			List<String> subs = DatasetOntologyParsing.getSubElementsOfStructure(structure);
+			System.out.println(subs);
 		}
 	}
 
