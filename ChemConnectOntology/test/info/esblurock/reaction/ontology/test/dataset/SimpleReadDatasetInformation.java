@@ -1,8 +1,7 @@
 package info.esblurock.reaction.ontology.test.dataset;
 
-import static org.junit.Assert.*;
+//import static org.junit.Assert.*;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.junit.Test;
@@ -13,9 +12,9 @@ import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.query.ResultSet;
-import com.hp.hpl.jena.sparql.core.ResultBinding;
 
 import info.esblurock.reaction.ontology.OntologyBase;
+import info.esblurock.reaction.ontology.dataset.DataElementInformation;
 import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 
 
@@ -45,24 +44,7 @@ public class SimpleReadDatasetInformation {
 				"		?xxx ?pred dataset:ContactID .\n" + 
 				"		?xxx owl:qualifiedCardinality ?uuu" +
 				*/
-		
-		
-		String queryS = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" + 
-				"PREFIX owl: <http://www.w3.org/2002/07/owl#>\n" + 
-				"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" + 
-				"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" + 
-				"PREFIX dataset: <http://www.esblurock.info/dataset#>\n" + 
-				"SELECT ?object  ?subject ?sub ?pred ?subobject\n" + 
-				"	WHERE {?object rdfs:subClassOf ?subject ." +
-				"		?object rdfs:subClassOf ?sub .\n" + 
-				"		?sub rdfs:subClassOf ?subobject \n" + 
-				"}";
-				/*
-				"		?subobject rdfs:subClassOf ?xxx .\n" + 
-				"		?xxx owl:onProperty ?vvv .\n" + 
-				"		?xxx ?pred dataset:ContactID .\n" + 
-				"		?xxx owl:qualifiedCardinality ?uuu}";
-*/
+	
 		Query query = QueryFactory.create(queryS1);
 		QueryExecution qe = QueryExecutionFactory.create(query, model);
 		ResultSet results = qe.execSelect();
@@ -74,8 +56,12 @@ public class SimpleReadDatasetInformation {
 		System.out.println(lst);
 		for(String structure : lst) {
 			System.out.println(structure);
-			List<String> subs = DatasetOntologyParsing.getSubElementsOfStructure(structure);
-			System.out.println(subs);
+			List<DataElementInformation> subs = DatasetOntologyParsing.getSubElementsOfStructure(structure);
+			for(DataElementInformation element : subs) {
+				System.out.println(element);
+				List<DataElementInformation> subelements = DatasetOntologyParsing.getSubElementsOfStructure(element.getDataElementName());
+				System.out.println(subelements);
+			}
 		}
 	}
 

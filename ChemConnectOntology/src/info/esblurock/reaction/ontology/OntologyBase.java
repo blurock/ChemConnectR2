@@ -9,14 +9,11 @@ import java.util.Map;
 import java.util.Set;
 
 import com.hp.hpl.jena.rdf.model.Literal;
-import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.sparql.core.ResultBinding;
-import com.hp.hpl.jena.util.FileManager;
 import com.hp.hpl.jena.ontology.OntModel;
-import com.hp.hpl.jena.ontology.OntModelSpec;
 import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
@@ -155,7 +152,7 @@ public class OntologyBase {
 					namemap.put(name, full);
 				} else if(node.isLiteral()) {
 					Literal literal = node.asLiteral();
-					System.out.println("Literal: " +  name + "(" + literal.getDatatypeURI() + "):  " + literal.getValue().toString());
+					//System.out.println("Literal: " +  name + "(" + literal.getDatatypeURI() + "):  " + literal.getValue().toString());
 					String value = literal.getValue().toString();
 					namemap.put(name,value);
 				} else {

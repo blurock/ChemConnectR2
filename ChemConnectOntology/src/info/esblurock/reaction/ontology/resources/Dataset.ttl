@@ -213,17 +213,17 @@
                                      ] ,
                                      [ rdf:type owl:Restriction ;
                                        owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                       owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                        owl:onClass :DescriptionAbstract
                                      ] ,
                                      [ rdf:type owl:Restriction ;
                                        owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                       owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                        owl:onClass :DescriptionID
                                      ] ,
                                      [ rdf:type owl:Restriction ;
                                        owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                       owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                        owl:onClass :DescriptionTitle
                                      ] ;
                      <http://purl.org/dc/terms/identifier> "dc:description"^^xsd:string ;
@@ -371,22 +371,22 @@
               rdfs:subClassOf :ChemConnectDataStructure ,
                               [ rdf:type owl:Restriction ;
                                 owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                                owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                 owl:onClass :ContactInfoData
                               ] ,
                               [ rdf:type owl:Restriction ;
                                 owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                                owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                 owl:onClass :ContactLocationInformation
                               ] ,
                               [ rdf:type owl:Restriction ;
                                 owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                                owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                 owl:onClass :DescriptionDataData
                               ] ,
                               [ rdf:type owl:Restriction ;
                                 owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                                owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                 owl:onClass :OrganizationDescription
                               ] .
 
@@ -402,27 +402,27 @@
                                          :ChemConnectDataUnit ,
                                          [ rdf:type owl:Restriction ;
                                            owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                           owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                            owl:onClass :OrganizationClassification
                                          ] ,
                                          [ rdf:type owl:Restriction ;
                                            owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                           owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                            owl:onClass :OrganizationID
                                          ] ,
                                          [ rdf:type owl:Restriction ;
                                            owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                           owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                            owl:onClass :OrganizationName
                                          ] ,
                                          [ rdf:type owl:Restriction ;
                                            owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                           owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                            owl:onClass :OrganizationalUnit
                                          ] ,
                                          [ rdf:type owl:Restriction ;
                                            owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                           owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                            owl:onClass :SubOrganizationOf
                                          ] ;
                          <http://purl.org/dc/terms/identifier> "org:Organization"^^xsd:string ;
@@ -460,12 +460,12 @@
                                      :ChemConnectDataUnit ,
                                      [ rdf:type owl:Restriction ;
                                        owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                       owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                        owl:onClass :NameOfPerson
                                      ] ,
                                      [ rdf:type owl:Restriction ;
                                        owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                       owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                        owl:onClass :UserClassification
                                      ] ;
                      <http://purl.org/dc/terms/identifier> "foaf:Person"^^xsd:string ;
