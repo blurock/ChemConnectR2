@@ -35,7 +35,8 @@
 
 ###  http://www.esblurock.info/dataset#ChemConnectCompoundDataStructure
 :ChemConnectCompoundDataStructure rdf:type owl:Class ;
-                                  rdfs:subClassOf <http://www.w3.org/ns/dcat#Dataset> .
+                                  rdfs:subClassOf <http://www.w3.org/ns/dcat#Dataset> ;
+                                  <http://purl.org/dc/terms/type> "ChemConnectCompoundDataStructure"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#ChemConnectDataStructure
@@ -45,17 +46,20 @@
 
 ###  http://www.esblurock.info/dataset#ChemConnectDataUnit
 :ChemConnectDataUnit rdf:type owl:Class ;
-                     rdfs:subClassOf <http://www.w3.org/ns/dcat#CatalogRecord> .
+                     rdfs:subClassOf <http://www.w3.org/ns/dcat#CatalogRecord> ;
+                     <http://purl.org/dc/elements/1.1/source> "ChemConnect" .
 
 
 ###  http://www.esblurock.info/dataset#ChemConnectPrimitiveCompound
 :ChemConnectPrimitiveCompound rdf:type owl:Class ;
-                              rdfs:subClassOf <http://www.w3.org/ns/dcat#Dataset> .
+                              rdfs:subClassOf <http://www.w3.org/ns/dcat#Dataset> ;
+                              <http://purl.org/dc/terms/type> "ChemConnectPrimitiveCompound"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#ChemConnectPrimitiveDataStructure
 :ChemConnectPrimitiveDataStructure rdf:type owl:Class ;
-                                   rdfs:subClassOf <http://www.w3.org/ns/dcat#Dataset> .
+                                   rdfs:subClassOf <http://www.w3.org/ns/dcat#Dataset> ;
+                                   <http://purl.org/dc/terms/type> "ChemConnectPrimitiveDataStructure"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#City
@@ -73,13 +77,13 @@
 ###  http://www.esblurock.info/dataset#ContactEmail
 :ContactEmail rdf:type owl:Class ;
               rdfs:subClassOf :Email ;
-              <http://purl.org/dc/elements/1.1/identifier> "vcard:email"^^xsd:string .
+              <http://purl.org/dc/terms/identifier> "vcard:email"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#ContactHasSite
 :ContactHasSite rdf:type owl:Class ;
                 rdfs:subClassOf :HTTPAddress ;
-                <http://purl.org/dc/elements/1.1/identifier> "foaf:homepage"^^xsd:string .
+                <http://purl.org/dc/terms/identifier> "foaf:homepage"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#ContactID
@@ -148,7 +152,7 @@
 ###  http://www.esblurock.info/dataset#ContactSiteOf
 :ContactSiteOf rdf:type owl:Class ;
                rdfs:subClassOf :HTTPAddress ;
-               <http://purl.org/dc/elements/1.1/identifier> "foaf:workInfoHomepage"^^xsd:string .
+               <http://purl.org/dc/terms/identifier> "foaf:workInfoHomepage"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#Country
@@ -191,6 +195,7 @@
                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                     owl:onClass :ReferenceTitle
                                   ] ;
+                  <http://purl.org/dc/elements/1.1/source> "ChemConnect" ;
                   <http://purl.org/dc/terms/identifier> "terms:BibliographicResource"^^xsd:string ;
                   <http://purl.org/dc/terms/type> "DataSetReference"^^xsd:string ;
                   rdfs:isDefinedBy <http://purl.org/dc/terms/BibliographicResource> ;
@@ -200,7 +205,7 @@
 ###  http://www.esblurock.info/dataset#DescriptionAbstract
 :DescriptionAbstract rdf:type owl:Class ;
                      rdfs:subClassOf :Paragraph ;
-                     <http://purl.org/dc/elements/1.1/identifier> "dct:description"^^xsd:string .
+                     <http://purl.org/dc/terms/identifier> "dct:description"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#DescriptionDataData
@@ -240,13 +245,13 @@
 ###  http://www.esblurock.info/dataset#DescriptionKeyword
 :DescriptionKeyword rdf:type owl:Class ;
                     rdfs:subClassOf :Keyword ;
-                    <http://purl.org/dc/elements/1.1/identifier> "dcat:keyword"^^xsd:string .
+                    <http://purl.org/dc/terms/identifier> "dcat:keyword"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#DescriptionTitle
 :DescriptionTitle rdf:type owl:Class ;
                   rdfs:subClassOf :OneLine ;
-                  <http://purl.org/dc/elements/1.1/identifier> "dct:title"^^xsd:string .
+                  <http://purl.org/dc/terms/identifier> "dct:title"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#Email
@@ -330,7 +335,7 @@
 ###  http://www.esblurock.info/dataset#LocationID
 :LocationID rdf:type owl:Class ;
             rdfs:subClassOf :Identifier ;
-            <http://purl.org/dc/elements/1.1/identifier> "dc:identifier"^^xsd:string .
+            <http://purl.org/dc/terms/identifier> "dc:identifier"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#LocationPostcode
@@ -357,7 +362,7 @@
                                 owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                 owl:onClass :givenName
                               ] ;
-              <http://purl.org/dc/elements/1.1/identifier> "foaf:name"^^xsd:string .
+              <http://purl.org/dc/terms/identifier> "foaf:name"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#OneLine
@@ -388,12 +393,14 @@
                                 owl:onProperty <http://www.w3.org/ns/dcat#record> ;
                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                 owl:onClass :OrganizationDescription
-                              ] .
+                              ] ;
+              <http://purl.org/dc/terms/type> :ChemConnectDataStructure .
 
 
 ###  http://www.esblurock.info/dataset#OrganizationClassification
 :OrganizationClassification rdf:type owl:Class ;
-                            rdfs:subClassOf :Classification .
+                            rdfs:subClassOf :Classification ;
+                            <http://purl.org/dc/terms/identifier> "org:role"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#OrganizationDescription
@@ -426,6 +433,7 @@
                                            owl:onClass :SubOrganizationOf
                                          ] ;
                          <http://purl.org/dc/terms/identifier> "org:Organization"^^xsd:string ;
+                         <http://purl.org/dc/terms/type> "OrganizationDescription"^^xsd:string ;
                          rdfs:isDefinedBy <http://www.w3.org/ns/org#Organization> ;
                          rdfs:label "Organization information"^^xsd:string .
 
@@ -439,13 +447,13 @@
 ###  http://www.esblurock.info/dataset#OrganizationName
 :OrganizationName rdf:type owl:Class ;
                   rdfs:subClassOf :ShortStringLabel ;
-                  <http://purl.org/dc/elements/1.1/identifier> "org:FormalOrganization"^^xsd:string .
+                  <http://purl.org/dc/terms/identifier> "org:FormalOrganization"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#OrganizationalUnit
 :OrganizationalUnit rdf:type owl:Class ;
                     rdfs:subClassOf :ShortStringLabel ;
-                    <http://purl.org/dc/elements/1.1/identifier> "org:OrganizationalUnit"^^xsd:string .
+                    <http://purl.org/dc/terms/identifier> "org:OrganizationalUnit"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#Paragraph
@@ -483,7 +491,7 @@
 ###  http://www.esblurock.info/dataset#ReferenceID
 :ReferenceID rdf:type owl:Class ;
              rdfs:subClassOf :Identifier ;
-             <http://purl.org/dc/elements/1.1/identifier> "dc:identifier"^^xsd:string .
+             <http://purl.org/dc/terms/identifier> "dc:identifier"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#ReferenceString
@@ -508,7 +516,7 @@
 ###  http://www.esblurock.info/dataset#SubOrganizationOf
 :SubOrganizationOf rdf:type owl:Class ;
                    rdfs:subClassOf :ShortStringLabel ;
-                   <http://purl.org/dc/elements/1.1/identifier> "org:unitOf"^^xsd:string .
+                   <http://purl.org/dc/terms/identifier> "org:unitOf"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#UserClassification
@@ -519,20 +527,20 @@
 ###  http://www.esblurock.info/dataset#UserTitle
 :UserTitle rdf:type owl:Class ;
            rdfs:subClassOf :Classification ;
-           <http://purl.org/dc/elements/1.1/identifier> "foaf:title"^^xsd:string .
+           <http://purl.org/dc/terms/identifier> "foaf:title"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#familyName
 :familyName rdf:type owl:Class ;
             rdfs:subClassOf :ShortStringLabel ;
-            <http://purl.org/dc/elements/1.1/identifier> "foaf:family"^^xsd:string ;
+            <http://purl.org/dc/terms/identifier> "foaf:family"^^xsd:string ;
             <http://purl.org/dc/terms/type> "FamilyName"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#givenName
 :givenName rdf:type owl:Class ;
            rdfs:subClassOf :ShortStringLabel ;
-           <http://purl.org/dc/elements/1.1/identifier> "foaf:givenName"^^xsd:string ;
+           <http://purl.org/dc/terms/identifier> "foaf:givenName"^^xsd:string ;
            <http://purl.org/dc/terms/type> "GivenName"^^xsd:string .
 
 

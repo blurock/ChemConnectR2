@@ -22,16 +22,19 @@ import com.hp.hpl.jena.query.ResultSet;
 
 public class OntologyBase {
 
-	// static String fileS = "/Users/edwardblurock/Google\\
-	// Drive/Ontologies/ChemConnectOntologies/Dataset.ttl";
-	static String fileS = "file:///Users/edwardblurock/Dataset.ttl";
-
-	// static String filename = "/info/esblurock/reaction/ontology/Dataset.ttl";
+	/**
+	 * A static subclass to generate/return static items.
+	 *
+	 */
 	public static class Util {
 		static OntModel unitsmodel = null;
 		static OntModel datasetmodel = null;
 		static Map<String, String> namespaceMap = null;
 
+		/** Static routine to generate/return the ontology of units
+		 * 
+		 * @return The ontology for scientific units
+		 */
 		public static OntModel getUnitsOntology() {
 			if (unitsmodel == null) {
 				unitsmodel = ModelFactory.createOntologyModel();
@@ -48,6 +51,10 @@ public class OntologyBase {
 			return unitsmodel;
 		}
 
+		/**This routine generates/returns the ontology for UI structures and data structure relationships
+		 * 
+		 * @return The ontology model for data structures and data relations
+		 */
 		public static OntModel getDatabaseOntology() {
 			if (datasetmodel == null) {
 
@@ -62,6 +69,10 @@ public class OntologyBase {
 			return datasetmodel;
 		}
 
+		/** This routine generates/returns the namespace mappings
+		 * 
+		 * @return The namespace to abbreviation mapping
+		 */
 		public static Map<String, String> namespaceMap() {
 			if (namespaceMap == null) {
 				namespaceMap = new HashMap<String, String>();
@@ -101,6 +112,11 @@ public class OntologyBase {
 		return databasePrefix;
 	}
 
+	/** The prefix data (standard namespaces) is appended to the SELECT part of the query
+	 * 
+	 * @param queryS: The query beginning with SELECT
+	 * @return The raw ResultSet to the query
+	 */
 	public static ResultSet datasetQueryBase(String queryS) {
 		OntModel model = OntologyBase.Util.getDatabaseOntology();
 		String fullquery = getStandardPrefixDatabase() + queryS;
@@ -110,6 +126,13 @@ public class OntologyBase {
 		return results;
 	}
 
+	/** This converts the ResultSet to a mapping of keyword to RDF nodes
+	 * 
+	 * Each member of the List is a map from keywords to RDF nodes. Each member represents a result.
+	 * 
+	 * @param results: The Result set from a query
+	 * @return A mapping from keywords to RDFNodes
+	 */
 	public static List<Map<String, RDFNode>> resultSetToMap(ResultSet results) {
 		ArrayList<Map<String, RDFNode>> lst = new ArrayList<Map<String, RDFNode>>();
 		while (results.hasNext()) {
@@ -127,12 +150,26 @@ public class OntologyBase {
 		return lst;
 	}
 
+	/** From the query a list of mappings from keywords to RDFNodes
+	 * 
+	 * @param queryS The query string
+	 * @return  A list of mappings from keywords to RDFNodes
+	 */
 	public static List<Map<String, RDFNode>> resultSetToMap(String queryS) {
 		ResultSet set = datasetQueryBase(queryS);
 		List<Map<String, RDFNode>> lst = resultSetToMap(set);
 		return lst;
 	}
 
+	/** The simplifies the mapping to RDFNodes to a mapping to a String
+	 * 
+	 * From a Resource the namespace and the local string are separated out. The full namespace name is simplified to the standard abbreviation.
+	 * From a Literal the value is isolated and converted to a string.
+	 * Anything else is just converted to a String.
+	 * 
+	 * @param results A list of mappings from keywords to RDFNodes
+	 * @return A list of mappings from a keyword to a String result.
+	 */
 	public static ArrayList<Map<String, String>> resultmapToStrings(List<Map<String, RDFNode>> results) {
 		ArrayList<Map<String, String>> resultmaplst = new ArrayList<Map<String, String>>();
 		for (Map<String, RDFNode> map : results) {
@@ -166,6 +203,12 @@ public class OntologyBase {
 		}
 		return resultmaplst;
 	}
+	/** A help routine to isolate a single property from the list of mappings.
+	 * 
+	 * @param property The property to be isolated
+	 * @param stringlst A list of mappings from a keyword to a String result.
+	 * @return A list of the String of the property
+	 */
 	public static List<String> isolateProperty(String property, List<Map<String,String>> stringlst) {
 		List<String> lst = new ArrayList<String>();
 		for(Map<String, String> map : stringlst) {
@@ -175,6 +218,10 @@ public class OntologyBase {
 		
 		return lst;
 	}
+	/**
+	 * @param namespace The full namespace name (from Resource.getNamespace())
+	 * @return The standard abbreviated namespace name
+	 */
 	public static String convertNameSpace(String namespace) {
 		String converted = Util.namespaceMap().get(namespace);
 		if(converted == null) {
