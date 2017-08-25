@@ -9,6 +9,7 @@
 <http://www.esblurock.info/dataset> rdf:type owl:Ontology ;
                                      owl:imports <http://www.w3.org/2006/vcard/ns> ,
                                                  <http://www.w3.org/ns/dcat> ,
+                                                 <http://purl.org/spar/datacite/> ,
                                                  <http://www.w3.org/2003/01/geo/wgs84_pos> ,
                                                  <http://purl.org/dc/terms/> ,
                                                  <http://purl.org/dc/dcmitype/> ,
@@ -30,7 +31,9 @@
 ###  http://www.esblurock.info/dataset#Address
 :Address rdf:type owl:Class ;
          rdfs:subClassOf :ChemConnectPrimitiveDataStructure ;
-         <http://purl.org/dc/terms/type> "Address"^^xsd:string .
+         <http://purl.org/dc/terms/type> "Address"^^xsd:string ;
+         rdfs:isDefinedBy <http://www.w3.org/2006/vcard/ns#street-address> ;
+         rdfs:label "Street Address data"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#ChemConnectCompoundDataStructure
@@ -65,25 +68,30 @@
 ###  http://www.esblurock.info/dataset#City
 :City rdf:type owl:Class ;
       rdfs:subClassOf :ChemConnectPrimitiveDataStructure ;
-      <http://purl.org/dc/terms/type> "City"^^xsd:string .
+      <http://purl.org/dc/terms/type> "City"^^xsd:string ;
+      rdfs:isDefinedBy <http://www.w3.org/2006/vcard/ns#locality> ;
+      rdfs:label "City name data"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#Classification
 :Classification rdf:type owl:Class ;
                 rdfs:subClassOf :ChemConnectPrimitiveDataStructure ;
-                <http://purl.org/dc/terms/type> "Classification"^^xsd:string .
+                <http://purl.org/dc/terms/type> "Classification"^^xsd:string ;
+                rdfs:label "Classification data"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#ContactEmail
 :ContactEmail rdf:type owl:Class ;
               rdfs:subClassOf :Email ;
-              <http://purl.org/dc/terms/identifier> "vcard:email"^^xsd:string .
+              <http://purl.org/dc/terms/identifier> "vcard:email"^^xsd:string ;
+              rdfs:label "Contact email"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#ContactHasSite
 :ContactHasSite rdf:type owl:Class ;
                 rdfs:subClassOf :HTTPAddress ;
-                <http://purl.org/dc/terms/identifier> "foaf:homepage"^^xsd:string .
+                <http://purl.org/dc/terms/identifier> "foaf:homepage"^^xsd:string ;
+                rdfs:label "HTTP site of contact"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#ContactID
@@ -152,19 +160,25 @@
 ###  http://www.esblurock.info/dataset#ContactSiteOf
 :ContactSiteOf rdf:type owl:Class ;
                rdfs:subClassOf :HTTPAddress ;
-               <http://purl.org/dc/terms/identifier> "foaf:workInfoHomepage"^^xsd:string .
+               <http://purl.org/dc/terms/identifier> "foaf:workInfoHomepage"^^xsd:string ;
+               rdfs:label "HTTP site of institution"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#Country
 :Country rdf:type owl:Class ;
          rdfs:subClassOf :ChemConnectPrimitiveDataStructure ;
-         <http://purl.org/dc/terms/type> "Country"^^xsd:string .
+         <http://purl.org/dc/terms/type> "Country"^^xsd:string ;
+         rdfs:isDefinedBy <http://www.w3.org/2006/vcard/ns#country-name> ;
+         rdfs:label "Country data"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#DOI
 :DOI rdf:type owl:Class ;
      rdfs:subClassOf :ChemConnectPrimitiveDataStructure ;
-     <http://purl.org/dc/terms/type> "DOI"^^xsd:string .
+     <http://purl.org/dc/terms/identifier> "datacite:PrimaryResourceIdentifier"^^xsd:string ;
+     <http://purl.org/dc/terms/type> "DOI"^^xsd:string ;
+     rdfs:isDefinedBy <http://www.w3.org/ns/org#identifier> ;
+     rdfs:label "DOI reference"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#DataSetReference
@@ -195,7 +209,6 @@
                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                     owl:onClass :ReferenceTitle
                                   ] ;
-                  <http://purl.org/dc/elements/1.1/source> "ChemConnect" ;
                   <http://purl.org/dc/terms/identifier> "terms:BibliographicResource"^^xsd:string ;
                   <http://purl.org/dc/terms/type> "DataSetReference"^^xsd:string ;
                   rdfs:isDefinedBy <http://purl.org/dc/terms/BibliographicResource> ;
@@ -257,19 +270,24 @@
 ###  http://www.esblurock.info/dataset#Email
 :Email rdf:type owl:Class ;
        rdfs:subClassOf :ChemConnectPrimitiveDataStructure ;
-       <http://purl.org/dc/terms/type> "Email"^^xsd:string .
+       <http://purl.org/dc/terms/type> "Email"^^xsd:string ;
+       rdfs:isDefinedBy <http://www.w3.org/2006/vcard/ns#email> ;
+       rdfs:label "email data"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#GPS
 :GPS rdf:type owl:Class ;
      rdfs:subClassOf :ChemConnectPrimitiveDataStructure ;
-     <http://purl.org/dc/terms/type> "GPS"^^xsd:string .
+     <http://purl.org/dc/terms/type> "GPS"^^xsd:string ;
+     rdfs:isDefinedBy <http://www.w3.org/ns/org#location> ;
+     rdfs:label "GPS data"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#GPSLatitude
 :GPSLatitude rdf:type owl:Class ;
              rdfs:subClassOf :GPS ;
-             <http://purl.org/dc/terms/identifier> "geo:lat"^^xsd:string .
+             <http://purl.org/dc/terms/identifier> "geo:lat"^^xsd:string ;
+             rdfs:label "GPS Latitude"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#GPSLocation
@@ -285,19 +303,24 @@
                                owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                owl:onClass :GPSLongitude
                              ] ;
-             <http://purl.org/dc/terms/identifier> "geo:location"^^xsd:string .
+             <http://purl.org/dc/terms/identifier> "geo:location"^^xsd:string ;
+             <http://purl.org/dc/terms/type> "GPSLocation"^^xsd:string ;
+             rdfs:isDefinedBy <http://purl.org/dc/terms/Location> .
 
 
 ###  http://www.esblurock.info/dataset#GPSLongitude
 :GPSLongitude rdf:type owl:Class ;
               rdfs:subClassOf :GPS ;
-              <http://purl.org/dc/terms/identifier> "geo:long"^^xsd:string .
+              <http://purl.org/dc/terms/identifier> "geo:long"^^xsd:string ;
+              rdfs:label "GPS Longitude"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#HTTPAddress
 :HTTPAddress rdf:type owl:Class ;
              rdfs:subClassOf :ChemConnectPrimitiveDataStructure ;
-             <http://purl.org/dc/terms/type> "HTTPAddress"^^xsd:string .
+             <http://purl.org/dc/terms/type> "HTTPAddress"^^xsd:string ;
+             rdfs:isDefinedBy <http://purl.org/spar/fabio/hasURL> ;
+             rdfs:label "HTTP address data"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#Identifier
@@ -305,31 +328,36 @@
             rdfs:subClassOf :ChemConnectPrimitiveDataStructure ;
             <http://purl.org/dc/terms/identifier> "dc:identifier"^^xsd:string ;
             <http://purl.org/dc/terms/type> "ID"^^xsd:string ;
+            rdfs:isDefinedBy <http://purl.org/dc/terms/identifier> ;
             rdfs:label "ID"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#Keyword
 :Keyword rdf:type owl:Class ;
          rdfs:subClassOf :ChemConnectPrimitiveDataStructure ;
-         <http://purl.org/dc/terms/type> "Keywords"^^xsd:string .
+         <http://purl.org/dc/terms/type> "Keywords"^^xsd:string ;
+         rdfs:isDefinedBy <http://www.w3.org/ns/dcat#keyword> .
 
 
 ###  http://www.esblurock.info/dataset#LocationAddress
 :LocationAddress rdf:type owl:Class ;
                  rdfs:subClassOf :Address ;
-                 <http://purl.org/dc/terms/identifier> "vcard:street-address"^^xsd:string .
+                 <http://purl.org/dc/terms/identifier> "vcard:street-address"^^xsd:string ;
+                 rdfs:label "Street address"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#LocationCity
 :LocationCity rdf:type owl:Class ;
               rdfs:subClassOf :City ;
-              <http://purl.org/dc/terms/identifier> "vcard:locality"^^xsd:string .
+              <http://purl.org/dc/terms/identifier> "vcard:locality"^^xsd:string ;
+              rdfs:label "City name"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#LocationCountry
 :LocationCountry rdf:type owl:Class ;
                  rdfs:subClassOf :Country ;
-                 <http://purl.org/dc/terms/identifier> "vcard:country-name"^^xsd:string .
+                 <http://purl.org/dc/terms/identifier> "vcard:country-name"^^xsd:string ;
+                 rdfs:label "Country name"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#LocationID
@@ -362,13 +390,16 @@
                                 owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                 owl:onClass :givenName
                               ] ;
-              <http://purl.org/dc/terms/identifier> "foaf:name"^^xsd:string .
+              <http://purl.org/dc/terms/identifier> "foaf:name"^^xsd:string ;
+              <http://purl.org/dc/terms/type> "NameOfPerson"^^xsd:string ;
+              rdfs:isDefinedBy <http://xmlns.com/foaf/0.1/name> .
 
 
 ###  http://www.esblurock.info/dataset#OneLine
 :OneLine rdf:type owl:Class ;
          rdfs:subClassOf :ChemConnectPrimitiveDataStructure ;
-         <http://purl.org/dc/terms/type> "OneLine"^^xsd:string .
+         <http://purl.org/dc/terms/type> "OneLine"^^xsd:string ;
+         rdfs:isDefinedBy <http://www.w3.org/2006/vcard/ns#title> .
 
 
 ###  http://www.esblurock.info/dataset#Organization
@@ -459,7 +490,9 @@
 ###  http://www.esblurock.info/dataset#Paragraph
 :Paragraph rdf:type owl:Class ;
            rdfs:subClassOf :ChemConnectPrimitiveDataStructure ;
-           <http://purl.org/dc/terms/type> "Paragraph"^^xsd:string .
+           <http://purl.org/dc/terms/type> "Paragraph"^^xsd:string ;
+           rdfs:isDefinedBy <http://purl.org/dc/dcmitype/Text> ,
+                            "Larger text"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#PersonalDescription
@@ -485,7 +518,8 @@
 ###  http://www.esblurock.info/dataset#Postcode
 :Postcode rdf:type owl:Class ;
           rdfs:subClassOf :ChemConnectPrimitiveDataStructure ;
-          <http://purl.org/dc/terms/type> "Postcode"^^xsd:string .
+          <http://purl.org/dc/terms/type> "Postcode"^^xsd:string ;
+          rdfs:isDefinedBy <http://purl.org/dc/terms/Location> .
 
 
 ###  http://www.esblurock.info/dataset#ReferenceID
@@ -510,7 +544,9 @@
 ###  http://www.esblurock.info/dataset#ShortStringLabel
 :ShortStringLabel rdf:type owl:Class ;
                   rdfs:subClassOf :ChemConnectPrimitiveDataStructure ;
-                  <http://purl.org/dc/terms/type> "ShortStringLabel"^^xsd:string .
+                  <http://purl.org/dc/terms/type> "ShortStringLabel"^^xsd:string ;
+                  rdfs:isDefinedBy <http://purl.org/dc/dcmitype/Text> ,
+                                   <http://xmlns.com/foaf/0.1/LabelProperty> .
 
 
 ###  http://www.esblurock.info/dataset#SubOrganizationOf
