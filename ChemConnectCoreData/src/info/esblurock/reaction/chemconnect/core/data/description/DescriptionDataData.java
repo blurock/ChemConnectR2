@@ -16,7 +16,7 @@ public class DescriptionDataData extends DatabaseObject {
 	String onlinedescription;
 
 	@Unindex
-	String fulldescription;
+	String descriptionAbstract;
 
 	@Index
 	String sourcekey;
@@ -25,32 +25,30 @@ public class DescriptionDataData extends DatabaseObject {
 	Date sourceDate;
 
 	@Index
-	String inputkey;
-
-	@Index
 	String dataType;
 	
 	@Unindex
 	HashSet<String> keywords;
 
 	/**
-	 * @param keyword:  The keyword name of the object
+	 * @param identifier:  The keyword name of the object
+	 * @param owner:  The keyword name of the owner
+	 * @param access:  The keyword name of the accessibility of the object.
 	 * @param onlinedescription A one line description of the object
 	 * @param fulldescription A longer description of the object
 	 * @param sourcekey The data set (organization and catalog) associated with the data object
 	 * @param sourceDate The source data associated with the object 
-	 * @param inputkey The key of who inputted the data
 	 * @param dataType The data type of the object
 	 * @param keywords The set of keywords associated with the 
 	 */
-	public DescriptionDataData(String keyword, String onlinedescription, String fulldescription, String sourcekey,
-			Date sourceDate, String inputkey, String dataType, HashSet<String> keywords) {
-		super(keyword);
+	public DescriptionDataData(String identifier, String owner, String access, 
+			String onlinedescription, String fulldescription, String sourcekey,
+			Date sourceDate, String dataType, HashSet<String> keywords) {
+		super(identifier,owner,access);
 		this.onlinedescription = onlinedescription;
-		this.fulldescription = fulldescription;
+		this.descriptionAbstract = fulldescription;
 		this.sourcekey = sourcekey;
 		this.sourceDate = sourceDate;
-		this.inputkey = inputkey;
 		this.dataType = dataType;
 		this.keywords = keywords;
 	}
@@ -60,7 +58,7 @@ public class DescriptionDataData extends DatabaseObject {
 	}
 
 	public String getFulldescription() {
-		return fulldescription;
+		return descriptionAbstract;
 	}
 
 	public String getSourcekey() {
@@ -69,10 +67,6 @@ public class DescriptionDataData extends DatabaseObject {
 
 	public Date getSourceDate() {
 		return sourceDate;
-	}
-
-	public String getInputkey() {
-		return inputkey;
 	}
 
 	public String getDataType() {

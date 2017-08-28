@@ -18,9 +18,7 @@ public class ContactLocationInformation extends DatabaseObject {
 	  @Index
 	    String postcode;
 	  @Index
-	    String gpslatitute;
-	  @Index
-	    String gpslongitude;
+	    String gpsLocationID;
 
 	  public ContactLocationInformation() {
 			super();
@@ -28,38 +26,35 @@ public class ContactLocationInformation extends DatabaseObject {
 			this.city = null;
 			this.country = null;
 			this.postcode = null;
-			this.gpslatitute = null;
-			this.gpslongitude = null;
+			this.gpsLocationID = null;
 		}
 
-		public ContactLocationInformation(String identifier, String addressAddress, String city, String country, String postcode,
-			String gpslatitute, String gpslongitude) {
-		super(identifier);
+		public ContactLocationInformation(String identifier, String access, String owner,
+				String addressAddress, String city, String country, String postcode,
+			String gpsLocationID) {
+		super(identifier,access,owner);
 		this.addressAddress = addressAddress;
 		this.city = city;
 		this.country = country;
 		this.postcode = postcode;
-		this.gpslatitute = gpslatitute;
-		this.gpslongitude = gpslongitude;
+		this.gpsLocationID = gpsLocationID;
 	}
 
 		public String getAddressAddress() {
 			return addressAddress;
 		}
-
 		public String getCity() {
 			return city;
 		}
-
 		public String getCountry() {
 			return country;
 		}
-
-		public String getGpslatitute() {
-			return gpslatitute;
+		public String getPostcode() {
+			return postcode;
+		}
+		public String getGpsLocationID() {
+			return gpsLocationID;
 		}
 
-		public String getGpslongitude() {
-			return gpslongitude;
-		}	
+		
 }

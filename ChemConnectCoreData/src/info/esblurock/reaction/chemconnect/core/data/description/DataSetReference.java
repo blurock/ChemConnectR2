@@ -11,27 +11,30 @@ import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 @SuppressWarnings("serial")
 @Subclass(index=true)
 public class DataSetReference extends DatabaseObject {
+
+	/** DOI reference for article
+	 * 
+	 */
 	@Index
 	String DOI;
 	
+	// The full title of the paper
 	@Unindex
 	String Title;
 	
+	// The bibliographic reference
 	@Unindex
 	String ReferenceString;
 		
+	// The index keys of the authors
 	@Unindex
 	HashSet<String> authors;
-
-	@Unindex
-	HashSet<String> authorLastNames;
 	
 	public DataSetReference() {
 		DOI = null;
 		Title = null;
 		ReferenceString = null;
 		this.authors = null;
-		this.authorLastNames = null;
 	}
 
 
@@ -43,14 +46,14 @@ public class DataSetReference extends DatabaseObject {
 	 * @param authors The list of authors
 	 * @param authorLastNames The list of author's last names
 	 */
-	public DataSetReference(String id, String dOI, String title, String referenceString,
-			HashSet<String> authors, HashSet<String> authorLastNames) {
-		super(id);
+	public DataSetReference(String identifier, String access, String owner,
+			String dOI, String title, String referenceString,
+			HashSet<String> authors) {
+		super(identifier,access,owner);
 		DOI = dOI;
 		Title = title;
 		ReferenceString = referenceString;
 		this.authors = authors;
-		this.authorLastNames = authorLastNames;
 	}
 
 	public String getDOI() {
@@ -69,9 +72,4 @@ public class DataSetReference extends DatabaseObject {
 		return authors;
 	}
 
-	public HashSet<String> getAuthorLastNames() {
-		return authorLastNames;
-	}
-
-	
 }

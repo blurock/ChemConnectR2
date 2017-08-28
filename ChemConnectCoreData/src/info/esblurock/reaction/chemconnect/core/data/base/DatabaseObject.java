@@ -56,7 +56,8 @@ public class DatabaseObject  implements Serializable {
 	 * 
 	 * Current date (and null for key)
 	 */
-	public DatabaseObject(String access, String owner) {
+	public DatabaseObject(String id, String access, String owner) {
+		this.identifier = id;
 		this.access = access;
 		this.owner = owner;
 		creationDate = new Date();

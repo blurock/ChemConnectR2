@@ -17,11 +17,58 @@
                                                  <http://xmlns.com/foaf/0.1/> .
 
 #################################################################
+#    Annotation properties
+#################################################################
+
+###  http://www.esblurock.info/dataset#GPSLocationID
+:GPSLocationID rdf:type owl:AnnotationProperty ;
+               rdfs:subPropertyOf <http://purl.org/dc/terms/identifier> .
+
+
+###  http://www.esblurock.info/dataset#NameOfPersonID
+:NameOfPersonID rdf:type owl:AnnotationProperty ;
+                rdfs:subPropertyOf <http://purl.org/dc/terms/identifier> .
+
+
+###  http://www.esblurock.info/dataset#contactID
+:contactID rdf:type owl:AnnotationProperty ;
+           rdfs:subPropertyOf <http://purl.org/dc/terms/identifier> .
+
+
+###  http://www.esblurock.info/dataset#descriptionDataDataID
+:descriptionDataDataID rdf:type owl:AnnotationProperty ;
+                       rdfs:subPropertyOf <http://purl.org/dc/terms/identifier> .
+
+
+###  http://www.esblurock.info/dataset#descriptionID
+:descriptionID rdf:type owl:AnnotationProperty ;
+               rdfs:subPropertyOf <http://purl.org/dc/terms/identifier> .
+
+
+###  http://www.esblurock.info/dataset#organizationID
+:organizationID rdf:type owl:AnnotationProperty ;
+                rdfs:subPropertyOf <http://purl.org/dc/terms/identifier> .
+
+
+###  http://www.esblurock.info/dataset#personalDescriptionID
+:personalDescriptionID rdf:type owl:AnnotationProperty ;
+                       rdfs:subPropertyOf <http://purl.org/dc/terms/identifier> .
+
+
+#################################################################
 #    Object Properties
 #################################################################
 
 ###  http://www.esblurock.info/dataset#metaDataLabel
 :metaDataLabel rdf:type owl:ObjectProperty .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://www.esblurock.info/dataset#accessibility
+:accessibility rdf:type owl:DatatypeProperty .
 
 
 #################################################################
@@ -97,7 +144,9 @@
 ###  http://www.esblurock.info/dataset#ContactID
 :ContactID rdf:type owl:Class ;
            rdfs:subClassOf :Identifier ;
-           <http://purl.org/dc/terms/identifier> "dc:identifer"^^xsd:string .
+           <http://purl.org/dc/terms/identifier> "dataset:ContactInfoDataID"^^xsd:string ;
+           <http://purl.org/dc/terms/references> :ContactInfoData ;
+           rdfs:comment "The pointer to the name and role information of a person"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#ContactInfoData
@@ -106,15 +155,16 @@
                                  :ChemConnectDataUnit ,
                                  [ rdf:type owl:Restriction ;
                                    owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                   owl:someValuesFrom :ContactEmail
-                                 ] ,
-                                 [ rdf:type owl:Restriction ;
-                                   owl:onProperty <http://purl.org/dc/terms/hasPart> ;
                                    owl:someValuesFrom :ContactHasSite
                                  ] ,
                                  [ rdf:type owl:Restriction ;
                                    owl:onProperty <http://purl.org/dc/terms/hasPart> ;
                                    owl:someValuesFrom :ContactSiteOf
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                   owl:onClass :ContactEmail
                                  ] ,
                                  [ rdf:type owl:Restriction ;
                                    owl:onProperty <http://purl.org/dc/terms/hasPart> ;
@@ -131,6 +181,11 @@
 :ContactLocationInformation rdf:type owl:Class ;
                             rdfs:subClassOf :ChemConnectCompoundDataStructure ,
                                             :ChemConnectDataUnit ,
+                                            [ rdf:type owl:Restriction ;
+                                              owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                              owl:onClass :GPSLocationID
+                                            ] ,
                                             [ rdf:type owl:Restriction ;
                                               owl:onProperty <http://purl.org/dc/terms/hasPart> ;
                                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
@@ -181,6 +236,27 @@
      rdfs:label "DOI reference"^^xsd:string .
 
 
+###  http://www.esblurock.info/dataset#DataAccess
+:DataAccess rdf:type owl:Class ;
+            rdfs:subClassOf :Classification ;
+            <http://purl.org/dc/terms/identifier> :accessibility ;
+            rdfs:comment "This keyword specifies the accessibility of the data object. The keyword is the name of the 'group' which can access the data. The default is 'Public'"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#DataCatalog
+:DataCatalog rdf:type owl:Class ;
+             rdfs:subClassOf :Classification ;
+             <http://purl.org/dc/terms/identifier> <http://www.w3.org/ns/dcat#record> ;
+             rdfs:comment "This specifies the catalog to which the data belongs"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#DataOwner
+:DataOwner rdf:type owl:Class ;
+           rdfs:subClassOf :Classification ;
+           <http://purl.org/dc/terms/identifier> <http://purl.org/dc/terms/publisher> ;
+           rdfs:comment "This specifies the user this object belongs to. One use of this key, explaining why it is in the base object, is that it can be used to delete all entries of a given user."^^xsd:string .
+
+
 ###  http://www.esblurock.info/dataset#DataSetReference
 :DataSetReference rdf:type owl:Class ;
                   rdfs:subClassOf :ChemConnectCompoundDataStructure ,
@@ -215,10 +291,17 @@
                   rdfs:label "Data Set Reference"^^xsd:string .
 
 
+###  http://www.esblurock.info/dataset#DataType
+:DataType rdf:type owl:Class ;
+          rdfs:subClassOf :Classification ;
+          <http://purl.org/dc/terms/identifier> <http://purl.org/dc/terms/type> ;
+          rdfs:comment "This classification specifies the data type to which this description belongs."^^xsd:string .
+
+
 ###  http://www.esblurock.info/dataset#DescriptionAbstract
 :DescriptionAbstract rdf:type owl:Class ;
                      rdfs:subClassOf :Paragraph ;
-                     <http://purl.org/dc/terms/identifier> "dct:description"^^xsd:string .
+                     <http://purl.org/dc/terms/identifier> "dcterms:description"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#DescriptionDataData
@@ -228,6 +311,16 @@
                                      [ rdf:type owl:Restriction ;
                                        owl:onProperty <http://purl.org/dc/terms/hasPart> ;
                                        owl:someValuesFrom :DescriptionKeyword
+                                     ] ,
+                                     [ rdf:type owl:Restriction ;
+                                       owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                       owl:onClass :DataAccess
+                                     ] ,
+                                     [ rdf:type owl:Restriction ;
+                                       owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                       owl:onClass :DataOwner
                                      ] ,
                                      [ rdf:type owl:Restriction ;
                                        owl:onProperty <http://purl.org/dc/terms/hasPart> ;
@@ -252,7 +345,9 @@
 ###  http://www.esblurock.info/dataset#DescriptionID
 :DescriptionID rdf:type owl:Class ;
                rdfs:subClassOf :Identifier ;
-               <http://purl.org/dc/terms/identifier> "dc:identifer"^^xsd:string .
+               <http://purl.org/dc/terms/identifier> "dataset:DescriptionDataDataID"^^xsd:string ;
+               <http://purl.org/dc/terms/references> :DescriptionDataData ;
+               rdfs:comment "The pointer to the description of the entity as long and short description, and a keyword"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#DescriptionKeyword
@@ -264,7 +359,7 @@
 ###  http://www.esblurock.info/dataset#DescriptionTitle
 :DescriptionTitle rdf:type owl:Class ;
                   rdfs:subClassOf :OneLine ;
-                  <http://purl.org/dc/terms/identifier> "dct:title"^^xsd:string .
+                  <http://purl.org/dc/terms/identifier> "dcterms:title"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#Email
@@ -275,17 +370,17 @@
        rdfs:label "email data"^^xsd:string .
 
 
-###  http://www.esblurock.info/dataset#GPS
-:GPS rdf:type owl:Class ;
-     rdfs:subClassOf :ChemConnectPrimitiveDataStructure ;
-     <http://purl.org/dc/terms/type> "GPS"^^xsd:string ;
-     rdfs:isDefinedBy <http://www.w3.org/ns/org#location> ;
-     rdfs:label "GPS data"^^xsd:string .
+###  http://www.esblurock.info/dataset#GPSData
+:GPSData rdf:type owl:Class ;
+         rdfs:subClassOf :ChemConnectPrimitiveDataStructure ;
+         <http://purl.org/dc/terms/type> "GPSData"^^xsd:string ;
+         rdfs:isDefinedBy <http://www.w3.org/ns/org#location> ;
+         rdfs:label "GPS data"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#GPSLatitude
 :GPSLatitude rdf:type owl:Class ;
-             rdfs:subClassOf :GPS ;
+             rdfs:subClassOf :GPSData ;
              <http://purl.org/dc/terms/identifier> "geo:lat"^^xsd:string ;
              rdfs:label "GPS Latitude"^^xsd:string .
 
@@ -308,9 +403,14 @@
              rdfs:isDefinedBy <http://purl.org/dc/terms/Location> .
 
 
+###  http://www.esblurock.info/dataset#GPSLocationID
+:GPSLocationID rdf:type owl:Class ;
+               rdfs:subClassOf :Identifier .
+
+
 ###  http://www.esblurock.info/dataset#GPSLongitude
 :GPSLongitude rdf:type owl:Class ;
-              rdfs:subClassOf :GPS ;
+              rdfs:subClassOf :GPSData ;
               <http://purl.org/dc/terms/identifier> "geo:long"^^xsd:string ;
               rdfs:label "GPS Longitude"^^xsd:string .
 
@@ -363,7 +463,9 @@
 ###  http://www.esblurock.info/dataset#LocationID
 :LocationID rdf:type owl:Class ;
             rdfs:subClassOf :Identifier ;
-            <http://purl.org/dc/terms/identifier> "dc:identifier"^^xsd:string .
+            <http://purl.org/dc/terms/identifier> "dataset:ContactLocationInformationID"^^xsd:string ;
+            <http://purl.org/dc/terms/references> :ContactLocationInformation ;
+            rdfs:comment "The pointer to the address and location (GPS) information"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#LocationPostcode
@@ -393,6 +495,11 @@
               <http://purl.org/dc/terms/identifier> "foaf:name"^^xsd:string ;
               <http://purl.org/dc/terms/type> "NameOfPerson"^^xsd:string ;
               rdfs:isDefinedBy <http://xmlns.com/foaf/0.1/name> .
+
+
+###  http://www.esblurock.info/dataset#NameOfPersonID
+:NameOfPersonID rdf:type owl:Class ;
+                rdfs:subClassOf :Identifier .
 
 
 ###  http://www.esblurock.info/dataset#OneLine
@@ -472,7 +579,9 @@
 ###  http://www.esblurock.info/dataset#OrganizationID
 :OrganizationID rdf:type owl:Class ;
                 rdfs:subClassOf :Identifier ;
-                <http://purl.org/dc/terms/identifier> "dc:identifer"^^xsd:string .
+                <http://purl.org/dc/terms/identifier> "dataset:ContactLocationInformationID"^^xsd:string ;
+                <http://purl.org/dc/terms/references> :OrganizationDescription ;
+                rdfs:comment "The pointer to the organizational structure"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#OrganizationName
@@ -502,7 +611,7 @@
                                      [ rdf:type owl:Restriction ;
                                        owl:onProperty <http://purl.org/dc/terms/hasPart> ;
                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                       owl:onClass :NameOfPerson
+                                       owl:onClass :NameOfPersonID
                                      ] ,
                                      [ rdf:type owl:Restriction ;
                                        owl:onProperty <http://purl.org/dc/terms/hasPart> ;
@@ -510,7 +619,7 @@
                                        owl:onClass :UserClassification
                                      ] ;
                      <http://purl.org/dc/terms/identifier> "foaf:Person"^^xsd:string ;
-                     <http://purl.org/dc/terms/type> "UserDescription"^^xsd:string ;
+                     <http://purl.org/dc/terms/type> "PersonalDescription"^^xsd:string ;
                      rdfs:isDefinedBy <http://xmlns.com/foaf/0.1/Person> ;
                      rdfs:label "Personal Information"^^xsd:string .
 
@@ -525,12 +634,15 @@
 ###  http://www.esblurock.info/dataset#ReferenceID
 :ReferenceID rdf:type owl:Class ;
              rdfs:subClassOf :Identifier ;
-             <http://purl.org/dc/terms/identifier> "dc:identifier"^^xsd:string .
+             <http://purl.org/dc/terms/identifier> "dataset:DataSetReference"^^xsd:string ;
+             <http://purl.org/dc/terms/references> :DataSetReference ;
+             rdfs:comment "The pointer to the reference information"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#ReferenceString
 :ReferenceString rdf:type owl:Class ;
                  rdfs:subClassOf :OneLine ;
+                 <http://purl.org/dc/terms/identifier> "dcterms:description"^^xsd:string ;
                  <http://purl.org/dc/terms/type> "ReferenceString"^^xsd:string .
 
 
@@ -538,6 +650,7 @@
 :ReferenceTitle rdf:type owl:Class ;
                 rdfs:subClassOf :OneLine ;
                 <http://purl.org/dc/terms/bibliographicCitation> ""^^xsd:string ;
+                <http://purl.org/dc/terms/identifier> "dcterms:title"^^xsd:string ;
                 <http://purl.org/dc/terms/type> "ReferenceTitle"^^xsd:string .
 
 
@@ -557,13 +670,20 @@
 
 ###  http://www.esblurock.info/dataset#UserClassification
 :UserClassification rdf:type owl:Class ;
-                    rdfs:subClassOf :Classification .
+                    rdfs:subClassOf :Classification ;
+                    <http://purl.org/dc/elements/1.1/description> "The professional role of the person: researchre, professor, CEO, etc."^^xsd:string ;
+                    <http://purl.org/dc/terms/identifier> "vcard:role"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#UserTitle
 :UserTitle rdf:type owl:Class ;
            rdfs:subClassOf :Classification ;
            <http://purl.org/dc/terms/identifier> "foaf:title"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#dataSetReferenceID
+:dataSetReferenceID rdf:type owl:Class ;
+                    rdfs:subClassOf :Identifier .
 
 
 ###  http://www.esblurock.info/dataset#familyName
@@ -580,7 +700,31 @@
            <http://purl.org/dc/terms/type> "GivenName"^^xsd:string .
 
 
+###  http://www.esblurock.info/dataset#personalDescriptionID
+:personalDescriptionID rdf:type owl:Class ;
+                       rdfs:subClassOf :Identifier .
+
+
 [ rdf:type <http://www.w3.org/2006/vcard/ns#Contact>
 ] .
+
+#################################################################
+#    Annotations
+#################################################################
+
+:GPSLocationID <http://purl.org/dc/terms/references> :GPSLocation ;
+                rdfs:comment "The pointer to the GPS location as a latitude and longitude pair"^^xsd:string ;
+                <http://purl.org/dc/terms/identifier> "dataset:GPSLocationID"^^xsd:string .
+
+
+:NameOfPersonID <http://purl.org/dc/terms/references> :NameOfPerson ;
+                <http://purl.org/dc/terms/identifier> "dataset:NameOfPersonID"^^xsd:string ;
+                rdfs:comment "Used to reference to the name of a person identifier."^^xsd:string .
+
+
+:personalDescriptionID <http://purl.org/dc/terms/identifier> "dataset:DataSetReference" ;
+                       <http://purl.org/dc/terms/references> :PersonalDescription ;
+                       rdfs:comment "The pointer to the personal description"^^xsd:string .
+
 
 ###  Generated by the OWL API (version 4.2.8.20170104-2310) https://github.com/owlcs/owlapi
