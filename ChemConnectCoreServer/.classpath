@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="test"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ChemConnectCoreData"/>
 	<classpathentry kind="con" path="com.google.cloud.tools.eclipse.appengine.libraries/appengine-api">
 		<attributes>
@@ -27,5 +28,18 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="/ChemConnectOntology/jars/jena-arq-2.9.4.jar"/>
+	<classpathentry kind="lib" path="/ChemConnectOntology/jars/jena-core-2.7.4.jar"/>
+	<classpathentry kind="lib" path="/ChemConnectOntology/jars/jena-iri-0.9.4.jar"/>
+	<classpathentry kind="lib" path="/ChemConnectOntology/jars/jena-tdb-0.9.4.jar"/>
+	<classpathentry kind="lib" path="/ChemConnectOntology/jars/json-20140107.jar"/>
+	<classpathentry kind="lib" path="/ChemConnectOntology/jars/log4j-1.2.16.jar"/>
+	<classpathentry kind="lib" path="/ChemConnectOntology/jars/slf4j-api-1.6.4.jar"/>
+	<classpathentry kind="lib" path="/ChemConnectOntology/jars/slf4j-log4j12-1.6.4.jar"/>
+	<classpathentry kind="lib" path="/ChemConnectOntology/jars/xercesImpl-2.10.0.jar"/>
+	<classpathentry kind="lib" path="/ChemConnectOntology/jars/xml-apis-1.4.01.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ChemConnectOntology"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ChemConnectIO"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

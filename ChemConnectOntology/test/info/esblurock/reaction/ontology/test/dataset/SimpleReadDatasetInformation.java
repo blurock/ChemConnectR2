@@ -49,18 +49,21 @@ public class SimpleReadDatasetInformation {
 		QueryExecution qe = QueryExecutionFactory.create(query, model);
 		ResultSet results = qe.execSelect();
 
-		System.out.println("Results:\n" + results.hasNext());
-		System.out.println("Results:\n" + results.getResultVars());
 		
 		List<String> lst = DatasetOntologyParsing.getMainDataStructures();
-		System.out.println(lst);
 		for(String structure : lst) {
-			System.out.println(structure);
+			System.out.println("Data Structure: '" + structure + "'");
 			List<DataElementInformation> subs = DatasetOntologyParsing.getSubElementsOfStructure(structure);
 			for(DataElementInformation element : subs) {
-				System.out.println(element);
+				System.out.println("\tSubstructure: '" + element + "'");
 				List<DataElementInformation> subelements = DatasetOntologyParsing.getSubElementsOfStructure(element.getDataElementName());
-				System.out.println(subelements);
+				for(DataElementInformation info : subelements) {
+					System.out.println("\t\tElement: " + info.toString());
+					ClassificationInformation classid = DatasetOntologyParsing.getIdentificationInformation(null,info.getDataElementName());
+					if(classid != null) {
+						System.out.println("\t\t\tClassificationID: " + classid.toString());
+					}
+				}
 			}
 		}
 	}

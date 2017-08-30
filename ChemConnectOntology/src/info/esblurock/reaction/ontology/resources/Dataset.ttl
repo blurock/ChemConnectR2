@@ -532,7 +532,10 @@
                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                 owl:onClass :OrganizationDescription
                               ] ;
-              <http://purl.org/dc/terms/type> :ChemConnectDataStructure .
+              <http://purl.org/dc/terms/identifier> "dataset:Organization"^^xsd:string ;
+              <http://purl.org/dc/terms/type> "Organization" ;
+              rdfs:isDefinedBy <http://www.w3.org/ns/org#Organization> ;
+              rdfs:label "Organization"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#OrganizationClassification
