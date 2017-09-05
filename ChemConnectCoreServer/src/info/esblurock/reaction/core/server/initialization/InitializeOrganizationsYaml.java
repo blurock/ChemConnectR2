@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import info.esblurock.reaction.io.rdf.StoreObject;
-
 
 public class InitializeOrganizationsYaml extends YamlFileInterpreterBase {
 	public static String sourceKeyS = "";

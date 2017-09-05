@@ -1,6 +1,5 @@
 package info.esblurock.reaction.core.server.yaml;
 
-import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,7 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
-import com.google.appengine.tools.development.testing.LocalMemcacheServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;

@@ -1,6 +1,5 @@
 package info.esblurock.reaction.chemconnect.core.data.contact;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 
 import com.googlecode.objectify.annotation.Index;

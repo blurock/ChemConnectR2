@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import info.esblurock.reaction.io.rdf.StoreObject;
-
 
 public class InitializeRDFYaml extends YamlFileInterpreterBase {
 	@SuppressWarnings("rawtypes")
