@@ -4,25 +4,26 @@ dataset:Organization:
         dataset:accessibility: Public
         org:Organization:
             org:FormalOrganization: Blurock Consulting AB
-            org:subOrganizationOf: 
-            org:UnitOf: ChemConnect
+            org:subOrganizationOf: Blurock
+            org:unitOf: ChemConnect
             org:role: SME
         dc:description:
-            dcat:dataset: 
-            dct:publisher: Administration
-            dct:title: Blurock Consulting AB
+            dcat:dataset: none
+            dcterms:created: 20170905
+            dcterms:type: Organization
+            dcterms:title: Blurock Consulting AB
             dcat:keyword: developer, kinetics, combustion, chemistry
-            dct:description: Blurock Consulting AB is the developer of numerous software packages
+            dcterms:description: Blurock Consulting AB is the developer of numerous software packages
         vcard:Location:
             vcard:street-address: Bandelsvägen 1
             vcard:locality: Lund
             vcard:country-name: Sweden
-            vcard:postcode: 22594
+            vcard:postal-code: 22594
             dataset:GPSLocationID: blurock
         dataset:GPSLocation:
             geo:lat: 13.1910° E
             geo:long: 55.7047° N
         vcard:Contact:
-            vcard:hasEmail: edward.blurock@esblurock.info
-            org:hasSite: http://www.chemicalkinetics.info
-            org:siteOf: http://www.esblurock.info
+            vcard:email: edward.blurock@esblurock.info
+            foaf:homepage: http://www.chemicalkinetics.info
+            foaf:workInfoHomepage: http://www.esblurock.info

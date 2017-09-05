@@ -1,9 +1,11 @@
 package info.esblurock.reaction.core.server.initialization.yaml;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ListOfElementInformation extends ArrayList<YamlDatasetInformation> {
+public class ListOfElementInformation extends ArrayList<YamlDatasetInformation> implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
 	String mainstructure;
 	
 	public ListOfElementInformation(String mainstructure) {
@@ -20,4 +22,9 @@ public class ListOfElementInformation extends ArrayList<YamlDatasetInformation> 
 		}
 		return build.toString();
 	}
+
+	public String getMainstructure() {
+		return mainstructure;
+	}
+	
 }

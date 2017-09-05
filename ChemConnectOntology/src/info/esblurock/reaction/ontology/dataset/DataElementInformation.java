@@ -36,6 +36,16 @@ public class DataElementInformation implements Serializable {
 	public String getIdentifier() {
 		return identifier;
 	}
+	public boolean isID() {
+		return isChemConnectType("ID");
+	}
+	public boolean isChemConnectType(String typename) {
+		return chemconnectStructure.compareTo(typename) == 0;
+	}
+	public boolean isDataElementType(String typename) {
+		return dataElementName.compareTo(typename) == 0;
+	}
+	
 	public String toString() {
 		StringBuilder build = new StringBuilder();
 		build.append(dataElementName);

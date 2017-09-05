@@ -62,7 +62,11 @@ public class OntologyBase {
 				InputStream str = ClassLoader.class.getResourceAsStream(filename);
 				System.out.println("OntModel getDatabaseOntology()");
 				datasetmodel = ModelFactory.createOntologyModel();
+				try {
 				datasetmodel.read(str, "http://esblurock.info", "TURTLE");
+				} catch(Exception ex) {
+					System.out.println(ex.toString());
+				}
 				System.out.println("OntModel getDatabaseOntology() done");
 
 			}
@@ -86,6 +90,7 @@ public class OntologyBase {
 				namespaceMap.put("http://data.nasa.gov/qudt/owl/qudt#", "qudt");
 				namespaceMap.put("http://www.w3.org/ns/dcat#", "dcat");
 				namespaceMap.put("http://www.esblurock.info/dataset#", "dataset");
+				namespaceMap.put("http://purl.org/dc/terms/", "dcterms");
 			}
 			return namespaceMap;
 		}
@@ -108,6 +113,7 @@ public class OntologyBase {
 				+ "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
 				+ "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n"
 				+ "PREFIX dcat: <http://www.w3.org/ns/dcat#>\n"
+				+ "PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>\n"
 				+ "PREFIX dataset: <http://www.esblurock.info/dataset#>\n";
 		return databasePrefix;
 	}

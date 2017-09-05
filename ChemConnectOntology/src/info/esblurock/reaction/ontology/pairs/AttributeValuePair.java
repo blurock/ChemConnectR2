@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import org.json.JSONObject;
 
+
 public class AttributeValuePair implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String propertyValue;

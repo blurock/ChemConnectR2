@@ -8,6 +8,7 @@ import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
 
+
 public class IsolateResultList {
 
 	public static String subjectVariableS = "subject";

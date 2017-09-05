@@ -41,5 +41,25 @@
 	<classpathentry kind="lib" path="/ChemConnectOntology/jars/xml-apis-1.4.01.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ChemConnectOntology"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ChemConnectIO"/>
+	<classpathentry kind="con" path="com.google.cloud.tools.eclipse.appengine.libraries/googlecloudstorage">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="com.google.cloud.tools.eclipse.appengine.libraries/googlecloudcore">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="com.google.cloud.tools.eclipse.appengine.libraries/googleapiclient">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/opt/Google/appengine-java-sdk-1.9.54/lib/testing/appengine-testing.jar"/>
+	<classpathentry kind="lib" path="/opt/Google/appengine-java-sdk-1.9.54/lib/impl/appengine-api-labs.jar"/>
+	<classpathentry kind="lib" path="/opt/Google/appengine-java-sdk-1.9.54/lib/impl/appengine-api-stubs.jar"/>
+	<classpathentry kind="lib" path="/opt/Google/appengine-java-sdk-1.9.54/lib/impl/appengine-api.jar"/>
+	<classpathentry kind="lib" path="/opt/Google/appengine-java-sdk-1.9.54/lib/impl/appengine-local-runtime.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

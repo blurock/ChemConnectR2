@@ -3,7 +3,24 @@ package info.esblurock.reaction.ontology.test.dataset;
 import java.io.Serializable;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+/*
+ * 
+ * idName:       dataset:ContactLocationInformation: 
+ * identifier:   The identifier of the class 
+ *                vcard:Location  
+ * dataType:     The class with the sub-elements (from Type)
+ *               ContactLocationInformation     
+ * 
+ * :ContactLocationInformation rdfs:isDefinedBy <http://www.w3.org/2006/vcard/ns#Location> ;
+                            <http://purl.org/dc/terms/type> "ContactLocationInformation"^^xsd:string ;
+                            rdfs:label "Contact Location Information"^^xsd:string .              
+ * 
+ * Source of identifier information:
+ * ###  http://www.esblurock.info/dataset#ContactLocationInformation
+:ContactLocationInformation rdf:type owl:NamedIndividual ;
+                            <http://purl.org/dc/terms/identifier> "vcard:Location"^^xsd:string .
 
+ */
 public class ClassificationInformation implements Serializable {
 	private static final long serialVersionUID = 1L;
 	String idName;

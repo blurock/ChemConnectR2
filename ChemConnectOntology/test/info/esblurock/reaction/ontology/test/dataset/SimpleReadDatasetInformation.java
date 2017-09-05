@@ -59,7 +59,8 @@ public class SimpleReadDatasetInformation {
 				List<DataElementInformation> subelements = DatasetOntologyParsing.getSubElementsOfStructure(element.getDataElementName());
 				for(DataElementInformation info : subelements) {
 					System.out.println("\t\tElement: " + info.toString());
-					ClassificationInformation classid = DatasetOntologyParsing.getIdentificationInformation(null,info.getDataElementName());
+					DataElementInformation dataelement = new DataElementInformation(info.getDataElementName(), true, 0, null, null);
+					ClassificationInformation classid = DatasetOntologyParsing.getIdentificationInformation(null, dataelement);
 					if(classid != null) {
 						System.out.println("\t\t\tClassificationID: " + classid.toString());
 					}

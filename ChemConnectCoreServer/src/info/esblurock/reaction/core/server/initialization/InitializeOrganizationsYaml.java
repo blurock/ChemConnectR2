@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import info.esblurock.reaction.core.server.db.StoreObject;
+import info.esblurock.reaction.io.rdf.StoreObject;
 
 
 public class InitializeOrganizationsYaml extends YamlFileInterpreterBase {
@@ -15,7 +15,7 @@ public class InitializeOrganizationsYaml extends YamlFileInterpreterBase {
 	public void interpret( Map map) {
 		
 		System.out.println("InitializeRDFYaml");
-		StoreObject store = new StoreObject("Administration","", "0");
+		//StoreObject store = new StoreObject("Administration","", "0");
 		System.out.println("Org: " + map.get("Organizations").getClass().getCanonicalName());
 		HashMap<String,Object> orgsmap = (HashMap<String,Object>) map.get("Organizations");
 		Set<String> orgnames = orgsmap.keySet();

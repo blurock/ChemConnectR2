@@ -43,4 +43,21 @@ public class YamlDatasetInformation {
 		}
 		return build.toString();
 	}
+
+	public String getDataelement() {
+		return dataelement;
+	}
+
+	public DatabaseObject getObject() {
+		return object;
+	}
+
+	public ClassificationInformation getClassification() {
+		return classification;
+	}
+
+	public List<DataElementInformation> getElementInformation() {
+		return elementInformation;
+	}
+	
 }

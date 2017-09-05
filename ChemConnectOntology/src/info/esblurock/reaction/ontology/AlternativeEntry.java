@@ -1,6 +1,32 @@
 package info.esblurock.reaction.ontology;
 
 public abstract class AlternativeEntry {
+	
+	public String getVcardURL() {
+		return "http://www.w3.org/2006/vcard/ns";
+	}
+	public String getDCatURL() {
+		return "http://www.w3.org/ns/dcat";
+	}
+	public String getDataCiteURL() {
+		return "http://purl.org/spar/datacite/";
+	}
+	public String getGEOURL() {
+		return "http://www.w3.org/2003/01/geo/wgs84_pos";
+	}
+	public String getDcTermsURL() {
+		return "http://purl.org/dc/terms/";
+	}
+	public String getDCITypeURL() {
+		return "http://purl.org/dc/dcmitype";
+	}
+	public String getOrgURL() {
+		return "http://www.w3.org/ns/org#";
+	}
+	public String getFoafURL() {
+		return "http://xmlns.com/foaf/0.1/";
+	}
+	
 	public String getOwlURL() {
 		return "http://www.w3.org/2002/07/owl#";
 	}

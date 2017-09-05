@@ -14,7 +14,6 @@ import com.esotericsoftware.yamlbeans.YamlException;
 import com.esotericsoftware.yamlbeans.YamlReader;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
-import info.esblurock.reaction.chemconnect.core.data.contact.Organization;
 import info.esblurock.reaction.io.dataset.InterpretData;
 import info.esblurock.reaction.ontology.dataset.DataElementInformation;
 import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
@@ -36,106 +35,247 @@ public class ReadYamlDataset {
 		}
 		return total;
 	}
+
 	public static ArrayList<ListOfElementInformation> ExtractListOfObjects(Map<String, Object> map) throws IOException {
 		ArrayList<ListOfElementInformation> total = new ArrayList<ListOfElementInformation>();
-			for (Object nameO : map.keySet()) {
-				String name = (String) nameO;
-				ListOfElementInformation elements = findListOfElementInformation(name, map);
-				total.add(elements);
-			}
+		for (Object nameO : map.keySet()) {
+			String name = (String) nameO;
+			ListOfElementInformation elements = findListOfElementInformation(name, map);
+			total.add(elements);
+		}
 		return total;
 	}
-	
-	
+
+	/**
+	 * @param name
+	 *            The identifier of the catalog structure object being described by
+	 *            the map.
+	 * @param map
+	 *            The total map of objects
+	 * @return The information representing the catalog structure object
+	 * @throws IOException
+	 * 
+	 *             The values for the DatabaseObject are first isolated. These
+	 *             values are the basis of the DatabaseObject of the sub elements
+	 *             (unless otherwise specified).
+	 * 
+	 *             If an element of the catalog object structure is an ID, then the
+	 *             map is augmented with the ID's this means that the actual values
+	 *             do not have to be listed. However, the sub-element corresponding
+	 *             to the object have to be present in the map. This is accomplished
+	 *             by the supplementWithIDData routine. If the sub-elements do not
+	 *             have an identifier, they are filled in by the top catalog
+	 *             identifier.
+	 * 
+	 *             After the augmentation, the top catalog structure is filled in.
+	 * 
+	 *             The each of the remaining substructures are filled
+	 *             (findDatasetInformation)
+	 * 
+	 */
 	@SuppressWarnings("unchecked")
-	public static ListOfElementInformation findListOfElementInformation(String name, Map<String, Object> map) throws IOException {
+	public static ListOfElementInformation findListOfElementInformation(String name, Map<String, Object> map)
+			throws IOException {
 		ListOfElementInformation elements = new ListOfElementInformation(name);
 		Map<String, Object> structuremap = null;
-		if(map != null) {
+		if (map != null) {
 			structuremap = (Map<String, Object>) map.get(name);
 		}
 		DatabaseObject top = null;
 		InterpretData interpret = InterpretData.valueOf("DatabaseObject");
-		if(structuremap != null) {
+		if (structuremap != null) {
 			top = interpret.fillFromYamlString(null, structuremap);
-			supplementWithIDData(top,structuremap);
+			supplementWithIDData(top, structuremap);
 		}
-		ClassificationInformation classify = DatasetOntologyParsing.getIdentificationInformation(top, name);
-		
-		Organization org = null;
-		if(structuremap != null) {
+
+		DataElementInformation dataelement = new DataElementInformation(name, true, 0, null, null);
+		ClassificationInformation classify = DatasetOntologyParsing.getIdentificationInformation(top, dataelement);
+
+		List<DataElementInformation> substructures = DatasetOntologyParsing.getSubElementsOfStructure(name);
+
+		substructures = replaceID(substructures,structuremap);
+
+		DatabaseObject obj = null;
+		if (structuremap != null) {
 			InterpretData interpretorg = InterpretData.valueOf(classify.getDataType());
-			org = (Organization) interpretorg.fillFromYamlString(top, structuremap);
+			obj = interpretorg.fillFromYamlString(top, structuremap);
 		}
-		YamlDatasetInformation yamlorg = new YamlDatasetInformation(name,org,classify,null);
+		YamlDatasetInformation yamlorg = new YamlDatasetInformation(name, obj, classify, null);
 		elements.add(yamlorg);
-		
-		List<String> subelements = DatasetOntologyParsing.getSubElements(name);
-		for (String subelementname : subelements) {
-			ClassificationInformation classification = DatasetOntologyParsing.getIdentificationInformation(top, subelementname);
+
+		for (DataElementInformation element : substructures) {
+			ClassificationInformation classification = DatasetOntologyParsing.getIdentificationInformation(top,
+					element);
 			YamlDatasetInformation dataset = findDatasetInformation(classification, structuremap);
 			elements.add(dataset);
 		}
 		return elements;
 	}
 
-	public static void supplementWithIDData(DatabaseObject top, Map<String, Object> map) {
-		Set<String> keys = map.keySet();
-		Map<String, Object> newmap = new HashMap<String, Object>();
-		for(String key : keys) {
-			String id = DatasetOntologyParsing.id(key);
-			String subid = top.getIdentifier();
-			if(id != null) {
-				@SuppressWarnings("unchecked")
-				Map<String, Object> submap = (Map<String, Object>) map.get(key);
-				subid = (String) submap.get("dc:identifier");
-				if(subid == null) {
-					subid = top.getIdentifier();
+	
+	/** Supplement identifer information
+	 * @param substructures
+	 * @param structuremap
+	 * @return
+	 * 
+	 * This is used to supplement catalog object's information 
+	 * (subclass of ChemConnectDataStructure which is subclass of Catalog)
+	 * by adding the identifier information.
+	 * 
+	 * 
+	 * All the classes that are subclasses of ID are replaced 
+	 * 
+	 * In this example the OrganizationID is replaced by the dataset:OrganizationDescription
+	 * (which is found in the structuremap).
+	 * 
+	 * If the the object is a subclass of 'ID' (through element.getChemconnectStructure())
+	 *   Then through the element.getDataElementName(), get the actual object information
+	 *        (using getSubElementStructure)
+	 *   Using the object type name, the structure is searched for its identifier (identifierFromID)
+	 *   The pair: object type name and actual identifier is added to the top level.
+	 * 
+	 * replaceID: 
+			dataset:OrganizationID:  dataset:OrganizationDescriptionID  (ID):  single
+
+		replaceID: replaced
+			dataset:OrganizationDescription:  
+					org:Organization (dataset:ChemConnectCompoundDataStructure):  single
+					
+	    The pair dataset:DescriptionDataDataID=blurock
+	 * 
+	 */
+	public static List<DataElementInformation> replaceID(List<DataElementInformation> substructures, Map<String, Object> structuremap) {
+		List<DataElementInformation> replace = new ArrayList<DataElementInformation>();
+		DataElementInformation info = null;
+		for (DataElementInformation element : substructures) {
+			if (element.getChemconnectStructure().compareTo("ID") == 0) {
+				info = DatasetOntologyParsing.getSubElementStructureFromIDObject(element.getDataElementName());
+				if(structuremap != null) {
+					String id = identifierFromID(structuremap, info.getIdentifier());
+					structuremap.put(element.getIdentifier(), id);
 				}
-				submap.put("dc:identifier", subid);
-				newmap.put(id, subid);
+			} else {
+				info = element;
 			}
+			replace.add(info);
 		}
-		map.putAll(newmap);
+		return replace;
 	}
 
-	public static String determineObjectName(String elementname) {
-		String objectName = elementname;
-		String obj = DatasetOntologyParsing.identifierFromID(elementname);
-		if(obj != null) {
-			objectName = obj;
-		}
-		return objectName;
-	}
-	public static String determineObjectID(String elementname) {
-		String idName = elementname;
-		String id = DatasetOntologyParsing.idFromObject(elementname);
-		if(id != null) {
-			idName = id;
-		}
-		return idName;
-	}
+	/**
+	 * @param map The current map
+	 * @param obj The object name (to be searched in the map)
+	 * @return The identifier of that object
+	 * 
+	 */
 	public static String identifierFromID(Map<String, Object> map, String obj) {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> subelement = (Map<String, Object>) map.get(obj);
-		System.out.println(obj);
-		System.out.println(map);
 		String identifier = (String) subelement.get("dc:identifier");
 		return identifier;
 	}
 	
 	
-	public static YamlDatasetInformation findDatasetInformation(ClassificationInformation classification, Map<String, Object> structuremap) throws IOException {			
-			DatabaseObject subobj = null;
-			if(structuremap != null) {
+	/** Supplement map with DatabaseObject data
+	 * 
+	 * @param top The DatabaseObject of the top structure
+	 * @param map
+	 * @return
+	 * 
+	 * The map of the subelements of the top structure (derived from DatabaseObject) are supplemented
+	 * with the identifier, accessibility and publisher.
+	 * 
+	 * For each set of structure information (going through the keys)
+	 *  - Get the submap using the key
+	 *  If any of the dc:identifier, dataset:accessibility or dcterms:publisher is missing,
+	 *  supplement the map with the DatabaseObject information.
+	 *  
+	 *  This only supplements classes which have an ID object (DatasetOntologyParsing.id(key) returns non-null)
+	 *  
+	 *  Supplementing the object information is only needed for the object with an ID class
+	 *  (later, the identifier will be used).
+	 */
+	public static Map<String, Object> supplementWithIDData(DatabaseObject top, Map<String, Object> map) {
+		Set<String> keys = map.keySet();
+		Map<String, Object> newmap = new HashMap<String, Object>();
+		for (String key : keys) {
+			String id = DatasetOntologyParsing.id(key);
+			String subid = top.getIdentifier();
+			if (id != null) {
 				@SuppressWarnings("unchecked")
-				Map<String, Object> substructuremap = (Map<String, Object>) structuremap.get(classification.getIdentifier());
-				InterpretData interpret = InterpretData.valueOf(classification.getDataType());
-				subobj = interpret.fillFromYamlString(classification.getTop(), substructuremap);
+				Map<String, Object> submap = (Map<String, Object>) map.get(key);
+				subid = (String) submap.get("dc:identifier");
+				if (subid == null) {
+					subid = top.getIdentifier();
+				}
+				String access = (String) submap.get("dataset:accessibility");
+				if(access == null) {
+					access = top.getAccess();
+				}
+				String publish = (String) submap.get("dcterms:publisher");
+				if(publish == null) {
+					publish = top.getAccess();
+				}
+				submap.put("dc:identifier", subid);
+				submap.put("dataset:accessibility", access);
+				submap.put("dcterms:publisher", publish);
+				
+				newmap.put(id, subid);
 			}
-			List<DataElementInformation> lst = DatasetOntologyParsing.getSubElementsOfStructure(classification.getIdName());
-			YamlDatasetInformation dataset = new YamlDatasetInformation(classification.getIdName(), subobj, classification,lst);
+		}
+		map.putAll(newmap);
+		return map;
+	}
+
+	/**
+	 * @param classification
+	 * @param structuremap
+	 * @return
+	 * @throws IOException
+	 * 
+	 * Using the object identifier (from Classification), the submap is isolated.
+	 * InterpretData (using the DataType form classification) fills in the data object
+	 * 
+	 * 
+	 * 
+	 */
+	public static YamlDatasetInformation findDatasetInformation(ClassificationInformation classification,
+			Map<String, Object> structuremap) throws IOException {
+		DatabaseObject subobj = null;
+
+		if (structuremap != null) {
+			@SuppressWarnings("unchecked")
+			Map<String, Object> substructuremap = (Map<String, Object>) structuremap
+					.get(classification.getIdentifier());
+			InterpretData interpret = InterpretData.valueOf(classification.getDataType());
+			subobj = interpret.fillFromYamlString(classification.getTop(), substructuremap);
+		}
+		List<DataElementInformation> lst = DatasetOntologyParsing.getSubElementsOfStructure(classification.getIdName());
+		YamlDatasetInformation dataset = new YamlDatasetInformation(classification.getIdName(), subobj, classification,
+				lst);
 		return dataset;
 	}
+
 	
+	
+	/*
+	public static String determineObjectName(String elementname) {
+		String objectName = elementname;
+		String obj = DatasetOntologyParsing.identifierFromID(elementname);
+		if (obj != null) {
+			objectName = obj;
+		}
+		return objectName;
+	}
+
+	public static String determineObjectID(String elementname) {
+		String idName = elementname;
+		String id = DatasetOntologyParsing.idFromObject(elementname);
+		if (id != null) {
+			idName = id;
+		}
+		return idName;
+	}
+*/
+
 }
