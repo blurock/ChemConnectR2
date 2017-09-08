@@ -9,7 +9,7 @@ import com.hp.hpl.jena.rdf.model.RDFNode;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.ontology.OntologyBase;
-import info.esblurock.reaction.ontology.test.dataset.ClassificationInformation;
+import info.esblurock.reaction.ontology.dataset.ClassificationInformation;
 
 public class DatasetOntologyParsing {
 
@@ -227,9 +227,6 @@ public class DatasetOntologyParsing {
 		String query = "SELECT ?obj ?ref ?id\n" + "	WHERE {\n" + id + "  rdfs:subClassOf dataset:Identifier .\n" + id
 				+ " <http://purl.org/dc/terms/references> ?ref .\n"
 				+ "		?ref <http://purl.org/dc/terms/identifier> ?id\n" + "  }";
-		
-		System.out.println(query);
-		
 		String classid = null;
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
@@ -334,26 +331,13 @@ public class DatasetOntologyParsing {
 		String query = " SELECT ?type\n" + 
 				"			WHERE {\n" + 
 				"				?type <http://purl.org/dc/terms/type>  \"" + type + "\"^^xsd:string }\n";
-		System.out.println(query);
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
 
 		List<DataElementInformation> subelements = null;
-		System.out.println("elementsFromSimpleType\n" + stringlst);
-		
 		for (Map<String, String> map : stringlst) {
-			/*
-			String subS = map.get("sub");			
-			String predS = map.get("pred");			
-			String cardS = map.get("card");			
-			String idS = map.get("id");			
-			String substructureS = map.get("substructure");		
-			*/	
 			String typeS = map.get("type");
-			System.out.println("elementsFromSimpleType" + typeS);
-			
 			subelements = DatasetOntologyParsing.getSubElementsOfStructure(typeS);
-			System.out.println(subelements);
 		}
 		return subelements;
 		

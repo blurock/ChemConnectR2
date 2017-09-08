@@ -31,7 +31,8 @@ public class OntologyBase {
 		static OntModel datasetmodel = null;
 		static Map<String, String> namespaceMap = null;
 
-		/** Static routine to generate/return the ontology of units
+		/**
+		 * Static routine to generate/return the ontology of units
 		 * 
 		 * @return The ontology for scientific units
 		 */
@@ -51,7 +52,9 @@ public class OntologyBase {
 			return unitsmodel;
 		}
 
-		/**This routine generates/returns the ontology for UI structures and data structure relationships
+		/**
+		 * This routine generates/returns the ontology for UI structures and data
+		 * structure relationships
 		 * 
 		 * @return The ontology model for data structures and data relations
 		 */
@@ -59,13 +62,12 @@ public class OntologyBase {
 			if (datasetmodel == null) {
 
 				String filename = "/info/esblurock/reaction/ontology/resources/Dataset.ttl";
-				InputStream str = ClassLoader.class.getResourceAsStream(filename);
-				System.out.println("OntModel getDatabaseOntology()");
+				InputStream str = OntologyBase.class.getResourceAsStream(filename);
 				datasetmodel = ModelFactory.createOntologyModel();
 				try {
-				datasetmodel.read(str, "http://esblurock.info", "TURTLE");
-				} catch(Exception ex) {
-					System.out.println(ex.toString());
+					datasetmodel.read(str, "http://esblurock.info", "TURTLE");
+				} catch (Exception ex) {
+					System.out.println("Error in reading Ontology:   " + filename + "\n" + ex.toString());
 				}
 				System.out.println("OntModel getDatabaseOntology() done");
 
@@ -73,7 +75,8 @@ public class OntologyBase {
 			return datasetmodel;
 		}
 
-		/** This routine generates/returns the namespace mappings
+		/**
+		 * This routine generates/returns the namespace mappings
 		 * 
 		 * @return The namespace to abbreviation mapping
 		 */
@@ -111,16 +114,18 @@ public class OntologyBase {
 		String databasePrefix = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
 				+ "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n"
 				+ "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
-				+ "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n"
-				+ "PREFIX dcat: <http://www.w3.org/ns/dcat#>\n"
+				+ "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" + "PREFIX dcat: <http://www.w3.org/ns/dcat#>\n"
 				+ "PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>\n"
 				+ "PREFIX dataset: <http://www.esblurock.info/dataset#>\n";
 		return databasePrefix;
 	}
 
-	/** The prefix data (standard namespaces) is appended to the SELECT part of the query
+	/**
+	 * The prefix data (standard namespaces) is appended to the SELECT part of the
+	 * query
 	 * 
-	 * @param queryS: The query beginning with SELECT
+	 * @param queryS:
+	 *            The query beginning with SELECT
 	 * @return The raw ResultSet to the query
 	 */
 	public static ResultSet datasetQueryBase(String queryS) {
@@ -132,11 +137,14 @@ public class OntologyBase {
 		return results;
 	}
 
-	/** This converts the ResultSet to a mapping of keyword to RDF nodes
+	/**
+	 * This converts the ResultSet to a mapping of keyword to RDF nodes
 	 * 
-	 * Each member of the List is a map from keywords to RDF nodes. Each member represents a result.
+	 * Each member of the List is a map from keywords to RDF nodes. Each member
+	 * represents a result.
 	 * 
-	 * @param results: The Result set from a query
+	 * @param results:
+	 *            The Result set from a query
 	 * @return A mapping from keywords to RDFNodes
 	 */
 	public static List<Map<String, RDFNode>> resultSetToMap(ResultSet results) {
@@ -156,10 +164,12 @@ public class OntologyBase {
 		return lst;
 	}
 
-	/** From the query a list of mappings from keywords to RDFNodes
+	/**
+	 * From the query a list of mappings from keywords to RDFNodes
 	 * 
-	 * @param queryS The query string
-	 * @return  A list of mappings from keywords to RDFNodes
+	 * @param queryS
+	 *            The query string
+	 * @return A list of mappings from keywords to RDFNodes
 	 */
 	public static List<Map<String, RDFNode>> resultSetToMap(String queryS) {
 		ResultSet set = datasetQueryBase(queryS);
@@ -167,19 +177,22 @@ public class OntologyBase {
 		return lst;
 	}
 
-	/** The simplifies the mapping to RDFNodes to a mapping to a String
+	/**
+	 * The simplifies the mapping to RDFNodes to a mapping to a String
 	 * 
-	 * From a Resource the namespace and the local string are separated out. The full namespace name is simplified to the standard abbreviation.
-	 * From a Literal the value is isolated and converted to a string.
-	 * Anything else is just converted to a String.
+	 * From a Resource the namespace and the local string are separated out. The
+	 * full namespace name is simplified to the standard abbreviation. From a
+	 * Literal the value is isolated and converted to a string. Anything else is
+	 * just converted to a String.
 	 * 
-	 * @param results A list of mappings from keywords to RDFNodes
+	 * @param results
+	 *            A list of mappings from keywords to RDFNodes
 	 * @return A list of mappings from a keyword to a String result.
 	 */
 	public static ArrayList<Map<String, String>> resultmapToStrings(List<Map<String, RDFNode>> results) {
 		ArrayList<Map<String, String>> resultmaplst = new ArrayList<Map<String, String>>();
 		for (Map<String, RDFNode> map : results) {
-			Map<String,String> namemap = new HashMap<String,String>();
+			Map<String, String> namemap = new HashMap<String, String>();
 			Set<String> names = map.keySet();
 			for (String name : names) {
 				RDFNode node = map.get(name);
@@ -189,15 +202,16 @@ public class OntologyBase {
 					String local = resource.getLocalName();
 					String simplenamespace = convertNameSpace(namespace);
 					String full = simplenamespace + ":" + local;
-					if(namespace == null) {
+					if (namespace == null) {
 						full = node.toString();
 					}
 					namemap.put(name, full);
-				} else if(node.isLiteral()) {
+				} else if (node.isLiteral()) {
 					Literal literal = node.asLiteral();
-					//System.out.println("Literal: " +  name + "(" + literal.getDatatypeURI() + "):  " + literal.getValue().toString());
+					// System.out.println("Literal: " + name + "(" + literal.getDatatypeURI() + "):
+					// " + literal.getValue().toString());
 					String value = literal.getValue().toString();
-					namemap.put(name,value);
+					namemap.put(name, value);
 				} else {
 					System.out.println("Other: " + node.isAnon());
 					System.out.println("Type: " + node.toString());
@@ -209,28 +223,34 @@ public class OntologyBase {
 		}
 		return resultmaplst;
 	}
-	/** A help routine to isolate a single property from the list of mappings.
+
+	/**
+	 * A help routine to isolate a single property from the list of mappings.
 	 * 
-	 * @param property The property to be isolated
-	 * @param stringlst A list of mappings from a keyword to a String result.
+	 * @param property
+	 *            The property to be isolated
+	 * @param stringlst
+	 *            A list of mappings from a keyword to a String result.
 	 * @return A list of the String of the property
 	 */
-	public static List<String> isolateProperty(String property, List<Map<String,String>> stringlst) {
+	public static List<String> isolateProperty(String property, List<Map<String, String>> stringlst) {
 		List<String> lst = new ArrayList<String>();
-		for(Map<String, String> map : stringlst) {
+		for (Map<String, String> map : stringlst) {
 			String value = map.get(property);
 			lst.add(value);
 		}
-		
+
 		return lst;
 	}
+
 	/**
-	 * @param namespace The full namespace name (from Resource.getNamespace())
+	 * @param namespace
+	 *            The full namespace name (from Resource.getNamespace())
 	 * @return The standard abbreviated namespace name
 	 */
 	public static String convertNameSpace(String namespace) {
 		String converted = Util.namespaceMap().get(namespace);
-		if(converted == null) {
+		if (converted == null) {
 			converted = namespace;
 		}
 		return converted;

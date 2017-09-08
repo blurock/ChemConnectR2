@@ -1,10 +1,11 @@
+interpreter: info.esblurock.reaction.core.server.initialization.InitializeOrganizationsYaml
 dataset:Organization:
         dc:identifier: blurock
         dcterms:publisher: Admnistration
         dataset:accessibility: Public
         org:Organization:
             org:FormalOrganization: Blurock Consulting AB
-            org:subOrganizationOf: Blurock
+            org:OrganizationalUnit: Blurock
             org:unitOf: ChemConnect
             org:role: SME
         dc:description:

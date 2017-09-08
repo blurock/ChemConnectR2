@@ -14,6 +14,7 @@ import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.query.ResultSet;
 
 import info.esblurock.reaction.ontology.OntologyBase;
+import info.esblurock.reaction.ontology.dataset.ClassificationInformation;
 import info.esblurock.reaction.ontology.dataset.DataElementInformation;
 import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 
@@ -48,7 +49,7 @@ public class SimpleReadDatasetInformation {
 		Query query = QueryFactory.create(queryS1);
 		QueryExecution qe = QueryExecutionFactory.create(query, model);
 		ResultSet results = qe.execSelect();
-
+		System.out.println("ResultSet: " + results.hasNext());
 		
 		List<String> lst = DatasetOntologyParsing.getMainDataStructures();
 		for(String structure : lst) {

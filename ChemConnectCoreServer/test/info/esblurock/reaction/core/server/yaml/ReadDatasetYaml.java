@@ -13,7 +13,7 @@ import info.esblurock.reaction.core.server.initialization.yaml.ListOfElementInfo
 import info.esblurock.reaction.core.server.initialization.yaml.ReadYamlDataset;
 import info.esblurock.reaction.core.server.initialization.yaml.YamlDatasetInformation;
 import info.esblurock.reaction.io.dataset.InterpretData;
-import info.esblurock.reaction.ontology.test.dataset.ClassificationInformation;
+import info.esblurock.reaction.ontology.dataset.ClassificationInformation;
 
 public class ReadDatasetYaml {
 

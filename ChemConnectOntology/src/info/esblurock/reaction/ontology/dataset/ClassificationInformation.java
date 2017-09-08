@@ -1,4 +1,4 @@
-package info.esblurock.reaction.ontology.test.dataset;
+package info.esblurock.reaction.ontology.dataset;
 
 import java.io.Serializable;
 

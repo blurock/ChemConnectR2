@@ -45,6 +45,9 @@ public class DataElementInformation implements Serializable {
 	public boolean isDataElementType(String typename) {
 		return dataElementName.compareTo(typename) == 0;
 	}
+	public boolean isKeywords() {
+		return isChemConnectType("Keywords");
+	}
 	
 	public String toString() {
 		StringBuilder build = new StringBuilder();

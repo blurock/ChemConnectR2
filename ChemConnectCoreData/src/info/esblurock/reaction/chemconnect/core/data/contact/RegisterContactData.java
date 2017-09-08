@@ -6,6 +6,6 @@ public class RegisterContactData {
 	public static void register() {
 		ObjectifyService.register(ContactInfoData.class);
 		ObjectifyService.register(ContactLocationInformation.class);
-		ObjectifyService.register(PersonalDescription.class);
+		//ObjectifyService.register(PersonalDescription.class);
 	}
 }

@@ -6,7 +6,7 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @base <http://www.esblurock.info/dataset> .
 
-<http://www.esblurock.info/dataset> rdf:type owl:Ontology  ;
+<http://www.esblurock.info/dataset> rdf:type owl:Ontology ;
                                      owl:imports <http://www.w3.org/2006/vcard/ns> ,
                                                  <http://www.w3.org/ns/dcat> ,
                                                  <http://www.w3.org/2003/01/geo/wgs84_pos> ,

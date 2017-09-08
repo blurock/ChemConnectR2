@@ -3,8 +3,8 @@ package info.esblurock.reaction.core.server.initialization.yaml;
 import java.util.List;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.ontology.dataset.ClassificationInformation;
 import info.esblurock.reaction.ontology.dataset.DataElementInformation;
-import info.esblurock.reaction.ontology.test.dataset.ClassificationInformation;
 
 public class YamlDatasetInformation {
 
@@ -28,6 +28,8 @@ public class YamlDatasetInformation {
 		build.append("\n");
 		if(object != null) {
 			build.append("Object: \t(" + object.getClass().getCanonicalName() + ") " +  object.getIdentifier() + "\n");
+		} else {
+			build.append("Object: \tno object element\n");
 		}
 		String classificationS = classification.toString();
 		build.append("Classification: ");
