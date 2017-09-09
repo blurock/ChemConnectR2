@@ -26,9 +26,12 @@ import com.googlecode.objectify.cache.AsyncCacheFilter;
 import com.googlecode.objectify.util.Closeable;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.contact.RegisterContactData;
+import info.esblurock.reaction.chemconnect.core.data.description.RegisterDescriptionData;
+import info.esblurock.reaction.chemconnect.core.data.initialization.RegisterInitializationData;
 import info.esblurock.reaction.chemconnect.core.data.rdf.KeywordRDF;
+import info.esblurock.reaction.chemconnect.core.data.rdf.RegisterRDFData;
 import info.esblurock.reaction.core.server.db.rdf.WriteDatabaseObjectRDF;
-import info.esblurock.reaction.core.server.initialization.Food;
 import info.esblurock.reaction.core.server.initialization.yaml.ListOfElementInformation;
 import info.esblurock.reaction.core.server.initialization.yaml.ReadYamlDataset;
 import info.esblurock.reaction.core.server.initialization.yaml.YamlDatasetInformation;
@@ -59,10 +62,10 @@ public class ReadAndWriteRDF {
 
 	@Test
 	public void test() {
-		//RegisterContactData.register();
-		//RegisterDescriptionData.register();
-		//RegisterInitializationData.register();
-		//RegisterRDFData.register();
+		RegisterContactData.register();
+		RegisterDescriptionData.register();
+		RegisterInitializationData.register();
+		RegisterRDFData.register();
 		ObjectifyService.register(DatabaseObject.class);
 		
 		String fileS = "resources/contact/OrganizationInitialization.yaml";
@@ -79,7 +82,7 @@ public class ReadAndWriteRDF {
 					StoreObject store = new StoreObject(obj.getIdentifier(), obj.getOwner(), obj.getIdentifier(), "1");
 					WriteDatabaseObjectRDF.writeRDF(obj, store);
 					System.out.println(store.toString());
-					//store.finish();
+					store.finish();
 				}
 			}
 
@@ -88,19 +91,6 @@ public class ReadAndWriteRDF {
 		    ds.put(new Entity("yam"));
 		    ds.put(new Entity("yam"));
 		    assertEquals(2, ds.prepare(new Query("yam")).countEntities(withLimit(10)));
-			
-		    ObjectifyService.register(Food.class);
-		    
-			System.out.println("-------------------");
-			//DatabaseObject example = new DatabaseObject("");
-			Food food = new Food("apples");
-			System.out.println("-------------------");
-			
-			try {
-			ObjectifyService.ofy().save().entity(food).now();
-			} catch(Exception ex) {
-				ex.printStackTrace();
-			}
 			
 			//DatabaseWriteBase.writeDatabaseObject(example);
 			System.out.println("-------------------");

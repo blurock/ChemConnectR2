@@ -1,12 +1,12 @@
 package info.esblurock.reaction.chemconnect.core.data.contact;
 
+import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
-import com.googlecode.objectify.annotation.Subclass;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 
 @SuppressWarnings("serial")
-@Subclass(index=true)
+@Entity
 public class PersonalDescription extends DatabaseObject {
 
 	@Index

@@ -3,14 +3,14 @@ package info.esblurock.reaction.chemconnect.core.data.description;
 import java.util.Date;
 import java.util.HashSet;
 
+import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
-import com.googlecode.objectify.annotation.Subclass;
 import com.googlecode.objectify.annotation.Unindex;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 
 @SuppressWarnings("serial")
-@Subclass(index=true)
+@Entity
 public class DescriptionDataData extends DatabaseObject {
 	@Unindex
 	String onlinedescription;

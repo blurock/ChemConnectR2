@@ -9,6 +9,8 @@ public class InitializeDatabaseObjectImpl {
 		//String apparatusProperties = "resources/experiment/ApparatusPropertiesInitialization.yaml";
 		String contactInitialization = "resources/contact/OrganizationInitialization.yaml";
 		
+		
+		
 		DatabaseInitializeBase base = new DatabaseInitializeBase();
 		if (!base.alreadyRead(contactInitialization)) {
 			System.out.println("Initializing contact: " + contactInitialization);
