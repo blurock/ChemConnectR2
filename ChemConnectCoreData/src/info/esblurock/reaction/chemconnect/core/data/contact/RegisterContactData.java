@@ -13,6 +13,7 @@ public class RegisterContactData {
 		ObjectifyService.register(PersonalDescription.class);
 		ObjectifyService.register(GPSLocation.class);
 		ObjectifyService.register(IndividualInformation.class);
+		ObjectifyService.register(NameOfPerson.class);
 	}
 	
 	public static void reset() {

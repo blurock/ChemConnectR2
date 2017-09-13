@@ -41,6 +41,9 @@ public class NameOfPerson extends DatabaseObject {
 	
 	public String toString() {
 		StringBuilder build = new StringBuilder();
+		build.append("NameOfPerson(");
+		build.append(getIdentifier());
+		build.append("): ");
 		build.append(title);
 		build.append(" ");
 		build.append(givenName);

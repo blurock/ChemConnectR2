@@ -1400,17 +1400,17 @@ xsd:date rdf:type rdfs:Datatype .
               rdfs:subClassOf :ChemConnectPrimitiveCompound ,
                               [ rdf:type owl:Restriction ;
                                 owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                 owl:onClass :UserTitle
                               ] ,
                               [ rdf:type owl:Restriction ;
                                 owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                 owl:onClass :familyName
                               ] ,
                               [ rdf:type owl:Restriction ;
                                 owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                 owl:onClass :givenName
                               ] .
 
@@ -3278,12 +3278,10 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
 :UserTitle <http://purl.org/dc/terms/identifier> "foaf:title"^^xsd:string .
 
 
-:familyName <http://purl.org/dc/terms/type> "FamilyName"^^xsd:string ;
-            <http://purl.org/dc/terms/identifier> "foaf:family"^^xsd:string .
+:familyName <http://purl.org/dc/terms/identifier> "foaf:familyName"^^xsd:string .
 
 
-:givenName <http://purl.org/dc/terms/identifier> "foaf:givenName"^^xsd:string ;
-           <http://purl.org/dc/terms/type> "GivenName"^^xsd:string .
+:givenName <http://purl.org/dc/terms/identifier> "foaf:givenName"^^xsd:string .
 
 
 <http://www.w3.org/2003/01/geo/wgs84_pos#> <http://purl.org/dc/elements/1.1/date> "$Date: 2009/04/20 15:00:30 $" ;

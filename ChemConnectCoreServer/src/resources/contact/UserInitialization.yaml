@@ -6,11 +6,11 @@ edwardblurock:
         dataset:accessibility: Public
         dataset:OrganizationID: blurockconsultingab
         foaf:Person:
-            foaf:name edwardblurock
+            dataset:NameOfPersonID: edwardblurock
             vcard:role: Administrator
         foaf:name:
-            foaf:family: Blurock
-            foaf:given: Edward S.
+            foaf:familyName: Blurock
+            foaf:givenName: Edward S.
             foaf:title: Dr.
         dc:description:
             dcat:dataset: none
