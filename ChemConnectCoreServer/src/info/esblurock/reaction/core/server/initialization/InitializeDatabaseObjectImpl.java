@@ -2,14 +2,23 @@ package info.esblurock.reaction.core.server.initialization;
 
 import java.io.IOException;
 
+import info.esblurock.reaction.chemconnect.core.data.contact.RegisterContactData;
+import info.esblurock.reaction.chemconnect.core.data.description.RegisterDescriptionData;
+import info.esblurock.reaction.chemconnect.core.data.initialization.RegisterInitializationData;
+import info.esblurock.reaction.chemconnect.core.data.rdf.RegisterRDFData;
+
 public class InitializeDatabaseObjectImpl {
 	
 	static public void initializeDatabaseObjects() throws IOException {
 		//String isAInitialization = "resources/experiment/isAInitialization.yaml";
 		//String apparatusProperties = "resources/experiment/ApparatusPropertiesInitialization.yaml";
 		String contactInitialization = "resources/contact/OrganizationInitialization.yaml";
-		
-		
+
+		RegisterContactData.reset();
+		RegisterDescriptionData.reset();
+		RegisterInitializationData.reset();
+		RegisterRDFData.reset();
+
 		
 		DatabaseInitializeBase base = new DatabaseInitializeBase();
 		if (!base.alreadyRead(contactInitialization)) {

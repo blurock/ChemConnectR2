@@ -12,8 +12,7 @@ import org.junit.Test;
 import com.esotericsoftware.yamlbeans.YamlException;
 import com.esotericsoftware.yamlbeans.YamlReader;
 
-//import info.esblurock.reaction.chemconnect.core.data.initialization.InitializationFile;
-import info.esblurock.reaction.core.server.initialization.InitializeOrganizationsYaml;
+import info.esblurock.reaction.core.server.initialization.InitializeCatalogDataStructuresYaml;
 
 public class InitializeOrganization {
 
@@ -35,7 +34,7 @@ public class InitializeOrganization {
 			try {
 				object = reader.read();
 				map = (Map) object;
-				InitializeOrganizationsYaml yaml = new InitializeOrganizationsYaml();
+				InitializeCatalogDataStructuresYaml yaml = new InitializeCatalogDataStructuresYaml();
 				yaml.interpret(map);
 			} catch (YamlException e) {
 				e.printStackTrace();

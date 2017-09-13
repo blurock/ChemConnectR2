@@ -26,14 +26,16 @@ public class ClassificationInformation implements Serializable {
 	String idName;
 	String identifier;
 	String dataType;
+	String link;
 	DatabaseObject top;
 	
-	public ClassificationInformation(DatabaseObject top, String idName, String identifier, String dataType) {
+	public ClassificationInformation(DatabaseObject top, String link, String idName, String identifier, String dataType) {
 		super();
 		this.idName = idName;
 		this.identifier = identifier;
 		this.dataType = dataType;
 		this.top = top;
+		this.link = link;
 	}
 	public String getIdName() {
 		return idName;
@@ -48,11 +50,21 @@ public class ClassificationInformation implements Serializable {
 	public DatabaseObject getTop() {
 		return top;
 	}
+	
+	
+	public String getLink() {
+		return link;
+	}
 	public String toString() {
 		StringBuilder build = new StringBuilder();
 		
 		build.append("ID: ");
 		build.append(idName);
+		if(link != null) {
+			build.append("(");
+			build.append(link);
+			build.append(")");
+		}
 		build.append(": ");
 		build.append(identifier);
 		build.append("  (");

@@ -45,7 +45,6 @@ public class DatasetOntologyParsing {
 				+ id + " <http://purl.org/dc/terms/identifier> ?identifier .\n" + id
 				+ " <http://purl.org/dc/terms/type>  ?datatype\n" 
 				+ "  }";
-
 		ClassificationInformation classification = null;
 		
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
@@ -54,7 +53,7 @@ public class DatasetOntologyParsing {
 			Map<String, String> map = stringlst.get(0);
 			String identifier = map.get("identifier");
 			String datatype = map.get("datatype");
-			classification = new ClassificationInformation(top, id, identifier, datatype);
+			classification = new ClassificationInformation(top, element.getLink(),id, identifier, datatype);
 		}
 		return classification;
 	}
@@ -92,7 +91,7 @@ public class DatasetOntologyParsing {
 			String idS = stringlst.get(0).get("id");
 			String typeS = stringlst.get(0).get("type");
 			String superS = stringlst.get(0).get("super");
-			info = new DataElementInformation(typeS, true, 1, superS, idS);
+			info = new DataElementInformation(typeS, null,true, 1, superS, idS);
 		}
 		return info;
 	}
@@ -146,11 +145,12 @@ public class DatasetOntologyParsing {
 	
 	 */
 	public static List<DataElementInformation> getSubElementsOfStructure(String structure) {
-		String query = "SELECT ?sub  ?pred ?card ?superclass ?id ?substructure \n" + "	WHERE {\n" + structure
+		String query = "SELECT ?sub  ?pred ?card ?link ?id ?substructure \n" + "	WHERE {\n" + structure
 				+ " rdfs:subClassOf ?sub .\n" + "		{\n" + "     {  ?sub owl:onClass ?substructure  . \n"
 				+ "         ?sub owl:qualifiedCardinality ?card }\n" + "		UNION\n"
 				+ "		{   ?sub owl:someValuesFrom|owl:allValuesFrom ?substructure}\n" + "      } .\n"
 				+ "		?sub ?pred ?substructure .\n"
+				+ "     ?sub owl:onProperty ?link .\n"
 				+ "     ?substructure <http://purl.org/dc/terms/identifier> ?id .\n" + "}";
 		
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
@@ -159,6 +159,7 @@ public class DatasetOntologyParsing {
 		for (Map<String, String> map : stringlst) {
 			String substructure = map.get("substructure");
 			String pred = map.get("pred");
+			String link = map.get("link");
 			boolean singlet = true;
 			int numberOfElements = 1;
 			String numS = map.get("card");
@@ -175,7 +176,7 @@ public class DatasetOntologyParsing {
 			}
 			String identifier = (String) map.get("id");
 			String chemconnect = getChemConnectDirectTypeHierarchy(substructure);
-			DataElementInformation element = new DataElementInformation(substructure, singlet, numberOfElements,
+			DataElementInformation element = new DataElementInformation(substructure,link, singlet, numberOfElements,
 					chemconnect, identifier);
 			info.add(element);
 		}

@@ -1,8 +1,10 @@
-interpreter: info.esblurock.reaction.core.server.initialization.InitializeOrganizationsYaml
-dataset:Organization:
-        dc:identifier: blurock
+interpreter: info.esblurock.reaction.core.server.initialization.InitializeCatalogDataStructuresYaml
+blurockconsultingab:
+        dataset:ChemConnectDataStructure: dataset:Organization
+        dc:identifier: blurockconsultingab
         dcterms:publisher: Admnistration
         dataset:accessibility: Public
+        dataset:DatabaseUserID: edwardblurock
         org:Organization:
             org:FormalOrganization: Blurock Consulting AB
             org:OrganizationalUnit: Blurock
@@ -21,10 +23,52 @@ dataset:Organization:
             vcard:country-name: Sweden
             vcard:postal-code: 22594
             dataset:GPSLocationID: blurock
-        dataset:GPSLocation:
+        geo:location:
             geo:lat: 13.1910° E
             geo:long: 55.7047° N
         vcard:Contact:
             vcard:email: edward.blurock@esblurock.info
             foaf:homepage: http://www.chemicalkinetics.info
             foaf:workInfoHomepage: http://www.esblurock.info
+galway:
+        dataset:ChemConnectDataStructure: dataset:Organization
+        dc:identifier:  galway
+        dcterms:publisher: Admnistration
+        dataset:accessibility: Public
+        org:Organization:
+            org:FormalOrganization: NUI Galway 
+            org:OrganizationalUnit: Combustion Chemistry Centre
+            org:unitOf: Chemistry Centre 
+            org:role: research
+        vcard:Location:
+            vcard:street-address: Combustion Chemistry Centre, National University of Ireland
+            vcard:locality: Galway
+            vcard:country-name: Republic of Ireland
+            vcard:postal-code: 22594
+            dataset:GPSLocationID: galway
+        geo:location:
+            geo:lat:  9.06186° W
+            geo:long: 53.277784° N
+        vcard:Contact:
+            vcard:email:  henry.curran@nuigalway.ie
+            foaf:homepage: http://c3.nuigalway.ie/
+            foaf:workInfoHomepage: http://c3.nuigalway.ie/mechanisms.html
+        dc:description:
+            dcat:dataset: none
+            dcterms:created: 20170905
+            dcterms:type: University
+            dcterms:title: Combustion Chemistry Centre
+            dcterms:description: |
+                The Combustion Chemistry Centre, C3, is engaged in 
+                fundamental research on the combustion of fossil and biofuels. 
+                Combustion is the ultimate interdisciplinary field: 
+                it requires knowledge of chemistry, physics, fluid dynamics, 
+                thermodynamics and mathematics. In addition, combustion science 
+                has a well defined purpose in society today, facilitating the 
+                study and analysis of problems associated with the generation of air 
+                pollutants. C3 is concerned with the application of combustion 
+                research to the design of energy-efficient engine and gas 
+                turbine combustion systems and the impact of their use on 
+                toxic and greenhouse gas emissions, thus helping address the 
+                problems of urban air pollution and climate change. 
+            dcat:keyword: kinetics, combustion, chemistry, energy, fossil fuels, biofuels, thermodynamics, 

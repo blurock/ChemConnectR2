@@ -1,0 +1,34 @@
+interpreter: info.esblurock.reaction.core.server.initialization.InitializeCatalogDataStructuresYaml
+edwardblurock:
+        dataset:ChemConnectDataStructure: dataset:DatabaseUser
+        dc:identifier: edwardblurock
+        dcterms:publisher: Admnistration
+        dataset:accessibility: Public
+        dataset:OrganizationID: blurockconsultingab
+        foaf:Person:
+            foaf:name edwardblurock
+            vcard:role: Administrator
+        foaf:name:
+            foaf:family: Blurock
+            foaf:given: Edward S.
+            foaf:title: Dr.
+        dc:description:
+            dcat:dataset: none
+            dcterms:created: 20170905
+            dcterms:type: DatabaseUser
+            dcterms:title: Edward S. Blurock
+            dcat:keyword: developer, kinetics, combustion, chemistry
+            dcterms:description: Edward S. Blurock is the developer of numerous software packages
+        vcard:Location:
+            vcard:street-address: Bandelsvägen 1
+            vcard:locality: Lund
+            vcard:country-name: Sweden
+            vcard:postal-code: 22594
+            dataset:GPSLocationID: edwardblurock
+        geo:location:
+            geo:lat: 13.1910° E
+            geo:long: 55.7047° N
+        vcard:Contact:
+            vcard:email: edward.blurock@esblurock.info
+            foaf:homepage: http://www.chemicalkinetics.info
+            foaf:workInfoHomepage: http://www.esblurock.info

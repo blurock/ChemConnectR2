@@ -62,49 +62,9 @@ public class ReadAndWriteRDF {
 
 	@Test
 	public void test() {
-		RegisterContactData.register();
-		RegisterDescriptionData.register();
-		RegisterInitializationData.register();
-		RegisterRDFData.register();
-		ObjectifyService.register(DatabaseObject.class);
-		
 		String fileS = "resources/contact/OrganizationInitialization.yaml";
 		InputStream in = this.getClass().getClassLoader().getResourceAsStream(fileS);
-		ArrayList<ListOfElementInformation> results;
-		System.out.println("---------------");
-		try {
-			results = ReadYamlDataset.readYaml(in);
-			System.out.println("=============================================: " + results.size());
-			for (ListOfElementInformation info : results) {
-				for (YamlDatasetInformation yaml : info) {
-					System.out.println(yaml);
-					DatabaseObject obj = yaml.getObject();
-					StoreObject store = new StoreObject(obj.getIdentifier(), obj.getOwner(), obj.getIdentifier(), "1");
-					WriteDatabaseObjectRDF.writeRDF(obj, store);
-					System.out.println(store.toString());
-					store.finish();
-				}
-			}
-
-			DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
-		    assertEquals(0, ds.prepare(new Query("yam")).countEntities(withLimit(10)));
-		    ds.put(new Entity("yam"));
-		    ds.put(new Entity("yam"));
-		    assertEquals(2, ds.prepare(new Query("yam")).countEntities(withLimit(10)));
-			
-			//DatabaseWriteBase.writeDatabaseObject(example);
-			System.out.println("-------------------");
-			List<KeywordRDF> lst = ObjectifyService.ofy().load().type(KeywordRDF.class).list();
-			System.out.println("-------------------");
-			System.out.println(lst.size());
-			System.out.println("-------------------");
-			for (KeywordRDF rdf : lst) {
-				System.out.println(rdf.toString());
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		ReadYamlBase.test(in);
 	}
-
 }
 

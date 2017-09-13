@@ -11,8 +11,9 @@ public class DataElementInformation implements Serializable {
 	int numberOfElements;
 	String chemconnectStructure;
 	String identifier;
+	String link;
 	
-	public DataElementInformation(String dataElementName, boolean singlet, int numberOfElements, 
+	public DataElementInformation(String dataElementName, String link, boolean singlet, int numberOfElements, 
 			String chemconnectStructure, String identifier) {
 		super();
 		this.dataElementName = dataElementName;
@@ -20,6 +21,7 @@ public class DataElementInformation implements Serializable {
 		this.numberOfElements = numberOfElements;
 		this.chemconnectStructure = chemconnectStructure;
 		this.identifier = identifier;
+		this.link = link;
 	}
 	public String getDataElementName() {
 		return dataElementName;
@@ -49,10 +51,22 @@ public class DataElementInformation implements Serializable {
 		return isChemConnectType("Keywords");
 	}
 	
+	public String getLink() {
+		return link;
+	}
+	public void setLink(String link) {
+		this.link = link;
+	}
 	public String toString() {
 		StringBuilder build = new StringBuilder();
 		build.append(dataElementName);
-		build.append(":  ");
+		if(link != null) {
+			build.append("(");
+			build.append(link);
+			build.append("):  ");
+		} else {
+			build.append(":  ");
+		}
 		build.append(identifier);
 		build.append("  (" + chemconnectStructure + "):  ");
 		if(singlet) {

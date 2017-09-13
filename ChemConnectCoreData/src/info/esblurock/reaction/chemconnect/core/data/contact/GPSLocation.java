@@ -21,10 +21,10 @@ public class GPSLocation extends DatabaseObject {
 		this.GPSLongitude = GPSLongitude;
 	}
 	
-	public String getGPSLatitudeID() {
+	public String getGPSLatitude() {
 		return GPSLatitude;
 	}
-	public String getGPSLongitudeID() {
+	public String getGPSLongitude() {
 		return GPSLongitude;
 	}
 

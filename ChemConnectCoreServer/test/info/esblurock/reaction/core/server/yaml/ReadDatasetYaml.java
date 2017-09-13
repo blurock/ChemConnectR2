@@ -47,7 +47,7 @@ public class ReadDatasetYaml {
 					null);
 			System.out.println(element);
 
-			ClassificationInformation classification = new ClassificationInformation(null, "dataset:ContactInfoData",
+			ClassificationInformation classification = new ClassificationInformation(null, null,"dataset:ContactInfoData",
 					"vcard:Contact", "ContactInfoData");
 
 			System.out.println("\n-----------------findDatasetInformation");
