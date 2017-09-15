@@ -16,9 +16,6 @@ public class KeywordRDF extends DatabaseObject {
 	public static String stringType = "String";
 
     @Index
-    String subject;
-
-    @Index
     String predicate;
 
     @Index
@@ -30,21 +27,14 @@ public class KeywordRDF extends DatabaseObject {
     public KeywordRDF() {
    }
  
-	public KeywordRDF(String sourceCode, String access, String owner, String subject, String predicate, String object, String objectType) {
-		super(sourceCode,access,owner);
-		this.subject = subject;
+	public KeywordRDF(String key, String access, String owner, String sourceID,
+			String predicate, String object, String objectType) {
+		super(key,access,owner,sourceID);
 		this.predicate = predicate;
 		this.object = object;
 		this.objectType = objectType;
 	}
 
-	public String getSubject() {
-		return subject;
-	}
-
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
 
 	public String getPredicate() {
 		return predicate;
@@ -65,7 +55,7 @@ public class KeywordRDF extends DatabaseObject {
 	public String toString() {
 		StringBuilder build = new StringBuilder();
 		
-		build.append(subject);
+		build.append(getIdentifier());
 		build.append(" -> ");
 		build.append(predicate);
 		build.append(" -> ");

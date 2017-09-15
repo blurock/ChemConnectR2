@@ -22,10 +22,10 @@ public class ReadDatasetYaml {
 		String fileS = "resources/contact/OrganizationInitialization.yaml";
 		InputStream in = this.getClass().getClassLoader().getResourceAsStream(fileS);
 		try {
-
+			String sourceID = "1";
 			System.out.println("\n-----------------readYaml");
 			ArrayList<ListOfElementInformation> results;
-			results = ReadYamlDataset.readYaml(in);
+			results = ReadYamlDataset.readYaml(in,sourceID);
 			System.out.println("=============================================: " + results.size());
 			for (ListOfElementInformation info : results) {
 				System.out.println(info.toString() + "\n");
@@ -44,14 +44,14 @@ public class ReadDatasetYaml {
 
 			System.out.println("\n-----------------findListOfElementInformation");
 			ListOfElementInformation element = ReadYamlDataset.findListOfElementInformation("dataset:Organization",
-					null);
+					null,sourceID);
 			System.out.println(element);
 
 			ClassificationInformation classification = new ClassificationInformation(null, null,"dataset:ContactInfoData",
 					"vcard:Contact", "ContactInfoData");
 
 			System.out.println("\n-----------------findDatasetInformation");
-			YamlDatasetInformation info = ReadYamlDataset.findDatasetInformation(classification, null);
+			YamlDatasetInformation info = ReadYamlDataset.findDatasetInformation(classification, null,sourceID);
 			System.out.println(info);
 		} catch (IOException e) {
 			System.out.println("ReadDatasetYaml: ");

@@ -46,10 +46,10 @@ public class DataSetReference extends DatabaseObject {
 	 * @param authors The list of authors
 	 * @param authorLastNames The list of author's last names
 	 */
-	public DataSetReference(String identifier, String access, String owner,
+	public DataSetReference(String identifier, String access, String owner, String sourceID,
 			String dOI, String title, String referenceString,
 			HashSet<String> authors) {
-		super(identifier,access,owner);
+		super(identifier,access,owner,sourceID);
 		DOI = dOI;
 		Title = title;
 		ReferenceString = referenceString;

@@ -19,9 +19,9 @@ public class NameOfPerson extends DatabaseObject {
 	public NameOfPerson() {
 	}
 	
-	public NameOfPerson(String identifier, String access, String owner,
+	public NameOfPerson(String identifier, String access, String owner, String sourceID,
 			String title, String givenName, String familyName) {
-		super(identifier, access, owner);
+		super(identifier, access, owner,sourceID);
 		this.title = title;
 		this.givenName = givenName;
 		this.familyName = familyName;

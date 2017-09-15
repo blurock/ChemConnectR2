@@ -15,15 +15,15 @@ public class PersonalDescription extends DatabaseObject {
 	@Index
 	String nameOfPersonIdentifier;
 
-	public PersonalDescription(String identifier, String access, String owner,
+	public PersonalDescription(String identifier, String access, String owner, String sourceID,
 			String userClassification, String nameOfPersonIdentifier) {
-		super(identifier,access,owner);
+		super(identifier,access,owner,sourceID);
 		UserClassification = userClassification;
 		this.nameOfPersonIdentifier = nameOfPersonIdentifier;
 	}
-	public PersonalDescription(String identifier, String access, String owner,
+	public PersonalDescription(String identifier, String access, String owner, String sourceID,
 			String userClassification, NameOfPerson name) {
-		super(identifier,access,owner);
+		super(identifier,access,owner,sourceID);
 		UserClassification = userClassification;
 		this.nameOfPersonIdentifier = name.getIdentifier();
 	}

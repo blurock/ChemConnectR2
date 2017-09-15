@@ -16,8 +16,8 @@ public class InitializeCatalogDataStructuresYaml extends YamlFileInterpreterBase
 	public static String inputKeyS = "Administration";
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void interpret(Map map) throws IOException {
-		ArrayList<ListOfElementInformation> results = ReadYamlDataset.ExtractListOfObjects(map);
+	public void interpret(Map map, String sourceID) throws IOException {
+		ArrayList<ListOfElementInformation> results = ReadYamlDataset.ExtractListOfObjects(map,sourceID);
 		for (ListOfElementInformation info : results) {
 			for (YamlDatasetInformation yaml : info) {
 				DatabaseObject obj = yaml.getObject();

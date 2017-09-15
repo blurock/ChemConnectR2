@@ -21,10 +21,10 @@ public class OrganizationDescription extends DatabaseObject {
 	public OrganizationDescription() {
 	}
 	
-	public OrganizationDescription(String identifier, String access, String owner,
+	public OrganizationDescription(String identifier, String access, String owner, String sourceID,
 			String organizationUnit, String organizationClassification, 
 			String organizationName, String subOrganizationOf) {
-		super(identifier,access,owner);
+		super(identifier,access,owner,sourceID);
 		OrganizationUnit = organizationUnit;
 		OrganizationClassification = organizationClassification;
 		OrganizationName = organizationName;

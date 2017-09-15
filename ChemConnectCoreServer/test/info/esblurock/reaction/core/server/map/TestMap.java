@@ -19,13 +19,13 @@ public class TestMap {
 
 	@Test
 	public void test() {
-
+		String sourceID = "1";
 		try {
 			String fileS = "resources/contact/OrganizationInitialization.yaml";
 			InputStream in = this.getClass().getClassLoader().getResourceAsStream(fileS);
 
 			System.out.println("\n-----------------readYaml");
-			ArrayList<ListOfElementInformation> results = ReadYamlDataset.readYaml(in);
+			ArrayList<ListOfElementInformation> results = ReadYamlDataset.readYaml(in,sourceID);
 			System.out.println("-----------------");
 			Organization org = null;
 			ListOfElementInformation info = results.get(0);

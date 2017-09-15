@@ -23,11 +23,11 @@ public class IndividualInformation extends DatabaseObject {
 	@Index
 	String organizationID;
 
-	public IndividualInformation(String identifier, String access, String owner,
+	public IndividualInformation(String identifier, String access, String owner, String sourceID,
 			String descriptionDataDataID,
 			String contactInfoDataID, String contactLocationInformationID,
 			String personalDescriptionID, String organizationID) {
-		super(identifier, access, owner);
+		super(identifier, access, owner,sourceID);
 		this.contactInfoDataID = contactInfoDataID;
 		this.contactLocationInformationID = contactLocationInformationID;
 		this.descriptionDataDataID = descriptionDataDataID;

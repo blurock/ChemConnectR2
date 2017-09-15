@@ -41,10 +41,10 @@ public class DescriptionDataData extends DatabaseObject {
 	 * @param dataType The data type of the object
 	 * @param keywords The set of keywords associated with the 
 	 */
-	public DescriptionDataData(String identifier, String owner, String access, 
+	public DescriptionDataData(String identifier, String owner, String access, String sourceID,
 			String onlinedescription, String fulldescription, String sourcekey,
 			Date sourceDate, String dataType, HashSet<String> keywords) {
-		super(identifier,owner,access);
+		super(identifier,owner,access,sourceID);
 		this.onlinedescription = onlinedescription;
 		this.descriptionAbstract = fulldescription;
 		this.sourcekey = sourcekey;

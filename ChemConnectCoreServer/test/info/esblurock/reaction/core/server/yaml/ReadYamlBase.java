@@ -34,10 +34,12 @@ public class ReadYamlBase {
 		RegisterRDFData.register();
 		ObjectifyService.register(DatabaseObject.class);
 		
+		String sourceID = "1";
+		
 		ArrayList<ListOfElementInformation> results;
 		System.out.println("---------------");
 		try {
-			results = ReadYamlDataset.readYaml(in);
+			results = ReadYamlDataset.readYaml(in,sourceID);
 			System.out.println("=============================================: " + results.size());
 			for (ListOfElementInformation info : results) {
 				for (YamlDatasetInformation yaml : info) {

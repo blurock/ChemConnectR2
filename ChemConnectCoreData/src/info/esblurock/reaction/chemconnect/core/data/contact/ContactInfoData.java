@@ -34,9 +34,9 @@ public class ContactInfoData extends DatabaseObject {
 	     * @param topSite The http address of the encompasing structure of the contact
 	     * @param hasSite The web-site associated with the contact
 	     */
-	    public ContactInfoData(String identifier, String owner, String access, 
+	    public ContactInfoData(String identifier, String owner, String access, String sourceID,
 	    		String email, HashSet<String> topSite, HashSet<String> hasSite) {
-			super(identifier,owner,access);
+			super(identifier,owner,access,sourceID);
 			this.email = email;
 			this.topSite = topSite;
 			this.hasSite = hasSite;

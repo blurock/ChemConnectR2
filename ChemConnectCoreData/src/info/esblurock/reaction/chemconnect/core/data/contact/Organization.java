@@ -21,10 +21,10 @@ public class Organization extends DatabaseObject {
 	@Index
 	String organizationDescriptionID;
 
-	public Organization(String identifier, String access, String owner,
+	public Organization(String identifier, String access, String owner, String sourceID,
 			String descriptionDataDataID, String contactInfoDataID, 
 			String contactLocationInformationID, String organizationDescriptionID) {
-		super(identifier, access, owner);
+		super(identifier, access, owner,sourceID);
 		this.contactInfoDataID = contactInfoDataID;
 		this.contactLocationInformationID = contactLocationInformationID;
 		this.descriptionDataDataID = descriptionDataDataID;

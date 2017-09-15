@@ -25,6 +25,7 @@ public class DatabaseObject  implements Serializable {
 	@Id  Long key;
 	@Index  String identifier;
 	@Index  String access;
+	@Index  String sourceID;
 	@Index  Date creationDate;
 	@Index String owner;
 	
@@ -42,9 +43,10 @@ public class DatabaseObject  implements Serializable {
 	/**
 	 * @param id The identifier of the data object
 	 */
-	public DatabaseObject(String id) {
+	public DatabaseObject(String id,String sourceID) {
 		key = null;
 		this.identifier = id;
+		this.sourceID = sourceID;
 		access = MetaDataKeywords.publicAccess;
 		owner = MetaDataKeywords.publicOwner;
 		creationDate = new Date();
@@ -56,7 +58,7 @@ public class DatabaseObject  implements Serializable {
 	 * 
 	 * Current date (and null for key)
 	 */
-	public DatabaseObject(String id, String access, String owner) {
+	public DatabaseObject(String id, String access, String owner,String sourceID) {
 		this.identifier = id;
 		this.access = access;
 		this.owner = owner;
@@ -88,4 +90,13 @@ public class DatabaseObject  implements Serializable {
 	public String getIdentifier() {
 		return identifier;
 	}
+
+	public String getSourceID() {
+		return sourceID;
+	}
+
+	public void setSourceID(String sourceID) {
+		this.sourceID = sourceID;
+	}
+	
 }

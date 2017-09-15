@@ -29,10 +29,10 @@ public class ContactLocationInformation extends DatabaseObject {
 			this.gpsLocationID = null;
 		}
 
-		public ContactLocationInformation(String identifier, String access, String owner,
+		public ContactLocationInformation(String identifier, String access, String owner, String sourceID,
 				String addressAddress, String city, String country, String postcode,
 			String gpsLocationID) {
-		super(identifier,access,owner);
+		super(identifier,access,owner,sourceID);
 		this.addressAddress = addressAddress;
 		this.city = city;
 		this.country = country;
