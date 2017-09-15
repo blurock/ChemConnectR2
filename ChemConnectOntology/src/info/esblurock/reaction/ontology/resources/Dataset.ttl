@@ -6,13 +6,7 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @base <http://www.esblurock.info/dataset> .
 
-<http://www.esblurock.info/dataset> rdf:type owl:Ontology ;
-                                     owl:imports <http://www.w3.org/2006/vcard/ns> ,
-                                                 <http://www.w3.org/ns/dcat> ,
-                                                 <http://purl.org/dc/terms/> ,
-                                                 <http://purl.org/dc/dcmitype/> ,
-                                                 <http://www.w3.org/ns/org#> ,
-                                                 <http://xmlns.com/foaf/0.1/> ;
+<http://www.esblurock.info/dataset> rdf:type owl:Ontology;
                                      <http://purl.org/dc/terms/publisher> <http://purl.org/dc/aboutdcmi#DCMI> ;
                                      <http://purl.org/dc/terms/title> "DCMI Type Vocabulary"@en ;
                                      <http://purl.org/dc/terms/modified> "2012-06-14"^^xsd:date ;
@@ -1020,7 +1014,10 @@ xsd:date rdf:type rdfs:Datatype .
                               owl:onProperty <http://www.w3.org/ns/dcat#record> ;
                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                               owl:onClass :DescriptionID
-                            ] .
+                            ] ;
+            <http://purl.org/dc/terms/identifier> "dataset:Consortium"^^xsd:string ;
+            <http://purl.org/dc/terms/type> "Consortium"^^xsd:string ;
+            rdfs:label "Consortium of users"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#ConsortiumID

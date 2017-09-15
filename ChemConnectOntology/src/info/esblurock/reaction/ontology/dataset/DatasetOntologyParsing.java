@@ -1,9 +1,12 @@
 package info.esblurock.reaction.ontology.dataset;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import com.google.common.collect.Sets;
 import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 
@@ -255,8 +258,9 @@ public class DatasetOntologyParsing {
 
 	public static List<String> getSubElements(String name) {
 		ArrayList<String> subelements = new ArrayList<String>();
-		String query = "SELECT ?sub ?substructure\n" + "	WHERE {" + name + " rdfs:subClassOf ?sub .\n"
-				+ "      ?sub owl:onClass ?substructure }";
+		String query = "SELECT ?sub ?substructure\n" + "	WHERE {" 
+				+ name + " rdfs:subClassOf ?sub .\n"
+				+ "      ?sub owl:someValuesFrom|owl:onClass ?substructure }";
 
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
@@ -325,7 +329,84 @@ public class DatasetOntologyParsing {
 		}
 		return str;
 	}
-	
+	public static Set<String> SubObjectsOfDataStructure(String structurename) {
+		Set<String> subelements = new HashSet<String>();
+		SubObjectsOfDataStructure(structurename,subelements);
+		Set<String> set = new HashSet<String>();
+		for(String name : subelements) {
+			String obj = getStructureFromDataStructure(name);
+			if(obj == null)
+				System.out.println("Empty:" + name);
+			set.add(obj);
+		}
+		
+		return set;
+	}
+	/**This returns the subobjects used by the input object. 
+	 * @param structurename The main object to search
+	 * @param subelements the subelements found are added to this list
+	 * @return
+	 * 
+	 * This returns the subobjects used by the input object. 
+	 * From dcat:record or dcterms:hasPart sub-elements, those which are
+	 * subclasses of ID (dataset:Identifier) are isolated and the 
+	 * referenced type (dcterms:references) is given.
+	 * 
+	 * What it does not return are links to object (LinkedTo)
+	 * The routine checks for dcat:record (from Catalog objects) and 
+	 * dcterms:hasPart (from Dataset objects).
+	 * 
+	 * SELECT ?sub ?type ?data
+		WHERE {
+   			dataset:Organization rdfs:subClassOf ?sub .
+   			{
+			?sub owl:onProperty <http://purl.org/dc/terms/hasPart> 
+			}
+			UNION
+			{
+			?sub owl:onProperty dcat:record
+			}
+			?sub owl:someValuesFrom|owl:onClass ?object .
+			?object rdfs:subClassOf dataset:Identifier .
+			?object <http://purl.org/dc/terms/references> ?data
+			}
+	 * 
+	 */
+	public static void SubObjectsOfDataStructure(String structurename, Set<String> subelements) {
+		if(!subelements.contains(structurename)) {
+			subelements.add(structurename);
+		}
+		String query = "SELECT ?substructure\n" + "	WHERE {\n" 
+				+ structurename + " rdfs:subClassOf ?sub .\n"
+				+"{\n" + 
+				"	?sub owl:onProperty <http://purl.org/dc/terms/hasPart> \n" + 
+				"	}\n" + 
+				"	UNION\n" + 
+				"	{\n" + 
+				"	?sub owl:onProperty dcat:record\n" + 
+				"	}"
+				+ "      ?sub owl:someValuesFrom|owl:onClass ?object .\n"
+				+ "      ?object rdfs:subClassOf dataset:Identifier .\n"
+				+ "      ?object <http://purl.org/dc/terms/references> ?substructure .\n"
+				+ "}";
+
+		//System.out.println(query);
+		
+		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
+		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
+		
+		HashSet<String> mylst = new HashSet<String>();
+		for (Map<String, String> map : stringlst) {
+			String substructure = map.get("substructure");
+			if(!subelements.contains(substructure)) {
+				mylst.add(substructure);
+				subelements.add(substructure);
+			}
+		}
+		for(String substructure: mylst) {
+			SubObjectsOfDataStructure(substructure,subelements);
+		}
+	}
 	
 	
 	public static List<DataElementInformation> elementsFromSimpleType(String type) {
@@ -364,11 +445,13 @@ public class DatasetOntologyParsing {
 
 	}
 	
+	 */
 	
-	public static String getStructureFromID(String id) {
+	
+	public static String getStructureFromDataStructure(String object) {
 		String query = "SELECT ?ref\n" + 
 				"	WHERE {\n" + 
-				"	 " + id + " <http://purl.org/dc/terms/references> ?ref\n" + 
+				"	 " + object + " <http://purl.org/dc/terms/type> ?ref\n" + 
 				"  }";
 		String structure = null;
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
@@ -379,6 +462,6 @@ public class DatasetOntologyParsing {
 		return structure;
 	}
 
-	 */
+	
 
 }

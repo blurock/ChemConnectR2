@@ -23,5 +23,7 @@ public class RegisterContactData {
 		ResetDatabaseObjects.resetClass(ContactLocationInformation.class);
 		ResetDatabaseObjects.resetClass(PersonalDescription.class);
 		ResetDatabaseObjects.resetClass(GPSLocation.class);
+		ResetDatabaseObjects.resetClass(IndividualInformation.class);
+		ResetDatabaseObjects.resetClass(NameOfPerson.class);
 	}
 }

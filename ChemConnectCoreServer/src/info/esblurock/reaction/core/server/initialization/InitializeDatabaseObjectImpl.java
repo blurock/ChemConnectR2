@@ -12,7 +12,8 @@ public class InitializeDatabaseObjectImpl {
 	static public void initializeDatabaseObjects() throws IOException {
 		//String isAInitialization = "resources/experiment/isAInitialization.yaml";
 		//String apparatusProperties = "resources/experiment/ApparatusPropertiesInitialization.yaml";
-		String contactInitialization = "resources/contact/OrganizationInitialization.yaml";
+		String organizationInitialization = "resources/contact/OrganizationInitialization.yaml";
+		String userInitialization = "resources/contact/UserInitialization.yaml";
 
 		RegisterContactData.reset();
 		RegisterDescriptionData.reset();
@@ -21,9 +22,14 @@ public class InitializeDatabaseObjectImpl {
 
 		
 		DatabaseInitializeBase base = new DatabaseInitializeBase();
-		if (!base.alreadyRead(contactInitialization)) {
-			System.out.println("Initializing contact: " + contactInitialization);
-			base.readInitializationFile(contactInitialization, "yaml");
+		if (!base.alreadyRead(userInitialization)) {
+			System.out.println("Initializing contact: " + userInitialization);
+			base.readInitializationFile(userInitialization, "yaml");
+		}
+		
+		if (!base.alreadyRead(organizationInitialization)) {
+			System.out.println("Initializing contact: " + organizationInitialization);
+			base.readInitializationFile(organizationInitialization, "yaml");
 		}
 		
 		/*
