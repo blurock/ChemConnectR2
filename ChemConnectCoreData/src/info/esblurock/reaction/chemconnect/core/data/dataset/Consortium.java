@@ -1,4 +1,4 @@
-package info.esblurock.reaction.chemconnect.core.dataset;
+package info.esblurock.reaction.chemconnect.core.data.dataset;
 
 import java.util.HashSet;
 
