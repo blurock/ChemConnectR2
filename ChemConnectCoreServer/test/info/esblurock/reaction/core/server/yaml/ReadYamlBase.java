@@ -44,13 +44,19 @@ public class ReadYamlBase {
 			results = ReadYamlDataset.readYaml(in,sourceID);
 			System.out.println("=============================================: " + results.size());
 			for (ListOfElementInformation info : results) {
+				System.out.println("=============================================: " + info.getMainstructure());
 				for (YamlDatasetInformation yaml : info) {
 					System.out.println(yaml);
 					DatabaseObject obj = yaml.getObject();
 					StoreObject store = new StoreObject(obj.getIdentifier(), obj.getOwner(), obj.getIdentifier(), "1");
 					WriteDatabaseObjectRDF.writeRDF(obj, store);
 					System.out.println(store.toString());
-					store.finish();
+					try {
+						store.finish();
+					} catch(Exception ex) {
+						System.out.println("Did not store: " 
+								+ obj.getIdentifier() + "("+ yaml.getDataelement() + ")\n" + ex.toString());
+					}
 				}
 			}
 

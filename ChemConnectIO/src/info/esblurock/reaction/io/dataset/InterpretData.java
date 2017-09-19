@@ -23,8 +23,8 @@ import info.esblurock.reaction.chemconnect.core.data.contact.Organization;
 import info.esblurock.reaction.chemconnect.core.data.contact.IndividualInformation;
 import info.esblurock.reaction.chemconnect.core.data.contact.GPSLocation;
 import info.esblurock.reaction.chemconnect.core.data.dataset.Consortium;
+import info.esblurock.reaction.chemconnect.core.data.login.UserAccountInformation;
 import info.esblurock.reaction.chemconnect.core.data.login.UserAccount;
-
 public enum InterpretData {
 
 	DatabaseObject {
@@ -447,21 +447,23 @@ public enum InterpretData {
 			return map;
 		}
 		
-	}, UserAccount {
+	}, UserAccountInformation {
 		@Override
 		public DatabaseObject fillFromYamlString(
 				DatabaseObject top, Map<String, Object> yaml,
 				String sourceID) throws IOException {
-			UserAccount account = null;
+			UserAccountInformation account = null;
 			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
 			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);
 
+			
+			
 			String contactInfoDataID = (String) yaml.get(StandardDatasetMetaData.contactInfoDataID);
 			String password = (String) yaml.get(StandardDatasetMetaData.password);
 			String userrole = (String) yaml.get(StandardDatasetMetaData.userrole);
 			String emailS = (String) yaml.get(StandardDatasetMetaData.emailKeyS);
 
-			account = new UserAccount(objdata.getIdentifier(), objdata.getAccess(), objdata.getOwner(),
+			account = new UserAccountInformation(objdata.getIdentifier(), objdata.getAccess(), objdata.getOwner(),
 					sourceID,
 					contactInfoDataID,
 					password,userrole,emailS);
@@ -474,12 +476,44 @@ public enum InterpretData {
 			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
-			UserAccount account = (UserAccount) object;
+			UserAccountInformation account = (UserAccountInformation) object;
 			
 			map.put(StandardDatasetMetaData.contactInfoDataID,  account.getContactInfoDataID());
 			map.put(StandardDatasetMetaData.password, account.getPassword()) ;
 			map.put(StandardDatasetMetaData.userrole,  account.getUserrole());
 			map.put(StandardDatasetMetaData.emailKeyS, account.getEmail());
+			
+			return map;
+		}
+		
+	}, UserAccount {
+		@Override
+		public DatabaseObject fillFromYamlString(
+				DatabaseObject top, Map<String, Object> yaml,
+				String sourceID) throws IOException {
+			UserAccount account = null;
+			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
+			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);
+
+			String DatabaseUserID = (String) yaml.get(StandardDatasetMetaData.DatabaseUserID);
+			String UserAccountInformationID = (String) yaml.get(StandardDatasetMetaData.UserAccountInformationID);
+
+			account = new UserAccount(objdata.getIdentifier(), objdata.getAccess(), objdata.getOwner(),
+					sourceID,
+					DatabaseUserID,UserAccountInformationID);
+			return account;
+		}
+
+		@Override
+		public Map<String, Object> createYamlFromObject(
+				DatabaseObject object) throws IOException {
+			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
+			Map<String, Object> map = interpret.createYamlFromObject(object);
+
+			UserAccount account = (UserAccount) object;
+			
+			map.put(StandardDatasetMetaData.DatabaseUserID,  account.getDatabaseUserID());
+			map.put(StandardDatasetMetaData.UserAccountInformationID, account.getUserAccountInformationID()) ;
 			
 			return map;
 		}
@@ -544,10 +578,12 @@ public enum InterpretData {
 	public abstract Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException;
 
 	public HashSet<String> parseKeywords(String keywordset) {
-		StringTokenizer tok = new StringTokenizer(keywordset, ",");
 		HashSet<String> keywords = new HashSet<String>();
+		if(keywordset != null) {
+		StringTokenizer tok = new StringTokenizer(keywordset, ",");
 		while (tok.hasMoreTokens()) {
 			keywords.add(tok.nextToken().trim());
+		}
 		}
 		return keywords;
 	}

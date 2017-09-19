@@ -8,7 +8,7 @@ import info.esblurock.reaction.chemconnect.core.data.contact.IndividualInformati
 import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
 import info.esblurock.reaction.chemconnect.core.data.contact.PersonalDescription;
 import info.esblurock.reaction.chemconnect.core.data.description.DescriptionDataData;
-import info.esblurock.reaction.chemconnect.core.data.login.UserAccount;
+import info.esblurock.reaction.chemconnect.core.data.login.UserAccountInformation;
 import info.esblurock.reaction.chemconnect.core.data.transaction.TransactionInfo;
 
 import java.util.List;
@@ -48,7 +48,7 @@ public class DatabaseWriteBase {
 
 		
 		String sourceID = QueryBase.getDataSourceIdentification(username);
-		UserAccount account = new UserAccount(username,username,username,sourceID,
+		UserAccountInformation account = new UserAccountInformation(username,username,username,sourceID,
 				null,password,userrole,email);
 		DatabaseWriteBase.writeDatabaseObject(account);
 

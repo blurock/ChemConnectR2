@@ -26,12 +26,12 @@ public class InitializeDatabaseObjectImpl {
 			System.out.println("Initializing users: " + userInitialization);
 			base.readInitializationFile(userInitialization, "yaml");
 		}
-		
+		/*
 		if (!base.alreadyRead(organizationInitialization)) {
 			System.out.println("Initializing organization: " + organizationInitialization);
 			base.readInitializationFile(organizationInitialization, "yaml");
 		}
-		
+		*/
 		/*
 		System.out.println("initializeDatabaseObjects()");
 		if (!base.alreadyRead(isAInitialization)) {

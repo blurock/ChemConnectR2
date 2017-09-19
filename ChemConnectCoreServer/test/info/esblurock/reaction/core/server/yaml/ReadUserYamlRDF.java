@@ -16,6 +16,14 @@ import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.cache.AsyncCacheFilter;
 import com.googlecode.objectify.util.Closeable;
 
+import info.esblurock.reaction.chemconnect.core.data.contact.RegisterContactData;
+import info.esblurock.reaction.chemconnect.core.data.dataset.RegistrerDataset;
+import info.esblurock.reaction.chemconnect.core.data.description.RegisterDescriptionData;
+import info.esblurock.reaction.chemconnect.core.data.initialization.RegisterInitializationData;
+import info.esblurock.reaction.chemconnect.core.data.login.RegisterUserLoginData;
+import info.esblurock.reaction.chemconnect.core.data.rdf.RegisterRDFData;
+import info.esblurock.reaction.chemconnect.core.data.transaction.RegisterTransactionData;
+
 public class ReadUserYamlRDF {
 	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 	protected Closeable session;
@@ -29,6 +37,14 @@ public class ReadUserYamlRDF {
 	@Before
 	public void setUp() {
 		this.session = ObjectifyService.begin();
+		RegisterContactData.register();
+		RegisterDescriptionData.register();
+		RegisterInitializationData.register();
+		RegisterRDFData.register();
+		RegisterTransactionData.register();
+		RegistrerDataset.register();
+		RegisterUserLoginData.register();
+
 		helper.setUp();
 	}
 

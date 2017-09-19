@@ -1,4 +1,53 @@
 interpreter: info.esblurock.reaction.core.server.initialization.InitializeCatalogDataStructuresYaml
+ChemConnectConsortium:
+        dataset:ChemConnectDataStructure: dataset:Consortium
+        dc:identifier: ChemConnectConsortium
+        dcterms:publisher: Admnistration
+        dataset:accessibility: Administration
+        dataset:userReadAccess: edwardblurock,ned,blurock
+        dataset:userWriteAccess: edwardblurock,blurock
+        dataset:DataSetCatalogID:
+        dataset:OrganizationID:
+        dc:description:
+            dcat:dataset: none
+            dcterms:created: 20170905
+            dcterms:type: Consortium
+            dcterms:title: Main ChemConnect Consortium
+            dcat:keyword: developer, kinetics, combustion, chemistry
+            dcterms:description: The administrative consortium of ChemConnect and public data
+Administration:
+        dataset:ChemConnectDataStructure: dataset:UserAccount
+        dc:identifier: Administration
+        dcterms:publisher: Admnistration
+        dataset:accessibility: Administration
+        dataset:DatabaseUserID: Administration
+        dataset:UserAccountInformation:
+            dataset:password: laguna
+            foaf:UserAccountRole: SuperUser
+            dataset:ContactInfoDataID: edwardblurock
+            vcard:email: edward.blurock@esblurock.info
+blurock:
+        dataset:ChemConnectDataStructure: dataset:UserAccount
+        dc:identifier: blurock
+        dcterms:publisher: Admnistration
+        dataset:accessibility: edwardblurock
+        dataset:DatabaseUserID: blurock
+        dataset:UserAccountInformation:
+             dataset:password: laguna
+             foaf:UserAccountRole: SuperUser
+             dataset:ContactInfoDataID: edwardblurock
+             vcard:email: edward.blurock@esblurock.info
+ned:
+        dataset:ChemConnectDataStructure: dataset:UserAccount
+        dc:identifier: ned
+        dcterms:publisher: Admnistration
+        dataset:accessibility: edwardblurock
+        dataset:DatabaseUserID: blurock
+        dataset:UserAccountInformation:
+             dataset:password: laguna
+             foaf:UserAccountRole: Standard
+             dataset:ContactInfoDataID: edwardblurock
+             vcard:email: edward.blurock@esblurock.info
 edwardblurock:
         dataset:ChemConnectDataStructure: dataset:DatabaseUser
         dc:identifier: edwardblurock
@@ -32,28 +81,4 @@ edwardblurock:
             vcard:email: edward.blurock@esblurock.info
             foaf:homepage: http://www.chemicalkinetics.info
             foaf:workInfoHomepage: http://www.esblurock.info
-Administration:
-        dataset:ChemConnectDataStructure: dataset:UserAccount
-        dc:identifier: Administration
-        dcterms:publisher: Admnistration
-        dataset:accessibility: Administration
-        dataset:password: laguna
-        foaf:UserAccountRole: SuperUser
-        dataset:ContactInfoDataID: edwardblurock
-blurock:
-        dataset:ChemConnectDataStructure: dataset:UserAccount
-        dc:identifier: blurock
-        dcterms:publisher: Admnistration
-        dataset:accessibility: edwardblurock
-        dataset:password: laguna
-        foaf:UserAccountRole: SuperUser
-        dataset:ContactInfoDataID: edwardblurock
-ned:
-        dataset:ChemConnectDataStructure: dataset:UserAccount
-        dc:identifier: ned
-        dcterms:publisher: Admnistration
-        dataset:accessibility: edwardblurock
-        dataset:password: laguna
-        foaf:UserAccountRole: Standard
-        dataset:ContactInfoDataID: edwardblurock
-        
+     

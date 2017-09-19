@@ -1007,16 +1007,16 @@ xsd:date rdf:type rdfs:Datatype .
 :Consortium rdf:type owl:Class ;
             rdfs:subClassOf :ChemConnectDataStructure ,
                             [ rdf:type owl:Restriction ;
-                              owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                              owl:someValuesFrom :DatabaseUserIDWriteAccess
-                            ] ,
-                            [ rdf:type owl:Restriction ;
                               owl:onProperty <http://www.w3.org/ns/org#linkedTo> ;
                               owl:someValuesFrom :DataSetCatalogID
                             ] ,
                             [ rdf:type owl:Restriction ;
                               owl:onProperty <http://www.w3.org/ns/org#linkedTo> ;
                               owl:someValuesFrom :DatabaseUserIDReadAccess
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty <http://www.w3.org/ns/org#linkedTo> ;
+                              owl:someValuesFrom :DatabaseUserIDWriteAccess
                             ] ,
                             [ rdf:type owl:Restriction ;
                               owl:onProperty <http://www.w3.org/ns/org#linkedTo> ;
@@ -1481,6 +1481,16 @@ xsd:date rdf:type rdfs:Datatype .
                                 owl:onClass :OrganizationDescriptionID
                               ] .
 
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :Organization ;
+   owl:annotatedProperty rdfs:subClassOf ;
+   owl:annotatedTarget [ rdf:type owl:Restriction ;
+                         owl:onProperty <http://www.w3.org/ns/org#linkedTo> ;
+                         owl:someValuesFrom :DatabaseUserID
+                       ] ;
+   rdfs:comment "This links the organization to a user"
+ ] .
+
 
 ###  http://www.esblurock.info/dataset#OrganizationClassification
 :OrganizationClassification rdf:type owl:Class ;
@@ -1636,20 +1646,46 @@ xsd:date rdf:type rdfs:Datatype .
              rdfs:subClassOf :ChemConnectDataStructure ,
                              [ rdf:type owl:Restriction ;
                                owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                               owl:someValuesFrom :ContactEmail
+                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                               owl:onClass :UserAccountInformationID
                              ] ,
                              [ rdf:type owl:Restriction ;
-                               owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                               owl:someValuesFrom :Password
-                             ] ,
-                             [ rdf:type owl:Restriction ;
-                               owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                               owl:someValuesFrom :UserAccountRole
-                             ] ,
-                             [ rdf:type owl:Restriction ;
-                               owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                               owl:someValuesFrom :username
-                             ] .
+                               owl:onProperty <http://www.w3.org/ns/org#linkedTo> ;
+                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                               owl:onClass :DatabaseUserID
+                             ] ;
+             <http://purl.org/dc/terms/identifier> "dataset:UserAccount"^^xsd:string ;
+             <http://purl.org/dc/terms/type> "UserAccount"^^xsd:string ;
+             rdfs:label "User Account"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#UserAccountInformation
+:UserAccountInformation rdf:type owl:Class ;
+                        rdfs:subClassOf :ChemConnectCompoundDataStructure ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                          owl:someValuesFrom :ContactEmail
+                                        ] ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                          owl:someValuesFrom :Password
+                                        ] ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                          owl:someValuesFrom :UserAccountRole
+                                        ] ;
+                        <http://purl.org/dc/terms/identifier> "dataset:UserAccountInformation"^^xsd:string ;
+                        <http://purl.org/dc/terms/type> "UserAccountInformation"^^xsd:string ;
+                        rdfs:comment "This is the user account information"^^xsd:string ;
+                        rdfs:isDefinedBy <http://xmlns.com/foaf/0.1/OnlineAccount> .
+
+
+###  http://www.esblurock.info/dataset#UserAccountInformationID
+:UserAccountInformationID rdf:type owl:Class ;
+                          rdfs:subClassOf :Identifier ;
+                          <http://purl.org/dc/terms/identifier> "dataset:UserAccountInformationID"^^xsd:string ;
+                          <http://purl.org/dc/terms/references> :UserAccountInformation ;
+                          rdfs:comment "pointer to UserAccountInformation (ChemConnectPrimitiveDataStructure)"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#UserAccountRole

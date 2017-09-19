@@ -69,11 +69,15 @@ public class StandardDatasetMetaData {
 	public static String descriptionDataDataID = "dataset:DescriptionDataDataID";
 	public static String organizationDescriptionID = "dataset:OrganizationDescriptionID";
 	
+	public static String DatabaseUserID = "dataset:DatabaseUserID";
 	public static String DatabaseUserIDReadAccess = "dataset:userReadAccess";
 	public static String DatabaseUserIDWriteAccess = "dataset:userWriteAccess";
 	public static String DataSetCatalogID = "dataset:DataSetCatalogID";
 	public static String OrganizationID = "dataset:OrganizationID";
 	public static String DescriptionID = "dataset:DescriptionDataDataID";
 
+	public static String UserAccountInformationID = "dataset:UserAccountInformationID";
+	
+	
 
 }

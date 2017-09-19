@@ -27,7 +27,14 @@ public class WriteDatabaseObjectRDF {
 					.getSubElementStructureFromIDObject(info.getDataElementName());
 			String value = (String) map.get(info.getIdentifier());
 			if (info.isID()) {
-				store.storeStringTypeInfoRDF(info.getIdentifier(), value, info.getDataElementName());
+				if(info.isSinglet()) {
+					store.storeStringTypeInfoRDF(info.getIdentifier(), value, info.getDataElementName());
+				} else {
+					HashSet<String> keywords = interpret.parseKeywords(value);
+					for (String name : keywords) {
+						store.storeStringTypeInfoRDF(info.getIdentifier(), name, info.getDataElementName());
+					}
+				}
 				
 			} else if (info.isKeywords()) {
 				HashSet<String> keywords = interpret.parseKeywords(value);

@@ -45,7 +45,12 @@ public class DatasetOntologyParsing {
 		String query = "SELECT ?identifier ?datatype\n" 
 				+ "	WHERE {\n" 
 				+ id + " <http://purl.org/dc/terms/identifier> ?identifier .\n" + id
-				+ " <http://purl.org/dc/terms/type>  ?datatype\n" 
+				+ " <http://purl.org/dc/terms/type>  ?datatype .\n" + 
+				"	{  " + id + " <http://purl.org/dc/terms/type>  ?datatype } \n" + 
+				"UNION\n" + 
+				"	{ " + id + " rdfs:subClassOf ?subclass .\n" + 
+				"	   ?subclass <http://purl.org/dc/terms/type>  ?datatype\n" + 
+				"	}"
 				+ "  }";
 		ClassificationInformation classification = null;
 		

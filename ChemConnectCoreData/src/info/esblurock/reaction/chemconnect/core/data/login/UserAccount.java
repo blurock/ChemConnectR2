@@ -5,49 +5,45 @@ import com.googlecode.objectify.annotation.Index;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 
-@SuppressWarnings("serial")
 @Entity
-public class UserAccount  extends DatabaseObject {
-	
+@SuppressWarnings("serial")
+public class UserAccount extends DatabaseObject {
+
 	@Index
-	String contactInfoDataID;
-    @Index
-    String password;
-    @Index
-    String userrole;
-    @Index
-    String email;
-    
+	String DatabaseUserID;
+	@Index
+	String UserAccountInformationID;
+	
 	public UserAccount() {
-		super();
+		DatabaseUserID = "";
+		UserAccountInformationID = "";
 	}
+	
 	public UserAccount(String identifier, String sourceID) {
-		super(identifier, sourceID);
-		this.contactInfoDataID = "";
-		this.password = "";
-		this.userrole = "";
-		this.email = "";
+		super(identifier,sourceID);
+		DatabaseUserID = "";
+		UserAccountInformationID = "";
 	}
+	
 	public UserAccount(String identifier, String access, String owner, String sourceID,
-			String contactInfoDataID, String password, String userrole, String emailS) {
-		super(identifier, access, owner,sourceID);
-		this.contactInfoDataID = contactInfoDataID;
-		this.password = password;
-		this.userrole = userrole;
-		this.email = emailS;
+			String databaseUserID, String userAccountInformationID) {
+		fill(identifier, access, owner,sourceID,databaseUserID,userAccountInformationID);
 	}
-	public String getPassword() {
-		return password;
+	
+	public void fill(String identifier, String access, String owner, String sourceID,
+			String databaseUserID, String userAccountInformationID) {
+		super.fill(identifier, access, owner, sourceID);
+		DatabaseUserID = databaseUserID;
+		UserAccountInformationID = userAccountInformationID;		
 	}
-	public String getUserrole() {
-		return userrole;
+	
+	public String getDatabaseUserID() {
+		return DatabaseUserID;
 	}
-	public String getEmail() {
-		return email;
+	public String getUserAccountInformationID() {
+		return UserAccountInformationID;
 	}
-	public String getContactInfoDataID() {
-		return contactInfoDataID;
-	}
-    
-    
+	
+	
+	
 }

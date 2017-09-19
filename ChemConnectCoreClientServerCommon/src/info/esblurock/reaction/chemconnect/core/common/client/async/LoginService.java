@@ -6,7 +6,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
-import info.esblurock.reaction.chemconnect.core.data.login.UserAccount;
+import info.esblurock.reaction.chemconnect.core.data.login.UserAccountInformation;
 import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
 
 
@@ -37,11 +37,11 @@ public interface LoginService extends RemoteService {
 
    public void logout();
    
-   public String storeUserAccount(UserAccount account);
+   public String storeUserAccount(UserAccountInformation account);
 
    public String removeUser(String key);
    
-   public UserAccount getAccount(String key);
+   public UserAccountInformation getAccount(String key);
 
 String loginVerification(String username, String key) throws IOException;
 

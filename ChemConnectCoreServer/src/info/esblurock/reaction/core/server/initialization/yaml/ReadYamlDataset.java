@@ -96,53 +96,48 @@ public class ReadYamlDataset {
 		DataElementInformation dataelement = new DataElementInformation(name, null,true, 0, null, null);
 			
 		ClassificationInformation classify = DatasetOntologyParsing.getIdentificationInformation(top, dataelement);
-		System.out.println("----->  findListOfElementInformation: name=" + name);
-		System.out.println("----->  findListOfElementInformation: classify=" + classify);
 		
 		List<DataElementInformation> substructures = DatasetOntologyParsing.getSubElementsOfStructure(name);
+		/*
 		System.out.println("===================================================: " +  substructures.size());
 		for (DataElementInformation element : substructures) {
 			System.out.println("Before:   " + element.toString());
 		}
 		System.out.println("===================================================: " +  substructures.size());
-		
+		*/
 		
 		substructures = replaceID(substructures,structuremap);
+		/*
 		System.out.println("===================================================: " +  substructures.size());
 		for (DataElementInformation element : substructures) {
 			System.out.println("After:   " + element.toString());
 		}
 		System.out.println("===================================================: " +  substructures.size());
-
+		 */
 		DatabaseObject obj = null;
 		if (structuremap != null) {
-			System.out.println("findListOfElementInformation: classify=" +  classify);
 			InterpretData interpretorg = InterpretData.valueOf(classify.getDataType());
 			obj = interpretorg.fillFromYamlString(top, structuremap,sourceID);
 		}
 		YamlDatasetInformation yamlorg = new YamlDatasetInformation(name, obj, classify, null);
 		elements.add(yamlorg);
 
-		System.out.println("===================================================: " +  substructures.size());
-		System.out.println("Keys: " + structuremap.keySet());
 		for (DataElementInformation element : substructures) {
+			/*
 			System.out.println("findListOfElementInformation:" 
 					+ element.getChemconnectStructure().compareTo("ID") + "  Element="
 					+  element);
+					*/
 			if (element.getChemconnectStructure().compareTo("ID") != 0) {
 				ClassificationInformation classification = DatasetOntologyParsing.getIdentificationInformation(top,
 						element);
 				YamlDatasetInformation dataset = findDatasetInformation(classification, structuremap,sourceID);
 				findIDStructures(top, dataset, elements, structuremap,sourceID);
-				System.out.println("------------------");
-				System.out.println(dataset.toString());
-				System.out.println("------------------");
 				elements.add(dataset);
 			} else {
 
 			}
 		}
-		System.out.println("Elements: " + elements.size());
 		return elements;
 	}
 
@@ -202,10 +197,8 @@ public class ReadYamlDataset {
 		DataElementInformation info = null;
 		for (DataElementInformation element : substructures) {
 			if (element.getChemconnectStructure().compareTo("ID") == 0) {
-				System.out.println("replaceID: " + element);
 				info = DatasetOntologyParsing.getSubElementStructureFromIDObject(element.getDataElementName());
 				if (info != null) {
-					System.out.println("replaceID: " + info);
 					info.setLink(element.getLink());
 					if (structuremap != null) {
 						String id = identifierFromID(structuremap, info.getIdentifier());
@@ -304,7 +297,6 @@ public class ReadYamlDataset {
 	public static YamlDatasetInformation findDatasetInformation(ClassificationInformation classification,
 			Map<String, Object> structuremap,String sourceID) throws IOException {
 		DatabaseObject subobj = null;
-		System.out.println("findDatasetInformation: " + classification);
 		if (structuremap != null) {
 			@SuppressWarnings("unchecked")
 			Map<String, Object> substructuremap = (Map<String, Object>) structuremap

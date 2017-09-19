@@ -26,8 +26,8 @@ public class ReadDatasetYaml {
 			System.out.println("\n-----------------readYaml");
 			ArrayList<ListOfElementInformation> results;
 			results = ReadYamlDataset.readYaml(in,sourceID);
-			System.out.println("=============================================: " + results.size());
 			for (ListOfElementInformation info : results) {
+				System.out.println("=============================================: " + results.size());
 				System.out.println(info.toString() + "\n");
 				System.out.println("Size: " + info.size());
 				for (YamlDatasetInformation element : info) {

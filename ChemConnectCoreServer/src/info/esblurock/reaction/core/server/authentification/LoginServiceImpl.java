@@ -10,7 +10,7 @@ import java.util.List;
 import info.esblurock.reaction.chemconnect.core.common.client.async.LoginService;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.login.UnverifiedUserAccount;
-import info.esblurock.reaction.chemconnect.core.data.login.UserAccount;
+import info.esblurock.reaction.chemconnect.core.data.login.UserAccountInformation;
 import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
 import info.esblurock.reaction.chemconnect.core.data.transaction.EventCount;
 import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
@@ -47,7 +47,7 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 		} else {
 			System.out.println("Login: Normal user: " + name);
 			
-			UserAccount account = getAccount(name);
+			UserAccountInformation account = getAccount(name);
 			if (account != null) {
 				passwd = account.getPassword();
 				lvl = account.getUserrole();
@@ -154,8 +154,8 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 		// change password logic
 	}
 
-	public String storeUserAccount(UserAccount account)  {
-		UserAccount userexists = getAccount(account.getIdentifier());
+	public String storeUserAccount(UserAccountInformation account)  {
+		UserAccountInformation userexists = getAccount(account.getIdentifier());
 		String useremail = null;
 		if (userexists == null) {
 			userexists = getAccountFromEmail(account.getEmail());
@@ -207,12 +207,12 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 		return useremail;
 	}
 
-	public UserAccount getAccount(String username) {
-		UserAccount account = null;
+	public UserAccountInformation getAccount(String username) {
+		UserAccountInformation account = null;
 		
 		try {
-			account = (UserAccount) 
-					QueryBase.getFirstDatabaseObjectsFromSingleProperty(UserAccount.class.getCanonicalName(), 
+			account = (UserAccountInformation) 
+					QueryBase.getFirstDatabaseObjectsFromSingleProperty(UserAccountInformation.class.getCanonicalName(), 
 							"username", username);
 		} catch (IOException e) {
 		}
@@ -223,12 +223,12 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 	 * @param email
 	 * @return the user account
 	 */
-	public UserAccount getAccountFromEmail(String email) {
-		UserAccount account = null;
+	public UserAccountInformation getAccountFromEmail(String email) {
+		UserAccountInformation account = null;
 		
 		try {
-			account = (UserAccount) 
-					QueryBase.getFirstDatabaseObjectsFromSingleProperty(UserAccount.class.getCanonicalName(), 
+			account = (UserAccountInformation) 
+					QueryBase.getFirstDatabaseObjectsFromSingleProperty(UserAccountInformation.class.getCanonicalName(), 
 							"email", email);
 		} catch (IOException e) {
 		}
@@ -241,7 +241,7 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 	 * @return 
 	 */
 	public String removeUser(String username) {
-		QueryBase.deleteUsingPropertyValue(UserAccount.class, "username", username);
+		QueryBase.deleteUsingPropertyValue(UserAccountInformation.class, "username", username);
 		String ans = "SUCCESS";
 		return ans;
 	}
