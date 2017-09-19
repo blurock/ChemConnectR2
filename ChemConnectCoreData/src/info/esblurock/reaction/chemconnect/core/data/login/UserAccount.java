@@ -9,8 +9,8 @@ import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 @Entity
 public class UserAccount  extends DatabaseObject {
 	
-    @Index
-    String username;
+	@Index
+	String contactInfoDataID;
     @Index
     String password;
     @Index
@@ -21,15 +21,20 @@ public class UserAccount  extends DatabaseObject {
 	public UserAccount() {
 		super();
 	}
-	public UserAccount(String username, String password, String userrole, String emailS) {
-		super();
-		this.username = username;
+	public UserAccount(String identifier, String sourceID) {
+		super(identifier, sourceID);
+		this.contactInfoDataID = "";
+		this.password = "";
+		this.userrole = "";
+		this.email = "";
+	}
+	public UserAccount(String identifier, String access, String owner, String sourceID,
+			String contactInfoDataID, String password, String userrole, String emailS) {
+		super(identifier, access, owner,sourceID);
+		this.contactInfoDataID = contactInfoDataID;
 		this.password = password;
 		this.userrole = userrole;
 		this.email = emailS;
-	}
-	public String getUsername() {
-		return username;
 	}
 	public String getPassword() {
 		return password;
@@ -39,6 +44,9 @@ public class UserAccount  extends DatabaseObject {
 	}
 	public String getEmail() {
 		return email;
+	}
+	public String getContactInfoDataID() {
+		return contactInfoDataID;
 	}
     
     

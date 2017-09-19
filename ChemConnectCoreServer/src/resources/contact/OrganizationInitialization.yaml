@@ -7,7 +7,7 @@ blurockconsultingab:
         dataset:DatabaseUserID: edwardblurock
         org:Organization:
             org:FormalOrganization: Blurock Consulting AB
-            org:OrganizationalUnit: Blurock
+            org:OrganizationalUnit: Database Development
             org:unitOf: ChemConnect
             org:role: SME
         dc:description:

@@ -14,9 +14,24 @@ public class GPSLocation extends DatabaseObject {
 	@Index
 	String GPSLongitude;
 	
+	public GPSLocation() {
+		this.GPSLatitude = "";
+		this.GPSLongitude = "";		
+	}
+	public GPSLocation(String identifier, String sourceID) {
+		super(identifier,sourceID);
+		this.GPSLatitude = "";
+		this.GPSLongitude = "";		
+	}
+	
 	public GPSLocation(String identifier, String access, String owner, String sourceID,
 			String GPSLatitude, String GPSLongitude) {
-		super(identifier, access, owner,sourceID);
+		fill(identifier, access, owner,sourceID,GPSLatitude,GPSLongitude);
+	}
+	
+	public void fill(String identifier, String access, String owner, String sourceID,
+			String GPSLatitude, String GPSLongitude) {
+		super.fill(identifier, access, owner,sourceID);
 		this.GPSLatitude = GPSLatitude;
 		this.GPSLongitude = GPSLongitude;
 	}

@@ -52,6 +52,12 @@ public class DatabaseObject  implements Serializable {
 		creationDate = new Date();
 	}
 
+	public void fill(String id, String access, String owner,String sourceID) {
+		this.identifier = id;
+		this.access = access;
+		this.owner = owner;
+		creationDate = new Date();
+	}
 	/** Database object with access and owner
 	 * @param access Access keyword (username, group or 'Public')
 	 * @param owner The owner username who created the data

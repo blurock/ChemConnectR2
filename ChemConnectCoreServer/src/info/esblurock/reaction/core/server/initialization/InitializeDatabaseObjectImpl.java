@@ -23,12 +23,12 @@ public class InitializeDatabaseObjectImpl {
 		
 		DatabaseInitializeBase base = new DatabaseInitializeBase();
 		if (!base.alreadyRead(userInitialization)) {
-			System.out.println("Initializing contact: " + userInitialization);
+			System.out.println("Initializing users: " + userInitialization);
 			base.readInitializationFile(userInitialization, "yaml");
 		}
 		
 		if (!base.alreadyRead(organizationInitialization)) {
-			System.out.println("Initializing contact: " + organizationInitialization);
+			System.out.println("Initializing organization: " + organizationInitialization);
 			base.readInitializationFile(organizationInitialization, "yaml");
 		}
 		

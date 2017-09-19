@@ -21,6 +21,22 @@ public class Organization extends DatabaseObject {
 	@Index
 	String organizationDescriptionID;
 
+	public Organization() {
+		super();
+		this.contactInfoDataID = "";
+		this.contactLocationInformationID = "";
+		this.descriptionDataDataID = "";
+		this.organizationDescriptionID = "";
+	}
+	
+	public Organization(String identifier, String sourceID) {
+		super(identifier,sourceID);
+		this.contactInfoDataID = "";
+		this.contactLocationInformationID = "";
+		this.descriptionDataDataID = "";
+		this.organizationDescriptionID = "";
+	}
+	
 	public Organization(String identifier, String access, String owner, String sourceID,
 			String descriptionDataDataID, String contactInfoDataID, 
 			String contactLocationInformationID, String organizationDescriptionID) {

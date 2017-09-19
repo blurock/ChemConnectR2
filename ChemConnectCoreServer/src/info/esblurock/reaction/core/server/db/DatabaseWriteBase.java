@@ -1,6 +1,14 @@
 package info.esblurock.reaction.core.server.db;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.contact.ContactInfoData;
+import info.esblurock.reaction.chemconnect.core.data.contact.ContactLocationInformation;
+import info.esblurock.reaction.chemconnect.core.data.contact.GPSLocation;
+import info.esblurock.reaction.chemconnect.core.data.contact.IndividualInformation;
+import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
+import info.esblurock.reaction.chemconnect.core.data.contact.PersonalDescription;
+import info.esblurock.reaction.chemconnect.core.data.description.DescriptionDataData;
+import info.esblurock.reaction.chemconnect.core.data.login.UserAccount;
 import info.esblurock.reaction.chemconnect.core.data.transaction.TransactionInfo;
 
 import java.util.List;
@@ -35,5 +43,35 @@ public class DatabaseWriteBase {
 		writeDatabaseObject(object);
 		transaction.setStoredObjectKey(object.getKey());
 		writeDatabaseObject(transaction);
+	}
+	static public void initializeIndividualInformation(String username, String password, String email, String userrole) {
+
+		
+		String sourceID = QueryBase.getDataSourceIdentification(username);
+		UserAccount account = new UserAccount(username,username,username,sourceID,
+				null,password,userrole,email);
+		DatabaseWriteBase.writeDatabaseObject(account);
+
+		GPSLocation gps = new GPSLocation(username,sourceID);
+		ContactLocationInformation location = new ContactLocationInformation(username,sourceID,gps.getIdentifier());
+
+		ContactInfoData contactinfo = new ContactInfoData(username,sourceID);
+		DescriptionDataData data = new DescriptionDataData(username,sourceID);
+
+		NameOfPerson name = new NameOfPerson(username,sourceID);
+		PersonalDescription personal = new PersonalDescription(username,username,username,sourceID,userrole,name);
+
+		IndividualInformation individual = new IndividualInformation(username,username,username,sourceID,
+				data.getIdentifier(),
+				contactinfo.getIdentifier(), location.getIdentifier(),
+				personal.getIdentifier(), "");
+		
+		DatabaseWriteBase.writeDatabaseObject(gps);
+		DatabaseWriteBase.writeDatabaseObject(name);
+		DatabaseWriteBase.writeDatabaseObject(contactinfo);
+		DatabaseWriteBase.writeDatabaseObject(location);
+		DatabaseWriteBase.writeDatabaseObject(data);
+		DatabaseWriteBase.writeDatabaseObject(personal);
+		DatabaseWriteBase.writeDatabaseObject(individual);
 	}
 }

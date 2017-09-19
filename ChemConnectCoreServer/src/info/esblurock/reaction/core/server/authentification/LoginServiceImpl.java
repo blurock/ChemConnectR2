@@ -107,10 +107,7 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 			String password = unverified.getPassword();
 			//Date creation = unverified.getCreationDate();
 			String userrole = "StandardUser";
-			
-			UserAccount account = new UserAccount(username,password,userrole,email);
-			DatabaseWriteBase.writeDatabaseObject(account);
-
+			DatabaseWriteBase.initializeIndividualInformation(username, password, email, userrole);
 			String subject = "Welcome to MolConnect";
 			String msg = "Your account has been verified<br>"
 					+ "This account is under a limited usage agreement <br>"
@@ -158,14 +155,14 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 	}
 
 	public String storeUserAccount(UserAccount account)  {
-		UserAccount userexists = getAccount(account.getUsername());
+		UserAccount userexists = getAccount(account.getIdentifier());
 		String useremail = null;
 		if (userexists == null) {
 			userexists = getAccountFromEmail(account.getEmail());
 			if (userexists == null) {
 
 				UnverifiedUserAccount unverified = 
-						new UnverifiedUserAccount(account.getUsername(), 
+						new UnverifiedUserAccount(account.getIdentifier(), 
 								account.getPassword(),
 								account.getEmail());
 				DatabaseWriteBase.writeDatabaseObject(unverified);
@@ -180,7 +177,7 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 				try {
 					String keyS = Long.toString(unverified.getKey());
 					id = "id=" + URLEncoder.encode(keyS,charset);
-					String name = "name=" + URLEncoder.encode(account.getUsername(),charset);
+					String name = "name=" + URLEncoder.encode(account.getIdentifier(),charset);
 					String vlink = host + webappS + "?" + id +"&" + name + "#" + page;
 					
 					String message = "Thank you for registering for an account in MolConnect. "
@@ -198,7 +195,7 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 					e.printStackTrace();
 				}
 				//pm.makePersistent(account);
-				EventCount count = new EventCount(account.getUsername());
+				EventCount count = new EventCount(account.getIdentifier());
 				DatabaseWriteBase.writeEntity(count);
 				useremail = account.getEmail();
 			} else {

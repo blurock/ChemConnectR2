@@ -23,18 +23,43 @@ public class IndividualInformation extends DatabaseObject {
 	@Index
 	String organizationID;
 
+	public IndividualInformation() {
+		this.contactInfoDataID = "";
+		this.contactLocationInformationID = "";
+		this.descriptionDataDataID = "";
+		this.personalDescriptionID = "";
+		this.organizationID = "";		
+	}
+	public IndividualInformation(String identifier, String sourceID) {
+		super(identifier,sourceID);
+		this.contactInfoDataID = "";
+		this.contactLocationInformationID = "";
+		this.descriptionDataDataID = "";
+		this.personalDescriptionID = "";
+		this.organizationID = "";		
+	}
+	
 	public IndividualInformation(String identifier, String access, String owner, String sourceID,
 			String descriptionDataDataID,
 			String contactInfoDataID, String contactLocationInformationID,
 			String personalDescriptionID, String organizationID) {
-		super(identifier, access, owner,sourceID);
+		fill(identifier, access, owner,sourceID,
+				contactInfoDataID,contactLocationInformationID,descriptionDataDataID,
+				personalDescriptionID,organizationID);
+	}
+
+	public void fill(String identifier, String access, String owner, String sourceID,
+			String descriptionDataDataID,
+			String contactInfoDataID, String contactLocationInformationID,
+			String personalDescriptionID, String organizationID) {
+		super.fill(identifier, access, owner,sourceID);
 		this.contactInfoDataID = contactInfoDataID;
 		this.contactLocationInformationID = contactLocationInformationID;
 		this.descriptionDataDataID = descriptionDataDataID;
 		this.personalDescriptionID = personalDescriptionID;
 		this.organizationID = organizationID;
 	}
-
+	
 	public String getContactInfoDataID() {
 		return contactInfoDataID;
 	}

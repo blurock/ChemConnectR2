@@ -32,3 +32,28 @@ edwardblurock:
             vcard:email: edward.blurock@esblurock.info
             foaf:homepage: http://www.chemicalkinetics.info
             foaf:workInfoHomepage: http://www.esblurock.info
+Administration:
+        dataset:ChemConnectDataStructure: dataset:UserAccount
+        dc:identifier: Administration
+        dcterms:publisher: Admnistration
+        dataset:accessibility: Administration
+        dataset:password: laguna
+        foaf:UserAccountRole: SuperUser
+        dataset:ContactInfoDataID: edwardblurock
+blurock:
+        dataset:ChemConnectDataStructure: dataset:UserAccount
+        dc:identifier: blurock
+        dcterms:publisher: Admnistration
+        dataset:accessibility: edwardblurock
+        dataset:password: laguna
+        foaf:UserAccountRole: SuperUser
+        dataset:ContactInfoDataID: edwardblurock
+ned:
+        dataset:ChemConnectDataStructure: dataset:UserAccount
+        dc:identifier: ned
+        dcterms:publisher: Admnistration
+        dataset:accessibility: edwardblurock
+        dataset:password: laguna
+        foaf:UserAccountRole: Standard
+        dataset:ContactInfoDataID: edwardblurock
+        

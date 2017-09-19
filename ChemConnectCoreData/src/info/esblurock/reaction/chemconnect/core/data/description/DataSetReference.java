@@ -31,10 +31,17 @@ public class DataSetReference extends DatabaseObject {
 	HashSet<String> authors;
 	
 	public DataSetReference() {
-		DOI = null;
-		Title = null;
-		ReferenceString = null;
-		this.authors = null;
+		DOI = "";
+		Title = "";
+		ReferenceString = "";
+		this.authors = new HashSet<String>();
+	}
+	public DataSetReference(String identifier, String sourceID) {
+		super(identifier,sourceID);
+		DOI = "";
+		Title = "";
+		ReferenceString = "";
+		this.authors = new HashSet<String>();
 	}
 
 

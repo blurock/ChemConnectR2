@@ -21,9 +21,15 @@ public class ContactInfoData extends DatabaseObject {
 	    
 	    public ContactInfoData() {
 			super();
-			this.email = null;
-			this.topSite = null;
-			this.hasSite = null;
+			this.email = "";
+			this.topSite = new HashSet<String>();
+			this.hasSite = new HashSet<String>();
+		}
+	    public ContactInfoData(String identifier, String sourceID) {
+	    	super(identifier,identifier,identifier,sourceID);
+			this.email = "";
+			this.topSite = new HashSet<String>();
+			this.hasSite = new HashSet<String>();
 		}
 	    
 	    /**
@@ -36,12 +42,18 @@ public class ContactInfoData extends DatabaseObject {
 	     */
 	    public ContactInfoData(String identifier, String owner, String access, String sourceID,
 	    		String email, HashSet<String> topSite, HashSet<String> hasSite) {
-			super(identifier,owner,access,sourceID);
+			fill(identifier,owner,access,sourceID,email,topSite,hasSite);
+		}
+
+	    public void fill(String identifier, String owner, String access, String sourceID,
+	    		String email, HashSet<String> topSite, HashSet<String> hasSite) {
+			super.fill(identifier,owner,access,sourceID);
 			this.email = email;
 			this.topSite = topSite;
 			this.hasSite = hasSite;
 		}
-
+	    
+	    
 		public String getEmail() {
 			return email;
 		}
@@ -52,6 +64,14 @@ public class ContactInfoData extends DatabaseObject {
 
 		public HashSet<String> getHasSite() {
 			return hasSite;
+		}
+
+		public void setTopSite(HashSet<String> topSite) {
+			this.topSite = topSite;
+		}
+
+		public void setHasSite(HashSet<String> hasSite) {
+			this.hasSite = hasSite;
 		}
 	   
 	    

@@ -19,16 +19,28 @@ public class OrganizationDescription extends DatabaseObject {
 	String SubOrganizationOf;
 
 	public OrganizationDescription() {
+		this.OrganizationUnit = "";
+		this.OrganizationClassification = "";
+		this.OrganizationName = "";
+		this.SubOrganizationOf = "";
+	}
+	
+	public OrganizationDescription(String identifier, String sourceID) {
+		super(identifier,sourceID);
+		this.OrganizationUnit = "";
+		this.OrganizationClassification = "";
+		this.OrganizationName = "";
+		this.SubOrganizationOf = "";
 	}
 	
 	public OrganizationDescription(String identifier, String access, String owner, String sourceID,
 			String organizationUnit, String organizationClassification, 
 			String organizationName, String subOrganizationOf) {
 		super(identifier,access,owner,sourceID);
-		OrganizationUnit = organizationUnit;
-		OrganizationClassification = organizationClassification;
-		OrganizationName = organizationName;
-		SubOrganizationOf = subOrganizationOf;
+		this.OrganizationUnit = organizationUnit;
+		this.OrganizationClassification = organizationClassification;
+		this.OrganizationName = organizationName;
+		this.SubOrganizationOf = subOrganizationOf;
 	}
 
 	public String getOrganizationUnit() {

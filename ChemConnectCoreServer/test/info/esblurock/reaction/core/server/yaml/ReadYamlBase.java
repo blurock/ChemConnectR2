@@ -20,6 +20,7 @@ import info.esblurock.reaction.chemconnect.core.data.description.RegisterDescrip
 import info.esblurock.reaction.chemconnect.core.data.initialization.RegisterInitializationData;
 import info.esblurock.reaction.chemconnect.core.data.rdf.KeywordRDF;
 import info.esblurock.reaction.chemconnect.core.data.rdf.RegisterRDFData;
+import info.esblurock.reaction.chemconnect.core.dataset.RegistrerDataset;
 import info.esblurock.reaction.core.server.db.rdf.WriteDatabaseObjectRDF;
 import info.esblurock.reaction.core.server.initialization.yaml.ListOfElementInformation;
 import info.esblurock.reaction.core.server.initialization.yaml.ReadYamlDataset;
@@ -32,6 +33,7 @@ public class ReadYamlBase {
 		RegisterDescriptionData.register();
 		RegisterInitializationData.register();
 		RegisterRDFData.register();
+		RegistrerDataset.register();
 		ObjectifyService.register(DatabaseObject.class);
 		
 		String sourceID = "1";
