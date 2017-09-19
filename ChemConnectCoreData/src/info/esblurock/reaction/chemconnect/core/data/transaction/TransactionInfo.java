@@ -1,8 +1,5 @@
 package info.esblurock.reaction.chemconnect.core.data.transaction;
 
-
-import java.util.Date;
-
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
 
@@ -24,16 +21,8 @@ public class TransactionInfo extends DatabaseObject {
 
 	/** The stored object key. */
 	@Index
-	String storedObjectKey;
+	Long storedObjectKey;
 	    
-    /** The keyword string representing the object being stored. */
-    @Index
-    String keyword;
-    
-    /** The date when the transaction occurred. */
-    @Index
-    Date inputDate;
-    
     /** The transaction object class name (as a string)**/
     @Index
     String transactionObjectType;
@@ -51,12 +40,9 @@ public class TransactionInfo extends DatabaseObject {
 	 * @param keyword the keyword string name of the object being represented in the transaction
 	 * @param transactionObjectType the transaction object classname as String
 	 */
-	public TransactionInfo(String sourceCode, String access, String owner, String sourceID,
-			String keyword,
+	public TransactionInfo(String keyword, String access, String owner, String sourceID,
 			String transactionObjectType) {
-		super(sourceCode,access,owner,sourceID);
-		this.keyword = keyword;
-		this.inputDate = new Date();
+		super(keyword,access,owner,sourceID);
 		this.transactionObjectType = transactionObjectType;
 	}
 	
@@ -70,14 +56,6 @@ public class TransactionInfo extends DatabaseObject {
 	 * @param rdf the rdf
 	 */
 	
-	/**
-	 * Gets the input date.
-	 *
-	 * @return the input date
-	 */
-	public Date getInputDate() {
-		return inputDate;
-	}
 
 	/**
 	 * Gets the transaction object classname.
@@ -93,7 +71,7 @@ public class TransactionInfo extends DatabaseObject {
 	 *
 	 * @return the stored object key
 	 */
-	public String getStoredObjectKey() {
+	public Long getStoredObjectKey() {
 		return storedObjectKey;
 	}
 	
@@ -102,21 +80,7 @@ public class TransactionInfo extends DatabaseObject {
 	 *
 	 * @param storedObjectKey the new stored object key
 	 */
-	public void setStoredObjectKey(String storedObjectKey) {
+	public void setStoredObjectKey(Long storedObjectKey) {
 		this.storedObjectKey = storedObjectKey;
-	}
-	
-	/**
-	 * Gets the keyword string of the object of this transaction.
-	 *
-	 * @return the keyword
-	 */
-	public String getKeyword() {
-		return keyword;
-	}
-	public String errorKeyword(String keyword) {
-		String errkey = "ERROR: " +  keyword;
-		keyword = errkey;
-		return keyword;
 	}
 }

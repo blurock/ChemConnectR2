@@ -60,10 +60,19 @@ public class OntologyBase {
 		 */
 		public static OntModel getDatabaseOntology() {
 			if (datasetmodel == null) {
+				AlternativeEntryWithAppFiles alt = new AlternativeEntryWithAppFiles();
+				datasetmodel = ModelFactory.createOntologyModel();
+				datasetmodel.getDocumentManager().addAltEntry(alt.getVcardURL(), alt.getVcardLocal());
+				datasetmodel.getDocumentManager().addAltEntry(alt.getDCatURL(), alt.getDCatLocal());
+				datasetmodel.getDocumentManager().addAltEntry(alt.getDctermsURL(), alt.getDcTermsLocal());
+				datasetmodel.getDocumentManager().addAltEntry(alt.getDCITypeURL(), alt.getDCITypeLocal());
+				datasetmodel.getDocumentManager().addAltEntry(alt.getProvoURL(), alt.getProvoLocal());
+				datasetmodel.getDocumentManager().addAltEntry(alt.getOrgURL(), alt.getOrgLocal());
+				datasetmodel.getDocumentManager().addAltEntry(alt.getFoafURL(), alt.getFoafLocal());
+				datasetmodel.getDocumentManager().addAltEntry(alt.getSKOSURL(), alt.getSKOSLocal());
 
 				String filename = "/info/esblurock/reaction/ontology/resources/Dataset.ttl";
 				InputStream str = OntologyBase.class.getResourceAsStream(filename);
-				datasetmodel = ModelFactory.createOntologyModel();
 				try {
 					datasetmodel.read(str, "http://esblurock.info", "TURTLE");
 				} catch (Exception ex) {

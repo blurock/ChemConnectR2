@@ -21,9 +21,9 @@ public class DataStructureToDatabase extends DatabaseObject {
 	@Unindex
 	HashSet<String> dataObjects;
 
-	public DataStructureToDatabase(String sourceCode, String access, String owner, String sourceID,
+	public DataStructureToDatabase(String keyword, String access, String owner, String sourceID,
 			String dataStructure, String fileName, HashSet<String> dataObjects) {
-		super(sourceCode,access,owner,sourceID);
+		super(keyword,access,owner,sourceID);
 		this.dataStructure = dataStructure;
 		this.fileName = fileName;
 		this.dataObjects = dataObjects;

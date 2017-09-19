@@ -12,17 +12,19 @@ public class UserDTO implements Serializable {
 	String hostname;
 	String userLevel;
 	ArrayList<String> privledges;
+	int maximumTransactions;
 	
 	
 	public UserDTO() {
 	}
 	
-	public UserDTO(String username,String sessionid,String ip, String host, String userlevel) {
+	public UserDTO(String username,String sessionid,String ip, String host, String userlevel, int maximumTransactions) {
 		userName = username;
 		sessionID = sessionid;
 		IP = ip;
 		hostname = host;
 		userLevel = userlevel;
+		this.maximumTransactions = maximumTransactions;
 	}
 	
 	public boolean getLoggedIn() {
@@ -59,5 +61,8 @@ public class UserDTO implements Serializable {
 	}
 	public void setPrivledges(ArrayList<String> privledges) {
 		this.privledges = privledges;
+	}
+	public boolean underMaximumTransactions(int count) {
+		return count < maximumTransactions;
 	}
 }

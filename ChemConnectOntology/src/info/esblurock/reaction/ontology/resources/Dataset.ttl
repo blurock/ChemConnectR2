@@ -6,7 +6,15 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @base <http://www.esblurock.info/dataset> .
 
-<http://www.esblurock.info/dataset> rdf:type owl:Ontology;
+<http://www.esblurock.info/dataset> rdf:type owl:Ontology ;
+                                     owl:imports <http://www.w3.org/2006/vcard/ns> ,
+                                                 <http://www.w3.org/ns/dcat> ,
+                                                 <http://purl.org/dc/terms/> ,
+                                                 <http://purl.org/dc/dcmitype/> ,
+                                                 <http://www.w3.org/ns/prov-o-20130430> ,
+                                                 <http://www.w3.org/ns/org#> ,
+                                                 <http://xmlns.com/foaf/0.1/> ,
+                                                 <http://www.w3.org/2004/02/skos/core> ;
                                      <http://purl.org/dc/terms/publisher> <http://purl.org/dc/aboutdcmi#DCMI> ;
                                      <http://purl.org/dc/terms/title> "DCMI Type Vocabulary"@en ;
                                      <http://purl.org/dc/terms/modified> "2012-06-14"^^xsd:date ;
@@ -999,12 +1007,16 @@ xsd:date rdf:type rdfs:Datatype .
 :Consortium rdf:type owl:Class ;
             rdfs:subClassOf :ChemConnectDataStructure ,
                             [ rdf:type owl:Restriction ;
+                              owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                              owl:someValuesFrom :DatabaseUserIDWriteAccess
+                            ] ,
+                            [ rdf:type owl:Restriction ;
                               owl:onProperty <http://www.w3.org/ns/org#linkedTo> ;
                               owl:someValuesFrom :DataSetCatalogID
                             ] ,
                             [ rdf:type owl:Restriction ;
                               owl:onProperty <http://www.w3.org/ns/org#linkedTo> ;
-                              owl:someValuesFrom :DatabaseUserID
+                              owl:someValuesFrom :DatabaseUserIDReadAccess
                             ] ,
                             [ rdf:type owl:Restriction ;
                               owl:onProperty <http://www.w3.org/ns/org#linkedTo> ;
@@ -1143,6 +1155,7 @@ xsd:date rdf:type rdfs:Datatype .
                                 ] ;
                 <http://purl.org/dc/terms/identifier> "dcat:Catalog" ;
                 <http://purl.org/dc/terms/type> "DatasetCatalog" ;
+                rdfs:comment "This is a catalog of datasets produced by an organization. These data sets can be, for example, part of a project, a series of experimental results, a set of mechanisms of a given type, etc."^^xsd:string ;
                 rdfs:isDefinedBy <http://www.w3.org/ns/dcat#Catalog> ;
                 rdfs:label "A catalog of related datasets" .
 
@@ -1220,6 +1233,22 @@ xsd:date rdf:type rdfs:Datatype .
 ###  http://www.esblurock.info/dataset#DatabaseUserID
 :DatabaseUserID rdf:type owl:Class ;
                 rdfs:subClassOf :Identifier .
+
+
+###  http://www.esblurock.info/dataset#DatabaseUserIDReadAccess
+:DatabaseUserIDReadAccess rdf:type owl:Class ;
+                          rdfs:subClassOf :DatabaseUserID ,
+                                          :Identifier ;
+                          <http://purl.org/dc/terms/identifier> "dataset:userReadAccess"^^xsd:string ;
+                          rdfs:comment "The set of users which have read access to the dataset"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#DatabaseUserIDWriteAccess
+:DatabaseUserIDWriteAccess rdf:type owl:Class ;
+                           rdfs:subClassOf :DatabaseUserID ,
+                                           :Identifier ;
+                           <http://purl.org/dc/terms/identifier> "dataset:userWriteAccess"^^xsd:string ;
+                           rdfs:comment "The set of users which have write (including delete) access to the data set"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#DatasetGroups
@@ -1533,6 +1562,12 @@ xsd:date rdf:type rdfs:Datatype .
                             "Larger text"^^xsd:string .
 
 
+###  http://www.esblurock.info/dataset#Password
+:Password rdf:type owl:Class ;
+          rdfs:subClassOf :ChemConnectPrimitiveDataStructure ;
+          <http://purl.org/dc/terms/identifier> "dataset:password"^^xsd:string .
+
+
 ###  http://www.esblurock.info/dataset#PersonalDescription
 :PersonalDescription rdf:type owl:Class ;
                      rdfs:subClassOf :ChemConnectCompoundDataStructure ,
@@ -1596,6 +1631,33 @@ xsd:date rdf:type rdfs:Datatype .
                    rdfs:subClassOf :ShortStringLabel .
 
 
+###  http://www.esblurock.info/dataset#UserAccount
+:UserAccount rdf:type owl:Class ;
+             rdfs:subClassOf :ChemConnectDataStructure ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                               owl:someValuesFrom :ContactEmail
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                               owl:someValuesFrom :Password
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                               owl:someValuesFrom :UserAccountRole
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                               owl:someValuesFrom :username
+                             ] .
+
+
+###  http://www.esblurock.info/dataset#UserAccountRole
+:UserAccountRole rdf:type owl:Class ;
+                 rdfs:subClassOf :Classification ;
+                 <http://purl.org/dc/terms/identifier> "foaf:UserAccountRole"^^xsd:string .
+
+
 ###  http://www.esblurock.info/dataset#UserClassification
 :UserClassification rdf:type owl:Class ;
                     rdfs:subClassOf :Classification .
@@ -1619,6 +1681,12 @@ xsd:date rdf:type rdfs:Datatype .
 ###  http://www.esblurock.info/dataset#givenName
 :givenName rdf:type owl:Class ;
            rdfs:subClassOf :ShortStringLabel .
+
+
+###  http://www.esblurock.info/dataset#username
+:username rdf:type owl:Class ;
+          rdfs:subClassOf :ShortStringLabel ;
+          <http://purl.org/dc/terms/identifier> "foaf:account"^^xsd:string .
 
 
 ###  http://www.w3.org/2003/01/geo/wgs84_pos#Point
@@ -3234,10 +3302,12 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
                     <http://purl.org/dc/terms/references> :OrganizationLink .
 
 
-:OrganizationName <http://purl.org/dc/terms/identifier> "org:FormalOrganization"^^xsd:string .
+:OrganizationName rdfs:comment "This is the organizational unit which this class describes. This is for example an institute of a university or a department of a company."^^xsd:string ;
+                  <http://purl.org/dc/terms/identifier> "org:FormalOrganization"^^xsd:string .
 
 
-:OrganizationalUnit <http://purl.org/dc/terms/identifier> "org:OrganizationalUnit"^^xsd:string .
+:OrganizationalUnit <http://purl.org/dc/terms/identifier> "org:OrganizationalUnit"^^xsd:string ;
+                    rdfs:comment "This is a sub-division of the organization. Within a larger institute of a university, there are often thematic groups (usually headed by a professor)."^^xsd:string .
 
 
 :PersonalDescription rdfs:label "Personal Information"^^xsd:string ;
@@ -3265,7 +3335,8 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
            rdfs:label "source key"^^xsd:string .
 
 
-:SubOrganizationOf <http://purl.org/dc/terms/identifier> "org:unitOf"^^xsd:string .
+:SubOrganizationOf <http://purl.org/dc/terms/identifier> "org:unitOf"^^xsd:string ;
+                   rdfs:comment "This describes the main organization governing organiation, for example the university or company"^^xsd:string .
 
 
 :UserClassification <http://purl.org/dc/terms/identifier> "vcard:role"^^xsd:string ;

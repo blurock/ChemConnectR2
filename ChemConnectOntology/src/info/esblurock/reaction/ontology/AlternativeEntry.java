@@ -7,6 +7,24 @@ public abstract class AlternativeEntry {
 	}
 	public String getDCatURL() {
 		return "http://www.w3.org/ns/dcat";
+	}	
+	public String getDctermsURL() {
+		return "http://purl.org/dc/terms/";
+	}
+	public String getDCITypeURL() {
+		return "http://purl.org/dc/dcmitype";
+	}
+	public String getProvoURL() {
+		return "http://www.w3.org/ns/prov-o-20130430";
+	}
+	public String getOrgURL() {
+		return "http://www.w3.org/ns/org#";
+	}
+	public String getFoafURL() {
+		return "http://xmlns.com/foaf/0.1/";
+	}
+	public String getSKOSURL() {
+		return "http://xmlns.com/foaf/0.1/";
 	}
 	public String getDataCiteURL() {
 		return "http://purl.org/spar/datacite/";
@@ -16,15 +34,6 @@ public abstract class AlternativeEntry {
 	}
 	public String getDcTermsURL() {
 		return "http://purl.org/dc/terms/";
-	}
-	public String getDCITypeURL() {
-		return "http://purl.org/dc/dcmitype";
-	}
-	public String getOrgURL() {
-		return "http://www.w3.org/ns/org#";
-	}
-	public String getFoafURL() {
-		return "http://xmlns.com/foaf/0.1/";
 	}
 	
 	public String getOwlURL() {
