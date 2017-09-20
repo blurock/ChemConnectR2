@@ -6,3 +6,9 @@
 **/*.devmode.js
 **/*.nocache.js
 **/*.gwt.rpc
+src/main/webapp/chemconnectcore/**
+**/.DS_Store
+war/chemconnectcore/**
+src/main/webapp/WEB-INF/deploy/chemconnectcore/**
+
+
