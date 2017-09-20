@@ -10,7 +10,7 @@ public class InitalizationServiceImpl  extends ServerBase implements Initializat
 
 	@Override
 	public void initializeDatabaseObjects() throws IOException {
-		InitializeDatabaseObjectImpl.initializeDatabaseObjects();
+		InitializeDatabaseObjectImpl.initializeDatabaseObjects(true);
 	}
 
 }

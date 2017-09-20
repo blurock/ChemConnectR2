@@ -13,7 +13,7 @@ public class InitializationCallback implements AsyncCallback<Void> {
 
 	@Override
 	public void onSuccess(Void arg0) {
-		Window.alert("Initialization Successful");
+		Window.alert("Initialization Successful: no problem");
 	}
 
 }

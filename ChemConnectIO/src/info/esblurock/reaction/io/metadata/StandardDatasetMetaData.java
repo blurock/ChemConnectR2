@@ -1,6 +1,5 @@
 package info.esblurock.reaction.io.metadata;
 
-import java.util.HashSet;
 
 public class StandardDatasetMetaData {
 	

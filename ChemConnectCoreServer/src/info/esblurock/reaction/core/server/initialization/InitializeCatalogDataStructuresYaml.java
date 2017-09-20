@@ -17,11 +17,12 @@ public class InitializeCatalogDataStructuresYaml extends YamlFileInterpreterBase
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void interpret(Map map, String sourceID) throws IOException {
+		System.out.println("InitializeCatalogDataStructuresYaml: " + sourceID);
 		ArrayList<ListOfElementInformation> results = ReadYamlDataset.ExtractListOfObjects(map,sourceID);
 		for (ListOfElementInformation info : results) {
 			for (YamlDatasetInformation yaml : info) {
 				DatabaseObject obj = yaml.getObject();
-				StoreObject store = new StoreObject(obj.getIdentifier(), obj.getOwner(), obj.getIdentifier(), "1");
+				StoreObject store = new StoreObject(obj.getIdentifier(), obj.getOwner(), obj.getIdentifier(), sourceID);
 				WriteDatabaseObjectRDF.writeRDF(obj, store);
 				store.finish();
 			}

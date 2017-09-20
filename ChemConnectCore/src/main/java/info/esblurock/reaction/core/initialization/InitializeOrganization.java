@@ -35,7 +35,8 @@ public class InitializeOrganization {
 				object = reader.read();
 				map = (Map) object;
 				InitializeCatalogDataStructuresYaml yaml = new InitializeCatalogDataStructuresYaml();
-				yaml.interpret(map);
+				String sourceID = "1";
+				yaml.interpret(map, sourceID);
 			} catch (YamlException e) {
 				e.printStackTrace();
 			} catch (Exception e) {

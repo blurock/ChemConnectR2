@@ -57,5 +57,10 @@
 	<classpathentry kind="lib" path="/ChemConnectOntology/jars/jena-core-2.7.4.jar"/>
 	<classpathentry kind="lib" path="/ChemConnectOntology/jars/jena-iri-0.9.4.jar"/>
 	<classpathentry kind="lib" path="/ChemConnectOntology/jars/jena-tdb-0.9.4.jar"/>
+	<classpathentry kind="lib" path="jar/gwt-material-2.0-rc5.jar"/>
+	<classpathentry kind="lib" path="jar/gwt-material-addins-2.0-rc5.jar"/>
+	<classpathentry kind="lib" path="jar/gwt-material-jquery-2.0-rc5.jar"/>
+	<classpathentry kind="lib" path="jar/gwt-material-table-2.0-rc5.jar"/>
+	<classpathentry kind="lib" path="jar/gwt-material-themes-2.0-rc5.jar"/>
 	<classpathentry kind="output" path="src/main/webapp/WEB-INF/classes"/>
 </classpath>

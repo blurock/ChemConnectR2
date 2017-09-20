@@ -57,7 +57,10 @@ public class DatabaseInitializeBase {
 			System.out.println("Interpreter: " + interpreterS);
 			Class interpreterClass = Class.forName(interpreterS);
 			YamlFileInterpreterBase base = (YamlFileInterpreterBase) interpreterClass.newInstance();
-			base.interpret(map);
+			System.out.println("Interpreter Class:" + base.getClass().getCanonicalName());
+			String username = "Administration";
+			String sourceID = QueryBase.getDataSourceIdentification(username);
+			base.interpret(map, sourceID);
 		} catch (YamlException e) {
 			throw new IOException(e.toString());
 		} catch (ClassNotFoundException e) {

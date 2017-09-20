@@ -33,31 +33,16 @@ public class DatabaseObject  implements Serializable {
 	 *  fills with current date and public access and owner
 	 */
 	public DatabaseObject() {
-		key = null;
-		identifier = null;
-		access = MetaDataKeywords.publicAccess;
-		owner = MetaDataKeywords.publicOwner;
-		creationDate = new Date();
+		fill(null,MetaDataKeywords.publicAccess,MetaDataKeywords.publicOwner,"");
 	}
 	
 	/**
 	 * @param id The identifier of the data object
 	 */
 	public DatabaseObject(String id,String sourceID) {
-		key = null;
-		this.identifier = id;
-		this.sourceID = sourceID;
-		access = MetaDataKeywords.publicAccess;
-		owner = MetaDataKeywords.publicOwner;
-		creationDate = new Date();
+		fill(id,MetaDataKeywords.publicAccess,MetaDataKeywords.publicOwner,sourceID);
 	}
 
-	public void fill(String id, String access, String owner,String sourceID) {
-		this.identifier = id;
-		this.access = access;
-		this.owner = owner;
-		creationDate = new Date();
-	}
 	/** Database object with access and owner
 	 * @param access Access keyword (username, group or 'Public')
 	 * @param owner The owner username who created the data
@@ -65,6 +50,10 @@ public class DatabaseObject  implements Serializable {
 	 * Current date (and null for key)
 	 */
 	public DatabaseObject(String id, String access, String owner,String sourceID) {
+		fill(id,access,owner,sourceID);
+	}
+	public void fill(String id, String access, String owner,String sourceID) {
+		this.sourceID = sourceID;
 		this.identifier = id;
 		this.access = access;
 		this.owner = owner;
