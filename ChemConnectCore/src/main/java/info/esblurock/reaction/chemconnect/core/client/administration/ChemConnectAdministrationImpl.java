@@ -21,7 +21,7 @@ public class ChemConnectAdministrationImpl extends Composite implements ChemConn
 
 	public ChemConnectAdministrationImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
-		Window.alert("Here I am");
+		Window.alert("Here I am again");
 	}
 
 	@Override

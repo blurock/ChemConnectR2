@@ -3,8 +3,8 @@ package info.esblurock.reaction.chemconnect.core.client.activity;
 import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
-import com.google.gwt.user.client.ui.Widget;
 
 import info.esblurock.reaction.chemconnect.core.client.place.ChemConnectAdministrationPlace;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.ChemConnectAdministrationView;
@@ -23,6 +23,7 @@ public class ChemConnectAdministrationActivity extends AbstractActivity implemen
 	
 	@Override
 	public void start(AcceptsOneWidget containerWidget, EventBus eventBus) {
+		Window.alert("ChemConnectAdministrationActivity start");
 		ChemConnectAdministrationView chemConnectAdministrationView = clientFactory.getChemConnectAdministrationView();
 		chemConnectAdministrationView.setName(name);
 		chemConnectAdministrationView.setPresenter(this);
@@ -35,6 +36,7 @@ public class ChemConnectAdministrationActivity extends AbstractActivity implemen
 
 	@Override
 	public void goTo(Place place) {
+		Window.alert("ChemConnectAdministrationActivity goTo");
 		clientFactory.getPlaceController().goTo(place);
 	}
 

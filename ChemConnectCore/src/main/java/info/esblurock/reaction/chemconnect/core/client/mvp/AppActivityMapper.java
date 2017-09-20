@@ -3,7 +3,6 @@ package info.esblurock.reaction.chemconnect.core.client.mvp;
 import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.place.shared.Place;
-import com.google.gwt.user.client.Window;
 
 import info.esblurock.reaction.chemconnect.core.client.activity.ChemConnectAdministrationActivity;
 import info.esblurock.reaction.chemconnect.core.client.activity.ClientFactory;

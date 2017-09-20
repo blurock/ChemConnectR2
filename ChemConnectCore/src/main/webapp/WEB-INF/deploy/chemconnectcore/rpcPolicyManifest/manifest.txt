@@ -1,2 +1,3 @@
 # Module chemconnectcore
 # RPC service class, partial path of RPC policy file
+info.esblurock.reaction.chemconnect.core.common.client.async.LoginService, DB70C731640A02965931B393138F6D6F.gwt.rpc

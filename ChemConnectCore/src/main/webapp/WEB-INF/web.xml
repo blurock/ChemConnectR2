@@ -12,6 +12,16 @@
     <url-pattern>/chemconnectcore/initialization</url-pattern>
   </servlet-mapping>
   
+  	<servlet>
+		<servlet-name>loginservice</servlet-name>
+		<servlet-class>info.esblurock.reaction.core.server.authentification.LoginServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>loginservice</servlet-name>
+		<url-pattern>/chemconnectcore/loginservice</url-pattern>
+		<url-pattern>/loginservice</url-pattern>
+	</servlet-mapping>
+  
   <filter>
 	<filter-name>ObjectifyFilter</filter-name>
 	<filter-class>com.googlecode.objectify.ObjectifyFilter</filter-class>
