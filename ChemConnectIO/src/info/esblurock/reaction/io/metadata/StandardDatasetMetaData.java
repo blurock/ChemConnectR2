@@ -9,6 +9,9 @@ public class StandardDatasetMetaData {
 	public static String ownerKeyS = "dcterms:publisher";
 	public static String accessKeyS = "dataset:accessibility";
 	
+	public static String recordS = "dcat:record";
+	public static String linkS = "dcat:link";
+	
 	public static String chemConnectDataStructure = "dataset:ChemConnectDataStructure";
 	
 	/* DescriptionDataData

@@ -1,4 +1,4 @@
-package info.esblurock.reaction.core.server.db;
+package info.esblurock.reaction.io.db;
 
 import java.io.IOException;
 import java.util.List;
@@ -39,6 +39,23 @@ public class QueryBase {
 		return sourceID.getCountAsString();
 	}
 	
+	@SuppressWarnings("unchecked")
+	static public List<DatabaseObject> getDatabaseObjects(String classname) throws IOException {
+		@SuppressWarnings("rawtypes")
+		Class objClass;
+		List<DatabaseObject> lst = null;
+		try {
+			objClass = Class.forName(classname);
+			lst = (List<DatabaseObject>) ofy().load().type(objClass).list();
+		} catch (ClassNotFoundException e) {
+			throw new IOException("Class not found: " + classname);
+		}
+		return lst;
+		
+	}
+	static public DatabaseObject getDatabaseObjectFromIdentifier(String classname, String identifier) throws IOException {
+		return getFirstDatabaseObjectsFromSingleProperty(classname, "identifier", identifier);
+	}
 	@SuppressWarnings("unchecked")
 	static public List<DatabaseObject> getDatabaseObjectsFromSingleProperty(String classname, String propertyname,
 			String propertyvalue) throws IOException {

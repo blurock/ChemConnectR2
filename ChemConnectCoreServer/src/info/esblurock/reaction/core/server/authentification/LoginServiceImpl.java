@@ -14,10 +14,10 @@ import info.esblurock.reaction.chemconnect.core.data.login.UserAccountInformatio
 import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
 import info.esblurock.reaction.chemconnect.core.data.transaction.EventCount;
 import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
-import info.esblurock.reaction.core.server.db.QueryBase;
 import info.esblurock.reaction.core.server.mail.SendMail;
 import info.esblurock.reaction.core.server.services.ServerBase;
 import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
+import info.esblurock.reaction.io.db.QueryBase;
 
 public class LoginServiceImpl extends ServerBase implements LoginService {
 	private static final long serialVersionUID = 4456105400553118785L;

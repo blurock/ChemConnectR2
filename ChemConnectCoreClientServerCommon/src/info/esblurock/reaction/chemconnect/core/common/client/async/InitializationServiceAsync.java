@@ -6,4 +6,6 @@ public interface InitializationServiceAsync {
 
 	void initializeDatabaseObjects(AsyncCallback<Void> callback);
 
+	void clearDatabaseObjects(AsyncCallback<Void> callback);
+
 }

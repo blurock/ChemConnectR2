@@ -3,7 +3,9 @@ package info.esblurock.reaction.core.server.initialization.yaml;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ListOfElementInformation extends ArrayList<YamlDatasetInformation> implements Serializable{
+import info.esblurock.reaction.chemconnect.core.data.transfer.DatasetInformationFromOntology;
+
+public class ListOfElementInformation extends ArrayList<DatasetInformationFromOntology> implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	String mainstructure;
@@ -17,7 +19,7 @@ public class ListOfElementInformation extends ArrayList<YamlDatasetInformation> 
 		build.append("-----------------------------------------------------\n");
 		build.append(mainstructure);
 		build.append("\n");
-		for(YamlDatasetInformation info : this) {
+		for(DatasetInformationFromOntology info : this) {
 			build.append(info.toString());
 		}
 		return build.toString();

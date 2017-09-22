@@ -10,8 +10,9 @@ import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.ontology.OntologyBase;
-import info.esblurock.reaction.ontology.dataset.ClassificationInformation;
 
 public class DatasetOntologyParsing {
 
@@ -20,6 +21,13 @@ public class DatasetOntologyParsing {
 	 * 
 	 * The name has the standard namespace abbreviation attached to it. This list is
 	 * essentially the subClasses of 'dataset:ChemConnectDataStructure'
+	 * 
+	 * For example:
+	 * [dataset:UserAccount, 
+	 * dataset:Organization, 
+	 * dataset:DatabaseUser, 
+	 * dataset:DataSetCatalog, 
+	 * dataset:Consortium]
 	 * 
 	 * @return The list of main data UI/database structures
 	 */
@@ -33,6 +41,35 @@ public class DatasetOntologyParsing {
 		//
 		structurelst.remove("dataset:ChemConnectDataStructure");
 		return structurelst;
+	}
+	/*
+	 * For each of the main structures, return the ClassificationInformation with the following:
+	 *     idName, identifier and dataType
+	 *     link and DatabaseObject are null.
+	 *     
+	 *    for example:
+	 *    ID: dataset:UserAccount: dataset:UserAccount  (UserAccount)
+	 *    ID: dataset:Organization: dataset:Organization  (Organization)
+	 *    ID: dataset:DatabaseUser: vcard:Individual  (IndividualInformation)
+	 *    ID: dataset:DataSetCatalog: dcat:Catalog  (DatasetCatalog)
+	 *    ID: dataset:Consortium: dataset:Consortium  (Consortium)
+	 */
+	public static ArrayList<ClassificationInformation> getCatalogClassificationInformation() {
+		List<String> lst = getMainDataStructures();
+		System.out.println(lst);
+		ArrayList<ClassificationInformation> clslst = new ArrayList<ClassificationInformation>();
+		for(String dataElementName : lst) {
+			ClassificationInformation clsinfo = DatasetOntologyParsing.getIdentificationInformation(dataElementName);
+			System.out.println(clsinfo.toString());
+			clslst.add(clsinfo);
+		}
+		return clslst;
+	}
+	
+	
+	public static ClassificationInformation getIdentificationInformation(String dataElementName) {
+		DataElementInformation dataelement = new DataElementInformation(dataElementName, null,true, 0, null, null);
+		return getIdentificationInformation(null,dataelement);
 	}
 
 	/**

@@ -9,6 +9,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
 import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
+import info.esblurock.reaction.core.server.services.util.RegisterEvent;
 import info.esblurock.reaction.core.server.services.util.VerifyServerTransaction;
 
 public class ServerBase  extends RemoteServiceServlet {
@@ -22,6 +23,12 @@ public class ServerBase  extends RemoteServiceServlet {
 		ContextAndSessionUtilities util 
 			= new ContextAndSessionUtilities(getServletContext(), session);
 		return util;
+	}
+	
+	protected void register(String event, String eventinfo, int checklevel) throws IOException {
+		ContextAndSessionUtilities util = getUtilities();
+		UserDTO user = util.getUserInfo();
+		RegisterEvent.register(user,event,eventinfo,checklevel);
 	}
 	
 	protected void verify(String task, String tasktype) throws IOException {

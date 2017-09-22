@@ -22,4 +22,5 @@ public interface InitializationService extends RemoteService {
 	       }
 	   }
 	   public void initializeDatabaseObjects() throws IOException;
+	   public void clearDatabaseObjects() throws IOException;
 }

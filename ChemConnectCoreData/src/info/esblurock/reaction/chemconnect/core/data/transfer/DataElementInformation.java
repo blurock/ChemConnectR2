@@ -1,7 +1,16 @@
-package info.esblurock.reaction.ontology.dataset;
+package info.esblurock.reaction.chemconnect.core.data.transfer;
 
 import java.io.Serializable;
-
+/*
+ * 	dataset:GPSLocationID(dcterms:hasPart):  dataset:GPSLocationID  (ID):  single
+ * 
+ * dataElementName:       dataset:GPSLocationID
+ * link:                  dcterms:hasPart
+ * identifier:            dataset:GPSLocationID
+ * chemconnectStructure:  ID
+ * 
+ * 
+ */
 public class DataElementInformation implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -12,7 +21,9 @@ public class DataElementInformation implements Serializable {
 	String chemconnectStructure;
 	String identifier;
 	String link;
-	
+
+	public DataElementInformation() {
+	}
 	public DataElementInformation(String dataElementName, String link, boolean singlet, int numberOfElements, 
 			String chemconnectStructure, String identifier) {
 		super();

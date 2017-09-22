@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
 import info.esblurock.reaction.chemconnect.core.data.transaction.SessionEvent;
 import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
-import info.esblurock.reaction.core.server.db.QueryBase;
+import info.esblurock.reaction.io.db.QueryBase;
 
 public class RegisterEvent {
 	@SuppressWarnings("unused")
@@ -18,6 +18,7 @@ public class RegisterEvent {
 	static public int checkLevel3 = 3;
 
 	private static int maxCount = 1000;
+	
 
 	static public void register(UserDTO user, String event, String eventinfo, int checklevel) throws IOException {
 		if (user != null) {

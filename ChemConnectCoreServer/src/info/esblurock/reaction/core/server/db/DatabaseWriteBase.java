@@ -10,6 +10,7 @@ import info.esblurock.reaction.chemconnect.core.data.contact.PersonalDescription
 import info.esblurock.reaction.chemconnect.core.data.description.DescriptionDataData;
 import info.esblurock.reaction.chemconnect.core.data.login.UserAccountInformation;
 import info.esblurock.reaction.chemconnect.core.data.transaction.TransactionInfo;
+import info.esblurock.reaction.io.db.QueryBase;
 
 import java.util.List;
 

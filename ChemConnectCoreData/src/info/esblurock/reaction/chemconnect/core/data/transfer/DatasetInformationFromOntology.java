@@ -1,19 +1,21 @@
-package info.esblurock.reaction.core.server.initialization.yaml;
+package info.esblurock.reaction.chemconnect.core.data.transfer;
 
+import java.io.Serializable;
 import java.util.List;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
-import info.esblurock.reaction.ontology.dataset.ClassificationInformation;
-import info.esblurock.reaction.ontology.dataset.DataElementInformation;
 
-public class YamlDatasetInformation {
+public class DatasetInformationFromOntology implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	String dataelement;
 	DatabaseObject object;
 	ClassificationInformation classification;
 	List<DataElementInformation> elementInformation;
 
-	public YamlDatasetInformation(String dataelement, DatabaseObject object, ClassificationInformation classification,
+	public DatasetInformationFromOntology() {
+	}
+	public DatasetInformationFromOntology(String dataelement, DatabaseObject object, ClassificationInformation classification,
 			List<DataElementInformation> elements) {
 		this.dataelement = dataelement;
 		this.object = object;

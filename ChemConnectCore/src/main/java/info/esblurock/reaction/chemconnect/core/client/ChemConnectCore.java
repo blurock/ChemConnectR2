@@ -46,8 +46,8 @@ public class ChemConnectCore implements EntryPoint {
 		async.loginServer("Administration", "laguna", callback);
 
 		RootPanel.get().add(appWidget);
-		ChemConnectAdministrationImpl impl = new ChemConnectAdministrationImpl();
-		RootPanel.get().add(impl);
+		//ChemConnectAdministrationImpl impl = new ChemConnectAdministrationImpl();
+		//RootPanel.get().add(impl);
 		historyHandler.handleCurrentHistory();
 			
 		

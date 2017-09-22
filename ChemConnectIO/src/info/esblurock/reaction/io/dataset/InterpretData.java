@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.io.db.QueryBase;
 import info.esblurock.reaction.io.metadata.StandardDatasetMetaData;
 import info.esblurock.reaction.chemconnect.core.data.description.DescriptionDataData;
 import info.esblurock.reaction.chemconnect.core.data.contact.ContactInfoData;
@@ -61,6 +62,12 @@ public enum InterpretData {
 			map.put(StandardDatasetMetaData.accessKeyS, object.getAccess());
 
 			return map;
+		}
+
+		@Override
+		public DatabaseObject readElementFromDatabase(
+				String identifier) throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(DatabaseObject.getClass().getCanonicalName(), identifier);
 		}
 
 	},
@@ -114,6 +121,11 @@ public enum InterpretData {
 			
 			return map;
 		}
+		@Override
+		public DatabaseObject readElementFromDatabase(
+				String identifier) throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(DescriptionDataData.getClass().getCanonicalName(), identifier);
+		}
 
 	},
 	ContactInfoData {
@@ -154,6 +166,11 @@ public enum InterpretData {
 
 			return map;
 		}
+		@Override
+		public DatabaseObject readElementFromDatabase(
+				String identifier) throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(ContactInfoData.getClass().getCanonicalName(), identifier);
+		}
 
 	},
 	ContactLocationInformation {
@@ -191,6 +208,11 @@ public enum InterpretData {
 			
 			return map;
 		}
+		@Override
+		public DatabaseObject readElementFromDatabase(
+				String identifier) throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(ContactLocationInformation.getClass().getCanonicalName(), identifier);
+		}
 
 	}, GPSLocation {
 
@@ -221,6 +243,11 @@ public enum InterpretData {
 			map.put(StandardDatasetMetaData.latitudeKeyS, location.getGPSLongitude());
 			
 			return map;
+		}
+		@Override
+		public DatabaseObject readElementFromDatabase(
+				String identifier) throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(GPSLocation.getClass().getCanonicalName(), identifier);
 		}
 		
 	}, OrganizationDescription {
@@ -260,6 +287,11 @@ public enum InterpretData {
 			map.put(StandardDatasetMetaData.subOrganizationOf, org.getSubOrganizationOf());
 			
 			return map;
+		}
+		@Override
+		public DatabaseObject readElementFromDatabase(
+				String identifier) throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(OrganizationDescription.getClass().getCanonicalName(), identifier);
 		}
 		
 	}, DataSetReference {
@@ -301,6 +333,11 @@ public enum InterpretData {
 			
 			return map;
 		}
+		@Override
+		public DatabaseObject readElementFromDatabase(
+				String identifier) throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(DataSetReference.getClass().getCanonicalName(), identifier);
+		}
 		
 	}
 	, PersonalDescription {
@@ -332,6 +369,11 @@ public enum InterpretData {
 			map.put(StandardDatasetMetaData.userNameID, person.getNameOfPersonIdentifier());
 			
 			return map;
+		}
+		@Override
+		public DatabaseObject readElementFromDatabase(
+				String identifier) throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(PersonalDescription.getClass().getCanonicalName(), identifier);
 		}
 		
 	}
@@ -367,6 +409,11 @@ public enum InterpretData {
 			map.put(StandardDatasetMetaData.givenName,  name.getGivenName());
 			map.put(StandardDatasetMetaData.familyName, name.getFamilyName());
 			return map;
+		}
+		@Override
+		public DatabaseObject readElementFromDatabase(
+				String identifier) throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(NameOfPerson.getClass().getCanonicalName(), identifier);
 		}
 		
 	}, IndividualInformation {
@@ -409,6 +456,11 @@ public enum InterpretData {
 			
 			return map;
 		}
+		@Override
+		public DatabaseObject readElementFromDatabase(
+				String identifier) throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(IndividualInformation.getClass().getCanonicalName(), identifier);
+		}
 		
 	}, Organization {
 
@@ -445,6 +497,11 @@ public enum InterpretData {
 			map.put(StandardDatasetMetaData.organizationDescriptionID, org.getOrganizationDescriptionID());
 			
 			return map;
+		}
+		@Override
+		public DatabaseObject readElementFromDatabase(
+				String identifier) throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(Organization.getClass().getCanonicalName(), identifier);
 		}
 		
 	}, UserAccountInformation {
@@ -485,6 +542,11 @@ public enum InterpretData {
 			
 			return map;
 		}
+		@Override
+		public DatabaseObject readElementFromDatabase(
+				String identifier) throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(UserAccountInformation.getClass().getCanonicalName(), identifier);
+		}
 		
 	}, UserAccount {
 		@Override
@@ -516,6 +578,11 @@ public enum InterpretData {
 			map.put(StandardDatasetMetaData.UserAccountInformationID, account.getUserAccountInformationID()) ;
 			
 			return map;
+		}
+		@Override
+		public DatabaseObject readElementFromDatabase(
+				String identifier) throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(UserAccount.getClass().getCanonicalName(), identifier);
 		}
 		
 	}, Consortium {
@@ -570,6 +637,11 @@ public enum InterpretData {
 			
 			return map;
 		}
+		@Override
+		public DatabaseObject readElementFromDatabase(
+				String identifier) throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(Consortium.getClass().getCanonicalName(), identifier);
+		}
 		
 	};
 	
@@ -577,6 +649,7 @@ public enum InterpretData {
 
 	public abstract Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException;
 
+	public abstract DatabaseObject readElementFromDatabase(String identifier) throws IOException ;
 	public HashSet<String> parseKeywords(String keywordset) {
 		HashSet<String> keywords = new HashSet<String>();
 		if(keywordset != null) {

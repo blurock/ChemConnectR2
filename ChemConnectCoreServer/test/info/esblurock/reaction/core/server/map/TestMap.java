@@ -10,9 +10,9 @@ import java.util.Map;
 import org.junit.Test;
 
 import info.esblurock.reaction.chemconnect.core.data.contact.Organization;
+import info.esblurock.reaction.chemconnect.core.data.transfer.DatasetInformationFromOntology;
 import info.esblurock.reaction.core.server.initialization.yaml.ListOfElementInformation;
 import info.esblurock.reaction.core.server.initialization.yaml.ReadYamlDataset;
-import info.esblurock.reaction.core.server.initialization.yaml.YamlDatasetInformation;
 import info.esblurock.reaction.io.dataset.InterpretData;
 
 public class TestMap {
@@ -29,7 +29,7 @@ public class TestMap {
 			System.out.println("-----------------");
 			Organization org = null;
 			ListOfElementInformation info = results.get(0);
-			for (YamlDatasetInformation element : info) {
+			for (DatasetInformationFromOntology element : info) {
 				System.out.println("element: " + element.getDataelement());
 				if (element.getDataelement().compareTo("dataset:Organization") == 0) {
 					org = (Organization) element.getObject();

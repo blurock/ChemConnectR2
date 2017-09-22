@@ -10,6 +10,10 @@ public class EventCount {
 	@Id String username;
 	@Unindex Integer count;
 	
+	public EventCount() {
+		this.username = null;
+		count = 1;
+	}
 	public EventCount(String username) {
 		this.username = username;
 		count = 1;

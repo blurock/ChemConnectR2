@@ -21,10 +21,10 @@ import info.esblurock.reaction.chemconnect.core.data.description.RegisterDescrip
 import info.esblurock.reaction.chemconnect.core.data.initialization.RegisterInitializationData;
 import info.esblurock.reaction.chemconnect.core.data.rdf.KeywordRDF;
 import info.esblurock.reaction.chemconnect.core.data.rdf.RegisterRDFData;
+import info.esblurock.reaction.chemconnect.core.data.transfer.DatasetInformationFromOntology;
 import info.esblurock.reaction.core.server.db.rdf.WriteDatabaseObjectRDF;
 import info.esblurock.reaction.core.server.initialization.yaml.ListOfElementInformation;
 import info.esblurock.reaction.core.server.initialization.yaml.ReadYamlDataset;
-import info.esblurock.reaction.core.server.initialization.yaml.YamlDatasetInformation;
 import info.esblurock.reaction.io.rdf.StoreObject;
 
 public class ReadYamlBase {
@@ -45,7 +45,7 @@ public class ReadYamlBase {
 			System.out.println("=============================================: " + results.size());
 			for (ListOfElementInformation info : results) {
 				System.out.println("=============================================: " + info.getMainstructure());
-				for (YamlDatasetInformation yaml : info) {
+				for (DatasetInformationFromOntology yaml : info) {
 					System.out.println(yaml);
 					DatabaseObject obj = yaml.getObject();
 					StoreObject store = new StoreObject(obj.getIdentifier(), obj.getOwner(), obj.getIdentifier(), "1");

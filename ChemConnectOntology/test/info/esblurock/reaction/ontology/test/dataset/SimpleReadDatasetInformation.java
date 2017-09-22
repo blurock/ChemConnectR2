@@ -13,9 +13,9 @@ import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.query.ResultSet;
 
+import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.ontology.OntologyBase;
-import info.esblurock.reaction.ontology.dataset.ClassificationInformation;
-import info.esblurock.reaction.ontology.dataset.DataElementInformation;
 import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 
 

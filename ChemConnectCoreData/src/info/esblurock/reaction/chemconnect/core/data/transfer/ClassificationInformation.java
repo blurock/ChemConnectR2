@@ -1,4 +1,4 @@
-package info.esblurock.reaction.ontology.dataset;
+package info.esblurock.reaction.chemconnect.core.data.transfer;
 
 import java.io.Serializable;
 
@@ -15,6 +15,12 @@ import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
                             <http://purl.org/dc/terms/type> "ContactLocationInformation"^^xsd:string ;
                             rdfs:label "Contact Location Information"^^xsd:string .              
  * 
+ * Classification: ID: dataset:ContactLocationInformation(dcat:record): vcard:Location  (ContactLocationInformation)
+ * dataType:    ContactLocationInformation
+ * idName:      dataset:ContactLocationInformation
+ * link:        dcat:record
+ * identifier:  vcard:Location
+ * 
  * Source of identifier information:
  * ###  http://www.esblurock.info/dataset#ContactLocationInformation
 :ContactLocationInformation rdf:type owl:NamedIndividual ;
@@ -29,6 +35,8 @@ public class ClassificationInformation implements Serializable {
 	String link;
 	DatabaseObject top;
 	
+	public ClassificationInformation() {
+	}
 	public ClassificationInformation(DatabaseObject top, String link, String idName, String identifier, String dataType) {
 		super();
 		this.idName = idName;

@@ -21,6 +21,14 @@
 		<url-pattern>/chemconnectcore/loginservice</url-pattern>
 		<url-pattern>/loginservice</url-pattern>
 	</servlet-mapping>
+  	<servlet>
+		<servlet-name>contactservice</servlet-name>
+		<servlet-class>info.esblurock.reaction.core.server.services.ContactDatabaseAccessImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>contactservice</servlet-name>
+		<url-pattern>/chemconnectcore/contactservice</url-pattern>
+	</servlet-mapping>
   
   <filter>
 	<filter-name>ObjectifyFilter</filter-name>

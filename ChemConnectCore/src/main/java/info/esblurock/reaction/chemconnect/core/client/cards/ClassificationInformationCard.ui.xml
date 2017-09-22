@@ -1,0 +1,30 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:m="urn:import:gwt.material.design.client.ui" xmlns:ma="urn:import:gwt.material.design.addins.client">
+	<ui:style>
+	</ui:style>
+	<m:MaterialCard backgroundColor="BLUE_GREY_DARKEN_1">
+		<m:MaterialCardContent textColor="WHITE">
+			<m:MaterialCardTitle ui:field="dataType"
+				iconType="POLYMER" iconPosition="RIGHT" />
+			<m:MaterialRow>
+				<m:MaterialColumn  grid="s6">
+					<m:MaterialLabel ui:field="idNameTitle"/>
+				</m:MaterialColumn>
+				<m:MaterialColumn  grid="s6">
+					<m:MaterialLabel ui:field="idNameElement"/>
+				</m:MaterialColumn>
+			</m:MaterialRow>
+			<m:MaterialRow>
+				<m:MaterialColumn  grid="s6">
+					<m:MaterialLabel ui:field="identifierTitle"/>
+				</m:MaterialColumn>
+				<m:MaterialColumn  grid="s6">
+					<m:MaterialLabel ui:field="identifierElement"/>
+				</m:MaterialColumn>
+			</m:MaterialRow>
+		</m:MaterialCardContent>
+		<m:MaterialCardAction>
+		</m:MaterialCardAction>
+	</m:MaterialCard>
+</ui:UiBinder> 

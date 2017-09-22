@@ -20,11 +20,8 @@ public class VerifyServerTransaction {
 	}
 	public static void verify(UserDTO user, String event, String ip,
 			String sessionid, String tasktype) throws IOException {
-		
-		System.out.println("Login verify 1:");
-		
 		if (authorization.authorize(user.getUserLevel(), tasktype)) {
-			log.info("Login verify 2: \t" + tasktype);
+			log.info("Login verify: \t" + tasktype);
 			log.info("event=" + event);
 			log.info("ip=" + ip + "   \tUserIP= " + user.getIP());
 			log.info("sessionid=" + sessionid + " \tUser session=" + user.getSessionId());

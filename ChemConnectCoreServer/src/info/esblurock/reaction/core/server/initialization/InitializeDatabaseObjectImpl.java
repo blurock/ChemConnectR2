@@ -2,20 +2,15 @@ package info.esblurock.reaction.core.server.initialization;
 
 import java.io.IOException;
 
-import info.esblurock.reaction.chemconnect.core.data.base.ResetDatabaseObjects;
 
 public class InitializeDatabaseObjectImpl {
 	
-	static public void initializeDatabaseObjects(boolean reset) throws IOException {
+	static public void initializeDatabaseObjects() throws IOException {
 		//String isAInitialization = "resources/experiment/isAInitialization.yaml";
 		//String apparatusProperties = "resources/experiment/ApparatusPropertiesInitialization.yaml";
 		String organizationInitialization = "resources/contact/OrganizationInitialization.yaml";
 		String userInitialization = "resources/contact/UserInitialization.yaml";
 
-		if(reset) {
-			ResetDatabaseObjects.clearDatabase();
-		}
-		
 		DatabaseInitializeBase base = new DatabaseInitializeBase();
 		if (!base.alreadyRead(userInitialization)) {
 			System.out.println("Initializing users: " + userInitialization);

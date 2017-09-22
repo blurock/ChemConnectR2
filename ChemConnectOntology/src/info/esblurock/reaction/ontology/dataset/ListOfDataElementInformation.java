@@ -3,6 +3,8 @@ package info.esblurock.reaction.ontology.dataset;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
+
 public class ListOfDataElementInformation extends ArrayList<DataElementInformation> implements Serializable {
 
 	private static final long serialVersionUID = 1L;

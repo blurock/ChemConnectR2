@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.io.dataset.InterpretData;
 import info.esblurock.reaction.io.rdf.StoreObject;
-import info.esblurock.reaction.ontology.dataset.DataElementInformation;
 import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 
 public class WriteDatabaseObjectRDF {

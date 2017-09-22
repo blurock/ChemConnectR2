@@ -23,11 +23,12 @@ public class ChemConnectAdministrationActivity extends AbstractActivity implemen
 	
 	@Override
 	public void start(AcceptsOneWidget containerWidget, EventBus eventBus) {
-		Window.alert("ChemConnectAdministrationActivity start");
+		Window.alert("ChemConnectAdministrationActivity start 1");
 		ChemConnectAdministrationView chemConnectAdministrationView = clientFactory.getChemConnectAdministrationView();
 		chemConnectAdministrationView.setName(name);
 		chemConnectAdministrationView.setPresenter(this);
 		containerWidget.setWidget(chemConnectAdministrationView.asWidget());
+		Window.alert("ChemConnectAdministrationActivity end");
 	}
 	   @Override
 	    public String mayStop() {

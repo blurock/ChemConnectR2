@@ -9,11 +9,11 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.DatasetInformationFromOntology;
 import info.esblurock.reaction.core.server.initialization.yaml.ListOfElementInformation;
 import info.esblurock.reaction.core.server.initialization.yaml.ReadYamlDataset;
-import info.esblurock.reaction.core.server.initialization.yaml.YamlDatasetInformation;
 import info.esblurock.reaction.io.dataset.InterpretData;
-import info.esblurock.reaction.ontology.dataset.ClassificationInformation;
 
 public class ReadDatasetYaml {
 
@@ -30,7 +30,7 @@ public class ReadDatasetYaml {
 				System.out.println("=============================================: " + results.size());
 				System.out.println(info.toString() + "\n");
 				System.out.println("Size: " + info.size());
-				for (YamlDatasetInformation element : info) {
+				for (DatasetInformationFromOntology element : info) {
 					String name = element.getObject().getClass().getSimpleName();
 					System.out.println("-------------------------------------------------");
 					System.out.println(name);
@@ -51,7 +51,7 @@ public class ReadDatasetYaml {
 					"vcard:Contact", "ContactInfoData");
 
 			System.out.println("\n-----------------findDatasetInformation");
-			YamlDatasetInformation info = ReadYamlDataset.findDatasetInformation(classification, null,sourceID);
+			DatasetInformationFromOntology info = ReadYamlDataset.findDatasetInformation(classification, null,sourceID);
 			System.out.println(info);
 		} catch (IOException e) {
 			System.out.println("ReadDatasetYaml: ");

@@ -11,7 +11,7 @@ import com.esotericsoftware.yamlbeans.YamlReader;
 
 import info.esblurock.reaction.chemconnect.core.data.initialization.InitializationFile;
 import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
-import info.esblurock.reaction.core.server.db.QueryBase;
+import info.esblurock.reaction.io.db.QueryBase;
 
 public class DatabaseInitializeBase {
 	
@@ -22,8 +22,10 @@ public class DatabaseInitializeBase {
 	public boolean alreadyRead(String fileS) {
 		boolean answer = true;
 		try {
-			QueryBase.getFirstDatabaseObjectsFromSingleProperty(InitializationFile.class.getName(), 
+			InitializationFile init = (InitializationFile) QueryBase.getFirstDatabaseObjectsFromSingleProperty(InitializationFile.class.getName(), 
 					"fileName", fileS);
+			if(init == null)
+				answer = false;
 		} catch (IOException e) {
 			answer = false;
 		}
