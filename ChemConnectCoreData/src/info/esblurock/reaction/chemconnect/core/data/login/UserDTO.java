@@ -12,6 +12,7 @@ public class UserDTO implements Serializable {
 	String hostname;
 	String userLevel;
 	ArrayList<String> privledges;
+	ArrayList<String> access;
 	int maximumTransactions;
 	
 	
@@ -25,6 +26,7 @@ public class UserDTO implements Serializable {
 		hostname = host;
 		userLevel = userlevel;
 		this.maximumTransactions = maximumTransactions;
+		access = new ArrayList<String>();
 	}
 	
 	public boolean getLoggedIn() {
@@ -64,5 +66,32 @@ public class UserDTO implements Serializable {
 	}
 	public boolean underMaximumTransactions(int count) {
 		return count < maximumTransactions;
+	}
+	public void addAccess(String accesskey) {
+		access.add(accesskey);
+	}
+	
+	public ArrayList<String> getAccess() {
+		return access;
+	}
+
+	public String toString() {
+		StringBuilder build = new StringBuilder();
+		build.append(userName);
+		build.append(": (");
+		build.append(sessionID);
+		build.append(", ");
+		build.append(hostname);
+		build.append(", ");
+		build.append(IP);
+		build.append(")  ");
+		build.append(userLevel);
+		build.append("/n"); 
+		build.append(privledges);
+		build.append("/n"); 
+		build.append(access);
+		build.append("/n"); 
+		
+		return build.toString();
 	}
 }

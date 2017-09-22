@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.chemconnect.core.client.pages.MainDataStructureVisualization;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 

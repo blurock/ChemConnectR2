@@ -1,14 +1,22 @@
 package info.esblurock.reaction.io.db;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.google.appengine.api.datastore.QueryResultIterator;
+import com.google.appengine.api.datastore.Cursor;
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.cmd.Query;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.query.QueryPropertyValue;
+import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
+import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.data.transaction.DataSourceIdentification;
 import info.esblurock.reaction.chemconnect.core.data.transaction.EventCount;
+import info.esblurock.reaction.chemconnect.core.data.rdf.KeywordRDF;
 
 public class QueryBase {
 	public static String userS = "user";
@@ -94,6 +102,51 @@ public class QueryBase {
 		return obj;
 	}
 
+	public static List<KeywordRDF> findRDF(String subject, String predicate, String object) {
+		Query<KeywordRDF> query = ofy().load().type(KeywordRDF.class);
+		if(subject != null) {
+			query = query.filter("subject",subject);
+		}
+		if(predicate != null) {
+			query = query.filter("predicate",predicate);
+		}
+		if(object != null) {
+			query = query.filter("object",object);
+		}
+		List<KeywordRDF> lst = query.list();
+		return lst;
+	}
+	
+	public static SingleQueryResult StandardQueryResult(QuerySetupBase parameters) throws ClassNotFoundException {
+		Class<?> cls = Class.forName(parameters.getQueryClass());
+		Query<?> query = ofy().load().type(cls);
+		if(parameters.getCursorS() != null) {
+			query = query.startAt(Cursor.fromWebSafeString(parameters.getCursorS()));
+		}
+		query = query.limit(parameters.getAnswerLimit());
+		for(QueryPropertyValue pv : parameters.getQueryvalues()) {
+			query = query.filter(pv.getProperty(),pv.getValue());
+		}
+		System.out.println("StandardQueryResult: set up query: " + parameters.getQueryClass());
+		@SuppressWarnings("unchecked")
+		QueryResultIterator<DatabaseObject> iterator = (QueryResultIterator<DatabaseObject>) query.iterator();
+		ArrayList<DatabaseObject> lst = new ArrayList<DatabaseObject>();
+		boolean continu = false;
+		while(iterator.hasNext()) {
+			DatabaseObject obj = iterator.next();
+			System.out.println("StandardQueryResult: " + obj.getIdentifier());
+			lst.add(obj);
+			continu = true;
+		}
+		String encodedCursor = null;
+		if(continu) {
+			Cursor cursor = iterator.getCursor();
+			encodedCursor = cursor.toWebSafeString();
+		}
+		SingleQueryResult result = new SingleQueryResult(lst,parameters,encodedCursor);
+		return result;
+	}
+	
 	public static void deleteUsingPropertyValue(Class<?> cls, String propertyname, String propertyvalue) {
 		Object o = ofy().load().type(cls).filter(propertyname, propertyvalue).first().now();
 		if(o != null) {

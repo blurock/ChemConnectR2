@@ -10,7 +10,6 @@ import gwt.material.design.client.ui.MaterialCardTitle;
 import gwt.material.design.client.ui.MaterialLabel;
 import info.esblurock.reaction.chemconnect.core.client.resources.DataTypeText;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
-import info.esblurock.reaction.io.metadata.StandardDatasetMetaData;
 
 public class ClassificationInformationCard extends CardModalInterface {
 

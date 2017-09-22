@@ -12,6 +12,7 @@ import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.login.UnverifiedUserAccount;
 import info.esblurock.reaction.chemconnect.core.data.login.UserAccountInformation;
 import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
+import info.esblurock.reaction.chemconnect.core.data.rdf.KeywordRDF;
 import info.esblurock.reaction.chemconnect.core.data.transaction.EventCount;
 import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
 import info.esblurock.reaction.core.server.mail.SendMail;
@@ -68,11 +69,12 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 				String host = getThreadLocalRequest().getRemoteHost();
 				System.out.println("Host=" + host);
 				user = new UserDTO(name, sessionid, ip, host, lvl,standardMaxTransitions);
+				addAccessKeys(user);
 				user.setPrivledges(getPrivledges(lvl));
 				util.setUserInfo(user);
 				System.out.println("Verifying user: " + login);
 				verify(login, login);
-				System.out.println("Verified user");
+				System.out.println("Verified user: " + user.toString());
 			} else {
 				throw new IOException("name mismatch; " + name);
 			}
@@ -82,6 +84,14 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 		return user;
 	}
 	
+	private void addAccessKeys(UserDTO user) {
+		String username = user.getName();
+		List<KeywordRDF> lst = QueryBase.findRDF(null,"dataset:userReadAccess",username);
+		for(KeywordRDF rdf : lst) {
+			user.addAccess(rdf.getIdentifier());
+		}
+	}
+
 	private UnverifiedUserAccount getUnverifiedAccount(String username) throws IOException {
 		UnverifiedUserAccount unverified = null;
 		List<DatabaseObject> lst = QueryBase.getDatabaseObjectsFromSingleProperty(UnverifiedUserAccount.class.getName(),"username",username);

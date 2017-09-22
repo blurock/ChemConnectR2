@@ -8,6 +8,8 @@ import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatab
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.contact.Organization;
 import info.esblurock.reaction.chemconnect.core.data.login.UserAccount;
+import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
+import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DatasetInformationFromOntology;
 import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
@@ -36,5 +38,15 @@ public class ContactDatabaseAccessImpl  extends ServerBase implements ContactDat
 		DatasetInformationFromOntology info = ExtractCatalogInformation.extract(identifier, dataElementName);
 		System.out.println(info.toString());
 		return info;
+	}
+	public SingleQueryResult standardQuery(QuerySetupBase query) throws IOException {
+		SingleQueryResult ans = null;
+		try {
+			ans = QueryBase.StandardQueryResult(query);
+		} catch (ClassNotFoundException e) {
+			throw new IOException("Query class not found: " + query.getQueryClass());
+		}
+		return ans;
+		
 	}
 }

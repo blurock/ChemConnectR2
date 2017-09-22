@@ -7,6 +7,8 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
+import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DatasetInformationFromOntology;
 
@@ -30,5 +32,5 @@ public interface ContactDatabaseAccess extends RemoteService {
 	ArrayList<String> getListOfOrganizations() throws IOException;
 	ArrayList<ClassificationInformation> getCatalogClassificationInformation();
 	DatasetInformationFromOntology extractCatalogInformation(String identifier, String dataElementName) throws IOException;
-
+	SingleQueryResult standardQuery(QuerySetupBase query) throws IOException;
 }

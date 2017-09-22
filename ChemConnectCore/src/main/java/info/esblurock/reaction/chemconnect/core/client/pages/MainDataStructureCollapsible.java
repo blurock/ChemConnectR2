@@ -10,7 +10,6 @@ import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialCollapsible;
-import gwt.material.design.client.ui.MaterialCollapsibleBody;
 import gwt.material.design.client.ui.MaterialCollapsibleItem;
 import gwt.material.design.client.ui.MaterialLink;
 import info.esblurock.reaction.chemconnect.core.client.cards.CardModal;
