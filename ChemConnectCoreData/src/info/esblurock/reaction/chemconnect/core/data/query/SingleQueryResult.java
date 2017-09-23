@@ -12,11 +12,24 @@ public class SingleQueryResult implements Serializable{
 	String cursorS;
 	ArrayList<DatabaseObject> results;
 	QuerySetupBase query;
+	
+	public SingleQueryResult() {
+		
+	}
 	public SingleQueryResult(ArrayList<DatabaseObject> results, QuerySetupBase query, String cursorS) {
 		super();
 		this.results = results;
 		this.query = query;
 		this.cursorS = cursorS;
+	}
+	public String getCursorS() {
+		return cursorS;
+	}
+	public ArrayList<DatabaseObject> getResults() {
+		return results;
+	}
+	public QuerySetupBase getQuery() {
+		return query;
 	}
 	
 	

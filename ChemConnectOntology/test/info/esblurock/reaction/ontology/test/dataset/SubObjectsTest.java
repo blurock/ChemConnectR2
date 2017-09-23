@@ -12,6 +12,9 @@ public class SubObjectsTest {
 
 	@Test
 	public void test() {
+		String userAccountS = "dataset:UserAccount";
+		Set<String> sub1 = DatasetOntologyParsing.SubObjectsOfDataStructure(userAccountS);
+		System.out.println(userAccountS + ":  " + sub1);
 		String consortiumS = "dataset:Consortium";
 		Set<String> sub2 = DatasetOntologyParsing.SubObjectsOfDataStructure(consortiumS);
 		System.out.println(consortiumS + ":  " + sub2);

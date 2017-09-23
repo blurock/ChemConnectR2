@@ -12,8 +12,10 @@ import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DatasetInformationFromOntology;
+import info.esblurock.reaction.chemconnect.core.data.transfer.ListOfDataElementInformation;
 import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.services.util.DatabaseObjectUtilities;
+import info.esblurock.reaction.io.dataset.InterpretData;
 import info.esblurock.reaction.io.db.QueryBase;
 import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 
@@ -39,6 +41,20 @@ public class ContactDatabaseAccessImpl  extends ServerBase implements ContactDat
 		System.out.println(info.toString());
 		return info;
 	}
+	public SingleQueryResult getMainObjects(ClassificationInformation clsinfo) throws IOException {
+		InterpretData interpret = InterpretData.valueOf(clsinfo.getDataType());
+		String classname = interpret.canonicalClassName();
+		System.out.println("getMainObjects: " + classname);
+		QuerySetupBase query = new QuerySetupBase(classname);
+		return standardQuery(query);
+	}
+	
+	public ListOfDataElementInformation getSubElementsOfStructure(String dataElementName) {
+		ListOfDataElementInformation substructures = null;
+		substructures = DatasetOntologyParsing.getSubElementsOfStructure(dataElementName);
+		return substructures;
+	}
+
 	public SingleQueryResult standardQuery(QuerySetupBase query) throws IOException {
 		SingleQueryResult ans = null;
 		try {

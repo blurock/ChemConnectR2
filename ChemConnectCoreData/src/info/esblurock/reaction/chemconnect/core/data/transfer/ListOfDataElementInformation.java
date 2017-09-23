@@ -1,9 +1,7 @@
-package info.esblurock.reaction.ontology.dataset;
+package info.esblurock.reaction.chemconnect.core.data.transfer;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-
-import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 
 public class ListOfDataElementInformation extends ArrayList<DataElementInformation> implements Serializable {
 

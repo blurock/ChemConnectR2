@@ -12,6 +12,7 @@ import com.hp.hpl.jena.rdf.model.RDFNode;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.ListOfDataElementInformation;
 import info.esblurock.reaction.ontology.OntologyBase;
 
 public class DatasetOntologyParsing {
@@ -188,7 +189,7 @@ public class DatasetOntologyParsing {
                  <http://purl.org/dc/terms/identifier> "vcard:street-address"^^xsd:string .
 	
 	 */
-	public static List<DataElementInformation> getSubElementsOfStructure(String structure) {
+	public static ListOfDataElementInformation getSubElementsOfStructure(String structure) {
 		String query = "SELECT ?sub  ?pred ?card ?link ?id ?substructure \n" + "	WHERE {\n" + structure
 				+ " rdfs:subClassOf ?sub .\n" + "		{\n" + "     {  ?sub owl:onClass ?substructure  . \n"
 				+ "         ?sub owl:qualifiedCardinality ?card }\n" + "		UNION\n"

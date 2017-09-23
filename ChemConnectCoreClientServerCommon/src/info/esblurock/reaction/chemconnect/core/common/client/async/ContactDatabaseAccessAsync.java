@@ -8,6 +8,7 @@ import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DatasetInformationFromOntology;
+import info.esblurock.reaction.chemconnect.core.data.transfer.ListOfDataElementInformation;
 
 
 public interface ContactDatabaseAccessAsync {
@@ -22,5 +23,9 @@ public interface ContactDatabaseAccessAsync {
 	void getCatalogClassificationInformation(AsyncCallback<ArrayList<ClassificationInformation>> callback);
 
 	void standardQuery(QuerySetupBase query, AsyncCallback<SingleQueryResult> callback);
+
+	void getMainObjects(ClassificationInformation clsinfo, AsyncCallback<SingleQueryResult> callback);
+
+	void getSubElementsOfStructure(String dataElementName, AsyncCallback<ListOfDataElementInformation> callback);
 
 }

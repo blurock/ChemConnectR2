@@ -11,7 +11,7 @@ import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DatasetInformationFromOntology;
-
+import info.esblurock.reaction.chemconnect.core.data.transfer.ListOfDataElementInformation;
 
 @RemoteServiceRelativePath("contactservice")
 public interface ContactDatabaseAccess extends RemoteService {
@@ -33,4 +33,6 @@ public interface ContactDatabaseAccess extends RemoteService {
 	ArrayList<ClassificationInformation> getCatalogClassificationInformation();
 	DatasetInformationFromOntology extractCatalogInformation(String identifier, String dataElementName) throws IOException;
 	SingleQueryResult standardQuery(QuerySetupBase query) throws IOException;
+	SingleQueryResult getMainObjects(ClassificationInformation clsinfo) throws IOException;
+	ListOfDataElementInformation getSubElementsOfStructure(String dataElementName);
 }

@@ -118,14 +118,17 @@ public class QueryBase {
 	}
 	
 	public static SingleQueryResult StandardQueryResult(QuerySetupBase parameters) throws ClassNotFoundException {
+		System.out.println("StandardQueryResult: set up query: " + parameters.getQueryClass());
 		Class<?> cls = Class.forName(parameters.getQueryClass());
 		Query<?> query = ofy().load().type(cls);
 		if(parameters.getCursorS() != null) {
 			query = query.startAt(Cursor.fromWebSafeString(parameters.getCursorS()));
 		}
 		query = query.limit(parameters.getAnswerLimit());
+		if(parameters.getQueryvalues() != null) {
 		for(QueryPropertyValue pv : parameters.getQueryvalues()) {
 			query = query.filter(pv.getProperty(),pv.getValue());
+		}
 		}
 		System.out.println("StandardQueryResult: set up query: " + parameters.getQueryClass());
 		@SuppressWarnings("unchecked")

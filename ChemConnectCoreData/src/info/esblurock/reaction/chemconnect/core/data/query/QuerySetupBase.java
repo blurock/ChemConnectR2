@@ -13,6 +13,8 @@ public class QuerySetupBase implements Serializable {
 	String queryClass;
 	SetOfQueryPropertyValues queryvalues;
 	
+	public QuerySetupBase() {
+	}
 	public QuerySetupBase(String queryClass, SetOfQueryPropertyValues queryvalues) {
 		this.queryClass = queryClass;
 		this.queryvalues = queryvalues;

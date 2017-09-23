@@ -67,9 +67,14 @@ public enum InterpretData {
 		@Override
 		public DatabaseObject readElementFromDatabase(
 				String identifier) throws IOException {
-			return QueryBase.getDatabaseObjectFromIdentifier(DatabaseObject.getClass().getCanonicalName(), identifier);
+			return QueryBase.getDatabaseObjectFromIdentifier(DatabaseObject.class.getCanonicalName(), identifier);
 		}
 
+		@Override
+		public String canonicalClassName() {
+			return DatabaseObject.class.getCanonicalName();
+		}
+		
 	},
 
 	DescriptionDataData {
@@ -124,7 +129,11 @@ public enum InterpretData {
 		@Override
 		public DatabaseObject readElementFromDatabase(
 				String identifier) throws IOException {
-			return QueryBase.getDatabaseObjectFromIdentifier(DescriptionDataData.getClass().getCanonicalName(), identifier);
+			return QueryBase.getDatabaseObjectFromIdentifier(DescriptionDataData.class.getCanonicalName(), identifier);
+		}
+		@Override
+		public String canonicalClassName() {
+			return DescriptionDataData.class.getCanonicalName();
 		}
 
 	},
@@ -169,7 +178,11 @@ public enum InterpretData {
 		@Override
 		public DatabaseObject readElementFromDatabase(
 				String identifier) throws IOException {
-			return QueryBase.getDatabaseObjectFromIdentifier(ContactInfoData.getClass().getCanonicalName(), identifier);
+			return QueryBase.getDatabaseObjectFromIdentifier(ContactInfoData.class.getCanonicalName(), identifier);
+		}
+		@Override
+		public String canonicalClassName() {
+			return ContactInfoData.class.getCanonicalName();
 		}
 
 	},
@@ -211,7 +224,11 @@ public enum InterpretData {
 		@Override
 		public DatabaseObject readElementFromDatabase(
 				String identifier) throws IOException {
-			return QueryBase.getDatabaseObjectFromIdentifier(ContactLocationInformation.getClass().getCanonicalName(), identifier);
+			return QueryBase.getDatabaseObjectFromIdentifier(ContactLocationInformation.class.getCanonicalName(), identifier);
+		}
+		@Override
+		public String canonicalClassName() {
+			return ContactLocationInformation.class.getCanonicalName();
 		}
 
 	}, GPSLocation {
@@ -247,7 +264,11 @@ public enum InterpretData {
 		@Override
 		public DatabaseObject readElementFromDatabase(
 				String identifier) throws IOException {
-			return QueryBase.getDatabaseObjectFromIdentifier(GPSLocation.getClass().getCanonicalName(), identifier);
+			return QueryBase.getDatabaseObjectFromIdentifier(GPSLocation.class.getCanonicalName(), identifier);
+		}
+		@Override
+		public String canonicalClassName() {
+			return GPSLocation.class.getCanonicalName();
 		}
 		
 	}, OrganizationDescription {
@@ -291,7 +312,11 @@ public enum InterpretData {
 		@Override
 		public DatabaseObject readElementFromDatabase(
 				String identifier) throws IOException {
-			return QueryBase.getDatabaseObjectFromIdentifier(OrganizationDescription.getClass().getCanonicalName(), identifier);
+			return QueryBase.getDatabaseObjectFromIdentifier(OrganizationDescription.class.getCanonicalName(), identifier);
+		}
+		@Override
+		public String canonicalClassName() {
+			return OrganizationDescription.class.getCanonicalName();
 		}
 		
 	}, DataSetReference {
@@ -336,7 +361,11 @@ public enum InterpretData {
 		@Override
 		public DatabaseObject readElementFromDatabase(
 				String identifier) throws IOException {
-			return QueryBase.getDatabaseObjectFromIdentifier(DataSetReference.getClass().getCanonicalName(), identifier);
+			return QueryBase.getDatabaseObjectFromIdentifier(DataSetReference.class.getCanonicalName(), identifier);
+		}
+		@Override
+		public String canonicalClassName() {
+			return DataSetReference.class.getCanonicalName();
 		}
 		
 	}
@@ -373,7 +402,11 @@ public enum InterpretData {
 		@Override
 		public DatabaseObject readElementFromDatabase(
 				String identifier) throws IOException {
-			return QueryBase.getDatabaseObjectFromIdentifier(PersonalDescription.getClass().getCanonicalName(), identifier);
+			return QueryBase.getDatabaseObjectFromIdentifier(PersonalDescription.class.getCanonicalName(), identifier);
+		}
+		@Override
+		public String canonicalClassName() {
+			return PersonalDescription.class.getCanonicalName();
 		}
 		
 	}
@@ -413,7 +446,11 @@ public enum InterpretData {
 		@Override
 		public DatabaseObject readElementFromDatabase(
 				String identifier) throws IOException {
-			return QueryBase.getDatabaseObjectFromIdentifier(NameOfPerson.getClass().getCanonicalName(), identifier);
+			return QueryBase.getDatabaseObjectFromIdentifier(NameOfPerson.class.getCanonicalName(), identifier);
+		}
+		@Override
+		public String canonicalClassName() {
+			return NameOfPerson.class.getCanonicalName();
 		}
 		
 	}, IndividualInformation {
@@ -459,7 +496,11 @@ public enum InterpretData {
 		@Override
 		public DatabaseObject readElementFromDatabase(
 				String identifier) throws IOException {
-			return QueryBase.getDatabaseObjectFromIdentifier(IndividualInformation.getClass().getCanonicalName(), identifier);
+			return QueryBase.getDatabaseObjectFromIdentifier(IndividualInformation.class.getCanonicalName(), identifier);
+		}
+		@Override
+		public String canonicalClassName() {
+			return IndividualInformation.class.getCanonicalName();
 		}
 		
 	}, Organization {
@@ -501,7 +542,11 @@ public enum InterpretData {
 		@Override
 		public DatabaseObject readElementFromDatabase(
 				String identifier) throws IOException {
-			return QueryBase.getDatabaseObjectFromIdentifier(Organization.getClass().getCanonicalName(), identifier);
+			return QueryBase.getDatabaseObjectFromIdentifier(Organization.class.getCanonicalName(), identifier);
+		}
+		@Override
+		public String canonicalClassName() {
+			return Organization.class.getCanonicalName();
 		}
 		
 	}, UserAccountInformation {
@@ -545,7 +590,11 @@ public enum InterpretData {
 		@Override
 		public DatabaseObject readElementFromDatabase(
 				String identifier) throws IOException {
-			return QueryBase.getDatabaseObjectFromIdentifier(UserAccountInformation.getClass().getCanonicalName(), identifier);
+			return QueryBase.getDatabaseObjectFromIdentifier(UserAccountInformation.class.getCanonicalName(), identifier);
+		}
+		@Override
+		public String canonicalClassName() {
+			return UserAccountInformation.class.getCanonicalName();
 		}
 		
 	}, UserAccount {
@@ -582,7 +631,11 @@ public enum InterpretData {
 		@Override
 		public DatabaseObject readElementFromDatabase(
 				String identifier) throws IOException {
-			return QueryBase.getDatabaseObjectFromIdentifier(UserAccount.getClass().getCanonicalName(), identifier);
+			return QueryBase.getDatabaseObjectFromIdentifier(UserAccount.class.getCanonicalName(), identifier);
+		}
+		@Override
+		public String canonicalClassName() {
+			return UserAccount.class.getCanonicalName();
 		}
 		
 	}, Consortium {
@@ -640,7 +693,11 @@ public enum InterpretData {
 		@Override
 		public DatabaseObject readElementFromDatabase(
 				String identifier) throws IOException {
-			return QueryBase.getDatabaseObjectFromIdentifier(Consortium.getClass().getCanonicalName(), identifier);
+			return QueryBase.getDatabaseObjectFromIdentifier(Consortium.class.getCanonicalName(), identifier);
+		}
+		@Override
+		public String canonicalClassName() {
+			return Consortium.class.getCanonicalName();
 		}
 		
 	};
@@ -650,6 +707,8 @@ public enum InterpretData {
 	public abstract Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException;
 
 	public abstract DatabaseObject readElementFromDatabase(String identifier) throws IOException ;
+	public abstract String canonicalClassName();
+	
 	public HashSet<String> parseKeywords(String keywordset) {
 		HashSet<String> keywords = new HashSet<String>();
 		if(keywordset != null) {
