@@ -69,8 +69,11 @@ public class DataElementInformation implements Serializable {
 		this.link = link;
 	}
 	public String toString() {
+		return toString("");
+	}
+		public String toString(String prefix) {
 		StringBuilder build = new StringBuilder();
-		build.append(dataElementName);
+		build.append(prefix + dataElementName);
 		if(link != null) {
 			build.append("(");
 			build.append(link);

@@ -30,6 +30,9 @@ public class DescriptionDataData extends DatabaseObject {
 	@Unindex
 	HashSet<String> keywords;
 
+	
+	public DescriptionDataData() {
+	}
 	/**
 	 * @param identifier:
 	 *            The keyword name of the object

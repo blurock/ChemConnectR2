@@ -12,12 +12,13 @@ import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DatasetInformationFromOntology;
-import info.esblurock.reaction.chemconnect.core.data.transfer.ListOfDataElementInformation;
 import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.services.util.DatabaseObjectUtilities;
 import info.esblurock.reaction.io.dataset.InterpretData;
 import info.esblurock.reaction.io.db.QueryBase;
 import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
+import info.esblurock.reaction.chemconnect.core.data.transfer.RecordInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
 
 @SuppressWarnings("serial")
 public class ContactDatabaseAccessImpl  extends ServerBase implements ContactDatabaseAccess {
@@ -49,8 +50,8 @@ public class ContactDatabaseAccessImpl  extends ServerBase implements ContactDat
 		return standardQuery(query);
 	}
 	
-	public ListOfDataElementInformation getSubElementsOfStructure(String dataElementName) {
-		ListOfDataElementInformation substructures = null;
+	public ChemConnectCompoundDataStructure getSubElementsOfStructure(String dataElementName) {
+		ChemConnectCompoundDataStructure substructures = null;
 		substructures = DatasetOntologyParsing.getSubElementsOfStructure(dataElementName);
 		return substructures;
 	}
@@ -63,6 +64,13 @@ public class ContactDatabaseAccessImpl  extends ServerBase implements ContactDat
 			throw new IOException("Query class not found: " + query.getQueryClass());
 		}
 		return ans;
+	}
+	public RecordInformation extractRecordElementsFromStructure(ClassificationInformation clsinfo,
+			ChemConnectCompoundDataStructure subelements, DatabaseObject object) throws IOException {
 		
+		RecordInformation record = ExtractCatalogInformation.extractRecordElementsFromStructure(clsinfo,subelements,object);
+		System.out.println(record.toString());
+		
+		return record;
 	}
 }

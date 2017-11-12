@@ -1,5 +1,6 @@
 package info.esblurock.reaction.chemconnect.core.client;
 
+import com.github.gwtd3.api.D3;
 import com.google.gwt.activity.shared.ActivityManager;
 import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.core.client.EntryPoint;
@@ -8,6 +9,7 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.place.shared.PlaceHistoryHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 
@@ -45,6 +47,7 @@ public class ChemConnectCore implements EntryPoint {
 		async.loginServer("Administration", "laguna", callback);
 
 		RootPanel.get().add(appWidget);
+		Window.alert("DS: " + D3.version());
 		//ChemConnectAdministrationImpl impl = new ChemConnectAdministrationImpl();
 		//RootPanel.get().add(impl);
 		historyHandler.handleCurrentHistory();

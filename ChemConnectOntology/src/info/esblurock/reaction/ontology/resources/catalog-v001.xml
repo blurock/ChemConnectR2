@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <catalog prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
-    <uri id="User Entered Import Resolution" name="http://qudt.org/2.0/schema/qudt" uri="qudt.owl"/>
+    <uri id="Imports Wizard Entry" name="http://data.qudt.org/qudt/owl/1.0.0/quantity.owl" uri="http://data.qudt.org/qudt/owl/1.0.0/quantity.owl"/>
+    <uri id="Imports Wizard Entry" name="http://qudt.org/2.0/schema/qudt" uri="http://qudt.org/2.0/schema/SCHEMA_QUDT-v2.0.ttl"/>
+    <uri id="Imports Wizard Entry" name="http://www.w3.org/ns/ssn/" uri="https://www.w3.org/ns/ssn/"/>
+    <uri id="Imports Wizard Entry" name="http://purl.org/linked-data/cube" uri="cube.ttl"/>
+    <uri id="Imports Wizard Entry" name="http://purl.org/linked-data/cube" uri="http://purl.org/linked-data/cube#"/>
     <uri id="Imports Wizard Entry" name="http://www.w3.org/ns/prov-o-20130430" uri="https://www.w3.org/ns/prov-o"/>
     <uri id="Imports Wizard Entry" name="http://www.w3.org/2006/vcard/ns" uri="vcard.ttl"/>
     <group id="Folder Repository, directory=, recursive=true, Auto-Update=true, version=2" prefer="public" xml:base="">
-        <uri id="Automatically generated entry, Timestamp=1505741386473" name="http://data.qudt.org/qudt/owl/1.0.0/dimension.owl" uri="dimension.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1505741386473" name="http://data.qudt.org/qudt/owl/1.0.0/nist-constants.owl" uri="nist-constants.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1505741386473" name="http://data.qudt.org/qudt/owl/1.0.0/quantity.owl" uri="quantity.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1505741386473" name="http://data.qudt.org/qudt/owl/1.0.0/qudt.owl" uri="qudt.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1505741386473" name="http://data.qudt.org/qudt/owl/1.0.0/unit.owl" uri="unit.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1505741386473" name="http://www.w3.org/2004/02/skos/core" uri="skos.rdf"/>
+        <uri id="Automatically generated entry, Timestamp=1507056793054" name="http://data.qudt.org/qudt/owl/1.0.0/dimension.owl" uri="dimension.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1507056793054" name="http://data.qudt.org/qudt/owl/1.0.0/nist-constants.owl" uri="nist-constants.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1507056793054" name="http://data.qudt.org/qudt/owl/1.0.0/quantity.owl" uri="quantity.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1507056793054" name="http://data.qudt.org/qudt/owl/1.0.0/qudt.owl" uri="qudt.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1507056793054" name="http://data.qudt.org/qudt/owl/1.0.0/unit.owl" uri="unit.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1507056793054" name="http://www.w3.org/2004/02/skos/core" uri="skos.rdf"/>
     </group>
 </catalog>

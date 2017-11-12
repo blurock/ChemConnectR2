@@ -8,17 +8,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.hp.hpl.jena.rdf.model.Literal;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.RDFNode;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.sparql.core.ResultBinding;
-import com.hp.hpl.jena.ontology.OntModel;
-import com.hp.hpl.jena.query.Query;
-import com.hp.hpl.jena.query.QueryExecution;
-import com.hp.hpl.jena.query.QueryExecutionFactory;
-import com.hp.hpl.jena.query.QueryFactory;
-import com.hp.hpl.jena.query.ResultSet;
+import org.apache.jena.ontology.OntModel;
+import org.apache.jena.query.Query;
+import org.apache.jena.query.QueryExecution;
+import org.apache.jena.query.QueryExecutionFactory;
+import org.apache.jena.query.QueryFactory;
+import org.apache.jena.query.ResultSet;
+import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.sparql.core.ResultBinding;
+
 
 public class OntologyBase {
 
@@ -62,6 +63,7 @@ public class OntologyBase {
 			if (datasetmodel == null) {
 				AlternativeEntryWithAppFiles alt = new AlternativeEntryWithAppFiles();
 				datasetmodel = ModelFactory.createOntologyModel();
+				
 				datasetmodel.getDocumentManager().addAltEntry(alt.getVcardURL(), alt.getVcardLocal());
 				datasetmodel.getDocumentManager().addAltEntry(alt.getDCatURL(), alt.getDCatLocal());
 				datasetmodel.getDocumentManager().addAltEntry(alt.getDctermsURL(), alt.getDcTermsLocal());
@@ -70,11 +72,16 @@ public class OntologyBase {
 				datasetmodel.getDocumentManager().addAltEntry(alt.getOrgURL(), alt.getOrgLocal());
 				datasetmodel.getDocumentManager().addAltEntry(alt.getFoafURL(), alt.getFoafLocal());
 				datasetmodel.getDocumentManager().addAltEntry(alt.getSKOSURL(), alt.getSKOSLocal());
-
+				
+				System.out.println("OntModel getDatabaseOntology() 1");
+				
 				String filename = "/info/esblurock/reaction/ontology/resources/Dataset.ttl";
 				InputStream str = OntologyBase.class.getResourceAsStream(filename);
+				System.out.println("OntModel getDatabaseOntology() 2: " + str);
+				
 				try {
 					datasetmodel.read(str, "http://esblurock.info", "TURTLE");
+					System.out.println("OntModel getDatabaseOntology() 3");
 				} catch (Exception ex) {
 					System.out.println("Error in reading Ontology:   " + filename + "\n" + ex.toString());
 				}
@@ -103,6 +110,9 @@ public class OntologyBase {
 				namespaceMap.put("http://www.w3.org/ns/dcat#", "dcat");
 				namespaceMap.put("http://www.esblurock.info/dataset#", "dataset");
 				namespaceMap.put("http://purl.org/dc/terms/", "dcterms");
+				namespaceMap.put("http://www.w3.org/ns/org#", "org");
+				namespaceMap.put("http://www.w3.org/ns/ssn/", "ssn");
+				namespaceMap.put("http://purl.org/linked-data/cube#", "datacube");
 			}
 			return namespaceMap;
 		}
@@ -217,8 +227,6 @@ public class OntologyBase {
 					namemap.put(name, full);
 				} else if (node.isLiteral()) {
 					Literal literal = node.asLiteral();
-					// System.out.println("Literal: " + name + "(" + literal.getDatatypeURI() + "):
-					// " + literal.getValue().toString());
 					String value = literal.getValue().toString();
 					namemap.put(name, value);
 				} else {

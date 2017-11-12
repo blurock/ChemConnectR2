@@ -4,8 +4,8 @@ package info.esblurock.reaction.ontology.test;
 
 import java.util.ArrayList;
 
+import org.apache.jena.rdf.model.Resource;
 import org.junit.Test;
-import com.hp.hpl.jena.rdf.model.Resource;
 
 import info.esblurock.reaction.ontology.units.OntologyUnits;
 import info.esblurock.reaction.ontology.units.UnitProperties;

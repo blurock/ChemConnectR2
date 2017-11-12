@@ -16,6 +16,15 @@ public interface DataTypeText extends com.google.gwt.i18n.client.Constants {
   String ClassName();
 
   /**
+   * Translated "Organization Organization".
+   * 
+   * @return translated "Organization Organization"
+   */
+  @DefaultStringValue("Organization Organization")
+  @Key("dataset")
+  String dataset();
+
+  /**
    * Translated "Datatype identifier".
    * 
    * @return translated "Datatype identifier"
@@ -32,4 +41,13 @@ public interface DataTypeText extends com.google.gwt.i18n.client.Constants {
   @DefaultStringValue("Identifer link")
   @Key("identifierTitle")
   String identifierTitle();
+
+  /**
+   * Translated "Value".
+   * 
+   * @return translated "Value"
+   */
+  @DefaultStringValue("Value")
+  @Key("valueTitle")
+  String valueTitle();
 }

@@ -12,7 +12,7 @@ import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
  *               ContactLocationInformation     
  * 
  * :ContactLocationInformation rdfs:isDefinedBy <http://www.w3.org/2006/vcard/ns#Location> ;
-                            <http://purl.org/dc/terms/type> "ContactLocationInformation"^^xsd:string ;
+                            <http://purl.org/dc/elements/1.1/type> "ContactLocationInformation"^^xsd:string ;
                             rdfs:label "Contact Location Information"^^xsd:string .              
  * 
  * Classification: ID: dataset:ContactLocationInformation(dcat:record): vcard:Location  (ContactLocationInformation)

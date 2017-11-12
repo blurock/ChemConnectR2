@@ -3,10 +3,11 @@ package info.esblurock.reaction.ontology.utilities;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import com.hp.hpl.jena.query.QuerySolution;
-import com.hp.hpl.jena.query.ResultSet;
-import com.hp.hpl.jena.rdf.model.RDFNode;
-import com.hp.hpl.jena.rdf.model.Resource;
+import org.apache.jena.query.QuerySolution;
+import org.apache.jena.query.ResultSet;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.Resource;
+
 
 
 public class IsolateResultList {

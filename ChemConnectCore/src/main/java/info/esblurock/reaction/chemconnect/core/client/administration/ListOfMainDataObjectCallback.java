@@ -4,6 +4,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import info.esblurock.reaction.chemconnect.core.client.pages.MainDataStructureCollapsible;
+import info.esblurock.reaction.chemconnect.core.client.pages.MainDataStructureInstanceCollapsible;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 
@@ -22,9 +23,10 @@ public class ListOfMainDataObjectCallback implements AsyncCallback<SingleQueryRe
 
 	@Override
 	public void onSuccess(SingleQueryResult result) {
-		Window.alert("ListOfMainDataObjectCallback: " + result.getResults().size());
 		for(DatabaseObject obj : result.getResults()) {
-			Window.alert(obj.getIdentifier());
+			MainDataStructureInstanceCollapsible collapsible 
+			= new MainDataStructureInstanceCollapsible(obj, main.getClsinfo(), main.getSubelements());
+			main.addObjectCollapsible(collapsible);
 		}
 	}
 

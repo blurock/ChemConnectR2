@@ -7,6 +7,9 @@ public class SetOfQueryPropertyValues extends ArrayList<QueryPropertyValue> impl
 
 	private static final long serialVersionUID = 1L;
 	
+	public SetOfQueryPropertyValues() {
+	}
+	
 	public void add(String property, String value) {
 		QueryPropertyValue pv = new QueryPropertyValue(property,value);
 		this.add(pv);

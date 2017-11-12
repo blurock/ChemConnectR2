@@ -1,7 +1,5 @@
 package info.esblurock.reaction.chemconnect.core.client.pages;
 
-import java.util.List;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -21,7 +19,7 @@ import info.esblurock.reaction.chemconnect.core.client.cards.ClassificationInfor
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
-import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
 
 public class MainDataStructureCollapsible extends Composite {
 
@@ -43,7 +41,7 @@ public class MainDataStructureCollapsible extends Composite {
 	MaterialLink expand;
 	CardModal card;
 	ClassificationInformation clsinfo;
-	List<DataElementInformation> subelements;
+	ChemConnectCompoundDataStructure subelements;
 	
 	public MainDataStructureCollapsible() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -74,8 +72,17 @@ public class MainDataStructureCollapsible extends Composite {
 		ListOfMainDataObjectCallback callback = new ListOfMainDataObjectCallback(this);
 		async.getMainObjects(clsinfo, callback);
 	}
-	public void setStructureSubElements(List<DataElementInformation> subelements) {
+	public void setStructureSubElements(ChemConnectCompoundDataStructure subelements) {
 		this.subelements = subelements;
+	}
+	public ClassificationInformation getClsinfo() {
+		return clsinfo;
+	}
+	public ChemConnectCompoundDataStructure getSubelements() {
+		return subelements;
+	}
+	public void addObjectCollapsible(MainDataStructureInstanceCollapsible collapsible) {
+		contentcollapsible.add(collapsible);
 	}
 
 }

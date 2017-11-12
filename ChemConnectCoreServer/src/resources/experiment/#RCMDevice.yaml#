@@ -1,0 +1,120 @@
+#
+# The Rapid Compression Machine University of Conneticut
+#
+UConnRCM:
+     dataset:ChemConnectDataStructure: dataset:CombustionDevice
+     dc:identifier: UConnRCM
+     dcterms:publisher: Admnistration
+     dataset:accessibility: Administration
+     dataset:userReadAccess: edwardblurock,ned,blurock
+     dataset:userWriteAccess: edwardblurock,blurock
+     dataset:Consortium: Administration
+     dc:description: UConnRCM-description
+     terms:BibliographicResource: http://dx.doi.org/10.1080/0010220060067189
+     ssn:hasSubSystem:
+          UConnRCM-piston
+	  UConnRCM-speciesSupply
+	  UConnRCM-mixchamber
+#
+# Catalog record: description
+#
+UConnRCM-description:
+     dataset:ChemConnectDataStructure: dc:description
+     dc:identifier: https://doi.org/10.1002/kin.20180-description
+     dcat:dataset: none
+     dcterms:created: 20170905
+     dcterms:type: SetOfObservations
+     dcterms:title: >
+          A Rapid Compression Machine for Chemical Kinetics Studies at
+	  Elevated Pressures and Temperatures
+     dcat:keyword:
+          autoignition delay
+	  hydrogen
+	  iso-octane
+	  negative temperature coefficient
+	  rapid compression machine
+     dcterms:description: >
+          A rapid compression machine (RCM) has been designed and fabricated
+          for the purpose of chemical kinetics studies at elevated pressures
+          and temperatures. The present RCM is pneumatically driven
+          and hydraulically actuated and stopped. Stroke of the machine varies
+          from 7 to 10 inches and clearance is also adjustable. Compression
+          ratio of up to 21 can be obtained. The optically-accessible reaction
+          chamber is equipped with sensors for the measurements of pressure
+          and temperature. In addition, a rapid sampling apparatus is incorporated
+          in the reaction chamber for determining species concentration
+          at specific post-compression time. A deliberately machined
+          crevice on the cylindrical surface of the piston has been optimized,
+          using STAR-CD CFD package, in order to suppress the formation
+          of the roll-up vortex and provide a homogeneous core of reaction
+          mixture. Temperature mapping using planar laser induced fluorescence
+          of acetone shows that roll-up vortex is indeed suppressed by
+          using the present creviced piston. Experiments with either inert
+          gases or reactive mixtures demonstrate the reproducibility of pressure
+          traces. Compression process is also shown to be very rapid and
+          free from any significant mechanical vibrations. Measurements show
+          that highly repeatable compressed conditions of up to 50 bar and
+          greater than 1000K can be obtained. A numerical model accounting
+          for heat loss is also developed to simulate the RCM data. This work
+          documents the design and operation of the present RCM as well as
+          establishes its suitability for combustion studies.
+#
+#Reference for RCM: 
+#	
+http://dx.doi.org/10.1080/00102200600671898:
+     dataset:ChemConnectDataStructure: terms:BibliographicResource
+     dc:identifier: http://dx.doi.org/10.1080/00102200600671898
+     datacite:PrimaryResourceIdentifier: http://dx.doi.org/10.1080/00102200600671898
+     dcterms:description: Combustion Science and Technology, 179: 497–530, 2007
+     dcterms:title: >
+          A Rapid Compression Machine for Chemical Kinetics Studies at
+	  Elevated Pressures and Temperatures
+     foaf:name: >
+          GauravMittal
+          Chih-JenSung
+#
+UConnRCM-piston:
+     dataset:ChemConnectDataStructure: dataset:ModulesAndSubsystems
+     dc:identifier: UConnRCM-piston
+     dcterms:publisher: Admnistration
+     dataset:accessibility: Administration
+     dataset:userReadAccess: edwardblurock,ned,blurock
+     dataset:userWriteAccess: edwardblurock,blurock
+     dataset:Consortium: Administration
+     dc:description: UConnRCM-piston-description
+     terms:BibliographicResource: http://dx.doi.org/10.1080/00102200600671898
+     ssn:hasSubSystem:
+          UConnRCM-temperatureSensor
+	  UConnRCM-pressureSensor
+	  UConnRCM-volumeOfChamber
+#
+UConnRCM-piston-description:
+     dataset:ChemConnectDataStructure: dc:description
+     dc:identifier: UConnRCM-piston-description
+     dcat:dataset: none
+     dcterms:created: 20170905
+     dcterms:title: >
+          Pneumatic Creviced Piston
+     dcat:keyword:
+          pneumatic
+          creviced,
+          piston stopping groove
+          quartz windows
+          hydraulic cylinder
+          autoignition delay
+     dcterms:description: >
+          The creviced piston is driven by an arrangement of the pneumatic
+	  piston and high-pressure air tank. It is held in place by an
+	  arrangement of the pressurized hydraulic cylinder. A trigger of a
+	  solenoid valve releases the pressure of the hydraulic chamber, and
+	  thus the piston arrangement moves forward by the pneumatic system.
+	  Toward the end of the compression stroke, the piston is smoothly
+	  decelerated and finally stopped by the piston stopping groove.
+          The end of reaction chamber is equipped with a pressure transducer
+	  for dynamic measurements and a thermocouple for initial temperature
+	  monitoring. It is also provided with quartz windows for any required
+	  optical access. The compression ratio of the rapid compression machine
+	  can be changed by changing the clearance and/or the stroke length.
+	  Split shims are used between the hydraulic cylinder and the reaction
+	  chamber to vary the clearance and the stroke can be adjusted by
+	  using spacers.

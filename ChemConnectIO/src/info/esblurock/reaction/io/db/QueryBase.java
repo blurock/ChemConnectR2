@@ -90,7 +90,7 @@ public class QueryBase {
 			Object o = ofy().load().type(objClass).filter(propertyname, propertyvalue).first().now();
 			if(o == null) {
 				throw new IOException("No results found");				
-			} else if(o.getClass().isAssignableFrom(DatabaseObject.class)) {
+			} else if(DatabaseObject.class.isAssignableFrom(o.getClass())) {
 				obj = (DatabaseObject) o;
 			} else {
 				throw new IOException(o.getClass().getCanonicalName() + " is not a superclas of DatabaseObject");

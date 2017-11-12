@@ -590,7 +590,9 @@ public enum InterpretData {
 		@Override
 		public DatabaseObject readElementFromDatabase(
 				String identifier) throws IOException {
-			return QueryBase.getDatabaseObjectFromIdentifier(UserAccountInformation.class.getCanonicalName(), identifier);
+			DatabaseObject obj = QueryBase.getDatabaseObjectFromIdentifier(UserAccountInformation.class.getCanonicalName(), identifier);
+			System.out.println("UserAccountInformation: " + obj.getClass().getCanonicalName());
+			return obj;
 		}
 		@Override
 		public String canonicalClassName() {

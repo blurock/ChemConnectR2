@@ -4,9 +4,9 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import info.esblurock.reaction.chemconnect.core.client.pages.MainDataStructureCollapsible;
-import info.esblurock.reaction.chemconnect.core.data.transfer.ListOfDataElementInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
 
-public class GetMainStructureSubElementsCallback implements AsyncCallback<ListOfDataElementInformation>{
+public class GetMainStructureSubElementsCallback implements AsyncCallback<ChemConnectCompoundDataStructure>{
 
 	MainDataStructureCollapsible main;
 	
@@ -20,7 +20,7 @@ public class GetMainStructureSubElementsCallback implements AsyncCallback<ListOf
 	}
 
 	@Override
-	public void onSuccess(ListOfDataElementInformation subelements) {
+	public void onSuccess(ChemConnectCompoundDataStructure subelements) {
 		main.setStructureSubElements(subelements);
 	}
 

@@ -7,11 +7,13 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DatasetInformationFromOntology;
-import info.esblurock.reaction.chemconnect.core.data.transfer.ListOfDataElementInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.RecordInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
 
 @RemoteServiceRelativePath("contactservice")
 public interface ContactDatabaseAccess extends RemoteService {
@@ -34,5 +36,8 @@ public interface ContactDatabaseAccess extends RemoteService {
 	DatasetInformationFromOntology extractCatalogInformation(String identifier, String dataElementName) throws IOException;
 	SingleQueryResult standardQuery(QuerySetupBase query) throws IOException;
 	SingleQueryResult getMainObjects(ClassificationInformation clsinfo) throws IOException;
-	ListOfDataElementInformation getSubElementsOfStructure(String dataElementName);
+	ChemConnectCompoundDataStructure getSubElementsOfStructure(String dataElementName);
+	RecordInformation extractRecordElementsFromStructure(ClassificationInformation clsinfo,
+			ChemConnectCompoundDataStructure subelements, 
+			DatabaseObject object) throws IOException;
 }

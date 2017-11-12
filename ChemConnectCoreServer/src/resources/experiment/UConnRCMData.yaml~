@@ -1,0 +1,159 @@
+interpreter: info.esblurock.reaction.core.server.initialization.InitializeCatalogDataStructuresYaml
+#
+# The catalog description of the dataset
+#
+10.1002/kin.20180:
+        dataset:ChemConnectDataStructure: dcat:Catalog
+        dc:identifier: 10.1002/kin.20180
+        dcterms:publisher: Admnistration
+        dataset:accessibility: Administration
+        dataset:userReadAccess: edwardblurock,ned,blurock
+        dataset:userWriteAccess: edwardblurock,blurock
+	dataset:Consortium: Administration
+	dc:description: https://doi.org/10.1002/kin.20180-description
+	terms:BibliographicResource: 10.1002/kin.20180	
+#
+# Catalog record: description
+#
+10.1002/kin.20180-description:
+     dataset:ChemConnectDataStructure: dc:description
+     dc:identifier: https://doi.org/10.1002/kin.20180-description
+     dcat:dataset: none
+     dcterms:created: 20170905
+     dcterms:type: SetOfObservations
+     dcterms:title: >
+          Autoignition of H2/CO at elevated pressures in a rapid compression machine
+     dcat:keyword: Hydrogen, Syngas, Kinetic mechanism, Ignition delay times, Flame speed
+     dcterms:description: >
+          Autoignition of H2/O2 and H2/CO/O2 mixtures has been studied in a
+	  rapid compression machine at pressures from 15 to 50 bar, temperatures
+	  from 950 to 1100 K, and equivalence ratios from 0.36 to 1.6. In addition,
+	  the effect of change in relative concentrations of H2 and CO is investigated
+	  by replacing H2 with CO, while keeping the total fuel mole fraction of the
+	  combined H2/CO fuel constant. Under the experimental conditions of
+	  intermediate temperature and high pressure, reactions involving formation
+	  and consumption of HO2 and H2O2 are important. Results show that for H2
+	  autoignition, the mechanism of O'Conaire et al. agrees well with the
+	  experimental data, although some improvements can still be made. At all
+	  the pressures investigated, replacement of some amount of H2 by CO in a
+	  reacting mixture leads to an increase in ignition delay, even with small
+	  amounts of CO addition. The inhibition effect of CO addition is also
+	  observed to be much more pronounced with increasing pressure. For H2/CO
+	  mixtures, the existing mechanisms of Li et al., Davis et al., and
+	  GRI-Mech 3.0 fail to describe the experimental trend of ignition delay.
+	  At a pressure of 50 bar, ignition delays are seen to decrease monotonically
+	  with O2 addition, although such an effect is rather weak. Kinetic analysis
+	  further demonstrates that under the present experimental conditions, CO +
+	  HO2 = CO2 + OH is the primary reaction responsible for the mismatch of
+	  experimental and calculated ignition delays. Significant improvements
+	  in the ignition delay predictions can be made by reducing this reaction
+	  rate.
+#
+#Catalog record: 
+#	
+10.1002/kin.20180-reference:
+     dataset:ChemConnectDataStructure: terms:BibliographicResource
+     dc:identifier: 10.1002/kin.20180-reference
+     datacite:PrimaryResourceIdentifier: 10.1002/kin.20180
+     dcterms:description: International Journal of Chemical Kinetics 38: 516–529, 2006
+     dcterms:title: >
+          Autoignition of H2/CO at elevated pressures in a rapid compression machine
+     foaf:name: >
+             Chih-JenSung, RichardAYetter
+#
+#
+#
+10.1002/kin.20180-set1:
+     dataset:ChemConnectDataStructure: dcat:Catalog
+     dc:identifier: 10.1002/kin.20180-set1
+     dcterms:description: 10.1002/kin.20180-set1-description
+#
+#
+#  
+10.1002/kin.20180-set1-description:
+     dataset:ChemConnectDataStructure: dc:description
+     dc:identifier: 10.1002/kin.20180-description
+     dcat:dataset: none
+     dcterms:created: 20170905
+     dcterms:type: SetOfObservations
+     dcterms:title: P: 546mbar, T: 345K, tau: 3.96
+     dcat:keyword: RCM, ignition delay, measurement
+     dcterms:description: The data at P: 546mbar, T: 345K, tau: 3.96
+#
+#
+#
+10.1002/kin.20180-set1-molefractions:
+     dataset:ChemConnectDataStructure: dataset:MoleFractions
+     dc:identifier: 10.1002/kin.20180-conditions
+     cube:component:
+          10.1002/kin.20180-set1-H2molefraction
+          10.1002/kin.20180-set1-O2molefraction
+          10.1002/kin.20180-set1-Armolefraction
+          10.1002/kin.20180-set1-N2molefraction
+10.1002/kin.20180-set1-molefractions:
+     dataset:ChemConnectDataStructure: dataset:MoleFractions
+     dc:identifier: 10.1002/kin.20180-set1-H2
+     qudt:element 0
+     qudt:quantityKind: qudt:MolarConcentrationUnit
+     qudt:description: H2 concentration
+10.1002/kin.20180-set1-molefractions:
+     dataset:ChemConnectDataStructure: dataset:MoleFractions
+     dc:identifier: 10.1002/kin.20180-set1-O2
+     qudt:element 1
+     qudt:quantityKind: qudt:MolarConcentrationUnit
+     qudt:description: O2 concentration
+10.1002/kin.20180-set1-molefractions:
+     dataset:ChemConnectDataStructure: dataset:MoleFractions
+     dc:identifier: 10.1002/kin.20180-set1-Ar
+     qudt:element 2
+     qudt:quantityKind: qudt:MolarConcentrationUnit
+     qudt:description: Ae concentration
+10.1002/kin.20180-set1-molefractions:
+     dataset:ChemConnectDataStructure: dataset:MoleFractions
+     dc:identifier: 10.1002/kin.20180-set1-N2
+     qudt:element 3
+     qudt:quantityKind: qudt:MolarConcentrationUnit
+     qudt:description: N2 concentration
+10.1002/kin.20180-set1-values:
+     dataset:ChemConnectDataStructure: qb:observation
+     dc:identifier: 10.1002/kin.20180-set1-values
+     qb:observation:
+          0.0081
+	  0.0403
+	  0.9516
+#
+#
+#
+10.1002/kin.20180-set1-ignitiondelaytimes:
+     dataset:ChemConnectDataStructure: dataset:SetOfObservations
+     dc:identifier: 10.1002/kin.20180-set1-data
+     cube:component:
+          10.1002/kin.20180-set1-pressure
+          10.1002/kin.20180-set1-temperature
+          10.1002/kin.20180-set1-ignitiondelaytime
+10.1002/kin.20180-set1-pressure:
+     dataset:ChemConnectDataStructure: dataset:DataSpecification
+     dc:identifier: 10.1002/kin.20180-set1-pressure
+     qudt:element 0
+     qudt:quantityKind: qudt:PressureOrStressUnit
+     qudt:description: pressure
+10.1002/kin.20180-set1-pressure:
+     dataset:ChemConnectDataStructure: dataset:DataSpecification
+     dc:identifier: 10.1002/kin.20180-set1-temperature
+     qudt:element 1
+     qudt:quantityKind: qudt:TemperatureUnit
+     qudt:description: temperature
+10.1002/kin.20180-set1-pressure:
+     dataset:ChemConnectDataStructure: dataset:DataSpecification
+     dc:identifier: 10.1002/kin.20180-set1-ignitiondelaytime
+     qudt:element 2
+     qudt:quantityKind: qudt:TimeUnit
+     qudt:description: ignition delay time
+10.1002/kin.20180-set1-values:
+     dataset:ChemConnectDataStructure: qb:observation
+     dc:identifier: 10.1002/kin.20180-set1-values
+     qb:observation:
+          0.03470
+	  0.03470
+	  0.46530
+	  0.46530
