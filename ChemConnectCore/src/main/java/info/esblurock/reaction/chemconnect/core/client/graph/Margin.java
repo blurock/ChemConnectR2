@@ -1,4 +1,4 @@
-package info.esblurock.reaction.chemconnect.core.client.administration;
+package info.esblurock.reaction.chemconnect.core.client.graph;
 public class Margin {
 	public final int top;
 	public final int right;

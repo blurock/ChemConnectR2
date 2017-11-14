@@ -13,7 +13,7 @@ public class TestSubElements {
 
 	@Test
 	public void test() {
-		List<DataElementInformation> subs = DatasetOntologyParsing.getSubElementsOfStructure("dataset:Consortium");
+		List<DataElementInformation> subs = DatasetOntologyParsing.subElementsOfStructure("dataset:Consortium");
 		for(DataElementInformation element : subs) {
 			System.out.println(element);
 		}

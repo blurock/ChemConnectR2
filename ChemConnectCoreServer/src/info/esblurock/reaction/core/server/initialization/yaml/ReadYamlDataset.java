@@ -98,7 +98,7 @@ public class ReadYamlDataset {
 			
 		ClassificationInformation classify = DatasetOntologyParsing.getIdentificationInformation(top, dataelement);
 		
-		List<DataElementInformation> substructures = DatasetOntologyParsing.getSubElementsOfStructure(name);
+		List<DataElementInformation> substructures = DatasetOntologyParsing.subElementsOfStructure(name);
 		/*
 		System.out.println("===================================================: " +  substructures.size());
 		for (DataElementInformation element : substructures) {
@@ -307,7 +307,7 @@ public class ReadYamlDataset {
 			
 			subobj = interpret.fillFromYamlString(classification.getTop(), substructuremap,sourceID);
 		}
-		List<DataElementInformation> lst = DatasetOntologyParsing.getSubElementsOfStructure(classification.getIdName());
+		List<DataElementInformation> lst = DatasetOntologyParsing.subElementsOfStructure(classification.getIdName());
 		DatasetInformationFromOntology dataset = new DatasetInformationFromOntology(classification.getIdName(), subobj, classification,
 				lst);
 		return dataset;

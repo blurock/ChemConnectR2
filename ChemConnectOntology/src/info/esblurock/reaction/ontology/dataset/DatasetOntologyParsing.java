@@ -206,7 +206,7 @@ dataset:ChemConnectPrimitiveDataStructure:
 					isSome);
 			ChemConnectCompoundDataStructure record = null;
 			if (linktype.compareTo("dcat:record") == 0) {
-				record = DatasetOntologyParsing.getSubElementsOfStructure(e.getElementType());
+				record = DatasetOntologyParsing.subElementsOfStructure(e.getElementType());
 				subElements(record,set);
 			}
 			set.addElement(e, record);
@@ -219,7 +219,7 @@ dataset:ChemConnectPrimitiveDataStructure:
 			if (isChemConnectPrimitiveCompound(recordelement.getChemconnectStructure()) != null) {
 				//if (recordelement.isChemConnectType("ChemConnectPrimitiveCompound")) {
 				ChemConnectCompoundDataStructure subrecord = DatasetOntologyParsing
-						.getSubElementsOfStructure(recordelement.getDataElementName());
+						.subElementsOfStructure(recordelement.getDataElementName());
 				//boolean subIsSome = recordelement.getLink().compareTo("owl:someValuesFrom") == 0;
 				//ChemConnectDataStructureElement sube = new ChemConnectDataStructureElement(recordelement.getLink(),
 				//		recordelement.getDataElementName(), recordelement.numberOfElements(), subIsSome);
@@ -401,7 +401,7 @@ dataset:ChemConnectPrimitiveDataStructure:
 	 *         "vcard:street-address"^^xsd:string .
 	 * 
 	 */
-	public static ChemConnectCompoundDataStructure getSubElementsOfStructure(String structure) {
+	public static ChemConnectCompoundDataStructure subElementsOfStructure(String structure) {
 		String query = "SELECT ?sub  ?pred ?card ?link ?id ?substructure ?subtype ?subsubtype\n" + "	WHERE {\n"
 				+ "      " + structure + " rdfs:subClassOf ?sub .\n" + "		{\n"
 				+ "        {  ?sub owl:onClass ?substructure  . \n"
@@ -686,7 +686,7 @@ dataset:ChemConnectPrimitiveDataStructure:
 		List<DataElementInformation> subelements = null;
 		for (Map<String, String> map : stringlst) {
 			String typeS = map.get("type");
-			subelements = DatasetOntologyParsing.getSubElementsOfStructure(typeS);
+			subelements = DatasetOntologyParsing.subElementsOfStructure(typeS);
 		}
 		return subelements;
 

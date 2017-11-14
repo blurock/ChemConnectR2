@@ -53,6 +53,8 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 
+import info.esblurock.reaction.chemconnect.core.client.graph.Margin;
+
 public class BarChart extends FlowPanel implements DemoCase {
 
     public interface Bundle extends ClientBundle {

@@ -23,7 +23,7 @@ public class ExtractCatalogInformation {
 	public static DatasetInformationFromOntology extract(String identifier, String dataElementName) throws IOException {
 		DataElementInformation dataelement = new DataElementInformation(dataElementName, null, true, 0, null, null);
 		ClassificationInformation classify = DatasetOntologyParsing.getIdentificationInformation(null, dataelement);
-		List<DataElementInformation> substructures = DatasetOntologyParsing.getSubElementsOfStructure(dataElementName);
+		List<DataElementInformation> substructures = DatasetOntologyParsing.subElementsOfStructure(dataElementName);
 		InterpretData interpret = InterpretData.valueOf(classify.getDataType());
 		DatabaseObject obj = interpret.readElementFromDatabase(identifier);
 		DatasetInformationFromOntology yaml = new DatasetInformationFromOntology(dataElementName, obj, classify,
@@ -43,7 +43,7 @@ public class ExtractCatalogInformation {
 	 * (extractCompoundDataStructure)
 	 * 
 	 */
-	public static RecordInformation extractRecordElementsFromStructure(ClassificationInformation clsinfo,
+	public static RecordInformation extractRecordElementsFromChemStructure(ClassificationInformation clsinfo,
 			ChemConnectCompoundDataStructure subelements, DatabaseObject object) throws IOException {
 		InterpretData interpret = InterpretData.valueOf(clsinfo.getDataType());
 		Map<String, Object> map = interpret.createYamlFromObject(object);
@@ -93,7 +93,7 @@ public class ExtractCatalogInformation {
 	private static CompoundDataStructureInformation extractCompoundDataStructure(DatabaseObject obj, Map<String, Object> map,
 			DataElementInformation element) throws IOException {
 		ChemConnectCompoundDataStructure primitives = DatasetOntologyParsing
-				.getSubElementsOfStructure(element.getDataElementName());
+				.subElementsOfStructure(element.getDataElementName());
 		CompoundDataStructureInformation compound = new CompoundDataStructureInformation(element.getChemconnectStructure(),element.getDataElementName());
 		for (DataElementInformation primitive : primitives) {
 			String primitivetype = DatasetOntologyParsing.getPrimitiveStructureType(primitive.getDataElementName());
@@ -137,7 +137,7 @@ public class ExtractCatalogInformation {
 			throws IOException {
 		ElementsOfASetOfMainStructure structures = null;
 		String dataElementName = classify.getIdName();
-		List<DataElementInformation> substructures = DatasetOntologyParsing.getSubElementsOfStructure(dataElementName);
+		List<DataElementInformation> substructures = DatasetOntologyParsing.subElementsOfStructure(dataElementName);
 		InterpretData interpret = InterpretData.valueOf(classify.getDataType());
 		for (DatabaseObject obj : result.getResults()) {
 			Map<String, Object> map = interpret.createYamlFromObject(obj);

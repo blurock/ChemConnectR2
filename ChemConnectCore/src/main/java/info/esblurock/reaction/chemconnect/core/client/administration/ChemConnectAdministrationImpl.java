@@ -22,6 +22,10 @@ import gwt.material.design.client.ui.MaterialTitle;
 import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.chemconnect.core.client.InitializationCallback;
 import info.esblurock.reaction.chemconnect.core.client.graph.BaseGraphLink;
+import info.esblurock.reaction.chemconnect.core.client.graph.FocusAndContext;
+import info.esblurock.reaction.chemconnect.core.client.graph.GraphNodesWithForces;
+import info.esblurock.reaction.chemconnect.core.client.graph.RadialReingoldTilfordTree;
+import info.esblurock.reaction.chemconnect.core.client.graph.SampleForcedGraph;
 import info.esblurock.reaction.chemconnect.core.client.pages.DataStructurePages;
 import info.esblurock.reaction.chemconnect.core.client.resources.BaseText;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.ChemConnectAdministrationView;
@@ -93,45 +97,22 @@ public class ChemConnectAdministrationImpl extends Composite implements ChemConn
 		footer.setTextColor(Color.BLACK);
 		ok.setText("OK");
 		close.setIconType(IconType.CLOSE);
-		
-		BaseGraphLink[] lnkarray = new BaseGraphLink[] {
-				  new BaseGraphLink("Microsoft", "Amazon", "licensing"),
-				  new BaseGraphLink("Microsoft", "HTC", "licensing"),
-				  new BaseGraphLink("Samsung", "Apple", "suit"),
-				  new BaseGraphLink("Motorola", "Apple", "suit"),
-				  new BaseGraphLink("Nokia", "Apple", "resolved"),
-				  new BaseGraphLink("HTC", "Apple", "suit"),
-				  new BaseGraphLink("Kodak", "Apple", "suit"),
-				  new BaseGraphLink("Microsoft", "Barnes & Noble", "suit"),
-				  new BaseGraphLink("Microsoft", "Foxconn", "suit"),
-				  new BaseGraphLink("Oracle", "Google", "suit"),
-				  new BaseGraphLink("Apple", "HTC", "suit"),
-				  new BaseGraphLink("Microsoft", "Inventec", "suit"),
-				  new BaseGraphLink("Samsung", "Kodak", "resolved"),
-				  new BaseGraphLink("LG", "Kodak", "resolved"),
-				  new BaseGraphLink("RIM", "Kodak", "suit"),
-				  new BaseGraphLink("Sony", "LG", "suit"),
-				  new BaseGraphLink("Kodak", "LG", "resolved"),
-				  new BaseGraphLink("Apple", "Nokia", "resolved"),
-				  new BaseGraphLink("Qualcomm", "Nokia", "resolved"),
-				  new BaseGraphLink("Apple", "Motorola", "suit"),
-				  new BaseGraphLink("Microsoft", "Motorola", "suit"),
-				  new BaseGraphLink("Motorola", "Microsoft", "suit"),
-				  new BaseGraphLink("Huawei", "ZTE", "suit"),
-				  new BaseGraphLink("Ericsson", "ZTE", "suit"),
-				  new BaseGraphLink("Kodak", "Samsung", "resolved"),
-				  new BaseGraphLink("Apple", "Samsung", "suit"),
-				  new BaseGraphLink("Kodak", "RIM", "suit"),
-				  new BaseGraphLink("Nokia", "Qualcomm", "suit")		
-		};
-
-		ArrayList<BaseGraphLink> links = new ArrayList<BaseGraphLink>();
-		for(BaseGraphLink lnk : lnkarray) {
-			links.add(lnk);
-		}
-		GraphNodesWithForces graphDS = new GraphNodesWithForces(this,links);
+		/*
+		SampleForcedGraph sample = new SampleForcedGraph(this);
+		GraphNodesWithForces graphDS = new GraphNodesWithForces(sample);
 		content.add(graphDS);
 		graphDS.start();
+		*/
+		/*
+		RadialReingoldTilfordTree reingold = new RadialReingoldTilfordTree();
+		content.add(reingold);
+		reingold.start();
+		*/
+		
+		FocusAndContext context = new FocusAndContext();
+		content.add(context);
+		context.start();
+		
 		/*
 		BarChart bar = new BarChart();
 		Window.alert("Bar started 2");

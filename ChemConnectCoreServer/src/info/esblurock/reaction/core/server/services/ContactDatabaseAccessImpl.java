@@ -35,6 +35,9 @@ public class ContactDatabaseAccessImpl  extends ServerBase implements ContactDat
 		return DatabaseObjectUtilities.getListOfIdentifiers(orgs);
 	}
 	public ArrayList<ClassificationInformation> getCatalogClassificationInformation() {
+		DatasetOntologyParsing.
+		
+		
 		return DatasetOntologyParsing.getCatalogClassificationInformation();
 	}
 	public DatasetInformationFromOntology extractCatalogInformation(String identifier, String dataElementName) throws IOException {
@@ -52,7 +55,7 @@ public class ContactDatabaseAccessImpl  extends ServerBase implements ContactDat
 	
 	public ChemConnectCompoundDataStructure getSubElementsOfStructure(String dataElementName) {
 		ChemConnectCompoundDataStructure substructures = null;
-		substructures = DatasetOntologyParsing.getSubElementsOfStructure(dataElementName);
+		substructures = DatasetOntologyParsing.subElementsOfStructure(dataElementName);
 		return substructures;
 	}
 
@@ -68,7 +71,7 @@ public class ContactDatabaseAccessImpl  extends ServerBase implements ContactDat
 	public RecordInformation extractRecordElementsFromStructure(ClassificationInformation clsinfo,
 			ChemConnectCompoundDataStructure subelements, DatabaseObject object) throws IOException {
 		
-		RecordInformation record = ExtractCatalogInformation.extractRecordElementsFromStructure(clsinfo,subelements,object);
+		RecordInformation record = ExtractCatalogInformation.extractRecordElementsFromChemStructure(clsinfo,subelements,object);
 		System.out.println(record.toString());
 		
 		return record;

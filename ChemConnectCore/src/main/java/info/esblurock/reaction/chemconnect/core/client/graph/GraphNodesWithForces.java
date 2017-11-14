@@ -1,4 +1,4 @@
-package info.esblurock.reaction.chemconnect.core.client.administration;
+package info.esblurock.reaction.chemconnect.core.client.graph;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -17,12 +17,10 @@ import com.github.gwtd3.api.layout.Force.Node;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.user.client.ui.FlowPanel;
 
-import info.esblurock.reaction.chemconnect.core.client.graph.BaseForceGraph;
-import info.esblurock.reaction.chemconnect.core.client.graph.BaseGraphLink;
+import info.esblurock.reaction.chemconnect.core.client.administration.ChemConnectAdministrationImpl;
+import info.esblurock.reaction.chemconnect.core.client.administration.DemoCase;
 
 /**
  * This is a GWT implementation of Mike Bostock's 'Mobile Patent Suit' D3.js infographic.
@@ -32,47 +30,33 @@ import info.esblurock.reaction.chemconnect.core.client.graph.BaseGraphLink;
  * to create a force-directed graph layout. 
  */
 public class GraphNodesWithForces extends FlowPanel implements DemoCase {
+	public static final Resources R = GWT.create(Resources.class);	
 	
-	BaseForceGraph basegraph;
-	
-	public static final Resources R = GWT.create(Resources.class);
-	
-	public interface Resources extends ClientBundle {
-		
-
-		interface Style extends CssResource {
-		
-			String link();
-			
-			String licensing();
-
-			String resolved();
-			
-		}
-		
-		@Source("MobilePatentSuits.css")
-		public Style style();
-
-	}
-
-	
+	int layoutWidth; 
+	int layoutHeight;
 	
 	private  Force<String> force;
 	
+	private Selection textpath;
 	private Selection path;
-	
 	private Selection circle;
-	
 	private Selection text;
 	
-	ChemConnectAdministrationImpl top;
 	ArrayList<BaseGraphLink> suits;
-    public GraphNodesWithForces(ChemConnectAdministrationImpl top, ArrayList<BaseGraphLink> suits) {
-    	this.suits = suits;
-    	this.top = top;
-    	R.style().ensureInjected();
+	ForceGraphBehaviorAndInformation info;
+	    
+    public GraphNodesWithForces(ForceGraphBehaviorAndInformation info) {
+    	this.info = info;
+    	suits = info.getLinks();
+    	init();
     }
     
+    
+    private void init() {
+    		R.style().ensureInjected();
+    		layoutWidth = 900;
+    		layoutHeight = 500;
+    }
     /**
      * Convenience function to overcome API limitation. 
      */
@@ -132,16 +116,14 @@ public class GraphNodesWithForces extends FlowPanel implements DemoCase {
 			links.push(link);
 		}
 		
-		double width = 900;
-		double height = 500;
 		
 		force = D3.layout().force().cast();
 		
 		force
 		.nodes(nodes)
 		.links(links)
-		.size(width, height)
-		.linkDistance(50f)
+		.size(layoutWidth, layoutHeight)
+		.linkDistance(100f)
 		.charge(-300f)
 		.on(ForceEventType.TICK, new DatumFunction<Void>() {
 			@Override
@@ -158,7 +140,8 @@ public class GraphNodesWithForces extends FlowPanel implements DemoCase {
 						double y1 = link.source().y();
 						double x2 = link.target().x();
 						double y2 = link.target().y();
-						return "M" + x1 + "," + y1 + "A" + dr + "," + dr + " 0 0,1 " + x2 + "," + y2;
+						String m = "M" + x1 + "," + y1 + "A" + dr + "," + dr + " 0 0,1 " + x2 + "," + y2;
+						return m;
 					}});
 				circle.attr("transform", new DatumFunction<String>() {
 					@Override
@@ -187,13 +170,13 @@ public class GraphNodesWithForces extends FlowPanel implements DemoCase {
 		Selection svg = D3
 					.select(this)
 					.append("svg")
-					.attr("width", width)
-					.attr("height", height);
+					.attr("width", layoutWidth)
+					.attr("height", layoutHeight);
 
 		svg
 			.append("defs")
 			.selectAll("marker")
-			.data(new Object[] { "suit", "licensing", "resolved" })
+			.data(new Object[] { "link", "greenStroke", "dashStroke" })
 			.enter()
 			.append("marker")
 			.attr("id", new DatumFunction<String>() {
@@ -205,8 +188,8 @@ public class GraphNodesWithForces extends FlowPanel implements DemoCase {
 			.attr("viewBox", "0 -5 10 10")
 		    .attr("refX", 15)
 		    .attr("refY", -1.5)
-			.attr("markerWidth", 15)
-			.attr("markerHeight", 15)
+			.attr("markerWidth", 5)
+			.attr("markerHeight", 5)
 			.attr("orient", "auto")
 			.append("path")
 			.attr("d", "M0,-5L10,0L0,5");
@@ -216,18 +199,24 @@ public class GraphNodesWithForces extends FlowPanel implements DemoCase {
 			.selectAll("path")
 			.data(force.links())
 			.enter().append("path")
+			.attr("id",  new DatumFunction<String>() {
+				@Override
+				public String apply(Element context, Value d, int index) {
+					return "pathcurve" + index;
+				}
+			})
 		    .attr("class", new DatumFunction<String>() {
 				@Override
 				public String apply(Element context, Value d, int index) {
 					Link<?> link = d.as(Link.class);
-					BaseGraphLink suit = getDatum(link);
+					BaseGraphLink lnk = getDatum(link);
 					String style = R.style().link();
-					switch (suit.getType()) {
-						case "licensing":
-							style += ' ' + R.style().licensing();
+					switch (lnk.getLinkStyle()) {
+						case "greenStroke":
+							style += ' ' + R.style().greenStroke();
 							break;
-						case "resolved":
-							style += ' ' + R.style().resolved();
+						case "dashStroke":
+							style += ' ' + R.style().dashStroke();
 							break;
 						default:
 					}
@@ -238,8 +227,8 @@ public class GraphNodesWithForces extends FlowPanel implements DemoCase {
 				@Override
 				public String apply(Element context, Value d, int index) {
 					Link<?> link = d.as(Link.class);
-					BaseGraphLink suit = getDatum(link);
-					return "url(#" + suit.getType() + ")";
+					BaseGraphLink lnk = getDatum(link);
+					return "url(#" + lnk.getLinkStyle() + ")";
 				}
 			});
 
@@ -255,7 +244,7 @@ public class GraphNodesWithForces extends FlowPanel implements DemoCase {
 					@Override
 					public Void apply(Element context, Value d, int index) {
 						Node<String> node = d.as();
-						top.nodeMouseOver(node.datum().toString());
+						info.mouseOver(node.datum().toString());
 						return null;
 					}
 			    	
@@ -264,40 +253,19 @@ public class GraphNodesWithForces extends FlowPanel implements DemoCase {
 					@Override
 					public Void apply(Element context, Value d, int index) {
 						Node<String> node = d.as();
-						top.nodeClicked(node.datum().toString());					
+						info.mouseClick(node.datum().toString());					
 						return null;
 					}
 			    	
 			    })
 ;
-		/*
-		circle = svg
-				.append("g")
-				.selectAll("rect")
-			    .data(force.nodes())
-			    .enter()
-			    .append("rect")
-			    .attr("height", 10)
-			    .attr("width", 10)
-			    .call(force.drag())
-			    .on("mouseover",new DatumFunction<Void>() {
-
-					@Override
-					public Void apply(Element context, Value d, int index) {
-						Node<String> node = d.as();
-						top.nodeClicked(node.datum().toString());
-						return null;
-					}
-			    	
-			    });
-		*/
 		text = svg
 			.append("g")
 			.selectAll("text")
 		    .data(force.nodes())
 		    .enter().append("text")
 		    .attr("x", 6)
-		    .attr("y", ".31em")
+		    .attr("y", ".62em")
 		    .text(new DatumFunction<String>() {
 				@Override
 				public String apply(Element context, Value d, int index) {
@@ -305,7 +273,29 @@ public class GraphNodesWithForces extends FlowPanel implements DemoCase {
 					return node.datum();
 				}
 		    });
-		
+		textpath = svg
+				.append("g")
+				.selectAll("textPath")
+			    .data(force.links())
+			    .enter()
+			    .append("text")
+			    .append("textPath")
+			    .attr("xlink:href",  new DatumFunction<String>() {
+					@Override
+					public String apply(Element context, Value d, int index) {
+						return "#pathcurve" + index;
+					}
+				})
+			    .style("text-anchor","middle") //place the text halfway on the arc
+				.attr("startOffset", "50%")	
+			    .text(new DatumFunction<String>() {
+					@Override
+					public String apply(Element context, Value d, int index) {
+						Link<?> link = d.as(Link.class);
+						BaseGraphLink suit = getDatum(link);
+						return suit.getType();
+					}
+			    });
 	}
 	
 	@Override

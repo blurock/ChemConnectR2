@@ -10,6 +10,8 @@ public class BaseGraphLink implements Serializable {
 	private String target;
 	
 	private String type;
+	
+	private String linkStyle;
 
 	public BaseGraphLink() {
 		
@@ -18,6 +20,7 @@ public class BaseGraphLink implements Serializable {
 		this.source = source;
 		this.target = target;
 		this.type = type;
+		this.linkStyle = "link";
 	}
 
 	public String getSource() {
@@ -30,5 +33,10 @@ public class BaseGraphLink implements Serializable {
 
 	public String getType() {
 		return type;
+	}
+	
+	public String getLinkStyle() {
+		return linkStyle;
 	};
+	
 }

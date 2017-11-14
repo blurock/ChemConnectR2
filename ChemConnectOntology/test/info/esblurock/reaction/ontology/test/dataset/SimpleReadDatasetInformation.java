@@ -23,11 +23,11 @@ public class SimpleReadDatasetInformation {
 		System.out.println(lst);
 		for (String structure : lst) {
 			System.out.println("Data Structure: '" + structure + "'");
-			List<DataElementInformation> subs = DatasetOntologyParsing.getSubElementsOfStructure(structure);
+			List<DataElementInformation> subs = DatasetOntologyParsing.subElementsOfStructure(structure);
 			for (DataElementInformation element : subs) {
 				System.out.println("\tSubstructure: '" + element + "'");
 				List<DataElementInformation> subelements = DatasetOntologyParsing
-						.getSubElementsOfStructure(element.getDataElementName());
+						.subElementsOfStructure(element.getDataElementName());
 				for (DataElementInformation info : subelements) {
 					System.out.println("\t\tElement: " + info.toString());
 					DataElementInformation dataelement = new DataElementInformation(info.getDataElementName(), null,
