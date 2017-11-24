@@ -13,6 +13,7 @@ import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DatasetInformationFromOntology;
 import info.esblurock.reaction.chemconnect.core.data.transfer.RecordInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
 
 @RemoteServiceRelativePath("contactservice")
@@ -32,11 +33,11 @@ public interface ContactDatabaseAccess extends RemoteService {
 	   }
 	ArrayList<String> getListOfUsers() throws IOException;
 	ArrayList<String> getListOfOrganizations() throws IOException;
-	ArrayList<ClassificationInformation> getCatalogClassificationInformation();
+	HierarchyNode getCatalogHierarchy();
 	DatasetInformationFromOntology extractCatalogInformation(String identifier, String dataElementName) throws IOException;
 	SingleQueryResult standardQuery(QuerySetupBase query) throws IOException;
 	SingleQueryResult getMainObjects(ClassificationInformation clsinfo) throws IOException;
-	ChemConnectCompoundDataStructure getSubElementsOfStructure(String dataElementName);
+	ChemConnectCompoundDataStructure getChemConnectCompoundDataStructure(String dataElementName);
 	RecordInformation extractRecordElementsFromStructure(ClassificationInformation clsinfo,
 			ChemConnectCompoundDataStructure subelements, 
 			DatabaseObject object) throws IOException;

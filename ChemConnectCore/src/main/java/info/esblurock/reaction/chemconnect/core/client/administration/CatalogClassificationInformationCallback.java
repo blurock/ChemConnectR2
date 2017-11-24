@@ -1,14 +1,12 @@
 package info.esblurock.reaction.chemconnect.core.client.administration;
 
-import java.util.ArrayList;
-
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import info.esblurock.reaction.chemconnect.core.client.pages.MainDataStructureVisualization;
-import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 
-public class CatalogClassificationInformationCallback implements AsyncCallback<ArrayList<ClassificationInformation>>{
+public class CatalogClassificationInformationCallback implements AsyncCallback<HierarchyNode>{
 	MainDataStructureVisualization window;
 	public CatalogClassificationInformationCallback(MainDataStructureVisualization window) {
 		this.window = window;
@@ -21,7 +19,7 @@ public class CatalogClassificationInformationCallback implements AsyncCallback<A
 	}
 
 	@Override
-	public void onSuccess(ArrayList<ClassificationInformation> clslst) {
+	public void onSuccess(HierarchyNode clslst) {
 		window.addMainStructures(clslst);
 	}
 }

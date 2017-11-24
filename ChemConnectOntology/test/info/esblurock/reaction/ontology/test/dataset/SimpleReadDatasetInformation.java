@@ -31,7 +31,7 @@ public class SimpleReadDatasetInformation {
 				for (DataElementInformation info : subelements) {
 					System.out.println("\t\tElement: " + info.toString());
 					DataElementInformation dataelement = new DataElementInformation(info.getDataElementName(), null,
-							true, 0, null, null);
+							true, 0, null, null,null);
 					ClassificationInformation classid = DatasetOntologyParsing.getIdentificationInformation(null,
 							dataelement);
 					if (classid != null) {

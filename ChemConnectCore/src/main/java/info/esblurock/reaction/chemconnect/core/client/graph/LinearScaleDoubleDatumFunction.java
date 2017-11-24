@@ -3,7 +3,6 @@ package info.esblurock.reaction.chemconnect.core.client.graph;
 import com.github.gwtd3.api.core.Value;
 import com.github.gwtd3.api.functions.DatumFunction;
 import com.github.gwtd3.api.scales.LinearScale;
-import com.google.gwt.core.client.JsDate;
 import com.google.gwt.dom.client.Element;
 
 public abstract class LinearScaleDoubleDatumFunction implements DatumFunction<Double> {

@@ -21,11 +21,12 @@ public class DataElementInformation implements Serializable {
 	String chemconnectStructure;
 	String identifier;
 	String link;
+	String suffix;
 
 	public DataElementInformation() {
 	}
 	public DataElementInformation(String dataElementName, String link, boolean singlet, int numberOfElements, 
-			String chemconnectStructure, String identifier) {
+			String chemconnectStructure, String identifier, String suffix) {
 		super();
 		this.dataElementName = dataElementName;
 		this.singlet = singlet;
@@ -33,6 +34,7 @@ public class DataElementInformation implements Serializable {
 		this.chemconnectStructure = chemconnectStructure;
 		this.identifier = identifier;
 		this.link = link;
+		this.suffix = suffix;
 	}
 	public String getDataElementName() {
 		return dataElementName;
@@ -64,9 +66,13 @@ public class DataElementInformation implements Serializable {
 	
 	public String getLink() {
 		return link;
-	}
+	}	
+	
 	public void setLink(String link) {
 		this.link = link;
+	}
+	public String getSuffix() {
+		return suffix;
 	}
 	public String toString() {
 		return toString("");
@@ -82,6 +88,9 @@ public class DataElementInformation implements Serializable {
 			build.append(":  ");
 		}
 		build.append(identifier);
+		build.append("   ");
+		build.append(suffix);
+		
 		build.append("  (" + chemconnectStructure + "):  ");
 		if(singlet) {
 			build.append("single");

@@ -5,6 +5,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -50,15 +51,21 @@ public class MainDataStructureCollapsible extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 		clsinfo = info;
 		title.setText(info.getDataType());
-		init();
+		init(clsinfo.getIdName());
 	}
-	private void init() {
+	public MainDataStructureCollapsible(String idName) {
+		initWidget(uiBinder.createAndBindUi(this));
+		clsinfo = null;
+		title.setText(idName);
+		init(idName);
+	}
+	private void init(String name) {
 		card = new CardModal();
 		body.add(card);
 		expand.setIconType(IconType.ARROW_DOWNWARD);
 		ContactDatabaseAccessAsync async = ContactDatabaseAccess.Util.getInstance();
 		GetMainStructureSubElementsCallback callback = new GetMainStructureSubElementsCallback(this);
-		async.getSubElementsOfStructure(clsinfo.getIdName(),callback);
+		async.getChemConnectCompoundDataStructure(name,callback);
 	}
 	@UiHandler("info")
 	public void onClick(ClickEvent event) {

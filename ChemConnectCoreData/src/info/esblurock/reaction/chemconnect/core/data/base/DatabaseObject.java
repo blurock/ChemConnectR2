@@ -52,6 +52,11 @@ public class DatabaseObject  implements Serializable {
 	public DatabaseObject(String id, String access, String owner,String sourceID) {
 		fill(id,access,owner,sourceID);
 	}
+	
+	public DatabaseObject(DatabaseObject obj) {
+		fill(obj.getIdentifier(),obj.getAccess(),obj.getOwner(),obj.getSourceID());
+	}
+	
 	public void fill(String id, String access, String owner,String sourceID) {
 		this.sourceID = sourceID;
 		this.identifier = id;
@@ -61,6 +66,9 @@ public class DatabaseObject  implements Serializable {
 		key = null;
 	}
 	
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
+	}
 	public String getAccess() {
 		return access;
 	}

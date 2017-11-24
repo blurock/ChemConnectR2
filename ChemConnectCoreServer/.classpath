@@ -14,10 +14,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="/ChemConnectOntology/jars/jena-arq-2.9.4.jar"/>
-	<classpathentry kind="lib" path="/ChemConnectOntology/jars/jena-core-2.7.4.jar"/>
-	<classpathentry kind="lib" path="/ChemConnectOntology/jars/jena-iri-0.9.4.jar"/>
-	<classpathentry kind="lib" path="/ChemConnectOntology/jars/jena-tdb-0.9.4.jar"/>
 	<classpathentry kind="lib" path="/ChemConnectOntology/jars/json-20140107.jar"/>
 	<classpathentry kind="lib" path="/ChemConnectOntology/jars/log4j-1.2.16.jar"/>
 	<classpathentry kind="lib" path="/ChemConnectOntology/jars/slf4j-api-1.6.4.jar"/>

@@ -11,9 +11,9 @@ import org.junit.Test;
 
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DatasetInformationFromOntology;
-import info.esblurock.reaction.core.server.initialization.yaml.ListOfElementInformation;
-import info.esblurock.reaction.core.server.initialization.yaml.ReadYamlDataset;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ListOfElementInformation;
 import info.esblurock.reaction.io.dataset.InterpretData;
+import info.esblurock.reaction.ontology.initialization.ReadYamlDataset;
 
 public class ReadDatasetYaml {
 

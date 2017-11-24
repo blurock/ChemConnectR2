@@ -75,7 +75,7 @@ public class FocusAndContext extends FlowPanel {
 		int totalXMargin = emptyMargin + labelXMargin;
 		int totalYMargin = 2 * emptyMargin + 2 * labelYMargin;
 
-		double bigPlotHeightD = (totalheight - totalYMargin) * (1.0 - percentHeight);
+		//double bigPlotHeightD = (totalheight - totalYMargin) * (1.0 - percentHeight);
 		double smallPlotHeightD = (totalheight - totalYMargin) * percentHeight;
 		//int bigPlotHeight = (int) bigPlotHeightD;
 		int smallPlotHeight = (int) smallPlotHeightD;

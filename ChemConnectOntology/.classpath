@@ -26,5 +26,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="jars/httpclient-cache-4.3.2.jar"/>
+	<classpathentry kind="lib" path="/opt/yaml/yamlbeans.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ChemConnectIO"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

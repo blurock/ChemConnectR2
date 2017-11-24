@@ -21,11 +21,6 @@ import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTitle;
 import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.chemconnect.core.client.InitializationCallback;
-import info.esblurock.reaction.chemconnect.core.client.graph.BaseGraphLink;
-import info.esblurock.reaction.chemconnect.core.client.graph.FocusAndContext;
-import info.esblurock.reaction.chemconnect.core.client.graph.GraphNodesWithForces;
-import info.esblurock.reaction.chemconnect.core.client.graph.RadialReingoldTilfordTree;
-import info.esblurock.reaction.chemconnect.core.client.graph.SampleForcedGraph;
 import info.esblurock.reaction.chemconnect.core.client.pages.DataStructurePages;
 import info.esblurock.reaction.chemconnect.core.client.resources.BaseText;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.ChemConnectAdministrationView;
@@ -108,11 +103,11 @@ public class ChemConnectAdministrationImpl extends Composite implements ChemConn
 		content.add(reingold);
 		reingold.start();
 		*/
-		
+		/*
 		FocusAndContext context = new FocusAndContext();
 		content.add(context);
 		context.start();
-		
+		*/
 		/*
 		BarChart bar = new BarChart();
 		Window.alert("Bar started 2");

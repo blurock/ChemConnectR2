@@ -3,6 +3,8 @@ package info.esblurock.reaction.chemconnect.core.data.transfer.structure;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
+
 public class ChemConnectDataStructure implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -11,30 +13,30 @@ public class ChemConnectDataStructure implements Serializable {
 	private static String linkedTo = "org:linkedTo";
 
 	String elementType;
-	ArrayList<ChemConnectDataStructureElement> records;
-	ArrayList<ChemConnectDataStructureElement> linkedTos;
-	ArrayList<ChemConnectDataStructureElement> other;
+	ArrayList<DataElementInformation> records;
+	ArrayList<DataElementInformation> linkedTos;
+	ArrayList<DataElementInformation> other;
 	MapToChemConnectCompoundDataStructure mapping;
 	
 	public ChemConnectDataStructure() {
-		records = new ArrayList<ChemConnectDataStructureElement>();
-		linkedTos = new ArrayList<ChemConnectDataStructureElement>();
-		other = new ArrayList<ChemConnectDataStructureElement>();
+		records = new ArrayList<DataElementInformation>();
+		linkedTos = new ArrayList<DataElementInformation>();
+		other = new ArrayList<DataElementInformation>();
 		mapping = new MapToChemConnectCompoundDataStructure();
 	}
 
 	public ChemConnectDataStructure(String elementType) {
 		this.elementType = elementType;
-		records = new ArrayList<ChemConnectDataStructureElement>();
-		linkedTos = new ArrayList<ChemConnectDataStructureElement>();
-		other = new ArrayList<ChemConnectDataStructureElement>();
+		records = new ArrayList<DataElementInformation>();
+		linkedTos = new ArrayList<DataElementInformation>();
+		other = new ArrayList<DataElementInformation>();
 		mapping = new MapToChemConnectCompoundDataStructure();
 	}
 
-	public void addElement(ChemConnectDataStructureElement element, ChemConnectCompoundDataStructure structure) {
-		if (element.getLinktype().compareTo(record) == 0) {
+	public void addElement(DataElementInformation element, ChemConnectCompoundDataStructure structure) {
+		if (element.getLink().compareTo(record) == 0) {
 			records.add(element);
-		} else if (element.getLinktype().compareTo(linkedTo) == 0) {
+		} else if (element.getLink().compareTo(linkedTo) == 0) {
 			linkedTos.add(element);
 		} else {
 			other.add(element);
@@ -51,17 +53,22 @@ public class ChemConnectDataStructure implements Serializable {
 		return elementType;
 	}
 
-	public ArrayList<ChemConnectDataStructureElement> getRecords() {
+	public ArrayList<DataElementInformation> getRecords() {
 		return records;
 	}
 
-	public ArrayList<ChemConnectDataStructureElement> getLinkedTos() {
+	public ArrayList<DataElementInformation> getLinkedTos() {
 		return linkedTos;
 	}
 
-	public ArrayList<ChemConnectDataStructureElement> getOther() {
+	public ArrayList<DataElementInformation> getOther() {
 		return other;
 	}
+	
+	public MapToChemConnectCompoundDataStructure getMapping() {
+		return mapping;
+	}
+
 	public String toString() {
 		return toString("");
 	}
@@ -73,17 +80,17 @@ public class ChemConnectDataStructure implements Serializable {
 		String newprefix = prefix + "\t";
 		String newprefix2 = newprefix + "\t";
 		builder.append(newprefix + "Records\n");
-		for (ChemConnectDataStructureElement element : records) {
+		for (DataElementInformation element : records) {
 			builder.append(element.toString(newprefix2));
 			builder.append("\n");
 		}
 		builder.append(newprefix + "LinkedTo\n");
-		for (ChemConnectDataStructureElement element : linkedTos) {
+		for (DataElementInformation element : linkedTos) {
 			builder.append(element.toString(newprefix2));
 			builder.append("\n");
 		}
 		builder.append(newprefix + "Other\n");
-		for (ChemConnectDataStructureElement element : other) {
+		for (DataElementInformation element : other) {
 			builder.append(element.toString(newprefix2));
 			builder.append("\n");
 		}

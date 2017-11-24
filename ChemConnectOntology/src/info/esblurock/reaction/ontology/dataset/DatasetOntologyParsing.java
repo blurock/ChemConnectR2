@@ -77,7 +77,8 @@ dataset:ChemConnectPrimitiveDataStructure:
 		.
 	 */
 	public static HierarchyNode findClassHierarchy(String topNode) {
-		HierarchyNode top = new HierarchyNode(topNode);
+		ClassificationInformation info = DatasetOntologyParsing.getIdentificationInformation(topNode);		
+		HierarchyNode top = new HierarchyNode(topNode,info);
 		List<String> structurelst = getSubClasses(topNode);
 		for (String subclass : structurelst) {
 			HierarchyNode node = findClassHierarchy(subclass);
@@ -186,27 +187,37 @@ dataset:ChemConnectPrimitiveDataStructure:
 				+ "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n"
 				+ "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
 				+ "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n"
-				+ "PREFIX dataset: <http://www.esblurock.info/dataset#>\n" + "SELECT ?record ?property ?cardinality\n"
-				+ " WHERE { " + element + "  rdfs:subClassOf  ?sub .\n" + "	?sub owl:onProperty ?property .\n"
-				+ "		{?sub owl:someValuesFrom ?record   }\n" + "	UNION\n"
-				+ "		{?sub owl:onClass ?record . ?sub owl:qualifiedCardinality ?cardinality}\n" + "  }";
-
+				+ "PREFIX dataset: <http://www.esblurock.info/dataset#>\n" 
+				+ "PREFIX core: <http://www.w3.org/2004/02/skos/core#>\n"
+				+ "SELECT ?record ?property ?cardinality ?identifier ?datatype ?altl\n"
+				+ " WHERE { " + element + "  rdfs:subClassOf  ?sub .\n" 
+				+ "	?sub owl:onProperty ?property .\n"
+				+ "		{?sub owl:someValuesFrom ?record   }\n" 
+				+ "	UNION\n"
+				+ "		{?sub owl:onClass ?record . ?sub owl:qualifiedCardinality ?cardinality}\n" 
+				+ " ?record <http://purl.org/dc/terms/identifier> ?identifier .\n" + 
+				"   ?record <http://purl.org/dc/elements/1.1/type>  ?datatype .\n"
+				+ "   ?record core:altLabel ?altl"
+				+ "  }";
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
 		for (Map<String, String> map : stringlst) {
 			String linktype = map.get("property");
 			String elementType = map.get("record");
 			String cardinalityS = map.get("cardinality");
+			String identifierS = map.get("identifier");
+			String datatypeS = map.get("datatype");
+			String altlabelS = map.get("altl");
 			boolean isSome = true;
 			int cardinality = 0;
 			if (cardinalityS != null) {
 				cardinality = Integer.parseInt(cardinalityS);
 			}
-			ChemConnectDataStructureElement e = new ChemConnectDataStructureElement(linktype, elementType, cardinality,
-					isSome);
+			DataElementInformation e = new DataElementInformation(elementType, linktype,
+					isSome,cardinality,datatypeS,identifierS,altlabelS);
 			ChemConnectCompoundDataStructure record = null;
 			if (linktype.compareTo("dcat:record") == 0) {
-				record = DatasetOntologyParsing.subElementsOfStructure(e.getElementType());
+				record = DatasetOntologyParsing.subElementsOfStructure(e.getDataElementName());
 				subElements(record,set);
 			}
 			set.addElement(e, record);
@@ -216,15 +227,14 @@ dataset:ChemConnectPrimitiveDataStructure:
 
 	public static void subElements(ChemConnectCompoundDataStructure record, ChemConnectDataStructure set) {
 		for (DataElementInformation recordelement : record) {
-			if (isChemConnectPrimitiveCompound(recordelement.getChemconnectStructure()) != null) {
-				//if (recordelement.isChemConnectType("ChemConnectPrimitiveCompound")) {
-				ChemConnectCompoundDataStructure subrecord = DatasetOntologyParsing
+			if (isChemConnectPrimitiveDataStructure(recordelement.getDataElementName()) == null) {
+				if(recordelement.getLink().compareTo("dcterms:hasPart") == 0) {
+					ChemConnectCompoundDataStructure subrecord = DatasetOntologyParsing
 						.subElementsOfStructure(recordelement.getDataElementName());
-				//boolean subIsSome = recordelement.getLink().compareTo("owl:someValuesFrom") == 0;
-				//ChemConnectDataStructureElement sube = new ChemConnectDataStructureElement(recordelement.getLink(),
-				//		recordelement.getDataElementName(), recordelement.numberOfElements(), subIsSome);
-				set.addToMapping(subrecord);
-				subElements(subrecord,set);
+					set.addToMapping(subrecord);
+					subElements(subrecord,set);
+				}
+			} else {
 			}
 		}
 	}
@@ -246,9 +256,9 @@ dataset:ChemConnectPrimitiveDataStructure:
 	(note that in Protege´this returns just the first element)
 
  */
-	public static String isChemConnectPrimitiveCompound(String element) {
-		String query = "SELECT DISTINCT ?super\n" + "	WHERE {\n" + "     dataset:" + element 
-				+ "  rdfs:subClassOf* dataset:ChemConnectPrimitiveCompound .\n" + "     dataset:" + element
+	public static String isChemConnectPrimitiveDataStructure(String element) {
+		String query = "SELECT DISTINCT ?super\n" + "	WHERE {\n" 
+				+ element + "  rdfs:subClassOf* dataset:ChemConnectPrimitiveDataStructure .\n" + element
 				+ "  rdfs:subClassOf ?super .\n" + "     ?super rdf:type owl:Class\n" + "	}";
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
@@ -287,7 +297,7 @@ dataset:ChemConnectPrimitiveDataStructure:
 	 * dataset:DataSetCatalog: dcat:Catalog (DatasetCatalog) ID: dataset:Consortium:
 	 * dataset:Consortium (Consortium)
 	 */
-	public static ArrayList<ClassificationInformation> getCatalogClassificationInformation() {
+	public static ArrayList<ClassificationInformation> getCatalogClassificationInformationList() {
 		List<String> lst = getMainDataStructures();
 		ArrayList<ClassificationInformation> clslst = new ArrayList<ClassificationInformation>();
 		for (String dataElementName : lst) {
@@ -298,7 +308,7 @@ dataset:ChemConnectPrimitiveDataStructure:
 	}
 
 	public static ClassificationInformation getIdentificationInformation(String dataElementName) {
-		DataElementInformation dataelement = new DataElementInformation(dataElementName, null, true, 0, null, null);
+		DataElementInformation dataelement = new DataElementInformation(dataElementName, null, true, 0, null, null,null);
 		return getIdentificationInformation(null, dataelement);
 	}
 
@@ -343,9 +353,11 @@ dataset:ChemConnectPrimitiveDataStructure:
 	 *         ?super . ?super rdfs:subClassOf dcat:Dataset }
 	 */
 	static public DataElementInformation getSubElementStructureFromIDObject(String structure) {
-		String query = "SELECT ?id ?type ?super\n" + "	WHERE {\n" + "   " + structure
+		String query = "SELECT ?id ?type ?super ?altl\n" + "	WHERE {\n" + "   " + structure
 				+ " <http://purl.org/dc/terms/references> ?type .\n"
-				+ "	?type <http://purl.org/dc/terms/identifier> ?id .\n" + "	?type rdfs:subClassOf ?super .\n"
+				+ "	?type <http://purl.org/dc/terms/identifier> ?id .\n" 
+				+ "	?type rdfs:subClassOf ?super .\n"
+				+ " ?type <http://www.w3.org/2004/02/skos/core#altLabel> ?altl"
 				+ "	?super rdfs:subClassOf dcat:Dataset\n" + "  }";
 
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
@@ -356,7 +368,8 @@ dataset:ChemConnectPrimitiveDataStructure:
 			String idS = stringlst.get(0).get("id");
 			String typeS = stringlst.get(0).get("type");
 			String superS = stringlst.get(0).get("super");
-			info = new DataElementInformation(typeS, null, true, 1, superS, idS);
+			String altlabelS = stringlst.get(0).get("altl");
+			info = new DataElementInformation(typeS, null, true, 1, superS, idS,altlabelS);
 		}
 		return info;
 	}
@@ -402,13 +415,15 @@ dataset:ChemConnectPrimitiveDataStructure:
 	 * 
 	 */
 	public static ChemConnectCompoundDataStructure subElementsOfStructure(String structure) {
-		String query = "SELECT ?sub  ?pred ?card ?link ?id ?substructure ?subtype ?subsubtype\n" + "	WHERE {\n"
+		String query = "SELECT ?sub  ?pred ?card ?link ?id ?substructure ?subtype ?subsubtype ?altl\n" + "	WHERE {\n"
 				+ "      " + structure + " rdfs:subClassOf ?sub .\n" + "		{\n"
 				+ "        {  ?sub owl:onClass ?substructure  . \n"
 				+ "           ?sub owl:qualifiedCardinality ?card }\n" + "		      UNION\n"
 				+ "		   {   ?sub owl:someValuesFrom|owl:allValuesFrom ?substructure}" + "      } .\n"
-				+ "		   ?sub ?pred ?substructure .\n" + "        ?sub owl:onProperty ?link .\n" + "        "
-				+ "?substructure" + " <http://purl.org/dc/terms/identifier> ?id \n" + "       }";
+				+ "		   ?sub ?pred ?substructure .\n" + "        ?sub owl:onProperty ?link .\n" 
+				+ "        ?substructure" + " <http://purl.org/dc/terms/identifier> ?id .\n" 
+				+ "        ?substructure <http://www.w3.org/2004/02/skos/core#altLabel> ?altl"
+				+ "       }";
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
 		ChemConnectCompoundDataStructure info = new ChemConnectCompoundDataStructure(structure);
@@ -416,6 +431,7 @@ dataset:ChemConnectPrimitiveDataStructure:
 			String substructure = map.get("substructure");
 			String pred = map.get("pred");
 			String link = map.get("link");
+			String altl = map.get("altl");
 			boolean singlet = true;
 			int numberOfElements = 1;
 			String numS = map.get("card");
@@ -433,7 +449,7 @@ dataset:ChemConnectPrimitiveDataStructure:
 			String identifier = (String) map.get("id");
 			String chemconnect = getChemConnectDirectTypeHierarchy(substructure);
 			DataElementInformation element = new DataElementInformation(substructure, link, singlet, numberOfElements,
-					chemconnect, identifier);
+					chemconnect, identifier,altl);
 			info.add(element);
 		}
 		return info;

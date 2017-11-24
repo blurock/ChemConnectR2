@@ -18,6 +18,7 @@ import info.esblurock.reaction.io.dataset.InterpretData;
 import info.esblurock.reaction.io.db.QueryBase;
 import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 import info.esblurock.reaction.chemconnect.core.data.transfer.RecordInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
 
 @SuppressWarnings("serial")
@@ -34,11 +35,8 @@ public class ContactDatabaseAccessImpl  extends ServerBase implements ContactDat
 		System.out.println("Organizations: " + orgs.size());
 		return DatabaseObjectUtilities.getListOfIdentifiers(orgs);
 	}
-	public ArrayList<ClassificationInformation> getCatalogClassificationInformation() {
-		DatasetOntologyParsing.
-		
-		
-		return DatasetOntologyParsing.getCatalogClassificationInformation();
+	public HierarchyNode getCatalogHierarchy() {
+		return DatasetOntologyParsing.getChemConnectDataStructureHierarchy();
 	}
 	public DatasetInformationFromOntology extractCatalogInformation(String identifier, String dataElementName) throws IOException {
 		DatasetInformationFromOntology info = ExtractCatalogInformation.extract(identifier, dataElementName);
@@ -53,7 +51,7 @@ public class ContactDatabaseAccessImpl  extends ServerBase implements ContactDat
 		return standardQuery(query);
 	}
 	
-	public ChemConnectCompoundDataStructure getSubElementsOfStructure(String dataElementName) {
+	public ChemConnectCompoundDataStructure getChemConnectCompoundDataStructure(String dataElementName) {
 		ChemConnectCompoundDataStructure substructures = null;
 		substructures = DatasetOntologyParsing.subElementsOfStructure(dataElementName);
 		return substructures;

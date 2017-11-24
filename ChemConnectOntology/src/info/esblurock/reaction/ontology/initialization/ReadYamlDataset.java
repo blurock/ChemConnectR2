@@ -1,4 +1,4 @@
-package info.esblurock.reaction.core.server.initialization.yaml;
+package info.esblurock.reaction.ontology.initialization;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,12 +18,22 @@ import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DatasetInformationFromOntology;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ListOfElementInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.MapToChemConnectCompoundDataStructure;
 import info.esblurock.reaction.io.dataset.InterpretData;
 import info.esblurock.reaction.io.metadata.StandardDatasetMetaData;
 import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 
 public class ReadYamlDataset {
 
+	/* Top routine to read a Yaml file
+	 * 
+	 * Reads the yaml file, interprets it into a Map and then calls ExtractListOfObjects
+	 * 
+	 */
 	@SuppressWarnings("unchecked")
 	public static ArrayList<ListOfElementInformation> readYaml(InputStream in, String sourceID) throws IOException {
 		Reader targetReader = new InputStreamReader(in);
@@ -39,17 +49,110 @@ public class ReadYamlDataset {
 		return total;
 	}
 
+	/** Extract the set of ChemConnectDataStructure objects
+	 * 
+	 * @param map The map of the interpreted Yaml file
+	 * @param sourceID The source ID
+	 * @return A list of catalog structures (ChemConnectDataStructure)
+	 * @throws IOException
+	 * 
+	 * The top level either has 'interpreter', denoting that this routine should interpret the yaml file
+	 * or the ChemConnectDataStructure (which is collected in the ArrayList<ListOfElementInformation>)
+	 */
 	public static ArrayList<ListOfElementInformation> ExtractListOfObjects(Map<String, Object> map,
 			String sourceID) throws IOException {
 		ArrayList<ListOfElementInformation> total = new ArrayList<ListOfElementInformation>();
 		for (Object nameO : map.keySet()) {
 			String name = (String) nameO;
 			if(name.compareTo("interpreter") != 0) {
+				extractChemConnectDataStructure(name,map,sourceID);
+				/*
 				ListOfElementInformation elements = findListOfElementInformation(name, map,sourceID);
 				total.add(elements);
+				*/
 			}
 		}
 		return total;
+	}
+
+	/* This interprets a ChemConnectDataStructure
+	 * 
+	 * Find the structure of elementName (structuremap)
+	 * Determine catalog structure name (elementStructure)... dataset:Organization
+	 * Determine the DatabaseObject (top)
+	 * 
+	 * The yaml Map has the following structure:
+	 *  - The list of elements (as records, linkedTos or other)
+	 *  - The Record structures (ChemConnectCompoundStructure)
+	 * Look through records
+	 * 	- recordtype: The record type (eg. org:Organization): The structure type to find
+	 *  - 
+	 * 
+	 */
+	@SuppressWarnings("unchecked")
+	public static ChemConnectDataStructure extractChemConnectDataStructure(String elementName,
+			Map<String, Object> map,
+			String sourceID) throws IOException {
+		
+		Map<String, Object> structuremap = null;
+		String elementStructure = null;
+		if (map != null) {
+			structuremap = (Map<String, Object>) map.get(elementName);
+			elementStructure = (String) structuremap.get(StandardDatasetMetaData.chemConnectDataStructure);
+		}
+		
+		ChemConnectDataStructure chemconnect = DatasetOntologyParsing.getChemConnectDataStructure(elementStructure);
+		
+		DatabaseObject top = null;
+		if (structuremap != null) {
+			top = InterpretData.DatabaseObject.fillFromYamlString(null, structuremap,sourceID);
+		}
+
+		DatabaseObject mainobject = InterpretData.DatabaseObject.fillFromYamlString(top,structuremap,sourceID);
+		DatabaseObjectHierarchy objecthierarchy = new DatabaseObjectHierarchy(mainobject);
+		
+		ArrayList<DataElementInformation> records = chemconnect.getRecords();
+		MapToChemConnectCompoundDataStructure mapping = chemconnect.getMapping();
+		for(DataElementInformation record : records) {
+			System.out.println("Record: " + record);
+			extractDataElementInformation(record, top, mapping, structuremap,
+					objecthierarchy, sourceID);
+		}
+		System.out.println("------   ObjectHierarchy -----");
+		System.out.println(objecthierarchy);
+		
+		return chemconnect;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private static void extractDataElementInformation(DataElementInformation element, 
+			DatabaseObject top,
+			MapToChemConnectCompoundDataStructure mapping, 
+			Map<String, Object> yamlmap, 
+			DatabaseObjectHierarchy objecthierarchy, 
+			String sourceID) throws IOException {
+		String subRecordName = element.getDataElementName();
+		ChemConnectCompoundDataStructure structure = mapping.getStructure(subRecordName);
+		if(DatasetOntologyParsing.isChemConnectPrimitiveDataStructure(element.getDataElementName()) == null) {
+			System.out.println("\tCompound Element: " + subRecordName);
+			Map<String, Object> subyamlmap = (Map<String, Object>) yamlmap.get(element.getIdentifier());
+			if(subyamlmap != null) {
+				System.out.println("\tCompound Element: " + element.getChemconnectStructure());
+				System.out.println("\tYamlStructure: " + subyamlmap.keySet());
+				
+				
+				InterpretData interpret = InterpretData.valueOf(element.getChemconnectStructure());
+				DatabaseObject newobject = new DatabaseObject(top);
+				String newid = top.getIdentifier() + "-" + element.getSuffix();
+				newobject.setIdentifier(newid);
+				DatabaseObject object = interpret.fillFromYamlString(newobject, subyamlmap, sourceID);
+				DatabaseObjectHierarchy subhierarchy = new DatabaseObjectHierarchy(object);
+				objecthierarchy.addSubobject(subhierarchy);
+				for(DataElementInformation record : structure) {
+					extractDataElementInformation(record, newobject, mapping,subyamlmap,subhierarchy,sourceID);
+				}
+			}
+		}
 	}
 
 	/**
@@ -61,22 +164,13 @@ public class ReadYamlDataset {
 	 * @return The information representing the catalog structure object
 	 * @throws IOException
 	 * 
-	 *             The values for the DatabaseObject are first isolated. These
-	 *             values are the basis of the DatabaseObject of the sub elements
-	 *             (unless otherwise specified).
+	 *		Get the map structure corresponding to name (structuremap)
+	 *
+	 *		The values for the DatabaseObject are first isolated. These
+	 *		values are the basis of the DatabaseObject of the sub elements
+	 *		(unless otherwise specified). It is required that the DatabaseObject 
+	 *		elements be present at the top level.
 	 * 
-	 *             If an element of the catalog object structure is an ID, then the
-	 *             map is augmented with the ID's this means that the actual values
-	 *             do not have to be listed. However, the sub-element corresponding
-	 *             to the object have to be present in the map. This is accomplished
-	 *             by the supplementWithIDData routine. If the sub-elements do not
-	 *             have an identifier, they are filled in by the top catalog
-	 *             identifier.
-	 * 
-	 *             After the augmentation, the top catalog structure is filled in.
-	 * 
-	 *             The each of the remaining substructures are filled
-	 *             (findDatasetInformation)
 	 * 
 	 */
 	@SuppressWarnings("unchecked")
@@ -94,7 +188,7 @@ public class ReadYamlDataset {
 			top = InterpretData.DatabaseObject.fillFromYamlString(null, structuremap,sourceID);
 			supplementWithIDData(top, structuremap);
 		}
-		DataElementInformation dataelement = new DataElementInformation(name, null,true, 0, null, null);
+		DataElementInformation dataelement = new DataElementInformation(name, null,true, 0, null, null,null);
 			
 		ClassificationInformation classify = DatasetOntologyParsing.getIdentificationInformation(top, dataelement);
 		

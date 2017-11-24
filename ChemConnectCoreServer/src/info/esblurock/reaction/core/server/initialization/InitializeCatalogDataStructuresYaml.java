@@ -6,10 +6,10 @@ import java.util.Map;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DatasetInformationFromOntology;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ListOfElementInformation;
 import info.esblurock.reaction.core.server.db.rdf.WriteDatabaseObjectRDF;
-import info.esblurock.reaction.core.server.initialization.yaml.ListOfElementInformation;
-import info.esblurock.reaction.core.server.initialization.yaml.ReadYamlDataset;
 import info.esblurock.reaction.io.rdf.StoreObject;
+import info.esblurock.reaction.ontology.initialization.ReadYamlDataset;
 
 public class InitializeCatalogDataStructuresYaml extends YamlFileInterpreterBase {
 	public static String sourceKeyS = "";

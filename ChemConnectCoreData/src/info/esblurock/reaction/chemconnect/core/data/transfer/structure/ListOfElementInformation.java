@@ -1,4 +1,4 @@
-package info.esblurock.reaction.core.server.initialization.yaml;
+package info.esblurock.reaction.chemconnect.core.data.transfer.structure;
 
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -4,7 +4,8 @@ blurockconsultingab:
         dc:identifier: blurockconsultingab
         dcterms:publisher: Admnistration
         dataset:accessibility: Public
-        dataset:DatabaseUserID: edwardblurock
+        dataset:DatabaseUserID: 
+             - edwardblurock
         org:Organization:
             org:FormalOrganization: Blurock Consulting AB
             org:OrganizationalUnit: Database Development
@@ -72,3 +73,4 @@ galway:
                 toxic and greenhouse gas emissions, thus helping address the 
                 problems of urban air pollution and climate change. 
             dcat:keyword: kinetics, combustion, chemistry, energy, fossil fuels, biofuels, thermodynamics, 
+            

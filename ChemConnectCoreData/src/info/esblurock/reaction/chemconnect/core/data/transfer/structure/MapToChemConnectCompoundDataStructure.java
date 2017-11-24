@@ -18,6 +18,9 @@ public class MapToChemConnectCompoundDataStructure implements Serializable {
 		map.put(structure.getRecordType(), structure);
 	}
 	
+	public ChemConnectCompoundDataStructure getStructure(String structureName) {
+		return map.get(structureName);
+	}
 	public String toString() {
 		return toString("");
 	}

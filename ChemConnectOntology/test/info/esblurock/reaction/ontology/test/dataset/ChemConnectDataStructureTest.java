@@ -115,16 +115,16 @@ public class ChemConnectDataStructureTest {
 
 	@Test
 	public void test() {
-		ChemConnectDataStructure struct1 = DatasetOntologyParsing.getChemConnectDataStructure("dataset:ChemConnectDataStructure");
-		System.out.println("getChemConnectDataStructure(\"dataset:ChemConnectDataStructure\");");
+		ChemConnectDataStructure struct1 = DatasetOntologyParsing.getChemConnectDataStructure("dataset:Instrument");
+		System.out.println("getChemConnectDataStructure(\"dataset:Instrument\");");
 		System.out.println(struct1);
 		
-		ChemConnectDataStructure struct2 = DatasetOntologyParsing.getChemConnectDataStructure("dataset:ChemConnectDataStructure");
-		System.out.println("getChemConnectDataStructure(\"dataset:Instrument\");");
+		ChemConnectDataStructure struct2 = DatasetOntologyParsing.getChemConnectDataStructure("dataset:Consortium");
+		System.out.println("getChemConnectDataStructure(\"dataset:Consortium\");");
 		System.out.println(struct2);
 
-		ChemConnectDataStructure struct3 = DatasetOntologyParsing.getChemConnectDataStructure("dataset:ChemConnectDataStructure");
-		System.out.println("getChemConnectDataStructure(\"dataset:Instrument\");");
+		ChemConnectDataStructure struct3 = DatasetOntologyParsing.getChemConnectDataStructure("dataset:Organization");
+		System.out.println("getChemConnectDataStructure(\"dataset:Organization\");");
 		System.out.println(struct3);
 	}
 

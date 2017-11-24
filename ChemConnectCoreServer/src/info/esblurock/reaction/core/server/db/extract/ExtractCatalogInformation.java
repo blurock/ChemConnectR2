@@ -21,7 +21,7 @@ import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 public class ExtractCatalogInformation {
 
 	public static DatasetInformationFromOntology extract(String identifier, String dataElementName) throws IOException {
-		DataElementInformation dataelement = new DataElementInformation(dataElementName, null, true, 0, null, null);
+		DataElementInformation dataelement = new DataElementInformation(dataElementName, null, true, 0, null, null,null);
 		ClassificationInformation classify = DatasetOntologyParsing.getIdentificationInformation(null, dataelement);
 		List<DataElementInformation> substructures = DatasetOntologyParsing.subElementsOfStructure(dataElementName);
 		InterpretData interpret = InterpretData.valueOf(classify.getDataType());
