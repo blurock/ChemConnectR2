@@ -128,9 +128,6 @@ public class ReadYamlDataset {
 		InterpretData interpret = InterpretData.valueOf(structuretype);
 		System.out.println("" + interpret.canonicalClassName());
 		System.out.println("Structuremap: " + structuremap);
-		YamlWriter writer = new YamlWriter(new FileWriter("output.yml"));
-		writer.write(structuremap);
-		writer.close();
 		DatabaseObject mainobject = interpret.fillFromYamlString(top,structuremap,sourceID);
 		objecthierarchy.setObject(mainobject);
 		System.out.println("------   ObjectHierarchy -----");
