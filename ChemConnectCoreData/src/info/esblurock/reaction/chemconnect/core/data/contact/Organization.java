@@ -1,13 +1,17 @@
 package info.esblurock.reaction.chemconnect.core.data.contact;
 
+import java.util.HashSet;
+
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.Unindex;
 
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 
 @SuppressWarnings("serial")
 @Entity
-public class Organization extends DatabaseObject {
+public class Organization extends ChemConnectDataStructure {
 
 	@Index
 	String contactInfoDataID;
@@ -16,35 +20,36 @@ public class Organization extends DatabaseObject {
 	String contactLocationInformationID;
 	
 	@Index
-	String descriptionDataDataID;
-	
-	@Index
 	String organizationDescriptionID;
+
+	@Unindex
+	HashSet<String> userAccounts;
 
 	public Organization() {
 		super();
 		this.contactInfoDataID = "";
 		this.contactLocationInformationID = "";
-		this.descriptionDataDataID = "";
 		this.organizationDescriptionID = "";
+		this.userAccounts = new HashSet<String>();
 	}
 	
 	public Organization(String identifier, String sourceID) {
 		super(identifier,sourceID);
 		this.contactInfoDataID = "";
 		this.contactLocationInformationID = "";
-		this.descriptionDataDataID = "";
 		this.organizationDescriptionID = "";
+		this.userAccounts = new HashSet<String>();
 	}
 	
-	public Organization(String identifier, String access, String owner, String sourceID,
-			String descriptionDataDataID, String contactInfoDataID, 
-			String contactLocationInformationID, String organizationDescriptionID) {
-		super(identifier, access, owner,sourceID);
+	public Organization(ChemConnectDataStructure datastructure,
+			String contactInfoDataID, 
+			String contactLocationInformationID, String organizationDescriptionID,
+			HashSet<String> userAccounts) {
+		super(datastructure);
 		this.contactInfoDataID = contactInfoDataID;
 		this.contactLocationInformationID = contactLocationInformationID;
-		this.descriptionDataDataID = descriptionDataDataID;
 		this.organizationDescriptionID = organizationDescriptionID;
+		this.userAccounts = userAccounts;
 	}
 
 	public String getContactInfoDataID() {
@@ -55,12 +60,12 @@ public class Organization extends DatabaseObject {
 		return contactLocationInformationID;
 	}
 
-	public String getDescriptionDataDataID() {
-		return descriptionDataDataID;
-	}
-
 	public String getOrganizationDescriptionID() {
 		return organizationDescriptionID;
+	}
+
+	public HashSet<String> getUserAccounts() {
+		return userAccounts;
 	}
 	
 	

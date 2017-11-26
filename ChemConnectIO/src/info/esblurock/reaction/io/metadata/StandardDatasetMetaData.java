@@ -8,6 +8,7 @@ public class StandardDatasetMetaData {
 	public static String identifierKeyS = "dc:identifier";
 	public static String ownerKeyS = "dcterms:publisher";
 	public static String accessKeyS = "dataset:accessibility";
+	public static String sourceIDS = "dataset:sourceID";
 	
 	public static String recordS = "dcat:record";
 	public static String linkS = "dcat:link";
@@ -17,6 +18,10 @@ public class StandardDatasetMetaData {
 	/* DescriptionDataData
 	 */
 	public static String objectdescriptionKeyS = "dct:description";
+	
+	public static String dataSetReferenceS = "terms:BibliographicResource";
+	public static String descriptionDataDataS = "dc:description";
+	public static String consortiumS = "dataset:Consortium";
 
 	public static String titleKeyS = "dcterms:title";
 	public static String descriptionKeyS = "dcterms:description";
@@ -29,6 +34,7 @@ public class StandardDatasetMetaData {
 	public static String orginfoKeyS = "org:Organization";
 	public static String contactKeyS = "vcard:Contact";
 	public static String locationKeyS = "vcard:Location";
+	public static String userAccountS = "prov:SoftwareAgent";
 		
 	public static String  streetaddressKeyS = "vcard:street-address";           
 	public static String  localityKeyS = "vcard:locality";

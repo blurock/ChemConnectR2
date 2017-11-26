@@ -12,7 +12,8 @@ public class DatabaseObjectHierarchy implements Serializable{
 	ArrayList<DatabaseObjectHierarchy> subobjects;
 	
 	public DatabaseObjectHierarchy() {
-		
+		object = null;
+		init();
 	}
 		public DatabaseObjectHierarchy(DatabaseObject object) {
 		this.object = object;
@@ -22,6 +23,9 @@ public class DatabaseObjectHierarchy implements Serializable{
 		subobjects = new ArrayList<DatabaseObjectHierarchy>();
 	}
 	
+	public void setObject(DatabaseObject obj) {
+		this.object = obj;
+	}
 	public void addSubobject(DatabaseObjectHierarchy objecthierarchy) {
 		subobjects.add(objecthierarchy);
 	}

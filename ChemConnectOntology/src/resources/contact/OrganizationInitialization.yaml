@@ -16,8 +16,17 @@ blurockconsultingab:
             dcterms:created: 20170905
             dcterms:type: Organization
             dcterms:title: Blurock Consulting AB
-            dcat:keyword: developer, kinetics, combustion, chemistry
-            dcterms:description: Blurock Consulting AB is the developer of numerous software packages
+            dcat:keyword: 
+                 - developer
+                 - kinetics
+                 - combustion
+                 - chemistry
+            dcterms:description: |
+                 Blurock Consulting AB is the developer of numerous software packages.
+                 It is the primary developer and administrator of the ChemConnect database. It is 
+                 also the primary enterer of fundamental data within the data. 
+                 Blurock Consulting AB, using ChemConnect as a persistent medium and search engine,
+                 works with partners to create state-of-the-art project management plans.
         vcard:Location:
             vcard:street-address: Bandelsvägen 1
             vcard:locality: Lund
@@ -29,8 +38,10 @@ blurockconsultingab:
             geo:long: 55.7047° N
         vcard:Contact:
             vcard:email: edward.blurock@esblurock.info
-            foaf:homepage: http://www.chemicalkinetics.info
-            foaf:workInfoHomepage: http://www.esblurock.info
+            foaf:homepage: 
+                  - http://www.chemicalkinetics.info
+            foaf:workInfoHomepage: 
+                  - http://www.esblurock.info
 galway:
         dataset:ChemConnectDataStructure: dataset:Organization
         dc:identifier:  galway
@@ -72,5 +83,11 @@ galway:
                 turbine combustion systems and the impact of their use on 
                 toxic and greenhouse gas emissions, thus helping address the 
                 problems of urban air pollution and climate change. 
-            dcat:keyword: kinetics, combustion, chemistry, energy, fossil fuels, biofuels, thermodynamics, 
-            
+            dcat:keyword: 
+                 - kinetics
+                 - combustion
+                 - chemistry
+                 - energy
+                 - fossil fuels
+                 - biofuels
+                 - thermodynamics

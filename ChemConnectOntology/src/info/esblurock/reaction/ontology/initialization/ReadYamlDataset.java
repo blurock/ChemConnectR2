@@ -1,5 +1,6 @@
 package info.esblurock.reaction.ontology.initialization;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -12,7 +13,7 @@ import java.util.Set;
 
 import com.esotericsoftware.yamlbeans.YamlException;
 import com.esotericsoftware.yamlbeans.YamlReader;
-
+import com.esotericsoftware.yamlbeans.YamlWriter;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
@@ -108,53 +109,104 @@ public class ReadYamlDataset {
 			top = InterpretData.DatabaseObject.fillFromYamlString(null, structuremap,sourceID);
 		}
 
-		DatabaseObject mainobject = InterpretData.DatabaseObject.fillFromYamlString(top,structuremap,sourceID);
-		DatabaseObjectHierarchy objecthierarchy = new DatabaseObjectHierarchy(mainobject);
+		DatabaseObjectHierarchy objecthierarchy = new DatabaseObjectHierarchy();
 		
 		ArrayList<DataElementInformation> records = chemconnect.getRecords();
 		MapToChemConnectCompoundDataStructure mapping = chemconnect.getMapping();
 		for(DataElementInformation record : records) {
 			System.out.println("Record: " + record);
-			extractDataElementInformation(record, top, mapping, structuremap,
+			DatabaseObject obj = extractDataElementInformation(record, top, mapping, structuremap,
 					objecthierarchy, sourceID);
+			if(obj != null) {
+				structuremap.put(record.getIdentifier(), obj.getIdentifier());
+			} else {
+				System.out.println("Object null: " + record.toString());
+			}
 		}
+		String structuretype = DatasetOntologyParsing.getStructureFromDataStructure(elementStructure);
+		System.out.println("Structure: " + structuretype);
+		InterpretData interpret = InterpretData.valueOf(structuretype);
+		System.out.println("" + interpret.canonicalClassName());
+		System.out.println("Structuremap: " + structuremap);
+		YamlWriter writer = new YamlWriter(new FileWriter("output.yml"));
+		writer.write(structuremap);
+		writer.close();
+		DatabaseObject mainobject = interpret.fillFromYamlString(top,structuremap,sourceID);
+		objecthierarchy.setObject(mainobject);
 		System.out.println("------   ObjectHierarchy -----");
 		System.out.println(objecthierarchy);
-		
 		return chemconnect;
 	}
 	
 	@SuppressWarnings("unchecked")
-	private static void extractDataElementInformation(DataElementInformation element, 
+	private static DatabaseObject extractDataElementInformation(DataElementInformation element, 
 			DatabaseObject top,
 			MapToChemConnectCompoundDataStructure mapping, 
 			Map<String, Object> yamlmap, 
 			DatabaseObjectHierarchy objecthierarchy, 
 			String sourceID) throws IOException {
-		String subRecordName = element.getDataElementName();
-		ChemConnectCompoundDataStructure structure = mapping.getStructure(subRecordName);
+		//String subRecordName = element.getDataElementName();
+		//ChemConnectCompoundDataStructure structure = mapping.getStructure(subRecordName);
+		DatabaseObject obj = null;
 		if(DatasetOntologyParsing.isChemConnectPrimitiveDataStructure(element.getDataElementName()) == null) {
-			System.out.println("\tCompound Element: " + subRecordName);
-			Map<String, Object> subyamlmap = (Map<String, Object>) yamlmap.get(element.getIdentifier());
+			if(element.isSinglet()) {
+			Map<String, Object> subyamlmap = (Map<String, Object>) yamlmap.get(element.getIdentifier());			
 			if(subyamlmap != null) {
-				System.out.println("\tCompound Element: " + element.getChemconnectStructure());
-				System.out.println("\tYamlStructure: " + subyamlmap.keySet());
-				
-				
-				InterpretData interpret = InterpretData.valueOf(element.getChemconnectStructure());
 				DatabaseObject newobject = new DatabaseObject(top);
 				String newid = top.getIdentifier() + "-" + element.getSuffix();
 				newobject.setIdentifier(newid);
-				DatabaseObject object = interpret.fillFromYamlString(newobject, subyamlmap, sourceID);
-				DatabaseObjectHierarchy subhierarchy = new DatabaseObjectHierarchy(object);
-				objecthierarchy.addSubobject(subhierarchy);
-				for(DataElementInformation record : structure) {
-					extractDataElementInformation(record, newobject, mapping,subyamlmap,subhierarchy,sourceID);
-				}
+				obj = extractCompoundDataElementInformation(element,mapping,subyamlmap,newobject,objecthierarchy,sourceID);
+			}
+		} else {
+			Object yamlobject = yamlmap.get(element.getIdentifier());
+			System.out.println("Multiple: " + yamlobject.getClass().getCanonicalName());
+			/*
+			if(yamlobject.getClass().isArray()) {
+				System.out.println("Array");
+			} else {
+				System.out.println("Set");				
+			}
+			*/
+		}
+		}
+		return obj;
+	}
+	/*
+	System.out.println("Mapping: " + subyamlmap.getClass().getCanonicalName());
+	for(String str : subyamlmap.keySet()) {
+		System.out.println("Mapping (" + str + "): " + subyamlmap.get(str).getClass().getCanonicalName());
+	}
+*/
+
+	
+	
+	private static DatabaseObject extractCompoundDataElementInformation(DataElementInformation element, 
+			MapToChemConnectCompoundDataStructure mapping, 
+			Map<String, Object> subyamlmap,
+			DatabaseObject newobject,
+			DatabaseObjectHierarchy objecthierarchy, 
+			String sourceID) throws IOException {
+		String subRecordName = element.getDataElementName();
+		ChemConnectCompoundDataStructure structure = mapping.getStructure(subRecordName);
+		System.out.println("\tCompound Element: " + element.getChemconnectStructure());
+		System.out.println("\tYamlStructure: " + subyamlmap.keySet());		
+		InterpretData interpret = InterpretData.valueOf(element.getChemconnectStructure());
+		
+		DatabaseObjectHierarchy subhierarchy = new DatabaseObjectHierarchy();
+		for(DataElementInformation record : structure) {
+			DatabaseObject obj = extractDataElementInformation(record, newobject, mapping,subyamlmap,subhierarchy,sourceID);
+			if(obj != null) {
+				subyamlmap.put(record.getIdentifier(), obj.getIdentifier());
+			} else {
+				System.out.println("Object null: " + record.toString());
 			}
 		}
+		DatabaseObject object = interpret.fillFromYamlString(newobject, subyamlmap, sourceID);
+		subhierarchy.setObject(object);
+		objecthierarchy.addSubobject(subhierarchy);
+		return object;
 	}
-
+	
 	/**
 	 * @param name
 	 *            The identifier of the catalog structure object being described by

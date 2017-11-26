@@ -4,9 +4,11 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
@@ -26,24 +28,27 @@ import info.esblurock.reaction.chemconnect.core.data.contact.GPSLocation;
 import info.esblurock.reaction.chemconnect.core.data.dataset.Consortium;
 import info.esblurock.reaction.chemconnect.core.data.login.UserAccountInformation;
 import info.esblurock.reaction.chemconnect.core.data.login.UserAccount;
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
+
 public enum InterpretData {
 
 	DatabaseObject {
 		@Override
-		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID) throws IOException {
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
+				throws IOException {
 
 			String identifierS = (String) yaml.get(StandardDatasetMetaData.identifierKeyS);
 			String ownerS = (String) yaml.get(StandardDatasetMetaData.ownerKeyS);
 			String accessS = (String) yaml.get(StandardDatasetMetaData.accessKeyS);
 
-			if(top != null) {
-				if(identifierS == null) {
+			if (top != null) {
+				if (identifierS == null) {
 					identifierS = top.getIdentifier();
 				}
-				if(ownerS == null) {
+				if (ownerS == null) {
 					ownerS = top.getOwner();
 				}
-				if(accessS == null) {
+				if (accessS == null) {
 					accessS = top.getAccess();
 				}
 			}
@@ -57,16 +62,17 @@ public enum InterpretData {
 
 			Map<String, Object> map = new HashMap<String, Object>();
 
+			//HashSet<String> hasSite = interpretMultipleYaml(StandardDatasetMetaData.hassiteKeyS,yaml);
 			map.put(StandardDatasetMetaData.identifierKeyS, object.getIdentifier());
 			map.put(StandardDatasetMetaData.ownerKeyS, object.getOwner());
 			map.put(StandardDatasetMetaData.accessKeyS, object.getAccess());
+			map.put(StandardDatasetMetaData.sourceIDS, object.getAccess());
 
 			return map;
 		}
 
 		@Override
-		public DatabaseObject readElementFromDatabase(
-				String identifier) throws IOException {
+		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
 			return QueryBase.getDatabaseObjectFromIdentifier(DatabaseObject.class.getCanonicalName(), identifier);
 		}
 
@@ -74,13 +80,64 @@ public enum InterpretData {
 		public String canonicalClassName() {
 			return DatabaseObject.class.getCanonicalName();
 		}
-		
+
+	},
+	ChemConnectDataStructure {
+
+		@Override
+		public DatabaseObject fillFromYamlString(info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject top,
+				Map<String, Object> yaml, String sourceID) throws IOException {
+			ChemConnectDataStructure datastructure = null;
+			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
+			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);
+
+			HashSet<String> dataSetReferenceS = interpretMultipleYaml(StandardDatasetMetaData.hassiteKeyS,yaml);
+			String descriptionDataDataS = (String) yaml.get(StandardDatasetMetaData.descriptionDataDataS);
+			HashSet<String> consortiumS = interpretMultipleYaml(StandardDatasetMetaData.consortiumS,yaml);
+
+			System.out.println("descriptionDataDataS:            " + descriptionDataDataS);
+			System.out.println("consortiumS:                     " + consortiumS);	
+			System.out.println("dataSetReferenceS:               " + dataSetReferenceS);	
+			
+			
+			datastructure = new ChemConnectDataStructure(objdata, dataSetReferenceS, descriptionDataDataS, consortiumS);
+
+			return datastructure;
+		}
+
+		@Override
+		public Map<String, Object> createYamlFromObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject object) throws IOException {
+			ChemConnectDataStructure datastructure = (ChemConnectDataStructure) object;
+			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
+			Map<String, Object> map = interpret.createYamlFromObject(object);
+
+			putMultipleInYaml(StandardDatasetMetaData.dataSetReferenceS, map,datastructure.getDataSetReferenceID());
+			map.put(StandardDatasetMetaData.descriptionDataDataS, datastructure.getDescriptionDataDataID());
+			putMultipleInYaml(StandardDatasetMetaData.consortiumS, map,datastructure.getConsortiumID());
+
+			return map;
+		}
+
+		@Override
+		public info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject readElementFromDatabase(
+				String identifier) throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(ChemConnectDataStructure.class.getCanonicalName(),
+					identifier);
+		}
+
+		@Override
+		public String canonicalClassName() {
+			return ChemConnectDataStructure.class.getCanonicalName();
+		}
+
 	},
 
 	DescriptionDataData {
 
 		@Override
-		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID) throws IOException {
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
+				throws IOException {
 
 			DescriptionDataData descdata = null;
 			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
@@ -90,21 +147,18 @@ public enum InterpretData {
 			String descriptionS = (String) yaml.get(StandardDatasetMetaData.descriptionKeyS);
 			String datasetS = (String) yaml.get(StandardDatasetMetaData.datasetKeyS);
 			String datatypeS = (String) yaml.get(StandardDatasetMetaData.dataTypeKeyS);
-			String keywordsS = (String) yaml.get(StandardDatasetMetaData.keywordKeyS);
 			String sourceDateS = (String) yaml.get(StandardDatasetMetaData.sourceDateKeyS);
+			HashSet<String> keywords = interpretMultipleYaml(StandardDatasetMetaData.keywordKeyS,yaml);
 
-			HashSet<String> keywords = parseKeywords(keywordsS);
 			Date dateD = null;
-			if(sourceDateS != null) {
+			if (sourceDateS != null) {
 				dateD = parseDate(sourceDateS);
 			} else {
 				dateD = new Date();
 			}
 
 			descdata = new DescriptionDataData(objdata.getIdentifier(), objdata.getAccess(), objdata.getOwner(),
-					sourceID,
-					titleS, descriptionS, datasetS, 
-					dateD, datatypeS, keywords);
+					sourceID, titleS, descriptionS, datasetS, dateD, datatypeS, keywords);
 
 			return descdata;
 		}
@@ -115,22 +169,22 @@ public enum InterpretData {
 			Map<String, Object> map = new HashMap<String, Object>();
 
 			String sourceDateS = dateToString(description.getSourceDate());
-			String keywordsS = keywordsToString(description.getKeywords());
-			
+			putMultipleInYaml(StandardDatasetMetaData.keywordKeyS,map,description.getKeywords());
+
 			map.put(StandardDatasetMetaData.titleKeyS, description.getOnlinedescription());
 			map.put(StandardDatasetMetaData.descriptionKeyS, description.getFulldescription());
 			map.put(StandardDatasetMetaData.datasetKeyS, description.getSourcekey());
-			map.put(StandardDatasetMetaData.keywordKeyS, keywordsS);
 			map.put(StandardDatasetMetaData.dataTypeKeyS, description.getDataType());
 			map.put(StandardDatasetMetaData.sourceDateKeyS, sourceDateS);
-			
+
 			return map;
 		}
+
 		@Override
-		public DatabaseObject readElementFromDatabase(
-				String identifier) throws IOException {
+		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
 			return QueryBase.getDatabaseObjectFromIdentifier(DescriptionDataData.class.getCanonicalName(), identifier);
 		}
+
 		@Override
 		public String canonicalClassName() {
 			return DescriptionDataData.class.getCanonicalName();
@@ -140,22 +194,18 @@ public enum InterpretData {
 	ContactInfoData {
 
 		@Override
-		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID) throws IOException {
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
+				throws IOException {
 
 			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
 			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);
 
 			String email = (String) yaml.get(StandardDatasetMetaData.emailKeyS);
-			String hasSiteS = (String) yaml.get(StandardDatasetMetaData.hassiteKeyS);
-			String siteOfS = (String) yaml.get(StandardDatasetMetaData.siteofKeyS);
+			HashSet<String> hasSite = interpretMultipleYaml(StandardDatasetMetaData.hassiteKeyS,yaml);
+			HashSet<String> siteOf = interpretMultipleYaml(StandardDatasetMetaData.siteofKeyS,yaml);
 
-			HashSet<String> hassites = parseKeywords(hasSiteS);
-			HashSet<String> siteofs = parseKeywords(siteOfS);
-			
-			
-			ContactInfoData contact = new ContactInfoData(objdata.getIdentifier(), objdata.getAccess(), objdata.getOwner(),
-					sourceID,
-					 email, hassites, siteofs);
+			ContactInfoData contact = new ContactInfoData(objdata.getIdentifier(), objdata.getAccess(),
+					objdata.getOwner(), sourceID, email, hasSite, siteOf);
 			return contact;
 		}
 
@@ -166,20 +216,18 @@ public enum InterpretData {
 			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
-			String hasSite = keywordsToString(contact.getHasSite());
-			String siteof = keywordsToString(contact.getTopSite());
-			
 			map.put(StandardDatasetMetaData.emailKeyS, contact.getEmail());
-			map.put(StandardDatasetMetaData.hassiteKeyS, hasSite);
-			map.put(StandardDatasetMetaData.siteofKeyS, siteof);
+			putMultipleInYaml(StandardDatasetMetaData.hassiteKeyS, map,contact.getHasSite());
+			putMultipleInYaml(StandardDatasetMetaData.siteofKeyS, map,contact.getTopSite());
 
 			return map;
 		}
+
 		@Override
-		public DatabaseObject readElementFromDatabase(
-				String identifier) throws IOException {
+		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
 			return QueryBase.getDatabaseObjectFromIdentifier(ContactInfoData.class.getCanonicalName(), identifier);
 		}
+
 		@Override
 		public String canonicalClassName() {
 			return ContactInfoData.class.getCanonicalName();
@@ -188,10 +236,11 @@ public enum InterpretData {
 	},
 	ContactLocationInformation {
 		@Override
-		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID) throws IOException {
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
+				throws IOException {
 
 			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
-			DatabaseObject objdata = interpret.fillFromYamlString(top,yaml, sourceID);
+			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);
 
 			String streetaddress = (String) yaml.get(StandardDatasetMetaData.streetaddressKeyS);
 			String locality = (String) yaml.get(StandardDatasetMetaData.localityKeyS);
@@ -199,10 +248,9 @@ public enum InterpretData {
 			String country = (String) yaml.get(StandardDatasetMetaData.countryKeyS);
 			String gspLocationID = (String) yaml.get(StandardDatasetMetaData.gpsCoordinatesID);
 
-			ContactLocationInformation location = new ContactLocationInformation(objdata.getIdentifier(), objdata.getAccess(), objdata.getOwner(),
-					sourceID,
-					streetaddress, locality,
-					country, postalcode, gspLocationID);
+			ContactLocationInformation location = new ContactLocationInformation(objdata.getIdentifier(),
+					objdata.getAccess(), objdata.getOwner(), sourceID, streetaddress, locality, country, postalcode,
+					gspLocationID);
 			return location;
 		}
 
@@ -212,40 +260,41 @@ public enum InterpretData {
 
 			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
-			
+
 			map.put(StandardDatasetMetaData.streetaddressKeyS, location.getAddressAddress());
 			map.put(StandardDatasetMetaData.localityKeyS, location.getCity());
 			map.put(StandardDatasetMetaData.postalcodeKeyS, location.getPostcode());
 			map.put(StandardDatasetMetaData.countryKeyS, location.getCountry());
 			map.put(StandardDatasetMetaData.gpsCoordinatesID, location.getGpsLocationID());
-			
+
 			return map;
 		}
+
 		@Override
-		public DatabaseObject readElementFromDatabase(
-				String identifier) throws IOException {
-			return QueryBase.getDatabaseObjectFromIdentifier(ContactLocationInformation.class.getCanonicalName(), identifier);
+		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(ContactLocationInformation.class.getCanonicalName(),
+					identifier);
 		}
+
 		@Override
 		public String canonicalClassName() {
 			return ContactLocationInformation.class.getCanonicalName();
 		}
 
-	}, GPSLocation {
+	},
+	GPSLocation {
 
 		@Override
-		public DatabaseObject fillFromYamlString(
-				DatabaseObject top, Map<String, Object> yaml, String sourceID)
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
 				throws IOException {
 			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
-			DatabaseObject objdata = interpret.fillFromYamlString(top,yaml, sourceID);
+			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);
 
 			String GPSLongitude = (String) yaml.get(StandardDatasetMetaData.longitudeKeyS);
 			String GPSLatitude = (String) yaml.get(StandardDatasetMetaData.latitudeKeyS);
 
 			GPSLocation location = new GPSLocation(objdata.getIdentifier(), objdata.getAccess(), objdata.getOwner(),
-					sourceID,
-					GPSLongitude, GPSLatitude);
+					sourceID, GPSLongitude, GPSLatitude);
 			return location;
 		}
 
@@ -255,28 +304,30 @@ public enum InterpretData {
 
 			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
-			
+
 			map.put(StandardDatasetMetaData.longitudeKeyS, location.getGPSLatitude());
 			map.put(StandardDatasetMetaData.latitudeKeyS, location.getGPSLongitude());
-			
+
 			return map;
 		}
+
 		@Override
-		public DatabaseObject readElementFromDatabase(
-				String identifier) throws IOException {
+		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
 			return QueryBase.getDatabaseObjectFromIdentifier(GPSLocation.class.getCanonicalName(), identifier);
 		}
+
 		@Override
 		public String canonicalClassName() {
 			return GPSLocation.class.getCanonicalName();
 		}
-		
-	}, OrganizationDescription {
+
+	},
+	OrganizationDescription {
 
 		@Override
-		public DatabaseObject fillFromYamlString(
-				DatabaseObject top, Map<String, Object> yaml, String sourceID) throws IOException {
-			
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
+				throws IOException {
+
 			OrganizationDescription descdata = null;
 			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
 			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);
@@ -287,16 +338,15 @@ public enum InterpretData {
 			String subOrganizationOfS = (String) yaml.get(StandardDatasetMetaData.subOrganizationOf);
 
 			descdata = new OrganizationDescription(objdata.getIdentifier(), objdata.getAccess(), objdata.getOwner(),
-					sourceID, 
-					organizationalUnitS, organizationClassificationS, organizationNameS, subOrganizationOfS);
+					sourceID, organizationalUnitS, organizationClassificationS, organizationNameS, subOrganizationOfS);
 			return descdata;
 		}
 
 		@Override
 		public Map<String, Object> createYamlFromObject(
-				
+
 				DatabaseObject object) throws IOException {
-			
+
 			OrganizationDescription org = (OrganizationDescription) object;
 
 			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
@@ -306,84 +356,84 @@ public enum InterpretData {
 			map.put(StandardDatasetMetaData.organizationName, org.getOrganizationName());
 			map.put(StandardDatasetMetaData.organizationUnit, org.getOrganizationUnit());
 			map.put(StandardDatasetMetaData.subOrganizationOf, org.getSubOrganizationOf());
-			
+
 			return map;
 		}
+
 		@Override
-		public DatabaseObject readElementFromDatabase(
-				String identifier) throws IOException {
-			return QueryBase.getDatabaseObjectFromIdentifier(OrganizationDescription.class.getCanonicalName(), identifier);
+		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(OrganizationDescription.class.getCanonicalName(),
+					identifier);
 		}
+
 		@Override
 		public String canonicalClassName() {
 			return OrganizationDescription.class.getCanonicalName();
 		}
-		
-	}, DataSetReference {
+
+	},
+	DataSetReference {
 
 		@Override
-		public DatabaseObject fillFromYamlString(
-				DatabaseObject top, Map<String, Object> yaml, String sourceID) throws IOException {
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
+				throws IOException {
 			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
 			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);
 
 			String referenceDOIS = (String) yaml.get(StandardDatasetMetaData.referenceDOI);
 			String referenceTitleS = (String) yaml.get(StandardDatasetMetaData.referenceTitle);
-			String referenceBibliographicStringS = (String) yaml.get(StandardDatasetMetaData.referenceBibliographicString);
-			String referenceAuthorsS = (String) yaml.get(StandardDatasetMetaData.referenceAuthors);
-			
-			HashSet<String> authors = parseKeywords(referenceAuthorsS);
-			
-			DataSetReference refset = new DataSetReference(objdata.getIdentifier(), objdata.getAccess(), objdata.getOwner(),
-					sourceID,
-					referenceDOIS, referenceTitleS, referenceBibliographicStringS, 
+			String referenceBibliographicStringS = (String) yaml
+					.get(StandardDatasetMetaData.referenceBibliographicString);
+
+			HashSet<String> authors = interpretMultipleYaml(StandardDatasetMetaData.referenceAuthors,yaml);
+
+			DataSetReference refset = new DataSetReference(objdata.getIdentifier(), objdata.getAccess(),
+					objdata.getOwner(), sourceID, referenceDOIS, referenceTitleS, referenceBibliographicStringS,
 					authors);
-			
+
 			return refset;
 		}
 
 		@Override
-		public Map<String, Object> createYamlFromObject(
-				DatabaseObject object) throws IOException {
+		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
 			DataSetReference ref = (DataSetReference) object;
 
 			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
-			String authors = keywordsToString(ref.getAuthors());
 			map.put(StandardDatasetMetaData.referenceDOI, ref.getDOI());
 			map.put(StandardDatasetMetaData.referenceTitle, ref.getTitle());
 			map.put(StandardDatasetMetaData.referenceBibliographicString, ref.getReferenceString());
-			map.put(StandardDatasetMetaData.referenceAuthors, authors);
-			
+			putMultipleInYaml(StandardDatasetMetaData.referenceAuthors, map,ref.getAuthors());
+
 			return map;
 		}
+
 		@Override
-		public DatabaseObject readElementFromDatabase(
-				String identifier) throws IOException {
+		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
 			return QueryBase.getDatabaseObjectFromIdentifier(DataSetReference.class.getCanonicalName(), identifier);
 		}
+
 		@Override
 		public String canonicalClassName() {
 			return DataSetReference.class.getCanonicalName();
 		}
-		
-	}
-	, PersonalDescription {
+
+	},
+	PersonalDescription {
 
 		@Override
-		public DatabaseObject fillFromYamlString(
-				DatabaseObject top, Map<String, Object> yaml, String sourceID) throws IOException {
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
+				throws IOException {
 			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
 			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);
 
 			String userClassification = (String) yaml.get(StandardDatasetMetaData.userClassification);
 			String userNameID = (String) yaml.get(StandardDatasetMetaData.userNameID);
-			
-			PersonalDescription person = new PersonalDescription(objdata.getIdentifier(), objdata.getAccess(), objdata.getOwner(),
-					sourceID,
-					userClassification, userNameID);
-			
+
+			PersonalDescription person = new PersonalDescription(objdata.getIdentifier(), objdata.getAccess(),
+					objdata.getOwner(), sourceID, userClassification, userNameID);
+
 			return person;
 		}
 
@@ -396,26 +446,27 @@ public enum InterpretData {
 
 			map.put(StandardDatasetMetaData.userClassification, person.getUserClassification());
 			map.put(StandardDatasetMetaData.userNameID, person.getNameOfPersonIdentifier());
-			
+
 			return map;
 		}
+
 		@Override
-		public DatabaseObject readElementFromDatabase(
-				String identifier) throws IOException {
+		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
 			return QueryBase.getDatabaseObjectFromIdentifier(PersonalDescription.class.getCanonicalName(), identifier);
 		}
+
 		@Override
 		public String canonicalClassName() {
 			return PersonalDescription.class.getCanonicalName();
 		}
-		
-	}
-	, NameOfPerson {
+
+	},
+	NameOfPerson {
 
 		@Override
-		public DatabaseObject fillFromYamlString(
-				DatabaseObject top, Map<String, Object> yaml, String sourceID) throws IOException {
-			
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
+				throws IOException {
+
 			NameOfPerson person = null;
 			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
 			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);
@@ -423,301 +474,295 @@ public enum InterpretData {
 			String nameTitleS = (String) yaml.get(StandardDatasetMetaData.titleName);
 			String givenNameS = (String) yaml.get(StandardDatasetMetaData.givenName);
 			String familyNameS = (String) yaml.get(StandardDatasetMetaData.familyName);
-			
-			person = new NameOfPerson(objdata.getIdentifier(), objdata.getAccess(), objdata.getOwner(),
-					sourceID,
+
+			person = new NameOfPerson(objdata.getIdentifier(), objdata.getAccess(), objdata.getOwner(), sourceID,
 					nameTitleS, givenNameS, familyNameS);
 			return person;
 		}
 
 		@Override
-		public Map<String, Object> createYamlFromObject(
-				DatabaseObject object) throws IOException {
+		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
 			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
 			NameOfPerson name = (NameOfPerson) object;
 
-			map.put(StandardDatasetMetaData.titleName,  name.getTitle());
-			map.put(StandardDatasetMetaData.givenName,  name.getGivenName());
+			map.put(StandardDatasetMetaData.titleName, name.getTitle());
+			map.put(StandardDatasetMetaData.givenName, name.getGivenName());
 			map.put(StandardDatasetMetaData.familyName, name.getFamilyName());
 			return map;
 		}
+
 		@Override
-		public DatabaseObject readElementFromDatabase(
-				String identifier) throws IOException {
+		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
 			return QueryBase.getDatabaseObjectFromIdentifier(NameOfPerson.class.getCanonicalName(), identifier);
 		}
+
 		@Override
 		public String canonicalClassName() {
 			return NameOfPerson.class.getCanonicalName();
 		}
-		
-	}, IndividualInformation {
+
+	},
+	IndividualInformation {
 
 		@Override
-		public DatabaseObject fillFromYamlString(
-				DatabaseObject top, Map<String, Object> yaml, String sourceID)
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
 				throws IOException {
 			IndividualInformation org = null;
-			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
-			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);
+			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
+			ChemConnectDataStructure datastructure = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
 
 			String contactInfoDataID = (String) yaml.get(StandardDatasetMetaData.contactInfoDataID);
-			String contactLocationInformationID = (String) yaml.get(StandardDatasetMetaData.contactLocationInformationID);
-			String descriptionDataDataID = (String) yaml.get(StandardDatasetMetaData.descriptionDataDataID);
-			String organizationID = (String) yaml.get(StandardDatasetMetaData.organizationID);
+			String contactLocationInformationID = (String) yaml
+					.get(StandardDatasetMetaData.contactLocationInformationID);
 			String personalDescriptionID = (String) yaml.get(StandardDatasetMetaData.personalDescriptionID);
-			
-			org = new IndividualInformation(objdata.getIdentifier(), objdata.getAccess(), objdata.getOwner(),
-					sourceID,
-					descriptionDataDataID, 
+			HashSet<String> organizationID = interpretMultipleYaml(StandardDatasetMetaData.organizationID,yaml);
+
+			org = new IndividualInformation(datastructure,
 					contactInfoDataID, contactLocationInformationID, 
-					personalDescriptionID,organizationID);
+					personalDescriptionID, organizationID);
 			return org;
 		}
 
 		@Override
 		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
-			
-			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
+
+			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
 			IndividualInformation individual = (IndividualInformation) object;
-			
-			map.put(StandardDatasetMetaData.contactInfoDataID,  individual.getContactInfoDataID());
-			map.put(StandardDatasetMetaData.contactLocationInformationID,  individual.getContactLocationInformationID());
-			map.put(StandardDatasetMetaData.descriptionDataDataID, individual.getDescriptionDataDataID());
-			map.put(StandardDatasetMetaData.organizationID, individual.getOrganizationID());
+
+			map.put(StandardDatasetMetaData.contactInfoDataID, individual.getContactInfoDataID());
+			map.put(StandardDatasetMetaData.contactLocationInformationID, individual.getContactLocationInformationID());
 			map.put(StandardDatasetMetaData.personalDescriptionID, individual.getPersonalDescriptionID());
-			
+			putMultipleInYaml(StandardDatasetMetaData.organizationID, map,individual.getOrganizationID());
+
 			return map;
 		}
+
 		@Override
-		public DatabaseObject readElementFromDatabase(
-				String identifier) throws IOException {
-			return QueryBase.getDatabaseObjectFromIdentifier(IndividualInformation.class.getCanonicalName(), identifier);
+		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(IndividualInformation.class.getCanonicalName(),
+					identifier);
 		}
+
 		@Override
 		public String canonicalClassName() {
 			return IndividualInformation.class.getCanonicalName();
 		}
-		
-	}, Organization {
+
+	},
+	Organization {
 
 		@Override
-		public DatabaseObject fillFromYamlString(
-				DatabaseObject top, Map<String, Object> yaml, String sourceID) throws IOException {
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
+				throws IOException {
 			Organization org = null;
-			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
-			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);
+			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
+			ChemConnectDataStructure datastructure = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml,
+					sourceID);
 
-			String contactInfoDataID = (String) yaml.get(StandardDatasetMetaData.contactInfoDataID);
-			String contactLocationInformationID = (String) yaml.get(StandardDatasetMetaData.contactLocationInformationID);
-			String descriptionDataDataID = (String) yaml.get(StandardDatasetMetaData.descriptionDataDataID);
-			String organizationDescriptionID = (String) yaml.get(StandardDatasetMetaData.organizationDescriptionID);
+			HashSet<String> accounts = interpretMultipleYaml(StandardDatasetMetaData.userAccountS, yaml);
+			String contactInfoDataID = (String) yaml.get(StandardDatasetMetaData.contactKeyS);
+			String contactLocationInformationID = (String) yaml
+					.get(StandardDatasetMetaData.locationKeyS);
+			String organizationDescriptionID = (String) yaml.get(StandardDatasetMetaData.orginfoKeyS);
+		
+			org = new Organization(datastructure, contactInfoDataID,
+					contactLocationInformationID, organizationDescriptionID,
+					accounts);
 
-			org = new Organization(objdata.getIdentifier(), objdata.getAccess(), objdata.getOwner(),
-					sourceID,
-					descriptionDataDataID, contactInfoDataID, 
-					contactLocationInformationID, organizationDescriptionID);
 			return org;
 		}
 
 		@Override
 		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
-			
+
 			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
 			Organization org = (Organization) object;
-			
-			map.put(StandardDatasetMetaData.contactInfoDataID,  org.getContactInfoDataID());
-			map.put(StandardDatasetMetaData.contactLocationInformationID,  org.getContactLocationInformationID());
-			map.put(StandardDatasetMetaData.descriptionDataDataID, org.getDescriptionDataDataID());
-			map.put(StandardDatasetMetaData.organizationDescriptionID, org.getOrganizationDescriptionID());
-			
+			map.put(StandardDatasetMetaData.contactKeyS, org.getContactInfoDataID());
+			map.put(StandardDatasetMetaData.locationKeyS, org.getContactLocationInformationID());
+			map.put(StandardDatasetMetaData.orginfoKeyS, org.getOrganizationDescriptionID());
+			putMultipleInYaml(StandardDatasetMetaData.userAccountS, map, org.getUserAccounts());
 			return map;
 		}
+
 		@Override
-		public DatabaseObject readElementFromDatabase(
-				String identifier) throws IOException {
+		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
 			return QueryBase.getDatabaseObjectFromIdentifier(Organization.class.getCanonicalName(), identifier);
 		}
+
 		@Override
 		public String canonicalClassName() {
 			return Organization.class.getCanonicalName();
 		}
-		
-	}, UserAccountInformation {
+
+	},
+	UserAccountInformation {
 		@Override
-		public DatabaseObject fillFromYamlString(
-				DatabaseObject top, Map<String, Object> yaml,
-				String sourceID) throws IOException {
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
+				throws IOException {
 			UserAccountInformation account = null;
 			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
 			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);
 
-			
-			
 			String contactInfoDataID = (String) yaml.get(StandardDatasetMetaData.contactInfoDataID);
 			String password = (String) yaml.get(StandardDatasetMetaData.password);
-			String userrole = (String) yaml.get(StandardDatasetMetaData.userrole);
 			String emailS = (String) yaml.get(StandardDatasetMetaData.emailKeyS);
+			HashSet<String> userrole = interpretMultipleYaml(StandardDatasetMetaData.userrole,yaml);
 
 			account = new UserAccountInformation(objdata.getIdentifier(), objdata.getAccess(), objdata.getOwner(),
-					sourceID,
-					contactInfoDataID,
-					password,userrole,emailS);
+					sourceID, contactInfoDataID, password, userrole, emailS);
 			return account;
 		}
 
 		@Override
-		public Map<String, Object> createYamlFromObject(
-				DatabaseObject object) throws IOException {
+		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
 			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
 			UserAccountInformation account = (UserAccountInformation) object;
-			
-			map.put(StandardDatasetMetaData.contactInfoDataID,  account.getContactInfoDataID());
-			map.put(StandardDatasetMetaData.password, account.getPassword()) ;
-			map.put(StandardDatasetMetaData.userrole,  account.getUserrole());
+
+			map.put(StandardDatasetMetaData.contactInfoDataID, account.getContactInfoDataID());
+			map.put(StandardDatasetMetaData.password, account.getPassword());
 			map.put(StandardDatasetMetaData.emailKeyS, account.getEmail());
-			
+			putMultipleInYaml(StandardDatasetMetaData.userrole, map,account.getUserrole());
+
 			return map;
 		}
+
 		@Override
-		public DatabaseObject readElementFromDatabase(
-				String identifier) throws IOException {
-			DatabaseObject obj = QueryBase.getDatabaseObjectFromIdentifier(UserAccountInformation.class.getCanonicalName(), identifier);
+		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
+			DatabaseObject obj = QueryBase
+					.getDatabaseObjectFromIdentifier(UserAccountInformation.class.getCanonicalName(), identifier);
 			System.out.println("UserAccountInformation: " + obj.getClass().getCanonicalName());
 			return obj;
 		}
+
 		@Override
 		public String canonicalClassName() {
 			return UserAccountInformation.class.getCanonicalName();
 		}
-		
-	}, UserAccount {
+
+	},
+	UserAccount {
 		@Override
-		public DatabaseObject fillFromYamlString(
-				DatabaseObject top, Map<String, Object> yaml,
-				String sourceID) throws IOException {
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
+				throws IOException {
 			UserAccount account = null;
-			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
-			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);
+			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
+			ChemConnectDataStructure datastructure = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml,
+					sourceID);
 
 			String DatabaseUserID = (String) yaml.get(StandardDatasetMetaData.DatabaseUserID);
 			String UserAccountInformationID = (String) yaml.get(StandardDatasetMetaData.UserAccountInformationID);
 
-			account = new UserAccount(objdata.getIdentifier(), objdata.getAccess(), objdata.getOwner(),
-					sourceID,
-					DatabaseUserID,UserAccountInformationID);
+			account = new UserAccount(datastructure,
+					DatabaseUserID, UserAccountInformationID);
 			return account;
 		}
 
 		@Override
-		public Map<String, Object> createYamlFromObject(
-				DatabaseObject object) throws IOException {
-			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
+		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
+			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
 			UserAccount account = (UserAccount) object;
-			
-			map.put(StandardDatasetMetaData.DatabaseUserID,  account.getDatabaseUserID());
-			map.put(StandardDatasetMetaData.UserAccountInformationID, account.getUserAccountInformationID()) ;
-			
+
+			map.put(StandardDatasetMetaData.DatabaseUserID, account.getDatabaseUserID());
+			map.put(StandardDatasetMetaData.UserAccountInformationID, account.getUserAccountInformationID());
+
 			return map;
 		}
+
 		@Override
-		public DatabaseObject readElementFromDatabase(
-				String identifier) throws IOException {
+		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
 			return QueryBase.getDatabaseObjectFromIdentifier(UserAccount.class.getCanonicalName(), identifier);
 		}
+
 		@Override
 		public String canonicalClassName() {
 			return UserAccount.class.getCanonicalName();
 		}
-		
-	}, Consortium {
+
+	},
+	Consortium {
 
 		@Override
-		public DatabaseObject fillFromYamlString(
-				DatabaseObject top, Map<String, Object> yaml,
-				String sourceID) throws IOException {
-			
-			Consortium consortium = null;
-			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
-			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);
-			
-			String DatabaseUserIDReadAccessS = (String) yaml.get(StandardDatasetMetaData.DatabaseUserIDReadAccess);
-			String DatabaseUserIDWriteAccessS = (String) yaml.get(StandardDatasetMetaData.DatabaseUserIDWriteAccess);
-			String DataSetCatalogIDS = (String) yaml.get(StandardDatasetMetaData.DataSetCatalogID);
-			String OrganizationIDS = (String) yaml.get(StandardDatasetMetaData.OrganizationID);
-			String DescriptionIDS = (String) yaml.get(StandardDatasetMetaData.DescriptionID);
-			
-			HashSet<String> DatabaseUserIDReadAccess = parseKeywords(DatabaseUserIDReadAccessS);
-			HashSet<String> DatabaseUserIDWriteAccess = parseKeywords(DatabaseUserIDWriteAccessS);
-			HashSet<String> DataSetCatalogID = parseKeywords(DataSetCatalogIDS);
-			HashSet<String> OrganizationID = parseKeywords(OrganizationIDS);
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
+				throws IOException {
 
-			consortium = new Consortium(objdata.getIdentifier(), objdata.getAccess(), objdata.getOwner(),
-					sourceID,
+			Consortium consortium = null;
+			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
+			ChemConnectDataStructure datastructure = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml,
+					sourceID);
+
+			HashSet<String> DatabaseUserIDReadAccess 
+				= interpretMultipleYaml(StandardDatasetMetaData.DatabaseUserIDReadAccess,yaml);
+			HashSet<String> DatabaseUserIDWriteAccess
+				= interpretMultipleYaml(StandardDatasetMetaData.DatabaseUserIDWriteAccess,yaml);
+			HashSet<String> DataSetCatalogID
+				= interpretMultipleYaml(StandardDatasetMetaData.DataSetCatalogID,yaml);
+			HashSet<String> OrganizationID
+			= interpretMultipleYaml(StandardDatasetMetaData.OrganizationID,yaml);
+
+			consortium = new Consortium(datastructure, 
 					DatabaseUserIDReadAccess, DatabaseUserIDWriteAccess,
-					DataSetCatalogID, OrganizationID, DescriptionIDS);
+					DataSetCatalogID, OrganizationID);
 
 			return consortium;
 		}
 
 		@Override
-		public Map<String, Object> createYamlFromObject(
-				DatabaseObject object) throws IOException {
-			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
+		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
+			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
 			Consortium consortium = (Consortium) object;
-			
-			String DatabaseUserIDReadAccess = keywordsToString(consortium.getDatabaseUserIDReadAccess());
-			String DatabaseUserIDWriteAccess = keywordsToString(consortium.getDatabaseUserIDWriteAccess());
-			String DataSetCatalogID = keywordsToString(consortium.getDataSetCatalogID());
-			String OrganizationID = keywordsToString(consortium.getOrganizationID());
-			String DescriptionID = consortium.getDescriptionID();
-			
-			map.put(StandardDatasetMetaData.DatabaseUserIDReadAccess,  DatabaseUserIDReadAccess);
-			map.put(StandardDatasetMetaData.DatabaseUserIDWriteAccess, DatabaseUserIDWriteAccess) ;
-			map.put(StandardDatasetMetaData.DataSetCatalogID,  DataSetCatalogID);
-			map.put(StandardDatasetMetaData.OrganizationID, OrganizationID);
-			map.put(StandardDatasetMetaData.DescriptionID, DescriptionID);
-			
+
+			putMultipleInYaml(StandardDatasetMetaData.DatabaseUserIDReadAccess, 
+					map,consortium.getDatabaseUserIDReadAccess());
+			putMultipleInYaml(StandardDatasetMetaData.DatabaseUserIDWriteAccess, 
+					map,consortium.getDatabaseUserIDWriteAccess());
+			putMultipleInYaml(StandardDatasetMetaData.DataSetCatalogID, 
+					map,consortium.getDataSetCatalogID());
+			putMultipleInYaml(StandardDatasetMetaData.OrganizationID, 
+					map,consortium.getOrganizationID());
+
 			return map;
 		}
+
 		@Override
-		public DatabaseObject readElementFromDatabase(
-				String identifier) throws IOException {
+		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
 			return QueryBase.getDatabaseObjectFromIdentifier(Consortium.class.getCanonicalName(), identifier);
 		}
+
 		@Override
 		public String canonicalClassName() {
 			return Consortium.class.getCanonicalName();
 		}
-		
+
 	};
-	
-	public abstract DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID) throws IOException;
+
+	public abstract DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
+			throws IOException;
 
 	public abstract Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException;
 
-	public abstract DatabaseObject readElementFromDatabase(String identifier) throws IOException ;
+	public abstract DatabaseObject readElementFromDatabase(String identifier) throws IOException;
+
 	public abstract String canonicalClassName();
-	
+
 	public HashSet<String> parseKeywords(String keywordset) {
 		HashSet<String> keywords = new HashSet<String>();
-		if(keywordset != null) {
-		StringTokenizer tok = new StringTokenizer(keywordset, ",");
-		while (tok.hasMoreTokens()) {
-			keywords.add(tok.nextToken().trim());
-		}
+		if (keywordset != null) {
+			StringTokenizer tok = new StringTokenizer(keywordset, ",");
+			while (tok.hasMoreTokens()) {
+				keywords.add(tok.nextToken().trim());
+			}
 		}
 		return keywords;
 	}
@@ -725,18 +770,18 @@ public enum InterpretData {
 	public Date parseDate(String dateS) throws IOException {
 		Date dateD = null;
 		dateD = parseDateWithFormat(dateS, "yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-		if(dateD == null) {
+		if (dateD == null) {
 			dateD = parseDateWithFormat(dateS, "yyyy-MM-dd");
 		}
-		if(dateD == null) {
+		if (dateD == null) {
 			dateD = parseDateWithFormat(dateS, "yyyyMMdd");
 		}
-		if(dateD == null) {
+		if (dateD == null) {
 			throw new IOException("Date parse exception");
 		}
 		return dateD;
 	}
-	
+
 	public Date parseDateWithFormat(String dateS, String formatS) {
 		Date dateD = null;
 		try {
@@ -745,19 +790,21 @@ public enum InterpretData {
 		} catch (ParseException e) {
 		}
 		return dateD;
-		
+
 	}
+
 	public String dateToString(Date dateD) {
 		String formatS = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
 		DateFormat format = new SimpleDateFormat(formatS);
 		String dateS = format.format(dateD);
 		return dateS;
 	}
+
 	public String keywordsToString(HashSet<String> keywords) {
 		StringBuilder build = new StringBuilder();
 		boolean notfirstKey = false;
-		for(String key: keywords) {
-			if(notfirstKey) {
+		for (String key : keywords) {
+			if (notfirstKey) {
 				build.append(", ");
 			} else {
 				notfirstKey = true;
@@ -767,4 +814,31 @@ public enum InterpretData {
 		return build.toString();
 	}
 
+	public void putMultipleInYaml(String key, Map<String, Object> yaml, HashSet<String> set) {
+		ArrayList<String> arr = new ArrayList<String>();
+		for(String name : set) {
+			arr.add(name);
+		}
+		yaml.put(key, arr);
+	}
+	
+	public HashSet<String> interpretMultipleYaml(String key, Map<String, Object> yaml) {
+		HashSet<String> answers = new HashSet<String>();
+
+		Object yamlobj = yaml.get(key);
+		if (yamlobj != null) {
+			if (yamlobj.getClass().getCanonicalName().compareTo("java.util.ArrayList") == 0) {
+				@SuppressWarnings("unchecked")
+				List<String> lst = (List<String>) yamlobj;
+				for (String answer : lst) {
+					answers.add(answer);
+				}
+			} else {
+				String answer = (String) yamlobj;
+				answers.add(answer);
+			}
+		}
+		System.out.println(answers);
+		return answers;
+	}
 }

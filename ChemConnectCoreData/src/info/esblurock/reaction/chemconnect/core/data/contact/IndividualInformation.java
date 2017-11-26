@@ -1,13 +1,16 @@
 package info.esblurock.reaction.chemconnect.core.data.contact;
 
+import java.util.HashSet;
+
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
 
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 
 @SuppressWarnings("serial")
 @Entity
-public class IndividualInformation extends DatabaseObject {
+public class IndividualInformation extends ChemConnectDataStructure {
 	@Index
 	String contactInfoDataID;
 	
@@ -15,47 +18,39 @@ public class IndividualInformation extends DatabaseObject {
 	String contactLocationInformationID;
 	
 	@Index
-	String descriptionDataDataID;
-	
-	@Index
 	String personalDescriptionID;
 	
 	@Index
-	String organizationID;
+	HashSet<String> organizationID;
 
 	public IndividualInformation() {
 		this.contactInfoDataID = "";
 		this.contactLocationInformationID = "";
-		this.descriptionDataDataID = "";
 		this.personalDescriptionID = "";
-		this.organizationID = "";		
+		this.organizationID = new HashSet<String>();		
 	}
 	public IndividualInformation(String identifier, String sourceID) {
 		super(identifier,sourceID);
 		this.contactInfoDataID = "";
 		this.contactLocationInformationID = "";
-		this.descriptionDataDataID = "";
 		this.personalDescriptionID = "";
-		this.organizationID = "";		
+		this.organizationID = new HashSet<String>();		
 	}
 	
-	public IndividualInformation(String identifier, String access, String owner, String sourceID,
-			String descriptionDataDataID,
+	public IndividualInformation(ChemConnectDataStructure datastructure,
 			String contactInfoDataID, String contactLocationInformationID,
-			String personalDescriptionID, String organizationID) {
-		fill(identifier, access, owner,sourceID,
-				contactInfoDataID,contactLocationInformationID,descriptionDataDataID,
+			String personalDescriptionID, HashSet<String> organizationID) {
+		fill(datastructure,
+				contactInfoDataID,contactLocationInformationID,
 				personalDescriptionID,organizationID);
 	}
 
-	public void fill(String identifier, String access, String owner, String sourceID,
-			String descriptionDataDataID,
+	public void fill(ChemConnectDataStructure datastructure,
 			String contactInfoDataID, String contactLocationInformationID,
-			String personalDescriptionID, String organizationID) {
-		super.fill(identifier, access, owner,sourceID);
+			String personalDescriptionID, HashSet<String> organizationID) {
+		super.fill(datastructure);
 		this.contactInfoDataID = contactInfoDataID;
 		this.contactLocationInformationID = contactLocationInformationID;
-		this.descriptionDataDataID = descriptionDataDataID;
 		this.personalDescriptionID = personalDescriptionID;
 		this.organizationID = organizationID;
 	}
@@ -68,15 +63,11 @@ public class IndividualInformation extends DatabaseObject {
 		return contactLocationInformationID;
 	}
 
-	public String getDescriptionDataDataID() {
-		return descriptionDataDataID;
-	}
-
 	public String getPersonalDescriptionID() {
 		return personalDescriptionID;
 	}
 
-	public String getOrganizationID() {
+	public HashSet<String> getOrganizationID() {
 		return organizationID;
 	}
 }

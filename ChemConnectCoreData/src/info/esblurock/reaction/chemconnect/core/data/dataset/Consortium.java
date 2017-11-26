@@ -6,11 +6,12 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Unindex;
 
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 
 @Entity
 @SuppressWarnings("serial")
-public class Consortium extends DatabaseObject {
+public class Consortium extends ChemConnectDataStructure {
 	
 	@Unindex
 	HashSet<String> DatabaseUserIDReadAccess;
@@ -20,8 +21,6 @@ public class Consortium extends DatabaseObject {
 	HashSet<String> DataSetCatalogID;
 	@Unindex
 	HashSet<String> OrganizationID;
-	@Index
-	String  DescriptionID;
 	
 	public Consortium() {
 		super();
@@ -29,7 +28,6 @@ public class Consortium extends DatabaseObject {
 		DatabaseUserIDWriteAccess = new HashSet<String>();
 		DataSetCatalogID = new HashSet<String>();
 		OrganizationID = new HashSet<String>();
-		DescriptionID = "";
 	}
 	
 	public Consortium(String identifier, String sourceID) {
@@ -38,21 +36,32 @@ public class Consortium extends DatabaseObject {
 		DatabaseUserIDWriteAccess = new HashSet<String>();
 		DataSetCatalogID = new HashSet<String>();
 		OrganizationID = new HashSet<String>();
-		DescriptionID = "";
 	}
 	
-	public Consortium(String identifier, String access, String owner, String sourceID,
+	public Consortium(ChemConnectDataStructure datastructure,
 			HashSet<String> databaseUserIDReadAccess, 
 			HashSet<String> databaseUserIDWriteAccess,
 			HashSet<String> dataSetCatalogID, 
-			HashSet<String>  organizationID, String descriptionID) {
-		super(identifier, access, owner,sourceID);
+			HashSet<String>  organizationID) {
+		super(datastructure);
 		DatabaseUserIDReadAccess = databaseUserIDReadAccess;
 		DatabaseUserIDWriteAccess = databaseUserIDWriteAccess;
 		DataSetCatalogID = dataSetCatalogID;
 		OrganizationID = organizationID;
-		DescriptionID = descriptionID;
 	}
+
+	public void fill(ChemConnectDataStructure datastructure,
+			HashSet<String> databaseUserIDReadAccess, 
+			HashSet<String> databaseUserIDWriteAccess,
+			HashSet<String> dataSetCatalogID, 
+			HashSet<String>  organizationID) {
+		super.fill(datastructure);
+		DatabaseUserIDReadAccess = databaseUserIDReadAccess;
+		DatabaseUserIDWriteAccess = databaseUserIDWriteAccess;
+		DataSetCatalogID = dataSetCatalogID;
+		OrganizationID = organizationID;
+	}
+
 	public HashSet<String> getDatabaseUserIDReadAccess() {
 		return DatabaseUserIDReadAccess;
 	}
@@ -78,9 +87,4 @@ public class Consortium extends DatabaseObject {
 	public void setOrganizationID(HashSet<String> organizationID) {
 		OrganizationID = organizationID;
 	}
-	public String getDescriptionID() {
-		return DescriptionID;
-	}
-	
-
 }

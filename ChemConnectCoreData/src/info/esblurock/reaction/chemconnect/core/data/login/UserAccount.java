@@ -3,11 +3,12 @@ package info.esblurock.reaction.chemconnect.core.data.login;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
 
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 
 @Entity
 @SuppressWarnings("serial")
-public class UserAccount extends DatabaseObject {
+public class UserAccount extends ChemConnectDataStructure {
 
 	@Index
 	String DatabaseUserID;
@@ -25,17 +26,20 @@ public class UserAccount extends DatabaseObject {
 		UserAccountInformationID = "";
 	}
 	
-	public UserAccount(String identifier, String access, String owner, String sourceID,
+	public UserAccount(ChemConnectDataStructure datastructure,
 			String databaseUserID, String userAccountInformationID) {
-		fill(identifier, access, owner,sourceID,databaseUserID,userAccountInformationID);
+		super(datastructure);
+		this.DatabaseUserID = databaseUserID;
+		this.UserAccountInformationID = userAccountInformationID;		
 	}
-	
-	public void fill(String identifier, String access, String owner, String sourceID,
+		
+	public void fill(ChemConnectDataStructure datastructure,
 			String databaseUserID, String userAccountInformationID) {
-		super.fill(identifier, access, owner, sourceID);
-		DatabaseUserID = databaseUserID;
-		UserAccountInformationID = userAccountInformationID;		
+		super.fill(datastructure);
+		this.DatabaseUserID = databaseUserID;
+		this.UserAccountInformationID = userAccountInformationID;		
 	}
+
 	
 	public String getDatabaseUserID() {
 		return DatabaseUserID;
