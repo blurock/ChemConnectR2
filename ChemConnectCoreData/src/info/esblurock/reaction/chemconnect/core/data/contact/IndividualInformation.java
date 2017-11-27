@@ -4,9 +4,9 @@ import java.util.HashSet;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.Unindex;
 
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
-import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 
 @SuppressWarnings("serial")
 @Entity
@@ -20,7 +20,7 @@ public class IndividualInformation extends ChemConnectDataStructure {
 	@Index
 	String personalDescriptionID;
 	
-	@Index
+	@Unindex
 	HashSet<String> organizationID;
 
 	public IndividualInformation() {

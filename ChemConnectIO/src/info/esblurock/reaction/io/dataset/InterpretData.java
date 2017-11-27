@@ -513,15 +513,15 @@ public enum InterpretData {
 			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
 			ChemConnectDataStructure datastructure = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
 
-			String contactInfoDataID = (String) yaml.get(StandardDatasetMetaData.contactInfoDataID);
+			String contactInfoDataID = (String) yaml.get(StandardDatasetMetaData.contactKeyS);
 			String contactLocationInformationID = (String) yaml
-					.get(StandardDatasetMetaData.contactLocationInformationID);
-			String personalDescriptionID = (String) yaml.get(StandardDatasetMetaData.personalDescriptionID);
-			HashSet<String> organizationID = interpretMultipleYaml(StandardDatasetMetaData.organizationID,yaml);
+					.get(StandardDatasetMetaData.locationKeyS);
+			String personalDescriptionID = (String) yaml.get(StandardDatasetMetaData.personS);
+			HashSet<String> organization = interpretMultipleYaml(StandardDatasetMetaData.orginfoKeyS,yaml);
 
 			org = new IndividualInformation(datastructure,
 					contactInfoDataID, contactLocationInformationID, 
-					personalDescriptionID, organizationID);
+					personalDescriptionID, organization);
 			return org;
 		}
 
@@ -533,10 +533,10 @@ public enum InterpretData {
 
 			IndividualInformation individual = (IndividualInformation) object;
 
-			map.put(StandardDatasetMetaData.contactInfoDataID, individual.getContactInfoDataID());
-			map.put(StandardDatasetMetaData.contactLocationInformationID, individual.getContactLocationInformationID());
-			map.put(StandardDatasetMetaData.personalDescriptionID, individual.getPersonalDescriptionID());
-			putMultipleInYaml(StandardDatasetMetaData.organizationID, map,individual.getOrganizationID());
+			map.put(StandardDatasetMetaData.contactKeyS, individual.getContactInfoDataID());
+			map.put(StandardDatasetMetaData.locationKeyS, individual.getContactLocationInformationID());
+			map.put(StandardDatasetMetaData.personS, individual.getPersonalDescriptionID());
+			putMultipleInYaml(StandardDatasetMetaData.orginfoKeyS, map,individual.getOrganizationID());
 
 			return map;
 		}
@@ -609,13 +609,13 @@ public enum InterpretData {
 			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
 			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);
 
-			String contactInfoDataID = (String) yaml.get(StandardDatasetMetaData.contactInfoDataID);
 			String password = (String) yaml.get(StandardDatasetMetaData.password);
 			String emailS = (String) yaml.get(StandardDatasetMetaData.emailKeyS);
-			HashSet<String> userrole = interpretMultipleYaml(StandardDatasetMetaData.userrole,yaml);
+			String userrole = (String) yaml.get(StandardDatasetMetaData.userrole);
 
-			account = new UserAccountInformation(objdata.getIdentifier(), objdata.getAccess(), objdata.getOwner(),
-					sourceID, contactInfoDataID, password, userrole, emailS);
+			account = new UserAccountInformation(objdata.getIdentifier(), objdata.getAccess(), 
+					objdata.getOwner(), sourceID, 
+					emailS, password, userrole);
 			return account;
 		}
 
@@ -626,10 +626,9 @@ public enum InterpretData {
 
 			UserAccountInformation account = (UserAccountInformation) object;
 
-			map.put(StandardDatasetMetaData.contactInfoDataID, account.getContactInfoDataID());
 			map.put(StandardDatasetMetaData.password, account.getPassword());
 			map.put(StandardDatasetMetaData.emailKeyS, account.getEmail());
-			putMultipleInYaml(StandardDatasetMetaData.userrole, map,account.getUserrole());
+			map.put(StandardDatasetMetaData.userrole, account.getUserrole());
 
 			return map;
 		}
@@ -657,8 +656,8 @@ public enum InterpretData {
 			ChemConnectDataStructure datastructure = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml,
 					sourceID);
 
-			String DatabaseUserID = (String) yaml.get(StandardDatasetMetaData.DatabaseUserID);
-			String UserAccountInformationID = (String) yaml.get(StandardDatasetMetaData.UserAccountInformationID);
+			String DatabaseUserID = (String) yaml.get(StandardDatasetMetaData.databaseUserS);
+			String UserAccountInformationID = (String) yaml.get(StandardDatasetMetaData.UserAccountInformation);
 
 			account = new UserAccount(datastructure,
 					DatabaseUserID, UserAccountInformationID);
@@ -672,8 +671,8 @@ public enum InterpretData {
 
 			UserAccount account = (UserAccount) object;
 
-			map.put(StandardDatasetMetaData.DatabaseUserID, account.getDatabaseUserID());
-			map.put(StandardDatasetMetaData.UserAccountInformationID, account.getUserAccountInformationID());
+			map.put(StandardDatasetMetaData.databaseUserS, account.getDatabaseUser());
+			map.put(StandardDatasetMetaData.UserAccountInformation, account.getUserAccountInformation());
 
 			return map;
 		}
@@ -705,9 +704,9 @@ public enum InterpretData {
 			HashSet<String> DatabaseUserIDWriteAccess
 				= interpretMultipleYaml(StandardDatasetMetaData.DatabaseUserIDWriteAccess,yaml);
 			HashSet<String> DataSetCatalogID
-				= interpretMultipleYaml(StandardDatasetMetaData.DataSetCatalogID,yaml);
+				= interpretMultipleYaml(StandardDatasetMetaData.parameterSetDescriptionsS,yaml);
 			HashSet<String> OrganizationID
-			= interpretMultipleYaml(StandardDatasetMetaData.OrganizationID,yaml);
+			= interpretMultipleYaml(StandardDatasetMetaData.orginfoKeyS,yaml);
 
 			consortium = new Consortium(datastructure, 
 					DatabaseUserIDReadAccess, DatabaseUserIDWriteAccess,
@@ -727,9 +726,9 @@ public enum InterpretData {
 					map,consortium.getDatabaseUserIDReadAccess());
 			putMultipleInYaml(StandardDatasetMetaData.DatabaseUserIDWriteAccess, 
 					map,consortium.getDatabaseUserIDWriteAccess());
-			putMultipleInYaml(StandardDatasetMetaData.DataSetCatalogID, 
+			putMultipleInYaml(StandardDatasetMetaData.parameterSetDescriptionsS, 
 					map,consortium.getDataSetCatalogID());
-			putMultipleInYaml(StandardDatasetMetaData.OrganizationID, 
+			putMultipleInYaml(StandardDatasetMetaData.orginfoKeyS, 
 					map,consortium.getOrganizationID());
 
 			return map;

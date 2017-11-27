@@ -4,48 +4,46 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
 
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
-import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 
 @Entity
 @SuppressWarnings("serial")
 public class UserAccount extends ChemConnectDataStructure {
 
 	@Index
-	String DatabaseUserID;
+	String databaseUser;
 	@Index
-	String UserAccountInformationID;
+	String userAccountInformation;
 	
 	public UserAccount() {
-		DatabaseUserID = "";
-		UserAccountInformationID = "";
+		databaseUser = "";
+		userAccountInformation = "";
 	}
 	
 	public UserAccount(String identifier, String sourceID) {
 		super(identifier,sourceID);
-		DatabaseUserID = "";
-		UserAccountInformationID = "";
+		databaseUser = "";
+		userAccountInformation = "";
 	}
 	
 	public UserAccount(ChemConnectDataStructure datastructure,
-			String databaseUserID, String userAccountInformationID) {
+			String databaseUser, String userAccountInformation) {
 		super(datastructure);
-		this.DatabaseUserID = databaseUserID;
-		this.UserAccountInformationID = userAccountInformationID;		
+		this.databaseUser = databaseUser;
+		this.userAccountInformation = userAccountInformation;		
 	}
 		
 	public void fill(ChemConnectDataStructure datastructure,
-			String databaseUserID, String userAccountInformationID) {
+			String databaseUser, String userAccountInformation) {
 		super.fill(datastructure);
-		this.DatabaseUserID = databaseUserID;
-		this.UserAccountInformationID = userAccountInformationID;		
+		this.databaseUser = databaseUser;
+		this.userAccountInformation = userAccountInformation;		
 	}
 
-	
-	public String getDatabaseUserID() {
-		return DatabaseUserID;
+	public String getDatabaseUser() {
+		return databaseUser;
 	}
-	public String getUserAccountInformationID() {
-		return UserAccountInformationID;
+	public String getUserAccountInformation() {
+		return userAccountInformation;
 	}
 	
 	

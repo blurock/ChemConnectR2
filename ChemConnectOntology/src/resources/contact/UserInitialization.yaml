@@ -1,84 +1,39 @@
 interpreter: info.esblurock.reaction.core.server.initialization.InitializeCatalogDataStructuresYaml
-ChemConnectConsortium:
-        dataset:ChemConnectDataStructure: dataset:Consortium
-        dc:identifier: ChemConnectConsortium
-        dcterms:publisher: Admnistration
-        dataset:accessibility: Administration
-        dataset:userReadAccess: edwardblurock,ned,blurock
-        dataset:userWriteAccess: edwardblurock,blurock
-        dataset:DataSetCatalogID:
-        dataset:OrganizationID:
-        dc:description:
-            dcat:dataset: none
-            dcterms:created: 20170905
-            dcterms:type: Consortium
-            dcterms:title: Main ChemConnect Consortium
-            dcat:keyword: developer, kinetics, combustion, chemistry
-            dcterms:description: The administrative consortium of ChemConnect and public data
-Administration:
-        dataset:ChemConnectDataStructure: dataset:UserAccount
-        dc:identifier: Administration
-        dcterms:publisher: Admnistration
-        dataset:accessibility: Administration
-        dataset:DatabaseUserID: Administration
-        dataset:UserAccountInformation:
-            dataset:password: laguna
-            foaf:UserAccountRole: SuperUser
-            dataset:ContactInfoDataID: edwardblurock
-            vcard:email: edward.blurock@esblurock.info
-blurock:
-        dataset:ChemConnectDataStructure: dataset:UserAccount
-        dc:identifier: blurock
-        dcterms:publisher: Admnistration
-        dataset:accessibility: edwardblurock
-        dataset:DatabaseUserID: blurock
-        dataset:UserAccountInformation:
-             dataset:password: laguna
-             foaf:UserAccountRole: SuperUser
-             dataset:ContactInfoDataID: edwardblurock
-             vcard:email: edward.blurock@esblurock.info
-ned:
-        dataset:ChemConnectDataStructure: dataset:UserAccount
-        dc:identifier: ned
-        dcterms:publisher: Admnistration
-        dataset:accessibility: edwardblurock
-        dataset:DatabaseUserID: blurock
-        dataset:UserAccountInformation:
-             dataset:password: laguna
-             foaf:UserAccountRole: Standard
-             dataset:ContactInfoDataID: edwardblurock
-             vcard:email: edward.blurock@esblurock.info
 edwardblurock:
         dataset:ChemConnectDataStructure: dataset:DatabaseUser
         dc:identifier: edwardblurock
         dcterms:publisher: Admnistration
         dataset:accessibility: Public
-        dataset:OrganizationID: blurockconsultingab
-        foaf:Person:
-            dataset:NameOfPersonID: edwardblurock
-            vcard:role: Administrator
-        foaf:name:
-            foaf:familyName: Blurock
-            foaf:givenName: Edward S.
-            foaf:title: Dr.
+        org:Organization:
+        - blurockconsultingab
         dc:description:
             dcat:dataset: none
-            dcterms:created: 20170905
             dcterms:type: DatabaseUser
             dcterms:title: Edward S. Blurock
-            dcat:keyword: developer, kinetics, combustion, chemistry
-            dcterms:description: Edward S. Blurock is the developer of numerous software packages
+            dcat:keyword: 
+            - developer
+            - kinetics
+            - combustion
+            - chemistry
+            dcterms:description: |
+                 Edward S. Blurock is the developer of numerous software packages
+        vcard:Contact:
+            vcard:email: edward.blurock@esblurock.info
+            foaf:homepage: 
+            - http://www.chemicalkinetics.info
+            foaf:workInfoHomepage: 
+            - http://www.esblurock.info
         vcard:Location:
             vcard:street-address: Bandelsvägen 1
             vcard:locality: Lund
             vcard:country-name: Sweden
             vcard:postal-code: 22594
-            dataset:GPSLocationID: edwardblurock
         geo:location:
             geo:lat: 13.1910° E
             geo:long: 55.7047° N
-        vcard:Contact:
-            vcard:email: edward.blurock@esblurock.info
-            foaf:homepage: http://www.chemicalkinetics.info
-            foaf:workInfoHomepage: http://www.esblurock.info
-     
+        foaf:Person:
+            vcard:role: Administrator
+        foaf:name:
+            foaf:familyName: Blurock
+            foaf:givenName: Edward S.
+            foaf:title: Dr.

@@ -1,5 +1,6 @@
 package info.esblurock.reaction.core.server.db;
 
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.contact.ContactInfoData;
 import info.esblurock.reaction.chemconnect.core.data.contact.ContactLocationInformation;
@@ -8,10 +9,16 @@ import info.esblurock.reaction.chemconnect.core.data.contact.IndividualInformati
 import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
 import info.esblurock.reaction.chemconnect.core.data.contact.PersonalDescription;
 import info.esblurock.reaction.chemconnect.core.data.description.DescriptionDataData;
+import info.esblurock.reaction.chemconnect.core.data.login.UserAccount;
 import info.esblurock.reaction.chemconnect.core.data.login.UserAccountInformation;
 import info.esblurock.reaction.chemconnect.core.data.transaction.TransactionInfo;
+import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.io.db.QueryBase;
+import info.esblurock.reaction.io.metadata.StandardDatasetMetaData;
+import info.esblurock.reaction.ontology.OntologyBase;
+import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 
+import java.util.HashSet;
 import java.util.List;
 
 import com.googlecode.objectify.ObjectifyService;
@@ -47,26 +54,64 @@ public class DatabaseWriteBase {
 	}
 	static public void initializeIndividualInformation(String username, String password, String email, String userrole) {
 
-		
 		String sourceID = QueryBase.getDataSourceIdentification(username);
-		UserAccountInformation account = new UserAccountInformation(username,username,username,sourceID,
-				null,password,userrole,email);
-		DatabaseWriteBase.writeDatabaseObject(account);
+		String id = username;
 
-		GPSLocation gps = new GPSLocation(username,sourceID);
-		ContactLocationInformation location = new ContactLocationInformation(username,sourceID,gps.getIdentifier());
+		ChemConnectDataStructure datastructure = new ChemConnectDataStructure(username,sourceID);
 
-		ContactInfoData contactinfo = new ContactInfoData(username,sourceID);
+		// Individual
+		DataElementInformation contactelement = 
+				DatasetOntologyParsing.getSubElementStructureFromIDObject(StandardDatasetMetaData.databaseUserS);
+		String individualid = id + "-" + contactelement.getSuffix();
+		// ContactUserInfo
+		DataElementInformation contactuserelement = 
+				DatasetOntologyParsing.getSubElementStructureFromIDObject(StandardDatasetMetaData.contactKeyS);
+		String contactid = individualid + "-" + contactelement.getSuffix();
+		// ContactLocationInformation
+		DataElementInformation locationelement = 
+				DatasetOntologyParsing.getSubElementStructureFromIDObject(StandardDatasetMetaData.locationKeyS);
+		String locationid = individualid + "-" + locationelement.getSuffix();
+		// GPSLocation
+		DataElementInformation gpselement = 
+				DatasetOntologyParsing.getSubElementStructureFromIDObject(StandardDatasetMetaData.gpsCoordinatesID);
+		String gpsid = locationid + "-" + gpselement.getSuffix();
+		// PersonalDescription
+		DataElementInformation personalelement = 
+				DatasetOntologyParsing.getSubElementStructureFromIDObject(StandardDatasetMetaData.databaseUserS);
+		String personalid = individualid + "-" + personalelement.getSuffix();
+		// NameOfPerson
+		DataElementInformation nameelement = 
+				DatasetOntologyParsing.getSubElementStructureFromIDObject(StandardDatasetMetaData.databaseUserS);
+		String nameid = personalid + "-" + nameelement.getSuffix();
+		// UserAccountinformation 
+		DataElementInformation useraccountelement = 
+				DatasetOntologyParsing.getSubElementStructureFromIDObject(StandardDatasetMetaData.userAccountS);
+		String useraccountid = id + "-" + useraccountelement.getSuffix();
+		
+		
+		NameOfPerson name = new NameOfPerson(nameid,sourceID);
+		PersonalDescription personal = new PersonalDescription(personalid,username,username,sourceID,userrole,name);
+				
+		GPSLocation gps = new GPSLocation(gpsid,sourceID);
+		ContactLocationInformation location = new ContactLocationInformation(locationid,username,sourceID,gps.getIdentifier());
+
+		ContactInfoData contactinfo = new ContactInfoData(contactid,sourceID);
+		contactinfo.setEmail(email);
+
+		IndividualInformation individual = new IndividualInformation(datastructure,contactinfo.getIdentifier(),
+				location.getIdentifier(),personal.getIdentifier(),new HashSet<String>());
+		
+		UserAccountInformation account = new UserAccountInformation(
+				useraccountid,username,username,sourceID,
+				password,userrole,email);
+
+		
+		UserAccount useraccount = new UserAccount(datastructure, account.getIdentifier(), individual.getIdentifier());
+		
 		DescriptionDataData data = new DescriptionDataData(username,sourceID);
 
-		NameOfPerson name = new NameOfPerson(username,sourceID);
-		PersonalDescription personal = new PersonalDescription(username,username,username,sourceID,userrole,name);
-
-		IndividualInformation individual = new IndividualInformation(username,username,username,sourceID,
-				data.getIdentifier(),
-				contactinfo.getIdentifier(), location.getIdentifier(),
-				personal.getIdentifier(), "");
 		
+		DatabaseWriteBase.writeDatabaseObject(account);
 		DatabaseWriteBase.writeDatabaseObject(gps);
 		DatabaseWriteBase.writeDatabaseObject(name);
 		DatabaseWriteBase.writeDatabaseObject(contactinfo);

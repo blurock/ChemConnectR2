@@ -1195,6 +1195,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                             [ rdf:type owl:Restriction ;
                                               owl:onProperty <http://purl.org/dc/terms/hasPart> ;
                                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                              owl:onClass :GPSLocation
+                                            ] ,
+                                            [ rdf:type owl:Restriction ;
+                                              owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                               owl:onClass :LocationAddress
                                             ] ,
                                             [ rdf:type owl:Restriction ;
@@ -2395,10 +2400,6 @@ Under the general type of is the actual data object referenced by the ChemConnec
                         rdfs:subClassOf :ChemConnectCompoundDataStructure ,
                                         [ rdf:type owl:Restriction ;
                                           owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                                          owl:someValuesFrom :UserAccountRole
-                                        ] ,
-                                        [ rdf:type owl:Restriction ;
-                                          owl:onProperty <http://www.w3.org/ns/dcat#record> ;
                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                           owl:onClass :ContactEmail
                                         ] ,
@@ -2406,6 +2407,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                           owl:onProperty <http://www.w3.org/ns/dcat#record> ;
                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                           owl:onClass :Password
+                                        ] ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onClass :UserAccountRole
                                         ] ;
                         <http://purl.org/dc/elements/1.1/type> "UserAccountInformation"^^xsd:string ;
                         <http://purl.org/dc/terms/identifier> "dataset:UserAccountInformation"^^xsd:string ;

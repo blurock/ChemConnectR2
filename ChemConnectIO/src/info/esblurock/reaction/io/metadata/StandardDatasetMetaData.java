@@ -3,7 +3,6 @@ package info.esblurock.reaction.io.metadata;
 
 public class StandardDatasetMetaData {
 	
-
 	
 	public static String identifierKeyS = "dc:identifier";
 	public static String ownerKeyS = "dcterms:publisher";
@@ -22,6 +21,8 @@ public class StandardDatasetMetaData {
 	public static String dataSetReferenceS = "terms:BibliographicResource";
 	public static String descriptionDataDataS = "dc:description";
 	public static String consortiumS = "dataset:Consortium";
+	public static String parameterSetDescriptionsS = "rdf:Property";
+	
 
 	public static String titleKeyS = "dcterms:title";
 	public static String descriptionKeyS = "dcterms:description";
@@ -35,6 +36,8 @@ public class StandardDatasetMetaData {
 	public static String contactKeyS = "vcard:Contact";
 	public static String locationKeyS = "vcard:Location";
 	public static String userAccountS = "prov:SoftwareAgent";
+	public static String databaseUserS = "vcard:Individual";
+	public static String personS = "foaf:Person";
 		
 	public static String  streetaddressKeyS = "vcard:street-address";           
 	public static String  localityKeyS = "vcard:locality";
@@ -70,21 +73,18 @@ public class StandardDatasetMetaData {
 	public static String referenceAuthors = "foaf:name";
 	public static String referenceDOI = "datacite:PrimaryResourceIdentifier";
 
+	/*
 	public static String contactInfoDataID = "dataset:ContactInfoDataID";
 	public static String organizationID = "dataset:OrganizationID";
 	public static String personalDescriptionID = "dataset:personalDescriptionID";
 	public static String contactLocationInformationID = "dataset:ContactLocationInformationID";
 	public static String descriptionDataDataID = "dataset:DescriptionDataDataID";
 	public static String organizationDescriptionID = "dataset:OrganizationDescriptionID";
-	
-	public static String DatabaseUserID = "dataset:DatabaseUserID";
+	*/
 	public static String DatabaseUserIDReadAccess = "dataset:userReadAccess";
 	public static String DatabaseUserIDWriteAccess = "dataset:userWriteAccess";
-	public static String DataSetCatalogID = "dataset:DataSetCatalogID";
-	public static String OrganizationID = "dataset:OrganizationID";
-	public static String DescriptionID = "dataset:DescriptionDataDataID";
 
-	public static String UserAccountInformationID = "dataset:UserAccountInformationID";
+	public static String UserAccountInformation = "dataset:UserAccountInformation";
 	
 	
 

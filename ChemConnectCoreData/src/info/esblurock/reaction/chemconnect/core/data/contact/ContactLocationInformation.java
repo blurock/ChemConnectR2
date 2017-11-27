@@ -37,8 +37,8 @@ public class ContactLocationInformation extends DatabaseObject {
 		this.postcode = "";
 		this.gpsLocationID = "";
 	}
-	public ContactLocationInformation(String identifier, String sourceID, String gpsLocationID) {
-		super(identifier, identifier, identifier, sourceID);
+	public ContactLocationInformation(String identifier, String username, String sourceID, String gpsLocationID) {
+		super(identifier, username, username, sourceID);
 		this.addressAddress = "";
 		this.city = "";
 		this.country = "";

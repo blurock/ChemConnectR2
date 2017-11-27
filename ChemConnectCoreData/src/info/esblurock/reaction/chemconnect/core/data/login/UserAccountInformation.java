@@ -4,6 +4,7 @@ import java.util.HashSet;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.Unindex;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 
@@ -11,45 +12,38 @@ import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 @Entity
 public class UserAccountInformation  extends DatabaseObject {
 	
-	@Index
-	String contactInfoDataID;
     @Index
     String password;
     @Index
     String email;
     @Index
-    HashSet<String> userrole;
+    String userrole;
     
 	public UserAccountInformation() {
 		super();
 	}
 	public UserAccountInformation(String identifier, String sourceID) {
 		super(identifier, sourceID);
-		this.contactInfoDataID = "";
-		this.password = "";
-		this.userrole = new HashSet<String>();
 		this.email = "";
+		this.password = "";
+		this.userrole = "";
 	}
 	public UserAccountInformation(String identifier, String access, String owner, String sourceID,
-			String contactInfoDataID, String password, HashSet<String> userrole, String emailS) {
+			String emailS, String password, String userrole) {
 		super(identifier, access, owner,sourceID);
-		this.contactInfoDataID = contactInfoDataID;
+		this.email = emailS;
 		this.password = password;
 		this.userrole = userrole;
-		this.email = emailS;
 	}
+	
 	public String getPassword() {
 		return password;
 	}
-	public HashSet<String> getUserrole() {
+	public String getUserrole() {
 		return userrole;
 	}
 	public String getEmail() {
 		return email;
-	}
-	public String getContactInfoDataID() {
-		return contactInfoDataID;
-	}
-    
+	}    
     
 }
