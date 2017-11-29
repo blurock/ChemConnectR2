@@ -76,7 +76,19 @@ public class ContactInfoData extends DatabaseObject {
 		public void setHasSite(HashSet<String> hasSite) {
 			this.hasSite = hasSite;
 		}
-	   
-	    
-	
+		public String toString() {
+			return toString("");
+		}
+		public String toString(String prefix) {
+			StringBuilder builder = new StringBuilder();
+			builder.append(super.toString(prefix));
+			builder.append(prefix + "email: ");
+			builder.append(email);
+			builder.append("\n" + prefix + "topSite: ");
+			builder.append(topSite);
+			builder.append("\n" + prefix + "hasSite: ");
+			builder.append(hasSite);
+			builder.append("\n");
+			return builder.toString();
+		}	
 }

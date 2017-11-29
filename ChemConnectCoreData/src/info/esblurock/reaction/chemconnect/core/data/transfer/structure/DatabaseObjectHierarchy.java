@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 
-public class DatabaseObjectHierarchy implements Serializable{
+public class DatabaseObjectHierarchy implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	DatabaseObject object;
@@ -22,9 +22,15 @@ public class DatabaseObjectHierarchy implements Serializable{
 	private void init() {
 		subobjects = new ArrayList<DatabaseObjectHierarchy>();
 	}
-	
+	public DatabaseObject getObject() {
+		return object;
+	}
 	public void setObject(DatabaseObject obj) {
 		this.object = obj;
+	}
+	
+	public ArrayList<DatabaseObjectHierarchy> getSubobjects() {
+		return subobjects;
 	}
 	public void addSubobject(DatabaseObjectHierarchy objecthierarchy) {
 		subobjects.add(objecthierarchy);
@@ -36,17 +42,13 @@ public class DatabaseObjectHierarchy implements Serializable{
 	
 	public String toString(String prefix) {
 		StringBuilder builder = new StringBuilder();
-		
 		builder.append(prefix);
-		builder.append("DatabaseObjectHierarchy: ");
-		builder.append(object.getIdentifier());
-		builder.append("\n");
-		String newprefix = prefix + "\t";
+		builder.append("---------- DatabaseObjectHierarchy ----------\n");
+		builder.append(object.toString(prefix));
+		String newprefix = prefix + "\t:  ";
 		for(DatabaseObjectHierarchy hierarchy : subobjects) {
 			builder.append(hierarchy.toString(newprefix));
 		}
-		
-		
 		return builder.toString();
 	}
 }

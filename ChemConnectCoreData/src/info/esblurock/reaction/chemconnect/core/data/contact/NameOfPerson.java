@@ -53,17 +53,21 @@ public class NameOfPerson extends DatabaseObject {
 	public String getFamilyName() {
 		return familyName;
 	}
-	
+	@Override
 	public String toString() {
+		return toString("");
+	}
+	@Override
+	public String toString(String prefix) {
 		StringBuilder build = new StringBuilder();
-		build.append("NameOfPerson(");
-		build.append(getIdentifier());
-		build.append("): ");
+		build.append(super.toString(prefix));
+		build.append(prefix);	
 		build.append(title);
 		build.append(" ");
 		build.append(givenName);
 		build.append(" ");
 		build.append(familyName);
+		build.append("\n");
 		return build.toString();
 	}
 	

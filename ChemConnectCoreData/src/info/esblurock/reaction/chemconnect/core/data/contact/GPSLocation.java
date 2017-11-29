@@ -42,5 +42,21 @@ public class GPSLocation extends DatabaseObject {
 	public String getGPSLongitude() {
 		return GPSLongitude;
 	}
+	@Override
+	public String toString() {
+		return toString("");
+	}
+	@Override
+	public String toString(String prefix) {
+		StringBuilder builder = new StringBuilder();
+		builder.append(super.toString(prefix));
+		builder.append(prefix);
+		builder.append("Lat: ");
+		builder.append(GPSLatitude);
+		builder.append(", Long: ");
+		builder.append(GPSLongitude);
+		builder.append("\n");
+		return builder.toString();
+	}
 
 }

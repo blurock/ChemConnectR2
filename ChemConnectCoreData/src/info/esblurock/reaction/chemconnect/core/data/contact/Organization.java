@@ -7,7 +7,6 @@ import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Unindex;
 
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
-import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 
 @SuppressWarnings("serial")
 @Entity
@@ -67,6 +66,24 @@ public class Organization extends ChemConnectDataStructure {
 	public HashSet<String> getUserAccounts() {
 		return userAccounts;
 	}
-	
+	@Override
+	public String toString() {
+		return toString("");
+	}
+	@Override
+	public String toString(String prefix) {
+		StringBuilder builder = new StringBuilder();
+		builder.append(super.toString(prefix));
+		builder.append(prefix + "Contact: ");
+		builder.append(contactInfoDataID);
+		builder.append(", Location: ");
+		builder.append(contactLocationInformationID);
+		builder.append("\n" + prefix + "OrgDescr: ");
+		builder.append(organizationDescriptionID);
+		builder.append(", UserAccoounts: ");
+		builder.append(userAccounts);
+		builder.append("\n");
+		return builder.toString();
+	}
 	
 }

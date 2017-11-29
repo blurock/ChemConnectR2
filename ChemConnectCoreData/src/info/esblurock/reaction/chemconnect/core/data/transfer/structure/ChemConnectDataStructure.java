@@ -3,6 +3,7 @@ package info.esblurock.reaction.chemconnect.core.data.transfer.structure;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 
 public class ChemConnectDataStructure implements Serializable {
@@ -13,6 +14,8 @@ public class ChemConnectDataStructure implements Serializable {
 	private static String linkedTo = "org:linkedTo";
 
 	String elementType;
+	ClassificationInformation classification; 
+	
 	ArrayList<DataElementInformation> records;
 	ArrayList<DataElementInformation> linkedTos;
 	ArrayList<DataElementInformation> other;
@@ -23,14 +26,16 @@ public class ChemConnectDataStructure implements Serializable {
 		linkedTos = new ArrayList<DataElementInformation>();
 		other = new ArrayList<DataElementInformation>();
 		mapping = new MapToChemConnectCompoundDataStructure();
+		classification = null;
 	}
 
-	public ChemConnectDataStructure(String elementType) {
-		this.elementType = elementType;
-		records = new ArrayList<DataElementInformation>();
-		linkedTos = new ArrayList<DataElementInformation>();
-		other = new ArrayList<DataElementInformation>();
-		mapping = new MapToChemConnectCompoundDataStructure();
+	public ChemConnectDataStructure(ClassificationInformation classification) {
+		this.elementType = classification.getDataType();
+		this.classification = classification;
+		this.records = new ArrayList<DataElementInformation>();
+		this.linkedTos = new ArrayList<DataElementInformation>();
+		this.other = new ArrayList<DataElementInformation>();
+		this.mapping = new MapToChemConnectCompoundDataStructure();
 	}
 
 	public void addElement(DataElementInformation element, ChemConnectCompoundDataStructure structure) {
@@ -68,6 +73,12 @@ public class ChemConnectDataStructure implements Serializable {
 	public MapToChemConnectCompoundDataStructure getMapping() {
 		return mapping;
 	}
+	
+	
+	
+	public ClassificationInformation getClassification() {
+		return classification;
+	}
 
 	public String toString() {
 		return toString("");
@@ -77,6 +88,7 @@ public class ChemConnectDataStructure implements Serializable {
 		StringBuilder builder = new StringBuilder();
 		builder.append(prefix + "------------ SetOfChemConnectDataStructureElements ------------\n");
 		builder.append(prefix + "DataType: " + elementType + "\n");
+		builder.append(prefix + "Classification: " + classification.toString() + "\n");
 		String newprefix = prefix + "\t";
 		String newprefix2 = newprefix + "\t";
 		builder.append(newprefix + "Records\n");

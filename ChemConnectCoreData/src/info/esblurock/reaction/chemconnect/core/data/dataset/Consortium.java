@@ -87,4 +87,23 @@ public class Consortium extends ChemConnectDataStructure {
 	public void setOrganizationID(HashSet<String> organizationID) {
 		OrganizationID = organizationID;
 	}
+	@Override
+	public String toString() {
+		return toString("");
+	}
+	@Override
+	public String toString(String prefix) {
+		StringBuilder builder = new StringBuilder();
+		builder.append(super.toString(prefix));
+		builder.append(prefix + "Read Access: ");
+		builder.append(DatabaseUserIDReadAccess);
+		builder.append(", Write Access: ");
+		builder.append(DatabaseUserIDWriteAccess);
+		builder.append("\n" + prefix + "Dataset: ");
+		builder.append(DataSetCatalogID);
+		builder.append(", Organization: ");
+		builder.append(OrganizationID);
+		builder.append("\n");
+		return builder.toString();
+	}	
 }

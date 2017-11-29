@@ -101,5 +101,25 @@ public class DatabaseObject  implements Serializable {
 	public void setSourceID(String sourceID) {
 		this.sourceID = sourceID;
 	}
+	@Override
+	public String toString() {
+		return toString("");
+	}
+	public String toString(String prefix) {
+		StringBuilder builder = new StringBuilder();
+		builder.append(prefix);
+		builder.append(this.getClass().getSimpleName() + ": " + identifier + "\n");
+		builder.append(prefix + "(");
+		builder.append(access);
+		builder.append(", ");
+		builder.append(sourceID);
+		builder.append(", ");
+		builder.append(owner);
+		builder.append(", ");
+		builder.append(creationDate);
+		builder.append(")\n");
+		
+		return builder.toString();
+	}
 	
 }

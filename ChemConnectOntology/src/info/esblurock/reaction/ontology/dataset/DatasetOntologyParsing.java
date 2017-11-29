@@ -162,9 +162,10 @@ dataset:ChemConnectPrimitiveDataStructure:
 
  * 
  */
-	public static ChemConnectDataStructure getChemConnectDataStructure(String element) {
-		ChemConnectDataStructure set = new ChemConnectDataStructure(element);
-		getSetOfChemConnectDataStructureElements(element, set);
+	public static ChemConnectDataStructure getChemConnectDataStructure(String elementStructure) {
+		ClassificationInformation classification = DatasetOntologyParsing.getIdentificationInformation(elementStructure);
+		ChemConnectDataStructure set = new ChemConnectDataStructure(classification);
+		getSetOfChemConnectDataStructureElements(elementStructure, set);
 		return set;
 	}
 
@@ -244,7 +245,7 @@ dataset:ChemConnectPrimitiveDataStructure:
  * 
  * SELECT DISTINCT ?super
 	WHERE {
-     dataset:NameOfPerson  rdfs:subClassOf* dataset:ChemConnectPrimitiveCompound .
+     dataset:NameOfPerson  rdfs:subClassOf* dataset:ChemConnectPrimitiveDataStructure .
      dataset:NameOfPerson  rdfs:subClassOf ?super .
      ?super rdf:type owl:Class
 	}
@@ -352,13 +353,15 @@ dataset:ChemConnectPrimitiveDataStructure:
 	 *         ?super . ?super rdfs:subClassOf dcat:Dataset }
 	 */
 	static public DataElementInformation getSubElementStructureFromIDObject(String structure) {
-		String query = "SELECT ?id ?type ?super ?altl\n" + "	WHERE {\n" + "   " + structure
-				+ " <http://purl.org/dc/terms/references> ?type .\n"
+		String query = "SELECT ?id ?type ?super ?altl\n" 
+				+ "	WHERE {\n" 
+				+ "   " + structure + " <http://purl.org/dc/terms/references> ?type .\n"
 				+ "	?type <http://purl.org/dc/terms/identifier> ?id .\n" 
 				+ "	?type rdfs:subClassOf ?super .\n"
-				+ " ?type <http://www.w3.org/2004/02/skos/core#altLabel> ?altl"
-				+ "	?super rdfs:subClassOf dcat:Dataset\n" + "  }";
-
+				+ " ?type <http://www.w3.org/2004/02/skos/core#altLabel> ?altl \n"
+				+ "	?super rdfs:subClassOf dcat:Dataset\n" 
+				+ "  }";
+		System.out.println(query);
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
 
@@ -421,8 +424,8 @@ dataset:ChemConnectPrimitiveDataStructure:
 				+ "		   {   ?sub owl:someValuesFrom|owl:allValuesFrom ?substructure}" + "      } .\n"
 				+ "		   ?sub ?pred ?substructure .\n" + "        ?sub owl:onProperty ?link .\n" 
 				+ "        ?substructure" + " <http://purl.org/dc/terms/identifier> ?id .\n" 
-				+ "        ?substructure <http://www.w3.org/2004/02/skos/core#altLabel> ?altl"
-				+ "       }";
+			    + "        ?substructure <http://www.w3.org/2004/02/skos/core#altLabel> ?altl \n"
+			    	   				+ "       }";
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
 		ChemConnectCompoundDataStructure info = new ChemConnectCompoundDataStructure(structure);

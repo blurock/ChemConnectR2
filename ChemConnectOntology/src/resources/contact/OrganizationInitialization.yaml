@@ -32,7 +32,6 @@ blurockconsultingab:
             vcard:locality: Lund
             vcard:country-name: Sweden
             vcard:postal-code: 22594
-            dataset:GPSLocationID: blurock
         geo:location:
             geo:lat: 13.1910° E
             geo:long: 55.7047° N
@@ -57,7 +56,6 @@ galway:
             vcard:locality: Galway
             vcard:country-name: Republic of Ireland
             vcard:postal-code: 22594
-            dataset:GPSLocationID: galway
         geo:location:
             geo:lat:  9.06186° W
             geo:long: 53.277784° N

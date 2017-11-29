@@ -59,4 +59,21 @@ public class OrganizationDescription extends DatabaseObject {
 		return SubOrganizationOf;
 	}
 	
+	public String toString() {
+		return toString("");
+	}
+	public String toString(String prefix) {
+		StringBuilder builder = new StringBuilder();
+		builder.append(super.toString(prefix));
+		builder.append(prefix);
+		builder.append(OrganizationName);
+		builder.append(", ");
+		builder.append(OrganizationUnit);
+		builder.append("\n" + prefix);
+		builder.append(SubOrganizationOf);
+		builder.append(", ");
+		builder.append(OrganizationClassification);
+		builder.append("\n");
+		return builder.toString();
+	}	
 }

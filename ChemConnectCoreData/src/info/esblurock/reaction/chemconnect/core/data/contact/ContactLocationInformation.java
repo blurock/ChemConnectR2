@@ -80,5 +80,24 @@ public class ContactLocationInformation extends DatabaseObject {
 	public String getGpsLocationID() {
 		return gpsLocationID;
 	}
+	public String toString() {
+		return toString("");
+	}
+	public String toString(String prefix) {
+		StringBuilder builder = new StringBuilder();
+		builder.append(super.toString(prefix));
+		builder.append(prefix + "Address: ");
+		builder.append(addressAddress);
+		builder.append("\n" + prefix + "Address: ");
+		builder.append(city);
+		builder.append(", ");
+		builder.append(country);
+		builder.append(", ");
+		builder.append(postcode);
+		builder.append("\n");
+		builder.append(prefix + "GPS: " + gpsLocationID);
+		builder.append("\n");
+		return builder.toString();
+	}
 
 }

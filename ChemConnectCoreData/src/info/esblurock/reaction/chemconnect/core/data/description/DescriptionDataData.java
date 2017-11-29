@@ -14,19 +14,14 @@ import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 public class DescriptionDataData extends DatabaseObject {
 	@Unindex
 	String onlinedescription;
-
 	@Unindex
 	String descriptionAbstract;
-
 	@Index
 	String sourcekey;
-
 	@Index
 	Date sourceDate;
-
 	@Index
 	String dataType;
-
 	@Unindex
 	HashSet<String> keywords;
 
@@ -110,5 +105,41 @@ public class DescriptionDataData extends DatabaseObject {
 	public HashSet<String> getKeywords() {
 		return keywords;
 	}
-
+	public String toString() {
+		return toString("");
+	}
+	public String toString(String prefix) {
+		StringBuilder builder = new StringBuilder();
+		builder.append(super.toString(prefix));
+		builder.append(prefix);
+		builder.append("Title: " + onlinedescription);
+		builder.append("\n");
+		builder.append(prefix);
+		builder.append("Source: " + sourcekey);
+		builder.append(", Type: ");
+		builder.append(dataType);
+		builder.append("\n");
+		abstractType(prefix,descriptionAbstract,builder);
+		builder.append(prefix);
+		builder.append("Date: " + sourceDate + "\n");		
+		builder.append(prefix);
+		builder.append("Keywords: " + keywords + "\n");		
+		return builder.toString();
+	}
+	private void abstractType(String prefix, String abstractS, StringBuilder builder) {
+		String newprefix = prefix + "\t";
+		builder.append(prefix + "Abstract: ");
+		String text = abstractS;
+		int next = text.indexOf('\n');
+		while(next >= 0) {
+			String txt = text.substring(0, next);
+			builder.append(txt);
+			builder.append("\n");
+			text = text.substring(next+1);
+			next = text.indexOf('\n');
+			builder.append(newprefix);
+		}
+		builder.append(text);
+		builder.append("\n");
+	}
 }

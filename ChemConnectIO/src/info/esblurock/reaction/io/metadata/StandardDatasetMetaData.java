@@ -43,7 +43,7 @@ public class StandardDatasetMetaData {
 	public static String  localityKeyS = "vcard:locality";
 	public static String  postalcodeKeyS = "vcard:postal-code";
 	public static String  countryKeyS = "vcard:country-name";
-	public static String  gpsCoordinatesID = "dataset:GPSLocationID";
+	public static String  gpsCoordinatesID = "geo:location";
 	public static String  latitudeKeyS = "geo:lat";
 	public static String  longitudeKeyS = "geo:long";
 
@@ -72,6 +72,11 @@ public class StandardDatasetMetaData {
 	public static String referenceBibliographicString = "dcterms:description";
 	public static String referenceAuthors = "foaf:name";
 	public static String referenceDOI = "datacite:PrimaryResourceIdentifier";
+
+	public static String deviceSensorS = "ssn:Sensor";
+	public static String instrumentS = "ssn:Device";
+	public static String chemConnectActivityS = "prov:Activity";
+	public static String dataPointConceptS = "skos:Concept";
 
 	/*
 	public static String contactInfoDataID = "dataset:ContactInfoDataID";
