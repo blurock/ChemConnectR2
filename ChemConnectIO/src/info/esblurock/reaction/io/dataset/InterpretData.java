@@ -96,11 +96,6 @@ public enum InterpretData {
 			String descriptionDataDataS = (String) yaml.get(StandardDatasetMetaData.descriptionDataDataS);
 			HashSet<String> consortiumS = interpretMultipleYaml(StandardDatasetMetaData.consortiumS,yaml);
 
-			System.out.println("descriptionDataDataS:            " + descriptionDataDataS);
-			System.out.println("consortiumS:                     " + consortiumS);	
-			System.out.println("dataSetReferenceS:               " + dataSetReferenceS);	
-			
-			
 			datastructure = new ChemConnectDataStructure(objdata, dataSetReferenceS, descriptionDataDataS, consortiumS);
 
 			return datastructure;
@@ -297,7 +292,6 @@ public enum InterpretData {
 			String postalcode = (String) yaml.get(StandardDatasetMetaData.postalcodeKeyS);
 			String country = (String) yaml.get(StandardDatasetMetaData.countryKeyS);
 			Object gps = yaml.get(StandardDatasetMetaData.gpsCoordinatesID);
-			System.out.println("" + gps.getClass().getCanonicalName());
 			String gspLocationID = (String) yaml.get(StandardDatasetMetaData.gpsCoordinatesID);
 
 			ContactLocationInformation location = new ContactLocationInformation(objdata.getIdentifier(),
@@ -689,7 +683,6 @@ public enum InterpretData {
 		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
 			DatabaseObject obj = QueryBase
 					.getDatabaseObjectFromIdentifier(UserAccountInformation.class.getCanonicalName(), identifier);
-			System.out.println("UserAccountInformation: " + obj.getClass().getCanonicalName());
 			return obj;
 		}
 
@@ -889,7 +882,6 @@ public enum InterpretData {
 				answers.add(answer);
 			}
 		}
-		System.out.println(answers);
 		return answers;
 	}
 }

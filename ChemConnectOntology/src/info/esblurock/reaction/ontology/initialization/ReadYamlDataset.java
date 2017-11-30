@@ -143,8 +143,6 @@ public class ReadYamlDataset {
 				obj = compoundObjectSetup(element, top, mapping, subyamlmap, objecthierarchy, sourceID);
 				if (obj != null) {
 					yamlmap.put(element.getIdentifier(), obj.getIdentifier());
-				} else {
-					System.out.println("Object null: " + element.toString());
 				}
 			} else {
 				Object yamlobject = yamlmap.get(element.getIdentifier());
@@ -235,22 +233,8 @@ public class ReadYamlDataset {
 		ClassificationInformation classify = DatasetOntologyParsing.getIdentificationInformation(top, dataelement);
 
 		List<DataElementInformation> substructures = DatasetOntologyParsing.subElementsOfStructure(name);
-		/*
-		 * System.out.println("===================================================: " +
-		 * substructures.size()); for (DataElementInformation element : substructures) {
-		 * System.out.println("Before:   " + element.toString()); }
-		 * System.out.println("===================================================: " +
-		 * substructures.size());
-		 */
 
 		substructures = replaceID(substructures, structuremap);
-		/*
-		 * System.out.println("===================================================: " +
-		 * substructures.size()); for (DataElementInformation element : substructures) {
-		 * System.out.println("After:   " + element.toString()); }
-		 * System.out.println("===================================================: " +
-		 * substructures.size());
-		 */
 		DatabaseObject obj = null;
 		if (structuremap != null) {
 			InterpretData interpretorg = InterpretData.valueOf(classify.getDataType());
@@ -260,10 +244,6 @@ public class ReadYamlDataset {
 		elements.add(yamlorg);
 
 		for (DataElementInformation element : substructures) {
-			/*
-			 * System.out.println("findListOfElementInformation:" +
-			 * element.getChemconnectStructure().compareTo("ID") + "  Element=" + element);
-			 */
 			if (element.getChemconnectStructure().compareTo("ID") != 0) {
 				ClassificationInformation classification = DatasetOntologyParsing.getIdentificationInformation(top,
 						element);

@@ -24,11 +24,6 @@ public class OntologyUnits extends OntologyBase {
 
 		String queryString = queryPrefix + "SELECT  ?subject" + "\n"
 				+ " WHERE {?subject ?p quant:ThermodynamicTemperature}";
-		System.out.println(queryString);
-
-		// + " WHERE {?subject ?predicate qudt:SIBaseUnit}";
-		// + " WHERE {?subject ?predicate qudt:AmountOfSubstanceUnit}";
-		// + " WHERE {unit:Kilogram ?predicate ?subject}";
 
 		Query query = QueryFactory.create(queryString);
 		QueryExecution qe = QueryExecutionFactory.create(query, m);
