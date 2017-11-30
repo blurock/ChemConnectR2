@@ -151,9 +151,10 @@ public class ReadYamlDataset {
 					Set<String> keys = map.keySet();
 					for (String key : keys) {
 						Map<String, Object> submap = (Map<String, Object>) map.get(key);
-						obj = compoundObjectSetup(element, top, mapping, submap, objecthierarchy, sourceID);
-						String id = obj.getIdentifier()+ "-" + key;
-						obj.setIdentifier(id);
+						DatabaseObject newtop = new DatabaseObject(top);
+						String id = newtop.getIdentifier()+ "-" + key;
+						newtop.setIdentifier(id);
+						obj = compoundObjectSetup(element, newtop, mapping, submap, objecthierarchy, sourceID);
 						submap.put(StandardDatasetMetaData.identifierKeyS, id);
 					}
 				}

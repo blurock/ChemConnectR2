@@ -5,7 +5,7 @@ blurockconsultingab:
         dcterms:publisher: Admnistration
         dataset:accessibility: Public
         terms:BibliographicResource:
-          reference1:
+          ref1:
              dataset:ChemConnectDataStructure: terms:BibliographicResource
              datacite:PrimaryResourceIdentifier: 10.1021/ci0341518
              dcterms:isReferencedBy: . Chem. Inf. Comput. Sci., 1995, 35 (3), pp 607–616
@@ -18,6 +18,20 @@ blurockconsultingab:
                author2:
                   foaf:familyName: MainAuthor
                   foaf:givenName: Maina
+                  foaf:title: Dr.
+          ref2:
+             dataset:ChemConnectDataStructure: terms:BibliographicResource
+             datacite:PrimaryResourceIdentifier: 10.10.10.10.10
+             dcterms:isReferencedBy: Comb Flame., 101 (3), pp 607–616
+             dcterms:title: Another title of paper
+             foaf:name:
+               author1:
+                  foaf:familyName: Author#2
+                  foaf:givenName: Justa#2
+                  foaf:title: Dr.
+               author2:
+                  foaf:familyName: MainAuthor#2
+                  foaf:givenName: Maina#2
                   foaf:title: Dr.
         dataset:DatabaseUserID: 
              - edwardblurock
