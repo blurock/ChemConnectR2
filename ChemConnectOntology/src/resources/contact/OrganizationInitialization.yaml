@@ -4,6 +4,21 @@ blurockconsultingab:
         dc:identifier: blurockconsultingab
         dcterms:publisher: Admnistration
         dataset:accessibility: Public
+        terms:BibliographicResource:
+          reference1:
+             dataset:ChemConnectDataStructure: terms:BibliographicResource
+             datacite:PrimaryResourceIdentifier: 10.1021/ci0341518
+             dcterms:isReferencedBy: . Chem. Inf. Comput. Sci., 1995, 35 (3), pp 607–616
+             dcterms:title: Title of the paper
+             foaf:name:
+               author1:
+                  foaf:familyName: Author
+                  foaf:givenName: Justa.
+                  foaf:title: Dr.
+               author2:
+                  foaf:familyName: MainAuthor
+                  foaf:givenName: Maina
+                  foaf:title: Dr.
         dataset:DatabaseUserID: 
              - edwardblurock
         org:Organization:
@@ -32,9 +47,9 @@ blurockconsultingab:
             vcard:locality: Lund
             vcard:country-name: Sweden
             vcard:postal-code: 22594
-        geo:location:
-            geo:lat: 13.1910° E
-            geo:long: 55.7047° N
+            geo:location:
+                geo:lat: 13.1910° E
+                geo:long: 55.7047° N
         vcard:Contact:
             vcard:email: edward.blurock@esblurock.info
             foaf:homepage: 
@@ -56,9 +71,9 @@ galway:
             vcard:locality: Galway
             vcard:country-name: Republic of Ireland
             vcard:postal-code: 22594
-        geo:location:
-            geo:lat:  9.06186° W
-            geo:long: 53.277784° N
+            geo:location:
+               geo:lat:  9.06186° W
+               geo:long: 53.277784° N
         vcard:Contact:
             vcard:email:  henry.curran@nuigalway.ie
             foaf:homepage: http://c3.nuigalway.ie/

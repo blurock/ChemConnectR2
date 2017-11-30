@@ -78,5 +78,29 @@ public class DataSetReference extends DatabaseObject {
 	public HashSet<String> getAuthors() {
 		return authors;
 	}
-
+	public String toString() {
+		return toString("");
+	}
+	public String toString(String prefix) {
+		StringBuilder builder = new StringBuilder();
+		builder.append(super.toString(prefix));
+		builder.append(prefix);
+		builder.append("Title: " + Title);
+		builder.append("\n");
+		builder.append(prefix);
+		builder.append("Reference: " + ReferenceString);
+		builder.append("\n");
+		builder.append(prefix);
+		builder.append("DOI: " + DOI);
+		builder.append("\n");
+		builder.append(prefix);
+		for(String name : authors) {
+			builder.append(name);
+			builder.append("   ");
+		}
+		builder.append("\n");
+		return builder.toString();
+	}
+	
+	
 }

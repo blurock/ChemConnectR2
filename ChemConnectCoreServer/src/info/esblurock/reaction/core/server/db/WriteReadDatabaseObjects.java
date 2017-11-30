@@ -81,16 +81,12 @@ public class WriteReadDatabaseObjects {
 					String idlabel = element.getIdentifier();
 					String id = (String) submap.get(idlabel);
 					if (id != null) {
-						System.out.println("Compound Object: " + idlabel + ": " + id);
 						String chemstructure = element.getChemconnectStructure();
-						System.out.println("Compound Object: " + chemstructure);
 						InterpretData subinterpret = InterpretData.valueOf(chemstructure);
 						String canonical = subinterpret.canonicalClassName();
-						System.out.println("Compound Object: " + canonical);
 						DatabaseObject obj;
 						try {
 							obj = QueryBase.getDatabaseObjectFromIdentifier(canonical, id);
-							System.out.println(obj.toString("Compound: "));
 							DatabaseObjectHierarchy next = new DatabaseObjectHierarchy(obj);
 							subhierarchy.addSubobject(next);
 						} catch (IOException e) {

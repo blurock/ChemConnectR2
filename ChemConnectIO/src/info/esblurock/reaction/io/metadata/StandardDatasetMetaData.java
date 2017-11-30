@@ -69,7 +69,7 @@ public class StandardDatasetMetaData {
 	public static String organizationDataTypeS = "foaf:Organisation";
 	
 	public static String referenceTitle = "dcterms:title";
-	public static String referenceBibliographicString = "dcterms:description";
+	public static String referenceBibliographicString = "dcterms:isReferencedBy";
 	public static String referenceAuthors = "foaf:name";
 	public static String referenceDOI = "datacite:PrimaryResourceIdentifier";
 

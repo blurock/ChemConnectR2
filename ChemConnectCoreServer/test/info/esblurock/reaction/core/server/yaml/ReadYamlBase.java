@@ -30,7 +30,7 @@ public class ReadYamlBase {
 		RegistrerDataset.register();
 		ObjectifyService.register(DatabaseObject.class);
 		String sourceID = "1";
-		
+		/*
 		ArrayList<ListOfElementInformation> results;
 		System.out.println("---------------");
 			try {
@@ -65,5 +65,6 @@ public class ReadYamlBase {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			*/
 		}
 }

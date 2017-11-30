@@ -74,7 +74,6 @@ public class ReadYamlDataset {
 			String name = (String) nameO;
 			if (name.compareTo("interpreter") != 0) {
 				ChemConnectDataStructureObject structure = extractChemConnectDataStructure(name, map, sourceID);
-				System.out.println(structure.toString());
 				total.add(structure);
 				/*
 				 * ListOfElementInformation elements = findListOfElementInformation(name,
@@ -121,20 +120,11 @@ public class ReadYamlDataset {
 		ArrayList<DataElementInformation> records = chemconnect.getRecords();
 		MapToChemConnectCompoundDataStructure mapping = chemconnect.getMapping();
 		for (DataElementInformation record : records) {
-			System.out.println("Record: " + record);
-			DatabaseObject obj = extractDataElementInformation(record, top, mapping, structuremap, structuremap, objecthierarchy,
+			DatabaseObject obj = extractDataElementInformation(record, top, mapping, structuremap, objecthierarchy,
 					sourceID);
-			if (obj != null) {
-				structuremap.put(record.getIdentifier(), obj.getIdentifier());
-			} else {
-				System.out.println("Object null: " + record.toString());
-			}
 		}
 		String structuretype = DatasetOntologyParsing.getStructureFromDataStructure(elementStructure);
-		System.out.println("Structure: " + structuretype);
 		InterpretData interpret = InterpretData.valueOf(structuretype);
-		System.out.println("" + interpret.canonicalClassName());
-		System.out.println("Structuremap: " + structuremap);
 		DatabaseObject mainobject = interpret.fillFromYamlString(top, structuremap, sourceID);
 		objecthierarchy.setObject(mainobject);
 		System.out.println("------   ObjectHierarchy -----");
@@ -144,63 +134,62 @@ public class ReadYamlDataset {
 
 	@SuppressWarnings("unchecked")
 	private static DatabaseObject extractDataElementInformation(DataElementInformation element, DatabaseObject top,
-			MapToChemConnectCompoundDataStructure mapping, Map<String, Object> yamlmap, Map<String, Object> topyamlmap,
+			MapToChemConnectCompoundDataStructure mapping, Map<String, Object> yamlmap,
 			DatabaseObjectHierarchy objecthierarchy, String sourceID) throws IOException {
-		System.out.println("extractDataElementInformation: " + element.toString());
-		// String subRecordName = element.getDataElementName();
-		// ChemConnectCompoundDataStructure structure =
-		// mapping.getStructure(subRecordName);
 		DatabaseObject obj = null;
 		if (DatasetOntologyParsing.isChemConnectPrimitiveDataStructure(element.getDataElementName()) == null) {
-			System.out.println("Compound Object: " + element);
 			if (element.isSinglet()) {
-				System.out.println("Map keys for compound: " + topyamlmap.keySet());
-				Map<String, Object> subyamlmap = (Map<String, Object>) topyamlmap.get(element.getIdentifier());
-				if (subyamlmap != null) {
-					DatabaseObject newobject = new DatabaseObject(top);
-					String newid = top.getIdentifier() + "-" + element.getSuffix();
-					newobject.setIdentifier(newid);
-					obj = extractCompoundDataElementInformation(element, mapping, subyamlmap, topyamlmap, newobject,
-							objecthierarchy, sourceID);
+				Map<String, Object> subyamlmap = (Map<String, Object>) yamlmap.get(element.getIdentifier());
+				obj = compoundObjectSetup(element, top, mapping, subyamlmap, objecthierarchy, sourceID);
+				if (obj != null) {
+					yamlmap.put(element.getIdentifier(), obj.getIdentifier());
+				} else {
+					System.out.println("Object null: " + element.toString());
 				}
 			} else {
 				Object yamlobject = yamlmap.get(element.getIdentifier());
-				System.out.println("Multiple: " + yamlobject.getClass().getCanonicalName());
-				/*
-				 * if(yamlobject.getClass().isArray()) { System.out.println("Array"); } else {
-				 * System.out.println("Set"); }
-				 */
+				if (yamlobject != null) {
+					Map<String, Object> map = (Map<String, Object>) yamlobject;
+					Set<String> keys = map.keySet();
+					for (String key : keys) {
+						Map<String, Object> submap = (Map<String, Object>) map.get(key);
+						obj = compoundObjectSetup(element, top, mapping, submap, objecthierarchy, sourceID);
+						obj.setIdentifier(obj.getIdentifier()+ "-" + key);
+					}
+				}
 			}
-		} else {
-			
-			System.out.println("Primitive: " + DatasetOntologyParsing.isChemConnectPrimitiveDataStructure(element.getDataElementName()));
 		}
 		return obj;
 	}
-	/*
-	 * System.out.println("Mapping: " + subyamlmap.getClass().getCanonicalName());
-	 * for(String str : subyamlmap.keySet()) { System.out.println("Mapping (" + str
-	 * + "): " + subyamlmap.get(str).getClass().getCanonicalName()); }
-	 */
+
+	private static DatabaseObject compoundObjectSetup(DataElementInformation element, DatabaseObject top,
+			MapToChemConnectCompoundDataStructure mapping, Map<String, Object> yamlmap,
+			DatabaseObjectHierarchy objecthierarchy, String sourceID) throws IOException {
+		DatabaseObject obj = null;
+		if (yamlmap != null) {
+			DatabaseObject newobject = new DatabaseObject(top);
+			String newid = top.getIdentifier() + "-" + element.getSuffix();
+			newobject.setIdentifier(newid);
+			obj = extractCompoundDataElementInformation(element, mapping, yamlmap, newobject, objecthierarchy,
+					sourceID);
+		}
+		return obj;
+	}
 
 	private static DatabaseObject extractCompoundDataElementInformation(DataElementInformation element,
-			MapToChemConnectCompoundDataStructure mapping, Map<String, Object> subyamlmap, Map<String, Object> topyamlmap, 
-			DatabaseObject newobject,
+			MapToChemConnectCompoundDataStructure mapping, Map<String, Object> subyamlmap, DatabaseObject newobject,
 			DatabaseObjectHierarchy objecthierarchy, String sourceID) throws IOException {
 		String subRecordName = element.getDataElementName();
 		ChemConnectCompoundDataStructure structure = mapping.getStructure(subRecordName);
-		System.out.println("\tCompound Element: " + element.getChemconnectStructure());
-		System.out.println("\tYamlStructure: " + subyamlmap.keySet());
 		InterpretData interpret = InterpretData.valueOf(element.getChemconnectStructure());
 
 		DatabaseObjectHierarchy subhierarchy = new DatabaseObjectHierarchy();
 		for (DataElementInformation record : structure) {
-			DatabaseObject obj = extractDataElementInformation(record, newobject, mapping, subyamlmap, topyamlmap, subhierarchy,
+			DatabaseObject obj = extractDataElementInformation(record, newobject, mapping, subyamlmap, subhierarchy,
 					sourceID);
 			if (obj != null) {
 				subyamlmap.put(record.getIdentifier(), obj.getIdentifier());
 			} else {
-				System.out.println("Object null: " + record.toString());
 			}
 		}
 		DatabaseObject object = interpret.fillFromYamlString(newobject, subyamlmap, sourceID);

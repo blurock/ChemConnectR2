@@ -296,6 +296,8 @@ public enum InterpretData {
 			String locality = (String) yaml.get(StandardDatasetMetaData.localityKeyS);
 			String postalcode = (String) yaml.get(StandardDatasetMetaData.postalcodeKeyS);
 			String country = (String) yaml.get(StandardDatasetMetaData.countryKeyS);
+			Object gps = yaml.get(StandardDatasetMetaData.gpsCoordinatesID);
+			System.out.println("" + gps.getClass().getCanonicalName());
 			String gspLocationID = (String) yaml.get(StandardDatasetMetaData.gpsCoordinatesID);
 
 			ContactLocationInformation location = new ContactLocationInformation(objdata.getIdentifier(),

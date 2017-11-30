@@ -208,13 +208,18 @@ dataset:ChemConnectPrimitiveDataStructure:
 			String identifierS = map.get("identifier");
 			String datatypeS = map.get("datatype");
 			String altlabelS = map.get("altl");
-			boolean isSome = true;
+			boolean singlet = true;
 			int cardinality = 0;
 			if (cardinalityS != null) {
 				cardinality = Integer.parseInt(cardinalityS);
+				if(cardinality > 1) {
+					singlet = false;
+				}
+			} else {
+				singlet = false;
 			}
 			DataElementInformation e = new DataElementInformation(elementType, linktype,
-					isSome,cardinality,datatypeS,identifierS,altlabelS);
+					singlet,cardinality,datatypeS,identifierS,altlabelS);
 			ChemConnectCompoundDataStructure record = null;
 			if (linktype.compareTo("dcat:record") == 0) {
 				record = DatasetOntologyParsing.subElementsOfStructure(e.getDataElementName());
@@ -361,7 +366,6 @@ dataset:ChemConnectPrimitiveDataStructure:
 				+ " ?type <http://www.w3.org/2004/02/skos/core#altLabel> ?altl \n"
 				+ "	?super rdfs:subClassOf dcat:Dataset\n" 
 				+ "  }";
-		System.out.println(query);
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
 
@@ -730,7 +734,6 @@ dataset:ChemConnectPrimitiveDataStructure:
 		String query = "SELECT ?ref\n" + "	WHERE {\n" 
 				+ "	 " + object + " <http://purl.org/dc/elements/1.1/type> ?ref\n" 
 				+ "  }";
-		System.out.println(query);
 		String structure = null;
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
