@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
@@ -92,12 +93,20 @@ public enum InterpretData {
 			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
 			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);
 
-			HashSet<String> dataSetReferenceS = interpretMultipleYaml(StandardDatasetMetaData.hassiteKeyS,yaml);
+			System.out.println("ChemConnectDataStructure: " + yaml);
+			Object yamlobj = yaml.get(StandardDatasetMetaData.dataSetReferenceS);
+			System.out.println("ChemConnectDataStructure: " + yaml);
+					
+			
+			HashSet<String> dataSetReferenceS = interpretMultipleYaml(StandardDatasetMetaData.dataSetReferenceS,yaml);
+			System.out.println("ChemConnectDataStructure: " + dataSetReferenceS);
+			
 			String descriptionDataDataS = (String) yaml.get(StandardDatasetMetaData.descriptionDataDataS);
 			HashSet<String> consortiumS = interpretMultipleYaml(StandardDatasetMetaData.consortiumS,yaml);
 
 			datastructure = new ChemConnectDataStructure(objdata, dataSetReferenceS, descriptionDataDataS, consortiumS);
-
+			
+			
 			return datastructure;
 		}
 
@@ -431,6 +440,8 @@ public enum InterpretData {
 			String referenceBibliographicStringS = (String) yaml
 					.get(StandardDatasetMetaData.referenceBibliographicString);
 
+			System.out.println("DataSetReference:  " + yaml.get(StandardDatasetMetaData.referenceAuthors));
+			
 			HashSet<String> authors = interpretMultipleYaml(StandardDatasetMetaData.referenceAuthors,yaml);
 
 			DataSetReference refset = new DataSetReference(objdata.getIdentifier(), objdata.getAccess(),
@@ -868,14 +879,26 @@ public enum InterpretData {
 	
 	public HashSet<String> interpretMultipleYaml(String key, Map<String, Object> yaml) {
 		HashSet<String> answers = new HashSet<String>();
-
+		System.out.println("interpretMultipleYaml: key=" + key);
 		Object yamlobj = yaml.get(key);
-		if (yamlobj != null) {
+	if (yamlobj != null) {
+			System.out.println("interpretMultipleYaml: " 
+					+ key + ",  "
+					+ yamlobj.getClass().getCanonicalName());
 			if (yamlobj.getClass().getCanonicalName().compareTo("java.util.ArrayList") == 0) {
 				@SuppressWarnings("unchecked")
 				List<String> lst = (List<String>) yamlobj;
 				for (String answer : lst) {
 					answers.add(answer);
+				}
+			} else if (yamlobj.getClass().getCanonicalName().compareTo("java.util.HashMap") == 0) {
+				HashMap<String, Object> map = (HashMap<String, Object>) yamlobj;
+				System.out.println(yamlobj);
+				Set<String> keyset = map.keySet();
+				for(String mapkey : keyset) {
+					HashMap<String, Object> submap = (HashMap<String, Object>) map.get(mapkey);
+					String identifier = (String) submap.get(StandardDatasetMetaData.identifierKeyS);
+					answers.add(identifier);
 				}
 			} else {
 				String answer = (String) yamlobj;

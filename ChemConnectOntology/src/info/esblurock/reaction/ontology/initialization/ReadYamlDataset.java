@@ -152,7 +152,9 @@ public class ReadYamlDataset {
 					for (String key : keys) {
 						Map<String, Object> submap = (Map<String, Object>) map.get(key);
 						obj = compoundObjectSetup(element, top, mapping, submap, objecthierarchy, sourceID);
-						obj.setIdentifier(obj.getIdentifier()+ "-" + key);
+						String id = obj.getIdentifier()+ "-" + key;
+						obj.setIdentifier(id);
+						submap.put(StandardDatasetMetaData.identifierKeyS, id);
 					}
 				}
 			}
@@ -183,12 +185,8 @@ public class ReadYamlDataset {
 
 		DatabaseObjectHierarchy subhierarchy = new DatabaseObjectHierarchy();
 		for (DataElementInformation record : structure) {
-			DatabaseObject obj = extractDataElementInformation(record, newobject, mapping, subyamlmap, subhierarchy,
+			extractDataElementInformation(record, newobject, mapping, subyamlmap, subhierarchy,
 					sourceID);
-			if (obj != null) {
-				subyamlmap.put(record.getIdentifier(), obj.getIdentifier());
-			} else {
-			}
 		}
 		DatabaseObject object = interpret.fillFromYamlString(newobject, subyamlmap, sourceID);
 		subhierarchy.setObject(object);

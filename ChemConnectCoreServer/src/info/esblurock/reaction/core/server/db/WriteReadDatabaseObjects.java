@@ -1,6 +1,7 @@
 package info.esblurock.reaction.core.server.db;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
@@ -40,6 +41,7 @@ public class WriteReadDatabaseObjects {
 		System.out.println(chemconnect.getRecords().size());
 		for (DataElementInformation info : chemconnect.getRecords()) {
 			System.out.println("Information: " + info);
+			System.out.println("Information: " + map);
 			Object mapobject = map.get(info.getIdentifier());
 			System.out.println(mapobject.getClass().getSimpleName());
 			if (mapobject.getClass().getSimpleName().compareTo("String") == 0) {
@@ -60,7 +62,20 @@ public class WriteReadDatabaseObjects {
 				}
 
 			} else {
-				System.out.println("MultipleObject");
+				System.out.println("MultipleObject" + mapobject);
+				String chemstructure = info.getChemconnectStructure();
+				InterpretData subinterpret = InterpretData.valueOf(chemstructure);
+				String canonical = subinterpret.canonicalClassName();
+				ArrayList<String> lst = (ArrayList<String>) mapobject;
+				DatabaseObject obj = null;
+				for(String name : lst) {
+					obj = QueryBase.getDatabaseObjectFromIdentifier(canonical, name);
+					DatabaseObjectHierarchy subhierarchy = new DatabaseObjectHierarchy(obj);
+					hierarchy.addSubobject(subhierarchy);
+					Map<String, Object> submap = subinterpret.createYamlFromObject(obj);
+					System.out.println("\t\tMap: " + submap);
+					readChemConnectCompoundObject(info, submap, subhierarchy);
+				}
 			}
 		}
 
@@ -94,7 +109,21 @@ public class WriteReadDatabaseObjects {
 						}
 					}
 				} else {
-					System.out.println("Multiple");
+					String idlabel = element.getIdentifier();
+					ArrayList<String> lst = (ArrayList<String>) submap.get(idlabel);
+					for(String id : lst) {
+						String chemstructure = element.getChemconnectStructure();
+						InterpretData subinterpret = InterpretData.valueOf(chemstructure);
+						String canonical = subinterpret.canonicalClassName();
+						DatabaseObject obj;
+						try {
+							obj = QueryBase.getDatabaseObjectFromIdentifier(canonical, id);
+							DatabaseObjectHierarchy next = new DatabaseObjectHierarchy(obj);
+							subhierarchy.addSubobject(next);
+						} catch (IOException e) {
+							System.out.println("not found");
+						}						
+					}
 				}
 
 			} else {

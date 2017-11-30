@@ -93,7 +93,7 @@ public class DataSetReference extends DatabaseObject {
 		builder.append(prefix);
 		builder.append("DOI: " + DOI);
 		builder.append("\n");
-		builder.append(prefix);
+		builder.append(prefix + "Authors: ");
 		for(String name : authors) {
 			builder.append(name);
 			builder.append("   ");
