@@ -68,7 +68,7 @@ public class KeywordRDF extends DatabaseObject {
 			build.append(")");
 		}
 		build.append("\t[");
-		build.append(getIdentifier() + ", " + getAccess() + ", " + getOwner() + "]");
+		build.append(getAccess() + ", " + getOwner() + ", " + getSourceID() +  "]");
 		return build.toString();
 	}
 }

@@ -1,16 +1,15 @@
 package info.esblurock.reaction.chemconnect.core.data.login;
 
-import java.util.HashSet;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
-import com.googlecode.objectify.annotation.Unindex;
 
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 
 @SuppressWarnings("serial")
 @Entity
-public class UserAccountInformation  extends DatabaseObject {
+public class UserAccountInformation  extends ChemConnectCompoundDataStructure {
 	
     @Index
     String password;
@@ -30,7 +29,24 @@ public class UserAccountInformation  extends DatabaseObject {
 	}
 	public UserAccountInformation(String identifier, String access, String owner, String sourceID,
 			String emailS, String password, String userrole) {
-		super(identifier, access, owner,sourceID);
+		fill(identifier, access, owner,sourceID,emailS,password,userrole);
+	}
+	public UserAccountInformation(ChemConnectCompoundDataStructure compound,
+			String emailS, String password, String userrole) {
+		fill(compound,emailS,password,userrole);
+	}
+	
+	public void fill(String identifier, String access, String owner, String sourceID,
+			String emailS, String password, String userrole) {
+		super.fill(identifier, access, owner,sourceID);
+		this.email = emailS;
+		this.password = password;
+		this.userrole = userrole;
+	}
+	
+	public void fill(ChemConnectCompoundDataStructure compound,
+			String emailS, String password, String userrole) {
+		super.fill(compound);
 		this.email = emailS;
 		this.password = password;
 		this.userrole = userrole;

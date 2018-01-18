@@ -3,11 +3,11 @@ package info.esblurock.reaction.chemconnect.core.data.contact;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
 
-import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 
 @SuppressWarnings("serial")
 @Entity
-public class PersonalDescription extends DatabaseObject {
+public class PersonalDescription extends ChemConnectCompoundDataStructure {
 
 	@Index
 	String UserClassification;
@@ -26,22 +26,22 @@ public class PersonalDescription extends DatabaseObject {
 		this.nameOfPersonIdentifier = "";
 		
 	}
-	public PersonalDescription(String identifier, String access, String owner, String sourceID,
+	public PersonalDescription(ChemConnectCompoundDataStructure compound,
 			String userClassification, String nameOfPersonIdentifier) {
-		super(identifier,access,owner,sourceID);
+		fill(compound,userClassification,nameOfPersonIdentifier);
+	}
+	
+	public void fill(String identifier, String access, String owner, String sourceID,
+			String userClassification, String nameOfPersonIdentifier) {
+		super.fill(identifier,access,owner,sourceID);
 		UserClassification = userClassification;
 		this.nameOfPersonIdentifier = nameOfPersonIdentifier;
 	}
-	public PersonalDescription(String identifier, String access, String owner, String sourceID,
-			String userClassification, NameOfPerson name) {
-		fill(identifier,access,owner,sourceID,userClassification,name);
-	}
-
-	public void fill(String identifier, String access, String owner, String sourceID,
-			String userClassification, NameOfPerson name) {
-		super.fill(identifier,access,owner,sourceID);
+	public void fill(ChemConnectCompoundDataStructure compound,
+			String userClassification, String  nameOfPersonIdentifier) {
+		super.fill(compound);
 		UserClassification = userClassification;
-		this.nameOfPersonIdentifier = name.getIdentifier();
+		this.nameOfPersonIdentifier = nameOfPersonIdentifier;
 	}
 	
 	

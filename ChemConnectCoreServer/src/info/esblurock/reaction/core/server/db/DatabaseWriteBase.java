@@ -1,7 +1,10 @@
 package info.esblurock.reaction.core.server.db;
 
-import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.transaction.TransactionInfo;
+
+/*
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.contact.ContactInfoData;
 import info.esblurock.reaction.chemconnect.core.data.contact.ContactLocationInformation;
 import info.esblurock.reaction.chemconnect.core.data.contact.GPSLocation;
@@ -11,15 +14,15 @@ import info.esblurock.reaction.chemconnect.core.data.contact.PersonalDescription
 import info.esblurock.reaction.chemconnect.core.data.description.DescriptionDataData;
 import info.esblurock.reaction.chemconnect.core.data.login.UserAccount;
 import info.esblurock.reaction.chemconnect.core.data.login.UserAccountInformation;
-import info.esblurock.reaction.chemconnect.core.data.transaction.TransactionInfo;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.io.db.QueryBase;
 import info.esblurock.reaction.io.metadata.StandardDatasetMetaData;
 import info.esblurock.reaction.ontology.OntologyBase;
 import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 
-import java.util.HashSet;
+*/
 import java.util.List;
+import java.util.HashSet;
 
 import com.googlecode.objectify.ObjectifyService;
 
@@ -53,7 +56,7 @@ public class DatabaseWriteBase {
 		writeDatabaseObject(transaction);
 	}
 	static public void initializeIndividualInformation(String username, String password, String email, String userrole) {
-
+/*
 		String sourceID = QueryBase.getDataSourceIdentification(username);
 		String id = username;
 
@@ -119,5 +122,6 @@ public class DatabaseWriteBase {
 		DatabaseWriteBase.writeDatabaseObject(data);
 		DatabaseWriteBase.writeDatabaseObject(personal);
 		DatabaseWriteBase.writeDatabaseObject(individual);
+		*/
 	}
 }

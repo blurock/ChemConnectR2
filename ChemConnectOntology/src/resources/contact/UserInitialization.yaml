@@ -17,6 +17,19 @@ edwardblurock:
             - chemistry
             dcterms:description: |
                  Edward S. Blurock is the developer of numerous software packages
+        skos:mappingRelation:
+          link1:
+             qb:structure: Administration
+             skos:related: ConceptLinkUserAccount
+             skos:Concept: UserAccount
+          link2:
+             qb:structure: blurock
+             skos:related: ConceptLinkUserAccount
+             skos:Concept: UserAccount
+          link3:
+             qb:structure: ned
+             skos:related: ConceptLinkUserAccount
+             skos:Concept: UserAccount
         vcard:Contact:
             vcard:email: edward.blurock@esblurock.info
             foaf:homepage: 

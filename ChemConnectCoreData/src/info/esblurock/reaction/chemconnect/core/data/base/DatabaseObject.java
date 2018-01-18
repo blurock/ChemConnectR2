@@ -56,6 +56,9 @@ public class DatabaseObject  implements Serializable {
 	public DatabaseObject(DatabaseObject obj) {
 		fill(obj.getIdentifier(),obj.getAccess(),obj.getOwner(),obj.getSourceID());
 	}
+	public void fill(DatabaseObject obj) {
+		fill(obj.getIdentifier(),obj.getAccess(),obj.getOwner(),obj.getSourceID());
+	}
 	
 	public void fill(String id, String access, String owner,String sourceID) {
 		this.sourceID = sourceID;

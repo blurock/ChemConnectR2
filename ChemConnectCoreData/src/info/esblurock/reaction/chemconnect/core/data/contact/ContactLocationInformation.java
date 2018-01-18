@@ -3,11 +3,12 @@ package info.esblurock.reaction.chemconnect.core.data.contact;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
 
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 
 @SuppressWarnings("serial")
 @Entity
-public class ContactLocationInformation extends DatabaseObject {
+public class ContactLocationInformation extends ChemConnectCompoundDataStructure {
 
 	@Index
 	String addressAddress;
@@ -30,20 +31,12 @@ public class ContactLocationInformation extends DatabaseObject {
 	}
 
 	public ContactLocationInformation(String identifier, String sourceID) {
-		super(identifier, identifier, identifier, sourceID);
+		super(identifier, sourceID);
 		this.addressAddress = "";
 		this.city = "";
 		this.country = "";
 		this.postcode = "";
 		this.gpsLocationID = "";
-	}
-	public ContactLocationInformation(String identifier, String username, String sourceID, String gpsLocationID) {
-		super(identifier, username, username, sourceID);
-		this.addressAddress = "";
-		this.city = "";
-		this.country = "";
-		this.postcode = "";
-		this.gpsLocationID = gpsLocationID;
 	}
 
 	public ContactLocationInformation(String identifier, String access, String owner, String sourceID,

@@ -11,7 +11,7 @@ interpreter: info.esblurock.reaction.core.server.initialization.InitializeCatalo
         dataset:userWriteAccess: edwardblurock,blurock
 	dataset:Consortium: Administration
 	dc:description: https://doi.org/10.1002/kin.20180-description
-	terms:BibliographicResource: 10.1002/kin.20180	
+	datacite:doi: 10.1002/kin.20180	
 #
 # Catalog record: description
 #
@@ -52,7 +52,7 @@ interpreter: info.esblurock.reaction.core.server.initialization.InitializeCatalo
 #Catalog record: 
 #	
 10.1002/kin.20180-reference:
-     dataset:ChemConnectDataStructure: terms:BibliographicResource
+     dataset:ChemConnectDataStructure: datacite:doi
      dc:identifier: 10.1002/kin.20180-reference
      datacite:PrimaryResourceIdentifier: 10.1002/kin.20180
      dcterms:description: International Journal of Chemical Kinetics 38: 516–529, 2006

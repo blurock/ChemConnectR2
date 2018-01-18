@@ -31,6 +31,9 @@ import info.esblurock.reaction.chemconnect.core.data.login.UserAccountInformatio
 import info.esblurock.reaction.chemconnect.core.data.login.UserAccount;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataSpecification;
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
+import info.esblurock.reaction.chemconnect.core.data.dataset.ChemConnectSetOfValues;
+import info.esblurock.reaction.chemconnect.core.data.dataset.ChemConnectObjectLink;
 
 public enum InterpretData {
 
@@ -137,7 +140,46 @@ public enum InterpretData {
 		}
 
 	},
+	ChemConnectCompoundDataStructure {
 
+		@Override
+		public DatabaseObject fillFromYamlString(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject top, Map<String, Object> yaml,
+				String sourceID) throws IOException {
+			ChemConnectCompoundDataStructure datastructure = null;
+			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
+			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);					
+			
+			String parentCatalogS = (String) yaml.get(StandardDatasetMetaData.parentCatalogS);
+			datastructure = new ChemConnectCompoundDataStructure(objdata, parentCatalogS);
+			
+			return datastructure;
+		}
+
+		@Override
+		public Map<String, Object> createYamlFromObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject object) throws IOException {
+			ChemConnectCompoundDataStructure datastructure = (ChemConnectCompoundDataStructure) object;
+			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
+			Map<String, Object> map = interpret.createYamlFromObject(object);
+
+			map.put(StandardDatasetMetaData.descriptionDataDataS, datastructure.getParentLink());
+			
+			return map;
+		}
+
+		@Override
+		public info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject readElementFromDatabase(
+				String identifier) throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(ChemConnectCompoundDataStructure.class.getCanonicalName(),
+					identifier);
+		}
+
+		@Override
+		public String canonicalClassName() {
+			return ChemConnectCompoundDataStructure.class.getCanonicalName();
+		}
+	},
 	DescriptionDataData {
 
 		@Override
@@ -476,20 +518,97 @@ public enum InterpretData {
 			return DataSetReference.class.getCanonicalName();
 		}
 
+	}, ChemConnectSetOfValues {
+
+		@Override
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
+				throws IOException {
+			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
+			ChemConnectCompoundDataStructure compound = (ChemConnectCompoundDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
+
+			HashSet<String> parameterDescription = interpretMultipleYaml(StandardDatasetMetaData.parameterDescriptionS,yaml);
+			ChemConnectSetOfValues refset = new ChemConnectSetOfValues(compound, parameterDescription);
+
+			return refset;
+		}
+
+		@Override
+		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
+			ChemConnectSetOfValues ref = (ChemConnectSetOfValues) object;
+
+			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
+			Map<String, Object> map = interpret.createYamlFromObject(object);
+
+			putMultipleInYaml(StandardDatasetMetaData.parameterDescriptionS, map,ref.getValues());
+
+			return map;
+		}
+
+		@Override
+		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(ChemConnectSetOfValues.class.getCanonicalName(), identifier);
+		}
+
+		@Override
+		public String canonicalClassName() {
+			return ChemConnectSetOfValues.class.getCanonicalName();
+		}
+
+	}, ChemConnectObjectLink {
+
+		@Override
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
+				throws IOException {
+			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
+			ChemConnectCompoundDataStructure compound = (ChemConnectCompoundDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
+
+
+			String dataStructureIdentifierS = (String) yaml.get(StandardDatasetMetaData.dataStructureIdentifierS);
+			String linkConceptTypeS = (String) yaml.get(StandardDatasetMetaData.linkConceptTypeS);
+			String dataConceptTypeS = (String) yaml.get(StandardDatasetMetaData.dataConceptTypeS);
+			ChemConnectObjectLink refset = new ChemConnectObjectLink(compound, 
+					dataStructureIdentifierS,linkConceptTypeS,dataConceptTypeS);
+
+			return refset;
+		}
+
+		@Override
+		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
+			ChemConnectObjectLink ref = (ChemConnectObjectLink) object;
+
+			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
+			Map<String, Object> map = interpret.createYamlFromObject(object);
+
+			map.put(StandardDatasetMetaData.dataStructureIdentifierS, ref.getDataStructure());
+			map.put(StandardDatasetMetaData.linkConceptTypeS, ref.getLinkConceptType());
+			map.put(StandardDatasetMetaData.dataConceptTypeS, ref.getDataConceptType());
+
+			return map;
+		}
+
+		@Override
+		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(ChemConnectObjectLink.class.getCanonicalName(), identifier);
+		}
+
+		@Override
+		public String canonicalClassName() {
+			return ChemConnectObjectLink.class.getCanonicalName();
+		}
+
 	},
 	PersonalDescription {
 
 		@Override
 		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
 				throws IOException {
-			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
-			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);
+			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
+			ChemConnectCompoundDataStructure compound = (ChemConnectCompoundDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
 
 			String userClassification = (String) yaml.get(StandardDatasetMetaData.userClassification);
 			String userNameID = (String) yaml.get(StandardDatasetMetaData.userNameID);
 
-			PersonalDescription person = new PersonalDescription(objdata.getIdentifier(), objdata.getAccess(),
-					objdata.getOwner(), sourceID, userClassification, userNameID);
+			PersonalDescription person = new PersonalDescription(compound, userClassification, userNameID);
 
 			return person;
 		}
@@ -498,7 +617,7 @@ public enum InterpretData {
 		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
 			PersonalDescription person = (PersonalDescription) object;
 
-			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
+			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
 			map.put(StandardDatasetMetaData.userClassification, person.getUserClassification());
@@ -877,6 +996,7 @@ public enum InterpretData {
 		yaml.put(key, arr);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public HashSet<String> interpretMultipleYaml(String key, Map<String, Object> yaml) {
 		HashSet<String> answers = new HashSet<String>();
 		System.out.println("interpretMultipleYaml: key=" + key);
@@ -886,7 +1006,6 @@ public enum InterpretData {
 					+ key + ",  "
 					+ yamlobj.getClass().getCanonicalName());
 			if (yamlobj.getClass().getCanonicalName().compareTo("java.util.ArrayList") == 0) {
-				@SuppressWarnings("unchecked")
 				List<String> lst = (List<String>) yamlobj;
 				for (String answer : lst) {
 					answers.add(answer);

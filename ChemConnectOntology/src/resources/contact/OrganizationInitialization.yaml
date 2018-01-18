@@ -4,9 +4,9 @@ blurockconsultingab:
         dc:identifier: blurockconsultingab
         dcterms:publisher: Admnistration
         dataset:accessibility: Public
-        terms:BibliographicResource:
+        datacite:doi:
           ref1:
-             dataset:ChemConnectDataStructure: terms:BibliographicResource
+             dataset:ChemConnectDataStructure: datacite:doi
              datacite:PrimaryResourceIdentifier: 10.1021/ci0341518
              dcterms:isReferencedBy: . Chem. Inf. Comput. Sci., 1995, 35 (3), pp 607–616
              dcterms:title: Title of the paper
@@ -20,7 +20,7 @@ blurockconsultingab:
                   foaf:givenName: Maina
                   foaf:title: Dr.
           ref2:
-             dataset:ChemConnectDataStructure: terms:BibliographicResource
+             dataset:ChemConnectDataStructure: datacite:doi
              datacite:PrimaryResourceIdentifier: 10.10.10.10.10
              dcterms:isReferencedBy: Comb Flame., 101 (3), pp 607–616
              dcterms:title: Another title of paper
@@ -33,8 +33,11 @@ blurockconsultingab:
                   foaf:familyName: MainAuthor#2
                   foaf:givenName: Maina#2
                   foaf:title: Dr.
-        dataset:DatabaseUserID: 
-             - edwardblurock
+        skos:mappingRelation:
+          link1:
+             qb:structure: edwardblurock
+             skos:related: OrganizationLinkToMember
+             skos:Concept: OrganizationMember
         org:Organization:
             org:FormalOrganization: Blurock Consulting AB
             org:OrganizationalUnit: Database Development

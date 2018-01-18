@@ -1,0 +1,292 @@
+interpreter: info.esblurock.reaction.core.server.initialization.InitializeCatalogDataStructuresYaml
+UConnRCM-device:
+        dataset:ChemConnectDataStructure: ssn:System
+        dc:identifier: UConnRCM-device
+        dcterms:publisher: Admnistration
+        dataset:accessibility: Public
+        ssn:hasProperty
+          compression:
+             skos:prefLabel: CompressionRatio
+             qudt:Unit: Ratio
+             dataset:ValueAsString: 21
+        dc:description
+            dcat:dataset: none
+            dcterms:type: RapidCompressionMachine
+            dcterms:title: University of Conneticut: New Rapid Compression Machine
+            dcat:keyword: 
+            - RCM
+            - creviced piston
+            - pneumatic RCM
+            - pressurised hydraulic cylinder
+            - combustion
+            - ignition delay times
+            dcterms:description: |
+               A new RCM similar to the one built by Mittal [21] was fabricated,
+               with improvements made from operational point of
+               view and capabilities of attaining higher compression pressures
+               as well as wider range of compression ratios. General
+               details of the RCM can be found in Mittal and Sung [22].
+               The RCM consists of a reaction chamber in which the
+               reactant gases are compressed by a creviced piston arrangement.
+               The creviced piston is driven by an arrangement of the
+               pneumatic piston and high-pressure air tank. It is held in
+               place by an arrangement of the pressurized hydraulic
+               cylinder. A trigger of a solenoid valve releases the pressure of
+               the hydraulic chamber, and thus the piston arrangement
+               moves forward by the pneumatic system. Toward the end of
+               the compression stroke, the piston is smoothly decelerated
+               and finally stopped by the piston stopping groove.
+               The end of reaction chamber is equipped with a pressure
+               transducer for dynamic measurements and a thermocouple
+               for initial temperature monitoring. It is also provided with
+               quartz windows for any required optical access. The
+               compression ratio of the rapid compression machine can be
+               changed by changing the clearance and/or the stroke length.
+               Split shims are used between the hydraulic cylinder and the
+               reaction chamber to vary the clearance and the stroke can be
+               adjusted by using spacers.
+        datacite:doi
+          ref1:
+             dataset:ChemConnectDataStructure: datacite:doi
+             datacite:PrimaryResourceIdentifier: 10.1080/00102200600671898
+             dcterms:isReferencedBy: Combustion Science and Technology, 179 (3), 2007, 497-530
+             dcterms:title: A Rapid Compression Machine For Chemical Kinetics Studies at Elevated Pressures and Temperatures
+             foaf:name:
+               author1:
+                  foaf:familyName: Mittal
+                  foaf:givenName: Gaurav 
+                  foaf:title: Prof.
+               author2:
+                  foaf:familyName: Sung
+                  foaf:givenName: Chih-Jen
+                  foaf:title: Prof.
+          ref2:
+             dataset:ChemConnectDataStructure: datacite:doi
+             datacite:PrimaryResourceIdentifier: 10.1016/j.ijhydene.2012.01.111
+             dcterms:isReferencedBy: International journal of Hydrogen Energy, 37 (2012) 6901-6911
+             dcterms:title: Ignition delay study of moist hydrogen/oxidizer mixtures using a rapid compression machine
+             foaf:name:
+               author1:
+                  foaf:familyName: Das
+                  foaf:givenName: Apurba K.
+                  foaf:title: Prof.
+               author2:
+                  foaf:familyName: Zhang
+                  foaf:givenName: Yu
+                  foaf:title: Prof.
+               author3:
+                  foaf:familyName: Sung
+                  foaf:givenName: Chih-Jen
+                  foaf:title: Prof.
+               author4:
+                  foaf:familyName: Mittal
+                  foaf:givenName: Gaurav
+                  foaf:title: Prof.
+        skos:mappingRelation
+          link1:
+             qb:structure: edwardblurock
+             skos:related: ConceptLinkUserInformation
+             skos:Concept: DataTypeUserInformation
+UConnRCM-device-piston
+        dataset:ChemConnectDataStructure: ssn:hasSubSystem
+        dc:identifier: UConnRCM-device-piston
+        dcterms:publisher: Admnistration
+        dataset:accessibility: Public
+        ssn:hasProperty
+          prop1:
+             skos:prefLabel: CompressionRatio
+             qudt:Unit: Ratio
+             dataset:ValueAsString: 21
+          creviced:
+             skos:prefLabel: PistonConfiguration
+             qudt:Unit: dcat:keyword
+             dataset:ValueAsString: creviced
+          hydraulic:
+             skos:prefLabel: PistonConfiguration
+             qudt:Unit: dcat:keyword
+             dataset:ValueAsString: hydraulic
+          pneumatic:
+             skos:prefLabel: PistonConfiguration
+             qudt:Unit: dcat:keyword
+             dataset:ValueAsString: pneumatic
+         dc:description
+            dcat:dataset: none
+            dcterms:type: RapidCompressionMachinePiston
+            dcterms:title: Rapid Compression Machine Piston
+            dcat:keyword: 
+            - pneumatic
+            - creviced
+            - piston stopping groove
+            - quartz windows
+            - hydraulic cylinder
+            dcterms:description: |
+                  The creviced piston is driven by an arrangement of the pneumatic piston 
+                  and high-pressure air tank. It is held in place by an arrangement of 
+                  the pressurized hydraulic cylinder. A trigger of a solenoid valve 
+                  releases the pressure of the hydraulic chamber, and thus the piston 
+                  arrangement moves forward by the pneumatic system. Toward the end of 
+                  the compression stroke, the piston is smoothly decelerated and finally 
+                  stopped by the piston stopping groove.
+                  The end of reaction chamber is equipped with a pressure transducer 
+                  for dynamic measurements and a thermocouple for initial temperature 
+                  monitoring. It is also provided with quartz windows for any required 
+                  optical access. The compression ratio of the rapid compression machine 
+                  can be changed by changing the clearance and/or the stroke length. Split 
+                  shims are used between the hydraulic cylinder and the reaction chamber to 
+                  vary the clearance and the stroke can be adjusted by using spacers.
+        prov:influenced
+          purpose:
+            skos:Concept: GasCompression
+            dcterms:description: |
+                 A trigger of a solenoid valve releases the pressure of the hydraulic 
+                 chamber, and thus the piston arrangement moves forward by the pneumatic system.
+        skos:mappingRelation
+          link1:
+             qb:structure: UConnRCM-device
+             skos:related: SubsystemLinkToInstrument
+             skos:Concept: RapidCompressionMachine
+UConnRCM-piston-pressure:
+        dataset:ChemConnectDataStructure: ssn:Sensor
+        dc:identifier: UConnRCM-device-piston-pressure
+        dcterms:publisher: Admnistration
+        dataset:accessibility: Public
+        ssn:hasProperty
+          samplerate:
+             skos:prefLabel: SamplingRate
+             qudt:Unit: unit:SamplePerSecond
+             dataset:ValueAsString: 100000
+          resolution:
+             skos:prefLabel: SensorResolution
+             qudt:Unit: unit:bit
+             dataset:ValueAsString: 16
+          product:
+             skos:prefLabel: ProductName
+             qudt:Unit: dcat:keyword
+             dataset:ValueAsString: Kistler 6125B transducer
+        dc:description
+            dcat:dataset: none
+            dcterms:type: PressureSensor
+            dcterms:title: Pressure Sensor: Kistler 6125B
+            dcat:keyword: 
+            - transducer
+            - pressure
+            - Kistler 6125B
+            dcterms:description: |
+               Dynamic pressure during compression is measured using a 
+               Kistler 6125B transducer with 5010B charge amplifier. 
+               Pressure is recorded using a National Instruments data 
+               acquisition card (PCI 6030E) with 16-bit resolution 
+               and 100,000 samples/second.
+        skos:mappingRelation
+          pos1:
+             qb:structure: UConnRCM-device-piston
+             skos:related: PositionOfSensor
+             skos:Concept: RapidCompressionMachinePiston
+          pos2:
+             qb:structure: UConnRCM-device
+             skos:related: PositionOfSensor
+             skos:Concept: RapidCompressionMachine
+UConnRCM-piston-temperature:
+        dataset:ChemConnectDataStructure: ssn:Sensor
+        dc:identifier: UConnRCM-device-piston-pressure
+        dcterms:publisher: Admnistration
+        dataset:accessibility: Public
+        prov:influenced
+          purpose:
+            skos:Concept: GasCompression
+            dcterms:description: |
+                 A trigger of a solenoid valve releases the pressure of the hydraulic 
+                 chamber, and thus the piston arrangement moves forward by the pneumatic system.
+        ssn:hasProperty
+          samplerate:
+             skos:prefLabel: SamplingRate
+             qudt:Unit: unit:SamplePerSecond
+             dataset:ValueAsString: 100000
+         dc:description
+            dcat:dataset: none
+            dcterms:type: TemperatureSensor
+            dcterms:title: Thermocouple
+            dcat:keyword: 
+             - temperature
+            dcterms:description: |
+               Thermocouple for initial temperature monitoring.
+        skos:mappingRelation
+          pos1:
+             qb:structure: UConnRCM-device-piston
+             skos:related: PositionOfSensor
+             skos:Concept: RapidCompressionMachinePiston
+          pos2:
+             qb:structure: UConnRCM-device
+             skos:related: PositionOfSensor
+             skos:Concept: RapidCompressionMachine
+UConnRCM-device-mixingchamber
+        dataset:ChemConnectDataStructure: ssn:hasSubSystem
+        dc:identifier: UConnRCM-device-mixingchamber
+        dcterms:publisher: Admnistration
+        dataset:accessibility: Public
+        datacite:isbn
+          ref1:
+             dataset:ChemConnectDataStructure: datacite:doi
+             datacite:PrimaryResourceIdentifier: 10.1080/00102200600671898
+             dcterms:isReferencedBy: Combustion Science and Technology, 179 (3), 2007, 497-530
+             dcterms:title: A Rapid Compression Machine For Chemical Kinetics Studies at Elevated Pressures and Temperatures
+             foaf:name:
+               author1:
+                  foaf:familyName: Mittal
+                  foaf:givenName: Gaurav 
+                  foaf:title: Prof.
+               author2:
+                  foaf:familyName: Sung
+                  foaf:givenName: Chih-Jen
+                  foaf:title: Prof.
+        ssn:hasProperty
+          prop1:
+             skos:prefLabel: CompressionRatio
+             qudt:Unit: Ratio
+             dataset:ValueAsString: 21
+          creviced:
+             skos:prefLabel: PistonConfiguration
+             qudt:Unit: dcat:keyword
+             dataset:ValueAsString: creviced
+          hydraulic:
+             skos:prefLabel: PistonConfiguration
+             qudt:Unit: dcat:keyword
+             dataset:ValueAsString: hydraulic
+          pneumatic:
+             skos:prefLabel: PistonConfiguration
+             qudt:Unit: dcat:keyword
+             dataset:ValueAsString: pneumatic
+         dc:description
+            dcat:dataset: none
+            dcterms:type: RapidCompressionMachinePiston
+            dcterms:title: Rapid Compression Machine Piston
+            dcat:keyword: 
+            - pneumatic
+            - creviced
+            - piston stopping groove
+            - quartz windows
+            - hydraulic cylinder
+            dcterms:description: |
+        prov:influenced
+          purpose:
+            skos:Concept: GasCompression
+            dcterms:description: |
+               To determine the mixture composition, the
+               mass of fuel, equivalence ratio, and oxidizer ratio (XO2 : Xinert, 
+               where X indicates mole fraction) are specified. A
+               liquid at room temperature which has a relatively low vapor pressure
+               (6 Torr at 25 C) is measured gravimetrically in a syringe to
+               within 0.01 g of the specified value. Proportions of O2 and N2 in
+               the mixture are determined manometrically and added at room
+               temperature. The saturated vapor pressure dependence of a liquid fuel
+               on temperature is taken from the Chemical Properties Handbook
+               by Yaws. The preheat temperature is set above the saturation
+               temperature of n-butanol to ensure complete vaporization of the
+               fuel. A magnetic stirrer mixes the reactants. The temperature inside
+               the mixing tank is allowed approximately 1.5 h to reach steady
+               state.
+        skos:mappingRelation
+          link1:
+             qb:structure: UConnRCM-device
+             skos:related: SubsystemLinkToInstrument
+             skos:Concept: RapidCompressionMachine

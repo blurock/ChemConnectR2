@@ -7,11 +7,11 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Unindex;
 
-import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 
 @SuppressWarnings("serial")
 @Entity
-public class DescriptionDataData extends DatabaseObject {
+public class DescriptionDataData extends ChemConnectCompoundDataStructure {
 	@Unindex
 	String onlinedescription;
 	@Unindex
@@ -49,16 +49,17 @@ public class DescriptionDataData extends DatabaseObject {
 	 * @param keywords
 	 *            The set of keywords associated with the
 	 */
+	public DescriptionDataData(ChemConnectCompoundDataStructure compound,
+			String onlinedescription, String fulldescription, String sourcekey, Date sourceDate, String dataType,
+			HashSet<String> keywords) {
+		fill(compound,onlinedescription, fulldescription, sourcekey, sourceDate, dataType,
+			keywords);
+	}
 	public DescriptionDataData(String identifier, String owner, String access, String sourceID,
 			String onlinedescription, String fulldescription, String sourcekey, Date sourceDate, String dataType,
 			HashSet<String> keywords) {
-		super(identifier, owner, access, sourceID);
-		this.onlinedescription = onlinedescription;
-		this.descriptionAbstract = fulldescription;
-		this.sourcekey = sourcekey;
-		this.sourceDate = sourceDate;
-		this.dataType = dataType;
-		this.keywords = keywords;
+		fill(identifier,owner,access,sourceID,onlinedescription, fulldescription, sourcekey, sourceDate, dataType,
+			keywords);
 	}
 
 	public DescriptionDataData(String identifier, String sourceID) {
@@ -74,6 +75,16 @@ public class DescriptionDataData extends DatabaseObject {
 	public void fill(String identifier, String owner, String access, String sourceID, String onlinedescription,
 			String fulldescription, String sourcekey, Date sourceDate, String dataType, HashSet<String> keywords) {
 		super.fill(identifier, owner, access, sourceID);
+		this.onlinedescription = onlinedescription;
+		this.descriptionAbstract = fulldescription;
+		this.sourcekey = sourcekey;
+		this.sourceDate = sourceDate;
+		this.dataType = dataType;
+		this.keywords = keywords;
+	}
+	public void fill(ChemConnectCompoundDataStructure compound, String onlinedescription,
+			String fulldescription, String sourcekey, Date sourceDate, String dataType, HashSet<String> keywords) {
+		super.fill(compound);
 		this.onlinedescription = onlinedescription;
 		this.descriptionAbstract = fulldescription;
 		this.sourcekey = sourcekey;

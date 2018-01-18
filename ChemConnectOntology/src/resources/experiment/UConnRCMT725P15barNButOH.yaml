@@ -1,0 +1,20 @@
+interpreter: info.esblurock.reaction.core.server.initialization.InitializeCatalogDataStructuresYaml
+UConn-RCM-MeasurementActivity-T725P15barNButOH:
+        dataset:ChemConnectDataStructure: qb:DataSet
+        dc:identifier: UConn-RCM-T725P15barNButOH
+        dcterms:publisher: Admnistration
+        dataset:accessibility: Public
+        skos:mappingRelation
+          protocol:
+             qb:structure: UConn-RCM-Pressure-MeasurementProtocol
+             skos:related: MeasurementLinkToProtocol
+             skos:Concept: MethodologyProtocol
+          pressuretrace:
+             qb:structure: UConn-RCM-PressureTrace-T725P15barNButOH
+             skos:related: MeasurementLinkToProtocol
+             skos:Concept: MethodologyProtocol
+          protocol:
+             qb:structure: UConn-RCM-Pressure-MeasurementProtocol
+             skos:related: MeasurementLinkToProtocol
+             skos:Concept: MethodologyProtocol
+             

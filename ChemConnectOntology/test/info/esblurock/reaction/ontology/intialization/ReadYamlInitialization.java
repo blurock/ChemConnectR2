@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.util.ArrayList;
 import java.util.Map;
 
 import org.junit.Test;
@@ -15,12 +14,12 @@ import org.junit.Test;
 import com.esotericsoftware.yamlbeans.YamlException;
 import com.esotericsoftware.yamlbeans.YamlReader;
 
-import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructureObject;
 import info.esblurock.reaction.ontology.initialization.ReadYamlDataset;
 
 
 public class ReadYamlInitialization {
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void test() {
 		String fileS = "resources/contact/OrganizationInitialization.yaml";

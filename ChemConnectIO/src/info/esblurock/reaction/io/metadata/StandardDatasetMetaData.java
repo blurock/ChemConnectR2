@@ -19,6 +19,9 @@ public class StandardDatasetMetaData {
 	public static String objectdescriptionKeyS = "dct:description";
 	
 	public static String dataSetReferenceS = "terms:BibliographicResource";
+	public static String dataSetReferenceDOIS = "datacite:doi";
+	public static String dataSetReferenceISBNS = "datacite:isbn";
+	public static String dataSetReferenceHTTPS = "datacite:url";
 	public static String descriptionDataDataS = "dc:description";
 	public static String consortiumS = "dataset:Consortium";
 	public static String parameterSetDescriptionsS = "rdf:Property";
@@ -30,7 +33,13 @@ public class StandardDatasetMetaData {
 	public static String dataTypeKeyS = "dcterms:type";
 	public static String keywordKeyS = "dcat:keyword";
 	public static String sourceDateKeyS = "dcterms:created";
+
+	public static String parentCatalogS = "dcterms:CatalogRecord";
+	public static String parameterDescriptionS = "qb:observation";
 	
+	public static String dataStructureIdentifierS = "qb:structure";
+	public static String linkConceptTypeS = "skos:related";
+	public static String dataConceptTypeS = "skos:Concept";
 	
 	public static String orginfoKeyS = "org:Organization";
 	public static String contactKeyS = "vcard:Contact";

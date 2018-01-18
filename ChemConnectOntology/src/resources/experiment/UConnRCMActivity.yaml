@@ -1,0 +1,132 @@
+interpreter: info.esblurock.reaction.core.server.initialization.InitializeCatalogDataStructuresYaml
+UConn-RCM-Pressure-MeasurementProtocol:
+        dataset:ChemConnectDataStructure: dataset:MeasurementProtocol
+        dc:identifier: UConn-RCM-MeasurementProtocol
+        dcterms:publisher: Admnistration
+        dataset:accessibility: Public
+        dc:description
+            dcterms:type: MeasurementProtocol
+            dcterms:title: Rapid Compression Machine Pressure Profile Measurement
+            dcat:keyword: 
+            - RCM
+            - pressure profile
+            - pressure transducer
+            dcterms:description: |
+               The dynamic pressure transducer outputs a charge signal that is converted to a voltage signal
+               by a charge amplifier with a nominal output of 0V. In addition, the output range of 0V to 10V
+               is set by the operator to correspond to a particular pressure range by setting a “scale factor.” The
+               voltage output from the charge amplifier is digitized by a hardware data acquisition system and
+               recorded into a plain text file by a LabView Virtual Instrument. 
+               The primary diagnostic on the RCM is the reaction chamber pressure during and after 
+               the compression process, measured by a dynamic pressure transducer. The pressure 
+               trace is processed to determine the quantities of interest, including the pressure 
+               and temperature at the EOC, PC and TC respectively, and the ignition delay, t.
+               These values depend on the pressure and temperature prior to the start of compression (P0 and T0,
+               respectively), in addition to the composition of the reactant mixture and the overall compression
+               ratio of the RCM. A single compression-delay-ignition sequence is referred to as an experiment or
+               a run and a set of experiments at a given PC and mixture composition is referred to as a condition.
+        datacite:doi
+          ref1:
+             dataset:ChemConnectDataStructure: datacite:doi
+             datacite:PrimaryResourceIdentifier: 10.1080/00102200600671898
+             dcterms:isReferencedBy: Combustion Science and Technology, 179 (3), 2007, 497-530
+             dcterms:title: UConnRCMPy: Python-based data analysis for rapid compression machines
+             foaf:name:
+               author1:
+                  foaf:familyName: Weber
+                  foaf:givenName: Brian W.
+                  foaf:title: Prof.
+               author2:
+                  foaf:familyName: Sung
+                  foaf:givenName: Chih-Jen
+                  foaf:title: Prof.
+        skos:mappingRelation
+          sensor:
+             qb:structure: edwardblurock
+             skos:related: SensorLinkToActivity
+             skos:Concept: PressureSensor
+UConn-RCM-Temperature-MeasurementProtocol:
+        dataset:ChemConnectDataStructure: dataset:MeasurementProtocol
+        dc:identifier: UConn-RCM-MeasurementProtocol
+        dcterms:publisher: Admnistration
+        dataset:accessibility: Public
+        dc:description
+            dcterms:type: MeasurementProtocol
+            dcterms:title: Rapid Compression Machine Temperature Profile Measurement
+            dcat:keyword: 
+            - RCM
+            - initial temperature
+            dcterms:description: |
+               The temperature is measured prior to the start of compression. The initial
+               temperature is used in the calculation of the experimental temperature in 
+               conjunction with the pressure profile.
+        datacite:doi
+          ref1:
+             dataset:ChemConnectDataStructure: datacite:doi
+             datacite:PrimaryResourceIdentifier: 10.1080/00102200600671898
+             dcterms:isReferencedBy: Combustion Science and Technology, 179 (3), 2007, 497-530
+             dcterms:title: UConnRCMPy: Python-based data analysis for rapid compression machines
+             foaf:name:
+               author1:
+                  foaf:familyName: Weber
+                  foaf:givenName: Brian W.
+                  foaf:title: Prof.
+               author2:
+                  foaf:familyName: Sung
+                  foaf:givenName: Chih-Jen
+                  foaf:title: Prof.
+        skos:mappingRelation
+          sensor:
+             qb:structure: edwardblurock
+             skos:related: SensorLinkToActivity
+             skos:Concept: TemperatureSensor
+UConn-RCM-SpeciesProfiles-MeasurementProtocol:
+        dataset:ChemConnectDataStructure: dataset:MeasurementProtocol
+        dc:identifier: UConn-RCM-MeasurementProtocol
+        dcterms:publisher: Admnistration
+        dataset:accessibility: Public
+        dc:description
+            dcterms:type: MeasurementProtocol
+            dcterms:title: Rapid Compression Machine Species Profile Measurement
+            dcat:keyword: 
+            - gravimetrically
+            - low vapor pressure
+            - manometrically
+            - magnetic stirrer
+            - mixing tank
+            dcterms:description: |
+               To determine the mixture composition, the
+               mass of fuel, equivalence ratio, and oxidizer ratio (XO2 : Xinert, 
+               where X indicates mole fraction) are specified. A
+               liquid at room temperature which has a relatively low vapor pressure
+               (6 Torr at 25 C) is measured gravimetrically in a syringe to
+               within 0.01 g of the specified value. Proportions of O2 and N2 in
+               the mixture are determined manometrically and added at room
+               temperature. The saturated vapor pressure dependence of a liquid fuel
+               on temperature is taken from the Chemical Properties Handbook
+               by Yaws. The preheat temperature is set above the saturation
+               temperature of n-butanol to ensure complete vaporization of the
+               fuel. A magnetic stirrer mixes the reactants. The temperature inside
+               the mixing tank is allowed approximately 1.5 h to reach steady
+               state.
+        datacite:doi
+          ref1:
+             dataset:ChemConnectDataStructure: datacite:doi
+             datacite:PrimaryResourceIdentifier: 10.1080/00102200600671898
+             dcterms:isReferencedBy: Combustion Science and Technology, 179 (3), 2007, 497-530
+             dcterms:title: UConnRCMPy: Python-based data analysis for rapid compression machines
+             foaf:name:
+               author1:
+                  foaf:familyName: Weber
+                  foaf:givenName: Brian W.
+                  foaf:title: Prof.
+               author2:
+                  foaf:familyName: Sung
+                  foaf:givenName: Chih-Jen
+                  foaf:title: Prof.
+        skos:mappingRelation
+          sensor:
+             qb:structure: UConnRCM-device-mixingchamber
+             skos:related: SensorLinkToActivity
+             skos:Concept: TemperatureSensor
+             

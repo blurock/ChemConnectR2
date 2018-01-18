@@ -55,8 +55,8 @@ public class HierarchyNode implements Serializable {
 		build.append(":\n");
 		if(info != null) {
 			build.append(prefix + info.toString());
+			build.append(":\n");
 		}
-		build.append(":\n");
 		prefix += "\t";
 		for(HierarchyNode subnode : subNodes) {
 			String subnodeS = subnode.toString(prefix);

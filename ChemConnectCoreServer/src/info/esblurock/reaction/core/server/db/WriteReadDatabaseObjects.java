@@ -28,6 +28,7 @@ public class WriteReadDatabaseObjects {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public static void readChemConnectDataStructureObject(String elementType, String identifier) throws IOException {
 		System.out.println("------------------------------------------");
 		ChemConnectDataStructure chemconnect = DatasetOntologyParsing.getChemConnectDataStructure(elementType);
@@ -82,6 +83,7 @@ public class WriteReadDatabaseObjects {
 		System.out.println("Hierarchy: \n" + hierarchy);
 	}
 
+	@SuppressWarnings("unchecked")
 	private static void readChemConnectCompoundObject(DataElementInformation info, Map<String, Object> submap,
 			DatabaseObjectHierarchy subhierarchy) {
 		System.out.println("readChemConnectCompoundObject: " + info);

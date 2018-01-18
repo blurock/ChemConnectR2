@@ -6,11 +6,12 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Unindex;
 
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 
 @SuppressWarnings("serial")
 @Entity
-public class ContactInfoData extends DatabaseObject {
+public class ContactInfoData extends ChemConnectCompoundDataStructure {
 
 	   	@Index
 	   	String email;
@@ -26,7 +27,7 @@ public class ContactInfoData extends DatabaseObject {
 			this.hasSite = new HashSet<String>();
 		}
 	    public ContactInfoData(String identifier, String sourceID) {
-	    	super(identifier,identifier,identifier,sourceID);
+	    	super(identifier,sourceID);
 			this.email = "";
 			this.topSite = new HashSet<String>();
 			this.hasSite = new HashSet<String>();

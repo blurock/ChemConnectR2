@@ -29,7 +29,7 @@ public abstract class ForceGraphBehaviorAndInformation {
 		init(links);
 	}
 	
-	private void init(ArrayList<BaseGraphLink> links) {
+	public void init(ArrayList<BaseGraphLink> links) {
 		this.links = links;
 		this.nodes = determineNodes(links);
 		this.linktype = determineLinks(links);

@@ -21,6 +21,9 @@ import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTitle;
 import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.chemconnect.core.client.InitializationCallback;
+import info.esblurock.reaction.chemconnect.core.client.graph.GraphNodesWithForces;
+import info.esblurock.reaction.chemconnect.core.client.graph.SampleForcedGraph;
+import info.esblurock.reaction.chemconnect.core.client.graph.rdf.GraphSetOfKeywordRDFs;
 import info.esblurock.reaction.chemconnect.core.client.pages.DataStructurePages;
 import info.esblurock.reaction.chemconnect.core.client.resources.BaseText;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.ChemConnectAdministrationView;
@@ -28,6 +31,7 @@ import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatab
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
 import info.esblurock.reaction.chemconnect.core.common.client.async.InitializationService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.InitializationServiceAsync;
+import info.esblurock.reaction.chemconnect.core.data.rdf.SetOfKeywordRDF;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 public class ChemConnectAdministrationImpl extends Composite implements ChemConnectAdministrationView {
 
@@ -43,6 +47,8 @@ public class ChemConnectAdministrationImpl extends Composite implements ChemConn
 	String name;
 	@UiField
 	MaterialNavBrand navtitle;
+	@UiField
+	MaterialLink interconnect;
 	@UiField
 	MaterialLink explore;
 	@UiField
@@ -77,6 +83,7 @@ public class ChemConnectAdministrationImpl extends Composite implements ChemConn
 
 	private void  init() {
 		navtitle.setText(basetext.administrationpage());
+		interconnect.setText("Explore");
 		cleardb.setText(basetext.cleardatabase());
 		cleardb.setIconType(IconType.AUTORENEW);
 		readinit.setText(basetext.readinitailize());
@@ -133,7 +140,12 @@ public class ChemConnectAdministrationImpl extends Composite implements ChemConn
 	public void onExplore(ClickEvent event) {
 		handleHistoryToken("DataStructures");
 	}
-		@UiHandler("cleardb")
+	@UiHandler("interconnect")
+	public void onInterconnect(ClickEvent event) {
+		handleHistoryToken("GraphicalStructures");
+	}
+
+	@UiHandler("cleardb")
 		public void onClearDB(ClickEvent event) {
 		title.setTitle(basetext.cleardatabase());
 		title.setDescription(basetext.suretozero());
@@ -168,14 +180,11 @@ public class ChemConnectAdministrationImpl extends Composite implements ChemConn
 	}
 	@UiHandler("users")
 	public void onUsers(ClickEvent event) {
-		MaterialToast.fireToast("Get users 11");
 		title.setTitle(basetext.cleardatabase());
 		title.setDescription(basetext.suretozero());
 		ContactDatabaseAccessAsync async = ContactDatabaseAccess.Util.getInstance();
-		MaterialToast.fireToast("Get users 2");
 		ListOfUsersCallback callback = new ListOfUsersCallback();
 		async.getListOfUsers(callback);
-		MaterialToast.fireToast("Get users 3");
 	}
 	@UiHandler("organizations")
 	public void onOrganizations(ClickEvent event) {
@@ -217,7 +226,9 @@ public class ChemConnectAdministrationImpl extends Composite implements ChemConn
 		content.add(widget);
 	}
 
-	
+	public MaterialPanel getContent() {
+		return content;
+	}
 	
 	
 	

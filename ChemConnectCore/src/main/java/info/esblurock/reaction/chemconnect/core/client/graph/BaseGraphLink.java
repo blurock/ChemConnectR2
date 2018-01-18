@@ -17,12 +17,16 @@ public class BaseGraphLink implements Serializable {
 		
 	}
 	public BaseGraphLink(String source, String target, String type) {
+		this.fill(source, target, type);
+	}
+
+	public void fill(String source, String target, String type) {
 		this.source = source;
 		this.target = target;
 		this.type = type;
 		this.linkStyle = "link";
 	}
-
+	
 	public String getSource() {
 		return source;
 	}

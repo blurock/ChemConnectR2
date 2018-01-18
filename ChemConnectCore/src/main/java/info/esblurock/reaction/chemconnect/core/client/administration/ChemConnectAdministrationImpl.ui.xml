@@ -36,6 +36,7 @@
 					activates="dropProfile" iconType="ARROW_DROP_DOWN" iconPosition="RIGHT"
 					textColor="WHITE" />
 			</ma:sideprofile.MaterialSideProfile>
+			<m:MaterialLink ui:field="interconnect" />
 			<m:MaterialLink ui:field="explore" />
 			<m:MaterialLink ui:field="cleardb" />
 			<m:MaterialLink ui:field="readinit" />

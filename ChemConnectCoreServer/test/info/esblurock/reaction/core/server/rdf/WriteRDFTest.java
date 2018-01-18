@@ -1,6 +1,6 @@
 package info.esblurock.reaction.core.server.rdf;
 
-import static org.junit.Assert.*;
+//import static org.junit.Assert.*;
 
 import java.util.List;
 
@@ -17,14 +17,7 @@ import com.googlecode.objectify.cache.AsyncCacheFilter;
 import com.googlecode.objectify.util.Closeable;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
-import info.esblurock.reaction.chemconnect.core.data.contact.RegisterContactData;
-import info.esblurock.reaction.chemconnect.core.data.dataset.RegistrerDataset;
-import info.esblurock.reaction.chemconnect.core.data.description.RegisterDescriptionData;
-import info.esblurock.reaction.chemconnect.core.data.initialization.RegisterInitializationData;
-import info.esblurock.reaction.chemconnect.core.data.login.RegisterUserLoginData;
 import info.esblurock.reaction.chemconnect.core.data.rdf.KeywordRDF;
-import info.esblurock.reaction.chemconnect.core.data.rdf.RegisterRDFData;
-import info.esblurock.reaction.chemconnect.core.data.transaction.RegisterTransactionData;
 import info.esblurock.reaction.io.rdf.DatabaseWriteBase;
 
 public class WriteRDFTest {
@@ -69,7 +62,7 @@ public class WriteRDFTest {
 		String predicate = "predicate";
 		String object = "object";
 		String typeS = "type";
-		DatabaseObject obj = new DatabaseObject(keyword,access,owner,sourceID);
+		//DatabaseObject obj = new DatabaseObject(keyword,access,owner,sourceID);
 		KeywordRDF objectrdf = new KeywordRDF(keyword,access,owner,sourceID,predicate,object,typeS);
 		//ObjectifyService.ofy().save().entity(objectrdf).now();
 		DatabaseWriteBase.writeDatabaseObject(objectrdf);

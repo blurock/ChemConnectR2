@@ -3,11 +3,11 @@ package info.esblurock.reaction.chemconnect.core.data.contact;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
 
-import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 
 @SuppressWarnings("serial")
 @Entity
-public class OrganizationDescription extends DatabaseObject {
+public class OrganizationDescription extends ChemConnectCompoundDataStructure {
 	
 	@Index
 	String OrganizationUnit;
@@ -33,14 +33,31 @@ public class OrganizationDescription extends DatabaseObject {
 		this.SubOrganizationOf = "";
 	}
 	
-	public OrganizationDescription(String identifier, String access, String owner, String sourceID,
+	public OrganizationDescription(ChemConnectCompoundDataStructure compound,
 			String organizationUnit, String organizationClassification, 
 			String organizationName, String subOrganizationOf) {
-		super(identifier,access,owner,sourceID);
+		super(compound);
 		this.OrganizationUnit = organizationUnit;
 		this.OrganizationClassification = organizationClassification;
 		this.OrganizationName = organizationName;
 		this.SubOrganizationOf = subOrganizationOf;
+	}
+	
+	public void fill(String identifier, String access, String owner, String sourceID,
+				String organizationUnit, String organizationClassification, 
+				String organizationName, String subOrganizationOf) {
+			super.fill(identifier,access,owner,sourceID);
+			this.OrganizationUnit = organizationUnit;
+			this.OrganizationClassification = organizationClassification;
+			this.OrganizationName = organizationName;
+			this.SubOrganizationOf = subOrganizationOf;
+	}
+	
+	public OrganizationDescription(String identifier, String access, String owner, String sourceID,
+					String organizationUnit, String organizationClassification, 
+					String organizationName, String subOrganizationOf) {
+		fill(identifier,access,owner,sourceID, organizationUnit, organizationClassification, 
+						organizationName, subOrganizationOf);
 	}
 
 	public String getOrganizationUnit() {

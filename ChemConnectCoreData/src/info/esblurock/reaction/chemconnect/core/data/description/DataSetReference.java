@@ -6,11 +6,12 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Unindex;
 
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 
 @SuppressWarnings("serial")
 @Entity
-public class DataSetReference extends DatabaseObject {
+public class DataSetReference extends ChemConnectCompoundDataStructure {
 
 	/** DOI reference for article
 	 * 
@@ -56,13 +57,34 @@ public class DataSetReference extends DatabaseObject {
 	public DataSetReference(String identifier, String access, String owner, String sourceID,
 			String dOI, String title, String referenceString,
 			HashSet<String> authors) {
-		super(identifier,access,owner,sourceID);
-		DOI = dOI;
-		Title = title;
-		ReferenceString = referenceString;
+		fill(identifier,access,owner,sourceID,dOI,title,referenceString,authors);
+	}
+	public DataSetReference(ChemConnectCompoundDataStructure compound,
+			String dOI, String title, String referenceString,
+			HashSet<String> authors) {
+		fill(compound,dOI,title,referenceString,authors);
+	}
+	
+	public void fill(ChemConnectCompoundDataStructure compound,
+			String dOI, String title, String referenceString,
+			HashSet<String> authors) {
+		super.fill(compound);
+		this.DOI = dOI;
+		this.Title = title;
+		this.ReferenceString = referenceString;
+		this.authors = authors;
+	}
+	public void fill(String identifier, String access, String owner, String sourceID,
+			String dOI, String title, String referenceString,
+			HashSet<String> authors) {
+		super.fill(identifier,access,owner,sourceID);
+		this.DOI = dOI;
+		this.Title = title;
+		this.ReferenceString = referenceString;
 		this.authors = authors;
 	}
 
+	
 	public String getDOI() {
 		return DOI;
 	}

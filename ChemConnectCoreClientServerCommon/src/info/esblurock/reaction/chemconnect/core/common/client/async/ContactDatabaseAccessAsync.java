@@ -7,6 +7,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
+import info.esblurock.reaction.chemconnect.core.data.rdf.SetOfKeywordRDF;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DatasetInformationFromOntology;
 import info.esblurock.reaction.chemconnect.core.data.transfer.RecordInformation;
@@ -36,4 +37,8 @@ public interface ContactDatabaseAccessAsync {
 			DatabaseObject object, 
 			AsyncCallback<RecordInformation> callback);
 
+	void hierarchyOfConcepts(String topnode, AsyncCallback<HierarchyNode> callback);
+
+	void subsystemInterconnections(String topnode, String access, String owner, String sourceID,
+			AsyncCallback<SetOfKeywordRDF> callback);
 }

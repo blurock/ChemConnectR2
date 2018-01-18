@@ -131,7 +131,9 @@ public class ReadYamlDataset {
 		System.out.println(objecthierarchy);
 		return structure;
 	}
-
+/*
+ * 
+ */
 	@SuppressWarnings("unchecked")
 	private static DatabaseObject extractDataElementInformation(DataElementInformation element, DatabaseObject top,
 			MapToChemConnectCompoundDataStructure mapping, Map<String, Object> yamlmap,
