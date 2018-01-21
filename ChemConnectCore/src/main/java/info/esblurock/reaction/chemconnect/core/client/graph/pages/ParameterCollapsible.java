@@ -48,7 +48,7 @@ public class ParameterCollapsible extends Composite implements HasText {
 		if(bodycollapsible == null) {
 		top.async(concept);
 		}
-		contentcollapsible.clos
+		contentcollapsible.closeAll();
 	}
 
 	public void noChildren() {
