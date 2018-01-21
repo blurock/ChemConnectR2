@@ -2,11 +2,8 @@ package info.esblurock.reaction.ontology.test.dataset;
 
 //import static org.junit.Assert.*;
 
-import java.util.List;
-
 import org.junit.Test;
 
-import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 

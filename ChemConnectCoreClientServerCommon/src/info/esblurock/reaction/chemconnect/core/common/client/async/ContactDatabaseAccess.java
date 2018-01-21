@@ -44,4 +44,5 @@ public interface ContactDatabaseAccess extends RemoteService {
 			DatabaseObject object) throws IOException;
 	SetOfKeywordRDF subsystemInterconnections(String topnode, String access, String owner, String sourceID);
 	HierarchyNode hierarchyOfConcepts(String topnode);
+	HierarchyNode hierarchyOfConceptsWithLevelLimit(String topnode, int maxlevel);
 }

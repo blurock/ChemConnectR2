@@ -47,16 +47,7 @@ public class ChemConnectCore implements EntryPoint {
 		async.loginServer("Administration", "laguna", callback);
 		
 		RootPanel.get().add(appWidget);
-		Window.alert("DS: " + D3.version());
 		historyHandler.handleCurrentHistory();
-			
-		
-		/*
-		RootPanel.get().add(new Button("Press me now please"));
-		InitializationServiceAsync async = GWT.create(InitializationService.class);
-		InitializationCallback callback = new InitializationCallback();
-		async.initializeDatabaseObjects(callback);
-		*/
 	}
 
 }

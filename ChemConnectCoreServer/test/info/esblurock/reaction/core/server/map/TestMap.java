@@ -2,24 +2,15 @@ package info.esblurock.reaction.core.server.map;
 
 //import static org.junit.Assert.*;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Map;
 
 import org.junit.Test;
 
-import info.esblurock.reaction.chemconnect.core.data.contact.Organization;
-import info.esblurock.reaction.chemconnect.core.data.transfer.DatasetInformationFromOntology;
-import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ListOfElementInformation;
-import info.esblurock.reaction.io.dataset.InterpretData;
-import info.esblurock.reaction.ontology.initialization.ReadYamlDataset;
 
 public class TestMap {
 
 	@Test
 	public void test() {
-		String sourceID = "1";
+		//String sourceID = "1";
 		/*
 		try {
 			String fileS = "resources/contact/OrganizationInitialization.yaml";

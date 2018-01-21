@@ -5,17 +5,13 @@ package info.esblurock.reaction.core.server.yaml;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Map;
 
 import org.junit.Test;
 
-import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
-import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DatasetInformationFromOntology;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructureObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ListOfElementInformation;
-import info.esblurock.reaction.io.dataset.InterpretData;
 import info.esblurock.reaction.ontology.initialization.ReadYamlDataset;
 
 public class ReadDatasetYaml {

@@ -1,10 +1,7 @@
 package info.esblurock.reaction.core.server.yaml;
 
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.googlecode.objectify.ObjectifyService;
 
@@ -13,13 +10,7 @@ import info.esblurock.reaction.chemconnect.core.data.contact.RegisterContactData
 import info.esblurock.reaction.chemconnect.core.data.dataset.RegistrerDataset;
 import info.esblurock.reaction.chemconnect.core.data.description.RegisterDescriptionData;
 import info.esblurock.reaction.chemconnect.core.data.initialization.RegisterInitializationData;
-import info.esblurock.reaction.chemconnect.core.data.rdf.KeywordRDF;
 import info.esblurock.reaction.chemconnect.core.data.rdf.RegisterRDFData;
-import info.esblurock.reaction.chemconnect.core.data.transfer.DatasetInformationFromOntology;
-import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ListOfElementInformation;
-import info.esblurock.reaction.core.server.db.rdf.WriteDatabaseObjectRDF;
-import info.esblurock.reaction.io.rdf.StoreObject;
-import info.esblurock.reaction.ontology.initialization.ReadYamlDataset;
 
 public class ReadYamlBase {
 	public static void test(InputStream in) {		
@@ -29,7 +20,7 @@ public class ReadYamlBase {
 		RegisterRDFData.register();
 		RegistrerDataset.register();
 		ObjectifyService.register(DatabaseObject.class);
-		String sourceID = "1";
+		//String sourceID = "1";
 		/*
 		ArrayList<ListOfElementInformation> results;
 		System.out.println("---------------");

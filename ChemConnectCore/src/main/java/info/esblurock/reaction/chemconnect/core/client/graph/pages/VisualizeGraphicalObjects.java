@@ -1,20 +1,20 @@
 package info.esblurock.reaction.chemconnect.core.client.graph.pages;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import gwt.material.design.client.ui.MaterialLink;
+import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialPanel;
+import gwt.material.design.client.ui.MaterialToast;
+import info.esblurock.reaction.chemconnect.core.client.graph.hierarchy.HorizontalHierarchyCallback;
+import info.esblurock.reaction.chemconnect.core.client.graph.hierarchy.HorizontalHierarchyPanel;
 import info.esblurock.reaction.chemconnect.core.client.graph.rdf.ForceGraphPanel;
-import info.esblurock.reaction.chemconnect.core.client.graph.rdf.GraphSetOfKeywordRDFs;
 import info.esblurock.reaction.chemconnect.core.client.graph.rdf.HierarchialConceptSelection;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
@@ -29,7 +29,7 @@ public class VisualizeGraphicalObjects extends Composite implements HasText {
 
 	
 	
-	
+/*
 	@UiField
 	MaterialLink deviceConcepts;
 	@UiField
@@ -40,15 +40,22 @@ public class VisualizeGraphicalObjects extends Composite implements HasText {
 	MaterialLink methodologyConcepts;
 	@UiField
 	MaterialLink parameterConcepts;
-	
+	*/
+	@UiField
+	MaterialPanel parameters;
 	@UiField
 	ScrollPanel conceptPanel;
 	@UiField
 	MaterialPanel modalpanel;
+	@UiField
+	MaterialCollapsible collapsiblebody;
+	@UiField
+	MaterialCollapsible conceptcollapse;
 	
 	ForceGraphPanel forcesPanel; 
-	
+	HorizontalHierarchyPanel hierarchyPanel;
 	String currentPick;
+	String topconcept;
 	public VisualizeGraphicalObjects() {
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
@@ -60,49 +67,70 @@ public class VisualizeGraphicalObjects extends Composite implements HasText {
 	}
 
 	void init() {
+		topconcept = "dataset:ChemConnectDomainConcept";
 		currentPick = null;
 		forcesPanel = new ForceGraphPanel();
-		conceptPanel.add(forcesPanel);
+		//conceptPanel.add(forcesPanel);
+		hierarchyPanel = new HorizontalHierarchyPanel();
+		conceptPanel.add(hierarchyPanel);
+		hierarchialParameters();
 	}
 
-	public void async(String concept) {
-		String access = "Public";
-		String owner = "Administration";
-		String sourceID = "1";
-		GraphSetOfKeywordRDFs callback = new GraphSetOfKeywordRDFs(forcesPanel);
-		forcesPanel.setText(concept);
+	public void async(String concept) {		
+		HorizontalHierarchyCallback callback = new HorizontalHierarchyCallback(hierarchyPanel);
 		ContactDatabaseAccessAsync async = ContactDatabaseAccess.Util.getInstance();
-		async.subsystemInterconnections(concept,access,owner,sourceID,callback);
+		async.hierarchyOfConcepts(concept, callback);
+		MaterialToast.fireToast("Concepts of " + concept);
+		conceptcollapse.close(1);
+		collapsiblebody.close(1);
+		collapsiblebody.close(2);
 	}
 	
-	private void hierarchialModal(String name) {
+	private void hierarchialParameters() {
 		ContactDatabaseAccessAsync async = ContactDatabaseAccess.Util.getInstance();
 		ConceptHierarchyCallback callback = new ConceptHierarchyCallback(this);
-		async.hierarchyOfConcepts(name,callback);
+		async.hierarchyOfConceptsWithLevelLimit(topconcept,2,callback);
 	}
-	
+	public void addParametersCollapsible(HierarchyNode hierarchy) {
+		for(HierarchyNode subnode : hierarchy.getSubNodes()) {
+			addCollapsible(subnode,collapsiblebody);
+		}
+	}
+	private void addCollapsible(HierarchyNode node, MaterialCollapsible collapsible) {
+		ParameterCollapsible parameter = new ParameterCollapsible(node.getIdentifier(),node.getIdentifier(),this);
+		collapsible.add(parameter);
+		if(node.getSubNodes().size() == 0) {
+			parameter.noChildren();
+		} else {
+			parameter.disableButton();
+		for(HierarchyNode sub : node.getSubNodes()) {
+			addCollapsible(sub, parameter.getBody());
+		}
+		}
+	}
+	/*
 	@UiHandler("deviceConcepts")
 	void deviceConcepts(ClickEvent event) {
-		hierarchialModal("dataset:DataTypeDevice");
+		async("dataset:DataTypeDevice");
 		
 	}
 	@UiHandler("subsystemConcepts")
 	void subsystemConcepts(ClickEvent event) {
-		hierarchialModal("dataset:DataTypeSystem");
+		async("dataset:DataTypeSystem");
 	}
 	@UiHandler("componentConcepts")
 	void componentConcepts(ClickEvent event) {
-		hierarchialModal("dataset:DataTypeComponent");
+		async("dataset:DataTypeComponent");
 	}
 	@UiHandler("methodologyConcepts")
 	void methodologyConcepts(ClickEvent event) {
-		hierarchialModal("dataset:DataTypeMethodology");
+		async("dataset:DataTypeMethodology");
 	}
 	@UiHandler("parameterConcepts")
 	void parameterConcepts(ClickEvent event) {
-		hierarchialModal("dataset:ChemConnectParameter");
+		async("dataset:ChemConnectParameter");
 	}
-
+*/
 	public void setText(String text) {
 	}
 

@@ -1167,11 +1167,6 @@ xsd:date rdf:type rdfs:Datatype .
                                   <http://www.w3.org/2004/02/skos/core#altLabel> "record" .
 
 
-###  http://www.esblurock.info/dataset#ChemConnectConceptType
-:ChemConnectConceptType rdf:type owl:Class ;
-                        rdfs:subClassOf :ChemConnectDomainConcept .
-
-
 ###  http://www.esblurock.info/dataset#ChemConnectDataStructure
 :ChemConnectDataStructure rdf:type owl:Class ;
                           rdfs:subClassOf :DatasetCatalogInformation ;
@@ -1217,7 +1212,7 @@ xsd:date rdf:type rdfs:Datatype .
 
 ###  http://www.esblurock.info/dataset#ChemConnectLinkType
 :ChemConnectLinkType rdf:type owl:Class ;
-                     rdfs:subClassOf :ChemConnectDomainConcept .
+                     rdfs:subClassOf <http://www.w3.org/2004/02/skos/core#Concept> .
 
 
 ###  http://www.esblurock.info/dataset#ChemConnectMeasurementProtocol
@@ -1282,7 +1277,7 @@ xsd:date rdf:type rdfs:Datatype .
 A critical differenct between these elements and ChemConnectCompoudDataStructure (record) is that there is not link to a parent.
 
 The direct subclass, the data type, determines how the data is to be presented.
-Under the data type is the specific instance of the data referenced by the ComConnectCompoundDataStructure"""^^xsd:string .
+Under the data type is the specific instance of the data referenced by the ComConnectCompoundDataStructure"""@en .
 
 
 ###  http://www.esblurock.info/dataset#ChemConnectPrimitiveDataStructure
@@ -1863,7 +1858,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#DataTypeDataStructure
 :DataTypeDataStructure rdf:type owl:Class ;
-                       rdfs:subClassOf :ChemConnectConceptType ;
+                       rdfs:subClassOf :ChemConnectDomainConcept ;
                        rdfs:isDefinedBy :ChemConnectDataStructure .
 
 

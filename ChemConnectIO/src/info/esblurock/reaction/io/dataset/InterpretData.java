@@ -98,7 +98,7 @@ public enum InterpretData {
 
 			System.out.println("ChemConnectDataStructure: " + yaml);
 			Object yamlobj = yaml.get(StandardDatasetMetaData.dataSetReferenceS);
-			System.out.println("ChemConnectDataStructure: " + yaml);
+			System.out.println("ChemConnectDataStructure: " + yamlobj);
 					
 			
 			HashSet<String> dataSetReferenceS = interpretMultipleYaml(StandardDatasetMetaData.dataSetReferenceS,yaml);
@@ -342,7 +342,7 @@ public enum InterpretData {
 			String locality = (String) yaml.get(StandardDatasetMetaData.localityKeyS);
 			String postalcode = (String) yaml.get(StandardDatasetMetaData.postalcodeKeyS);
 			String country = (String) yaml.get(StandardDatasetMetaData.countryKeyS);
-			Object gps = yaml.get(StandardDatasetMetaData.gpsCoordinatesID);
+			//Object gps = yaml.get(StandardDatasetMetaData.gpsCoordinatesID);
 			String gspLocationID = (String) yaml.get(StandardDatasetMetaData.gpsCoordinatesID);
 
 			ContactLocationInformation location = new ContactLocationInformation(objdata.getIdentifier(),

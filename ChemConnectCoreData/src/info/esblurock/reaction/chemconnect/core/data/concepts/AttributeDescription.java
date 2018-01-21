@@ -1,10 +1,8 @@
 package info.esblurock.reaction.chemconnect.core.data.concepts;
 
 import java.io.Serializable;
-import java.util.Comparator;
 import java.util.Set;
 
-import org.eclipse.jdt.internal.core.util.Util.Comparable;
 
 public class AttributeDescription implements Serializable {
 	private static final long serialVersionUID = 1L;

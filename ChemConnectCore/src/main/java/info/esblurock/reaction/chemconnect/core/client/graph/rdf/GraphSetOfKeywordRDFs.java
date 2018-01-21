@@ -1,6 +1,5 @@
 package info.esblurock.reaction.chemconnect.core.client.graph.rdf;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import info.esblurock.reaction.chemconnect.core.client.graph.GraphNodesWithForces;

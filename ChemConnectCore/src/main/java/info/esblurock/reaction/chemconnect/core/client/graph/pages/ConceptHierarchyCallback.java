@@ -1,6 +1,5 @@
 package info.esblurock.reaction.chemconnect.core.client.graph.pages;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
@@ -19,7 +18,7 @@ public class ConceptHierarchyCallback  implements AsyncCallback<HierarchyNode> {
 
 	@Override
 	public void onSuccess(HierarchyNode hierarchy) {
-		top.addHierarchialModal(hierarchy);
+		top.addParametersCollapsible(hierarchy);
 	}
 
 }

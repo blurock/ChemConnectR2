@@ -93,6 +93,7 @@ public class RadialReingoldTilfordTree extends FlowPanel{
         RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, JSON_URL);
 
         try {
+        	
             Request request = builder.sendRequest(null, new RequestCallback() {
                 @Override
                 public void onError(final Request request, final Throwable exception) {
@@ -171,36 +172,5 @@ public class RadialReingoldTilfordTree extends FlowPanel{
     public void stop() {
 
     }
-/*
-    public static Factory factory() {
-        return new Factory() {
-            @Override
-            public DemoCase newInstance() {
-                return new RadialReingoldTilfordTree();
-            }
-        };
-    }
-*/
-    public static class FlareNode extends JavaScriptObject {
 
-        protected FlareNode() {
-
-        }
-
-        public final native String name() /*-{
-                                          return this.name;
-                                          }-*/;
-
-        public final native int size() /*-{
-                                       return this.size;
-                                       }-*/;
-
-        public final native Array<FlareNode> children()/*-{
-                                                       return this.children;
-                                                       }-*/;
-
-        public final native boolean isLeaf()/*-{
-                                            return !this.children;
-                                            }-*/;
-    }
 }

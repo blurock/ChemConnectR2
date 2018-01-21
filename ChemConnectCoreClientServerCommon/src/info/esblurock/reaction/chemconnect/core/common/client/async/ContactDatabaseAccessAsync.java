@@ -41,4 +41,7 @@ public interface ContactDatabaseAccessAsync {
 
 	void subsystemInterconnections(String topnode, String access, String owner, String sourceID,
 			AsyncCallback<SetOfKeywordRDF> callback);
+
+	void hierarchyOfConceptsWithLevelLimit(String topnode, int maxlevel, AsyncCallback<HierarchyNode> callback);
+
 }

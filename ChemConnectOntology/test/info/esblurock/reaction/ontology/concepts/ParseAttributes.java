@@ -42,9 +42,16 @@ public class ParseAttributes {
 		SetOfKeywordRDF connections = ConceptParsing.conceptHierarchyRDFs(subsystem,access,owner,sourceID);
 		System.out.println(connections.toString());
 		
-		System.out.println("Concepts Hierarchy    -------------------------------------------------------------");
+		subsystem = "dataset:ChemConnectDomainConcept";
+		System.out.println("Concepts Hierarchy  all  -------------------------------------------------------------");
 		HierarchyNode node = ConceptParsing.conceptHierarchy(subsystem);
 		System.out.println(node.toString());
+		System.out.println("Concepts Hierarchy   1   -------------------------------------------------------------");
+		HierarchyNode node1 = ConceptParsing.conceptHierarchy(subsystem,1);
+		System.out.println(node1.toString());
+		System.out.println("Concepts Hierarchy    2  -------------------------------------------------------------");
+		HierarchyNode node2 = ConceptParsing.conceptHierarchy(subsystem,2);
+		System.out.println(node2.toString());
 		
 		System.out.println("Attributes            -------------------------------------------------------------");
 		Set<AttributeDescription> attrs = ConceptParsing.attributesInConcept("dataset:HeatFluxBurner");

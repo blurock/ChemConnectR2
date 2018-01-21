@@ -48,11 +48,6 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="com.google.cloud.tools.eclipse.appengine.libraries/objectify">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="lib" path="/opt/Google/appengine-testing-1.9.51.jar"/>
 	<classpathentry kind="lib" path="/opt/Google/appengine-api-1.0-sdk-1.9.51.jar"/>
 	<classpathentry kind="lib" path="/opt/Google/appengine-api-labs-1.9.51.jar"/>

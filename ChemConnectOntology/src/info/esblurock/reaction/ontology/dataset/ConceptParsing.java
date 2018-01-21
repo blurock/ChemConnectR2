@@ -153,8 +153,11 @@ public class ConceptParsing {
 		}
 		return connections;
 	}
-
 	public static HierarchyNode conceptHierarchy(String topnode) {
+		return conceptHierarchy(topnode,-1);
+	}
+
+	public static HierarchyNode conceptHierarchy(String topnode, int maxlevel) {
 		HierarchyNode node = new HierarchyNode(topnode);
 		
 		String query = "SELECT ?subsystem { ?subsystem <" + ReasonerVocabulary.directSubClassOf + "> " + topnode + " .\n"
@@ -163,11 +166,13 @@ public class ConceptParsing {
 		
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
-		
+		if(maxlevel > 0 || maxlevel < 0) {
+			--maxlevel;
 		for(Map<String, String> map : stringlst) {
 			String subsystem = map.get("subsystem");
-				HierarchyNode subset = conceptHierarchy(subsystem);
+				HierarchyNode subset = conceptHierarchy(subsystem,maxlevel);
 				node.addSubNode(subset);
+			}
 		}
 		return node;
 	}
@@ -257,4 +262,5 @@ public class ConceptParsing {
 		Set<AttributeDescription> set = new TreeSet<AttributeDescription>(new AttributeDescriptionComparator());
 		return total.extractAttributeDescription(set);
 	}
+
 }

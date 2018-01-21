@@ -1,7 +1,6 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
-	xmlns:m="urn:import:gwt.material.design.client.ui"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:m="urn:import:gwt.material.design.client.ui"
 	xmlns:ma="urn:import:gwt.material.design.addins.client.splitpanel">
 	<ui:style gss="true">
 	body {
@@ -9,7 +8,7 @@
 	}
 	</ui:style>
 	<m:MaterialPanel>
-	<m:MaterialPanel ui:field="modalpanel"/>	
+		<m:MaterialPanel ui:field="modalpanel" />
 		<m:MaterialRow ui:field="tabRow">
 			<m:MaterialColumn grid="s12">
 				<m:MaterialTab ui:field="tab" indicatorColor="YELLOW"
@@ -27,30 +26,25 @@
 			<m:MaterialColumn m:id="tab1" grid="s12">
 				<m:MaterialPanel backgroundColor="GREY_LIGHTEN_2">
 					<m:MaterialRow>
-						<m:MaterialColumn grid="s3">
-							<m:MaterialPanel grid="l6 m6 s6" width="100%"
-								height="500px" padding="0" backgroundColor="GREY_LIGHTEN_2">
-								<m:MaterialCollection header="Knowledge Organization" width="100%"
-									active="2">
-									<m:MaterialCollectionItem>
-										<m:MaterialLink ui:field="deviceConcepts" text="Device" />
-									</m:MaterialCollectionItem>
-									<m:MaterialCollectionItem>
-										<m:MaterialLink ui:field="subsystemConcepts" text="Subsystems" />
-									</m:MaterialCollectionItem>
-									<m:MaterialCollectionItem>
-										<m:MaterialLink ui:field="componentConcepts" text="Components" />
-									</m:MaterialCollectionItem>
-									<m:MaterialCollectionItem>
-										<m:MaterialLink ui:field="methodologyConcepts" text="Methodologies" />
-									</m:MaterialCollectionItem>
-									<m:MaterialCollectionItem>
-										<m:MaterialLink ui:field="parameterConcepts" text="Parameters" />
-									</m:MaterialCollectionItem>
-								</m:MaterialCollection>
+						<m:MaterialColumn grid="s12">
+							<m:MaterialPanel ui:field="parameters" grid="l6 m6 s6"
+								width="100%" height="500px" padding="0" backgroundColor="GREY_LIGHTEN_2">
+								<m:MaterialCollapsible ui:field="conceptcollapse">
+									<m:MaterialCollapsibleItem>
+										<m:MaterialCollapsibleHeader>
+											<m:MaterialLabel ui:field="title" text="Concepts" />
+										</m:MaterialCollapsibleHeader>
+										<m:MaterialCollapsibleBody>
+											<m:MaterialCollapsible ui:field="collapsiblebody" />
+										</m:MaterialCollapsibleBody>
+									</m:MaterialCollapsibleItem>
+								</m:MaterialCollapsible>
 							</m:MaterialPanel>
+
 						</m:MaterialColumn>
-						<m:MaterialColumn grid="s9">
+					</m:MaterialRow>
+					<m:MaterialRow>
+						<m:MaterialColumn grid="s12">
 							<g:ScrollPanel ui:field="conceptPanel" width="100%"
 								height="500px">
 							</g:ScrollPanel>

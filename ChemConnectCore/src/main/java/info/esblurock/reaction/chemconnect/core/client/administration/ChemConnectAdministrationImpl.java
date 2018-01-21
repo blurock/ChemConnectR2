@@ -21,9 +21,8 @@ import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTitle;
 import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.chemconnect.core.client.InitializationCallback;
-import info.esblurock.reaction.chemconnect.core.client.graph.GraphNodesWithForces;
-import info.esblurock.reaction.chemconnect.core.client.graph.SampleForcedGraph;
-import info.esblurock.reaction.chemconnect.core.client.graph.rdf.GraphSetOfKeywordRDFs;
+import info.esblurock.reaction.chemconnect.core.client.graph.RadialReingoldTilfordTree;
+import info.esblurock.reaction.chemconnect.core.client.graph.hierarchy.HorizontalHierarchy;
 import info.esblurock.reaction.chemconnect.core.client.pages.DataStructurePages;
 import info.esblurock.reaction.chemconnect.core.client.resources.BaseText;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.ChemConnectAdministrationView;
@@ -31,7 +30,6 @@ import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatab
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
 import info.esblurock.reaction.chemconnect.core.common.client.async.InitializationService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.InitializationServiceAsync;
-import info.esblurock.reaction.chemconnect.core.data.rdf.SetOfKeywordRDF;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 public class ChemConnectAdministrationImpl extends Composite implements ChemConnectAdministrationView {
 
@@ -109,6 +107,11 @@ public class ChemConnectAdministrationImpl extends Composite implements ChemConn
 		RadialReingoldTilfordTree reingold = new RadialReingoldTilfordTree();
 		content.add(reingold);
 		reingold.start();
+		*/
+		/*
+		HorizontalHierarchy cluster = new HorizontalHierarchy();
+		content.add(cluster);
+		cluster.start();
 		*/
 		/*
 		FocusAndContext context = new FocusAndContext();
@@ -222,7 +225,6 @@ public class ChemConnectAdministrationImpl extends Composite implements ChemConn
 		Window.scrollTo(0, 0);
 		content.clear();
 		Widget widget = page.getContent();
-		Window.alert("changeNav:  " + widget.getClass().getCanonicalName());
 		content.add(widget);
 	}
 

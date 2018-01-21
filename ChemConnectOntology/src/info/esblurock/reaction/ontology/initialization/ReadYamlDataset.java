@@ -120,8 +120,10 @@ public class ReadYamlDataset {
 		ArrayList<DataElementInformation> records = chemconnect.getRecords();
 		MapToChemConnectCompoundDataStructure mapping = chemconnect.getMapping();
 		for (DataElementInformation record : records) {
+
 			DatabaseObject obj = extractDataElementInformation(record, top, mapping, structuremap, objecthierarchy,
 					sourceID);
+					
 		}
 		String structuretype = DatasetOntologyParsing.getStructureFromDataStructure(elementStructure);
 		InterpretData interpret = InterpretData.valueOf(structuretype);

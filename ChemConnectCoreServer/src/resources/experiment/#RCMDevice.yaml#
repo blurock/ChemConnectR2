@@ -10,7 +10,7 @@ UConnRCM:
      dataset:userWriteAccess: edwardblurock,blurock
      dataset:Consortium: Administration
      dc:description: UConnRCM-description
-     terms:BibliographicResource: http://dx.doi.org/10.1080/0010220060067189
+     datacite:doi: http://dx.doi.org/10.1080/0010220060067189
      ssn:hasSubSystem:
           UConnRCM-piston
 	  UConnRCM-speciesSupply
@@ -62,7 +62,7 @@ UConnRCM-description:
 #Reference for RCM: 
 #	
 http://dx.doi.org/10.1080/00102200600671898:
-     dataset:ChemConnectDataStructure: terms:BibliographicResource
+     dataset:ChemConnectDataStructure: datacite:doi
      dc:identifier: http://dx.doi.org/10.1080/00102200600671898
      datacite:PrimaryResourceIdentifier: http://dx.doi.org/10.1080/00102200600671898
      dcterms:description: Combustion Science and Technology, 179: 497–530, 2007
@@ -82,7 +82,7 @@ UConnRCM-piston:
      dataset:userWriteAccess: edwardblurock,blurock
      dataset:Consortium: Administration
      dc:description: UConnRCM-piston-description
-     terms:BibliographicResource: http://dx.doi.org/10.1080/00102200600671898
+     datacite:doi: http://dx.doi.org/10.1080/00102200600671898
      ssn:hasSubSystem:
           UConnRCM-temperatureSensor
 	  UConnRCM-pressureSensor

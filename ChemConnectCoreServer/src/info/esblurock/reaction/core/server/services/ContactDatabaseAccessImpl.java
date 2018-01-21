@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.json.client.JSONObject;
+
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.contact.Organization;
@@ -87,7 +89,14 @@ public class ContactDatabaseAccessImpl  extends ServerBase implements ContactDat
 	public HierarchyNode hierarchyOfConcepts(String topnode) {
 		HierarchyNode hierarchy = ConceptParsing.conceptHierarchy(topnode);
 		return hierarchy;
-	}
+	}	
 	
+	@Override
+	public HierarchyNode hierarchyOfConceptsWithLevelLimit(String topnode, int maxlevel) {
+		System.out.println("hierarchyOfConceptsWithLevelLimit" + topnode + ": " + maxlevel);
+		HierarchyNode hierarchy = ConceptParsing.conceptHierarchy(topnode,maxlevel);
+		System.out.println("hierarchyOfConceptsWithLevelLimit" + hierarchy);
+		return hierarchy;
+	}	
 	
 }

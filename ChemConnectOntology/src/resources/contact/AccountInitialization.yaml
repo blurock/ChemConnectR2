@@ -29,6 +29,11 @@ Administration:
             vcard:email: edward.blurock@gmail.com
             dataset:password: laguna
             foaf:UserAccountRole: SuperUser
+        skos:mappingRelation:
+          link1:
+             qb:structure: edwardblurock
+             skos:related: ConceptLinkUserInformation
+             skos:Concept: DataTypeUserInformation
 blurock:
         dataset:ChemConnectDataStructure: dataset:UserAccount
         dc:identifier: blurock
@@ -39,6 +44,11 @@ blurock:
              vcard:email: edward.blurock@esblurock.info
              dataset:password: laguna
              foaf:UserAccountRole: SuperUser
+        skos:mappingRelation:
+          link1:
+             qb:structure: edwardblurock
+             skos:related: ConceptLinkUserInformation
+             skos:Concept: DataTypeUserInformation
 ned:
         dataset:ChemConnectDataStructure: dataset:UserAccount
         dc:identifier: ned
@@ -49,3 +59,9 @@ ned:
              vcard:email: edward.blurock@esblurock.info
              dataset:password: laguna
              foaf:UserAccountRole: Standard
+        skos:mappingRelation:
+          link1:
+             qb:structure: edwardblurock
+             skos:related: ConceptLinkUserInformation
+             skos:Concept: DataTypeUserInformation
+             
