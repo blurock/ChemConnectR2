@@ -14,6 +14,7 @@ import info.esblurock.reaction.chemconnect.core.data.concepts.AttributesOfObject
 import info.esblurock.reaction.chemconnect.core.data.rdf.KeywordRDF;
 import info.esblurock.reaction.chemconnect.core.data.rdf.SetOfKeywordRDF;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
+import info.esblurock.reaction.chemconnect.core.data.transfer.graph.SubsystemInformation;
 import info.esblurock.reaction.ontology.OntologyBase;
 
 public class ConceptParsing {
@@ -263,4 +264,10 @@ public class ConceptParsing {
 		return total.extractAttributeDescription(set);
 	}
 
+	public static SubsystemInformation getSubsystemInformation(String concept) {
+		
+		
+		
+		return null;
+	}
 }

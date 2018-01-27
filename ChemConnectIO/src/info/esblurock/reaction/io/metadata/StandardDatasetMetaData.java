@@ -25,6 +25,8 @@ public class StandardDatasetMetaData {
 	public static String descriptionDataDataS = "dc:description";
 	public static String consortiumS = "dataset:Consortium";
 	public static String parameterSetDescriptionsS = "rdf:Property";
+	public static String parameterObjectLinkS = "skos:mappingRelation";
+	public static String parameterPurposeConceptPairS = "prov:influenced";
 	
 
 	public static String titleKeyS = "dcterms:title";
@@ -70,7 +72,7 @@ public class StandardDatasetMetaData {
 	public static String familyName = "foaf:familyName";
 	
 	public static String userClassification = "vcard:role";
-	public static String userNameID = "dataset:NameOfPersonID";
+	public static String userNameID = "foaf:name";
 	
 	public static String password = "dataset:password";
 	public static String userrole = "foaf:UserAccountRole";

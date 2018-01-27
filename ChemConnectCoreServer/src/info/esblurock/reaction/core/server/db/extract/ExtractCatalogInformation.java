@@ -21,7 +21,8 @@ import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 public class ExtractCatalogInformation {
 
 	public static DatasetInformationFromOntology extract(String identifier, String dataElementName) throws IOException {
-		DataElementInformation dataelement = new DataElementInformation(dataElementName, null, true, 0, null, null,null);
+		DataElementInformation dataelement = new DataElementInformation(dataElementName, null, true, 0, null, null,
+				null);
 		ClassificationInformation classify = DatasetOntologyParsing.getIdentificationInformation(null, dataelement);
 		List<DataElementInformation> substructures = DatasetOntologyParsing.subElementsOfStructure(dataElementName);
 		InterpretData interpret = InterpretData.valueOf(classify.getDataType());
@@ -47,41 +48,47 @@ public class ExtractCatalogInformation {
 			ChemConnectCompoundDataStructure subelements, DatabaseObject object) throws IOException {
 		InterpretData interpret = InterpretData.valueOf(clsinfo.getDataType());
 		Map<String, Object> map = interpret.createYamlFromObject(object);
-		System.out.println("extractRecordElementsFromStructure: " + clsinfo.getIdName() 
-			+ "(" + clsinfo.getIdName() + "): " + clsinfo.getDataType());
+		System.out.println("extractRecordElementsFromStructure: " + clsinfo.getIdName() + "(" + clsinfo.getIdName()
+				+ "): " + clsinfo.getDataType());
 		System.out.println("extractRecordElementsFromStructure: map: " + map);
 		ElementsOfASetOfMainStructure structure = new ElementsOfASetOfMainStructure(clsinfo.getIdName(),
-				clsinfo.getIdentifier(), 
-				clsinfo.getDataType());
+				clsinfo.getIdentifier(), clsinfo.getDataType());
 		for (DataElementInformation element : subelements) {
 			System.out.println("extractRecordElementsFromStructure: Element: " + element.toString());
 			if (element.isID()) {
 				String link = element.getLink();
 				if (link.compareTo("dcat:record") == 0) {
-					DataElementInformation subelement = DatasetOntologyParsing.getSubElementStructureFromIDObject(element.getDataElementName());
+					DataElementInformation subelement = DatasetOntologyParsing
+							.getSubElementStructureFromIDObject(element.getDataElementName());
 					System.out.println("extractRecordElementsFromStructure: ID: " + subelement.toString());
-					ClassificationInformation subclassify = DatasetOntologyParsing.getIdentificationInformation(subelement.getDataElementName());
+					ClassificationInformation subclassify = DatasetOntologyParsing
+							.getIdentificationInformation(subelement.getDataElementName());
 					System.out.println("extractRecordElementsFromStructure: ID: " + subclassify.toString());
 					String identifier = (String) map.get(element.getIdentifier());
 					System.out.println("extractRecordElementsFromStructure: Identifier: " + identifier);
 					String dataElementName = subclassify.getDataType();
 					System.out.println("extractRecordElementsFromStructure: dataElementName: " + dataElementName);
 					InterpretData subinterpret = InterpretData.valueOf(dataElementName);
-					System.out.println("extractRecordElementsFromStructure: dataElementName: " + subinterpret.canonicalClassName());
+					System.out.println("extractRecordElementsFromStructure: dataElementName: "
+							+ subinterpret.canonicalClassName());
 					DatabaseObject obj = subinterpret.readElementFromDatabase(identifier);
-					System.out.println("extractRecordElementsFromStructure: dataElementName: " + obj.getClass().getCanonicalName());
+					System.out.println("extractRecordElementsFromStructure: dataElementName: "
+							+ obj.getClass().getCanonicalName());
 					System.out.println("extractRecordElementsFromStructure: dcat:record " + subelement.getIdentifier());
-					System.out.println("extractRecordElementsFromStructure: dcat:record " + obj.getClass().getCanonicalName());
+					System.out.println(
+							"extractRecordElementsFromStructure: dcat:record " + obj.getClass().getCanonicalName());
 					Map<String, Object> submap = subinterpret.createYamlFromObject(obj);
-					CompoundDataStructureInformation substructures = extractCompoundDataStructure(obj, submap, subelement);
-					System.out.println("extractRecordElementsFromStructure: Substructures " + substructures);					
+					CompoundDataStructureInformation substructures = extractCompoundDataStructure(obj, submap,
+							subelement);
+					System.out.println("extractRecordElementsFromStructure: Substructures " + substructures);
 					structure.addCompoundStructure(substructures);
 				} else {
-					System.out.println("extractRecordElementsFromStructure: link:" );
+					System.out.println("extractRecordElementsFromStructure: link:");
 				}
 			}
 		}
-		RecordInformation record = new RecordInformation(object, clsinfo.getDataType(), object.getIdentifier(), structure);
+		RecordInformation record = new RecordInformation(object, clsinfo.getDataType(), object.getIdentifier(),
+				structure);
 		return record;
 	}
 
@@ -90,20 +97,21 @@ public class ExtractCatalogInformation {
 	 * collected
 	 * 
 	 */
-	private static CompoundDataStructureInformation extractCompoundDataStructure(DatabaseObject obj, Map<String, Object> map,
-			DataElementInformation element) throws IOException {
+	private static CompoundDataStructureInformation extractCompoundDataStructure(DatabaseObject obj,
+			Map<String, Object> map, DataElementInformation element) throws IOException {
 		ChemConnectCompoundDataStructure primitives = DatasetOntologyParsing
 				.subElementsOfStructure(element.getDataElementName());
-		CompoundDataStructureInformation compound = new CompoundDataStructureInformation(element.getChemconnectStructure(),element.getDataElementName());
+		CompoundDataStructureInformation compound = new CompoundDataStructureInformation(
+				element.getChemconnectStructure(), element.getDataElementName());
 		for (DataElementInformation primitive : primitives) {
 			String primitivetype = DatasetOntologyParsing.getPrimitiveStructureType(primitive.getDataElementName());
 			String primitiveclass = DatasetOntologyParsing.getPrimitiveStructureClass(primitivetype);
 			String identifier = primitive.getIdentifier();
 			String value = (String) map.get(primitive.getIdentifier());
-			System.out.println("extractCompoundDataStructure:   " + primitivetype + ", " + primitiveclass + ", " + identifier + ", " + value);
+			System.out.println("extractCompoundDataStructure:   " + primitivetype + ", " + primitiveclass + ", "
+					+ identifier + ", " + value);
 			if (primitiveclass.compareTo("dataset:ChemConnectPrimitiveDataStructure") == 0
-					||
-					primitivetype.compareTo("dataset:ChemConnectPrimitiveDataStructure") == 0) {
+					|| primitivetype.compareTo("dataset:ChemConnectPrimitiveDataStructure") == 0) {
 				System.out.println("dataset:ChemConnectPrimitiveDataStructure");
 				if (primitive.isSinglet()) {
 					StringTokenizer tok = new StringTokenizer(value, ",");
@@ -118,14 +126,13 @@ public class ExtractCatalogInformation {
 							primitivetype, identifier, value);
 					compound.addPrimitive(primitivedata);
 				}
-			} else if(primitiveclass.compareTo("dataset:ChemConnectPrimitiveCompound") == 0
-					||
-					primitivetype.compareTo("dataset:ChemConnectPrimitiveCompound") == 0) {
+			} else if (primitiveclass.compareTo("dataset:ChemConnectPrimitiveCompound") == 0
+					|| primitivetype.compareTo("dataset:ChemConnectPrimitiveCompound") == 0) {
 				System.out.println("ChemConnectPrimitiveCompound");
 				InterpretData subinterpret = InterpretData.valueOf(primitivetype);
 				DatabaseObject subobj = subinterpret.readElementFromDatabase(identifier);
 				Map<String, Object> submap = subinterpret.createYamlFromObject(subobj);
-				CompoundDataStructureInformation subcompound = extractCompoundDataStructure(subobj,submap,primitive);
+				CompoundDataStructureInformation subcompound = extractCompoundDataStructure(subobj, submap, primitive);
 				compound.addCompound(subcompound);
 			}
 		}

@@ -12,6 +12,7 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInfo
 import info.esblurock.reaction.chemconnect.core.data.transfer.DatasetInformationFromOntology;
 import info.esblurock.reaction.chemconnect.core.data.transfer.RecordInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
+import info.esblurock.reaction.chemconnect.core.data.transfer.graph.TotalSubsystemInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
 
 
@@ -43,5 +44,7 @@ public interface ContactDatabaseAccessAsync {
 			AsyncCallback<SetOfKeywordRDF> callback);
 
 	void hierarchyOfConceptsWithLevelLimit(String topnode, int maxlevel, AsyncCallback<HierarchyNode> callback);
+
+	void buildSubSystem(String concept, AsyncCallback<TotalSubsystemInformation> callback);
 
 }

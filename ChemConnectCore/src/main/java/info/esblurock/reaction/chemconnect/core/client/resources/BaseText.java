@@ -61,6 +61,15 @@ public interface BaseText extends com.google.gwt.i18n.client.Constants {
   String close();
 
   /**
+   * Translated "Define Devices and Subsystems".
+   * 
+   * @return translated "Define Devices and Subsystems"
+   */
+  @DefaultStringValue("Define Devices and Subsystems")
+  @Key("devicedefinition")
+  String devicedefinition();
+
+  /**
    * Translated "Explore Data Structures".
    * 
    * @return translated "Explore Data Structures"

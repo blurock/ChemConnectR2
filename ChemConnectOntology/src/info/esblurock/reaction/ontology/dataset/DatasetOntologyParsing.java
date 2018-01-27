@@ -363,7 +363,7 @@ dataset:ChemConnectPrimitiveDataStructure:
 				+ "   " + structure + " <http://purl.org/dc/terms/references> ?type .\n"
 				+ "	?type <http://purl.org/dc/terms/identifier> ?id .\n" 
 				+ "	?type rdfs:subClassOf ?super .\n"
-				+ " ?type <http://www.w3.org/2004/02/skos/core#altLabel> ?altl \n"
+				+ " ?type <http://www.w3.org/2004/02/skos/core#altLabel> ?altl .\n"
 				+ "	?super rdfs:subClassOf dcat:Dataset\n" 
 				+ "  }";
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);

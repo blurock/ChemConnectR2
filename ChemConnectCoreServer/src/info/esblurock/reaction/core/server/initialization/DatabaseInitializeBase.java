@@ -53,6 +53,7 @@ public class DatabaseInitializeBase {
 		YamlReader reader = new YamlReader(targetReader);
 		Map map;
 		try {
+			System.out.println("readInitializationYamlFile: ");
 			Object object = reader.read();
 			map = (Map) object;
 			String interpreterS = (String) map.get(fileInterpreterClassS);

@@ -25,26 +25,38 @@ public class WriteDatabaseObjectRDF {
 		for (DataElementInformation info : lst) {
 			DataElementInformation subelement = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(info.getDataElementName());
-			String value = (String) map.get(info.getIdentifier());
-			if (info.isID()) {
-				if(info.isSinglet()) {
-					store.storeStringTypeInfoRDF(info.getIdentifier(), value, info.getDataElementName());
-				} else {
-					HashSet<String> keywords = interpret.parseKeywords(value);
-					for (String name : keywords) {
-						store.storeStringTypeInfoRDF(info.getIdentifier(), name, info.getDataElementName());
+			//System.out.println("writeRDF: " + info.getIdentifier());
+			//System.out.println("writeRDF: " + map.get(info.getIdentifier().toString()));
+			//System.out.println("writeRDF: " + map.keySet());
+			Object valueobj = map.get(info.getIdentifier());
+			if (valueobj != null) {
+				if (valueobj.getClass().getSimpleName().compareTo(String.class.getSimpleName()) == 0) {
+
+					String value = (String) valueobj;
+					//System.out.println("writeRDF: " + value);
+					if (info.isID()) {
+						if (info.isSinglet()) {
+							store.storeStringTypeInfoRDF(info.getIdentifier(), value, info.getDataElementName());
+						} else {
+							HashSet<String> keywords = interpret.parseKeywords(value);
+							for (String name : keywords) {
+								store.storeStringTypeInfoRDF(info.getIdentifier(), name, info.getDataElementName());
+							}
+						}
+
+					} else if (info.isKeywords()) {
+						HashSet<String> keywords = interpret.parseKeywords(value);
+						for (String name : keywords) {
+							store.storeStringRDF(info.getIdentifier(), name);
+						}
+					} else if (subelement != null) {
+						store.storeStringRDF(subelement.getIdentifier(), value);
+					} else {
+						store.storeStringRDF(info.getIdentifier(), value);
 					}
+				} else {
+					System.out.println("writeRDF  not stored: " + valueobj.toString());
 				}
-				
-			} else if (info.isKeywords()) {
-				HashSet<String> keywords = interpret.parseKeywords(value);
-				for (String name : keywords) {
-					store.storeStringRDF(info.getIdentifier(), name);
-				}
-			} else if (subelement != null) {
-				store.storeStringRDF(subelement.getIdentifier(), value);
-			} else {
-				store.storeStringRDF(info.getIdentifier(), value);
 			}
 		}
 	}

@@ -100,14 +100,13 @@ public enum InterpretData {
 			Object yamlobj = yaml.get(StandardDatasetMetaData.dataSetReferenceS);
 			System.out.println("ChemConnectDataStructure: " + yamlobj);
 					
-			
+			String descriptionDataDataS = (String) yaml.get(StandardDatasetMetaData.descriptionDataDataS);			
 			HashSet<String> dataSetReferenceS = interpretMultipleYaml(StandardDatasetMetaData.dataSetReferenceS,yaml);
-			System.out.println("ChemConnectDataStructure: " + dataSetReferenceS);
+			HashSet<String> dataPurposeConceptPairS = interpretMultipleYaml(StandardDatasetMetaData.parameterPurposeConceptPairS,yaml);
+			HashSet<String> dataObjectLinkS = interpretMultipleYaml(StandardDatasetMetaData.parameterObjectLinkS,yaml);
 			
-			String descriptionDataDataS = (String) yaml.get(StandardDatasetMetaData.descriptionDataDataS);
-			HashSet<String> consortiumS = interpretMultipleYaml(StandardDatasetMetaData.consortiumS,yaml);
 
-			datastructure = new ChemConnectDataStructure(objdata, dataSetReferenceS, descriptionDataDataS, consortiumS);
+			datastructure = new ChemConnectDataStructure(objdata, descriptionDataDataS, dataSetReferenceS,dataObjectLinkS,dataPurposeConceptPairS);
 			
 			
 			return datastructure;
@@ -120,9 +119,10 @@ public enum InterpretData {
 			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
-			putMultipleInYaml(StandardDatasetMetaData.dataSetReferenceS, map,datastructure.getDataSetReferenceID());
-			map.put(StandardDatasetMetaData.descriptionDataDataS, datastructure.getDescriptionDataDataID());
-			putMultipleInYaml(StandardDatasetMetaData.consortiumS, map,datastructure.getConsortiumID());
+			map.put(StandardDatasetMetaData.descriptionDataDataS, datastructure.getDescriptionDataData());
+			putMultipleInYaml(StandardDatasetMetaData.dataSetReferenceS, map,datastructure.getDataSetReference());
+			putMultipleInYaml(StandardDatasetMetaData.parameterObjectLinkS, map,datastructure.getChemConnectObjectLink());
+			putMultipleInYaml(StandardDatasetMetaData.parameterPurposeConceptPairS, map,datastructure.getChemConnectPurpose());
 
 			return map;
 		}

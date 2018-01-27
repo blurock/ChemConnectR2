@@ -6,11 +6,14 @@ import info.esblurock.reaction.chemconnect.core.data.base.ResetDatabaseObjects;
 
 public class RegisterDescriptionData {
 	public static void register() {
+		
 		ObjectifyService.register(DataSetReference.class);
+		ObjectifyService.register(ChemConnectParameterDescription.class);
 		ObjectifyService.register(DescriptionDataData.class);
 	}
 	public static void reset() {
 		ResetDatabaseObjects.resetClass(DataSetReference.class);
+		ResetDatabaseObjects.resetClass(ChemConnectParameterDescription.class);
 		ResetDatabaseObjects.resetClass(DescriptionDataData.class);
 	}
 }

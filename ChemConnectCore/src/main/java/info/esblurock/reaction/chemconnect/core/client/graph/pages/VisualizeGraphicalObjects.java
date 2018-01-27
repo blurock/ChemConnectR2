@@ -3,7 +3,6 @@ package info.esblurock.reaction.chemconnect.core.client.graph.pages;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -15,7 +14,6 @@ import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.chemconnect.core.client.graph.hierarchy.HorizontalHierarchyCallback;
 import info.esblurock.reaction.chemconnect.core.client.graph.hierarchy.HorizontalHierarchyPanel;
 import info.esblurock.reaction.chemconnect.core.client.graph.rdf.ForceGraphPanel;
-import info.esblurock.reaction.chemconnect.core.client.graph.rdf.HierarchialConceptSelection;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
@@ -28,19 +26,6 @@ public class VisualizeGraphicalObjects extends Composite implements HasText {
 	}
 
 	
-	
-/*
-	@UiField
-	MaterialLink deviceConcepts;
-	@UiField
-	MaterialLink subsystemConcepts;
-	@UiField
-	MaterialLink componentConcepts;
-	@UiField
-	MaterialLink methodologyConcepts;
-	@UiField
-	MaterialLink parameterConcepts;
-	*/
 	@UiField
 	MaterialPanel parameters;
 	@UiField
@@ -108,41 +93,11 @@ public class VisualizeGraphicalObjects extends Composite implements HasText {
 		}
 		}
 	}
-	/*
-	@UiHandler("deviceConcepts")
-	void deviceConcepts(ClickEvent event) {
-		async("dataset:DataTypeDevice");
-		
-	}
-	@UiHandler("subsystemConcepts")
-	void subsystemConcepts(ClickEvent event) {
-		async("dataset:DataTypeSystem");
-	}
-	@UiHandler("componentConcepts")
-	void componentConcepts(ClickEvent event) {
-		async("dataset:DataTypeComponent");
-	}
-	@UiHandler("methodologyConcepts")
-	void methodologyConcepts(ClickEvent event) {
-		async("dataset:DataTypeMethodology");
-	}
-	@UiHandler("parameterConcepts")
-	void parameterConcepts(ClickEvent event) {
-		async("dataset:ChemConnectParameter");
-	}
-*/
+
 	public void setText(String text) {
 	}
 
 	public String getText() {
 		return "Graphical";
 	}
-
-	public void addHierarchialModal(HierarchyNode hierarchy) {
-		modalpanel.clear();
-		HierarchialConceptSelection selection = new HierarchialConceptSelection(hierarchy,this);
-		modalpanel.add(selection);
-		selection.open();
-	}
-
 }

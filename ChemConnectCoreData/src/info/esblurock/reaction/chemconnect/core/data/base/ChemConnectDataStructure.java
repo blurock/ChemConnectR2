@@ -9,65 +9,78 @@ import com.googlecode.objectify.annotation.Index;
 @Entity
 public class ChemConnectDataStructure extends DatabaseObject {
 	@Index
-	HashSet<String> dataSetReferenceID;
+	HashSet<String> dataSetReference;
 	@Index
-	String descriptionDataDataID;
+	String descriptionDataData;
 	@Index
-	HashSet<String> consortiumID;
+	HashSet<String> ChemConnectObjectLink;
+	@Index
+	HashSet<String> ChemConnectPurpose;
 	
 	public ChemConnectDataStructure() {
 		super();
-		this.dataSetReferenceID = new HashSet<String>();
-		this.descriptionDataDataID = "";
-		this.consortiumID = new HashSet<String>();
+		this.descriptionDataData = "";
+		this.dataSetReference = new HashSet<String>();
+		this.ChemConnectObjectLink = new HashSet<String>();
+		this.ChemConnectPurpose = new HashSet<String>();
 	}
 	public ChemConnectDataStructure(ChemConnectDataStructure datastructure) {
 		super(datastructure.getIdentifier(),datastructure.getAccess(),datastructure.getOwner(),datastructure.getSourceID());
-		this.dataSetReferenceID = datastructure.dataSetReferenceID;
-		this.descriptionDataDataID = datastructure.getDescriptionDataDataID();
-		this.consortiumID = datastructure.getConsortiumID();
+		this.dataSetReference = datastructure.getDataSetReference();
+		this.descriptionDataData = datastructure.getDescriptionDataData();
+		this.ChemConnectObjectLink = datastructure.getChemConnectObjectLink();
+		this.ChemConnectPurpose = datastructure.getChemConnectPurpose();
 	}
 
 	public ChemConnectDataStructure(String identifier, String sourceID) {
 		super(identifier,sourceID);
-		this.dataSetReferenceID = new HashSet<String>();
-		this.descriptionDataDataID = "";
-		this.consortiumID = new HashSet<String>();
+		this.descriptionDataData = "";
+		this.dataSetReference = new HashSet<String>();
+		this.ChemConnectObjectLink = new HashSet<String>();
+		this.ChemConnectPurpose = new HashSet<String>();
 	}
 
 	public ChemConnectDataStructure(DatabaseObject obj,
-			HashSet<String> dataSetReferenceID, String descriptionDataDataID, HashSet<String> consortiumID) {
+			String descriptionDataData, HashSet<String> dataSetReference, 
+			HashSet<String> ChemConnectObjectLink, HashSet<String> ChemConnectPurpose) {
 		super(obj);
-		this.dataSetReferenceID = dataSetReferenceID;
-		this.descriptionDataDataID = descriptionDataDataID;
-		this.consortiumID = consortiumID;
+		this.descriptionDataData = descriptionDataData;
+		this.dataSetReference = dataSetReference;
+		this.ChemConnectObjectLink = ChemConnectObjectLink;
+		this.ChemConnectPurpose = ChemConnectPurpose;
 	}
 	
 	public ChemConnectDataStructure(String identifier, String access, String owner, String sourceID,
-			HashSet<String> dataSetReference, String descriptionDataData, HashSet<String> consortium) {
+			String descriptionDataData, HashSet<String> dataSetReference, 
+			HashSet<String> ChemConnectObjectLink, HashSet<String> ChemConnectPurpose) {
 		super(identifier, access, owner,sourceID);
-		this.dataSetReferenceID = dataSetReference;
-		this.descriptionDataDataID = descriptionDataData;
-		this.consortiumID = consortium;
+		this.descriptionDataData = descriptionDataData;
+		this.dataSetReference = dataSetReference;
+		this.ChemConnectObjectLink = ChemConnectObjectLink;
+		this.ChemConnectPurpose = ChemConnectPurpose;
 	}
 
 	public void fill(ChemConnectDataStructure datastructure) {
 		super.fill(datastructure.getIdentifier(), datastructure.getAccess(),
 				datastructure.getOwner(), datastructure.getSourceID());
-		this.dataSetReferenceID = datastructure.getDataSetReferenceID();
-		this.descriptionDataDataID = datastructure.getDescriptionDataDataID();
-		this.consortiumID = datastructure.getConsortiumID();
+		this.dataSetReference = datastructure.getDataSetReference();
+		this.descriptionDataData = datastructure.getDescriptionDataData();
+		this.ChemConnectObjectLink = datastructure.getChemConnectObjectLink();
+		this.ChemConnectPurpose = datastructure.getChemConnectPurpose();
 	}
-	public HashSet<String> getDataSetReferenceID() {
-		return dataSetReferenceID;
-	}
-
-	public String getDescriptionDataDataID() {
-		return descriptionDataDataID;
+	public HashSet<String> getDataSetReference() {
+		return dataSetReference;
 	}
 
-	public HashSet<String> getConsortiumID() {
-		return consortiumID;
+	public String getDescriptionDataData() {
+		return descriptionDataData;
+	}
+
+	public HashSet<String> getChemConnectObjectLink() {
+		return ChemConnectObjectLink;
+	}
+	public HashSet<String> getChemConnectPurpose() {
+		return ChemConnectPurpose;
 	}
 	@Override
 	public String toString() {
@@ -78,12 +91,15 @@ public class ChemConnectDataStructure extends DatabaseObject {
 		StringBuilder builder = new StringBuilder();
 		builder.append(super.toString(prefix));
 		builder.append(prefix);
-		builder.append("Reference: ");
-		builder.append(dataSetReferenceID);
-		builder.append(", Descr: ");
-		builder.append(descriptionDataDataID);
-		builder.append(", Consortium: ");
-		builder.append(consortiumID);
+		builder.append("Descr: ");
+		builder.append(descriptionDataData);
+		builder.append(", Reference: ");
+		builder.append(dataSetReference);
+		builder.append("\n");
+		builder.append(prefix + " ObjectLink: ");
+		builder.append(ChemConnectObjectLink);
+		builder.append(", Purpose: ");
+		builder.append(ChemConnectPurpose);
 		builder.append("\n");
 		return builder.toString();
 	}

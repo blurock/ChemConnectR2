@@ -1,3 +1,4 @@
+interpreter: info.esblurock.reaction.core.server.initialization.InitializeCatalogDataStructuresYaml
 ChemConnectConsortium:
         dataset:ChemConnectDataStructure: dataset:Consortium
         dc:identifier: ChemConnectConsortium

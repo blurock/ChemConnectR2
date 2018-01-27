@@ -1,7 +1,6 @@
 package info.esblurock.reaction.chemconnect.core.client.graph.hierarchy;
 
 import com.google.gwt.json.client.JSONObject;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.json.client.JSONObject;
 
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
@@ -19,10 +18,12 @@ import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.services.util.DatabaseObjectUtilities;
 import info.esblurock.reaction.io.dataset.InterpretData;
 import info.esblurock.reaction.io.db.QueryBase;
+import info.esblurock.reaction.ontology.BuildSubsystemInformation;
 import info.esblurock.reaction.ontology.dataset.ConceptParsing;
 import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 import info.esblurock.reaction.chemconnect.core.data.transfer.RecordInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
+import info.esblurock.reaction.chemconnect.core.data.transfer.graph.TotalSubsystemInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
 
 @SuppressWarnings("serial")
@@ -98,5 +99,9 @@ public class ContactDatabaseAccessImpl  extends ServerBase implements ContactDat
 		System.out.println("hierarchyOfConceptsWithLevelLimit" + hierarchy);
 		return hierarchy;
 	}	
-	
+
+	public TotalSubsystemInformation buildSubSystem(String concept) {
+		BuildSubsystemInformation build = new BuildSubsystemInformation(concept);
+		return build.SubsystemInformation();
+	}
 }

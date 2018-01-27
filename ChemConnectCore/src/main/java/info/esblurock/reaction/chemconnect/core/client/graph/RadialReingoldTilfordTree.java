@@ -14,7 +14,6 @@ import com.github.gwtd3.api.layout.SeparationFunction;
 import com.github.gwtd3.api.layout.Tree;
 import com.github.gwtd3.api.svg.Diagonal;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsonUtils;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.http.client.Request;

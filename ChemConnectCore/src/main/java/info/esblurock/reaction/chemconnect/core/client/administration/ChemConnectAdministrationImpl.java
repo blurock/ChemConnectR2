@@ -21,8 +21,6 @@ import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTitle;
 import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.chemconnect.core.client.InitializationCallback;
-import info.esblurock.reaction.chemconnect.core.client.graph.RadialReingoldTilfordTree;
-import info.esblurock.reaction.chemconnect.core.client.graph.hierarchy.HorizontalHierarchy;
 import info.esblurock.reaction.chemconnect.core.client.pages.DataStructurePages;
 import info.esblurock.reaction.chemconnect.core.client.resources.BaseText;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.ChemConnectAdministrationView;
@@ -47,6 +45,8 @@ public class ChemConnectAdministrationImpl extends Composite implements ChemConn
 	MaterialNavBrand navtitle;
 	@UiField
 	MaterialLink interconnect;
+	@UiField
+	MaterialLink devicedeclaration;
 	@UiField
 	MaterialLink explore;
 	@UiField
@@ -80,8 +80,10 @@ public class ChemConnectAdministrationImpl extends Composite implements ChemConn
 	}
 
 	private void  init() {
+		
 		navtitle.setText(basetext.administrationpage());
-		interconnect.setText("Explore");
+		interconnect.setIconType(IconType.DEVICE_HUB);
+		interconnect.setText("Concept Hierarchy");
 		cleardb.setText(basetext.cleardatabase());
 		cleardb.setIconType(IconType.AUTORENEW);
 		readinit.setText(basetext.readinitailize());
@@ -92,11 +94,14 @@ public class ChemConnectAdministrationImpl extends Composite implements ChemConn
 		organizations.setIconType(IconType.PLACE);
 		explore.setText(basetext.explore());
 		explore.setIconType(IconType.EXPLORE);
+		devicedeclaration.setText(basetext.devicedefinition());
+		devicedeclaration.setIconType(IconType.BUILD);
 		okmodal.setBackgroundColor(Color.BLUE_GREY_DARKEN_1);
-		//footer.setBackgroundColor(Color.BLUE_GREY);
+		footer.setBackgroundColor(Color.BLUE_GREY);
 		footer.setTextColor(Color.BLACK);
 		ok.setText("OK");
 		close.setIconType(IconType.CLOSE);
+		
 		/*
 		SampleForcedGraph sample = new SampleForcedGraph(this);
 		GraphNodesWithForces graphDS = new GraphNodesWithForces(sample);
@@ -143,11 +148,18 @@ public class ChemConnectAdministrationImpl extends Composite implements ChemConn
 	public void onExplore(ClickEvent event) {
 		handleHistoryToken("DataStructures");
 	}
+	
 	@UiHandler("interconnect")
 	public void onInterconnect(ClickEvent event) {
 		handleHistoryToken("GraphicalStructures");
 	}
+	
+	@UiHandler("devicedeclaration")
+	public void onDevicedDclaration(ClickEvent event) {
+		handleHistoryToken("DeviceDefinition");
+	}
 
+	
 	@UiHandler("cleardb")
 		public void onClearDB(ClickEvent event) {
 		title.setTitle(basetext.cleardatabase());
@@ -211,6 +223,7 @@ public class ChemConnectAdministrationImpl extends Composite implements ChemConn
 			MaterialToast.fireToast(info.toString());
 		}
 	}
+	
 	private void handleHistoryToken(String token) {
 		DataStructurePages page = DataStructurePages.DataStructures;
 		pagetitle.setText(page.getTitle());

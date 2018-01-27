@@ -3,7 +3,6 @@ package info.esblurock.reaction.chemconnect.core.client.graph.hierarchy;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONString;
-import com.google.gwt.user.client.Window;
 
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 

@@ -15,6 +15,7 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInfo
 import info.esblurock.reaction.chemconnect.core.data.transfer.DatasetInformationFromOntology;
 import info.esblurock.reaction.chemconnect.core.data.transfer.RecordInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
+import info.esblurock.reaction.chemconnect.core.data.transfer.graph.TotalSubsystemInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
 
 @RemoteServiceRelativePath("contactservice")
@@ -45,4 +46,5 @@ public interface ContactDatabaseAccess extends RemoteService {
 	SetOfKeywordRDF subsystemInterconnections(String topnode, String access, String owner, String sourceID);
 	HierarchyNode hierarchyOfConcepts(String topnode);
 	HierarchyNode hierarchyOfConceptsWithLevelLimit(String topnode, int maxlevel);
+	TotalSubsystemInformation buildSubSystem(String concept);
 }

@@ -29,6 +29,10 @@ import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 
 public class ReadYamlDataset {
 
+	static String hashMapCanonicalName = HashMap.class.getCanonicalName();
+	static String stringCanonicalName = String.class.getCanonicalName();
+	static String arraylistCanonicalName = ArrayList.class.getCanonicalName();
+
 	/*
 	 * Top routine to read a Yaml file
 	 * 
@@ -115,52 +119,196 @@ public class ReadYamlDataset {
 		}
 
 		DatabaseObjectHierarchy objecthierarchy = new DatabaseObjectHierarchy();
-
+		extractTopStructure(objecthierarchy,chemconnect,top,structuremap);
 		ChemConnectDataStructureObject structure = new ChemConnectDataStructureObject(chemconnect, objecthierarchy);
-		ArrayList<DataElementInformation> records = chemconnect.getRecords();
-		MapToChemConnectCompoundDataStructure mapping = chemconnect.getMapping();
-		for (DataElementInformation record : records) {
-
-			DatabaseObject obj = extractDataElementInformation(record, top, mapping, structuremap, objecthierarchy,
-					sourceID);
-					
-		}
-		String structuretype = DatasetOntologyParsing.getStructureFromDataStructure(elementStructure);
-		InterpretData interpret = InterpretData.valueOf(structuretype);
-		DatabaseObject mainobject = interpret.fillFromYamlString(top, structuremap, sourceID);
-		objecthierarchy.setObject(mainobject);
-		System.out.println("------   ObjectHierarchy -----");
-		System.out.println(objecthierarchy);
 		return structure;
 	}
-/*
- * 
- */
+
+	public static void extractTopStructure(DatabaseObjectHierarchy objecthierarchy,
+			ChemConnectDataStructure chemconnect,
+			DatabaseObject top,
+			Map<String, Object> structuremap) throws IOException {
+		System.out.println("extractTopStructure: " + structuremap.keySet());
+		System.out.println("extractTopStructure: " + chemconnect);
+		
+		ArrayList<DataElementInformation> records = chemconnect.getRecords();
+		records.addAll(chemconnect.getOther());
+		for (DataElementInformation record : records) {
+			if (record.isSinglet()) {
+				extractSingleStructure(record, top, structuremap, objecthierarchy);
+			} else {
+				extractMultipleStructure(record, top, structuremap, objecthierarchy);
+			}
+		}
+		ClassificationInformation classinfo = chemconnect.getClassification();
+		String structuretype = classinfo.getDataType();
+		System.out.println("extractTopStructure    Type: " + structuretype);
+		
+		InterpretData interpret = InterpretData.valueOf(structuretype);
+		DatabaseObject obj = interpret.fillFromYamlString(top,structuremap,top.getSourceID());
+		objecthierarchy.setObject(obj);
+	}
+	
+	
+	public static void extractSingleStructure(DataElementInformation record, DatabaseObject top,
+			Map<String, Object> structuremap, DatabaseObjectHierarchy objecthierarchy) throws IOException {
+		String primitive = DatasetOntologyParsing.isChemConnectPrimitiveDataStructure(record.getDataElementName());
+		if (primitive == null) {
+			extractSingleCompoundObject(record, top, structuremap, objecthierarchy);
+		} else {
+			extractSinglePrimitiveObject(record, top, structuremap, objecthierarchy);
+		}
+	}
+
+	public static void extractMultipleStructure(DataElementInformation record, DatabaseObject top,
+			Map<String, Object> structuremap, DatabaseObjectHierarchy objecthierarchy) throws IOException {
+		String primitive = DatasetOntologyParsing.isChemConnectPrimitiveDataStructure(record.getDataElementName());
+		if (primitive == null) {
+			extractMultipleCompoundObject(record, top, structuremap, objecthierarchy);
+		} else {
+			extractMultiplePrimitiveObject(record, top, structuremap, objecthierarchy);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public static void extractSingleCompoundObject(DataElementInformation record, DatabaseObject top,
+			Map<String, Object> structuremap, DatabaseObjectHierarchy objecthierarchy) throws IOException {
+		String elementName = record.getIdentifier();
+		Object obj = structuremap.get(elementName);
+		if (obj != null) {
+			if (obj.getClass().getCanonicalName().compareTo(hashMapCanonicalName) == 0) {
+				Map<String,Object> map = (Map<String,Object>) obj;
+				String id = record.getDataElementName();
+				ChemConnectDataStructure chemconnect = DatasetOntologyParsing.getChemConnectDataStructure(id);
+				DatabaseObject subobj = new DatabaseObject(top);
+				subobj.setIdentifier(top.getIdentifier() + "-" + record.getSuffix());
+				DatabaseObjectHierarchy subhierarchy = new DatabaseObjectHierarchy(subobj);
+				objecthierarchy.addSubobject(subhierarchy);
+				extractTopStructure(subhierarchy,chemconnect,subobj,map);
+				structuremap.put(elementName, subobj.getIdentifier());
+			} else {
+				System.out.println("UnexpectedType: " + obj.getClass().getCanonicalName());
+			}
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public static void extractSinglePrimitiveObject(DataElementInformation record, DatabaseObject top,
+			Map<String, Object> structuremap, DatabaseObjectHierarchy objecthierarchy) {
+		String elementName = record.getIdentifier();
+		Object obj = structuremap.get(elementName);
+		if (obj != null) {
+			if (obj.getClass().getCanonicalName().compareTo(hashMapCanonicalName) == 0) {
+				Map<String,Object> map = (Map<String,Object>) obj;
+				String primitive = DatasetOntologyParsing.isChemConnectPrimitiveDataStructure(record.getDataElementName());
+				System.out.println("extractSinglePrimitiveObject" + primitive);
+				System.out
+						.println("extractSinglePrimitiveObject: " + elementName + ": " + map.get(elementName));
+				System.out.println(structuremap.get(elementName).getClass().getCanonicalName());
+			} else if (obj.getClass().getCanonicalName().compareTo(stringCanonicalName) == 0) {
+				System.out.println("Primitive: " + obj.toString());
+			} else {
+				System.out.println("UnexpectedType: " + obj.getClass().getCanonicalName());
+			}
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public static void extractMultipleCompoundObject(DataElementInformation record, DatabaseObject top,
+			Map<String, Object> structuremap, DatabaseObjectHierarchy objecthierarchy) throws IOException {
+		String elementName = record.getIdentifier();
+		Object obj = structuremap.get(elementName);
+		if (obj != null) {
+			if (obj.getClass().getCanonicalName().compareTo(hashMapCanonicalName) == 0) {
+				Map<String,Object> map = (Map<String,Object>) obj;
+				System.out.println(
+						"extractMultipleCompoundObject: " + elementName + ": " + map);
+				Set<String> keys = map.keySet();
+				ArrayList<String> ids = new ArrayList<String>();
+				for(String key : keys) {
+					Map<String, Object> submap = (Map<String, Object>) map.get(key);
+					DatabaseObject subobj = new DatabaseObject(top);
+					subobj.setIdentifier(top.getIdentifier() + "-" + record.getSuffix() + "-" + key);
+					DatabaseObjectHierarchy subobjecthierarchy = new DatabaseObjectHierarchy(subobj);
+					objecthierarchy.addSubobject(subobjecthierarchy);
+					String id = record.getDataElementName();
+					ChemConnectDataStructure chemconnect = DatasetOntologyParsing.getChemConnectDataStructure(id);
+					extractTopStructure(subobjecthierarchy,chemconnect,subobj,submap);
+					ids.add(subobj.getIdentifier());
+				}
+				structuremap.put(elementName, ids);
+			} else if (obj.getClass().getCanonicalName().compareTo(arraylistCanonicalName) == 0) {
+				
+			} else {
+				System.out.println("UnexpectedType: " + obj.getClass().getCanonicalName());
+			}
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public static void extractMultiplePrimitiveObject(DataElementInformation record, DatabaseObject top,
+			Map<String, Object> structuremap, DatabaseObjectHierarchy objecthierarchy) {
+		String elementName = record.getIdentifier();
+		Object obj = structuremap.get(elementName);
+		if (obj != null) {
+			if (obj.getClass().getCanonicalName().compareTo(hashMapCanonicalName) == 0) {
+				Map<String,Object> map = (Map<String,Object>) obj;
+				System.out.println(
+						"extractMultiplePrimitiveObject: " + elementName + ": " + map);
+				System.out.println(structuremap.get(elementName).getClass().getCanonicalName());
+			} else if (obj.getClass().getCanonicalName().compareTo(arraylistCanonicalName) == 0) {
+				ArrayList<String> lst = (ArrayList<String>) obj;
+				System.out.println(lst);
+			} else {
+				System.out.println("UnexpectedType: " + obj.getClass().getCanonicalName());
+			}
+		}
+	}
+
+	/*
+	 * 
+	 */
 	@SuppressWarnings("unchecked")
 	private static DatabaseObject extractDataElementInformation(DataElementInformation element, DatabaseObject top,
 			MapToChemConnectCompoundDataStructure mapping, Map<String, Object> yamlmap,
 			DatabaseObjectHierarchy objecthierarchy, String sourceID) throws IOException {
+
+		String primitive = DatasetOntologyParsing.isChemConnectPrimitiveDataStructure(element.getDataElementName());
+		System.out.println("extractDataElementInformation:  " + element.getIdentifier() + ",  " + primitive);
 		DatabaseObject obj = null;
-		if (DatasetOntologyParsing.isChemConnectPrimitiveDataStructure(element.getDataElementName()) == null) {
+		if (primitive == null) {
 			if (element.isSinglet()) {
 				Map<String, Object> subyamlmap = (Map<String, Object>) yamlmap.get(element.getIdentifier());
+				System.out.println("extractDataElementInformation:  single         : " + yamlmap.keySet());
 				obj = compoundObjectSetup(element, top, mapping, subyamlmap, objecthierarchy, sourceID);
 				if (obj != null) {
 					yamlmap.put(element.getIdentifier(), obj.getIdentifier());
 				}
 			} else {
 				Object yamlobject = yamlmap.get(element.getIdentifier());
+				System.out.println("extractDataElementInformation:  multiple: " + yamlobject);
 				if (yamlobject != null) {
+					System.out.println("extractDataElementInformation:  " + yamlobject);
 					Map<String, Object> map = (Map<String, Object>) yamlobject;
 					Set<String> keys = map.keySet();
+					ArrayList<String> lst = new ArrayList<String>();
 					for (String key : keys) {
 						Map<String, Object> submap = (Map<String, Object>) map.get(key);
 						DatabaseObject newtop = new DatabaseObject(top);
-						String id = newtop.getIdentifier()+ "-" + key;
+						String id = newtop.getIdentifier() + "-" + key;
+						System.out.println("extractDataElementInformation:  " + id);
+						System.out.println("extractDataElementInformation:  " + submap);
 						newtop.setIdentifier(id);
 						obj = compoundObjectSetup(element, newtop, mapping, submap, objecthierarchy, sourceID);
 						submap.put(StandardDatasetMetaData.identifierKeyS, id);
+						lst.add(id);
 					}
+					System.out.println("--->" + element.getIdentifier());
+					System.out.println("--->" + element.getIdentifier());
+					yamlmap.put(element.getIdentifier(), lst);
+					obj = compoundObjectSetup(element, top, mapping, yamlmap, objecthierarchy, sourceID);
+					yamlmap.put(element.getIdentifier(), obj.getIdentifier());
+					System.out.println(">>>>>>>>\n" + element.getChemconnectStructure() + "   " + obj.toString());
 				}
 			}
 		}
@@ -190,8 +338,7 @@ public class ReadYamlDataset {
 
 		DatabaseObjectHierarchy subhierarchy = new DatabaseObjectHierarchy();
 		for (DataElementInformation record : structure) {
-			extractDataElementInformation(record, newobject, mapping, subyamlmap, subhierarchy,
-					sourceID);
+			extractDataElementInformation(record, newobject, mapping, subyamlmap, subhierarchy, sourceID);
 		}
 		DatabaseObject object = interpret.fillFromYamlString(newobject, subyamlmap, sourceID);
 		subhierarchy.setObject(object);

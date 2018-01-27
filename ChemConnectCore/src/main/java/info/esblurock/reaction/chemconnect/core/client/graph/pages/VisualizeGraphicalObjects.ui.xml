@@ -10,7 +10,7 @@
 	<m:MaterialPanel>
 		<m:MaterialPanel ui:field="modalpanel" />
 		<m:MaterialRow ui:field="tabRow">
-			<m:MaterialColumn grid="s12">
+			<!--  m:MaterialColumn grid="s12">
 				<m:MaterialTab ui:field="tab" indicatorColor="YELLOW"
 					shadow="1">
 					<m:MaterialTabItem waves="YELLOW">
@@ -22,7 +22,7 @@
 							textColor="BLACK" />
 					</m:MaterialTabItem>
 				</m:MaterialTab>
-			</m:MaterialColumn>
+			</m:MaterialColumn -->
 			<m:MaterialColumn m:id="tab1" grid="s12">
 				<m:MaterialPanel backgroundColor="GREY_LIGHTEN_2">
 					<m:MaterialRow>
@@ -52,7 +52,7 @@
 					</m:MaterialRow>
 				</m:MaterialPanel>
 			</m:MaterialColumn>
-			<m:MaterialColumn m:id="tab2" grid="s12">
+			<!--  m:MaterialColumn m:id="tab2" grid="s12">
 				<m:MaterialPanel height="500px" backgroundColor="ORANGE">
 					<m:MaterialRow>
 						<m:MaterialColumn grid="s3">
@@ -69,7 +69,7 @@
 						</m:MaterialColumn>
 					</m:MaterialRow>
 				</m:MaterialPanel>
-			</m:MaterialColumn>
+			</m:MaterialColumn -->
 		</m:MaterialRow>
 	</m:MaterialPanel>
 </ui:UiBinder> 

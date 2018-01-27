@@ -70,4 +70,18 @@ public class IndividualInformation extends ChemConnectDataStructure {
 	public HashSet<String> getOrganizationID() {
 		return organizationID;
 	}
+	public String toString() {
+		return toString("");
+	}
+	public String toString(String prefix) {
+		StringBuilder build = new StringBuilder();
+		build.append(super.toString(prefix));
+		build.append(prefix);
+		build.append("Contact Info: " + contactInfoDataID + ",  ");
+		build.append("Contact Location: " + contactLocationInformationID + "\n");
+		build.append(prefix);
+		build.append("Personal Description: " +  personalDescriptionID + ",  ");
+		build.append("Organizations" + organizationID + "\n");
+		return build.toString();
+	}
 }

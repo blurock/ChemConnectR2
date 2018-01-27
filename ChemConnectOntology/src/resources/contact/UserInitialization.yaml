@@ -8,7 +8,7 @@ edwardblurock:
         - blurockconsultingab
         dc:description:
             dcat:dataset: none
-            dcterms:type: DatabaseUser
+            skos:Concept: DatabaseUser
             dcterms:title: Edward S. Blurock
             dcat:keyword: 
             - developer
@@ -45,8 +45,9 @@ edwardblurock:
             geo:lat: 13.1910° E
             geo:long: 55.7047° N
         foaf:Person:
+            foaf:name:
+               foaf:familyName: Blurock
+               foaf:givenName: Edward S.
+               foaf:title: Dr.
             vcard:role: Administrator
-        foaf:name:
-            foaf:familyName: Blurock
-            foaf:givenName: Edward S.
-            foaf:title: Dr.
+ 
