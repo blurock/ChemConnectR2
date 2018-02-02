@@ -89,6 +89,19 @@ public class StandardDatasetMetaData {
 	public static String chemConnectActivityS = "prov:Activity";
 	public static String dataPointConceptS = "skos:Concept";
 
+	
+	public static String parameterValueS = "qb:ComponentProperty";
+	public static String parameterSpecificationS = "qb:ComponentSpecification";
+	public static String valueAsStringS = "dataset:ValueAsString";
+	public static String valueUncertaintyS = "qudt:standardUncertainty";
+	public static String parameterLabelS = "skos:prefLabel";
+	public static String dataPointUncertaintyS = "dataset:uncertainty";
+	public static String unitClassS = "qudt:SystemOfQuantities";
+	public static String unitsS = "qudt:Units";
+	public static String unitsOfValueS = "qudt:QuantityKind";
+	public static String purposeConceptPairS = "prov:influenced";
+	public static String dataTypeConceptS = "skos:Concept";
+	public static String purposeS = "dataset:purpose";
 	/*
 	public static String contactInfoDataID = "dataset:ContactInfoDataID";
 	public static String organizationID = "dataset:OrganizationID";

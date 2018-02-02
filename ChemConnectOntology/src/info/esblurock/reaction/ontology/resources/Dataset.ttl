@@ -7,6 +7,15 @@
 @base <http://www.esblurock.info/dataset> .
 
 <http://www.esblurock.info/dataset> rdf:type owl:Ontology ;
+                                     owl:imports <http://purl.org/linked-data/cube> ,
+                                                 <http://www.w3.org/2006/vcard/ns> ,
+                                                 <http://data.qudt.org/qudt/owl/1.0.0/quantity.owl> ,
+                                                 <http://www.w3.org/ns/dcat> ,
+                                                 <http://www.w3.org/ns/prov-o-20130430> ,
+                                                 <http://www.w3.org/ns/org#> ,
+                                                 <http://www.w3.org/ns/ssn/> ,
+                                                 <http://xmlns.com/foaf/0.1/> ,
+                                                 <http://www.w3.org/2004/02/skos/core> ;
                                      <http://purl.org/dc/terms/publisher> <http://purl.org/dc/aboutdcmi#DCMI> ;
                                      <http://purl.org/dc/terms/title> "DCMI Type Vocabulary"@en ;
                                      <http://purl.org/dc/terms/modified> "2012-06-14"^^xsd:date ;
@@ -1015,8 +1024,11 @@ xsd:date rdf:type rdfs:Datatype .
                     rdfs:subClassOf :ChemConnectPrimitiveCompound ,
                                     [ rdf:type owl:Restriction ;
                                       owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                      owl:someValuesFrom :ParameterLabel
-                                    ] .
+                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                      owl:onClass :ParameterLabel
+                                    ] ;
+                    <http://purl.org/dc/terms/identifier> "dataset:attributeInDataset" ;
+                    <http://www.w3.org/2004/02/skos/core#altLabel> "attr" .
 
 
 ###  http://www.esblurock.info/dataset#BensonTable
@@ -1232,11 +1244,6 @@ xsd:date rdf:type rdfs:Datatype .
 ###  http://www.esblurock.info/dataset#ChemConnectObjectLink
 :ChemConnectObjectLink rdf:type owl:Class ;
                        rdfs:subClassOf :ChemConnectCompoundDataStructure ,
-                                       [ rdf:type owl:Restriction ;
-                                         owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                         owl:onClass :DataLinkType
-                                       ] ,
                                        [ rdf:type owl:Restriction ;
                                          owl:onProperty <http://purl.org/dc/terms/hasPart> ;
                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
@@ -1494,7 +1501,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#ConceptLinkDevice
 :ConceptLinkDevice rdf:type owl:Class ;
                    rdfs:subClassOf :ConceptLinkDataStructures ;
-                   rdfs:isDefinedBy :DeviceDescriptions .
+                   rdfs:isDefinedBy :DeviceDescription .
 
 
 ###  http://www.esblurock.info/dataset#ConceptLinkFileFormat
@@ -1525,8 +1532,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :ConceptLinkInstrument rdf:type owl:Class ;
                        rdfs:subClassOf :ConceptLinkDevice ;
                        <http://purl.org/dc/elements/1.1/relation> :InstrumentConcept ;
-                       <http://purl.org/dc/elements/1.1/type> "InstrumentSubsystem" ;
-                       rdfs:isDefinedBy :Instrument .
+                       <http://purl.org/dc/elements/1.1/type> "InstrumentSubsystem" .
 
 
 ###  http://www.esblurock.info/dataset#ConceptLinkInterpretation
@@ -1733,7 +1739,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#DataPointUncertainty
 :DataPointUncertainty rdf:type owl:Class ;
-                      rdfs:subClassOf :ShortStringLabel ;
+                      rdfs:subClassOf :Classification ;
                       <http://purl.org/dc/terms/identifier> "dataset:uncertainty"^^xsd:string ;
                       rdfs:comment "A state of incomplete knowledge that results from a lack of information or from different modeling choices. Uncertainty may come from many sources, from imprecision in the data to ambigously defined concepts or terminology. Uncertainty can be represented by quantitative measures (e.g., probability density function) or by qualitative statements (from Linked Earth Ontology specification)"^^xsd:string ;
                       <http://www.w3.org/2004/02/skos/core#altLabel> "uncertain"^^xsd:string .
@@ -2232,10 +2238,6 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                      ] ,
                                      [ rdf:type owl:Restriction ;
                                        owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                       owl:someValuesFrom :PurposeKeyword
-                                     ] ,
-                                     [ rdf:type owl:Restriction ;
-                                       owl:onProperty <http://purl.org/dc/terms/hasPart> ;
                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                        owl:onClass :DataTypeConcept
                                      ] ,
@@ -2253,6 +2255,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                        owl:onProperty <http://purl.org/dc/terms/hasPart> ;
                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                        owl:onClass :DescriptionTitle
+                                     ] ,
+                                     [ rdf:type owl:Restriction ;
+                                       owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                       owl:onClass :PurposeKeyword
                                      ] ,
                                      [ rdf:type owl:Restriction ;
                                        owl:onProperty <http://purl.org/dc/terms/hasPart> ;
@@ -2284,28 +2291,29 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                       <http://www.w3.org/2004/02/skos/core#altLabel> "calibration" .
 
 
-###  http://www.esblurock.info/dataset#DeviceDescriptions
-:DeviceDescriptions rdf:type owl:Class ;
-                    rdfs:subClassOf :ChemConnectDataStructure ,
-                                    [ rdf:type owl:Restriction ;
-                                      owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                      owl:onClass :DatasetSpecification
-                                    ] ,
-                                    [ rdf:type owl:Restriction ;
-                                      owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                      owl:onClass :ParameterDescriptionSet
-                                    ] ;
-                    <http://purl.org/dc/terms/identifier> "dataset:DeviceDescriptions"^^xsd:string ;
-                    rdfs:isDefinedBy <http://www.w3.org/ns/ssn/System> ;
-                    rdfs:label "Device descriptions"^^xsd:string ;
-                    <http://www.w3.org/2004/02/skos/core#altLabel> "devdescr"^^xsd:string .
+###  http://www.esblurock.info/dataset#DeviceDescription
+:DeviceDescription rdf:type owl:Class ;
+                   rdfs:subClassOf :ChemConnectDataStructure ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                     owl:onClass :DatasetSpecification
+                                   ] ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                     owl:onClass :ParameterDescriptionSet
+                                   ] ;
+                   <http://purl.org/dc/elements/1.1/type> "DeviceDescription" ;
+                   <http://purl.org/dc/terms/identifier> "dataset:DeviceDescription"^^xsd:string ;
+                   rdfs:isDefinedBy <http://www.w3.org/ns/ssn/System> ;
+                   rdfs:label "Device descriptions"^^xsd:string ;
+                   <http://www.w3.org/2004/02/skos/core#altLabel> "devdescr"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#DeviceSensor
 :DeviceSensor rdf:type owl:Class ;
-              rdfs:subClassOf :DeviceDescriptions ;
+              rdfs:subClassOf :DeviceDescription ;
               <http://purl.org/dc/elements/1.1/type> "DeviceSensor"^^xsd:string ;
               <http://purl.org/dc/terms/identifier> "ssn:Sensor"^^xsd:string ;
               rdfs:isDefinedBy <http://www.w3.org/ns/sosa/Sensor> ;
@@ -2716,22 +2724,22 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                   owl:onClass :UnburntGasTemperature
                                 ] ,
                                 [ rdf:type owl:Restriction ;
-                                  owl:onProperty <http://www.w3.org/ns/ssn/hasOutput> ;
+                                  owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                   owl:onClass :BurnerPlateObservations
                                 ] ,
                                 [ rdf:type owl:Restriction ;
-                                  owl:onProperty <http://www.w3.org/ns/ssn/hasSubSystem> ;
+                                  owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                   owl:onClass :HeatFluxBurnerFuelPreparation
                                 ] ,
                                 [ rdf:type owl:Restriction ;
-                                  owl:onProperty <http://www.w3.org/ns/ssn/hasSubSystem> ;
+                                  owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                   owl:onClass :HeatFluxBurnerSubsystem
                                 ] ,
                                 [ rdf:type owl:Restriction ;
-                                  owl:onProperty <http://www.w3.org/ns/ssn/hasSubSystem> ;
+                                  owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                   owl:onClass :HeatFluxBurnerThermalConditioning
                                 ] .
@@ -2850,11 +2858,44 @@ Under the general type of is the actual data object referenced by the ChemConnec
    owl:annotatedSource :HeatFluxBurner ;
    owl:annotatedProperty rdfs:subClassOf ;
    owl:annotatedTarget [ rdf:type owl:Restriction ;
-                         owl:onProperty <http://www.w3.org/ns/ssn/hasOutput> ;
+                         owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                          owl:onClass :BurnerPlateObservations
                        ] ;
-   rdfs:isDefinedBy :HeatFluxBurnerSubsystem
+   <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasOutput>
+ ] .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :HeatFluxBurner ;
+   owl:annotatedProperty rdfs:subClassOf ;
+   owl:annotatedTarget [ rdf:type owl:Restriction ;
+                         owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                         owl:onClass :HeatFluxBurnerFuelPreparation
+                       ] ;
+   <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
+ ] .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :HeatFluxBurner ;
+   owl:annotatedProperty rdfs:subClassOf ;
+   owl:annotatedTarget [ rdf:type owl:Restriction ;
+                         owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                         owl:onClass :HeatFluxBurnerSubsystem
+                       ] ;
+   <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
+ ] .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :HeatFluxBurner ;
+   owl:annotatedProperty rdfs:subClassOf ;
+   owl:annotatedTarget [ rdf:type owl:Restriction ;
+                         owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                         owl:onClass :HeatFluxBurnerThermalConditioning
+                       ] ;
+   <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
 
 
@@ -2867,10 +2908,37 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                              owl:onClass :BurnerPlateDiameter
                                            ] ,
                                            [ rdf:type owl:Restriction ;
-                                             owl:onProperty <http://www.w3.org/ns/ssn/hasOutput> ;
+                                             owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                              owl:onClass :BurnerPlateObservations
+                                           ] ,
+                                           [ rdf:type owl:Restriction ;
+                                             owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                             owl:onClass :HeatFluxBurnerThermocouple
                                            ] .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :HeatFluxBurnerBurnerPlate ;
+   owl:annotatedProperty rdfs:subClassOf ;
+   owl:annotatedTarget [ rdf:type owl:Restriction ;
+                         owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                         owl:onClass :BurnerPlateObservations
+                       ] ;
+   <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
+ ] .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :HeatFluxBurnerBurnerPlate ;
+   owl:annotatedProperty rdfs:subClassOf ;
+   owl:annotatedTarget [ rdf:type owl:Restriction ;
+                         owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                         owl:onClass :HeatFluxBurnerThermocouple
+                       ] ;
+   <http://purl.org/dc/elements/1.1/type> :hasComponent
+ ] .
 
 
 ###  http://www.esblurock.info/dataset#HeatFluxBurnerCoolingBath
@@ -2933,25 +3001,69 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :HeatFluxBurnerFuelPreparation rdf:type owl:Class ;
                                rdfs:subClassOf :HeatFluxBurnerSubSystems ,
                                                [ rdf:type owl:Restriction ;
-                                                 owl:onProperty <http://www.w3.org/ns/ssn/hasSubSystem> ;
+                                                 owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                  owl:onClass :EvaporationSubSystem
                                                ] ,
                                                [ rdf:type owl:Restriction ;
-                                                 owl:onProperty <http://www.w3.org/ns/ssn/hasSubSystem> ;
+                                                 owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                  owl:onClass :FlowMixingSubSystem
                                                ] ,
                                                [ rdf:type owl:Restriction ;
-                                                 owl:onProperty <http://www.w3.org/ns/ssn/hasSubSystem> ;
+                                                 owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                  owl:onClass :GasFlowSubSystem
                                                ] ,
                                                [ rdf:type owl:Restriction ;
-                                                 owl:onProperty <http://www.w3.org/ns/ssn/hasSubSystem> ;
+                                                 owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                  owl:onClass :HeatFluxBurnerHeatingTube
                                                ] .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :HeatFluxBurnerFuelPreparation ;
+   owl:annotatedProperty rdfs:subClassOf ;
+   owl:annotatedTarget [ rdf:type owl:Restriction ;
+                         owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                         owl:onClass :EvaporationSubSystem
+                       ] ;
+   <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
+ ] .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :HeatFluxBurnerFuelPreparation ;
+   owl:annotatedProperty rdfs:subClassOf ;
+   owl:annotatedTarget [ rdf:type owl:Restriction ;
+                         owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                         owl:onClass :FlowMixingSubSystem
+                       ] ;
+   <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
+ ] .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :HeatFluxBurnerFuelPreparation ;
+   owl:annotatedProperty rdfs:subClassOf ;
+   owl:annotatedTarget [ rdf:type owl:Restriction ;
+                         owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                         owl:onClass :GasFlowSubSystem
+                       ] ;
+   <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
+ ] .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :HeatFluxBurnerFuelPreparation ;
+   owl:annotatedProperty rdfs:subClassOf ;
+   owl:annotatedTarget [ rdf:type owl:Restriction ;
+                         owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                         owl:onClass :HeatFluxBurnerHeatingTube
+                       ] ;
+   <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
+ ] .
 
 
 ###  http://www.esblurock.info/dataset#HeatFluxBurnerGasMassFlow
@@ -3059,27 +3171,27 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                            owl:onClass :UnburntGasTemperature
                                          ] ,
                                          [ rdf:type owl:Restriction ;
-                                           owl:onProperty <http://www.w3.org/ns/ssn/hasOutput> ;
+                                           owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                            owl:onClass :BurnerPlateObservations
                                          ] ,
                                          [ rdf:type owl:Restriction ;
-                                           owl:onProperty <http://www.w3.org/ns/ssn/hasSubSystem> ;
+                                           owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                            owl:onClass :HeatFluxBurnerBurnerPlate
                                          ] ,
                                          [ rdf:type owl:Restriction ;
-                                           owl:onProperty <http://www.w3.org/ns/ssn/hasSubSystem> ;
+                                           owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                            owl:onClass :HeatFluxBurnerCoolingJacket
                                          ] ,
                                          [ rdf:type owl:Restriction ;
-                                           owl:onProperty <http://www.w3.org/ns/ssn/hasSubSystem> ;
+                                           owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                            owl:onClass :HeatFluxBurnerHeatingJacket
                                          ] ,
                                          [ rdf:type owl:Restriction ;
-                                           owl:onProperty <http://www.w3.org/ns/ssn/hasSubSystem> ;
+                                           owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                            owl:onClass :HeatFluxBurnerPlenumChamber
                                          ] .
@@ -3110,11 +3222,55 @@ Under the general type of is the actual data object referenced by the ChemConnec
    owl:annotatedSource :HeatFluxBurnerSubsystem ;
    owl:annotatedProperty rdfs:subClassOf ;
    owl:annotatedTarget [ rdf:type owl:Restriction ;
-                         owl:onProperty <http://www.w3.org/ns/ssn/hasOutput> ;
+                         owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                          owl:onClass :BurnerPlateObservations
                        ] ;
-   rdfs:isDefinedBy :HeatFluxBurnerBurnerPlate
+   <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
+ ] .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :HeatFluxBurnerSubsystem ;
+   owl:annotatedProperty rdfs:subClassOf ;
+   owl:annotatedTarget [ rdf:type owl:Restriction ;
+                         owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                         owl:onClass :HeatFluxBurnerBurnerPlate
+                       ] ;
+   <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
+ ] .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :HeatFluxBurnerSubsystem ;
+   owl:annotatedProperty rdfs:subClassOf ;
+   owl:annotatedTarget [ rdf:type owl:Restriction ;
+                         owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                         owl:onClass :HeatFluxBurnerCoolingJacket
+                       ] ;
+   <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
+ ] .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :HeatFluxBurnerSubsystem ;
+   owl:annotatedProperty rdfs:subClassOf ;
+   owl:annotatedTarget [ rdf:type owl:Restriction ;
+                         owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                         owl:onClass :HeatFluxBurnerHeatingJacket
+                       ] ;
+   <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
+ ] .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :HeatFluxBurnerSubsystem ;
+   owl:annotatedProperty rdfs:subClassOf ;
+   owl:annotatedTarget [ rdf:type owl:Restriction ;
+                         owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                         owl:onClass :HeatFluxBurnerPlenumChamber
+                       ] ;
+   <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
 
 
@@ -3127,15 +3283,37 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                                      owl:onClass :FluidCoolingHeatingSystem
                                                    ] ,
                                                    [ rdf:type owl:Restriction ;
-                                                     owl:onProperty <http://www.w3.org/ns/ssn/hasSubSystem> ;
+                                                     owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                      owl:onClass :HeatFluxBurnerCoolingSubSystem
                                                    ] ,
                                                    [ rdf:type owl:Restriction ;
-                                                     owl:onProperty <http://www.w3.org/ns/ssn/hasSubSystem> ;
+                                                     owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                      owl:onClass :HeatFluxBurnerHeatingSubSystem
                                                    ] .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :HeatFluxBurnerThermalConditioning ;
+   owl:annotatedProperty rdfs:subClassOf ;
+   owl:annotatedTarget [ rdf:type owl:Restriction ;
+                         owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                         owl:onClass :HeatFluxBurnerCoolingSubSystem
+                       ] ;
+   <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
+ ] .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :HeatFluxBurnerThermalConditioning ;
+   owl:annotatedProperty rdfs:subClassOf ;
+   owl:annotatedTarget [ rdf:type owl:Restriction ;
+                         owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                         owl:onClass :HeatFluxBurnerHeatingSubSystem
+                       ] ;
+   <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
+ ] .
 
 
 ###  http://www.esblurock.info/dataset#HeatFluxBurnerThermalSubsystems
@@ -3188,7 +3366,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#Instrument
 :Instrument rdf:type owl:Class ;
-            rdfs:subClassOf :DeviceDescriptions ;
+            rdfs:subClassOf :DeviceDescription ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                              owl:someValuesFrom :DeviceDescription
+                            ] ;
             <http://purl.org/dc/elements/1.1/type> "Instrument"^^xsd:string ;
             <http://purl.org/dc/terms/identifier> "ssn:System"^^xsd:string ;
             rdfs:isDefinedBy <http://www.w3.org/ns/ssn/System> ;
@@ -3777,7 +3959,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                            owl:onProperty <http://purl.org/dc/terms/hasPart> ;
                                            owl:someValuesFrom :ParameterValue
                                          ] ;
-                         <http://purl.org/dc/elements/1.1/type> "ChemConnectParameterDescription"^^xsd:string ;
+                         <http://purl.org/dc/elements/1.1/type> "ParameterDescriptionSet"^^xsd:string ;
                          <http://purl.org/dc/terms/identifier> "rdf:Property"^^xsd:string ;
                          rdfs:isDefinedBy "rdf:Property"^^xsd:string ;
                          rdfs:label "Set of Parameter Descriptions"^^xsd:string ;
@@ -3828,7 +4010,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                   owl:onClass :ValueUncertainty
                                 ] ;
-                <http://purl.org/dc/elements/1.1/type> "ParameterDescription"^^xsd:string ;
+                <http://purl.org/dc/elements/1.1/type> "ParameterValue"^^xsd:string ;
                 <http://purl.org/dc/terms/identifier> "qb:ComponentProperty"^^xsd:string ;
                 rdfs:label "Parameter Value"^^xsd:string ;
                 <http://www.w3.org/2004/02/skos/core#altLabel> "param"^^xsd:string .
@@ -4033,16 +4215,18 @@ Under the general type of is the actual data object referenced by the ChemConnec
                     rdfs:subClassOf :ChemConnectCompoundDataStructure ,
                                     [ rdf:type owl:Restriction ;
                                       owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                      owl:someValuesFrom :DataTypeConcept
+                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                      owl:onClass :DataTypeConcept
                                     ] ,
                                     [ rdf:type owl:Restriction ;
                                       owl:onProperty <http://purl.org/dc/terms/hasPart> ;
                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                       owl:onClass :PurposeKeyword
                                     ] ;
-                    <http://purl.org/dc/elements/1.1/type> "ChemConnectPurpose" ;
+                    <http://purl.org/dc/elements/1.1/type> "PurposeConceptPair" ;
                     <http://purl.org/dc/terms/identifier> "prov:influenced"^^xsd:string ;
                     rdfs:isDefinedBy <http://www.w3.org/ns/prov#Influence> ;
+                    rdfs:label "PurposeConceptPair" ;
                     <http://www.w3.org/2004/02/skos/core#altLabel> "purpose" .
 
 
@@ -4195,8 +4379,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                rdfs:subClassOf :ChemConnectPrimitiveCompound ,
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                 owl:someValuesFrom :PurposeConceptPair
-                               ] .
+                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                 owl:onClass :PurposeConceptPair
+                               ] ;
+               <http://purl.org/dc/elements/1.1/type> "DataSpecification" ;
+               <http://purl.org/dc/terms/identifier> "dataset:Specification" .
 
 
 ###  http://www.esblurock.info/dataset#Spectrometer
@@ -4225,7 +4412,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#SubSystemDescription
 :SubSystemDescription rdf:type owl:Class ;
-                      rdfs:subClassOf :DeviceDescriptions ;
+                      rdfs:subClassOf :DeviceDescription ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                        owl:someValuesFrom :DeviceDescription
+                                      ] ;
                       <http://purl.org/dc/elements/1.1/type> "SubSystemDescription"^^xsd:string ;
                       <http://purl.org/dc/terms/identifier> "ssn:hasSubSystem"^^xsd:string ;
                       rdfs:isDefinedBy <http://www.w3.org/ns/ssn/System> ;
@@ -4397,7 +4588,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                          owl:onClass :UnitsOfValue
                        ] ;
-       <http://purl.org/dc/elements/1.1/type> "Units"^^xsd:string ;
+       <http://purl.org/dc/elements/1.1/type> "ValueUnits"^^xsd:string ;
        <http://purl.org/dc/terms/identifier> "qudt:Unit"^^xsd:string ;
        <http://www.w3.org/2004/02/skos/core#altLabel> "units"^^xsd:string .
 
@@ -4493,17 +4684,9 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#ValueUncertainty
 :ValueUncertainty rdf:type owl:Class ;
-                  rdfs:subClassOf :ChemConnectPrimitiveCompound ,
-                                  [ rdf:type owl:Restriction ;
-                                    owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                    owl:onClass :DataPointUncertainty
-                                  ] ,
-                                  [ rdf:type owl:Restriction ;
-                                    owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                    owl:onClass :ValueAsString
-                                  ] .
+                  rdfs:subClassOf :ShortStringLabel ;
+                  <http://purl.org/dc/terms/identifier> "qudt:standardUncertainty" ;
+                  <http://www.w3.org/2004/02/skos/core#altLabel> "uncertain" .
 
 
 ###  http://www.esblurock.info/dataset#VectorAsString

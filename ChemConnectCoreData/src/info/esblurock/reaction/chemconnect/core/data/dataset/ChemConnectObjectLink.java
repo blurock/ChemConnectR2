@@ -49,6 +49,19 @@ public class ChemConnectObjectLink extends ChemConnectCompoundDataStructure {
 	public String getDataConceptType() {
 		return dataConceptType;
 	}
+	public String toString() {
+		return toString("");
+	}
+	public String toString(String prefix) {
+		StringBuilder build = new StringBuilder();
+		build.append(super.toString(prefix));
+		build.append(prefix);
+		build.append("Data Structure: " + dataStructure + "\n");
+		build.append("Link Concept: " + linkConceptType + "\n");
+		build.append("Data Concept: " + dataConceptType + "\n");
+		return build.toString();
+	}
+	
 	
 	
 }

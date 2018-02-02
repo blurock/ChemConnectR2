@@ -11,6 +11,8 @@ public class SubsystemInformation implements Serializable {
 	Set<String> immediateComponents;
 	Set<String> immediateSubsystems;
 	
+	Set<SubSystemConceptLink> links;
+	
 	SubSystemParameters attributes;
 	SubSystemParameters output;
 	
@@ -20,15 +22,21 @@ public class SubsystemInformation implements Serializable {
 		this.identifier = null;
 		this.immediateComponents = null;
 		this.immediateSubsystems = null;
+		this.links = null;
 		this.attributes = null;
 		this.output = null;
 		
 	}
-	public SubsystemInformation(String identifier, Set<String> immediateComponents, Set<String> immediateSubsystems,
-			SubSystemParameters attributes, SubSystemParameters output) {
+	public SubsystemInformation(String identifier, 
+			Set<String> immediateComponents, 
+			Set<String> immediateSubsystems,
+			Set<SubSystemConceptLink> links,
+			SubSystemParameters attributes, 
+			SubSystemParameters output) {
 		this.identifier = identifier;
 		this.immediateComponents = immediateComponents;
 		this.immediateSubsystems = immediateSubsystems;
+		this.links = links;
 		this.attributes = attributes;
 		this.output = output;
 		
@@ -75,6 +83,9 @@ public class SubsystemInformation implements Serializable {
 		}
 		if (immediateComponents != null) {
 			build.append(prefix + "  Components: " + immediateComponents + "\n");
+		}
+		if (links != null) {
+			build.append(prefix + "  Links     : " + links + "\n");
 		}
 		if (attributes != null) {
 			build.append(attributes.toString(prefix));

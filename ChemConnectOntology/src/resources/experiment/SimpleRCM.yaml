@@ -1,0 +1,98 @@
+interpreter: info.esblurock.reaction.core.server.initialization.InitializeCatalogDataStructuresYaml
+UConnRCM-device:
+        dataset:ChemConnectDataStructure: dataset:DeviceDescription
+        dc:identifier: UConnRCM-device
+        dcterms:publisher: Admnistration
+        dataset:accessibility: Public
+        rdf:Property:
+           qb:ComponentProperty:
+              compression:
+                  qb:ComponentSpecification:
+                     dataset:uncertainty: absolute
+                     qudt:Unit:
+                        qudt:SystemOfQuantities: Ratio
+                        qudt:QuantityKind: cm3
+                     prov:influenced:
+                        skos:Concept: CompressionRatio
+                        dataset:purpose: RCMPistonCharacterization
+                  skos:prefLabel: CompressionRatio
+                  dataset:ValueAsString: 21
+        dc:description:
+            dcat:dataset: none
+            dcterms:type: RapidCompressionMachine
+            dcterms:title: University of Conneticut New Rapid Compression Machine
+            dcat:keyword: 
+            - RCM
+            - creviced piston
+            - pneumatic RCM
+            - pressurised hydraulic cylinder
+            - combustion
+            - ignition delay times
+            dcterms:description: |
+               A new RCM similar to the one built by Mittal [21] was fabricated,
+               with improvements made from operational point of
+               view and capabilities of attaining higher compression pressures
+               as well as wider range of compression ratios. General
+               details of the RCM can be found in Mittal and Sung [22].
+               The RCM consists of a reaction chamber in which the
+               reactant gases are compressed by a creviced piston arrangement.
+               The creviced piston is driven by an arrangement of the
+               pneumatic piston and high-pressure air tank. It is held in
+               place by an arrangement of the pressurized hydraulic
+               cylinder. A trigger of a solenoid valve releases the pressure of
+               the hydraulic chamber, and thus the piston arrangement
+               moves forward by the pneumatic system. Toward the end of
+               the compression stroke, the piston is smoothly decelerated
+               and finally stopped by the piston stopping groove.
+               The end of reaction chamber is equipped with a pressure
+               transducer for dynamic measurements and a thermocouple
+               for initial temperature monitoring. It is also provided with
+               quartz windows for any required optical access. The
+               compression ratio of the rapid compression machine can be
+               changed by changing the clearance and/or the stroke length.
+               Split shims are used between the hydraulic cylinder and the
+               reaction chamber to vary the clearance and the stroke can be
+               adjusted by using spacers.
+        terms:BibliographicResource:
+          ref1:
+             dataset:ChemConnectDataStructure: datacite:doi
+             datacite:PrimaryResourceIdentifier: 10.1080/00102200600671898
+             dcterms:isReferencedBy: Combustion Science and Technology, 179 (3), 2007, 497-530
+             dcterms:title: A Rapid Compression Machine For Chemical Kinetics Studies at Elevated Pressures and Temperatures
+             foaf:name:
+                author1:
+                  foaf:familyName: Mittal
+                  foaf:givenName: Gaurav 
+                  foaf:title: Prof.
+                author2:
+                  foaf:familyName: Sung
+                  foaf:givenName: Chih-Jen
+                  foaf:title: Prof
+          ref2: 
+             dataset:ChemConnectDataStructure: datacite:doi
+             datacite:PrimaryResourceIdentifier: 10.1016/j.ijhydene.2012.01.111
+             dcterms:isReferencedBy: International journal of Hydrogen Energy, 37 (2012) 6901-6911
+             dcterms:title: Ignition delay study of moist hydrogen/oxidizer mixtures using a rapid compression machine
+             foaf:name:
+               author1:
+                  foaf:familyName: Das
+                  foaf:givenName: Apurba K.
+                  foaf:title: Prof.
+               author2:
+                  foaf:familyName: Zhang
+                  foaf:givenName: Yu
+                  foaf:title: Prof.
+               author3:
+                  foaf:familyName: Sung
+                  foaf:givenName: Chih-Jen
+                  foaf:title: Prof.
+               author4:
+                  foaf:familyName: Mittal
+                  foaf:givenName: Gaurav
+                  foaf:title: Prof.
+        skos:mappingRelation
+          link1:
+             qb:structure: edwardblurock
+             skos:related: ConceptLinkUserInformation
+             skos:Concept: DataTypeUserInformation
+                  

@@ -10,36 +10,32 @@ import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 @Entity
 public class DataSpecification extends DatabaseObject {
 	@Index
-	String deviceSensor;
-	@Index
-	String instrument;
-	@Index
-	String chemConnectActivity;
-	@Index
-	String dataPointConcept;
+	String purposeandconcept;
 	
+	public DataSpecification() {
+		this.purposeandconcept = null;;
+	}
+	public DataSpecification(DataSpecification spec) {
+		fill(spec);
+	}
 	public DataSpecification(DatabaseObject obj,
-			String deviceSensor, String instrument, 
-			String chemConnectActivity, String dataPointConcept) {
-		super(obj);
-		this.deviceSensor = deviceSensor;
-		this.instrument = instrument;
-		this.chemConnectActivity = chemConnectActivity;
-		this.dataPointConcept = dataPointConcept;
+			String purposeandconcept) {
+		fill(obj,purposeandconcept);
+	}
+	public void fill(DatabaseObject obj,
+			String purposeandconcept) {
+		super.fill(obj);
+		this.purposeandconcept = purposeandconcept;
+	}
+	public void fill(DataSpecification spec) {
+		super.fill(spec);
+		this.purposeandconcept = spec.getPurposeandconcept();
 	}
 	
-	public String getDeviceSensor() {
-		return deviceSensor;
+	public String getPurposeandconcept() {
+		return purposeandconcept;
 	}
-	public String getInstrument() {
-		return instrument;
-	}
-	public String getChemConnectActivity() {
-		return chemConnectActivity;
-	}
-	public String getDataPointConcept() {
-		return dataPointConcept;
-	}	
+
 	@Override
 	public String toString() {
 		return toString("");
@@ -48,15 +44,7 @@ public class DataSpecification extends DatabaseObject {
 	public String toString(String prefix) {
 		StringBuilder builder = new StringBuilder();
 		builder.append(super.toString(prefix));
-		builder.append(prefix + "Sensor: ");
-		builder.append(deviceSensor);
-		builder.append(", Instrument: ");
-		builder.append(instrument);
-		builder.append("\n" + prefix + "Activity: ");
-		builder.append(chemConnectActivity);
-		builder.append(", Concept: ");
-		builder.append(dataPointConcept);
-		builder.append("\n");
+		builder.append(prefix + "PurposeAndConcept: " + purposeandconcept + "\n");
 		return builder.toString();
 	}	
 	

@@ -332,7 +332,6 @@ dataset:ChemConnectPrimitiveDataStructure:
 				+ " rdfs:subClassOf ?subclass .\n"
 				+ "	   ?subclass <http://purl.org/dc/elements/1.1/type>  ?datatype\n" + "	}" + "  }";
 		ClassificationInformation classification = null;
-
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		if (lst.size() > 0) {
 			List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);

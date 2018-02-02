@@ -68,8 +68,9 @@ public class TotalSubsystemInformation implements Serializable {
 		Set<String> attributes = attributesubsystemMap.keySet();
 		build.append(prefix + "Attribute Source\n");
 		String spaces = "                                          ";
+		String sprefix = prefix + "\t";
 		for(String attribute : attributes) {
-			build.append(prefix);
+			build.append(sprefix);
 			int amount = spaces.length() - attribute.length();
 			build.append(attribute);
 			if(amount > 0) 
@@ -78,9 +79,11 @@ public class TotalSubsystemInformation implements Serializable {
 				build.append(" ");
 			build.append(attributesubsystemMap.get(attribute) + "\n");
 		}
+		build.append(prefix + "SubSystems:\n");
+		sprefix = prefix + "\t";
 		Set<String> set = subsystemsandcomponents.keySet();
 		for(String sub : set) {
-			build.append(subsystemsandcomponents.get(sub).toString(prefix));
+			build.append(subsystemsandcomponents.get(sub).toString(sprefix));
 		}
 		return build.toString();
 	}

@@ -22,7 +22,8 @@ public class ReadYamlInitialization {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void test() {
-		String fileS = "resources/contact/OrganizationInitialization.yaml";
+		String fileS = "resources/experiment/RapidCompressionMachine.yaml";
+		//String fileS = "resources/contact/OrganizationInitialization.yaml";
 		String sourceID = "1";
 		InputStream in = this.getClass().getClassLoader().getResourceAsStream(fileS);
 		Reader targetReader = new InputStreamReader(in);

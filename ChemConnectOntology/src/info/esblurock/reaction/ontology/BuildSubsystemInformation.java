@@ -5,6 +5,7 @@ import java.util.Set;
 
 import info.esblurock.reaction.chemconnect.core.data.concepts.AttributeDescription;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
+import info.esblurock.reaction.chemconnect.core.data.transfer.graph.SubSystemConceptLink;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.SubSystemParameters;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.SubsystemInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.TotalSubsystemInformation;
@@ -29,7 +30,8 @@ public class BuildSubsystemInformation {
 		Set<String> subsystems = ConceptParsing.immediateSubSystems(concept);
 		Set<String> components = ConceptParsing.immediateComponents(concept);
 		SubSystemParameters parameters = buildAttributes(concept);
-		SubsystemInformation info = new SubsystemInformation(concept,components, subsystems, parameters, null);
+		Set<SubSystemConceptLink> links = ConceptParsing.immediateLinks(concept);
+		SubsystemInformation info = new SubsystemInformation(concept,components, subsystems, links, parameters,null);
 		for(String attribute : parameters.getDirect()) {
 			attributeset.put(attribute, concept);
 		}

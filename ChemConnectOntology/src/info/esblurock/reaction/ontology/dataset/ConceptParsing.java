@@ -1,6 +1,7 @@
 package info.esblurock.reaction.ontology.dataset;
 
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -14,6 +15,7 @@ import info.esblurock.reaction.chemconnect.core.data.concepts.AttributesOfObject
 import info.esblurock.reaction.chemconnect.core.data.rdf.KeywordRDF;
 import info.esblurock.reaction.chemconnect.core.data.rdf.SetOfKeywordRDF;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
+import info.esblurock.reaction.chemconnect.core.data.transfer.graph.SubSystemConceptLink;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.SubsystemInformation;
 import info.esblurock.reaction.ontology.OntologyBase;
 
@@ -73,20 +75,16 @@ public class ConceptParsing {
 	 * @return
 	 */
 	public static Set<String> immediateComponents(String topclassS) {
-		String query = "SELECT ?component\n" 
-				+ "	WHERE {\n" + "   " 
-				+ topclassS + " <" + ReasonerVocabulary.directSubClassOf 
-				+ ">  ?obj .\n"
-				+ "	?obj owl:onProperty dataset:hasComponent .\n"
-				+ "	?obj owl:onClass|owl:someValuesFrom ?component\n" + "}";
-		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
-		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
-		TreeSet<String> subsystems = new TreeSet<String>();
-		for (Map<String, String> map : stringlst) {
-			String subsystem = map.get("component");
-			subsystems.add(subsystem);
-		}
-		return subsystems;
+		Set<String>  components = immediateLinks(topclassS, "dataset:hasComponent");
+		return components;
+	}
+	/**
+	 * 
+	 * @param topclassS
+	 * @return
+	 */
+	public static Set<String> immediateSubSystems(String topclassS) {
+		return immediateLinks(topclassS,"<http://www.w3.org/ns/ssn/hasSubSystem>");
 	}
 	/**
 	 * 
@@ -99,21 +97,44 @@ public class ConceptParsing {
 	 * @param topclassS
 	 * @return
 	 */
-	public static Set<String> immediateSubSystems(String topclassS) {
-		String query = "SELECT ?subsystem\n" + "	WHERE {\n" + "   " 
-				+ topclassS + " <" + ReasonerVocabulary.directSubClassOf + ">  ?obj .\n"
-				+ "	?obj owl:onProperty <http://www.w3.org/ns/ssn/hasSubSystem> .\n"
-				+ "	?obj owl:onClass ?subsystem\n" + "}";
+	public static Set<String> immediateLinks(String topclassS, String linktype) {
+		String query = "SELECT ?identifier ?sub ?target \n" + 
+				"	WHERE {\n" + 
+				"             ?identifier  owl:annotatedSource " + topclassS + " .\n" + 
+				"             ?identifier owl:annotatedTarget ?sub .\n" + 
+				"             ?identifier <http://purl.org/dc/elements/1.1/type> " + linktype + " .\n" + 
+				"             ?sub owl:onClass  ?target\n" + 
+				"          }";
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
 		TreeSet<String> subsystems = new TreeSet<String>();
 		for (Map<String, String> map : stringlst) {
-			String subsystem = map.get("subsystem");
+			String subsystem = map.get("target");
 			subsystems.add(subsystem);
 		}
 		return subsystems;
 	}
 
+	public static Set<SubSystemConceptLink> immediateLinks(String topclassS) {
+		String query = "SELECT ?target ?type\n" + 
+				"	WHERE {\n" + 
+				"             ?identifier  owl:annotatedSource " + topclassS + " .\n" + 
+				"             ?identifier owl:annotatedTarget ?sub .\n" + 
+				"             ?identifier <http://purl.org/dc/elements/1.1/type> ?type .\n" + 
+				"             ?sub owl:onClass  ?target\n" + 
+				"          }";
+		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
+		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
+		HashSet<SubSystemConceptLink> links = new HashSet<SubSystemConceptLink>();
+		for (Map<String, String> map : stringlst) {
+			String target = map.get("target");
+			String type = map.get("type");
+			SubSystemConceptLink link = new SubSystemConceptLink(type,target);
+			links.add(link);
+		}
+		return links;
+		
+	}
 	/** Find all the subsystems and components for a concept class
 	 * 
 	 * Finds the immediate set of subsystems and components and

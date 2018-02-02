@@ -1,0 +1,70 @@
+UConnRCM-device-piston:
+        dataset:ChemConnectDataStructure: dataset:DeviceDescription
+        dc:identifier: UConnRCM-device-piston
+        dcterms:publisher: Admnistration
+        dataset:accessibility: Public
+        rdf:Property:
+          compression:
+             qb:ComponentSpecification:
+                  dataset:uncertainty: absolute
+                  qudt:Units:
+                     qudt:SystemOfQuantities: Ratio
+                     qudt:QuantityKind: cm3
+                  prov:influenced:
+                     skos:Concept: CompressionRatio
+                     dataset:purpose: RCMPistonCharacterization
+             skos:prefLabel: CompressionRatio
+             dataset:ValueAsString: 21
+             qudt:standardUncertainty
+          creviced:
+             qb:ComponentSpecification:
+                  dataset:uncertainty: none
+                  qudt:Units:
+                     qudt:SystemOfQuantities: keyword
+                     qudt:QuantityKind: keyword
+                  prov:influenced:
+                     skos:Concept: CompressionRatio
+                     dataset:purpose: RCMPistonCharacterization
+             skos:prefLabel: PistonConfiguration
+             dataset:ValueAsString: creviced
+         pneumatic:
+             qb:ComponentSpecification:
+                  dataset:uncertainty: absolute
+                  qudt:Units:
+                     qudt:SystemOfQuantities: keyword
+                     qudt:QuantityKind: keyword
+                  prov:influenced:
+                     skos:Concept: CompressionRatio
+                     dataset:purpose: RCMPistonCharacterization
+             skos:prefLabel: PistonConfiguration
+             dataset:ValueAsString: pneumatic
+        dc:description:
+            skos:concept: RapidCompressionMachinePiston
+            dataset:purpose: GasCompression
+            dcterms:title: Rapid Compression Machine Piston
+            dcat:keyword: 
+            - pneumatic
+            - creviced
+            - piston stopping groove
+            - quartz windows
+            - hydraulic cylinder
+            dcterms:description: |
+                  The creviced piston is driven by an arrangement of the pneumatic piston 
+                  and high-pressure air tank. It is held in place by an arrangement of 
+                  the pressurized hydraulic cylinder. A trigger of a solenoid valve 
+                  releases the pressure of the hydraulic chamber, and thus the piston 
+                  arrangement moves forward by the pneumatic system. Toward the end of 
+                  the compression stroke, the piston is smoothly decelerated and finally 
+                  stopped by the piston stopping groove.
+                  The end of reaction chamber is equipped with a pressure transducer 
+                  for dynamic measurements and a thermocouple for initial temperature 
+                  monitoring. It is also provided with quartz windows for any required 
+                  optical access. The compression ratio of the rapid compression machine 
+                  can be changed by changing the clearance and/or the stroke length. Split 
+                  shims are used between the hydraulic cylinder and the reaction chamber to 
+                  vary the clearance and the stroke can be adjusted by using spacers.
+       skos:mappingRelation:
+          link1:
+             qb:structure: UConnRCM-device
+             skos:related: subsystemOf
+             skos:Concept: RapidCompressionMachine

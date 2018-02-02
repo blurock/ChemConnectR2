@@ -73,12 +73,14 @@ public class OntologyBase {
 				datasetmodel.getDocumentManager().addAltEntry(alt.getFoafURL(), alt.getFoafLocal());
 				datasetmodel.getDocumentManager().addAltEntry(alt.getSKOSURL(), alt.getSKOSLocal());
 				
-				System.out.println("OntModel getDatabaseOntology() 1");
-				
 				String filename = "/info/esblurock/reaction/ontology/resources/Dataset.ttl";
 				InputStream str = OntologyBase.class.getResourceAsStream(filename);
-				System.out.println("OntModel getDatabaseOntology() 2: " + str);
 				
+				Iterator<String> iter = datasetmodel.getDocumentManager().listDocuments();
+				while(iter.hasNext()) {
+					String name = iter.next();
+					System.out.println(name);
+				}
 				try {
 					datasetmodel.read(str, "http://esblurock.info", "TURTLE");
 					System.out.println("OntModel getDatabaseOntology() 3");
@@ -136,7 +138,8 @@ public class OntologyBase {
 				+ "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" 
 				+ "PREFIX dcat: <http://www.w3.org/ns/dcat#>\n"
 				+ "PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>\n"
-				+ "PREFIX dataset: <http://www.esblurock.info/dataset#>\n";
+				+ "PREFIX dataset: <http://www.esblurock.info/dataset#>\n"
+                 + "PREFIX ssn: <http://www.w3.org/ns/ssn#>" + "\n";
 		return databasePrefix;
 	}
 

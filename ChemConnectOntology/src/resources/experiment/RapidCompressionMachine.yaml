@@ -1,18 +1,25 @@
 interpreter: info.esblurock.reaction.core.server.initialization.InitializeCatalogDataStructuresYaml
 UConnRCM-device:
-        dataset:ChemConnectDataStructure: ssn:System
+        dataset:ChemConnectDataStructure: dataset:DeviceDescription
         dc:identifier: UConnRCM-device
         dcterms:publisher: Admnistration
         dataset:accessibility: Public
-        ssn:hasProperty
+        rdf:Property:
           compression:
+             qb:ComponentSpecification:
+                  dataset:uncertainty: absolute
+                  qudt:Units:
+                     qudt:SystemOfQuantities: Ratio
+                     qudt:QuantityKind: cm3
+                  prov:influenced:
+                     skos:Concept: CompressionRatio
+                     dataset:purpose: RCMPistonCharacterization
              skos:prefLabel: CompressionRatio
-             qudt:Unit: Ratio
              dataset:ValueAsString: 21
-        dc:description
-            dcat:dataset: none
-            dcterms:type: RapidCompressionMachine
-            dcterms:title: University of Conneticut: New Rapid Compression Machine
+             qudt:standardUncertainty: 1
+        dc:description:
+            skos:Concept: RapidCompressionMachine
+            dcterms:title: University of Conneticut New Rapid Compression Machine
             dcat:keyword: 
             - RCM
             - creviced piston
@@ -45,25 +52,25 @@ UConnRCM-device:
                Split shims are used between the hydraulic cylinder and the
                reaction chamber to vary the clearance and the stroke can be
                adjusted by using spacers.
-        datacite:doi
+        terms:BibliographicResource:
           ref1:
              dataset:ChemConnectDataStructure: datacite:doi
              datacite:PrimaryResourceIdentifier: 10.1080/00102200600671898
-             dcterms:isReferencedBy: Combustion Science and Technology, 179 (3), 2007, 497-530
+             dcterms:description: Combustion Science and Technology, 179 (3), 2007, 497-530
              dcterms:title: A Rapid Compression Machine For Chemical Kinetics Studies at Elevated Pressures and Temperatures
              foaf:name:
-               author1:
+                author1:
                   foaf:familyName: Mittal
                   foaf:givenName: Gaurav 
                   foaf:title: Prof.
-               author2:
+                author2:
                   foaf:familyName: Sung
                   foaf:givenName: Chih-Jen
-                  foaf:title: Prof.
-          ref2:
+                  foaf:title: Prof
+          ref2: 
              dataset:ChemConnectDataStructure: datacite:doi
              datacite:PrimaryResourceIdentifier: 10.1016/j.ijhydene.2012.01.111
-             dcterms:isReferencedBy: International journal of Hydrogen Energy, 37 (2012) 6901-6911
+             dcterms:description: International journal of Hydrogen Energy, 37 (2012) 6901-6911
              dcterms:title: Ignition delay study of moist hydrogen/oxidizer mixtures using a rapid compression machine
              foaf:name:
                author1:
@@ -84,15 +91,15 @@ UConnRCM-device:
                   foaf:title: Prof.
         skos:mappingRelation
           link1:
-             qb:structure: edwardblurock
-             skos:related: ConceptLinkUserInformation
-             skos:Concept: DataTypeUserInformation
-UConnRCM-device-piston
-        dataset:ChemConnectDataStructure: ssn:hasSubSystem
+             qb:structure: UConn
+             skos:related: Location
+             skos:Concept: Organization
+UConnRCM-device-piston:
+        dataset:ChemConnectDataStructure: dataset:SubSystemDescription
         dc:identifier: UConnRCM-device-piston
         dcterms:publisher: Admnistration
         dataset:accessibility: Public
-        ssn:hasProperty
+        rdf:Property:
           prop1:
              skos:prefLabel: CompressionRatio
              qudt:Unit: Ratio
@@ -109,7 +116,7 @@ UConnRCM-device-piston
              skos:prefLabel: PistonConfiguration
              qudt:Unit: dcat:keyword
              dataset:ValueAsString: pneumatic
-         dc:description
+        dc:description:
             dcat:dataset: none
             dcterms:type: RapidCompressionMachinePiston
             dcterms:title: Rapid Compression Machine Piston
@@ -134,23 +141,23 @@ UConnRCM-device-piston
                   can be changed by changing the clearance and/or the stroke length. Split 
                   shims are used between the hydraulic cylinder and the reaction chamber to 
                   vary the clearance and the stroke can be adjusted by using spacers.
-        prov:influenced
+        prov:influenced:
           purpose:
             skos:Concept: GasCompression
             dcterms:description: |
                  A trigger of a solenoid valve releases the pressure of the hydraulic 
                  chamber, and thus the piston arrangement moves forward by the pneumatic system.
-        skos:mappingRelation
+        skos:mappingRelation:
           link1:
              qb:structure: UConnRCM-device
              skos:related: SubsystemLinkToInstrument
              skos:Concept: RapidCompressionMachine
 UConnRCM-piston-pressure:
-        dataset:ChemConnectDataStructure: ssn:Sensor
+        dataset:ChemConnectDataStructure: dataset:SubSystemDescription
         dc:identifier: UConnRCM-device-piston-pressure
         dcterms:publisher: Admnistration
         dataset:accessibility: Public
-        ssn:hasProperty
+        rdf:Property:
           samplerate:
              skos:prefLabel: SamplingRate
              qudt:Unit: unit:SamplePerSecond
@@ -163,10 +170,10 @@ UConnRCM-piston-pressure:
              skos:prefLabel: ProductName
              qudt:Unit: dcat:keyword
              dataset:ValueAsString: Kistler 6125B transducer
-        dc:description
+        dc:description:
             dcat:dataset: none
             dcterms:type: PressureSensor
-            dcterms:title: Pressure Sensor: Kistler 6125B
+            dcterms:title: Pressure Sensor Kistler 6125B
             dcat:keyword: 
             - transducer
             - pressure
@@ -177,7 +184,7 @@ UConnRCM-piston-pressure:
                Pressure is recorded using a National Instruments data 
                acquisition card (PCI 6030E) with 16-bit resolution 
                and 100,000 samples/second.
-        skos:mappingRelation
+        skos:mappingRelation:
           pos1:
              qb:structure: UConnRCM-device-piston
              skos:related: PositionOfSensor
@@ -187,22 +194,22 @@ UConnRCM-piston-pressure:
              skos:related: PositionOfSensor
              skos:Concept: RapidCompressionMachine
 UConnRCM-piston-temperature:
-        dataset:ChemConnectDataStructure: ssn:Sensor
+        dataset:ChemConnectDataStructure: dataset:DeviceSensor
         dc:identifier: UConnRCM-device-piston-pressure
         dcterms:publisher: Admnistration
         dataset:accessibility: Public
-        prov:influenced
+        prov:influenced:
           purpose:
             skos:Concept: GasCompression
             dcterms:description: |
                  A trigger of a solenoid valve releases the pressure of the hydraulic 
                  chamber, and thus the piston arrangement moves forward by the pneumatic system.
-        ssn:hasProperty
+        rdf:Property:
           samplerate:
              skos:prefLabel: SamplingRate
-             qudt:Unit: unit:SamplePerSecond
+             qudt:Unit: SamplePerSecond
              dataset:ValueAsString: 100000
-         dc:description
+        dc:description:
             dcat:dataset: none
             dcterms:type: TemperatureSensor
             dcterms:title: Thermocouple
@@ -210,7 +217,7 @@ UConnRCM-piston-temperature:
              - temperature
             dcterms:description: |
                Thermocouple for initial temperature monitoring.
-        skos:mappingRelation
+        skos:mappingRelation:
           pos1:
              qb:structure: UConnRCM-device-piston
              skos:related: PositionOfSensor
@@ -219,12 +226,12 @@ UConnRCM-piston-temperature:
              qb:structure: UConnRCM-device
              skos:related: PositionOfSensor
              skos:Concept: RapidCompressionMachine
-UConnRCM-device-mixingchamber
-        dataset:ChemConnectDataStructure: ssn:hasSubSystem
+UConnRCM-device-mixingchamber:
+        dataset:ChemConnectDataStructure: dataset:SubSystemDescription
         dc:identifier: UConnRCM-device-mixingchamber
         dcterms:publisher: Admnistration
         dataset:accessibility: Public
-        datacite:isbn
+        datacite:isbn:
           ref1:
              dataset:ChemConnectDataStructure: datacite:doi
              datacite:PrimaryResourceIdentifier: 10.1080/00102200600671898
@@ -239,7 +246,7 @@ UConnRCM-device-mixingchamber
                   foaf:familyName: Sung
                   foaf:givenName: Chih-Jen
                   foaf:title: Prof.
-        ssn:hasProperty
+        rdf:Property:
           prop1:
              skos:prefLabel: CompressionRatio
              qudt:Unit: Ratio
@@ -256,7 +263,7 @@ UConnRCM-device-mixingchamber
              skos:prefLabel: PistonConfiguration
              qudt:Unit: dcat:keyword
              dataset:ValueAsString: pneumatic
-         dc:description
+        dc:description:
             dcat:dataset: none
             dcterms:type: RapidCompressionMachinePiston
             dcterms:title: Rapid Compression Machine Piston
@@ -267,7 +274,7 @@ UConnRCM-device-mixingchamber
             - quartz windows
             - hydraulic cylinder
             dcterms:description: |
-        prov:influenced
+        prov:influenced:
           purpose:
             skos:Concept: GasCompression
             dcterms:description: |
@@ -285,7 +292,7 @@ UConnRCM-device-mixingchamber
                fuel. A magnetic stirrer mixes the reactants. The temperature inside
                the mixing tank is allowed approximately 1.5 h to reach steady
                state.
-        skos:mappingRelation
+        skos:mappingRelation:
           link1:
              qb:structure: UConnRCM-device
              skos:related: SubsystemLinkToInstrument
