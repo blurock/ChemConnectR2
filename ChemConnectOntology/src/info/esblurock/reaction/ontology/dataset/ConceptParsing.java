@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.vocabulary.ReasonerVocabulary;
@@ -107,7 +106,7 @@ public class ConceptParsing {
 				"          }";
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
-		TreeSet<String> subsystems = new TreeSet<String>();
+		HashSet<String> subsystems = new HashSet<String>();
 		for (Map<String, String> map : stringlst) {
 			String subsystem = map.get("target");
 			subsystems.add(subsystem);
@@ -146,7 +145,7 @@ public class ConceptParsing {
 	public static Set<String> subSystemsAndComponents(String topclassS) {
 		Set<String> subsystems = immediateSubSystems(topclassS);
 		Set<String> components = immediateComponents(topclassS);
-		TreeSet<String> total = new TreeSet<String>(subsystems);
+		HashSet<String> total = new HashSet<String>(subsystems);
 		total.addAll(components);
 		for (String subsystem : subsystems) {
 			Set<String> sub = subSystemsAndComponents(subsystem);
@@ -213,7 +212,7 @@ public class ConceptParsing {
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
 		
-		TreeSet<String> set = new TreeSet<String>();
+		HashSet<String> set = new HashSet<String>();
 		for(Map<String, String> map : stringlst) {
 			String subsystem = map.get("subsystem");
 			set.add(subsystem);
@@ -241,10 +240,11 @@ public class ConceptParsing {
 		AttributesOfObject attset = parseAttributes(concept);
 		Map<String, Set<String>> subsystemsOfAttributes = attset.getSubsystemsOfAttributes();
 		
-		TreeSet<AttributeDescription> set = new TreeSet<AttributeDescription>(new AttributeDescriptionComparator());
+		HashSet<AttributeDescription> set = 
+				new HashSet<AttributeDescription>();
 		for(Map<String, String> map : stringlst) {
 			String attribute = map.get("propertyname");
-			TreeSet<String> subsystem = new TreeSet<String>();
+			HashSet<String> subsystem = new HashSet<String>();
 			subsystem.add(concept);
 			Set<String> subs = subsystemsOfAttributes.get(attribute);
 			if(subs != null) {
@@ -281,7 +281,7 @@ public class ConceptParsing {
 				}
 			}
 		}
-		Set<AttributeDescription> set = new TreeSet<AttributeDescription>(new AttributeDescriptionComparator());
+		Set<AttributeDescription> set = new HashSet<AttributeDescription>();
 		return total.extractAttributeDescription(set);
 	}
 

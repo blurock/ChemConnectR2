@@ -8,8 +8,8 @@ public class SubSystemConceptLink implements Serializable {
 	
 	String targetConcept;
 	String linkConcept;
+	
 	public SubSystemConceptLink() {
-		
 	}
 	public SubSystemConceptLink(String linkConcept, String targetConcept) {
 		this.targetConcept = targetConcept;

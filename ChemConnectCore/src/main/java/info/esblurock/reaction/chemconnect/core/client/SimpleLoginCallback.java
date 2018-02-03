@@ -1,5 +1,8 @@
 package info.esblurock.reaction.chemconnect.core.client;
 
+import java.util.Date;
+
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -16,6 +19,17 @@ public class SimpleLoginCallback implements AsyncCallback<UserDTO> {
 	@Override
 	public void onSuccess(UserDTO result) {
 		MaterialToast.fireToast("Welcome: " + result.getName() + "(" + result.getHostname() + ")");
+		String sessionID = result.getSessionId();
+		final long DURATION = 1000 * 60 * 60;
+		Date expires = new Date(System.currentTimeMillis()
+				+ DURATION);
+		Cookies.setCookie("sid", sessionID, expires, null,
+				"/", false);
+		Cookies.setCookie("user", result.getName(),
+				expires, null, "/", false);
+		Cookies.setCookie("level", result.getUserLevel(),
+				expires, null, "/", false);
+
 	}
 
 }

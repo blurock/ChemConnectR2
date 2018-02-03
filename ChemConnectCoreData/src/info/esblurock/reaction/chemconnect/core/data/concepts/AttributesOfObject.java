@@ -2,9 +2,9 @@ package info.esblurock.reaction.chemconnect.core.data.concepts;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 
 public class AttributesOfObject implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -32,7 +32,7 @@ public class AttributesOfObject implements Serializable {
 	public void addAttributeInSubsystem(String subsystem, String attribute) {
 		Set<String> set = attributesInSubsystems.get(subsystem);
 		if(set == null) {
-			set = new TreeSet<String>();
+			set = new HashSet<String>();
 			attributesInSubsystems.put(subsystem,set);
 		}
 		set.add(attribute);
@@ -41,7 +41,7 @@ public class AttributesOfObject implements Serializable {
 	public void addSubsystemOfAttribute(String subsystem, String attribute) {
 		Set<String> attrset = subsystemsOfAttributes.get(attribute);
 		if(attrset == null) {
-			attrset = new TreeSet<String>();
+			attrset = new HashSet<String>();
 			subsystemsOfAttributes.put(attribute,attrset);
 		}
 		attrset.add(subsystem);

@@ -21,7 +21,7 @@ public class DeviceHierarchyCallback implements AsyncCallback<TotalSubsystemInfo
 
 	@Override
 	public void onSuccess(TotalSubsystemInformation hierarchy) {
-		top.addHierarchialModal(hierarchy);
+		top.addHierarchialModal(hierarchy.getSubsystemtree(),hierarchy);
 	}
 
 }

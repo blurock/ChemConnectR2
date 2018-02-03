@@ -10,8 +10,11 @@
 	<m:MaterialPanel>
 	<m:MaterialPanel ui:field="modalpanel"/>
 	<m:MaterialRow>
-	<m:MaterialColumn grid="s12">
-	<m:MaterialLink ui:field="choose" text="Device Subsystem Component" textColor="BLACK"/>
+	<m:MaterialColumn grid="s4">
+	<m:MaterialLink ui:field="choose" textColor="BLACK"/>
+	</m:MaterialColumn>
+	<m:MaterialColumn grid="s8">
+	<m:MaterialTextBox ui:field="topname" label="Catagory" textColor="BLACK"/>
 	</m:MaterialColumn>
 	</m:MaterialRow>
 	
@@ -21,7 +24,7 @@
 				<m:MaterialLink ui:field="parameter" textColor="BLACK" />
 			</m:MaterialCollapsibleHeader>
 			<m:MaterialCollapsibleBody ui:field="bodycollapsible">
-				<m:MaterialCollapsible ui:field="contentcollapsible"/>
+					<m:MaterialCollapsible ui:field="contentcollapsible"/>
 			</m:MaterialCollapsibleBody>
 	</m:MaterialCollapsibleItem>
 	</m:MaterialCollapsible>

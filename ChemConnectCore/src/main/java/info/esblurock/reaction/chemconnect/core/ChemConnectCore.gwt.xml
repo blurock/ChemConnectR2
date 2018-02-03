@@ -12,7 +12,8 @@
 		name='info.esblurock.reaction.chemconnect.core.common.ChemConnectCoreClientServerCommon' />
 	<inherits
 		name='info.esblurock.reaction.chemconnect.core.ChemConnectCoreData' />
-		<inherits name='com.github.gwtd3.D3' />
+
+	<inherits name='com.github.gwtd3.D3' />
 	<!-- Inherit the default GWT style sheet. You can change -->
 	<!-- the theme of your GWT application by uncommenting -->
 	<!-- any one of the following lines. -->
