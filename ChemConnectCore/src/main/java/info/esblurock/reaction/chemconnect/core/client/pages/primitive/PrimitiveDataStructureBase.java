@@ -1,18 +1,14 @@
 package info.esblurock.reaction.chemconnect.core.client.pages.primitive;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
-import gwt.material.design.client.constants.Color;
-import gwt.material.design.client.ui.MaterialIcon;
-import gwt.material.design.client.ui.MaterialLabel;
-import gwt.material.design.client.ui.MaterialLink;
+import gwt.material.design.client.ui.MaterialColumn;
 import gwt.material.design.client.ui.MaterialPanel;
+import gwt.material.design.client.ui.MaterialRow;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
 
 public class PrimitiveDataStructureBase extends Composite {
@@ -22,20 +18,18 @@ public class PrimitiveDataStructureBase extends Composite {
 	interface PrimitiveDataStructureBaseUiBinder extends UiBinder<Widget, PrimitiveDataStructureBase> {
 	}
 
-	@UiField
-	MaterialIcon info;
-	@UiField
-	MaterialLabel elementName;
-	@UiField
-	MaterialPanel elementpanel;
+	String id;
 	
+	@UiField
+	MaterialRow row;
 	boolean editable;
-	
+	MaterialPanel panel;
 	
 	PrimitiveDataStructureInformation primitiveinfo;
 	
 	public PrimitiveDataStructureBase() {
 		initWidget(uiBinder.createAndBindUi(this));
+		id = "";
 		init();
 	}
 
@@ -43,26 +37,16 @@ public class PrimitiveDataStructureBase extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
 		this.primitiveinfo = primitiveinfo;
-		elementName.setText(primitiveinfo.getIdentifier());		
+		id = primitiveinfo.getIdentifier();		
 	}
 	public void init() {
 		editable = false;
-		info.setIconColor(Color.BLACK);
-		elementName.setTextColor(Color.BLACK);
+		panel = null;
 	}
 
-	@UiHandler("info")
-	public void onInfo(ClickEvent event) {
+	public void fill(PrimitiveDataStructureInformation primitiveinfo) {
+	}
 		
-	}
-	
-	public void addAsStringLabel() {
-		MaterialLink label = new MaterialLink();
-		label.setTextColor(Color.BLACK);
-		label.setText(primitiveinfo.getValue());
-		elementpanel.add(label);
-	}
-	
 	public boolean isEditable() {
 		return editable;
 	}
@@ -72,6 +56,12 @@ public class PrimitiveDataStructureBase extends Composite {
 	}
 
 	public MaterialPanel getPanel() {
-		return elementpanel;
+		if(panel == null) {
+			MaterialColumn column = new MaterialColumn();
+			row.add(column);
+			column.setGrid("s12");
+			panel = new MaterialPanel();
+		}
+		return panel;
 	}
 }

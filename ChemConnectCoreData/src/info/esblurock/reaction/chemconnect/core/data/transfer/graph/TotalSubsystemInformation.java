@@ -5,13 +5,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
+
 public class TotalSubsystemInformation implements Serializable {
 	private static final long serialVersionUID = 1L;
 	String identifier;
 	Map<String, SubsystemInformation> subsystemsandcomponents;
 	Map<String, String> attributesubsystemMap;
 	HierarchyNode subsystemtree;
-	
+	ChemConnectDataStructure infoStructure;
 	
 	public TotalSubsystemInformation(String identifier, 
 			Map<String, SubsystemInformation> subsystemsandcomponents,
@@ -57,6 +59,13 @@ public class TotalSubsystemInformation implements Serializable {
 	public void setAttributesubsystemMap(Map<String, String> attributesubsystemMap) {
 		this.attributesubsystemMap = attributesubsystemMap;
 	}
+
+	public ChemConnectDataStructure getInfoStructure() {
+		return infoStructure;
+	}
+	public void setInfoStructure(ChemConnectDataStructure infoStructure) {
+		this.infoStructure = infoStructure;
+	}
 	public String toString() {
 		return toString("");
 	}
@@ -85,6 +94,12 @@ public class TotalSubsystemInformation implements Serializable {
 		for(String sub : set) {
 			build.append(subsystemsandcomponents.get(sub).toString(sprefix));
 		}
+		if(infoStructure != null) {
+		build.append(infoStructure.toString());
+		} else {
+			build.append("Not Data Information Structure");
+		}
+		
 		return build.toString();
 	}
 }

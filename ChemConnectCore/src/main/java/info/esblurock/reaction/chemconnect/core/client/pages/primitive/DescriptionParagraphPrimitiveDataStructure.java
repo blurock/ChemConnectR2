@@ -14,4 +14,12 @@ public class DescriptionParagraphPrimitiveDataStructure extends PrimitiveDataStr
 		panel.add(paragraph);
 		
 	}
+	public DescriptionParagraphPrimitiveDataStructure() {
+		super();
+		MaterialPanel panel = this.getPanel();
+		MaterialTextArea paragraph = new MaterialTextArea();
+		paragraph.setText("");
+		panel.add(paragraph);
+		
+	}
 }

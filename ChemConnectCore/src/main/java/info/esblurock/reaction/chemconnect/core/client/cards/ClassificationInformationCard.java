@@ -9,6 +9,7 @@ import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialCardTitle;
 import gwt.material.design.client.ui.MaterialLabel;
 import info.esblurock.reaction.chemconnect.core.client.resources.DataTypeText;
+import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 
 public class ClassificationInformationCard extends CardModalInterface {
@@ -37,9 +38,15 @@ public class ClassificationInformationCard extends CardModalInterface {
 	public ClassificationInformationCard(ClassificationInformation info) {
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
-		dataType.setText(info.getDataType());
+		if(info.getDataType() != null) {
+		dataType.setText(TextUtilities.removeNamespace(info.getDataType()));
+		}
+		if(info.getIdName() != null) {
 		idNameElement.setText(info.getIdName());
+		}
+		if(info.getIdentifier() != null) {
 		identifierElement.setText(info.getIdentifier());
+		}
 		dataType.setIconType(IconType.ARROW_FORWARD);
 		if(info.getLink() != null) {
 			if(info.getLink().compareTo("dcat:record") == 0) {

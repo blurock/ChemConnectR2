@@ -19,10 +19,14 @@ import gwt.material.design.client.ui.MaterialToast;
 
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHeirarchy;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchies;
+import info.esblurock.reaction.chemconnect.core.client.pages.MainDataStructureCollapsible;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
+import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.TotalSubsystemInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
 
 public class DeviceWithSubystemsDefinition extends Composite implements HasText, ChooseFromConceptHeirarchy {
 
@@ -92,10 +96,28 @@ public class DeviceWithSubystemsDefinition extends Composite implements HasText,
 		ContactDatabaseAccessAsync async = ContactDatabaseAccess.Util.getInstance();
 		async.buildSubSystem(concept,callback);
 	}
+	
 	public void addHierarchialModal(HierarchyNode hierarchy, TotalSubsystemInformation top) {
 		SubsystemsAndDeviceCollapsible devicetop = new SubsystemsAndDeviceCollapsible(hierarchy.getIdentifier());
 		contentcollapsible.add(devicetop);
-		devicetop.addHierarchialModal(hierarchy, top,getTopCatagory(),null);
+		ChemConnectDataStructure infoStructure = top.getInfoStructure();
+		for(DataElementInformation element : infoStructure.getRecords()) {
+			Window.alert("DeviceWithSubystemsDefinition: DataElementInformation" + element.toString());
+			String type = element.getDataElementName();
+			ChemConnectCompoundDataStructure compound = infoStructure.getMapping().getStructure(type);
+			if(compound != null) {
+				Window.alert("DeviceWithSubystemsDefinition: ChemConnectDataStructure" + compound.toString());
+				MainDataStructureCollapsible main = new MainDataStructureCollapsible(compound,infoStructure);
+				devicetop.add(main);
+			} else {
+				Window.alert("Compound element not found: " + type);
+			}
+		}
+		/*
+		for(HierarchyNode sub: hierarchy.getSubNodes()) {
+			addHierarchialModal(sub,top);
+		}
+		*/
 	}
 
 }

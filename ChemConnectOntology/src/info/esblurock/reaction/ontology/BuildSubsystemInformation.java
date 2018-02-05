@@ -9,7 +9,9 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.graph.SubSystemCon
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.SubSystemParameters;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.SubsystemInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.TotalSubsystemInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
 import info.esblurock.reaction.ontology.dataset.ConceptParsing;
+import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 
 public class BuildSubsystemInformation {
 	
@@ -20,6 +22,8 @@ public class BuildSubsystemInformation {
 		total = new TotalSubsystemInformation(concept);
 		HierarchyNode info = buildHierarchy(concept,total.getSubsystemsandcomponents(), total.getAttributesubsystemMap());
 		total.setSubsystemtree(info);
+		ChemConnectDataStructure struct = DatasetOntologyParsing.getChemConnectDataStructure("dataset:DeviceDescription");
+		total.setInfoStructure(struct);
 		System.out.println(total.toString());
 	}
 

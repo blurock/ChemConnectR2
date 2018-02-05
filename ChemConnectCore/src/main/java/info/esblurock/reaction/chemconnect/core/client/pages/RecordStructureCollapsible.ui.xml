@@ -5,10 +5,22 @@
 	<ui:style>
 	</ui:style>
 		<m:MaterialCollapsibleItem ui:field="body">
-			<m:MaterialCollapsibleHeader>
-				<m:MaterialLink ui:field="title" textColor="BLACK" />
-				<!--  m:MaterialLink ui:field="info" iconType="INFO" iconPosition="RIGHT"/ -->
-				<m:MaterialLink ui:field="expand"  iconPosition="RIGHT"/>
+			<m:MaterialCollapsibleHeader ui:field="infoheader">
+			<m:MaterialRow>
+				<m:MaterialColumn grid="s5">
+					<m:MaterialLabel ui:field="datatype" textColor="BLACK" />
+				</m:MaterialColumn>
+				<m:MaterialColumn ui:field="columnlabel" grid="s5">
+					<m:MaterialLabel ui:field="identifier" textColor="BLACK" />
+				</m:MaterialColumn>
+				<m:MaterialColumn grid="s1">
+					<m:MaterialLink ui:field="info" iconType="INFO"
+						iconPosition="RIGHT" />
+				</m:MaterialColumn>
+				<m:MaterialColumn grid="s1">
+					<m:MaterialLink ui:field="expand" iconPosition="RIGHT" />
+				</m:MaterialColumn>
+			</m:MaterialRow>
 			</m:MaterialCollapsibleHeader>
 			<m:MaterialCollapsibleBody>
 				<m:MaterialPanel ui:field="panel"/>

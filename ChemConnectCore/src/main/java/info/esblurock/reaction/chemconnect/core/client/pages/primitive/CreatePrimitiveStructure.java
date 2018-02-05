@@ -11,6 +11,13 @@ public enum CreatePrimitiveStructure {
 			ClassificationPrimitiveDataStructure base = new ClassificationPrimitiveDataStructure(info);
 			return base;
 		}
+
+		@Override
+		public PrimitiveDataStructureBase createEmptyStructure(PrimitiveDataStructureInformation info) {
+			ClassificationPrimitiveDataStructure base = new ClassificationPrimitiveDataStructure(info);
+			base.fill(info);
+			return base;
+		}
 	}, dctermsdescription {
 
 		@Override
@@ -18,10 +25,18 @@ public enum CreatePrimitiveStructure {
 			DescriptionParagraphPrimitiveDataStructure base = new DescriptionParagraphPrimitiveDataStructure(info);
 			return base;
 		}
+
+		@Override
+		public PrimitiveDataStructureBase createEmptyStructure(PrimitiveDataStructureInformation info) {
+			DescriptionParagraphPrimitiveDataStructure base = new DescriptionParagraphPrimitiveDataStructure();
+			base.fill(info);
+			return base;
+		}
 		
 	};
 	
 	public abstract PrimitiveDataStructureBase createStructure(PrimitiveDataStructureInformation info);
+	public abstract PrimitiveDataStructureBase createEmptyStructure(PrimitiveDataStructureInformation info);
 	
 	public static CreatePrimitiveStructure getStructureType(PrimitiveDataStructureInformation primitive) {
 		CreatePrimitiveStructure create = null;

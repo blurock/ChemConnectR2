@@ -29,6 +29,18 @@ public class PrimitiveDataStructureInformation implements Serializable{
 		return value;
 	}
 
+	public void setPropertyType(String propertyType) {
+		this.propertyType = propertyType;
+	}
+
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append(propertyType);

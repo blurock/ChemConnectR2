@@ -8,6 +8,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
@@ -19,8 +20,13 @@ import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.chemconnect.core.client.cards.CardModal;
+import info.esblurock.reaction.chemconnect.core.client.pages.MainDataStructureCollapsible;
+import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.TotalSubsystemInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.MapToChemConnectCompoundDataStructure;
 
 public class SubsystemsAndDeviceCollapsible extends Composite implements HasText {
 
@@ -42,6 +48,8 @@ public class SubsystemsAndDeviceCollapsible extends Composite implements HasText
 	MaterialColumn labelcolumn;
 	@UiField
 	MaterialCollapsible contentcollapsible;
+	@UiField
+	MaterialCollapsible infocollapsible;
 	@UiField
 	MaterialLink info;
 	@UiField
@@ -76,8 +84,8 @@ public class SubsystemsAndDeviceCollapsible extends Composite implements HasText
 		 changeableIdentifier.setReadOnly(readonly);
 	 }
 	
-	public void add(SubsystemsAndDeviceCollapsible collapsible) {
-		contentcollapsible.add(collapsible);
+	public void add(MainDataStructureCollapsible collapsible) {
+		infocollapsible.add(collapsible);
 	}
 
 	public void setText(String text) {
@@ -116,7 +124,8 @@ public class SubsystemsAndDeviceCollapsible extends Composite implements HasText
 	}
 	
 	
-	public void addHierarchialModal(HierarchyNode hierarchy, TotalSubsystemInformation top, String catagory, String suffix) {
+	public void addHierarchialModal(ChemConnectDataStructure infoStructure, 
+			String catagory, String suffix) {
 		this.catagory = catagory;
 		this.suffix = suffix;
 		setCatagory();
@@ -125,14 +134,17 @@ public class SubsystemsAndDeviceCollapsible extends Composite implements HasText
 		if(suffix == null) {
 			newsuffix = "";
 		}
-		for(HierarchyNode sub : hierarchy.getSubNodes()) {
-			SubsystemsAndDeviceCollapsible subsystem = new SubsystemsAndDeviceCollapsible(sub.getIdentifier());
-			String subsuffix = newsuffix + delimiter + count++;
-			subsystem.addHierarchialModal(sub,top,catagory,subsuffix);
-			add(subsystem);
-			subList.add(subsystem);
+		for(DataElementInformation element : infoStructure.getRecords()) {
+			Window.alert("DeviceWithSubystemsDefinition: DataElementInformation\n" + element.toString());
+			String type = element.getDataElementName();
+			ChemConnectCompoundDataStructure compound = infoStructure.getMapping().getStructure(type);
+			if(compound != null) {
+				MainDataStructureCollapsible main = new MainDataStructureCollapsible(compound,infoStructure);
+				add(main);
+			} else {
+				Window.alert("Compound element not found: " + type);
+			}
 		}
-		
 	}
 	private String eliminateNamespace(String fullname) {
 		int pos = fullname.indexOf(":");

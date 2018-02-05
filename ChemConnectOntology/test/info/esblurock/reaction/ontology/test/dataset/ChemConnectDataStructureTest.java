@@ -115,7 +115,7 @@ public class ChemConnectDataStructureTest {
 
 	@Test
 	public void test() {
-		ChemConnectDataStructure struct1 = DatasetOntologyParsing.getChemConnectDataStructure("dataset:Instrument");
+		ChemConnectDataStructure struct1 = DatasetOntologyParsing.getChemConnectDataStructure("dataset:DeviceDescription");
 		System.out.println("getChemConnectDataStructure(\"dataset:Instrument\");");
 		System.out.println(struct1);
 		

@@ -4,15 +4,6 @@
 	<ui:style>
 	
 	</ui:style>
-	<m:MaterialRow>
-		<m:MaterialColumn grid="s1">
-			<m:MaterialIcon ui:field="info" iconType="INFO" />
-		</m:MaterialColumn>
-		<m:MaterialColumn grid="s4">
-			<m:MaterialLabel ui:field="elementName" />
-		</m:MaterialColumn>
-		<m:MaterialColumn grid="s7">
-			<m:MaterialPanel ui:field="elementpanel" />
-		</m:MaterialColumn>
+	<m:MaterialRow ui:field="row">
 	</m:MaterialRow>
 </ui:UiBinder> 

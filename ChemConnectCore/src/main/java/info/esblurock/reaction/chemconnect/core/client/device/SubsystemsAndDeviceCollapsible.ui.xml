@@ -24,12 +24,18 @@
 			<m:MaterialLink ui:field="expand"  iconPosition="RIGHT"/>
 			</m:MaterialColumn>
 			</m:MaterialRow>
-				
-				
-				
 			</m:MaterialCollapsibleHeader>
 			<m:MaterialCollapsibleBody>
-				<m:MaterialCollapsible ui:field="contentcollapsible"/>
+				<m:MaterialCollapsible ui:field="contentcollapsible">
+						<m:MaterialCollapsibleItem>
+							<m:MaterialCollapsibleHeader>
+								<m:MaterialLink ui:field="infoelements" text="Info" textColor="BLACK" />
+							</m:MaterialCollapsibleHeader>
+							<m:MaterialCollapsibleBody>
+								<m:MaterialCollapsible ui:field="infocollapsible"/>
+							</m:MaterialCollapsibleBody>
+						</m:MaterialCollapsibleItem>
+				</m:MaterialCollapsible>
 			</m:MaterialCollapsibleBody>
 		</m:MaterialCollapsibleItem>
 </ui:UiBinder> 
