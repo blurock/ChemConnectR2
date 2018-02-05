@@ -97,27 +97,32 @@ public class DeviceWithSubystemsDefinition extends Composite implements HasText,
 		async.buildSubSystem(concept,callback);
 	}
 	
-	public void addHierarchialModal(HierarchyNode hierarchy, TotalSubsystemInformation top) {
+	public void addTopHierarchialModal(HierarchyNode hierarchy, TotalSubsystemInformation top) {
 		SubsystemsAndDeviceCollapsible devicetop = new SubsystemsAndDeviceCollapsible(hierarchy.getIdentifier());
 		contentcollapsible.add(devicetop);
+		addHierarchialModal(hierarchy, top,devicetop);
+	}
+	
+	
+	public void addHierarchialModal(HierarchyNode hierarchy, TotalSubsystemInformation top,
+			SubsystemsAndDeviceCollapsible devicetop) {
+		//Window.alert("DeviceWithSubystemsDefinition: DataElementInformation" + hierarchy.toString());
 		ChemConnectDataStructure infoStructure = top.getInfoStructure();
 		for(DataElementInformation element : infoStructure.getRecords()) {
-			Window.alert("DeviceWithSubystemsDefinition: DataElementInformation" + element.toString());
 			String type = element.getDataElementName();
 			ChemConnectCompoundDataStructure compound = infoStructure.getMapping().getStructure(type);
 			if(compound != null) {
-				Window.alert("DeviceWithSubystemsDefinition: ChemConnectDataStructure" + compound.toString());
 				MainDataStructureCollapsible main = new MainDataStructureCollapsible(compound,infoStructure);
-				devicetop.add(main);
+				devicetop.getInfoCollapsible().add(main);
 			} else {
 				Window.alert("Compound element not found: " + type);
 			}
 		}
-		/*
 		for(HierarchyNode sub: hierarchy.getSubNodes()) {
-			addHierarchialModal(sub,top);
+			SubsystemsAndDeviceCollapsible subsystem = new SubsystemsAndDeviceCollapsible(sub.getIdentifier());
+			devicetop.getCollapsible().add(subsystem);
+			addHierarchialModal(sub,top,subsystem);
 		}
-		*/
 	}
 
 }

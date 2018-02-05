@@ -79,6 +79,12 @@ public class SubsystemsAndDeviceCollapsible extends Composite implements HasText
 		 delimiter = ".";
 	 }
 	
+	 MaterialCollapsible getCollapsible() {
+		 return contentcollapsible;
+	 }
+	 MaterialCollapsible getInfoCollapsible() {
+		 return infocollapsible;
+	 }
 	 
 	 public void setReadOnly(boolean readonly) {
 		 changeableIdentifier.setReadOnly(readonly);
