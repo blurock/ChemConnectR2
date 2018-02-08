@@ -653,6 +653,10 @@ xsd:date rdf:type rdfs:Datatype .
 :metaDataLabel rdf:type owl:ObjectProperty .
 
 
+###  http://www.esblurock.info/dataset#purpose
+:purpose rdf:type owl:ObjectProperty .
+
+
 ###  http://www.w3.org/2003/01/geo/wgs84_pos#location
 <http://www.w3.org/2003/01/geo/wgs84_pos#location> rdf:type owl:ObjectProperty ;
                                                    rdfs:subPropertyOf <http://xmlns.com/foaf/0.1/based_near> .
@@ -1014,6 +1018,12 @@ xsd:date rdf:type rdfs:Datatype .
 <http://purl.org/dc/terms/Standard> rdf:type owl:Class .
 
 
+###  http://www.esblurock.info/dataset#AbsoluteUncertainty
+:AbsoluteUncertainty rdf:type owl:Class ;
+                     rdfs:subClassOf :ChemConnectUncertaintyTypes ;
+                     owl:disjointWith :RelativeUncertainty .
+
+
 ###  http://www.esblurock.info/dataset#AngleParameters
 :AngleParameters rdf:type owl:Class ;
                  rdfs:subClassOf :ChemConnectValueParameter .
@@ -1044,7 +1054,30 @@ xsd:date rdf:type rdfs:Datatype .
 
 ###  http://www.esblurock.info/dataset#BurnerPlateDiameter
 :BurnerPlateDiameter rdf:type owl:Class ;
-                     rdfs:subClassOf :BurnerParameters .
+                     rdfs:subClassOf :BurnerParameters ,
+                                     [ rdf:type owl:Restriction ;
+                                       owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
+                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                       owl:onClass <http://data.nasa.gov/qudt/owl/qudt#LengthUnit>
+                                     ] ,
+                                     [ rdf:type owl:Restriction ;
+                                       owl:onProperty <http://purl.org/linked-data/cube#concept> ;
+                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                       owl:onClass :HeatFluxBurnerBurnerDimensions
+                                     ] ,
+                                     [ rdf:type owl:Restriction ;
+                                       owl:onProperty :hasPurpose ;
+                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                       owl:onClass :FlameBoundaryEffects
+                                     ] ;
+                     <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#Centimeter> .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :BurnerPlateDiameter ;
+   owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
+   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#Centimeter> ;
+   <http://www.w3.org/2004/02/skos/core#example> 8
+ ] .
 
 
 ###  http://www.esblurock.info/dataset#BurnerPlateObservations
@@ -1126,6 +1159,11 @@ xsd:date rdf:type rdfs:Datatype .
                             rdfs:subClassOf :DataTypeFileFormat .
 
 
+###  http://www.esblurock.info/dataset#CalculatedAbsoluteUncertainty
+:CalculatedAbsoluteUncertainty rdf:type owl:Class ;
+                               rdfs:subClassOf :AbsoluteUncertainty .
+
+
 ###  http://www.esblurock.info/dataset#CanteraFormat
 :CanteraFormat rdf:type owl:Class ;
                rdfs:subClassOf :ReactionMechanism .
@@ -1168,6 +1206,26 @@ xsd:date rdf:type rdfs:Datatype .
                                   rdfs:comment "This is the base structure of all records, meaning compound data structures. One of primary components is a link to the parent catagory." ;
                                   rdfs:label "Base Compound data structure" ;
                                   <http://www.w3.org/2004/02/skos/core#altLabel> "record" .
+
+
+###  http://www.esblurock.info/dataset#ChemConnectConceptInstrument
+:ChemConnectConceptInstrument rdf:type owl:Class ;
+                              rdfs:subClassOf :ChemConnectConceptProperties .
+
+
+###  http://www.esblurock.info/dataset#ChemConnectConceptProperties
+:ChemConnectConceptProperties rdf:type owl:Class ;
+                              rdfs:subClassOf :ChemConnectDomainConcept .
+
+
+###  http://www.esblurock.info/dataset#ChemConnectConceptSensor
+:ChemConnectConceptSensor rdf:type owl:Class ;
+                          rdfs:subClassOf :ChemConnectConceptProperties .
+
+
+###  http://www.esblurock.info/dataset#ChemConnectConceptSubsystem
+:ChemConnectConceptSubsystem rdf:type owl:Class ;
+                             rdfs:subClassOf :ChemConnectConceptProperties .
 
 
 ###  http://www.esblurock.info/dataset#ChemConnectDataStructure
@@ -1417,6 +1475,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#ChemConnectTimeSeries
 :ChemConnectTimeSeries rdf:type owl:Class ;
                        rdfs:subClassOf :ChemConnectSetOfObservations .
+
+
+###  http://www.esblurock.info/dataset#ChemConnectUncertaintyTypes
+:ChemConnectUncertaintyTypes rdf:type owl:Class ;
+                             rdfs:subClassOf :ChemConnectConceptProperties .
 
 
 ###  http://www.esblurock.info/dataset#ChemConnectValueParameter
@@ -2364,6 +2427,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
        rdfs:label "email data"^^xsd:string .
 
 
+###  http://www.esblurock.info/dataset#EstimatedAbsoluteUncertainty
+:EstimatedAbsoluteUncertainty rdf:type owl:Class ;
+                              rdfs:subClassOf :AbsoluteUncertainty .
+
+
 ###  http://www.esblurock.info/dataset#EvaporationComponent
 :EvaporationComponent rdf:type owl:Class ;
                       rdfs:subClassOf :DataTypeComponent ,
@@ -2474,9 +2542,24 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                 rdfs:subClassOf :FlameProbes .
 
 
+###  http://www.esblurock.info/dataset#FlameBoundaryEffects
+:FlameBoundaryEffects rdf:type owl:Class ;
+                      rdfs:subClassOf :HeatFluxBurnerPurpose .
+
+
 ###  http://www.esblurock.info/dataset#FlameBurner
 :FlameBurner rdf:type owl:Class ;
              rdfs:subClassOf :CombustionInstrument .
+
+
+###  http://www.esblurock.info/dataset#FlameConcept
+:FlameConcept rdf:type owl:Class ;
+              rdfs:subClassOf :ChemConnectConceptSubsystem .
+
+
+###  http://www.esblurock.info/dataset#FlameDefinition
+:FlameDefinition rdf:type owl:Class ;
+                 rdfs:subClassOf :HeatFluxBurnerPurpose .
 
 
 ###  http://www.esblurock.info/dataset#FlameMasterFormat
@@ -2532,6 +2615,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#FlameSpeciesDetection
 :FlameSpeciesDetection rdf:type owl:Class ;
                        rdfs:subClassOf :FlameSubsystems .
+
+
+###  http://www.esblurock.info/dataset#FlameStability
+:FlameStability rdf:type owl:Class ;
+                rdfs:subClassOf :HeatFluxBurnerPurpose .
 
 
 ###  http://www.esblurock.info/dataset#FlameSubsystems
@@ -2899,6 +2987,17 @@ Under the general type of is the actual data object referenced by the ChemConnec
  ] .
 
 
+###  http://www.esblurock.info/dataset#HeatFluxBurnerBurnerConcept
+:HeatFluxBurnerBurnerConcept rdf:type owl:Class ;
+                             rdfs:subClassOf :HeatFluxBurnerBurnerConcept ,
+                                             :HeatFluxBurnerConcept .
+
+
+###  http://www.esblurock.info/dataset#HeatFluxBurnerBurnerDimensions
+:HeatFluxBurnerBurnerDimensions rdf:type owl:Class ;
+                                rdfs:subClassOf :HeatFluxBurnerBurnerConcept .
+
+
 ###  http://www.esblurock.info/dataset#HeatFluxBurnerBurnerPlate
 :HeatFluxBurnerBurnerPlate rdf:type owl:Class ;
                            rdfs:subClassOf :HeatFluxBurnerSubSystems ,
@@ -2939,6 +3038,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                        ] ;
    <http://purl.org/dc/elements/1.1/type> :hasComponent
  ] .
+
+
+###  http://www.esblurock.info/dataset#HeatFluxBurnerConcept
+:HeatFluxBurnerConcept rdf:type owl:Class ;
+                       rdfs:subClassOf :FlameConcept .
 
 
 ###  http://www.esblurock.info/dataset#HeatFluxBurnerCoolingBath
@@ -3140,6 +3244,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#HeatFluxBurnerPlenumChamber
 :HeatFluxBurnerPlenumChamber rdf:type owl:Class ;
                              rdfs:subClassOf :MixingSubSystems .
+
+
+###  http://www.esblurock.info/dataset#HeatFluxBurnerPurpose
+:HeatFluxBurnerPurpose rdf:type owl:Class ;
+                       rdfs:subClassOf :Flames .
 
 
 ###  http://www.esblurock.info/dataset#HeatFluxBurnerSubSystems
@@ -3428,6 +3537,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#KeywordParameter
 :KeywordParameter rdf:type owl:Class ;
                   rdfs:subClassOf :ChemConnectValueParameter .
+
+
+###  http://www.esblurock.info/dataset#LaminarFlame
+:LaminarFlame rdf:type owl:Class ;
+              rdfs:subClassOf :HeatFluxBurnerPurpose .
 
 
 ###  http://www.esblurock.info/dataset#LinkToDataStructure
@@ -4037,6 +4151,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
                  <http://purl.org/dc/elements/1.1/type> "Password"^^xsd:string .
 
 
+###  http://www.esblurock.info/dataset#PercentageRelativeUncertainty
+:PercentageRelativeUncertainty rdf:type owl:Class ;
+                               rdfs:subClassOf :RelativeUncertainty ;
+                               owl:disjointWith :RelativeErrorUncertainty .
+
+
 ###  http://www.esblurock.info/dataset#PerfectlyStirredReactor
 :PerfectlyStirredReactor rdf:type owl:Class ;
                          rdfs:subClassOf :CombustionInstrument ;
@@ -4145,6 +4265,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                     rdfs:subClassOf :FlameProbe .
 
 
+###  http://www.esblurock.info/dataset#PropagatedAbsoluteUncertainty
+:PropagatedAbsoluteUncertainty rdf:type owl:Class ;
+                               rdfs:subClassOf :AbsoluteUncertainty .
+
+
 ###  http://www.esblurock.info/dataset#PropertySensorOutputProperty
 :PropertySensorOutputProperty rdf:type owl:Class ;
                               rdfs:subClassOf :ChemConnectPropertySensor .
@@ -4234,7 +4359,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :PurposeKeyword rdf:type owl:Class ;
                 rdfs:subClassOf :ConceptKeywords ;
                 <http://purl.org/dc/elements/1.1/type> "PurposeKeyword" ;
-                <http://purl.org/dc/terms/identifier> "dataset:purpose" .
+                <http://purl.org/dc/terms/identifier> :purpose .
 
 
 ###  http://www.esblurock.info/dataset#REACTIONMolecularInformationSet
@@ -4296,6 +4421,16 @@ Under the general type of is the actual data object referenced by the ChemConnec
                 <http://purl.org/dc/elements/1.1/type> "ReferenceTitle" ;
                 <http://purl.org/dc/terms/identifier> "dcterms:title"^^xsd:string ;
                 <http://www.w3.org/2004/02/skos/core#altLabel> "reftitle"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#RelativeErrorUncertainty
+:RelativeErrorUncertainty rdf:type owl:Class ;
+                          rdfs:subClassOf :RelativeUncertainty .
+
+
+###  http://www.esblurock.info/dataset#RelativeUncertainty
+:RelativeUncertainty rdf:type owl:Class ;
+                     rdfs:subClassOf :ChemConnectUncertaintyTypes .
 
 
 ###  http://www.esblurock.info/dataset#ReportedValue
@@ -4390,6 +4525,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :Spectrometer rdf:type owl:Class ;
               rdfs:subClassOf :MeasurementInstrument ;
               <http://purl.org/dc/elements/1.1/type> "Spectrometer" .
+
+
+###  http://www.esblurock.info/dataset#StandardDeviationAbsoluteUncertainty
+:StandardDeviationAbsoluteUncertainty rdf:type owl:Class ;
+                                      rdfs:subClassOf :AbsoluteUncertainty .
 
 
 ###  http://www.esblurock.info/dataset#StandardFileFormatInput
@@ -6551,10 +6691,27 @@ basic geo vocab
 
 
 [ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :CalculatedAbsoluteUncertainty
+                :EstimatedAbsoluteUncertainty
+                :PropagatedAbsoluteUncertainty
+                :StandardDeviationAbsoluteUncertainty
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
   owl:members ( :ChemConnectCalibrationProtocol
                 :ChemConnectExtractionProtocol
                 :ChemConnectInterpretationProtocol
                 :ChemConnectMeasurementProtocol
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :ChemConnectConceptInstrument
+                :ChemConnectConceptSensor
+                :ChemConnectConceptSubsystem
               )
 ] .
 

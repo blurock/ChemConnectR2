@@ -26,14 +26,27 @@
 			</m:MaterialPanel>
 		</m:MaterialModalContent>
 		<m:MaterialModalFooter ui:field="footer">
+		
 			<m:MaterialLink ui:field="close" text="CLOSE" type="FLAT"
-				iconColor="BLACK" textAlign="RIGHT"/>
-			<m:MaterialLink ui:field="choosedevice" type="FLAT"
+				iconColor="BLACK" textAlign="RIGHT"/>		
+			<!--  m:MaterialLink ui:field="link1"  text="link1" type="FLAT"
+				iconColor="BLACK" textAlign="RIGHT"/>		
+			<m:MaterialLink ui:field="link2"  text="link2" type="FLAT"
+				iconColor="BLACK" textAlign="RIGHT"/>		
+			<m:MaterialLink ui:field="link3"  text="link3"  type="FLAT"
+				iconColor="BLACK" textAlign="RIGHT"/>		
+			<m:MaterialLink ui:field="link4"  text="link4"  type="FLAT"
+				iconColor="BLACK" textAlign="RIGHT"/ -->		
+				
+				
+			<!--m:MaterialLink ui:field="choosedevice" type="FLAT"
 				text="Device" textColor="BLACK" textAlign="LEFT"/>
 			<m:MaterialLink ui:field="choosesubsystem" type="FLAT"
 				text="Subsystem" textColor="BLACK" />
 			<m:MaterialLink ui:field="choosecomponent" type="FLAT"
-				text="Component" textColor="BLACK" />
+				text="Component" textColor="BLACK" / -->
+				
+				
 		</m:MaterialModalFooter>
 	</m:MaterialModal>
 

@@ -86,7 +86,7 @@ public class RecordStructureCollapsible extends Composite {
 			CreatePrimitiveStructure create = CreatePrimitiveStructure.valueOf(structurename);
 			PrimitiveDataStructureInformation info = new PrimitiveDataStructureInformation(
 					element.getDataElementName(), element.getIdentifier(), "");
-			PrimitiveDataStructureBase base = create.createEmptyStructure(info);
+			PrimitiveDataStructureBase base = create.createEmptyStructure();
 			infoheader.add(base);
 		} catch (Exception ex) {
 			PrimitiveDataStructureInformation info = new PrimitiveDataStructureInformation(structurename,

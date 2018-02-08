@@ -1,5 +1,7 @@
 package info.esblurock.reaction.ontology;
 
+import java.net.URL;
+
 public class AlternativeEntryWithAppFiles extends AlternativeEntry {
 
 	public String getVcardLocal() {
@@ -52,20 +54,28 @@ public class AlternativeEntryWithAppFiles extends AlternativeEntry {
 	
 	@Override
 	public String getQUDTUnitLocal() {
-		return "file:src/info/esblurock/reaction/ontology/resources/unit.owl";
+		String path = "info/esblurock/reaction/ontology/resources/unit.owl";
+		URL url = getClass().getClassLoader().getResource(path);
+		return url.toString();
 	}
 
 	@Override
 	public String getQUDTQuantityLocal() {
-		return "file:src/info/esblurock/reaction/ontology/resources/quantity.owl";
+		String path = "info/esblurock/reaction/ontology/resources/quantity.owl";
+		URL url = getClass().getClassLoader().getResource(path);
+		return url.toString();
 	}
 	public String getQUDTQudtLocal() {
-		return "file:src/info/esblurock/reaction/ontology/resources/qudt.owl";
+		String path = "info/esblurock/reaction/ontology/resources/qudt.owl";
+		URL url = getClass().getClassLoader().getResource(path);
+		return url.toString();
 	}
 
 	@Override
 	public String getQUDTDimensionLocal() {
-		return "file:src/info/esblurock/reaction/ontology/resources/dimension.owl";
+		String path = "info/esblurock/reaction/ontology/resources/dimension.owl";
+		URL url = getClass().getClassLoader().getResource(path);
+		return url.toString();
 	}
 
 }

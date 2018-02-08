@@ -46,7 +46,7 @@ public class OntologyBase {
 				unitsmodel.getDocumentManager().addAltEntry(alt.getQUDTDimension(), alt.getQUDTQudtLocal());
 				unitsmodel.getDocumentManager().addAltEntry(alt.getQUDTQuantity(), alt.getQUDTQuantityLocal());
 				unitsmodel.getDocumentManager().addAltEntry(alt.getQUDTUnit(), alt.getQUDTUnitLocal());
-				// model.read("http://qudt.org/2.0/vocab/VOCAB_QUDT-UNITS-PHYSICAL-CHEMISTRY-AND-MOLECULAR-PHYSICS-v2.0.ttl");
+				unitsmodel.read("http://qudt.org/2.0/vocab/VOCAB_QUDT-UNITS-PHYSICAL-CHEMISTRY-AND-MOLECULAR-PHYSICS-v2.0.ttl");
 				unitsmodel.read("http://data.nasa.gov/qudt/owl/quantity");
 				unitsmodel.read("http://data.nasa.gov/qudt/owl/unit");
 			}
@@ -139,7 +139,8 @@ public class OntologyBase {
 				+ "PREFIX dcat: <http://www.w3.org/ns/dcat#>\n"
 				+ "PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>\n"
 				+ "PREFIX dataset: <http://www.esblurock.info/dataset#>\n"
-                 + "PREFIX ssn: <http://www.w3.org/ns/ssn#>" + "\n";
+                 + "PREFIX ssn: <http://www.w3.org/ns/ssn#>" + "\n"
+                 + "PREFIX qudt: <http://data.nasa.gov/qudt/owl/qudt#>" + "\n";
 		return databasePrefix;
 	}
 

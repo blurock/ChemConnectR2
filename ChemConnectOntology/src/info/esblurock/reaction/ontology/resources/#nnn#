@@ -1,0 +1,24 @@
+SELECT ?unit ?kind ?symbol ?multiplier ?offset ?abbrev
+	WHERE {
+             ?unit   rdf:type qudt:MassUnit .
+           ?unit qudt:conversionMultiplier ?multiplier .
+            ?unit qudt:conversionOffset ?offset .
+            ?unit qudt:abbreviation ?abbrev .
+             ?unit qudt:symbol ?symbol .
+             ?unit qudt:quantityKind ?kind
+            }
+
+SELECT ?unit ?kind  ?pred ?about ?con
+	WHERE {
+             ?unit rdf:type ?kind .
+            unit:Kilometer rdf:type ?kind .
+           unit:Kilometer qudt:conversionMultiplier ?con
+            }
+
+  SELECT  ?prop ?parameter
+        WHERE {
+	dataset:BurnerPlateDiameter rdfs:subClassOf ?sub .
+                  ?sub owl:onProperty ?prop .
+                  ?sub owl:onClass ?parameter
+              }
+

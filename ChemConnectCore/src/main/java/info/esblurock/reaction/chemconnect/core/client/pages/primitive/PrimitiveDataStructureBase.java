@@ -6,9 +6,9 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
-import gwt.material.design.client.ui.MaterialColumn;
+import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.ui.MaterialPanel;
-import gwt.material.design.client.ui.MaterialRow;
+import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
 
 public class PrimitiveDataStructureBase extends Composite {
@@ -21,9 +21,8 @@ public class PrimitiveDataStructureBase extends Composite {
 	String id;
 	
 	@UiField
-	MaterialRow row;
+	MaterialPanel row;
 	boolean editable;
-	MaterialPanel panel;
 	
 	PrimitiveDataStructureInformation primitiveinfo;
 	
@@ -41,9 +40,12 @@ public class PrimitiveDataStructureBase extends Composite {
 	}
 	public void init() {
 		editable = false;
-		panel = null;
 	}
 
+	public void add(Widget widget) {
+		row.add(widget);
+	}
+	
 	public void fill(PrimitiveDataStructureInformation primitiveinfo) {
 	}
 		
@@ -55,13 +57,7 @@ public class PrimitiveDataStructureBase extends Composite {
 		this.editable = editable;
 	}
 
-	public MaterialPanel getPanel() {
-		if(panel == null) {
-			MaterialColumn column = new MaterialColumn();
-			row.add(column);
-			column.setGrid("s12");
-			panel = new MaterialPanel();
-		}
-		return panel;
+	public void setRowColorMultiple(Color color) {
+		row.setBackgroundColor(color);
 	}
 }

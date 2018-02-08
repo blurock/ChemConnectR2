@@ -1,9 +1,34 @@
 package info.esblurock.reaction.chemconnect.core.client.pages.primitive;
 
 
+import gwt.material.design.client.ui.MaterialToast;
+import info.esblurock.reaction.chemconnect.core.client.pages.primitive.value.PrimitiveParameterValue;
+import info.esblurock.reaction.chemconnect.core.client.pages.primitive.value.PrimitiveParameterValueRow;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterValueInformation;
 
 public enum CreatePrimitiveStructure {
+	
+	ParameterValue {
+
+		@Override
+		public PrimitiveDataStructureBase createStructure(PrimitiveDataStructureInformation info) {
+			PrimitiveDataStructureBase base = new PrimitiveDataStructureBase(info);
+			PrimitiveParameterValue value = new PrimitiveParameterValue(info);
+			base.add(value);
+			return value;
+		}
+
+		@Override
+		public PrimitiveDataStructureBase createEmptyStructure() {
+			PrimitiveParameterValueInformation info = new PrimitiveParameterValueInformation();
+			PrimitiveDataStructureBase base = new PrimitiveDataStructureBase(info);
+			PrimitiveParameterValue value = new PrimitiveParameterValue(info);
+			base.add(value);
+			return value;
+		}
+		
+	},
 	datasetClassification {
 
 		@Override
@@ -13,9 +38,8 @@ public enum CreatePrimitiveStructure {
 		}
 
 		@Override
-		public PrimitiveDataStructureBase createEmptyStructure(PrimitiveDataStructureInformation info) {
-			ClassificationPrimitiveDataStructure base = new ClassificationPrimitiveDataStructure(info);
-			base.fill(info);
+		public PrimitiveDataStructureBase createEmptyStructure() {
+			ClassificationPrimitiveDataStructure base = new ClassificationPrimitiveDataStructure();
 			return base;
 		}
 	}, dctermsdescription {
@@ -27,16 +51,15 @@ public enum CreatePrimitiveStructure {
 		}
 
 		@Override
-		public PrimitiveDataStructureBase createEmptyStructure(PrimitiveDataStructureInformation info) {
+		public PrimitiveDataStructureBase createEmptyStructure() {
 			DescriptionParagraphPrimitiveDataStructure base = new DescriptionParagraphPrimitiveDataStructure();
-			base.fill(info);
 			return base;
 		}
 		
 	};
 	
 	public abstract PrimitiveDataStructureBase createStructure(PrimitiveDataStructureInformation info);
-	public abstract PrimitiveDataStructureBase createEmptyStructure(PrimitiveDataStructureInformation info);
+	public abstract PrimitiveDataStructureBase createEmptyStructure();
 	
 	public static CreatePrimitiveStructure getStructureType(PrimitiveDataStructureInformation primitive) {
 		CreatePrimitiveStructure create = null;

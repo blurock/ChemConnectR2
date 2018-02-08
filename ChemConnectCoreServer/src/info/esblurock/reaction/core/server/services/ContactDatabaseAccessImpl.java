@@ -3,10 +3,11 @@ package info.esblurock.reaction.core.server.services;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Set;
 
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.concepts.SetOfUnitProperties;
 import info.esblurock.reaction.chemconnect.core.data.contact.Organization;
 import info.esblurock.reaction.chemconnect.core.data.login.UserAccount;
 import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
@@ -14,6 +15,7 @@ import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.data.rdf.SetOfKeywordRDF;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DatasetInformationFromOntology;
+import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterValueInformation;
 import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.services.util.DatabaseObjectUtilities;
 import info.esblurock.reaction.io.dataset.InterpretData;
@@ -21,6 +23,7 @@ import info.esblurock.reaction.io.db.QueryBase;
 import info.esblurock.reaction.ontology.BuildSubsystemInformation;
 import info.esblurock.reaction.ontology.dataset.ConceptParsing;
 import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
+import info.esblurock.reaction.ontology.units.OntologyUnits;
 import info.esblurock.reaction.chemconnect.core.data.transfer.RecordInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.TotalSubsystemInformation;
@@ -104,4 +107,20 @@ public class ContactDatabaseAccessImpl  extends ServerBase implements ContactDat
 		BuildSubsystemInformation build = new BuildSubsystemInformation(concept);
 		return build.SubsystemInformation();
 	}
+	
+	public SetOfUnitProperties unitProperties(String topunit) {
+		return OntologyUnits.getSetOfUnitProperties(topunit);
+	}
+	
+	public ArrayList<PrimitiveParameterValueInformation> getParameterInfo(ArrayList<String> parameternames) {
+		System.out.println(parameternames);
+		ArrayList<PrimitiveParameterValueInformation> parameters  = new ArrayList<PrimitiveParameterValueInformation>();
+		for(String name : parameternames) {
+			PrimitiveParameterValueInformation info = ConceptParsing.fillParameterInfo(name);
+			parameters.add(info);
+		}
+		System.out.println(parameters);
+		return parameters;
+ 	}
+	
 }

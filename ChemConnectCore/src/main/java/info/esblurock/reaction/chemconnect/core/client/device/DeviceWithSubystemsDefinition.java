@@ -1,5 +1,7 @@
 package info.esblurock.reaction.chemconnect.core.client.device;
 
+import java.util.ArrayList;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -25,6 +27,7 @@ import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatab
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
+import info.esblurock.reaction.chemconnect.core.data.transfer.graph.SubsystemInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.TotalSubsystemInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
 
@@ -68,7 +71,11 @@ public class DeviceWithSubystemsDefinition extends Composite implements HasText,
 	
 	@UiHandler("choose")
 	public void chooseConcept(ClickEvent event) {
-		ChooseFromConceptHierarchies choosedevice = new ChooseFromConceptHierarchies(this);
+		ArrayList<String> choices = new ArrayList<String>();
+		choices.add("dataset:DataTypeDevice");
+		choices.add("dataset:DataTypeSubSystem");
+		choices.add("dataset:DataTypeComponent");
+		ChooseFromConceptHierarchies choosedevice = new ChooseFromConceptHierarchies(choices,this);
 		modalpanel.add(choosedevice);
 		choosedevice.open();
 	}
@@ -90,8 +97,7 @@ public class DeviceWithSubystemsDefinition extends Composite implements HasText,
 	}
 	
 	@Override
-	public void conceptChosen(String concept) {
-		MaterialToast.fireToast("conceptChose: " + concept);
+	public void conceptChosen(String topconcept, String concept) {
 		DeviceHierarchyCallback callback = new DeviceHierarchyCallback(this);
 		ContactDatabaseAccessAsync async = ContactDatabaseAccess.Util.getInstance();
 		async.buildSubSystem(concept,callback);
@@ -106,23 +112,32 @@ public class DeviceWithSubystemsDefinition extends Composite implements HasText,
 	
 	public void addHierarchialModal(HierarchyNode hierarchy, TotalSubsystemInformation top,
 			SubsystemsAndDeviceCollapsible devicetop) {
-		//Window.alert("DeviceWithSubystemsDefinition: DataElementInformation" + hierarchy.toString());
 		ChemConnectDataStructure infoStructure = top.getInfoStructure();
 		for(DataElementInformation element : infoStructure.getRecords()) {
 			String type = element.getDataElementName();
+			SubsystemInformation subsysteminfo = top.getSubsystemsandcomponents().get(hierarchy.getIdentifier());
 			ChemConnectCompoundDataStructure compound = infoStructure.getMapping().getStructure(type);
 			if(compound != null) {
-				MainDataStructureCollapsible main = new MainDataStructureCollapsible(compound,infoStructure);
+				MainDataStructureCollapsible main = new MainDataStructureCollapsible(compound,infoStructure,subsysteminfo);
 				devicetop.getInfoCollapsible().add(main);
 			} else {
 				Window.alert("Compound element not found: " + type);
 			}
 		}
+		/*
 		for(HierarchyNode sub: hierarchy.getSubNodes()) {
 			SubsystemsAndDeviceCollapsible subsystem = new SubsystemsAndDeviceCollapsible(sub.getIdentifier());
 			devicetop.getCollapsible().add(subsystem);
 			addHierarchialModal(sub,top,subsystem);
 		}
+		*/
+	}
+
+	public void fillParameters(MainDataStructureCollapsible main, 
+			SubsystemInformation subsysteminfo) {
+		
+		
+		
 	}
 
 }

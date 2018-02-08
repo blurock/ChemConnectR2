@@ -40,8 +40,12 @@ public class PrimitiveDataStructureInformation implements Serializable{
 	public void setValue(String value) {
 		this.value = value;
 	}
-
+	
 	public String toString() {
+		return toString("");
+	}
+	
+	public String toString(String prefix) {
 		StringBuilder builder = new StringBuilder();
 		builder.append(propertyType);
 		builder.append(" (");

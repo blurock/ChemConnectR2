@@ -2,17 +2,20 @@ package info.esblurock.reaction.chemconnect.core.common.client.async;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Set;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.concepts.SetOfUnitProperties;
 import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.data.rdf.SetOfKeywordRDF;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DatasetInformationFromOntology;
+import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterValueInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.RecordInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.TotalSubsystemInformation;
@@ -47,4 +50,7 @@ public interface ContactDatabaseAccess extends RemoteService {
 	HierarchyNode hierarchyOfConcepts(String topnode);
 	HierarchyNode hierarchyOfConceptsWithLevelLimit(String topnode, int maxlevel);
 	TotalSubsystemInformation buildSubSystem(String concept);
+	SetOfUnitProperties unitProperties(String topunit);
+	ArrayList<PrimitiveParameterValueInformation> getParameterInfo(ArrayList<String> parameternames);
+
 }

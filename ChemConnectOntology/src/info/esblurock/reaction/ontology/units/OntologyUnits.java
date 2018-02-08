@@ -12,6 +12,8 @@ import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 
+import info.esblurock.reaction.chemconnect.core.data.concepts.SetOfUnitProperties;
+import info.esblurock.reaction.chemconnect.core.data.concepts.UnitProperties;
 import info.esblurock.reaction.ontology.AlternativeEntryWithAppFiles;
 import info.esblurock.reaction.ontology.OntologyBase;
 import info.esblurock.reaction.ontology.utilities.IsolateResultList;
@@ -23,7 +25,7 @@ public class OntologyUnits extends OntologyBase {
 		String queryPrefix = OntologyBase.getStandardPrefixUnits();
 
 		String queryString = queryPrefix + "SELECT  ?subject" + "\n"
-				+ " WHERE {?subject ?p quant:ThermodynamicTemperature}";
+				+ " WHERE {?subject ?p " + unittype + " }";
 
 		Query query = QueryFactory.create(queryString);
 		QueryExecution qe = QueryExecutionFactory.create(query, m);
@@ -35,7 +37,7 @@ public class OntologyUnits extends OntologyBase {
 	}
 
 	public static UnitProperties UnitInformation(String unitname) {
-		UnitProperties props = new UnitProperties();
+		UnitProperties props = new UnitProperties(unitname);
 		AlternativeEntryWithAppFiles alt = new AlternativeEntryWithAppFiles();
 		OntModel m = OntologyBase.Util.getUnitsOntology();
 		String queryPrefix = OntologyBase.getStandardPrefixUnits();
@@ -74,4 +76,15 @@ public class OntologyUnits extends OntologyBase {
 		return props;
 	}
 
+	public static SetOfUnitProperties getSetOfUnitProperties(String topunit) {
+		ArrayList<Resource> lst = OntologyUnits.getUnitSet(topunit);
+		SetOfUnitProperties set = new SetOfUnitProperties(topunit);
+		for (Resource resource : lst) {
+			System.out.println("-------------------------------\nUnit Result: " + resource.getLocalName());
+			UnitProperties unit = OntologyUnits.UnitInformation(resource.getLocalName());
+			set.addUnitProperties(unit);
+			System.out.println(unit.toString());
+		}
+		return set;
+	}
 }
