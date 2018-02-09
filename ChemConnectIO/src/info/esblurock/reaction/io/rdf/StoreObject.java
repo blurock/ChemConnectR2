@@ -6,7 +6,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-import com.google.appengine.api.datastore.DatastoreTimeoutException;
+//import com.google.appengine.api.datastore.DatastoreTimeoutException;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.base.DateAsString;
@@ -231,9 +231,11 @@ public class StoreObject {
 
 	public void writeSet() {
 		int timeout_ms = 100;
+		DatabaseWriteBase.writeListOfDatabaseObjects(toBeStored);
+		/*
 		while (true) {
 			try {
-				DatabaseWriteBase.writeListOfDatabaseObjects(toBeStored);
+				
 				break;
 			} catch (DatastoreTimeoutException e) {
 				try {
@@ -249,6 +251,7 @@ public class StoreObject {
 				}
 			}
 		}
+		*/
 	}
 	
 	

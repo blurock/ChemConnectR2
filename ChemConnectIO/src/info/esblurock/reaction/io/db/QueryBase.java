@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.appengine.api.datastore.QueryResultIterator;
 import com.google.appengine.api.datastore.Cursor;
+import com.google.appengine.api.datastore.QueryResultIterator;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
 
@@ -31,10 +31,12 @@ public class QueryBase {
 		ofy().save().entity(count).now();
 		return count.getCount();
 	}
+
 	public static DatabaseObject getDatabaseObjectWith(Class<?> cls, Long id) {
 		DatabaseObject obj = (DatabaseObject) ofy().load().key(Key.create(cls, id)).now();
 		return obj;
 	}
+
 	public static String getDataSourceIdentification(String username) {
 		DataSourceIdentification sourceID = ofy().load().type(DataSourceIdentification.class).id(username).now();
 		if(sourceID != null) {
@@ -64,18 +66,24 @@ public class QueryBase {
 	static public DatabaseObject getDatabaseObjectFromIdentifier(String classname, String identifier) throws IOException {
 		return getFirstDatabaseObjectsFromSingleProperty(classname, "identifier", identifier);
 	}
+	
+	
 	@SuppressWarnings("unchecked")
-	static public List<DatabaseObject> getDatabaseObjectsFromSingleProperty(String classname, String propertyname,
+	static public List<DatabaseObject> getDatabaseObjectsFromSingleProperty(String classname, 
+			String propertyname,
 			String propertyvalue) throws IOException {
 		@SuppressWarnings("rawtypes")
 		Class objClass;
 		List<DatabaseObject> set = null;
 		try {
 			objClass = Class.forName(classname);
-			set = (List<DatabaseObject>) ofy().load().type(objClass).filter(propertyname, propertyvalue);
+			
+			Object o = ofy().load().type(objClass).filter(propertyname, propertyvalue).first().now();
+			set = (List<DatabaseObject>) o;
 		} catch (ClassNotFoundException e) {
 			throw new IOException("Class not found: " + classname);
 		}
+		
 		return set;
 	}
 	
@@ -118,6 +126,7 @@ public class QueryBase {
 	}
 	
 	public static SingleQueryResult StandardQueryResult(QuerySetupBase parameters) throws ClassNotFoundException {
+
 		System.out.println("StandardQueryResult: set up query: " + parameters.getQueryClass());
 		Class<?> cls = Class.forName(parameters.getQueryClass());
 		Query<?> query = ofy().load().type(cls);

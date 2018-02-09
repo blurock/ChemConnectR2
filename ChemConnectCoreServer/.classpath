@@ -22,35 +22,15 @@
 	<classpathentry kind="lib" path="/ChemConnectOntology/jars/xml-apis-1.4.01.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ChemConnectOntology"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ChemConnectIO"/>
-	<classpathentry kind="con" path="com.google.cloud.tools.eclipse.appengine.libraries/googleapiclient">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="lib" path="/opt/Google/appengine-java-sdk-1.9.54/lib/user/jsr107cache-1.1.jar"/>
-	<classpathentry kind="con" path="com.google.cloud.tools.eclipse.appengine.libraries/googlecloudstorage">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="con" path="com.google.cloud.tools.eclipse.appengine.libraries/googlecloudcore">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="con" path="com.google.cloud.tools.eclipse.appengine.libraries/appengine-endpoints">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="con" path="com.google.cloud.tools.eclipse.appengine.libraries/appengine-api">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="lib" path="/opt/Google/appengine-testing-1.9.51.jar"/>
 	<classpathentry kind="lib" path="/opt/Google/appengine-api-1.0-sdk-1.9.51.jar"/>
 	<classpathentry kind="lib" path="/opt/Google/appengine-api-labs-1.9.51.jar"/>
 	<classpathentry kind="lib" path="/opt/Google/appengine-api-stubs-1.9.51.jar"/>
+	<classpathentry kind="con" path="com.google.cloud.tools.eclipse.appengine.libraries/master-container">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

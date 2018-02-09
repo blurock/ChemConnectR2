@@ -20,11 +20,6 @@
 	<classpathentry kind="lib" path="jars/jena-shaded-guava-3.3.0.jar"/>
 	<classpathentry kind="lib" path="jars/jena-tdb-3.3.0.jar"/>
 	<classpathentry kind="lib" path="jars/libthrift-0.9.3.jar"/>
-	<classpathentry kind="con" path="com.google.cloud.tools.eclipse.appengine.libraries/googleapiclient">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="lib" path="jars/httpclient-cache-4.3.2.jar"/>
 	<classpathentry kind="lib" path="/opt/yaml/yamlbeans.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ChemConnectIO"/>

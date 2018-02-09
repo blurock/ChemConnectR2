@@ -131,7 +131,6 @@ public class SubsystemsAndDeviceCollapsible extends Composite implements HasText
 		}
 		*/
 		for (DataElementInformation element : infoStructure.getRecords()) {
-			Window.alert("DeviceWithSubystemsDefinition: DataElementInformation\n" + element.toString());
 			String type = element.getDataElementName();
 			ChemConnectCompoundDataStructure compound = infoStructure.getMapping().getStructure(type);
 			if (compound != null) {

@@ -15,7 +15,6 @@ public class ParameterSetInfoCallback  implements AsyncCallback<ArrayList<Primit
 	
 	
 	public ParameterSetInfoCallback(Map<String, PrimitiveDataStructureBase> structuremap) {
-		Window.alert("ParameterSetInfoCallback");
 		this.structuremap = structuremap;
 	}
 

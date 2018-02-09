@@ -161,8 +161,6 @@ public class MainDataStructureCollapsible extends Composite {
 		String structurename = element.getDataElementName();
 		try {
 			CreatePrimitiveStructure create = CreatePrimitiveStructure.valueOf(structurename);
-			PrimitiveDataStructureInformation info = new PrimitiveDataStructureInformation(
-					element.getDataElementName(), element.getIdentifier(), "");
 			PrimitiveDataStructureBase base = create.createEmptyStructure();
 			content.add(base);
 		} catch (Exception ex) {

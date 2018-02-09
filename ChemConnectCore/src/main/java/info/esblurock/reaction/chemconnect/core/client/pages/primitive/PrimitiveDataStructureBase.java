@@ -8,7 +8,6 @@ import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.ui.MaterialPanel;
-import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
 
 public class PrimitiveDataStructureBase extends Composite {

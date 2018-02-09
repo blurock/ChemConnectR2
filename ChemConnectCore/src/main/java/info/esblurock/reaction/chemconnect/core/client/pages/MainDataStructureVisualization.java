@@ -40,7 +40,6 @@ public class MainDataStructureVisualization extends Composite {
 	}
 
 	public void addMainStructures(HierarchyNode node) {
-		Window.alert(node.toString());
 		StructureHierarchyCollapsible collapse = new StructureHierarchyCollapsible(node);
 		contentcollapsible.add(collapse);
 	}
