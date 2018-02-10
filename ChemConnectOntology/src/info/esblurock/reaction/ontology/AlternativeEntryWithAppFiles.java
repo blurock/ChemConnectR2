@@ -58,6 +58,11 @@ public class AlternativeEntryWithAppFiles extends AlternativeEntry {
 		URL url = getClass().getClassLoader().getResource(path);
 		return url.toString();
 	}
+	public String getPhysicsUnitLocal() {
+		String path = "info/esblurock/reaction/ontology/resources/VOCAB_QUDT-UNITS-PHYSICAL-CHEMISTRY-AND-MOLECULAR-PHYSICS-v2.0.ttl";
+		URL url = getClass().getClassLoader().getResource(path);
+		return url.toString();
+	}
 
 	@Override
 	public String getQUDTQuantityLocal() {

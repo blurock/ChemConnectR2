@@ -14,6 +14,7 @@ import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.QueryFactory;
 import org.apache.jena.query.ResultSet;
+import org.apache.jena.query.ResultSetFactory;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.RDFNode;
@@ -46,7 +47,8 @@ public class OntologyBase {
 				unitsmodel.getDocumentManager().addAltEntry(alt.getQUDTDimension(), alt.getQUDTQudtLocal());
 				unitsmodel.getDocumentManager().addAltEntry(alt.getQUDTQuantity(), alt.getQUDTQuantityLocal());
 				unitsmodel.getDocumentManager().addAltEntry(alt.getQUDTUnit(), alt.getQUDTUnitLocal());
-				unitsmodel.read("http://qudt.org/2.0/vocab/VOCAB_QUDT-UNITS-PHYSICAL-CHEMISTRY-AND-MOLECULAR-PHYSICS-v2.0.ttl");
+				unitsmodel.getDocumentManager().addAltEntry(alt.getPhysicsUnit(), alt.getPhysicsUnitLocal());
+				//unitsmodel.read(alt.getPhysicsUnit());
 				unitsmodel.read("http://data.nasa.gov/qudt/owl/quantity");
 				unitsmodel.read("http://data.nasa.gov/qudt/owl/unit");
 			}
@@ -76,14 +78,8 @@ public class OntologyBase {
 				String filename = "/info/esblurock/reaction/ontology/resources/Dataset.ttl";
 				InputStream str = OntologyBase.class.getResourceAsStream(filename);
 				
-				Iterator<String> iter = datasetmodel.getDocumentManager().listDocuments();
-				while(iter.hasNext()) {
-					String name = iter.next();
-					System.out.println(name);
-				}
 				try {
 					datasetmodel.read(str, "http://esblurock.info", "TURTLE");
-					System.out.println("OntModel getDatabaseOntology() 3");
 				} catch (Exception ex) {
 					System.out.println("Error in reading Ontology:   " + filename + "\n" + ex.toString());
 				}
@@ -127,6 +123,7 @@ public class OntologyBase {
 				+ "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>" + "\n"
 				+ "PREFIX unit: <http://data.nasa.gov/qudt/owl/unit#>" + "\n"
 				+ "PREFIX quant: <http://data.nasa.gov/qudt/owl/quantity#>" + "\n"
+				+ "PREFIX dataset: <http://www.esblurock.info/dataset#>\n"
 				+ "PREFIX qudt: <http://data.nasa.gov/qudt/owl/qudt#>" + "\n";
 		return queryPrefix;
 	}
@@ -156,8 +153,15 @@ public class OntologyBase {
 		OntModel model = OntologyBase.Util.getDatabaseOntology();
 		String fullquery = getStandardPrefixDatabase() + queryS;
 		Query query = QueryFactory.create(fullquery);
-		QueryExecution qe = QueryExecutionFactory.create(query, model);
-		ResultSet results = qe.execSelect();
+		QueryExecution qe = null;
+		ResultSet results = null;
+		try {
+		qe = QueryExecutionFactory.create(query, model);
+		results = qe.execSelect();
+		results = ResultSetFactory.copyResults(results) ;
+		} finally {
+		qe.close();
+		}
 		return results;
 	}
 

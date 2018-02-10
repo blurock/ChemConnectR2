@@ -260,15 +260,17 @@ public class PrimitiveParameterValueRow extends Composite implements HasText,Cho
 			parameterUnits.addItem(name);
 			index++;
 		}
+		parameterUnits.addItem("Other");
 		parameterUnits.setSelectedIndex(selected);
 	}
 	
 	@UiHandler("parameterUnits")
 	public void onClickCombo(ClickEvent event) {
 		String name = parameterUnits.getSelectedValue().toString();
+		MaterialToast.fireToast("Selected: " + name);
 		unitproperties = setOfUnitProperties.getUnitPropertyFromAbbreviation(name);
 		chosenUnit = unitproperties.getUnitName();
-		}
+	}
 	
 	@Override
 	public void conceptChosen(String topconcept, String chosenConcept) {

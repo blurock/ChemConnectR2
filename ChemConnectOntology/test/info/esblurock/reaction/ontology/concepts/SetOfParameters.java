@@ -1,23 +1,26 @@
-package info.esblurock.reaction.ontology.test;
+package info.esblurock.reaction.ontology.concepts;
 
-//import static org.junit.Assert.*;
+import static org.junit.Assert.*;
+
+import java.util.Set;
 
 import org.junit.Test;
 
 import info.esblurock.reaction.chemconnect.core.data.concepts.SetOfUnitProperties;
 import info.esblurock.reaction.ontology.units.OntologyUnits;
 
-public class TestMeasurementOntology {
+public class SetOfParameters {
 
 	@Test
 	public void test() {
+		String topunit = "dataset:MassFlowControllerClassification";
 		
-		String topunit = "qudt:TimeUnit";
+		Set<String> cls = OntologyUnits.classifications(topunit);
+		System.out.println(cls);
+	
 		SetOfUnitProperties set = OntologyUnits.getSetOfUnitProperties(topunit);
 		System.out.println(set.toString());
-		String topunit2 = "qudt:TemperatureUnit";
-		SetOfUnitProperties set2 = OntologyUnits.getSetOfUnitProperties(topunit2);
-		System.out.println(set2.toString());
+		
 	}
 
 }

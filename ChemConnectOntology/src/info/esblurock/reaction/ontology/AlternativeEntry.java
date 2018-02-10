@@ -55,6 +55,13 @@ public abstract class AlternativeEntry {
 	public String getQUDTUnitPrefix() {
 		return "unit:";
 	}
+	public String getPhysicsUnit() {
+		return "http://qudt.org/2.0/vocab/VOCAB_QUDT-UNITS-PHYSICAL-CHEMISTRY-AND-MOLECULAR-PHYSICS-v2.0.ttl";
+	}
+	abstract public String getPhysicsUnitLocal();
+	public String getPhysicsUnitPrefix() {
+		return "unit:";
+	}
 	
 	public String getQUDTQuantity() {
 		return "http://data.nasa.gov/qudt/owl/quantity";

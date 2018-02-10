@@ -60,7 +60,7 @@ public class IsolateResultList {
 	        		String name = iter.next();
 	        		if(name.compareTo(variableName) == 0) {
 	            		RDFNode node = result.get(name);
-	            		if(node.isResource()) {
+	            		if(node.isResource()) { 
 	            			Resource resource = node.asResource();
 	            			results.add(resource);  
 	            		} else if(node.isLiteral()) {

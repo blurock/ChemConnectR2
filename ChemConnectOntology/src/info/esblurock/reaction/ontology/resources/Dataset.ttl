@@ -1056,11 +1056,6 @@ xsd:date rdf:type rdfs:Datatype .
 :BurnerPlateDiameter rdf:type owl:Class ;
                      rdfs:subClassOf :BurnerParameters ,
                                      [ rdf:type owl:Restriction ;
-                                       owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
-                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                       owl:onClass <http://data.nasa.gov/qudt/owl/qudt#LengthUnit>
-                                     ] ,
-                                     [ rdf:type owl:Restriction ;
                                        owl:onProperty <http://purl.org/linked-data/cube#concept> ;
                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                        owl:onClass :HeatFluxBurnerBurnerDimensions
@@ -1095,11 +1090,6 @@ xsd:date rdf:type rdfs:Datatype .
                                          ] .
 
 
-###  http://www.esblurock.info/dataset#BurnerPlateRadius
-:BurnerPlateRadius rdf:type owl:Class ;
-                   rdfs:subClassOf :BurnerParameters .
-
-
 ###  http://www.esblurock.info/dataset#BurnerPlateThermocoupleMeasurement
 :BurnerPlateThermocoupleMeasurement rdf:type owl:Class ;
                                     rdfs:subClassOf :DataTypeMeasurementActivity ,
@@ -1129,13 +1119,48 @@ xsd:date rdf:type rdfs:Datatype .
 
 ###  http://www.esblurock.info/dataset#BurntGasTemperature
 :BurntGasTemperature rdf:type owl:Class ;
-                     rdfs:subClassOf :TemperatureParameter ;
-                     rdfs:isDefinedBy :HeatFluxBurnerHeatingJacket .
+                     rdfs:subClassOf :TemperatureParameter ,
+                                     [ rdf:type owl:Restriction ;
+                                       owl:onProperty <http://purl.org/linked-data/cube#concept> ;
+                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                       owl:onClass :PreIgnitionTemperature
+                                     ] ,
+                                     [ rdf:type owl:Restriction ;
+                                       owl:onProperty :hasPurpose ;
+                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                       owl:onClass :FlameDefinition
+                                     ] ;
+                     <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#DegreeCelsius> .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :BurntGasTemperature ;
+   owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
+   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#DegreeCelsius> ;
+   <http://www.w3.org/2004/02/skos/core#example> 120
+ ] .
 
 
 ###  http://www.esblurock.info/dataset#BurntUnburntTemperatureDifference
 :BurntUnburntTemperatureDifference rdf:type owl:Class ;
-                                   rdfs:subClassOf :TemperatureParameter .
+                                   rdfs:subClassOf :TemperatureParameter ,
+                                                   [ rdf:type owl:Restriction ;
+                                                     owl:onProperty <http://purl.org/linked-data/cube#concept> ;
+                                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                     owl:onClass :HeatFluxBurnerFlameRegulation
+                                                   ] ,
+                                                   [ rdf:type owl:Restriction ;
+                                                     owl:onProperty :hasPurpose ;
+                                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                     owl:onClass :FlameStability
+                                                   ] ;
+                                   <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#DegreeCelsius> .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :BurntUnburntTemperatureDifference ;
+   owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
+   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#DegreeCelsius> ;
+   <http://www.w3.org/2004/02/skos/core#example> 70
+ ] .
 
 
 ###  http://www.esblurock.info/dataset#CHEMKINMecahnismWithThermo
@@ -1494,6 +1519,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                 rdfs:label "Classification data"^^xsd:string .
 
 
+###  http://www.esblurock.info/dataset#ClassificationUnit
+:ClassificationUnit rdf:type owl:Class ;
+                    rdfs:subClassOf :DescriptionUnit .
+
+
 ###  http://www.esblurock.info/dataset#CombustionFeature
 :CombustionFeature rdf:type owl:Class ;
                    rdfs:subClassOf <http://www.w3.org/ns/sosa/FeatureOfInterest> .
@@ -1755,6 +1785,16 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#ContactSiteOf
 :ContactSiteOf rdf:type owl:Class ;
                rdfs:subClassOf :HTTPAddress .
+
+
+###  http://www.esblurock.info/dataset#CoolingDownGases
+:CoolingDownGases rdf:type owl:Class ;
+                  rdfs:subClassOf :TemperatureRegulation .
+
+
+###  http://www.esblurock.info/dataset#CoolingHeatFluxBurnerPlate
+:CoolingHeatFluxBurnerPlate rdf:type owl:Class ;
+                            rdfs:subClassOf :HeatFluxBurnerBurnerConcept .
 
 
 ###  http://www.esblurock.info/dataset#DOI
@@ -2341,6 +2381,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                   rdfs:subClassOf :OneLine .
 
 
+###  http://www.esblurock.info/dataset#DescriptionUnit
+:DescriptionUnit rdf:type owl:Class ;
+                 rdfs:subClassOf <http://data.nasa.gov/qudt/owl/qudt#Unit> .
+
+
 ###  http://www.esblurock.info/dataset#DeviceCalibrationProtocolApplication
 :DeviceCalibrationProtocolApplication rdf:type owl:Class ;
                                       rdfs:subClassOf :ChemConnectProtocolApplication ,
@@ -2352,6 +2397,21 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                       <http://purl.org/dc/terms/identifier> "dataset:DeviceCalibrationActivity" ;
                                       rdfs:label "calibration activity" ;
                                       <http://www.w3.org/2004/02/skos/core#altLabel> "calibration" .
+
+
+###  http://www.esblurock.info/dataset#DeviceComponentModel
+:DeviceComponentModel rdf:type owl:Class ;
+                      rdfs:subClassOf :DeviceSpecificationPurpose .
+
+
+###  http://www.esblurock.info/dataset#DeviceComponentSpecification
+:DeviceComponentSpecification rdf:type owl:Class ;
+                              rdfs:subClassOf :DeviceSpecificationPurpose .
+
+
+###  http://www.esblurock.info/dataset#DeviceComponentVendor
+:DeviceComponentVendor rdf:type owl:Class ;
+                       rdfs:subClassOf :DeviceSpecificationPurpose .
 
 
 ###  http://www.esblurock.info/dataset#DeviceDescription
@@ -2374,6 +2434,16 @@ Under the general type of is the actual data object referenced by the ChemConnec
                    <http://www.w3.org/2004/02/skos/core#altLabel> "devdescr"^^xsd:string .
 
 
+###  http://www.esblurock.info/dataset#DeviceMeasurementRanges
+:DeviceMeasurementRanges rdf:type owl:Class ;
+                         rdfs:subClassOf :InstrumentConcept .
+
+
+###  http://www.esblurock.info/dataset#DevicePhysicalDimension
+:DevicePhysicalDimension rdf:type owl:Class ;
+                         rdfs:subClassOf :ChemConnectConceptSubsystem .
+
+
 ###  http://www.esblurock.info/dataset#DeviceSensor
 :DeviceSensor rdf:type owl:Class ;
               rdfs:subClassOf :DeviceDescription ;
@@ -2382,6 +2452,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
               rdfs:isDefinedBy <http://www.w3.org/ns/sosa/Sensor> ;
               rdfs:label "Device Sensor"^^xsd:string ;
               <http://www.w3.org/2004/02/skos/core#altLabel> "sensor"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#DeviceSpecificationPurpose
+:DeviceSpecificationPurpose rdf:type owl:Class ;
+                            rdfs:subClassOf :ChemConnectPurposeInstrument .
 
 
 ###  http://www.esblurock.info/dataset#DistanceBurnerToProbeOffset
@@ -2393,7 +2468,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :DistanceParameter rdf:type owl:Class ;
                    rdfs:subClassOf :ChemConnectValueParameter ,
                                    [ rdf:type owl:Restriction ;
-                                     owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitFor> ;
+                                     owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                      owl:onClass <http://data.nasa.gov/qudt/owl/qudt#LengthUnit>
                                    ] .
@@ -2477,7 +2552,25 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#EvaporationSystemType
 :EvaporationSystemType rdf:type owl:Class ;
-                       rdfs:subClassOf :KeywordParameter .
+                       rdfs:subClassOf :KeywordParameter ,
+                                       [ rdf:type owl:Restriction ;
+                                         owl:onProperty <http://purl.org/linked-data/cube#concept> ;
+                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                         owl:onClass :LiquidFuelToGas
+                                       ] ,
+                                       [ rdf:type owl:Restriction ;
+                                         owl:onProperty :hasPurpose ;
+                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                         owl:onClass :DeviceComponentSpecification
+                                       ] ;
+                       <http://www.w3.org/2004/02/skos/core#example> :DescriptionKeyword .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :EvaporationSystemType ;
+   owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
+   owl:annotatedTarget :DescriptionKeyword ;
+   <http://www.w3.org/2004/02/skos/core#example> "ControlledEvaporationMixing"
+ ] .
 
 
 ###  http://www.esblurock.info/dataset#EvaporatorManufacturer
@@ -2487,6 +2580,103 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                               owl:someValuesFrom :HeatFluxBurnerGasMassFlow
                                             ] ;
                         rdfs:subClassOf :ManufacturerName .
+
+
+###  http://www.esblurock.info/dataset#ExperimentRangeLowerTemperature
+:ExperimentRangeLowerTemperature rdf:type owl:Class ;
+                                 rdfs:subClassOf :TemperatureParameter ,
+                                                 [ rdf:type owl:Restriction ;
+                                                   owl:onProperty <http://purl.org/linked-data/cube#concept> ;
+                                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                   owl:onClass :DeviceMeasurementRanges
+                                                 ] ,
+                                                 [ rdf:type owl:Restriction ;
+                                                   owl:onProperty :hasPurpose ;
+                                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                   owl:onClass :MeasurementLimitation
+                                                 ] ;
+                                 <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#Kelvin> .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :ExperimentRangeLowerTemperature ;
+   owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
+   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#Kelvin> ;
+   <http://www.w3.org/2004/02/skos/core#example> 1000
+ ] .
+
+
+###  http://www.esblurock.info/dataset#ExperimentalRangeLowerPressure
+:ExperimentalRangeLowerPressure rdf:type owl:Class ;
+                                rdfs:subClassOf :PressureParameter ,
+                                                [ rdf:type owl:Restriction ;
+                                                  owl:onProperty <http://purl.org/linked-data/cube#concept> ;
+                                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                  owl:onClass :DeviceMeasurementRanges
+                                                ] ,
+                                                [ rdf:type owl:Restriction ;
+                                                  owl:onProperty :hasPurpose ;
+                                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                  owl:onClass :MeasurementLimitation
+                                                ] ;
+                                <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#Bar> .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :ExperimentalRangeLowerPressure ;
+   owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
+   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#Bar> ;
+   <http://www.w3.org/2004/02/skos/core#example> 1
+ ] .
+
+
+###  http://www.esblurock.info/dataset#ExperimentalRangeUpperPressure
+:ExperimentalRangeUpperPressure rdf:type owl:Class ;
+                                rdfs:subClassOf :PressureParameter ,
+                                                [ rdf:type owl:Restriction ;
+                                                  owl:onProperty <http://purl.org/linked-data/cube#concept> ;
+                                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                  owl:onClass :DeviceMeasurementRanges
+                                                ] ,
+                                                [ rdf:type owl:Restriction ;
+                                                  owl:onProperty :hasPurpose ;
+                                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                  owl:onClass :MeasurementLimitation
+                                                ] ;
+                                <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#Bar> .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :ExperimentalRangeUpperPressure ;
+   owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
+   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#Bar> ;
+   <http://www.w3.org/2004/02/skos/core#example> 10
+ ] .
+
+
+###  http://www.esblurock.info/dataset#ExperimentalRangeUpperTemperature
+:ExperimentalRangeUpperTemperature rdf:type owl:Class ;
+                                   rdfs:subClassOf :TemperatureParameter ,
+                                                   [ rdf:type owl:Restriction ;
+                                                     owl:onProperty <http://purl.org/linked-data/cube#concept> ;
+                                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                     owl:onClass :DeviceMeasurementRanges
+                                                   ] ,
+                                                   [ rdf:type owl:Restriction ;
+                                                     owl:onProperty :hasPurpose ;
+                                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                     owl:onClass :MeasurementLimitation
+                                                   ] ;
+                                   <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#Kelvin> .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :ExperimentalRangeUpperTemperature ;
+   owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
+   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#Kelvin> ;
+   <http://www.w3.org/2004/02/skos/core#example> 2000
+ ] .
+
+
+###  http://www.esblurock.info/dataset#ExperimentalRegulation
+:ExperimentalRegulation rdf:type owl:Class ;
+                        rdfs:subClassOf :ChemConnectConceptSubsystem .
 
 
 ###  http://www.esblurock.info/dataset#ExtractionProtocolApplication
@@ -2544,7 +2734,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#FlameBoundaryEffects
 :FlameBoundaryEffects rdf:type owl:Class ;
-                      rdfs:subClassOf :HeatFluxBurnerPurpose .
+                      rdfs:subClassOf :Flames .
 
 
 ###  http://www.esblurock.info/dataset#FlameBurner
@@ -2559,7 +2749,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#FlameDefinition
 :FlameDefinition rdf:type owl:Class ;
-                 rdfs:subClassOf :HeatFluxBurnerPurpose .
+                 rdfs:subClassOf :Flames .
 
 
 ###  http://www.esblurock.info/dataset#FlameMasterFormat
@@ -2619,7 +2809,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#FlameStability
 :FlameStability rdf:type owl:Class ;
-                rdfs:subClassOf :HeatFluxBurnerPurpose .
+                rdfs:subClassOf :Flames .
 
 
 ###  http://www.esblurock.info/dataset#FlameSubsystems
@@ -2639,7 +2829,35 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#FluidCoolingHeatingSystem
 :FluidCoolingHeatingSystem rdf:type owl:Class ;
-                           rdfs:subClassOf :KeywordParameter .
+                           rdfs:subClassOf :KeywordParameter ,
+                                           [ rdf:type owl:Restriction ;
+                                             owl:onProperty <http://purl.org/linked-data/cube#concept> ;
+                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                             owl:onClass :TemperatureControl
+                                           ] ,
+                                           [ rdf:type owl:Restriction ;
+                                             owl:onProperty :hasPurpose ;
+                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                             owl:onClass :DeviceComponentSpecification
+                                           ] ;
+                           <http://www.w3.org/2004/02/skos/core#example> :DescriptionKeyword .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :FluidCoolingHeatingSystem ;
+   owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
+   owl:annotatedTarget :DescriptionKeyword ;
+   <http://www.w3.org/2004/02/skos/core#example> "WaterBath"
+ ] .
+
+
+###  http://www.esblurock.info/dataset#FuelSubsystem
+:FuelSubsystem rdf:type owl:Class ;
+               rdfs:subClassOf :ChemConnectConceptSubsystem .
+
+
+###  http://www.esblurock.info/dataset#FundamentalExperimentalMeasurement
+:FundamentalExperimentalMeasurement rdf:type owl:Class ;
+                                    rdfs:subClassOf :ChemConnectPurposeSensor .
 
 
 ###  http://www.esblurock.info/dataset#GPS
@@ -2686,6 +2904,16 @@ Under the general type of is the actual data object referenced by the ChemConnec
                 <http://purl.org/dc/elements/1.1/type> "GasCompression" .
 
 
+###  http://www.esblurock.info/dataset#GasCoriolisFlowController
+:GasCoriolisFlowController rdf:type owl:Class ;
+                           rdfs:subClassOf :MassFlowControllerClassification .
+
+
+###  http://www.esblurock.info/dataset#GasFlowRegulation
+:GasFlowRegulation rdf:type owl:Class ;
+                   rdfs:subClassOf :FuelSubsystem .
+
+
 ###  http://www.esblurock.info/dataset#GasFlowSubSystem
 :GasFlowSubSystem rdf:type owl:Class ;
                   rdfs:subClassOf :MassFlowSubsystems ,
@@ -2713,7 +2941,8 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#GasMassFlowController
 :GasMassFlowController rdf:type owl:Class ;
-                       rdfs:subClassOf :MassFlowSubsystems ,
+                       rdfs:subClassOf :MassFlowControllerClassification ,
+                                       :MassFlowSubsystems ,
                                        [ rdf:type owl:Restriction ;
                                          owl:onProperty :hasComponent ;
                                          owl:someValuesFrom :GasMassFlowControllerComponent
@@ -2784,22 +3013,32 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                 [ rdf:type owl:Restriction ;
                                   owl:onProperty <http://purl.org/linked-data/cube#attribute> ;
                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                  owl:onClass :ExperimentRangeLowerTemperature
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty <http://purl.org/linked-data/cube#attribute> ;
+                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                  owl:onClass :ExperimentalRangeLowerPressure
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty <http://purl.org/linked-data/cube#attribute> ;
+                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                  owl:onClass :ExperimentalRangeUpperPressure
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty <http://purl.org/linked-data/cube#attribute> ;
+                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                  owl:onClass :ExperimentalRangeUpperTemperature
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty <http://purl.org/linked-data/cube#attribute> ;
+                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                   owl:onClass :FluidCoolingHeatingSystem
                                 ] ,
                                 [ rdf:type owl:Restriction ;
                                   owl:onProperty <http://purl.org/linked-data/cube#attribute> ;
                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                   owl:onClass :LiquidMFCType
-                                ] ,
-                                [ rdf:type owl:Restriction ;
-                                  owl:onProperty <http://purl.org/linked-data/cube#attribute> ;
-                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                  owl:onClass :PressureRange
-                                ] ,
-                                [ rdf:type owl:Restriction ;
-                                  owl:onProperty <http://purl.org/linked-data/cube#attribute> ;
-                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                  owl:onClass :TemperatureRange
                                 ] ,
                                 [ rdf:type owl:Restriction ;
                                   owl:onProperty <http://purl.org/linked-data/cube#attribute> ;
@@ -2904,28 +3143,6 @@ Under the general type of is the actual data object referenced by the ChemConnec
    owl:annotatedTarget [ rdf:type owl:Restriction ;
                          owl:onProperty <http://purl.org/linked-data/cube#attribute> ;
                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                         owl:onClass :PressureRange
-                       ] ;
-   rdfs:isDefinedBy :HeatFluxBurner
- ] .
-
-[ rdf:type owl:Axiom ;
-   owl:annotatedSource :HeatFluxBurner ;
-   owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget [ rdf:type owl:Restriction ;
-                         owl:onProperty <http://purl.org/linked-data/cube#attribute> ;
-                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                         owl:onClass :TemperatureRange
-                       ] ;
-   rdfs:isDefinedBy :HeatFluxBurner
- ] .
-
-[ rdf:type owl:Axiom ;
-   owl:annotatedSource :HeatFluxBurner ;
-   owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget [ rdf:type owl:Restriction ;
-                         owl:onProperty <http://purl.org/linked-data/cube#attribute> ;
-                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                          owl:onClass :ThermocoupleType
                        ] ;
    rdfs:isDefinedBy :HeatFluxBurnerThermocouple
@@ -2995,7 +3212,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#HeatFluxBurnerBurnerDimensions
 :HeatFluxBurnerBurnerDimensions rdf:type owl:Class ;
-                                rdfs:subClassOf :HeatFluxBurnerBurnerConcept .
+                                rdfs:subClassOf :DevicePhysicalDimension .
 
 
 ###  http://www.esblurock.info/dataset#HeatFluxBurnerBurnerPlate
@@ -3090,15 +3307,36 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :HeatFluxBurnerCoolingWaterBathTemperature rdf:type owl:Class ;
                                            rdfs:subClassOf :TemperatureParameter ,
                                                            [ rdf:type owl:Restriction ;
-                                                             owl:onProperty <http://www.w3.org/2004/02/skos/core#relatedMatch> ;
-                                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                             owl:onClass :UnburntGasTemperature
-                                                           ] .
+                                                             owl:onProperty <http://purl.org/linked-data/cube#concept> ;
+                                                             owl:someValuesFrom :HeatFluxBurnerFlameRegulation
+                                                           ] ,
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty :purpose ;
+                                                             owl:someValuesFrom :RegulateFlameTemperature
+                                                           ] ;
+                                           <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#DegreeCelsius> .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :HeatFluxBurnerCoolingWaterBathTemperature ;
+   owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
+   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#DegreeCelsius> ;
+   <http://www.w3.org/2004/02/skos/core#example> 120
+ ] .
+
+
+###  http://www.esblurock.info/dataset#HeatFluxBurnerFlameRegulation
+:HeatFluxBurnerFlameRegulation rdf:type owl:Class ;
+                               rdfs:subClassOf :HeatFluxBurnerConcept .
 
 
 ###  http://www.esblurock.info/dataset#HeatFluxBurnerFlameSubSystem
 :HeatFluxBurnerFlameSubSystem rdf:type owl:Class ;
                               rdfs:subClassOf :HeatFluxBurnerSubSystems .
+
+
+###  http://www.esblurock.info/dataset#HeatFluxBurnerFlameTemperature
+:HeatFluxBurnerFlameTemperature rdf:type owl:Class ;
+                                rdfs:subClassOf :HeatFluxBurnerBurnerConcept .
 
 
 ###  http://www.esblurock.info/dataset#HeatFluxBurnerFuelPreparation
@@ -3225,10 +3463,17 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :HeatFluxBurnerHeatingWaterBathTemperature rdf:type owl:Class ;
                                            rdfs:subClassOf :TemperatureParameter ,
                                                            [ rdf:type owl:Restriction ;
-                                                             owl:onProperty <http://www.w3.org/2004/02/skos/core#relatedMatch> ;
-                                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                             owl:onClass :BurntGasTemperature
-                                                           ] .
+                                                             owl:onProperty :purpose ;
+                                                             owl:someValuesFrom :HeatFluxBurnerFlameRegulation
+                                                           ] ;
+                                           <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#DegreeCelsius> .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :HeatFluxBurnerHeatingWaterBathTemperature ;
+   owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
+   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#DegreeCelsius> ;
+   <http://www.w3.org/2004/02/skos/core#example> 120
+ ] .
 
 
 ###  http://www.esblurock.info/dataset#HeatFluxBurnerLiquidMassFlow
@@ -3244,11 +3489,6 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#HeatFluxBurnerPlenumChamber
 :HeatFluxBurnerPlenumChamber rdf:type owl:Class ;
                              rdfs:subClassOf :MixingSubSystems .
-
-
-###  http://www.esblurock.info/dataset#HeatFluxBurnerPurpose
-:HeatFluxBurnerPurpose rdf:type owl:Class ;
-                       rdfs:subClassOf :Flames .
 
 
 ###  http://www.esblurock.info/dataset#HeatFluxBurnerSubSystems
@@ -3452,8 +3692,23 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#HeatFluxBurnerThermocoupleTemperature
 :HeatFluxBurnerThermocoupleTemperature rdf:type owl:Class ;
-                                       rdfs:subClassOf :TemperatureParameter ;
-                                       rdfs:isDefinedBy :HeatFluxBurnerThermocouple .
+                                       rdfs:subClassOf :TemperatureParameter ,
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty <http://purl.org/linked-data/cube#concept> ;
+                                                         owl:someValuesFrom :LaminarFlameTemperature
+                                                       ] ,
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty :purpose ;
+                                                         owl:someValuesFrom :FundamentalExperimentalMeasurement
+                                                       ] ;
+                                       <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#DegreeCelsius> .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :HeatFluxBurnerThermocoupleTemperature ;
+   owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
+   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#DegreeCelsius> ;
+   <http://www.w3.org/2004/02/skos/core#example> 80
+ ] .
 
 
 ###  http://www.esblurock.info/dataset#IRSpectrometer
@@ -3489,7 +3744,8 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#InstrumentConcept
 :InstrumentConcept rdf:type owl:Class ;
-                   rdfs:subClassOf :DataTypeDevice ;
+                   rdfs:subClassOf :ChemConnectConceptSubsystem ,
+                                   :DataTypeDevice ;
                    <http://purl.org/dc/elements/1.1/relation> :ConceptLinkInstrument ;
                    <http://purl.org/dc/elements/1.1/type> "Instrument" ;
                    rdfs:isDefinedBy :Instruments ;
@@ -3536,12 +3792,35 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#KeywordParameter
 :KeywordParameter rdf:type owl:Class ;
-                  rdfs:subClassOf :ChemConnectValueParameter .
+                  rdfs:subClassOf :ChemConnectValueParameter ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
+                                    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                    owl:onClass :KeywordUnit
+                                  ] ;
+                  <http://www.w3.org/2004/02/skos/core#example> :DescriptionKeyword .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :KeywordParameter ;
+   owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
+   owl:annotatedTarget :DescriptionKeyword ;
+   <http://www.w3.org/2004/02/skos/core#example> "Keyword"
+ ] .
+
+
+###  http://www.esblurock.info/dataset#KeywordUnit
+:KeywordUnit rdf:type owl:Class ;
+             rdfs:subClassOf :DescriptionUnit .
 
 
 ###  http://www.esblurock.info/dataset#LaminarFlame
 :LaminarFlame rdf:type owl:Class ;
-              rdfs:subClassOf :HeatFluxBurnerPurpose .
+              rdfs:subClassOf :Flames .
+
+
+###  http://www.esblurock.info/dataset#LaminarFlameTemperature
+:LaminarFlameTemperature rdf:type owl:Class ;
+                         rdfs:subClassOf :FlameConcept .
 
 
 ###  http://www.esblurock.info/dataset#LinkToDataStructure
@@ -3550,14 +3829,48 @@ Under the general type of is the actual data object referenced by the ChemConnec
                      <http://purl.org/dc/elements/1.1/type> "LinkToDataStructure" .
 
 
+###  http://www.esblurock.info/dataset#LiquidCoriolisFlowController
+:LiquidCoriolisFlowController rdf:type owl:Class ;
+                              rdfs:subClassOf :MassFlowControllerClassification .
+
+
+###  http://www.esblurock.info/dataset#LiquidFlowRegulation
+:LiquidFlowRegulation rdf:type owl:Class ;
+                      rdfs:subClassOf :FuelSubsystem .
+
+
+###  http://www.esblurock.info/dataset#LiquidFuelToGas
+:LiquidFuelToGas rdf:type owl:Class ;
+                 rdfs:subClassOf :FuelSubsystem .
+
+
 ###  http://www.esblurock.info/dataset#LiquidMFCType
 :LiquidMFCType rdf:type owl:Class ;
-               rdfs:subClassOf :KeywordParameter .
+               rdfs:subClassOf :KeywordParameter ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty <http://purl.org/linked-data/cube#concept> ;
+                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                 owl:onClass :LiquidFlowRegulation
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty :hasPurpose ;
+                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                 owl:onClass :DeviceComponentSpecification
+                               ] ;
+               <http://www.w3.org/2004/02/skos/core#example> :DescriptionKeyword .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :LiquidMFCType ;
+   owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
+   owl:annotatedTarget :DescriptionKeyword ;
+   <http://www.w3.org/2004/02/skos/core#example> "Cori-FlowMassController"
+ ] .
 
 
 ###  http://www.esblurock.info/dataset#LiquidMassFlowController
 :LiquidMassFlowController rdf:type owl:Class ;
-                          rdfs:subClassOf :MassFlowSubsystems ,
+                          rdfs:subClassOf :MassFlowControllerClassification ,
+                                          :MassFlowSubsystems ,
                                           [ rdf:type owl:Restriction ;
                                             owl:onProperty :hasComponent ;
                                             owl:someValuesFrom :LiquidMassFlowControllerComponent
@@ -3647,6 +3960,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#MassFlowController
 :MassFlowController rdf:type owl:Class ;
                     rdfs:subClassOf :DataTypeComponent .
+
+
+###  http://www.esblurock.info/dataset#MassFlowControllerClassification
+:MassFlowControllerClassification rdf:type owl:Class ;
+                                  rdfs:subClassOf :ClassificationUnit .
 
 
 ###  http://www.esblurock.info/dataset#MassFlowControllerControlRange
@@ -3745,6 +4063,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                        rdfs:subClassOf :InstrumentConcept ;
                        <http://purl.org/dc/elements/1.1/relation> :ConceptLinkInstrument ;
                        <http://purl.org/dc/elements/1.1/type> "MeasurementInstrument" .
+
+
+###  http://www.esblurock.info/dataset#MeasurementLimitation
+:MeasurementLimitation rdf:type owl:Class ;
+                       rdfs:subClassOf :DeviceSpecificationPurpose .
 
 
 ###  http://www.esblurock.info/dataset#MeasurementLinkToProtocol
@@ -4195,6 +4518,16 @@ Under the general type of is the actual data object referenced by the ChemConnec
           <http://www.w3.org/2004/02/skos/core#altLabel> "pos"^^xsd:string .
 
 
+###  http://www.esblurock.info/dataset#PreIgnitionTemperature
+:PreIgnitionTemperature rdf:type owl:Class ;
+                        rdfs:subClassOf :FlameConcept .
+
+
+###  http://www.esblurock.info/dataset#PreignitionGasTemperature
+:PreignitionGasTemperature rdf:type owl:Class ;
+                           rdfs:subClassOf :Flames .
+
+
 ###  http://www.esblurock.info/dataset#PremixedFlameBurnerSubsystem
 :PremixedFlameBurnerSubsystem rdf:type owl:Class ;
                               rdfs:subClassOf :PremixedFlameMcKennaBurner .
@@ -4214,7 +4547,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :PressureParameter rdf:type owl:Class ;
                    rdfs:subClassOf :ChemConnectValueParameter ,
                                    [ rdf:type owl:Restriction ;
-                                     owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitFor> ;
+                                     owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                      owl:onClass <http://data.nasa.gov/qudt/owl/qudt#PressureOrStressUnit>
                                    ] .
@@ -4228,6 +4561,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                  owl:onClass :ThermocoupleType
                                ] .
+
+
+###  http://www.esblurock.info/dataset#PressureSensor
+:PressureSensor rdf:type owl:Class ;
+                rdfs:subClassOf :SensorConcept .
 
 
 ###  http://www.esblurock.info/dataset#PressureTrace
@@ -4423,6 +4761,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                 <http://www.w3.org/2004/02/skos/core#altLabel> "reftitle"^^xsd:string .
 
 
+###  http://www.esblurock.info/dataset#RegulateFlameTemperature
+:RegulateFlameTemperature rdf:type owl:Class ;
+                          rdfs:subClassOf :Flames .
+
+
 ###  http://www.esblurock.info/dataset#RelativeErrorUncertainty
 :RelativeErrorUncertainty rdf:type owl:Class ;
                           rdfs:subClassOf :RelativeUncertainty .
@@ -4445,6 +4788,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#SecondStageExpansion
 :SecondStageExpansion rdf:type owl:Class ;
                       rdfs:subClassOf :FlameProbes .
+
+
+###  http://www.esblurock.info/dataset#SensorConcept
+:SensorConcept rdf:type owl:Class ;
+               rdfs:subClassOf :ChemConnectConceptSubsystem .
 
 
 ###  http://www.esblurock.info/dataset#SensorLinkToActivity
@@ -4590,6 +4938,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                  rdfs:subClassOf :ChemConnectRangeParameter .
 
 
+###  http://www.esblurock.info/dataset#TemperatureControl
+:TemperatureControl rdf:type owl:Class ;
+                    rdfs:subClassOf :ExperimentalRegulation .
+
+
 ###  http://www.esblurock.info/dataset#TemperatureControlSubSystem
 :TemperatureControlSubSystem rdf:type owl:Class ;
                              rdfs:subClassOf :ThermalSubsystems ,
@@ -4604,7 +4957,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :TemperatureParameter rdf:type owl:Class ;
                       rdfs:subClassOf :ChemConnectValueParameter ,
                                       [ rdf:type owl:Restriction ;
-                                        owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitFor> ;
+                                        owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                         owl:onClass <http://data.nasa.gov/qudt/owl/qudt#TemperatureUnit>
                                       ] .
@@ -4613,6 +4966,16 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#TemperatureRange
 :TemperatureRange rdf:type owl:Class ;
                   rdfs:subClassOf :ChemConnectRangeParameter .
+
+
+###  http://www.esblurock.info/dataset#TemperatureRegulation
+:TemperatureRegulation rdf:type owl:Class ;
+                       rdfs:subClassOf :ChemConnectPurposeSubsystem .
+
+
+###  http://www.esblurock.info/dataset#TemperatureSensor
+:TemperatureSensor rdf:type owl:Class ;
+                   rdfs:subClassOf :SensorConcept .
 
 
 ###  http://www.esblurock.info/dataset#ThermalComponent
@@ -4630,9 +4993,14 @@ Under the general type of is the actual data object referenced by the ChemConnec
               rdfs:subClassOf :DataTypeTemperatureSensor .
 
 
+###  http://www.esblurock.info/dataset#ThermocoupleClassification
+:ThermocoupleClassification rdf:type owl:Class ;
+                            rdfs:subClassOf :ClassificationUnit .
+
+
 ###  http://www.esblurock.info/dataset#ThermocouplePositionInBurner
 :ThermocouplePositionInBurner rdf:type owl:Class ;
-                              rdfs:subClassOf :BurnerParameters ,
+                              rdfs:subClassOf :HeatFluxBurnerObservations ,
                                               [ rdf:type owl:Restriction ;
                                                 owl:onProperty <http://purl.org/linked-data/cube#attribute> ;
                                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
@@ -4669,7 +5037,65 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#ThermocoupleType
 :ThermocoupleType rdf:type owl:Class ;
-                  rdfs:subClassOf :KeywordParameter .
+                  rdfs:subClassOf :KeywordParameter ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty <http://purl.org/linked-data/cube#concept> ;
+                                    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                    owl:onClass :TemperatureSensor
+                                  ] ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty :hasPurpose ;
+                                    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                    owl:onClass :DeviceComponentSpecification
+                                  ] ;
+                  <http://www.w3.org/2004/02/skos/core#example> :DescriptionKeyword .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :ThermocoupleType ;
+   owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
+   owl:annotatedTarget :DescriptionKeyword ;
+   <http://www.w3.org/2004/02/skos/core#example> "TypeT"
+ ] .
+
+
+###  http://www.esblurock.info/dataset#ThermocoupleTypeB
+:ThermocoupleTypeB rdf:type owl:Class ;
+                   rdfs:subClassOf :ThermocoupleClassification .
+
+
+###  http://www.esblurock.info/dataset#ThermocoupleTypeE
+:ThermocoupleTypeE rdf:type owl:Class ;
+                   rdfs:subClassOf :ThermocoupleClassification .
+
+
+###  http://www.esblurock.info/dataset#ThermocoupleTypeJ
+:ThermocoupleTypeJ rdf:type owl:Class ;
+                   rdfs:subClassOf :ThermocoupleClassification .
+
+
+###  http://www.esblurock.info/dataset#ThermocoupleTypeK
+:ThermocoupleTypeK rdf:type owl:Class ;
+                   rdfs:subClassOf :ThermocoupleClassification .
+
+
+###  http://www.esblurock.info/dataset#ThermocoupleTypeN
+:ThermocoupleTypeN rdf:type owl:Class ;
+                   rdfs:subClassOf :ThermocoupleClassification .
+
+
+###  http://www.esblurock.info/dataset#ThermocoupleTypeR
+:ThermocoupleTypeR rdf:type owl:Class ;
+                   rdfs:subClassOf :ThermocoupleClassification .
+
+
+###  http://www.esblurock.info/dataset#ThermocoupleTypeS
+:ThermocoupleTypeS rdf:type owl:Class ;
+                   rdfs:subClassOf :ThermocoupleClassification .
+
+
+###  http://www.esblurock.info/dataset#ThermocoupleTypeT
+:ThermocoupleTypeT rdf:type owl:Class ;
+                   rdfs:subClassOf :ThermocoupleClassification .
 
 
 ###  http://www.esblurock.info/dataset#ThermodynamicProperties
@@ -4696,8 +5122,25 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#UnburntGasTemperature
 :UnburntGasTemperature rdf:type owl:Class ;
-                       rdfs:subClassOf :TemperatureParameter ;
-                       rdfs:isDefinedBy :HeatFluxBurnerCoolingJacket .
+                       rdfs:subClassOf :TemperatureParameter ,
+                                       [ rdf:type owl:Restriction ;
+                                         owl:onProperty <http://purl.org/linked-data/cube#concept> ;
+                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                         owl:onClass :HeatFluxBurnerFlameTemperature
+                                       ] ,
+                                       [ rdf:type owl:Restriction ;
+                                         owl:onProperty :hasPurpose ;
+                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                         owl:onClass :FlameDefinition
+                                       ] ;
+                       <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#DegreeCelsius> .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :UnburntGasTemperature ;
+   owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
+   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#DegreeCelsius> ;
+   <http://www.w3.org/2004/02/skos/core#example> 50
+ ] .
 
 
 ###  http://www.esblurock.info/dataset#UncertaintyType
@@ -4829,6 +5272,16 @@ Under the general type of is the actual data object referenced by the ChemConnec
                   <http://www.w3.org/2004/02/skos/core#altLabel> "uncertain" .
 
 
+###  http://www.esblurock.info/dataset#VaporCoriolisFlowController
+:VaporCoriolisFlowController rdf:type owl:Class ;
+                             rdfs:subClassOf :MassFlowControllerClassification .
+
+
+###  http://www.esblurock.info/dataset#VaporMassFlowController
+:VaporMassFlowController rdf:type owl:Class ;
+                         rdfs:subClassOf :MassFlowControllerClassification .
+
+
 ###  http://www.esblurock.info/dataset#VectorAsString
 :VectorAsString rdf:type owl:Class ;
                 rdfs:subClassOf :OneLine ;
@@ -4863,6 +5316,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#WaterBathComponent
 :WaterBathComponent rdf:type owl:Class ;
                     rdfs:subClassOf :ThermalComponent .
+
+
+###  http://www.esblurock.info/dataset#WaterBathTemperatureControl
+:WaterBathTemperatureControl rdf:type owl:Class ;
+                             rdfs:subClassOf :TemperatureControl .
 
 
 ###  http://www.esblurock.info/dataset#familyName

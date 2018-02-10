@@ -7,75 +7,83 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.gwt.thirdparty.common.css.compiler.passes.AbbreviatePositionalValues;
+
 
 public class UnitProperties implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
-	String unitName;
-	Map<String,String> properties;
-	ArrayList<String> types;
 	
+	private String unitName;
+	String symbol;
+	String abbreviation;
+	String conversionOffset;
+	String conversionMultiplier;
+	String code;
+	
+	boolean classificationType;
+
 	public UnitProperties() {
 		init();
 	}
-	
 	public UnitProperties(String unitName) {
 		this.unitName = unitName;
 		init();
 	}
-	
 	void init() {
-		properties = new HashMap<String,String>();
-		types = new ArrayList<String>();
+		classificationType = false;
+		code = "0";
+		conversionMultiplier = "1";
+		conversionOffset = "0";
 	}
-	public void addProperty(String attribute, String value) {
-		properties.put(attribute, value);
+	public void fillAsValue(String conversionOffset, String conversionMultiplier,
+			String symbol, String abbreviation, String code) {
+		this.conversionOffset = conversionOffset; 
+		this.conversionMultiplier = conversionMultiplier;
+		this.symbol = symbol;
+		this.abbreviation = abbreviation;
+		this.code = code;
 	}
-	public void addType(String type) {
-		types.add(type);
-	}	
-	public String getValue(String attribute) {
-		return properties.get(attribute);
+	public void fillAsClassification(String classification) {
+		unitName = classification;
+		classificationType = true;
+		symbol = "key";
+		abbreviation = "key";
 	}
-	public boolean isOfType(String type) {
-		boolean ans = false;
-		Iterator<String> iter = types.iterator();
-		while(!ans && iter.hasNext()) {
-			String t = iter.next();
-			if(type.compareTo(t) == 0) {
-				ans = true;
-			}
-		}
-		return ans;
+	
+	public boolean isClassificationType() {
+		return classificationType;
 	}
-	public Map<String,String> getPropertyList() {
-		return properties;
+	public void setClassificationType(boolean classificationType) {
+		this.classificationType = classificationType;
 	}
-	public ArrayList<String> getTypes() {
-		return types;
-	}
-
 	public String getUnitName() {
 		return unitName;
 	}
-
+	public String getSymbol() {
+		return symbol;
+	}
+	public String getAbbreviation() {
+		return abbreviation;
+	}
+	public String getConversionOffset() {
+		return conversionOffset;
+	}
+	public String getConversionMultiplier() {
+		return conversionMultiplier;
+	}
+	public String getCode() {
+		return code;
+	}
 	public String toString() {
 		return toString("");
 	}
 	
 	public String toString(String prefix) {
 		StringBuilder build = new StringBuilder();
-		build.append(prefix + "Unit: '" + unitName + "'\n");
+		build.append(prefix + "Unit: '" + unitName + "' (" + abbreviation + ": " + symbol + ", " + code  + ")\n");
 		String newprefix = prefix + "\t";
-		Set<String> names = properties.keySet();
-		for(String name : names) {
-			build.append(newprefix + "a: '" + name + "'\t v: '" + properties.get(name) + "'\n");
-		}
-		build.append(prefix + "Types: ");
-		for(String type : types) {
-			build.append(newprefix + type + "\t");
-		}
-		build.append("\n");
+		build.append(newprefix + "SI = " + conversionOffset + "+ v*(" + conversionMultiplier + ")\n");
 		return build.toString();
 	}
 	

@@ -13,6 +13,8 @@ public class SetOfUnitProperties implements Serializable {
 	ArrayList<String> names;
 	Map<String,UnitProperties> abbreviations;
 	Map<String, UnitProperties> units;
+	boolean classification; 
+	boolean keyword; 
 	
 	public SetOfUnitProperties() {
 		
@@ -22,16 +24,17 @@ public class SetOfUnitProperties implements Serializable {
 		names = new ArrayList<String>();
 		units = new HashMap<String, UnitProperties>();
 		abbreviations = new HashMap<String,UnitProperties>();
+		classification = false;
 	}
 
 	public void addUnitProperties(UnitProperties unit) {
-		names.add(unit.unitName);
-		units.put(unit.unitName,unit);
-		String abbrev = unit.getValue("abbreviation");
+		names.add(unit.getUnitName());
+		units.put(unit.getUnitName(),unit);
+		String abbrev = unit.getAbbreviation();
 		if(abbrev != null) {
 			abbreviations.put(abbrev, unit);
 		} else {
-			abbreviations.put(unit.unitName, unit);
+			abbreviations.put(unit.getUnitName(), unit);
 		}
 	}
 	
@@ -40,9 +43,11 @@ public class SetOfUnitProperties implements Serializable {
 	}
 	public String getAbbreviation(String unit) {
 		UnitProperties prop = units.get(unit);
-		String abbrev = prop.getValue("abbreviation");
+		String abbrev = prop.getAbbreviation();
 		return abbrev;
 	}
+	
+	
 	public String getTopUnitType() {
 		return topUnitType;
 	}
@@ -62,6 +67,19 @@ public class SetOfUnitProperties implements Serializable {
 		return units;
 	}
 
+	public boolean isClassification() {
+		return classification;
+	}
+	public void setClassification(boolean classification) {
+		this.classification = classification;
+	}
+	
+	public boolean isKeyword() {
+		return keyword;
+	}
+	public void setKeyword(boolean keyword) {
+		this.keyword = keyword;
+	}
 	public String toString() {
 		return toString("");
 	}
@@ -72,7 +90,7 @@ public class SetOfUnitProperties implements Serializable {
 		Set<String> names = units.keySet();
 		for(String unitname : names) {
 			UnitProperties unit = units.get(unitname);
-			unit.toString(prefix);
+			build.append(unit.toString(prefix));
 		}
 		return build.toString();
 	}
