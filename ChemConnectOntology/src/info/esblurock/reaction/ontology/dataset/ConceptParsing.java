@@ -45,11 +45,14 @@ public class ConceptParsing {
 	 *         subsystems
 	 */
 	public static AttributesOfObject parseAttributes(String topclassS) {
-		String query = "SELECT ?subsystem ?sub ?pobj\n" + "	WHERE { \n" + "	" + topclassS
+		String query = "SELECT ?subsystem ?sub ?pobj\n" 
+	+ "	WHERE { \n" + "	" + topclassS
 				+ "  rdfs:subClassOf ?pobj .\n"
 				+ "	?pobj owl:onProperty <http://purl.org/linked-data/cube#attribute> .\n"
-				+ "	?pobj owl:onClass ?sub .\n" + "	?subject owl:annotatedSource ?obj .\n"
-				+ "	?subject rdfs:isDefinedBy ?subsystem .\n" + "	?subject owl:annotatedTarget ?obj2 .\n"
+				+ "	?pobj owl:onClass ?sub .\n" 
+				+ "	?subject owl:annotatedSource ?obj .\n"
+				+ "	?subject rdfs:isDefinedBy ?subsystem .\n" 
+				+ "	?subject owl:annotatedTarget ?obj2 .\n"
 				+ "	?obj2 owl:onClass ?sub\n" + "}";
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
@@ -328,6 +331,39 @@ public class ConceptParsing {
 			}
 		
 		return info;
-
+	}
+	public static Set<String> setOfObservationsForSubsystem(String subsystem) {
+		String query = "SELECT ?object ?sub2 ?sub1\n" + 
+				"	WHERE {\n" 
+				+ " ?sub1 owl:annotatedTarget ?sub2 . \n"
+				+ " ?sub2 owl:onClass ?object . \n"
+				+ "	?sub1 <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasOutput> .\n"
+				+ "	?sub1 owl:annotatedSource " + subsystem + "\n"
+				+ "	}";
+		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
+		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
+		Set<String> obsset = new HashSet<String>();
+		for (Map<String, String> map : stringlst) {
+			String obs = map.get("object");
+			obsset.add(obs);
+		}
+		return obsset;
+	}
+	public static Set<String> subsystemsForSubsystem(String subsystem) {
+		String query = "SELECT ?object ?sub2 ?sub1\n" + 
+				"	WHERE {\n" 
+				+ " ?sub1 owl:annotatedTarget ?sub2 . \n"
+				+ " ?sub2 owl:onClass ?object . \n"
+				+ "	?sub1 <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem> .\n"
+				+ "	?sub1 owl:annotatedSource " + subsystem + "\n"
+				+ "	}";
+		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
+		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
+		Set<String> obsset = new HashSet<String>();
+		for (Map<String, String> map : stringlst) {
+			String obs = map.get("object");
+			obsset.add(obs);
+		}
+		return obsset;
 	}
 }

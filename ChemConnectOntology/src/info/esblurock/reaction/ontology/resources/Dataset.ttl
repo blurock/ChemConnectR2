@@ -4807,6 +4807,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                        <http://purl.org/dc/elements/1.1/type> "PositionOfSensor" .
 
 
+###  http://www.esblurock.info/dataset#SensorPosition
+:SensorPosition rdf:type owl:Class ;
+                rdfs:subClassOf :SensorConcept .
+
+
 ###  http://www.esblurock.info/dataset#SensorPropertyProductName
 :SensorPropertyProductName rdf:type owl:Class ;
                            rdfs:subClassOf :ChemConnectPropertySensor ;
@@ -5000,39 +5005,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#ThermocouplePositionInBurner
 :ThermocouplePositionInBurner rdf:type owl:Class ;
-                              rdfs:subClassOf :HeatFluxBurnerObservations ,
+                              rdfs:subClassOf :BurnerParameters ,
                                               [ rdf:type owl:Restriction ;
-                                                owl:onProperty <http://purl.org/linked-data/cube#attribute> ;
-                                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                owl:onClass :HeatFluxBurnerThermocoupleTemperature
-                                              ] ,
-                                              [ rdf:type owl:Restriction ;
-                                                owl:onProperty <http://purl.org/linked-data/cube#attribute> ;
-                                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                owl:onClass :ThermocouplePositionInBurner
+                                                owl:onProperty :purpose ;
+                                                owl:someValuesFrom :SensorPosition
                                               ] .
-
-[ rdf:type owl:Axiom ;
-   owl:annotatedSource :ThermocouplePositionInBurner ;
-   owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget [ rdf:type owl:Restriction ;
-                         owl:onProperty <http://purl.org/linked-data/cube#attribute> ;
-                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                         owl:onClass :HeatFluxBurnerThermocoupleTemperature
-                       ] ;
-   rdfs:isDefinedBy :HeatFluxBurnerThermocouple
- ] .
-
-[ rdf:type owl:Axiom ;
-   owl:annotatedSource :ThermocouplePositionInBurner ;
-   owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget [ rdf:type owl:Restriction ;
-                         owl:onProperty <http://purl.org/linked-data/cube#attribute> ;
-                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                         owl:onClass :ThermocouplePositionInBurner
-                       ] ;
-   rdfs:isDefinedBy :HeatFluxBurnerThermocouple
- ] .
 
 
 ###  http://www.esblurock.info/dataset#ThermocoupleType
