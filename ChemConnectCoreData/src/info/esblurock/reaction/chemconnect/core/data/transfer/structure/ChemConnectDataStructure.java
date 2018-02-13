@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.SetOfObservationsInformation;
 
 public class ChemConnectDataStructure implements Serializable {
 
@@ -30,7 +31,11 @@ public class ChemConnectDataStructure implements Serializable {
 	}
 
 	public ChemConnectDataStructure(ClassificationInformation classification) {
-		this.elementType = classification.getDataType();
+		if(classification != null) {
+			this.elementType = classification.getDataType();
+		} else {
+			this.elementType = null;
+		}
 		this.classification = classification;
 		this.records = new ArrayList<DataElementInformation>();
 		this.linkedTos = new ArrayList<DataElementInformation>();
@@ -88,7 +93,9 @@ public class ChemConnectDataStructure implements Serializable {
 		StringBuilder builder = new StringBuilder();
 		builder.append(prefix + "------------ SetOfChemConnectDataStructureElements ------------\n");
 		builder.append(prefix + "DataType: " + elementType + "\n");
-		builder.append(prefix + "Classification: " + classification.toString() + "\n");
+		if(classification != null) {
+			builder.append(prefix + "Classification: " + classification.toString() + "\n");
+		}
 		String newprefix = prefix + "\t";
 		String newprefix2 = newprefix + "\t";
 		builder.append(newprefix + "Records\n");

@@ -1,9 +1,11 @@
 package info.esblurock.reaction.ontology;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import info.esblurock.reaction.chemconnect.core.data.concepts.AttributeDescription;
+import info.esblurock.reaction.chemconnect.core.data.transfer.SetOfObservationsInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.SubSystemConceptLink;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.SubSystemParameters;
@@ -15,6 +17,7 @@ import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 
 public class BuildSubsystemInformation {
 	
+	public static String hasOutput = "ssn:hasOutput";
 	TotalSubsystemInformation total;
 
 	public BuildSubsystemInformation(String concept) {
@@ -22,7 +25,7 @@ public class BuildSubsystemInformation {
 		total = new TotalSubsystemInformation(concept);
 		HierarchyNode info = buildHierarchy(concept,total.getSubsystemsandcomponents(), total.getAttributesubsystemMap());
 		total.setSubsystemtree(info);
-		ChemConnectDataStructure struct = DatasetOntologyParsing.getChemConnectDataStructure("dataset:DeviceDescription");
+		ChemConnectDataStructure struct = DatasetOntologyParsing.getChemConnectDataStructure(concept);
 		total.setInfoStructure(struct);
 		System.out.println(total.toString());
 	}
@@ -35,7 +38,8 @@ public class BuildSubsystemInformation {
 		Set<String> components = ConceptParsing.immediateComponents(concept);
 		SubSystemParameters parameters = buildAttributes(concept);
 		Set<SubSystemConceptLink> links = ConceptParsing.immediateLinks(concept);
-		SubsystemInformation info = new SubsystemInformation(concept,components, subsystems, links, parameters,null);
+		Set<SetOfObservationsInformation> observations = getObservations(links);
+		SubsystemInformation info = new SubsystemInformation(concept,components, subsystems, links, parameters,null,observations);
 		for(String attribute : parameters.getDirect()) {
 			attributeset.put(attribute, concept);
 		}
@@ -49,6 +53,19 @@ public class BuildSubsystemInformation {
 			node.addSubNode(subnode);			
 		}
 		return node;
+	}
+
+	
+	
+	private Set<SetOfObservationsInformation> getObservations(Set<SubSystemConceptLink> links) {
+		Set<SetOfObservationsInformation> observations = new HashSet<SetOfObservationsInformation>();
+		for(SubSystemConceptLink link : links) {
+			if(link.getLinkConcept().compareTo(hasOutput) == 0) {
+				SetOfObservationsInformation obs = ConceptParsing.fillSetOfObservations(link.getTargetConcept());
+				observations.add(obs);
+			}
+		}
+		return observations;
 	}
 
 	private SubSystemParameters buildAttributes(String concept) {

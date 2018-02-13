@@ -122,5 +122,4 @@ public class ContactDatabaseAccessImpl  extends ServerBase implements ContactDat
 		System.out.println(parameters);
 		return parameters;
  	}
-	
 }

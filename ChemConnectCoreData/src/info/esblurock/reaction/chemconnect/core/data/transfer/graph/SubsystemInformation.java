@@ -3,6 +3,8 @@ package info.esblurock.reaction.chemconnect.core.data.transfer.graph;
 import java.io.Serializable;
 import java.util.Set;
 
+import info.esblurock.reaction.chemconnect.core.data.transfer.SetOfObservationsInformation;
+
 public class SubsystemInformation implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -15,7 +17,7 @@ public class SubsystemInformation implements Serializable {
 	
 	SubSystemParameters attributes;
 	SubSystemParameters output;
-	
+	Set<SetOfObservationsInformation> observations;
 	
 
 	public SubsystemInformation() {
@@ -25,6 +27,7 @@ public class SubsystemInformation implements Serializable {
 		this.links = null;
 		this.attributes = null;
 		this.output = null;
+		this.observations = null;
 		
 	}
 	public SubsystemInformation(String identifier, 
@@ -32,14 +35,16 @@ public class SubsystemInformation implements Serializable {
 			Set<String> immediateSubsystems,
 			Set<SubSystemConceptLink> links,
 			SubSystemParameters attributes, 
-			SubSystemParameters output) {
+			SubSystemParameters output,
+			Set<SetOfObservationsInformation> observations
+			) {
 		this.identifier = identifier;
 		this.immediateComponents = immediateComponents;
 		this.immediateSubsystems = immediateSubsystems;
 		this.links = links;
 		this.attributes = attributes;
 		this.output = output;
-		
+		this.observations = observations;
 	}
 
 	
@@ -92,6 +97,15 @@ public class SubsystemInformation implements Serializable {
 		}
 		if (output != null) {
 			build.append(output.toString(prefix));
+		}
+		if(observations != null) {
+			if(observations.size() > 0) {
+				build.append(prefix + "Observations: \n");
+				String newprefix = prefix + "\t";
+				for(SetOfObservationsInformation observation : observations) {
+					build.append(observation.toString(newprefix));
+				}
+			}
 		}
 		return build.toString();
 	}

@@ -69,7 +69,7 @@ public class SetOfObservationsInformation implements Serializable {
 			newprefix = prefix + "\t";
 			build.append(info.toString(newprefix));
 		}
-		build.append("Measures:\n");
+		build.append(prefix + "Measures:\n");
 		for(PrimitiveParameterSpecificationInformation info : measures) {
 			newprefix = prefix + "\t";
 			build.append(info.toString(newprefix));
