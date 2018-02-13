@@ -2,9 +2,11 @@ package info.esblurock.reaction.chemconnect.core.client.pages.primitive;
 
 
 import gwt.material.design.client.ui.MaterialToast;
+import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.PrimitiveParameterSpecification;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.value.PrimitiveParameterValue;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.value.PrimitiveParameterValueRow;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterSpecificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterValueInformation;
 
 public enum CreatePrimitiveStructure {
@@ -16,7 +18,7 @@ public enum CreatePrimitiveStructure {
 			PrimitiveDataStructureBase base = new PrimitiveDataStructureBase(info);
 			PrimitiveParameterValue value = new PrimitiveParameterValue(info);
 			base.add(value);
-			return value;
+			return base;
 		}
 
 		@Override
@@ -25,7 +27,26 @@ public enum CreatePrimitiveStructure {
 			PrimitiveDataStructureBase base = new PrimitiveDataStructureBase(info);
 			PrimitiveParameterValue value = new PrimitiveParameterValue(info);
 			base.add(value);
-			return value;
+			return base;
+		}
+		
+	}, ParameterSpecification {
+
+		@Override
+		public PrimitiveDataStructureBase createStructure(PrimitiveDataStructureInformation info) {
+			PrimitiveDataStructureBase base = new PrimitiveDataStructureBase(info);
+			PrimitiveParameterSpecification spec = new PrimitiveParameterSpecification(info);
+			base.add(spec);
+			return base;
+		}
+
+		@Override
+		public PrimitiveDataStructureBase createEmptyStructure() {
+			PrimitiveParameterSpecificationInformation info = new PrimitiveParameterSpecificationInformation();
+			PrimitiveDataStructureBase base = new PrimitiveDataStructureBase(info);
+			PrimitiveParameterSpecification spec = new PrimitiveParameterSpecification(info);
+			base.add(spec);
+			return base;
 		}
 		
 	},

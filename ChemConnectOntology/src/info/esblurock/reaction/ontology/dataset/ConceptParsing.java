@@ -13,7 +13,9 @@ import info.esblurock.reaction.chemconnect.core.data.concepts.AttributeDescripti
 import info.esblurock.reaction.chemconnect.core.data.concepts.AttributesOfObject;
 import info.esblurock.reaction.chemconnect.core.data.rdf.KeywordRDF;
 import info.esblurock.reaction.chemconnect.core.data.rdf.SetOfKeywordRDF;
+import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterSpecificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterValueInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.SetOfObservationsInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.SubSystemConceptLink;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.SubsystemInformation;
@@ -234,8 +236,13 @@ public class ConceptParsing {
 	 * @return The set of attributes
 	 */
 	public static Set<AttributeDescription> attributesInConcept(String concept) {
+		String property = "<http://purl.org/linked-data/cube#attribute>";
+		return propertyInConcept(property,concept);
+	}
+
+	public static Set<AttributeDescription> propertyInConcept(String property, String concept) {
 		String query = "SELECT ?propertyname\n" + " WHERE { " + concept + " rdfs:subClassOf  ?obj .\n"
-				+ "              ?obj  owl:onProperty <http://purl.org/linked-data/cube#attribute> .\n"
+				+ "              ?obj  owl:onProperty " + property + " .\n"
 				+ "              ?obj owl:onClass ?propertyname\n" + "         }";
 
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
@@ -260,7 +267,10 @@ public class ConceptParsing {
 		}
 		return set;
 	}
-
+	
+	
+	
+	
 	/**
 	 * total set of attributes
 	 * 
@@ -295,43 +305,108 @@ public class ConceptParsing {
 		return null;
 	}
 
+
+	public static SetOfObservationsInformation fillSetOfObservations(String parameter) {
+		String measure = "<http://purl.org/linked-data/cube#measure>";
+		String dimension = "<http://purl.org/linked-data/cube#dimension>";
+		
+		SetOfObservationsInformation obsset = new SetOfObservationsInformation();
+		
+		
+		Set<AttributeDescription> measureset = propertyInConcept(measure, parameter);
+		
+		for(AttributeDescription attr : measureset) {
+			String name = attr.getAttributeName();
+			PrimitiveParameterSpecificationInformation spec = fillParameterSpecification(name);
+			spec.setDimension(false);
+			obsset.addMeasure(spec);
+		}
+		Set<AttributeDescription> dimensionset = propertyInConcept(dimension, parameter);
+		for(AttributeDescription attr : dimensionset) {
+			String name = attr.getAttributeName();
+			PrimitiveParameterSpecificationInformation spec = fillParameterSpecification(name);
+			spec.setDimension(true);
+			obsset.addDimension(spec);
+		}
+		
+		String defined = findDefinedBy(parameter);
+		obsset.setValueType(defined);
+		obsset.setTopConcept(parameter);
+		return obsset;
+	}
+	
+	public static String findDefinedBy(String parameter) {
+		String query = "SELECT ?subject ?object\n" + 
+				"	WHERE { \n" + 
+				"	dataset:BurnerPlateObservations rdfs:isDefinedBy ?object\n" + 
+				"	\n" + 
+				"}";
+		String defined = null;
+		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
+		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
+		
+		for(Map<String, String> map : stringlst) {
+			defined = map.get("object");
+		}
+		return defined;
+	}
+	
+	
+	public static PrimitiveParameterSpecificationInformation fillParameterSpecification(String parameter) {
+		PrimitiveParameterSpecificationInformation spec = new PrimitiveParameterSpecificationInformation();
+		fillAnnotatedExample(parameter,spec);
+		fillInProperties(parameter,spec);
+		return spec;
+	}
+	
 	public static PrimitiveParameterValueInformation fillParameterInfo(String parameter) {
 		PrimitiveParameterValueInformation info = new PrimitiveParameterValueInformation();
-		
-			info.setPropertyType(parameter);
-			String query1 = "SELECT  ?example ?unit\n" + "        WHERE {\n"
-					+ "                   ?prop  owl:annotatedSource " + parameter + " .\n"
-					+ "                  ?prop owl:annotatedTarget  ?unit .\n"
-					+ "                  ?prop <http://www.w3.org/2004/02/skos/core#example> ?example\n"
-					+ "	            }";
-			List<Map<String, RDFNode>> lst1 = OntologyBase.resultSetToMap(query1);
-			List<Map<String, String>> stringlst1 = OntologyBase.resultmapToStrings(lst1);
-			for (Map<String, String> map : stringlst1) {
-				String example = map.get("example");
-				String unit = map.get("unit");
-
-				info.setValue(example);
-				info.setUnit(unit);
-			}
-			String query2 = "SELECT  ?prop ?parameter\n" + "        WHERE {\n" + "	" + parameter
-					+ " rdfs:subClassOf ?sub .\n" + "                  ?sub owl:onProperty ?prop .\n"
-					+ "                  ?sub owl:onClass ?parameter\n" + "              }";
-			List<Map<String, RDFNode>> lst2 = OntologyBase.resultSetToMap(query2);
-			List<Map<String, String>> stringlst2 = OntologyBase.resultmapToStrings(lst2);
-			for (Map<String, String> map : stringlst2) {
-				String propS = map.get("prop");
-				String parameterS = map.get("parameter");
-				if (propS.compareTo("dataset:hasPurpose") == 0) {
-					info.setPurpose(parameterS);
-				} else if (propS.compareTo("datacube:concept") == 0) {
-					info.setConcept(parameterS);
-				} else if (propS.compareTo("qudt:unitSystem") == 0) {
-					info.setUnitclass(parameterS);
-				}
-			}
-		
+		fillAnnotatedExample(parameter,info);
+		fillInProperties(parameter,info);
 		return info;
 	}
+	
+	public static void fillAnnotatedExample(String parameter, PrimitiveParameterValueInformation info) {
+		info.setPropertyType(parameter);
+		String query1 = "SELECT  ?example ?unit\n" + "        WHERE {\n"
+				+ "                   ?prop  owl:annotatedSource " + parameter + " .\n"
+				+ "                  ?prop owl:annotatedTarget  ?unit .\n"
+				+ "                  ?prop <http://www.w3.org/2004/02/skos/core#example> ?example\n"
+				+ "	            }";
+		List<Map<String, RDFNode>> lst1 = OntologyBase.resultSetToMap(query1);
+		List<Map<String, String>> stringlst1 = OntologyBase.resultmapToStrings(lst1);
+		for (Map<String, String> map : stringlst1) {
+			String example = map.get("example");
+			String unit = map.get("unit");
+
+			info.setValue(example);
+			info.setUnit(unit);
+		}
+		
+	}
+	
+	public static void fillInProperties(String parameter, PrimitiveParameterValueInformation info) {
+		String query2 = "SELECT  ?prop ?parameter\n" + "        WHERE {\n" 
+		        + "	                " + parameter + " rdfs:subClassOf ?sub .\n" 
+				+ "                  ?sub owl:onProperty ?prop .\n"
+				+ "                  ?sub owl:onClass ?parameter\n" + "              }";
+		List<Map<String, RDFNode>> lst2 = OntologyBase.resultSetToMap(query2);
+		List<Map<String, String>> stringlst2 = OntologyBase.resultmapToStrings(lst2);
+		for (Map<String, String> map : stringlst2) {
+			String propS = map.get("prop");
+			String parameterS = map.get("parameter");
+			if (propS.compareTo("dataset:hasPurpose") == 0) {
+				info.setPurpose(parameterS);
+			} else if (propS.compareTo("datacube:concept") == 0) {
+				info.setConcept(parameterS);
+			} else if (propS.compareTo("qudt:unitSystem") == 0) {
+				info.setUnitclass(parameterS);
+			}
+		}
+
+	}
+	
+	
 	public static Set<String> setOfObservationsForSubsystem(String subsystem) {
 		String query = "SELECT ?object ?sub2 ?sub1\n" + 
 				"	WHERE {\n" 

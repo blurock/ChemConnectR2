@@ -47,6 +47,7 @@ public class PrimitiveDataStructureInformation implements Serializable{
 	
 	public String toString(String prefix) {
 		StringBuilder builder = new StringBuilder();
+		builder.append(prefix);
 		builder.append(propertyType);
 		builder.append(" (");
 		builder.append(identifier);

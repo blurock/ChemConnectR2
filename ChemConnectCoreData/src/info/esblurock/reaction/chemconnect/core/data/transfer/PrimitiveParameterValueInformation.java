@@ -100,8 +100,9 @@ public class PrimitiveParameterValueInformation extends PrimitiveDataStructureIn
 		builder.append(" (");
 		builder.append(unitclass);
 		builder.append(")\n");
+		builder.append(prefix+ "\t");
 		builder.append(unit);
-		builder.append("Purpose: ");
+		builder.append("   Purpose: ");
 		builder.append(purpose);
 		builder.append(", Concept: ");
 		builder.append(concept);

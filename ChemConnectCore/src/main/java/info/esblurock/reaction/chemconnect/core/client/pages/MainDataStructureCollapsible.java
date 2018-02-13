@@ -128,6 +128,7 @@ public class MainDataStructureCollapsible extends Composite {
 	private void setUpStructureElements(DataElementInformation record, ChemConnectCompoundDataStructure struct,
 			MapToChemConnectCompoundDataStructure mapping) {
 		try {
+			Window.alert("setUpStructureElements: " + record.getChemconnectStructure());
 			CreatePrimitiveStructure create = CreatePrimitiveStructure.valueOf(record.getChemconnectStructure());
 			if(record.isSinglet()) {
 				PrimitiveDataStructureBase base = create.createEmptyStructure();

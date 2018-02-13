@@ -246,7 +246,7 @@ public class PrimitiveParameterValueRow extends Composite implements HasText,Cho
 		if(chosenUnit != null) {
 			UnitProperties prop = set.getUnitProperty(TextUtilities.removeNamespace(chosenUnit));
 			if(prop != null) {
-				abbrev = prop.getValue("abbreviation");
+				abbrev = prop.getAbbreviation();
 			}
 		}
 		int index = 0;
