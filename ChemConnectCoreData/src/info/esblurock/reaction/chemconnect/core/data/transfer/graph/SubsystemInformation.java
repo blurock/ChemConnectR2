@@ -73,6 +73,9 @@ public class SubsystemInformation implements Serializable {
 	}
 
 
+	public Set<SetOfObservationsInformation> getObservations() {
+		return observations;
+	}
 	public String toString() {
 		return toString("");
 	}
