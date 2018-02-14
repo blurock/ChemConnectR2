@@ -5,14 +5,12 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.gwt.user.client.Window;
 
 import gwt.material.design.client.constants.Color;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.CreatePrimitiveStructure;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.PrimitiveDataStructureBase;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
-import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterValueInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.SetOfObservationsInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.SubSystemParameters;
@@ -50,7 +48,6 @@ public class MultipleRecordsPrimitive extends PrimitiveDataStructureBase {
 		
 		Set<SetOfObservationsInformation> observations = subsysteminfo.getObservations();
 		for(SetOfObservationsInformation obs : observations) {
-			Window.alert("fillInSpecifications: " + obs.toString());
 			PrimitiveParameterValueInformation info = (PrimitiveParameterValueInformation) obs;
 			row.addStructure(info);
 

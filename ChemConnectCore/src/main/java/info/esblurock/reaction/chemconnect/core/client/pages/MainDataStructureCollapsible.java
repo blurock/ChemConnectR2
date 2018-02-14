@@ -20,7 +20,6 @@ import info.esblurock.reaction.chemconnect.core.client.administration.GetMainStr
 import info.esblurock.reaction.chemconnect.core.client.cards.CardModal;
 import info.esblurock.reaction.chemconnect.core.client.cards.ClassificationInformationCard;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.CreatePrimitiveStructure;
-import info.esblurock.reaction.chemconnect.core.client.pages.primitive.DefaultPrimiiveDataStructure;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.PrimitiveDataStructureBase;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.value.MultipleRecordsPrimitive;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
@@ -67,8 +66,6 @@ public class MainDataStructureCollapsible extends Composite {
 	ChemConnectCompoundDataStructure subelements;
 	ArrayList<DataElementInformation> records;
 	SubsystemInformation subsysteminfo;
-	//String parentId;
-	//String suffix;
 	
 	boolean isParameterDescriptionSet;
 	boolean isObservationSpecification;
@@ -79,8 +76,6 @@ public class MainDataStructureCollapsible extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 		clsinfo = info;
 		datatype.setText(info.getDataType());
-		//parentId = "ChemConnect";
-		//suffix = "0";
 		setIdenifier(false);
 		init(clsinfo.getIdName());
 	}
@@ -93,64 +88,31 @@ public class MainDataStructureCollapsible extends Composite {
 		ChemConnectCompoundDataStructure compound = totalstructure.getMapping().getStructure(element.getDataElementName());
 		this.subsysteminfo = subsysteminfo;
 		String type = compound.getRecordType();
-		Window.alert("MainDataStructureCollapsible: " + type);
-		Window.alert("MainDataStructureCollapsible: " + element.toString());
-		Window.alert("MainDataStructureCollapsible: " + element.getChemconnectStructure());
 		isParameterDescriptionSet = type.compareTo(parameterDescriptionSetS) == 0;
 		isObservationSpecification = type.compareTo(observationSpecificationS) == 0;
 		this.subelements = compound;
 		clsinfo = new ClassificationInformation(null,null,null,parentId,type);
 		if(subelements != null) { 
 			datatype.setText(TextUtilities.removeNamespace(type));
-			String suffix = "";
 			setIdenifier(false);
 			init(type);
 			MapToChemConnectCompoundDataStructure mapping = totalstructure.getMapping();
 			setUpStructureElements(parentId,element,compound,mapping);
-			//setRecords(parentId, suffix, compound,mapping);
 		} else {
 			Window.alert("MainDataStructureCollapsible: can't find element: " + type);
 		}
 	}
-	/*
-	private void setRecords(String parentid, String suffix,
-			ArrayList<DataElementInformation> records, 
-			MapToChemConnectCompoundDataStructure mapping) {
-		this.records = records;
-		String id = parentid +"-" + suffix;
-		for(DataElementInformation record : records) {
-			setRecord(id, record,mapping);
-		}
-	}
-	*/
-	/*
-	private void setRecord(String rootID, DataElementInformation element, 
-			MapToChemConnectCompoundDataStructure mapping) {
-		
-		String id = rootID + "-" + element.getSuffix();
-		this.identifier = id;
-		ChemConnectCompoundDataStructure structure = mapping.getStructure(element.getDataElementName());
-		if (structure != null) {
-			setUpStructureElements(id, element,structure, mapping);
-		} else {
-			primitive(element, id);
-		}
-	}
-*/
 	private void setUpStructureElements(String id, DataElementInformation element, 
 			ChemConnectCompoundDataStructure struct,
 			MapToChemConnectCompoundDataStructure mapping) {
 		try {
 			CreatePrimitiveStructure create = CreatePrimitiveStructure.valueOf(element.getChemconnectStructure());
-			Window.alert("setUpStructureElements: CreatePrimitiveStructure: " + create.getStructureName());
 			if(element.isSinglet()) {
 				PrimitiveDataStructureBase base = create.createEmptyStructure();
 				content.add(base);
 			} else {
 				String elementname = element.getDataElementName();
 				MultipleRecordsPrimitive multiple = new MultipleRecordsPrimitive(elementname,create);
-				Window.alert("setUpStructureElements: " + elementname + " (" + isObservationSpecification + "): "
-						+ observationSpecificationS);
 				if(isParameterDescriptionSet && 
 						elementname.compareTo(parameterValueS) == 0) {
 						multiple.fillInParameters(subsysteminfo);
@@ -179,23 +141,6 @@ public class MainDataStructureCollapsible extends Composite {
 		}
 		}
 	}
-/*
-	
-	private void primitive(DataElementInformation element, String identifier) {
-		String structurename = element.getDataElementName();
-		try {
-			CreatePrimitiveStructure create = CreatePrimitiveStructure.valueOf(structurename);
-			PrimitiveDataStructureBase base = create.createEmptyStructure();
-			content.add(base);
-		} catch (Exception ex) {
-			PrimitiveDataStructureInformation info = new PrimitiveDataStructureInformation(structurename,
-					identifier, "");
-			DefaultPrimiiveDataStructure base = new DefaultPrimiiveDataStructure(info);
-			content.add(base);
-			
-		}
-	}
-*/
 	public MainDataStructureCollapsible(String idName) {
 		initWidget(uiBinder.createAndBindUi(this));
 		clsinfo = null;
@@ -218,8 +163,6 @@ public class MainDataStructureCollapsible extends Composite {
 		}
 	}
 	
-	
-	
 	@UiHandler("info")
 	public void onInfoClick(ClickEvent event) {
 		ClassificationInformationCard infocard = new ClassificationInformationCard(clsinfo);
@@ -227,17 +170,6 @@ public class MainDataStructureCollapsible extends Composite {
 		card.open();
 		modalpanal.add(card);
 	}
-	/*
-	 * The definition of expand has changed
-	 * 
-	 * 
-	@UiHandler("expand")
-	public void onExpand(ClickEvent event) {
-		ContactDatabaseAccessAsync async = ContactDatabaseAccess.Util.getInstance();
-		ListOfMainDataObjectCallback callback = new ListOfMainDataObjectCallback(this);
-		async.getMainObjects(clsinfo, callback);
-	}
-	*/
 	
 	public void setStructureSubElements(ChemConnectCompoundDataStructure subelements) {
 		this.subelements = subelements;
@@ -248,10 +180,4 @@ public class MainDataStructureCollapsible extends Composite {
 	public ChemConnectCompoundDataStructure getSubelements() {
 		return subelements;
 	}
-	/*
-	 * The concept of expand has changed... this will be moved somewhere else
-	public void addObjectCollapsible(MainDataStructureInstanceCollapsible collapsible) {
-		contentcollapsible.add(collapsible);
-	}
-*/
 }

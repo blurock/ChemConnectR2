@@ -1,23 +1,19 @@
 package info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
-import gwt.material.design.addins.client.combobox.MaterialComboBox;
+import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialRow;
 import gwt.material.design.client.ui.MaterialSwitch;
-import gwt.material.design.client.ui.MaterialTextBox;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterSpecificationInformation;
@@ -45,13 +41,13 @@ public class ObservableSpecificationRow extends Composite implements HasText {
 	@UiField
 	MaterialLink uncertaintyclass;
 	@UiField
-	MaterialLink observableType;
-	@UiField
 	MaterialRow extrainfo;
 	@UiField
 	MaterialPanel modalpanel;
 	@UiField
 	MaterialPanel toppanel;
+	@UiField
+	MaterialRow info;
 
 	String identifier; 
 	String propertyType;
@@ -80,10 +76,11 @@ public class ObservableSpecificationRow extends Composite implements HasText {
 		PrimitiveParameterSpecificationInformation paraminfo = (PrimitiveParameterSpecificationInformation) info;
 		this.identifier = paraminfo.getIdentifier();
 		this.propertyType = paraminfo.getPropertyType();
+		toppanel.setBackgroundColor(Color.GREY_LIGHTEN_1);
 		if(paraminfo.getPropertyType() != null) {
 			parameterLabel.setText(TextUtilities.removeNamespace(paraminfo.getPropertyType()));
 		} else {
-			parameterLabel.setText("Choose Label");
+			parameterLabel.setText("Label");
 		}
 		if(paraminfo.getUnit() != null) {
 			unit.setText(TextUtilities.removeNamespace(paraminfo.getUnit()));
@@ -91,7 +88,7 @@ public class ObservableSpecificationRow extends Composite implements HasText {
 			unit.setText("Unit");
 		}
 		if(paraminfo.getPurpose() != null) {
-			purpose.setText(paraminfo.getPurpose());
+			purpose.setText(TextUtilities.removeNamespace(paraminfo.getPurpose()));
 		} else {
 			purpose.setText("Purpose");
 		}
@@ -106,7 +103,7 @@ public class ObservableSpecificationRow extends Composite implements HasText {
 			unitclass.setText("Units");
 		}
 		if(paraminfo.getUncertaintyType() != null) {
-			uncertaintyclass.setText(paraminfo.getUncertaintyType());
+			uncertaintyclass.setText(TextUtilities.removeNamespace(paraminfo.getUncertaintyType()));
 		} else {
 			uncertaintyclass.setText("Uncertainty");
 		}

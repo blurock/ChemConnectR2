@@ -5,7 +5,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
@@ -16,8 +15,6 @@ import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.CreatePrimitiveStructure;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.PrimitiveDataStructureBase;
-import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
-import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
 
 public class MultipleRecordsPrimitiveRow extends Composite implements HasText {
@@ -50,7 +47,6 @@ public class MultipleRecordsPrimitiveRow extends Composite implements HasText {
 	public MultipleRecordsPrimitiveRow(String structure, CreatePrimitiveStructure create) {
 		initWidget(uiBinder.createAndBindUi(this));
 		parameterType.setText(structure);
-		Window.alert("MultipleRecordsPrimitiveRow: " + parameterType.getText());
 		this.create = create;
 		init();
 	}

@@ -24,7 +24,6 @@ import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConcep
 import info.esblurock.reaction.chemconnect.core.client.pages.MainDataStructureCollapsible;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
-import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.SubsystemInformation;

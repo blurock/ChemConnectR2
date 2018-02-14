@@ -63,7 +63,6 @@ public enum CreatePrimitiveStructure {
 
 		@Override
 		public PrimitiveDataStructureBase createStructure(PrimitiveDataStructureInformation info) {
-			Window.alert("CreatePrimitiveStructure --> SetOfObservationsSpecification: ");
 			SetOfObservationsInformation obs = (SetOfObservationsInformation) info;
 			SetOfObservationsField set = new SetOfObservationsField(obs);
 			return set;
