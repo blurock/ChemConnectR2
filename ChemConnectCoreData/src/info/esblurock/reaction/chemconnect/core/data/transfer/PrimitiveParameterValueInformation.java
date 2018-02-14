@@ -21,6 +21,10 @@ public class PrimitiveParameterValueInformation extends PrimitiveDataStructureIn
 		uncertaintyType = null;
 	}
 
+	public PrimitiveParameterValueInformation(String identifier, String label, String value) {
+		super(label, identifier, value);
+		
+	}
 	public PrimitiveParameterValueInformation(String identifier, String label, String value, String unit, 
 			String unitclass,
 			String purpose, String concept, String uncertaintyValue, String uncertaintyType) {

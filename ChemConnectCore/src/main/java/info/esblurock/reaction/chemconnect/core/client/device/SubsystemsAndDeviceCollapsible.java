@@ -134,8 +134,8 @@ public class SubsystemsAndDeviceCollapsible extends Composite implements HasText
 			String type = element.getDataElementName();
 			ChemConnectCompoundDataStructure compound = infoStructure.getMapping().getStructure(type);
 			if (compound != null) {
-				MainDataStructureCollapsible main = new MainDataStructureCollapsible(compound, infoStructure,null);
-				add(main);
+				//MainDataStructureCollapsible main = new MainDataStructureCollapsible(compound, infoStructure,null);
+				//add(main);
 			} else {
 				Window.alert("Compound element not found: " + type);
 			}

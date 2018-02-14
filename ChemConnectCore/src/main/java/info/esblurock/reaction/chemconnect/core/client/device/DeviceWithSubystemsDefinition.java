@@ -103,22 +103,21 @@ public class DeviceWithSubystemsDefinition extends Composite implements HasText,
 		async.buildSubSystem(concept,callback);
 	}
 	
-	public void addTopHierarchialModal(HierarchyNode hierarchy, TotalSubsystemInformation top) {
+	public void addTopHierarchialModal(String id,HierarchyNode hierarchy, TotalSubsystemInformation top) {
 		SubsystemsAndDeviceCollapsible devicetop = new SubsystemsAndDeviceCollapsible(hierarchy.getIdentifier());
 		contentcollapsible.add(devicetop);
-		addHierarchialModal(hierarchy, top,devicetop);
+		addHierarchialModal(id,hierarchy, top,devicetop);
 	}
 	
 	
-	public void addHierarchialModal(HierarchyNode hierarchy, TotalSubsystemInformation top,
+	public void addHierarchialModal(String id, HierarchyNode hierarchy, TotalSubsystemInformation top,
 			SubsystemsAndDeviceCollapsible devicetop) {
 		ChemConnectDataStructure infoStructure = top.getInfoStructure();
 		for(DataElementInformation element : infoStructure.getRecords()) {
 			String type = element.getDataElementName();
 			SubsystemInformation subsysteminfo = top.getSubsystemsandcomponents().get(hierarchy.getIdentifier());
-			ChemConnectCompoundDataStructure compound = infoStructure.getMapping().getStructure(type);
-			if(compound != null) {
-				MainDataStructureCollapsible main = new MainDataStructureCollapsible(compound,infoStructure,subsysteminfo);
+			if(infoStructure.getMapping().getStructure(element.getDataElementName()) != null) {
+				MainDataStructureCollapsible main = new MainDataStructureCollapsible(id,element,infoStructure,subsysteminfo);
 				devicetop.getInfoCollapsible().add(main);
 			} else {
 				Window.alert("Compound element not found: " + type);

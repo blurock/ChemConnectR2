@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.gwt.user.client.Window;
 
 import gwt.material.design.client.constants.Color;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.CreatePrimitiveStructure;
@@ -13,6 +14,7 @@ import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatab
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterValueInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.SetOfObservationsInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.SubSystemParameters;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.SubsystemInformation;
 
@@ -21,10 +23,12 @@ public class MultipleRecordsPrimitive extends PrimitiveDataStructureBase {
 	MultipleRecordsPrimitiveRow row;
 	Map<String, PrimitiveDataStructureBase> structuremap;
 	
-	
-	public MultipleRecordsPrimitive(DataElementInformation record,
+	public MultipleRecordsPrimitive() {
+		structuremap = new HashMap<String, PrimitiveDataStructureBase>();
+	}
+	public MultipleRecordsPrimitive(String structure,
 			CreatePrimitiveStructure create) {
-		row = new MultipleRecordsPrimitiveRow(record,create);
+		row = new MultipleRecordsPrimitiveRow(structure,create);
 		structuremap = new HashMap<String, PrimitiveDataStructureBase>();
 		add(row);
 		this.setRowColorMultiple(Color.GREY_LIGHTEN_1);
@@ -40,6 +44,18 @@ public class MultipleRecordsPrimitive extends PrimitiveDataStructureBase {
 		ContactDatabaseAccessAsync async = ContactDatabaseAccess.Util.getInstance();
 		ParameterSetInfoCallback callback = new ParameterSetInfoCallback(structuremap);
 		async.getParameterInfo(parameternames,callback);
+	}
+	
+	public void fillInSpecifications(SubsystemInformation subsysteminfo) {
+		
+		Set<SetOfObservationsInformation> observations = subsysteminfo.getObservations();
+		for(SetOfObservationsInformation obs : observations) {
+			Window.alert("fillInSpecifications: " + obs.toString());
+			PrimitiveParameterValueInformation info = (PrimitiveParameterValueInformation) obs;
+			row.addStructure(info);
+
+		}
+		
 	}
 
 	private void createParameterSet(Set<String> set, ArrayList<String> parameternames) {

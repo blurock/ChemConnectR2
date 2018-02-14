@@ -21,7 +21,8 @@ public class DeviceHierarchyCallback implements AsyncCallback<TotalSubsystemInfo
 
 	@Override
 	public void onSuccess(TotalSubsystemInformation hierarchy) {
-		top.addTopHierarchialModal(hierarchy.getSubsystemtree(),hierarchy);
+		String id = "ChemConnect";
+		top.addTopHierarchialModal(id,hierarchy.getSubsystemtree(),hierarchy);
 	}
 
 }

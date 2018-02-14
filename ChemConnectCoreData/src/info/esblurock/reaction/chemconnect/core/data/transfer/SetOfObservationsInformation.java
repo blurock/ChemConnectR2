@@ -1,25 +1,32 @@
 package info.esblurock.reaction.chemconnect.core.data.transfer;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
-public class SetOfObservationsInformation implements Serializable {
+/*
+ * The valueType is put in the value of the PrimitiveDataStructureInformation class
+ */
+
+public class SetOfObservationsInformation extends PrimitiveParameterValueInformation {
 	
 	private static final long serialVersionUID = 1L;
 	
 	ArrayList<PrimitiveParameterSpecificationInformation> dimensions;
 	ArrayList<PrimitiveParameterSpecificationInformation> measures;
-	String valueType;
 	String topConcept;
 	
 	public SetOfObservationsInformation() {
+		init();
+	}
+	
+	public SetOfObservationsInformation(String identifier, String label, String topConcept, String valueType ) {
+		super(label,identifier,valueType);
+		this.topConcept = topConcept;
 		init();
 	}
 
 	void init() {
 		dimensions = new ArrayList<PrimitiveParameterSpecificationInformation>();
 		measures = new ArrayList<PrimitiveParameterSpecificationInformation>();
-		valueType = null;
 	}
 	
 	public void addMeasure(PrimitiveParameterSpecificationInformation measure) {
@@ -32,11 +39,11 @@ public class SetOfObservationsInformation implements Serializable {
 	
 	
 	public String getValueType() {
-		return valueType;
+		return getValue();
 	}
 
 	public void setValueType(String valueType) {
-		this.valueType = valueType;
+		setValue(valueType);
 	}
 
 	public String getTopConcept() {
@@ -61,7 +68,7 @@ public class SetOfObservationsInformation implements Serializable {
 
 	public String toString(String prefix) {
 		StringBuilder build = new StringBuilder();
-		build.append(prefix + "Set of Observations: (" + topConcept + ") " + valueType + "\n");
+		build.append(prefix + "Set of Observations: (" + topConcept + ")\n");
 		String newprefix = prefix + "\t";
 
 		build.append(prefix + "Dimensions:\n");

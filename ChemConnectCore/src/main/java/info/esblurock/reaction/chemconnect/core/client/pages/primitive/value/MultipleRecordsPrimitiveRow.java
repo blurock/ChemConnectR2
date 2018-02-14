@@ -5,6 +5,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
@@ -38,7 +39,7 @@ public class MultipleRecordsPrimitiveRow extends Composite implements HasText {
 	MaterialPanel content;
 
 	CreatePrimitiveStructure create;
-	DataElementInformation record;
+	//DataElementInformation record;
 	
 	public MultipleRecordsPrimitiveRow() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -46,11 +47,11 @@ public class MultipleRecordsPrimitiveRow extends Composite implements HasText {
 		init();
 	}
 
-	public MultipleRecordsPrimitiveRow(DataElementInformation record,CreatePrimitiveStructure create) {
+	public MultipleRecordsPrimitiveRow(String structure, CreatePrimitiveStructure create) {
 		initWidget(uiBinder.createAndBindUi(this));
-		parameterType.setText(TextUtilities.removeNamespace(record.getDataElementName()));
+		parameterType.setText(structure);
+		Window.alert("MultipleRecordsPrimitiveRow: " + parameterType.getText());
 		this.create = create;
-		this.record = record;
 		init();
 	}
 

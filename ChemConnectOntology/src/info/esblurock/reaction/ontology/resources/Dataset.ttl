@@ -2536,8 +2536,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                    rdfs:subClassOf :ChemConnectDataStructure ,
                                    [ rdf:type owl:Restriction ;
                                      owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                     owl:onClass :ObservationSpecification
+                                     owl:someValuesFrom :SetOfObservationsSpecification
                                    ] ,
                                    [ rdf:type owl:Restriction ;
                                      owl:onProperty <http://www.w3.org/ns/dcat#record> ;
@@ -4520,7 +4519,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                             owl:onProperty <http://purl.org/dc/terms/hasPart> ;
                                             owl:someValuesFrom :ParameterSpecification
                                           ] ;
-                          <http://purl.org/dc/elements/1.1/type> <http://purl.org/linked-data/cube#ComponentSpecification> ;
+                          <http://purl.org/dc/elements/1.1/type> "ObservationSpecification" ;
                           <http://purl.org/dc/terms/identifier> "qb:ComponentSpecification" ;
                           rdfs:isDefinedBy "ObservationSpecification" ;
                           rdfs:label "Observation Specification" ;
@@ -5066,6 +5065,20 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :SetOfObservationsLinkToProtocol rdf:type owl:Class ;
                                  rdfs:subClassOf :MethodologyLinkMeasurement ;
                                  <http://purl.org/dc/elements/1.1/type> "SetOfObservationsLinkToProtocol" .
+
+
+###  http://www.esblurock.info/dataset#SetOfObservationsSpecification
+:SetOfObservationsSpecification rdf:type owl:Class ;
+                                rdfs:subClassOf :ChemConnectCompoundDataStructure ,
+                                                [ rdf:type owl:Restriction ;
+                                                  owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                                  owl:someValuesFrom :ObservationSpecification
+                                                ] ;
+                                <http://purl.org/dc/elements/1.1/type> "SetOfObservationsSpecification" ;
+                                <http://purl.org/dc/terms/identifier> "qb:DataStructureDefinition" ;
+                                rdfs:isDefinedBy "SetOfObservationsSpecification" ;
+                                rdfs:label "Set of Observations Specification" ;
+                                <http://www.w3.org/2004/02/skos/core#altLabel> "setspec" .
 
 
 ###  http://www.esblurock.info/dataset#ShockTube

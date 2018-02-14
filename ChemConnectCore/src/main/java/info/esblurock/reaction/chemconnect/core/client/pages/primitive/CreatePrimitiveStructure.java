@@ -1,13 +1,17 @@
 package info.esblurock.reaction.chemconnect.core.client.pages.primitive;
 
 
+import com.google.gwt.user.client.Window;
+
 import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.PrimitiveParameterSpecification;
+import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.SetOfObservationsField;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.value.PrimitiveParameterValue;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.value.PrimitiveParameterValueRow;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterSpecificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterValueInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.SetOfObservationsInformation;
 
 public enum CreatePrimitiveStructure {
 	
@@ -29,24 +33,52 @@ public enum CreatePrimitiveStructure {
 			base.add(value);
 			return base;
 		}
+
+		@Override
+		public String getStructureName() {
+			return "ParameterValue";
+		}
 		
 	}, ParameterSpecification {
 
 		@Override
 		public PrimitiveDataStructureBase createStructure(PrimitiveDataStructureInformation info) {
-			PrimitiveDataStructureBase base = new PrimitiveDataStructureBase(info);
 			PrimitiveParameterSpecification spec = new PrimitiveParameterSpecification(info);
-			base.add(spec);
-			return base;
+			return spec;
 		}
 
 		@Override
 		public PrimitiveDataStructureBase createEmptyStructure() {
 			PrimitiveParameterSpecificationInformation info = new PrimitiveParameterSpecificationInformation();
-			PrimitiveDataStructureBase base = new PrimitiveDataStructureBase(info);
 			PrimitiveParameterSpecification spec = new PrimitiveParameterSpecification(info);
-			base.add(spec);
-			return base;
+			return spec;
+		}
+
+		@Override
+		public String getStructureName() {
+			return "ParameterSpecification";
+		}
+		
+	}, SetOfObservationsSpecification {
+
+		@Override
+		public PrimitiveDataStructureBase createStructure(PrimitiveDataStructureInformation info) {
+			Window.alert("CreatePrimitiveStructure --> SetOfObservationsSpecification: ");
+			SetOfObservationsInformation obs = (SetOfObservationsInformation) info;
+			SetOfObservationsField set = new SetOfObservationsField(obs);
+			return set;
+		}
+
+		@Override
+		public PrimitiveDataStructureBase createEmptyStructure() {
+			SetOfObservationsInformation obs = new SetOfObservationsInformation();
+			SetOfObservationsField set = new SetOfObservationsField(obs);
+			return set;
+		}
+
+		@Override
+		public String getStructureName() {
+			return "SetOfObservationsSpecification";
 		}
 		
 	},
@@ -63,6 +95,11 @@ public enum CreatePrimitiveStructure {
 			ClassificationPrimitiveDataStructure base = new ClassificationPrimitiveDataStructure();
 			return base;
 		}
+
+		@Override
+		public String getStructureName() {
+			return "datasetClassification";
+		}
 	}, dctermsdescription {
 
 		@Override
@@ -76,11 +113,17 @@ public enum CreatePrimitiveStructure {
 			DescriptionParagraphPrimitiveDataStructure base = new DescriptionParagraphPrimitiveDataStructure();
 			return base;
 		}
+
+		@Override
+		public String getStructureName() {
+			return "dctermsdescription";
+		}
 		
 	};
 	
 	public abstract PrimitiveDataStructureBase createStructure(PrimitiveDataStructureInformation info);
 	public abstract PrimitiveDataStructureBase createEmptyStructure();
+	public abstract String getStructureName();
 	
 	public static CreatePrimitiveStructure getStructureType(PrimitiveDataStructureInformation primitive) {
 		CreatePrimitiveStructure create = null;
