@@ -84,14 +84,18 @@ public class DeviceWithSubystemsDefinition extends Composite implements HasText,
 			modalpanel.add(line);
 			line.openModal();
 		} else {
-			ArrayList<String> choices = new ArrayList<String>();
-			choices.add("dataset:DataTypeDevice");
-			choices.add("dataset:DataTypeSubSystem");
-			choices.add("dataset:DataTypeComponent");
-			ChooseFromConceptHierarchies choosedevice = new ChooseFromConceptHierarchies(choices,this);
-			modalpanel.add(choosedevice);
-			choosedevice.open();
+			chooseConceptHieararchy();
 		}
+	}
+	
+	private void chooseConceptHieararchy() {
+		ArrayList<String> choices = new ArrayList<String>();
+		choices.add("dataset:DataTypeDevice");
+		choices.add("dataset:DataTypeSubSystem");
+		choices.add("dataset:DataTypeComponent");
+		ChooseFromConceptHierarchies choosedevice = new ChooseFromConceptHierarchies(choices,this);
+		modalpanel.add(choosedevice);
+		choosedevice.open();		
 	}
 	
 	public void setText(String text) {
@@ -154,6 +158,7 @@ public class DeviceWithSubystemsDefinition extends Composite implements HasText,
 	@Override
 	public void setLineContent(String line) {
 		topname.setText(line);
+		chooseConceptHieararchy();
 	}
 
 }
