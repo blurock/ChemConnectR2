@@ -32,33 +32,39 @@ public class MultipleRecordsPrimitive extends PrimitiveDataStructureBase {
 		this.setRowColorMultiple(Color.GREY_LIGHTEN_1);
 	}
 
-	public void fillInParameters(SubsystemInformation subsysteminfo) {
+	public void fillInParameters(String id, SubsystemInformation subsysteminfo) {
 		ArrayList<String> parameternames = new ArrayList<String>();
 		SubSystemParameters parameters = subsysteminfo.getAttributes();
-		createParameterSet(parameters.getDirect(), parameternames);
-		createParameterSet(parameters.getListedInhierated(), parameternames);
-		createParameterSet(parameters.getRestInhierated(), parameternames);
+		int count = 0;
+		createParameterSet(id, count, parameters.getDirect(), parameternames);
+		createParameterSet(id, count, parameters.getListedInhierated(), parameternames);
+		createParameterSet(id, count, parameters.getRestInhierated(), parameternames);
 		
 		ContactDatabaseAccessAsync async = ContactDatabaseAccess.Util.getInstance();
 		ParameterSetInfoCallback callback = new ParameterSetInfoCallback(structuremap);
 		async.getParameterInfo(parameternames,callback);
 	}
 	
-	public void fillInSpecifications(SubsystemInformation subsysteminfo) {
+	public void fillInSpecifications(String id, SubsystemInformation subsysteminfo) {
 		
 		Set<SetOfObservationsInformation> observations = subsysteminfo.getObservations();
+		int count = 0;
 		for(SetOfObservationsInformation obs : observations) {
 			PrimitiveParameterValueInformation info = (PrimitiveParameterValueInformation) obs;
+			String subid = id + "-" + count++;
+			info.setIdentifier(subid);
 			row.addStructure(info);
 
 		}
 		
 	}
 
-	private void createParameterSet(Set<String> set, ArrayList<String> parameternames) {
+	private void createParameterSet(String id, int count, Set<String> set, ArrayList<String> parameternames) {
 		parameternames.addAll(set);
 		for(String parameter : set) {
 			PrimitiveParameterValueInformation info = new PrimitiveParameterValueInformation();
+			String subid = id + "-" + count;
+			info.setIdentifier(subid);
 			info.setPropertyType(parameter);
 			PrimitiveDataStructureBase base = row.addStructure(info);
 			structuremap.put(parameter, base);

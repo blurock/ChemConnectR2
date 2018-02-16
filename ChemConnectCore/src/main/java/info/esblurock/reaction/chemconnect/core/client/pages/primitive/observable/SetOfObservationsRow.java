@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialColumn;
 import gwt.material.design.client.ui.MaterialLink;
+import gwt.material.design.client.ui.MaterialTooltip;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterSpecificationInformation;
 
@@ -24,6 +25,8 @@ public class SetOfObservationsRow extends Composite implements HasText {
 	}
 
 	@UiField
+	MaterialTooltip identifiertip;
+	@UiField
 	MaterialLink topconcept;
 	@UiField
 	MaterialLink valuetype;
@@ -32,14 +35,14 @@ public class SetOfObservationsRow extends Composite implements HasText {
 	@UiField
 	MaterialColumn measures;
 	
-	public SetOfObservationsRow(String top, String type) {
+	public SetOfObservationsRow(String id, String top, String type) {
 		initWidget(uiBinder.createAndBindUi(this));
 		topconcept.setText(TextUtilities.removeNamespace(top));
 		valuetype.setText(TextUtilities.removeNamespace(type));
+		identifiertip.setText(id);
 	}
 
 	public void addParameter(PrimitiveParameterSpecificationInformation info) {
-		Window.alert(info.toString());
 		PrimitiveParameterSpecification spec = new PrimitiveParameterSpecification(info);
 		if(info.isDimension()) {
 			dimensions.add(spec);

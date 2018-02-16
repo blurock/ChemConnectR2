@@ -589,7 +589,6 @@ dataset:ChemConnectPrimitiveDataStructure:
 		String direct = "SELECT ?type\n" + "	WHERE {\n" + name + " <http://purl.org/dc/elements/1.1/type> ?type .\n"
 				+ "	}";
 		
-		System.out.println(direct);
 		String objname = getHierarchString(direct);
 		if (objname == null) {
 
@@ -741,7 +740,6 @@ dataset:ChemConnectPrimitiveDataStructure:
 		if (stringlst.size() > 0) {
 			structure = stringlst.get(0).get("ref");
 		}
-		System.out.println(structure);
 		return structure;
 	}
 

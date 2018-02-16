@@ -21,7 +21,6 @@ public class PrimitiveValueUnitCallback implements AsyncCallback<SetOfUnitProper
 
 	@Override
 	public void onSuccess(SetOfUnitProperties set) {
-		Window.alert(set.toString());
 		top.setUpUnitList(set);
 	}
 

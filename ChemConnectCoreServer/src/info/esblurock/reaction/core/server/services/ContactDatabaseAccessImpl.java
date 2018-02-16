@@ -3,7 +3,6 @@ package info.esblurock.reaction.core.server.services;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
@@ -87,6 +86,11 @@ public class ContactDatabaseAccessImpl  extends ServerBase implements ContactDat
 		SetOfKeywordRDF rdfs = ConceptParsing.conceptHierarchyRDFs(topnode,access,owner,sourceID);
 		System.out.println(rdfs);
 		return rdfs;
+	}
+	
+	public HierarchyNode hierarchyFromPrimitiveStructure(String structure) {
+		String topconcept = ConceptParsing.definitionFromStructure(structure);
+		return hierarchyOfConcepts(topconcept);
 	}
 	
 	@Override

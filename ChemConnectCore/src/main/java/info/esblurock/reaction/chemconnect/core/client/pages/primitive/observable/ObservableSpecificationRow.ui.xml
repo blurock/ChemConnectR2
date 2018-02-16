@@ -12,7 +12,9 @@
 		<m:MaterialDivider/>
 		<m:MaterialRow ui:field="info">
 			<m:MaterialColumn grid="s4">
-				<m:MaterialLink ui:field="parameterLabel" textColor="BLACK" />
+				<m:MaterialTooltip ui:field="identifiertip">
+					<m:MaterialLink ui:field="parameterLabel" textColor="BLACK" />
+				</m:MaterialTooltip>
 			</m:MaterialColumn>
 			<m:MaterialColumn grid="s3">
 				<m:MaterialLink ui:field="unitclass" textColor="BLACK" />

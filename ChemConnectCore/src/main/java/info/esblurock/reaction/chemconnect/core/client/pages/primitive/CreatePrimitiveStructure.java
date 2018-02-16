@@ -4,8 +4,13 @@ package info.esblurock.reaction.chemconnect.core.client.pages.primitive;
 import com.google.gwt.user.client.Window;
 
 import gwt.material.design.client.ui.MaterialToast;
+import info.esblurock.reaction.chemconnect.core.client.pages.primitive.concept.PrimitiveConcept;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.PrimitiveParameterSpecification;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.SetOfObservationsField;
+import info.esblurock.reaction.chemconnect.core.client.pages.primitive.text.PrimitiveOneLine;
+import info.esblurock.reaction.chemconnect.core.client.pages.primitive.text.PrimitiveParagraph;
+import info.esblurock.reaction.chemconnect.core.client.pages.primitive.text.PrimitiveSetOfKeys;
+import info.esblurock.reaction.chemconnect.core.client.pages.primitive.text.PrimitiveShortString;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.value.PrimitiveParameterValue;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.value.PrimitiveParameterValueRow;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
@@ -22,7 +27,7 @@ public enum CreatePrimitiveStructure {
 			PrimitiveDataStructureBase base = new PrimitiveDataStructureBase(info);
 			PrimitiveParameterValue value = new PrimitiveParameterValue(info);
 			base.add(value);
-			return base;
+			return value;
 		}
 
 		@Override
@@ -31,7 +36,7 @@ public enum CreatePrimitiveStructure {
 			PrimitiveDataStructureBase base = new PrimitiveDataStructureBase(info);
 			PrimitiveParameterValue value = new PrimitiveParameterValue(info);
 			base.add(value);
-			return base;
+			return value;
 		}
 
 		@Override
@@ -78,6 +83,101 @@ public enum CreatePrimitiveStructure {
 		@Override
 		public String getStructureName() {
 			return "SetOfObservationsSpecification";
+		}
+		
+	}, Paragraph {
+
+		@Override
+		public PrimitiveDataStructureBase createStructure(PrimitiveDataStructureInformation info) {
+			PrimitiveParagraph paragraph = new PrimitiveParagraph(info);
+			return paragraph;
+		}
+
+		@Override
+		public PrimitiveDataStructureBase createEmptyStructure() {
+			PrimitiveParagraph paragraph = new PrimitiveParagraph();
+			return paragraph;
+		}
+
+		@Override
+		public String getStructureName() {
+			return "Paragraph";
+		}
+		
+	}, ShortString {
+
+		@Override
+		public PrimitiveDataStructureBase createStructure(PrimitiveDataStructureInformation info) {
+			PrimitiveShortString shortstring = new PrimitiveShortString(info);
+			return shortstring;
+		}
+
+		@Override
+		public PrimitiveDataStructureBase createEmptyStructure() {
+			PrimitiveShortString shortstring = new PrimitiveShortString();
+			return shortstring;
+		}
+
+		@Override
+		public String getStructureName() {
+			return "ShortString";
+		}
+		
+	}, OneLine {
+
+		@Override
+		public PrimitiveDataStructureBase createStructure(PrimitiveDataStructureInformation info) {
+			PrimitiveOneLine oneline = new PrimitiveOneLine(info);
+			return oneline;
+		}
+
+		@Override
+		public PrimitiveDataStructureBase createEmptyStructure() {
+			PrimitiveOneLine oneline = new PrimitiveOneLine();
+			return oneline;
+		}
+
+		@Override
+		public String getStructureName() {
+			return "Oneline";
+		}
+		
+	}, Concept {
+
+		@Override
+		public PrimitiveDataStructureBase createStructure(PrimitiveDataStructureInformation info) {
+			PrimitiveConcept concept = new PrimitiveConcept(info);
+			return concept;
+		}
+
+		@Override
+		public PrimitiveDataStructureBase createEmptyStructure() {
+			PrimitiveConcept concept = new PrimitiveConcept();
+			return concept;
+		}
+
+		@Override
+		public String getStructureName() {
+			return "Concept";
+		}
+		
+	}, SetOfKeywords {
+
+		@Override
+		public PrimitiveDataStructureBase createStructure(PrimitiveDataStructureInformation info) {
+			PrimitiveSetOfKeys keys = new PrimitiveSetOfKeys(info);
+			return keys;
+		}
+
+		@Override
+		public PrimitiveDataStructureBase createEmptyStructure() {
+			PrimitiveSetOfKeys keys = new PrimitiveSetOfKeys();
+			return keys;
+		}
+
+		@Override
+		public String getStructureName() {
+			return "SetOfKeywords";
 		}
 		
 	},

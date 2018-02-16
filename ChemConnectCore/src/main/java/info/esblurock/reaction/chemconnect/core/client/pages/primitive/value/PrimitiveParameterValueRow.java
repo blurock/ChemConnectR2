@@ -21,6 +21,7 @@ import gwt.material.design.client.ui.MaterialRow;
 import gwt.material.design.client.ui.MaterialSwitch;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.MaterialToast;
+import gwt.material.design.client.ui.MaterialTooltip;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHeirarchy;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchies;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
@@ -71,6 +72,8 @@ public class PrimitiveParameterValueRow extends Composite implements HasText,Cho
 	MaterialPanel modalpanel;
 	@UiField
 	MaterialPanel toppanel;
+	@UiField
+	MaterialTooltip identifiertip;
 	
 	String identifier; 
 	String propertyType;
@@ -110,6 +113,7 @@ public class PrimitiveParameterValueRow extends Composite implements HasText,Cho
 		PrimitiveParameterValueInformation paraminfo = (PrimitiveParameterValueInformation) info;
 		this.identifier = paraminfo.getIdentifier();
 		this.propertyType = paraminfo.getPropertyType();
+		identifiertip.setText(info.getIdentifier());
 		if(paraminfo.getPropertyType() != null) {
 			chosenParameter = paraminfo.getPropertyType();
 			parameterLabel.setText(TextUtilities.removeNamespace(chosenParameter));

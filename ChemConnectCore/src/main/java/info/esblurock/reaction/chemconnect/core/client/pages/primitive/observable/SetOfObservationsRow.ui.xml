@@ -12,7 +12,9 @@
 
 		<m:MaterialRow ui:field="info">
 			<m:MaterialColumn  grid="s6">
-				<m:MaterialLink ui:field="topconcept" textColor="BLACK" />
+				<m:MaterialTooltip ui:field="identifiertip">
+					<m:MaterialLink ui:field="topconcept" textColor="BLACK" />
+				</m:MaterialTooltip>
 			</m:MaterialColumn>
 			<m:MaterialColumn grid="s6">
 				<m:MaterialLink ui:field="valuetype" textColor="BLACK" />

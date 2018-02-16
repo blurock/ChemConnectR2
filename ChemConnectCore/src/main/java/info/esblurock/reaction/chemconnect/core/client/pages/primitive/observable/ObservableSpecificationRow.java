@@ -14,6 +14,7 @@ import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialRow;
 import gwt.material.design.client.ui.MaterialSwitch;
+import gwt.material.design.client.ui.MaterialTooltip;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterSpecificationInformation;
@@ -48,7 +49,9 @@ public class ObservableSpecificationRow extends Composite implements HasText {
 	MaterialPanel toppanel;
 	@UiField
 	MaterialRow info;
-
+	@UiField
+	MaterialTooltip identifiertip;
+	
 	String identifier; 
 	String propertyType;
 	boolean rowVisible;
@@ -77,6 +80,7 @@ public class ObservableSpecificationRow extends Composite implements HasText {
 		this.identifier = paraminfo.getIdentifier();
 		this.propertyType = paraminfo.getPropertyType();
 		toppanel.setBackgroundColor(Color.GREY_LIGHTEN_1);
+		identifiertip.setText(info.getIdentifier());
 		if(paraminfo.getPropertyType() != null) {
 			parameterLabel.setText(TextUtilities.removeNamespace(paraminfo.getPropertyType()));
 		} else {

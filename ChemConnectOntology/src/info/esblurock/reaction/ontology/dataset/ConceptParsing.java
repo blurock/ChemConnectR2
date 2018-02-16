@@ -441,4 +441,18 @@ public class ConceptParsing {
 		}
 		return obsset;
 	}
+	public static String definitionFromStructure(String structure) {
+		String query ="SELECT ?type\n" + 
+				"	WHERE {\n"
+				+ "    " + structure + "  <http://www.w3.org/2004/02/skos/core#definition>  ?type\n" + 
+				"	}";
+		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
+		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
+		String type = null;
+		for (Map<String, String> map : stringlst) {
+			type = map.get("type");
+		}
+		return type;
+
+	}
 }

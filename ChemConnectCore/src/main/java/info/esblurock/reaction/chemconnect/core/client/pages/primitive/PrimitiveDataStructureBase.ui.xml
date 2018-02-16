@@ -4,5 +4,8 @@
 	<ui:style>
 	
 	</ui:style>
-	<m:MaterialPanel ui:field="row"/>
+	<m:MaterialPanel ui:field="row">
+	<m:MaterialDivider/>
+	</m:MaterialPanel>
+	
 </ui:UiBinder> 

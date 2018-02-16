@@ -52,5 +52,5 @@ public interface ContactDatabaseAccess extends RemoteService {
 	TotalSubsystemInformation buildSubSystem(String concept);
 	SetOfUnitProperties unitProperties(String topunit);
 	ArrayList<PrimitiveParameterValueInformation> getParameterInfo(ArrayList<String> parameternames);
-
+	HierarchyNode hierarchyFromPrimitiveStructure(String structure);
 }

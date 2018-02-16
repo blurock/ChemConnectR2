@@ -1,7 +1,6 @@
 package info.esblurock.reaction.chemconnect.core.common.client.async;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -54,5 +53,7 @@ public interface ContactDatabaseAccessAsync {
 
 	void getParameterInfo(ArrayList<String> parameternames,
 			AsyncCallback<ArrayList<PrimitiveParameterValueInformation>> callback);
+
+	void hierarchyFromPrimitiveStructure(String structure, AsyncCallback<HierarchyNode> callback);
 
 }
