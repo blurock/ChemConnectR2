@@ -2,7 +2,6 @@ package info.esblurock.reaction.chemconnect.core.client.device;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.TotalSubsystemInformation;
 
 public class DeviceHierarchyCallback implements AsyncCallback<TotalSubsystemInformation> {

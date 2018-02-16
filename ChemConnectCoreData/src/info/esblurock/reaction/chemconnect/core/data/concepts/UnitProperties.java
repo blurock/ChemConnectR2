@@ -1,13 +1,6 @@
 package info.esblurock.reaction.chemconnect.core.data.concepts;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-
-import com.google.gwt.thirdparty.common.css.compiler.passes.AbbreviatePositionalValues;
 
 
 public class UnitProperties implements Serializable {

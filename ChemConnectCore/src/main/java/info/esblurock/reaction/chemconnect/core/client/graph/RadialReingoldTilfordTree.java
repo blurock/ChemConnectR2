@@ -93,7 +93,8 @@ public class RadialReingoldTilfordTree extends FlowPanel{
 
         try {
         	
-            Request request = builder.sendRequest(null, new RequestCallback() {
+            @SuppressWarnings("unused")
+			Request request = builder.sendRequest(null, new RequestCallback() {
                 @Override
                 public void onError(final Request request, final Throwable exception) {
                     Window.alert("Couldn't retrieve JSON");

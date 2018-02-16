@@ -1,13 +1,12 @@
 package info.esblurock.reaction.ontology.concepts;
 
-import static org.junit.Assert.*;
+//import static org.junit.Assert.*;
 
 import java.util.Set;
 
 import org.junit.Test;
 
 import info.esblurock.reaction.chemconnect.core.data.concepts.AttributeDescription;
-import info.esblurock.reaction.chemconnect.core.data.concepts.AttributesOfObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterValueInformation;
 import info.esblurock.reaction.ontology.dataset.ConceptParsing;
 

@@ -3,8 +3,6 @@ package info.esblurock.reaction.chemconnect.core.client.concepts;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 
-import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
-import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
 
 public class HierarchyConceptChoice implements ClickHandler {
 

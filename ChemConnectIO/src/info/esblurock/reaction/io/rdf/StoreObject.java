@@ -2,7 +2,6 @@ package info.esblurock.reaction.io.rdf;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
@@ -230,7 +229,7 @@ public class StoreObject {
 	}
 
 	public void writeSet() {
-		int timeout_ms = 100;
+		//int timeout_ms = 100;
 		DatabaseWriteBase.writeListOfDatabaseObjects(toBeStored);
 		/*
 		while (true) {

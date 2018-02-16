@@ -2,7 +2,6 @@ package info.esblurock.reaction.chemconnect.core.common.client.async;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Set;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;

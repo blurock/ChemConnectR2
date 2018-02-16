@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
-import info.esblurock.reaction.chemconnect.core.data.transfer.SetOfObservationsInformation;
 
 public class ChemConnectDataStructure implements Serializable {
 

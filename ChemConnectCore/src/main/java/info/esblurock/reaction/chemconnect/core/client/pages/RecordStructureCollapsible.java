@@ -3,7 +3,6 @@ package info.esblurock.reaction.chemconnect.core.client.pages;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -64,7 +63,7 @@ public class RecordStructureCollapsible extends Composite {
 			primitive(element, id);
 		}
 	}
-
+/*
 	private void setUpStructureElements(ChemConnectCompoundDataStructure struct) {
 		for (DataElementInformation element : struct) {
 			String structurename = element.getDataElementName();
@@ -79,14 +78,14 @@ public class RecordStructureCollapsible extends Composite {
 				}
 		}
 	}
-	
+	*/
 	private void primitive(DataElementInformation element, String identifier) {
 		String structurename = element.getDataElementName();
 		try {
 			CreatePrimitiveStructure create = CreatePrimitiveStructure.valueOf(structurename);
 			PrimitiveDataStructureInformation info = new PrimitiveDataStructureInformation(
 					element.getDataElementName(), element.getIdentifier(), "");
-			PrimitiveDataStructureBase base = create.createEmptyStructure();
+			PrimitiveDataStructureBase base = create.createStructure(info);
 			infoheader.add(base);
 		} catch (Exception ex) {
 			PrimitiveDataStructureInformation info = new PrimitiveDataStructureInformation(structurename,

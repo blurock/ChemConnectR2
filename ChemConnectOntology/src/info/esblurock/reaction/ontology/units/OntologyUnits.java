@@ -1,20 +1,12 @@
 package info.esblurock.reaction.ontology.units;
 
 import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.jena.ontology.OntModel;
-import org.apache.jena.query.Query;
-import org.apache.jena.query.QueryExecution;
-import org.apache.jena.query.QueryExecutionFactory;
-import org.apache.jena.query.QueryFactory;
-import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
-import org.apache.jena.query.ResultSetFactory;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.ReasonerVocabulary;
@@ -28,7 +20,6 @@ import info.esblurock.reaction.ontology.utilities.IsolateResultList;
 public class OntologyUnits extends OntologyBase {
 
 	public static ArrayList<Resource> getUnitSet(String unittype) {
-		OntModel m = OntologyBase.Util.getUnitsOntology();
 		String queryPrefix = OntologyBase.getStandardPrefixUnits();
 
 		String queryString = queryPrefix + "SELECT  ?subject" + "\n" + " WHERE {?subject ?p " + unittype + " }";
@@ -56,7 +47,6 @@ public class OntologyUnits extends OntologyBase {
 	public static UnitProperties UnitInformation(String unitname) {
 		UnitProperties props = new UnitProperties(unitname);
 		AlternativeEntryWithAppFiles alt = new AlternativeEntryWithAppFiles();
-		OntModel m = OntologyBase.Util.getUnitsOntology();
 		String queryPrefix = OntologyBase.getStandardPrefixUnits();
 		String query = queryPrefix + "SELECT ?predicate ?object" + "\n" + "	WHERE { " + alt.getQUDTUnitPrefix()
 				+ unitname + " ?predicate ?object}";

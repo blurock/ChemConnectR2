@@ -1,9 +1,6 @@
 package info.esblurock.reaction.chemconnect.core.client.pages.primitive;
 
 
-import com.google.gwt.user.client.Window;
-
-import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.concept.PrimitiveConcept;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.PrimitiveParameterSpecification;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.SetOfObservationsField;
@@ -12,7 +9,6 @@ import info.esblurock.reaction.chemconnect.core.client.pages.primitive.text.Prim
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.text.PrimitiveSetOfKeys;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.text.PrimitiveShortString;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.value.PrimitiveParameterValue;
-import info.esblurock.reaction.chemconnect.core.client.pages.primitive.value.PrimitiveParameterValueRow;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterSpecificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterValueInformation;

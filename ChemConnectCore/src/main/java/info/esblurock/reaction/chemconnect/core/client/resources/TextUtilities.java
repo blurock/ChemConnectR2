@@ -1,6 +1,5 @@
 package info.esblurock.reaction.chemconnect.core.client.resources;
 
-import com.google.gwt.user.client.Window;
 
 public class TextUtilities {
 

@@ -28,7 +28,6 @@ public class ParameterSetInfoCallback  implements AsyncCallback<ArrayList<Primit
 		for(PrimitiveParameterValueInformation info : set) {
 			String elementName = info.getPropertyType();
 			PrimitiveDataStructureBase base = structuremap.get(elementName);
-			PrimitiveParameterValue parametervalue = (PrimitiveParameterValue) base;
 			base.fill(info);
 		}
 	}

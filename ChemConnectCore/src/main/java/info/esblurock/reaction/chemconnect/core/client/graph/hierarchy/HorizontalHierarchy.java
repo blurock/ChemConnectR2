@@ -77,6 +77,7 @@ public class HorizontalHierarchy extends FlowPanel {
 		Array<Node<FlareNode>> nodes = cluster.nodes(root);
 		Array<Link<FlareNode>> links = cluster.links(nodes);
 
+		@SuppressWarnings("unused")
 		Selection link = svg.selectAll("." + css.link()).data(links).enter().append("path").attr("class", css.link())
 				.attr("d", diagonal);
 
