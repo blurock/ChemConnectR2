@@ -21,6 +21,8 @@ import gwt.material.design.client.ui.MaterialToast;
 
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHeirarchy;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchies;
+import info.esblurock.reaction.chemconnect.core.client.modal.InputLineModal;
+import info.esblurock.reaction.chemconnect.core.client.modal.SetLineContentInterface;
 import info.esblurock.reaction.chemconnect.core.client.pages.MainDataStructureCollapsible;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
@@ -30,7 +32,7 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.graph.SubsystemInf
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.TotalSubsystemInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
 
-public class DeviceWithSubystemsDefinition extends Composite implements HasText, ChooseFromConceptHeirarchy {
+public class DeviceWithSubystemsDefinition extends Composite implements HasText, ChooseFromConceptHeirarchy, SetLineContentInterface {
 
 	private static DeviceWithSubystemsDefinitionUiBinder uiBinder = GWT
 			.create(DeviceWithSubystemsDefinitionUiBinder.class);
@@ -38,6 +40,8 @@ public class DeviceWithSubystemsDefinition extends Composite implements HasText,
 	interface DeviceWithSubystemsDefinitionUiBinder extends UiBinder<Widget, DeviceWithSubystemsDefinition> {
 	}
 
+	String enterkeyS;
+	String keynameS;
 	@UiField
 	MaterialLink parameter;
 	@UiField
@@ -49,6 +53,8 @@ public class DeviceWithSubystemsDefinition extends Composite implements HasText,
 	@UiField
 	MaterialPanel modalpanel;
 
+	InputLineModal line; 
+	
 	public DeviceWithSubystemsDefinition() {
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
@@ -64,19 +70,28 @@ public class DeviceWithSubystemsDefinition extends Composite implements HasText,
 		parameter.setText("Device");
 		choose.setText("Choose Device");
 		topname.setLabel("Catagory Name");
+		topname.setText("");
 		String name = Cookies.getCookie("user");
 		topname.setPlaceholder(name);
+		enterkeyS = "Enter Catagory Name";
+		keynameS = "Catagory";
 	}
 	
 	@UiHandler("choose")
 	public void chooseConcept(ClickEvent event) {
-		ArrayList<String> choices = new ArrayList<String>();
-		choices.add("dataset:DataTypeDevice");
-		choices.add("dataset:DataTypeSubSystem");
-		choices.add("dataset:DataTypeComponent");
-		ChooseFromConceptHierarchies choosedevice = new ChooseFromConceptHierarchies(choices,this);
-		modalpanel.add(choosedevice);
-		choosedevice.open();
+		if(topname.getText().length() == 0 ) {
+			line = new InputLineModal(enterkeyS,keynameS,this);
+			modalpanel.add(line);
+			line.openModal();
+		} else {
+			ArrayList<String> choices = new ArrayList<String>();
+			choices.add("dataset:DataTypeDevice");
+			choices.add("dataset:DataTypeSubSystem");
+			choices.add("dataset:DataTypeComponent");
+			ChooseFromConceptHierarchies choosedevice = new ChooseFromConceptHierarchies(choices,this);
+			modalpanel.add(choosedevice);
+			choosedevice.open();
+		}
 	}
 	
 	public void setText(String text) {
@@ -92,7 +107,7 @@ public class DeviceWithSubystemsDefinition extends Composite implements HasText,
 	}
 
 	String getTopCatagory() {
-		return topname.getPlaceholder();
+		return topname.getText();
 	}
 	
 	@Override
@@ -113,10 +128,11 @@ public class DeviceWithSubystemsDefinition extends Composite implements HasText,
 			SubsystemsAndDeviceCollapsible devicetop) {
 		ChemConnectDataStructure infoStructure = top.getInfoStructure();
 		for(DataElementInformation element : infoStructure.getRecords()) {
+			String subid = id + "-" + element.getSuffix();
 			String type = element.getDataElementName();
 			SubsystemInformation subsysteminfo = top.getSubsystemsandcomponents().get(hierarchy.getIdentifier());
 			if(infoStructure.getMapping().getStructure(element.getDataElementName()) != null) {
-				MainDataStructureCollapsible main = new MainDataStructureCollapsible(id,element,infoStructure,subsysteminfo);
+				MainDataStructureCollapsible main = new MainDataStructureCollapsible(subid,element,infoStructure,subsysteminfo);
 				devicetop.getInfoCollapsible().add(main);
 			} else {
 				Window.alert("Compound element not found: " + type);
@@ -133,9 +149,11 @@ public class DeviceWithSubystemsDefinition extends Composite implements HasText,
 
 	public void fillParameters(MainDataStructureCollapsible main, 
 			SubsystemInformation subsysteminfo) {
-		
-		
-		
+	}
+
+	@Override
+	public void setLineContent(String line) {
+		topname.setText(line);
 	}
 
 }
