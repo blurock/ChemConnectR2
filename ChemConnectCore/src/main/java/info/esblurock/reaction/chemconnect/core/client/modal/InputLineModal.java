@@ -49,6 +49,10 @@ public class InputLineModal extends Composite  {
 		modal.close();
 	}
 
+	public String getLabel() {
+		return textbox.getLabel().toString();
+	}
+	
 	public void openModal() {
 		modal.open();
 	}

@@ -24,4 +24,7 @@ public class PrimitiveParameterValue extends PrimitiveDataStructureBase {
 		row.fill(info);
 	}
 
+	public String getIdentifier() {
+		return row.getIdentifier();
+	}
 }

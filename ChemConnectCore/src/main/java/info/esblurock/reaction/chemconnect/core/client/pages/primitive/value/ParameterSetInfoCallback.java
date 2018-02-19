@@ -12,10 +12,11 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameter
 public class ParameterSetInfoCallback  implements AsyncCallback<ArrayList<PrimitiveParameterValueInformation>> {
 
 	Map<String, PrimitiveDataStructureBase> structuremap;
+	String id;
 	
-	
-	public ParameterSetInfoCallback(Map<String, PrimitiveDataStructureBase> structuremap) {
+	public ParameterSetInfoCallback(String id, Map<String, PrimitiveDataStructureBase> structuremap) {
 		this.structuremap = structuremap;
+		this.id = id;
 	}
 
 	@Override
@@ -28,6 +29,8 @@ public class ParameterSetInfoCallback  implements AsyncCallback<ArrayList<Primit
 		for(PrimitiveParameterValueInformation info : set) {
 			String elementName = info.getPropertyType();
 			PrimitiveDataStructureBase base = structuremap.get(elementName);
+			PrimitiveParameterValue value = (PrimitiveParameterValue) base;
+			info.setIdentifier(value.getIdentifier());
 			base.fill(info);
 		}
 	}

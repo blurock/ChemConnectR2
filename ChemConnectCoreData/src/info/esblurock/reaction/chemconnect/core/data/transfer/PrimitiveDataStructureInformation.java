@@ -52,7 +52,9 @@ public class PrimitiveDataStructureInformation implements Serializable{
 		builder.append(" (");
 		builder.append(identifier);
 		builder.append(") ");
-		builder.append(value);
+		if(value != null) {
+			builder.append(value);
+		}
 		return builder.toString();
 	}
 	

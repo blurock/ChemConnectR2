@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.gwt.user.client.Window;
 
 import gwt.material.design.client.constants.Color;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.CreatePrimitiveStructure;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.PrimitiveDataStructureBase;
+import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterValueInformation;
@@ -41,17 +43,16 @@ public class MultipleRecordsPrimitive extends PrimitiveDataStructureBase {
 		createParameterSet(id, count, parameters.getRestInhierated(), parameternames);
 		
 		ContactDatabaseAccessAsync async = ContactDatabaseAccess.Util.getInstance();
-		ParameterSetInfoCallback callback = new ParameterSetInfoCallback(structuremap);
+		ParameterSetInfoCallback callback = new ParameterSetInfoCallback(id, structuremap);
 		async.getParameterInfo(parameternames,callback);
 	}
 	
 	public void fillInSpecifications(String id, SubsystemInformation subsysteminfo) {
 		
 		Set<SetOfObservationsInformation> observations = subsysteminfo.getObservations();
-		int count = 0;
 		for(SetOfObservationsInformation obs : observations) {
 			PrimitiveParameterValueInformation info = (PrimitiveParameterValueInformation) obs;
-			String subid = id + "-" + count++;
+			String subid = id + "-" + TextUtilities.removeNamespace(obs.getTopConcept());
 			info.setIdentifier(subid);
 			row.addStructure(info);
 
@@ -63,7 +64,7 @@ public class MultipleRecordsPrimitive extends PrimitiveDataStructureBase {
 		parameternames.addAll(set);
 		for(String parameter : set) {
 			PrimitiveParameterValueInformation info = new PrimitiveParameterValueInformation();
-			String subid = id + "-" + count;
+			String subid = id + "-" + TextUtilities.removeNamespace(parameter);
 			info.setIdentifier(subid);
 			info.setPropertyType(parameter);
 			PrimitiveDataStructureBase base = row.addStructure(info);

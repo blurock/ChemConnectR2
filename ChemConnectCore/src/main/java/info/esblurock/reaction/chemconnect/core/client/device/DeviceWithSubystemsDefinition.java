@@ -24,6 +24,7 @@ import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConcep
 import info.esblurock.reaction.chemconnect.core.client.modal.InputLineModal;
 import info.esblurock.reaction.chemconnect.core.client.modal.SetLineContentInterface;
 import info.esblurock.reaction.chemconnect.core.client.pages.MainDataStructureCollapsible;
+import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
@@ -142,13 +143,12 @@ public class DeviceWithSubystemsDefinition extends Composite implements HasText,
 				Window.alert("Compound element not found: " + type);
 			}
 		}
-		/*
 		for(HierarchyNode sub: hierarchy.getSubNodes()) {
 			SubsystemsAndDeviceCollapsible subsystem = new SubsystemsAndDeviceCollapsible(sub.getIdentifier());
 			devicetop.getCollapsible().add(subsystem);
-			addHierarchialModal(sub,top,subsystem);
+			String subid = id + "-" + TextUtilities.removeNamespace(sub.getIdentifier());
+			addHierarchialModal(subid,sub,top,subsystem);
 		}
-		*/
 	}
 
 	public void fillParameters(MainDataStructureCollapsible main, 

@@ -4,6 +4,8 @@ package info.esblurock.reaction.chemconnect.core.client.pages.primitive;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.concept.PrimitiveConcept;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.PrimitiveParameterSpecification;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.SetOfObservationsField;
+import info.esblurock.reaction.chemconnect.core.client.pages.primitive.reference.PrimitivePersonName;
+import info.esblurock.reaction.chemconnect.core.client.pages.primitive.reference.PrimitiveReference;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.text.PrimitiveOneLine;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.text.PrimitiveParagraph;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.text.PrimitiveSetOfKeys;
@@ -12,6 +14,7 @@ import info.esblurock.reaction.chemconnect.core.client.pages.primitive.value.Pri
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterSpecificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterValueInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveReferenceInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.SetOfObservationsInformation;
 
 public enum CreatePrimitiveStructure {
@@ -20,18 +23,14 @@ public enum CreatePrimitiveStructure {
 
 		@Override
 		public PrimitiveDataStructureBase createStructure(PrimitiveDataStructureInformation info) {
-			PrimitiveDataStructureBase base = new PrimitiveDataStructureBase(info);
 			PrimitiveParameterValue value = new PrimitiveParameterValue(info);
-			base.add(value);
 			return value;
 		}
 
 		@Override
 		public PrimitiveDataStructureBase createEmptyStructure() {
 			PrimitiveParameterValueInformation info = new PrimitiveParameterValueInformation();
-			PrimitiveDataStructureBase base = new PrimitiveDataStructureBase(info);
 			PrimitiveParameterValue value = new PrimitiveParameterValue(info);
-			base.add(value);
 			return value;
 		}
 
@@ -174,6 +173,45 @@ public enum CreatePrimitiveStructure {
 		@Override
 		public String getStructureName() {
 			return "SetOfKeywords";
+		}
+		
+	}, NameOfPerson {
+
+		@Override
+		public PrimitiveDataStructureBase createStructure(PrimitiveDataStructureInformation info) {
+			PrimitivePersonName person = new PrimitivePersonName(info);
+			return person;
+		}
+
+		@Override
+		public PrimitiveDataStructureBase createEmptyStructure() {
+			PrimitivePersonName person = new PrimitivePersonName();
+			return person;
+		}
+
+		@Override
+		public String getStructureName() {
+			return "NameOfPerson";
+		}
+		
+	}, DataSetReference {
+
+		@Override
+		public PrimitiveDataStructureBase createStructure(PrimitiveDataStructureInformation info) {
+			PrimitiveReferenceInformation information = (PrimitiveReferenceInformation) info;
+			PrimitiveReference reference = new PrimitiveReference(information);
+			return reference;
+		}
+
+		@Override
+		public PrimitiveDataStructureBase createEmptyStructure() {
+			PrimitiveReference reference = new PrimitiveReference();
+			return reference;
+		}
+
+		@Override
+		public String getStructureName() {
+			return "DataSetReference";
 		}
 		
 	},

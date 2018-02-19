@@ -9,6 +9,7 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
@@ -97,8 +98,8 @@ public class PrimitiveParameterValueRow extends Composite implements HasText,Cho
 
 	public PrimitiveParameterValueRow(PrimitiveParameterValueInformation paraminfo) {
 		initWidget(uiBinder.createAndBindUi(this));
-		fill(paraminfo);
 		init();
+		fill(paraminfo);
 	}
 	
 	private void init() {
@@ -113,7 +114,7 @@ public class PrimitiveParameterValueRow extends Composite implements HasText,Cho
 		PrimitiveParameterValueInformation paraminfo = (PrimitiveParameterValueInformation) info;
 		this.identifier = paraminfo.getIdentifier();
 		this.propertyType = paraminfo.getPropertyType();
-		identifiertip.setText(info.getIdentifier());
+		identifiertip.setText(this.identifier);
 		if(paraminfo.getPropertyType() != null) {
 			chosenParameter = paraminfo.getPropertyType();
 			parameterLabel.setText(TextUtilities.removeNamespace(chosenParameter));
@@ -294,6 +295,10 @@ public class PrimitiveParameterValueRow extends Composite implements HasText,Cho
 			this.chosenUncertainty = chosenConcept;
 			uncertaintyclass.setText(TextUtilities.removeNamespace(chosenConcept));
 		}
+	}
+
+	public String getIdentifier() {
+		return identifier;
 	}
 
 }

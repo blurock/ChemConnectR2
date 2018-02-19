@@ -145,13 +145,12 @@ public class MainDataStructureCollapsible extends Composite {
 			content.add(base);
 		} else {
 			String elementname = element.getDataElementName();
-			String subid = id + "-" + element.getSuffix();
 			MultipleRecordsPrimitive multiple = new MultipleRecordsPrimitive(elementname, create);
 			if (isParameterDescriptionSet && elementname.compareTo(parameterValueS) == 0) {
-				multiple.fillInParameters(subid, subsysteminfo);
+				multiple.fillInParameters(id, subsysteminfo);
 			}
 			if (isObservationSpecification && elementname.compareTo(observationSpecificationS) == 0) {
-				multiple.fillInSpecifications(subid, subsysteminfo);
+				multiple.fillInSpecifications(id, subsysteminfo);
 			}
 			content.add(multiple);
 		}

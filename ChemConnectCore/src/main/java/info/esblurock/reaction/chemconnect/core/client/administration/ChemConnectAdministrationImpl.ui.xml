@@ -26,7 +26,7 @@
 			</m:MaterialNavBar>
 		</m:MaterialHeader>
 
-		<m:MaterialSideNav m:id="sidenavFixed" ui:field="sideNav"
+		<m:MaterialSideNav m:id="sidenavFixed" ui:field="sideNav" closeOnClick="true"
 			width="300">
 			<ma:sideprofile.MaterialSideProfile url="http://esblurock.info/homepage/wp-content/uploads/2014/05/research1.jpg">
 				<m:MaterialImage url="https://i1.rgstatic.net/ii/profile.image/273568223199239-1442235155663_Q512/Edward_Blurock.jpg" />
