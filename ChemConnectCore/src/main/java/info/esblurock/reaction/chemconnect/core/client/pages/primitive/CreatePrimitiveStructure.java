@@ -1,7 +1,10 @@
 package info.esblurock.reaction.chemconnect.core.client.pages.primitive;
 
 
+import com.google.gwt.user.client.Window;
+
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.concept.PrimitiveConcept;
+import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.PrimitiveObservationValuesWithSpecification;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.PrimitiveParameterSpecification;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.SetOfObservationsField;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.reference.PrimitivePersonName;
@@ -214,8 +217,26 @@ public enum CreatePrimitiveStructure {
 			return "DataSetReference";
 		}
 		
-	},
-	datasetClassification {
+	}, ObservationValuesWithSpecification {
+
+		@Override
+		public PrimitiveDataStructureBase createStructure(PrimitiveDataStructureInformation info) {
+			PrimitiveObservationValuesWithSpecification spec = new PrimitiveObservationValuesWithSpecification(info);
+			return spec;
+		}
+
+		@Override
+		public PrimitiveDataStructureBase createEmptyStructure() {
+			PrimitiveObservationValuesWithSpecification spec = new PrimitiveObservationValuesWithSpecification();
+			return spec;
+		}
+
+		@Override
+		public String getStructureName() {
+			return "ObservationVauesWithSpecification";
+		}
+		
+	}, datasetClassification {
 
 		@Override
 		public PrimitiveDataStructureBase createStructure(PrimitiveDataStructureInformation info) {

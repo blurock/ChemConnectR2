@@ -15,6 +15,7 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameter
 import info.esblurock.reaction.chemconnect.core.data.transfer.RecordInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.TotalSubsystemInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.observations.SetOfObservationsTransfer;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
 
 
@@ -55,5 +56,7 @@ public interface ContactDatabaseAccessAsync {
 			AsyncCallback<ArrayList<PrimitiveParameterValueInformation>> callback);
 
 	void hierarchyFromPrimitiveStructure(String structure, AsyncCallback<HierarchyNode> callback);
+
+	void getSetOfObservationsInformation(String observations, AsyncCallback<SetOfObservationsTransfer> callback);
 
 }

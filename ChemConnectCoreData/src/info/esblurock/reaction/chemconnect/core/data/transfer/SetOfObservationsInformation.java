@@ -13,9 +13,21 @@ public class SetOfObservationsInformation extends PrimitiveParameterValueInforma
 	ArrayList<PrimitiveParameterSpecificationInformation> dimensions;
 	ArrayList<PrimitiveParameterSpecificationInformation> measures;
 	String topConcept;
-	
+
 	public SetOfObservationsInformation() {
 		init();
+	}
+	
+	public SetOfObservationsInformation(SetOfObservationsInformation specs) {
+		super(specs.getPropertyType(),specs.getIdentifier(),specs.getValue());
+		init();
+		this.topConcept = specs.getTopConcept();
+		for(PrimitiveParameterSpecificationInformation info : dimensions) {
+			addMeasure(info);
+		}
+		for(PrimitiveParameterSpecificationInformation info : measures) {
+			addDimension(info);
+		}
 	}
 	
 	public SetOfObservationsInformation(String identifier, String label, String topConcept, String valueType ) {

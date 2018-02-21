@@ -18,6 +18,7 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameter
 import info.esblurock.reaction.chemconnect.core.data.transfer.RecordInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.TotalSubsystemInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.observations.SetOfObservationsTransfer;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
 
 @RemoteServiceRelativePath("contactservice")
@@ -52,4 +53,5 @@ public interface ContactDatabaseAccess extends RemoteService {
 	SetOfUnitProperties unitProperties(String topunit);
 	ArrayList<PrimitiveParameterValueInformation> getParameterInfo(ArrayList<String> parameternames);
 	HierarchyNode hierarchyFromPrimitiveStructure(String structure);
+	SetOfObservationsTransfer getSetOfObservationsInformation(String observations);
 }

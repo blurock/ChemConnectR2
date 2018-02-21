@@ -338,7 +338,7 @@ public class ConceptParsing {
 	public static String findDefinedBy(String parameter) {
 		String query = "SELECT ?subject ?object\n" + 
 				"	WHERE { \n" + 
-				"	dataset:BurnerPlateObservations rdfs:isDefinedBy ?object\n" + 
+				"	" + parameter + " rdfs:isDefinedBy ?object\n" + 
 				"	\n" + 
 				"}";
 		String defined = null;
@@ -455,4 +455,23 @@ public class ConceptParsing {
 		return type;
 
 	}
+	public static Set<String> subsystemsOfObservations(String observations) {
+	String query = "SELECT ?obj\n" + 
+			"	WHERE {\n" + 
+			"          ?obj <" + ReasonerVocabulary.directSubClassOf + "> ?sub .\n" + 
+			"          ?obj rdfs:subClassOf dataset:DataTypeDataStructure .\n" + 
+			"          ?sub owl:onProperty <http://www.w3.org/2004/02/skos/core#related> .\n" +
+			"          ?sub owl:onClass " + observations + "\n" + 
+			"	      }";
+	List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
+	List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
+	Set<String> subsystems = new HashSet<String>();
+	for (Map<String, String> map : stringlst) {
+		String subsystem = map.get("obj");
+		subsystems.add(subsystem);
+	}
+	return subsystems;
+
+}
+	
 }

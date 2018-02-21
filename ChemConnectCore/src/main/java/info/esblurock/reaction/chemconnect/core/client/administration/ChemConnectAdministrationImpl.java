@@ -48,6 +48,10 @@ public class ChemConnectAdministrationImpl extends Composite implements ChemConn
 	@UiField
 	MaterialLink devicedeclaration;
 	@UiField
+	MaterialLink observationsdeclaration;
+	@UiField
+	MaterialLink methodologydeclaration;
+	@UiField
 	MaterialLink explore;
 	@UiField
 	MaterialLink cleardb;
@@ -96,6 +100,10 @@ public class ChemConnectAdministrationImpl extends Composite implements ChemConn
 		explore.setIconType(IconType.EXPLORE);
 		devicedeclaration.setText(basetext.devicedefinition());
 		devicedeclaration.setIconType(IconType.BUILD);
+		observationsdeclaration.setText(basetext.observations());
+		observationsdeclaration.setIconType(IconType.BUILD);
+		methodologydeclaration.setText(basetext.methodology());
+		methodologydeclaration.setIconType(IconType.BUILD);
 		okmodal.setBackgroundColor(Color.BLUE_GREY_DARKEN_1);
 		footer.setBackgroundColor(Color.BLUE_GREY);
 		footer.setTextColor(Color.BLACK);
@@ -158,6 +166,16 @@ public class ChemConnectAdministrationImpl extends Composite implements ChemConn
 	public void onDevicedDclaration(ClickEvent event) {
 		handleHistoryToken("DeviceDefinition");
 	}
+	@UiHandler("methodologydeclaration")
+	public void onMethodology(ClickEvent event) {
+		MaterialToast.fireToast("Methodology");
+		handleHistoryToken("Methodology");
+		}
+	@UiHandler("observationsdeclaration")
+	public void onObservations(ClickEvent event) {
+		MaterialToast.fireToast("Observations");
+		handleHistoryToken("Observations");
+		}
 
 	
 	@UiHandler("cleardb")
@@ -207,7 +225,6 @@ public class ChemConnectAdministrationImpl extends Composite implements ChemConn
 		title.setDescription(basetext.suretozero());
 		
 	}
-	
 	
 	@Override
 	public void setName(String titleName) {

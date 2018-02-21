@@ -27,4 +27,10 @@ public class PrimitiveParameterValue extends PrimitiveDataStructureBase {
 	public String getIdentifier() {
 		return row.getIdentifier();
 	}
+	@Override
+	public void setIdentifier(String identifier) {
+		super.setIdentifier(identifier);
+		row.setIdentifier(identifier);
+	}
+
 }

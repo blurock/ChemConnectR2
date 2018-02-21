@@ -1173,7 +1173,7 @@ xsd:date rdf:type rdfs:Datatype .
                                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                            owl:onClass :ThermocouplePositionInBurner
                                          ] ;
-                         rdfs:isDefinedBy :MatrixOfValues .
+                         rdfs:isDefinedBy :MatrixOfObservables .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :BurnerPlateObservations ;
@@ -2411,7 +2411,8 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :DatasetCatalogInformation rdf:type owl:Class ;
                            owl:equivalentClass [ rdf:type owl:Restriction ;
                                                  owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                                                 owl:someValuesFrom :PurposeConceptPair
+                                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                 owl:onClass :PurposeConceptPair
                                                ] ;
                            rdfs:subClassOf <http://www.w3.org/ns/dcat#Catalog> ,
                                            [ rdf:type owl:Restriction ;
@@ -3152,7 +3153,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                        owl:onClass :HeatFluxBurnerParabolicParameter
                                                      ] ;
-                                     rdfs:isDefinedBy :MatrixOfValues .
+                                     rdfs:isDefinedBy :MatrixOfObservables .
 
 
 ###  http://www.esblurock.info/dataset#Flames
@@ -3782,7 +3783,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                            owl:onClass :BurntGasTemperature
                                                          ] ;
-                                         rdfs:isDefinedBy :ValueAsString .
+                                         rdfs:isDefinedBy :SingleObservation .
 
 
 ###  http://www.esblurock.info/dataset#HeatFluxBurnerFlameRegulation
@@ -3828,7 +3829,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                           owl:onClass :FlameVelocity
                                                         ] ;
-                                        rdfs:isDefinedBy :MatrixOfValues .
+                                        rdfs:isDefinedBy :MatrixOfObservables .
 
 
 ###  http://www.esblurock.info/dataset#HeatFluxBurnerFuelPreparation
@@ -3996,7 +3997,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                            owl:onClass :UnburntGasTemperature
                                                          ] ;
-                                         rdfs:isDefinedBy :MatrixOfValues .
+                                         rdfs:isDefinedBy :MatrixOfObservables .
 
 
 ###  http://www.esblurock.info/dataset#HeatFluxBurnerHeatingTube
@@ -4207,7 +4208,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                          owl:onClass :UnburntGasTemperature
                                                        ] ;
-                                       rdfs:isDefinedBy :VectorAsString .
+                                       rdfs:isDefinedBy :VectorOfObservables .
 
 
 ###  http://www.esblurock.info/dataset#HeatFluxBurnerThermalConditioning
@@ -4322,7 +4323,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                           owl:onClass :ThermocouplePositionInBurner
                                                         ] ;
-                                        rdfs:isDefinedBy :MatrixOfValues .
+                                        rdfs:isDefinedBy :MatrixOfObservables .
 
 
 ###  http://www.esblurock.info/dataset#HeatFluxBurnerThermocoupleTemperature
@@ -5036,6 +5037,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#MatrixOfObservables
 :MatrixOfObservables rdf:type owl:Class ;
                      rdfs:subClassOf :ObservationParameters ;
+                     <http://purl.org/dc/elements/1.1/type> "MatrixOfObservables" ;
                      <http://purl.org/dc/terms/identifier> "dataset:MatrixOfValues" ;
                      <http://www.w3.org/2004/02/skos/core#altLabel> "matrix" .
 
@@ -5300,7 +5302,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#ObservationParameters
 :ObservationParameters rdf:type owl:Class ;
-                       rdfs:subClassOf :ChemConnectPrimitiveDataStructure .
+                       rdfs:subClassOf :ChemConnectPrimitiveDataStructure ;
+                       <http://purl.org/dc/elements/1.1/type> "ObservationParameters" ;
+                       <http://purl.org/dc/terms/identifier> "dataset:ObservationSet" ;
+                       rdfs:label "Observation Set" ;
+                       <http://www.w3.org/2004/02/skos/core#altLabel> "obsset" .
 
 
 ###  http://www.esblurock.info/dataset#ObservationSpecification
@@ -5319,6 +5325,38 @@ Under the general type of is the actual data object referenced by the ChemConnec
                           rdfs:isDefinedBy "ObservationSpecification" ;
                           rdfs:label "Observation Specification" ;
                           <http://www.w3.org/2004/02/skos/core#altLabel> "obsspec" .
+
+
+###  http://www.esblurock.info/dataset#ObservationValues
+:ObservationValues rdf:type owl:Class ;
+                   rdfs:subClassOf :ChemConnectCompoundDataStructure ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                     owl:someValuesFrom :ObservationParameters
+                                   ] ;
+                   <http://purl.org/dc/elements/1.1/type> "ObservationValues" ;
+                   <http://purl.org/dc/terms/identifier> "dataset:ObservationValues" ;
+                   rdfs:label "Observation Values" ;
+                   <http://www.w3.org/2004/02/skos/core#altLabel> "obsvalues" .
+
+
+###  http://www.esblurock.info/dataset#ObservationValuesWithSpecification
+:ObservationValuesWithSpecification rdf:type owl:Class ;
+                                    rdfs:subClassOf :ChemConnectCompoundDataStructure ,
+                                                    [ rdf:type owl:Restriction ;
+                                                      owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                      owl:onClass :ObservationValues
+                                                    ] ,
+                                                    [ rdf:type owl:Restriction ;
+                                                      owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                      owl:onClass :SetOfObservationsSpecification
+                                                    ] ;
+                                    <http://purl.org/dc/elements/1.1/type> "ObservationValuesWithSpecification" ;
+                                    <http://purl.org/dc/terms/identifier> "dataset:ObservationValueWithSpecification" ;
+                                    rdfs:label "Observations with Specifications" ;
+                                    <http://www.w3.org/2004/02/skos/core#altLabel> "obspec" .
 
 
 ###  http://www.esblurock.info/dataset#OneLine
@@ -5660,7 +5698,8 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                  owl:onProperty <http://purl.org/linked-data/cube#dimension> ;
                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                  owl:onClass :ExperimentalTemperature
-                               ] .
+                               ] ;
+               rdfs:isDefinedBy :MatrixOfObservables .
 
 
 ###  http://www.esblurock.info/dataset#PreventCondensationOfGases
@@ -5744,7 +5783,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                       owl:onClass :PurposeKeyword
                                     ] ;
                     <http://purl.org/dc/elements/1.1/type> "PurposeConceptPair" ;
-                    <http://purl.org/dc/terms/identifier> "prov:influenced"^^xsd:string ;
+                    <http://purl.org/dc/terms/identifier> "prov:influenced" ;
                     rdfs:isDefinedBy <http://www.w3.org/ns/prov#Influence> ;
                     rdfs:label "PurposeConceptPair" ;
                     <http://www.w3.org/2004/02/skos/core#altLabel> "purpose" .
@@ -5961,6 +6000,20 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                 <http://www.w3.org/2004/02/skos/core#altLabel> "setspec" .
 
 
+###  http://www.esblurock.info/dataset#SetOfObservationsStructure
+:SetOfObservationsStructure rdf:type owl:Class ;
+                            rdfs:subClassOf :ChemConnectDataStructure ,
+                                            [ rdf:type owl:Restriction ;
+                                              owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                              owl:onClass :SpecificationAndValues
+                                            ] ;
+                            <http://purl.org/dc/elements/1.1/type> "SetOfObservationsStructure" ;
+                            <http://purl.org/dc/terms/type> "dataset:SetOfObservations" ;
+                            rdfs:label "Data set of observations" ;
+                            <http://www.w3.org/2004/02/skos/core#altLabel> "observe" .
+
+
 ###  http://www.esblurock.info/dataset#ShockTube
 :ShockTube rdf:type owl:Class ;
            rdfs:subClassOf :CombustionInstrument ;
@@ -5978,7 +6031,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#SingleObservation
 :SingleObservation rdf:type owl:Class ;
-                   rdfs:subClassOf :ObservationParameters .
+                   rdfs:subClassOf :ObservationParameters ;
+                   <http://purl.org/dc/elements/1.1/type> "SingleObservation" ;
+                   <http://purl.org/dc/terms/type> "qb:observation" ;
+                   rdfs:label "Single Observation" ;
+                   <http://www.w3.org/2004/02/skos/core#altLabel> "value" .
 
 
 ###  http://www.esblurock.info/dataset#SourceKey
@@ -6039,6 +6096,20 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                ] ;
                <http://purl.org/dc/elements/1.1/type> "DataSpecification" ;
                <http://purl.org/dc/terms/identifier> "dataset:Specification" .
+
+
+###  http://www.esblurock.info/dataset#SpecificationAndValues
+:SpecificationAndValues rdf:type owl:Class ;
+                        rdfs:subClassOf :ChemConnectCompoundDataStructure ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onClass :ObservationValuesWithSpecification
+                                        ] ;
+                        <http://purl.org/dc/elements/1.1/type> "SpecificationAndValues" ;
+                        <http://purl.org/dc/terms/identifier> "dataset:SpecificationAndValues" ;
+                        rdfs:label "Specification and Values" ;
+                        <http://www.w3.org/2004/02/skos/core#altLabel> "values" .
 
 
 ###  http://www.esblurock.info/dataset#SpecifySpeciesAmount
@@ -6516,8 +6587,8 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#VectorOfObservables
 :VectorOfObservables rdf:type owl:Class ;
                      rdfs:subClassOf :ObservationParameters ;
-                     <http://purl.org/dc/elements/1.1/type> "SetOfValues"^^xsd:string ;
-                     <http://purl.org/dc/terms/identifier> "qb:observation"^^xsd:string ;
+                     <http://purl.org/dc/elements/1.1/type> "VectorOfObservables"^^xsd:string ;
+                     <http://purl.org/dc/terms/identifier> "dataset:VectorOfObservations"^^xsd:string ;
                      rdfs:comment "These are the specific values described by the the SetOfObservations specification."^^xsd:string ;
                      rdfs:label "vector of values"^^xsd:string ;
                      <http://www.w3.org/2004/02/skos/core#altLabel> "values"^^xsd:string .

@@ -37,6 +37,8 @@
 			</ma:sideprofile.MaterialSideProfile>
 			<m:MaterialLink ui:field="interconnect" />
 			<m:MaterialLink ui:field="devicedeclaration" />
+			<m:MaterialLink ui:field="methodologydeclaration" />
+			<m:MaterialLink ui:field="observationsdeclaration" />
 			<m:MaterialLink ui:field="explore" />
 			<m:MaterialLink ui:field="cleardb" />
 			<m:MaterialLink ui:field="readinit" />

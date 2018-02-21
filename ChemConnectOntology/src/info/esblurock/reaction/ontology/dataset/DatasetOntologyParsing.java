@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.vocabulary.ReasonerVocabulary;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
@@ -326,11 +327,12 @@ dataset:ChemConnectPrimitiveDataStructure:
 
 		String id = element.getDataElementName();
 		String query = "SELECT ?identifier ?datatype\n" + "	WHERE {\n" + id
-				+ " <http://purl.org/dc/terms/identifier> ?identifier .\n" + id
-				+ " <http://purl.org/dc/elements/1.1/type>  ?datatype .\n" + "	{  " + id
-				+ " <http://purl.org/dc/elements/1.1/type>  ?datatype } \n" + "UNION\n" + "	{ " + id
-				+ " rdfs:subClassOf ?subclass .\n"
+				+ " <http://purl.org/dc/terms/identifier> ?identifier .\n" 
+				+ "	{  " + id + " <http://purl.org/dc/elements/1.1/type>  ?datatype } \n" 
+				+ "UNION\n" + "	{ " + id
+				+ " <" + ReasonerVocabulary.directSubClassOf + "> ?subclass .\n"
 				+ "	   ?subclass <http://purl.org/dc/elements/1.1/type>  ?datatype\n" + "	}" + "  }";
+		System.out.println(query);
 		ClassificationInformation classification = null;
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		if (lst.size() > 0) {

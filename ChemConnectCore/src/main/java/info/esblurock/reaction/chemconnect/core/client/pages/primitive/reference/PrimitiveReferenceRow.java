@@ -5,7 +5,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -103,7 +102,6 @@ public class PrimitiveReferenceRow extends Composite implements SetLineContentIn
 		doi = "DOI";
 		doitip.setText(doi);
 		identifier = "id";
-		identifiertip.setText(identifier);
 		
 		referenceTitle.setText("Reference");
 		referenceTitle.setTextColor(Color.BLACK);
@@ -111,6 +109,7 @@ public class PrimitiveReferenceRow extends Composite implements SetLineContentIn
 		titlePlaceholderS = "Set in title";
 		referenceStringS = "Reference String";
 		referenceStringPlaceholderS = "Reference in any format";
+		setFullIdentifier();
 	}
 	
 	public void fill(PrimitiveReferenceInformation referenceinfo) {
@@ -123,7 +122,7 @@ public class PrimitiveReferenceRow extends Composite implements SetLineContentIn
 		if(referenceinfo.getDOI() != null) {
 			doi = referenceinfo.getDOI();
 		}
-		
+		setFullIdentifier();
 	}
 	@UiHandler("info")
 	void onClickAdd(ClickEvent e) {
@@ -171,5 +170,15 @@ public class PrimitiveReferenceRow extends Composite implements SetLineContentIn
 
 	public String getIdentifier() {
 		return identifier;
+	}
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
+		setFullIdentifier();
+	}
+	public String setFullIdentifier() {
+		String id = identifier + "-" + doi;
+		identifiertip.setText(id);
+		return id;
+		
 	}
 }

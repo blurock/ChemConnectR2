@@ -113,8 +113,8 @@ public class PrimitiveParameterValueRow extends Composite implements HasText,Cho
 	public void fill(PrimitiveDataStructureInformation info) {
 		PrimitiveParameterValueInformation paraminfo = (PrimitiveParameterValueInformation) info;
 		this.identifier = paraminfo.getIdentifier();
+		setFullIdentifier();
 		this.propertyType = paraminfo.getPropertyType();
-		identifiertip.setText(this.identifier);
 		if(paraminfo.getPropertyType() != null) {
 			chosenParameter = paraminfo.getPropertyType();
 			parameterLabel.setText(TextUtilities.removeNamespace(chosenParameter));
@@ -300,5 +300,16 @@ public class PrimitiveParameterValueRow extends Composite implements HasText,Cho
 	public String getIdentifier() {
 		return identifier;
 	}
-
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
+		identifiertip.setText(this.identifier);
+	}
+	public String setFullIdentifier() {
+		String id = identifier;
+		if(chosenParameter != null) {
+			id = identifier + "-" + TextUtilities.removeNamespace(chosenParameter);
+		}
+		identifiertip.setText(id);
+		return id;
+	}
 }

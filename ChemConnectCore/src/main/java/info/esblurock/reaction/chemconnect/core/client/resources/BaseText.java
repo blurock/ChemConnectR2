@@ -43,6 +43,15 @@ public interface BaseText extends com.google.gwt.i18n.client.Constants {
   String administrationpage();
 
   /**
+   * Translated "Choose Device".
+   * 
+   * @return translated "Choose Device"
+   */
+  @DefaultStringValue("Choose Device")
+  @Key("choosedevice")
+  String choosedevice();
+
+  /**
    * Translated "Clear Database".
    * 
    * @return translated "Clear Database"
@@ -61,6 +70,15 @@ public interface BaseText extends com.google.gwt.i18n.client.Constants {
   String close();
 
   /**
+   * Translated "Devic".
+   * 
+   * @return translated "Devic"
+   */
+  @DefaultStringValue("Devic")
+  @Key("device")
+  String device();
+
+  /**
    * Translated "Define Devices and Subsystems".
    * 
    * @return translated "Define Devices and Subsystems"
@@ -77,6 +95,24 @@ public interface BaseText extends com.google.gwt.i18n.client.Constants {
   @DefaultStringValue("Explore Data Structures")
   @Key("explore")
   String explore();
+
+  /**
+   * Translated "Methodology".
+   * 
+   * @return translated "Methodology"
+   */
+  @DefaultStringValue("Methodology")
+  @Key("methodology")
+  String methodology();
+
+  /**
+   * Translated "Observations".
+   * 
+   * @return translated "Observations"
+   */
+  @DefaultStringValue("Observations")
+  @Key("observations")
+  String observations();
 
   /**
    * Translated "OK".

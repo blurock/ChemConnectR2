@@ -19,6 +19,7 @@ import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.services.util.DatabaseObjectUtilities;
 import info.esblurock.reaction.io.dataset.InterpretData;
 import info.esblurock.reaction.io.db.QueryBase;
+import info.esblurock.reaction.ontology.BuildSetOfObservationsInformation;
 import info.esblurock.reaction.ontology.BuildSubsystemInformation;
 import info.esblurock.reaction.ontology.dataset.ConceptParsing;
 import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
@@ -26,6 +27,7 @@ import info.esblurock.reaction.ontology.units.OntologyUnits;
 import info.esblurock.reaction.chemconnect.core.data.transfer.RecordInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.TotalSubsystemInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.observations.SetOfObservationsTransfer;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
 
 @SuppressWarnings("serial")
@@ -126,4 +128,10 @@ public class ContactDatabaseAccessImpl  extends ServerBase implements ContactDat
 		System.out.println(parameters);
 		return parameters;
  	}
+	public SetOfObservationsTransfer getSetOfObservationsInformation(String observations) {
+		BuildSetOfObservationsInformation build
+			= new BuildSetOfObservationsInformation(observations);
+		return build.getTransfer();
+	}
+	
 }

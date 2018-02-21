@@ -2,7 +2,6 @@ package info.esblurock.reaction.chemconnect.core.client.pages.primitive.referenc
 
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.PrimitiveDataStructureBase;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
-import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitivePersonNameInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveReferenceInformation;
 
 public class PrimitiveReference extends PrimitiveDataStructureBase {
@@ -30,5 +29,10 @@ public class PrimitiveReference extends PrimitiveDataStructureBase {
 	public String getIdentifier() {
 		return row.getIdentifier();
 	}
-	
+	@Override
+	public void setIdentifier(String identifier) {
+		super.setIdentifier(identifier);
+		row.setIdentifier(identifier);
+	}
+
 }

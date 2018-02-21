@@ -35,6 +35,8 @@ public class MultipleRecordsPrimitiveRow extends Composite implements HasText {
 	@UiField
 	MaterialPanel content;
 
+	String identifier;
+	
 	CreatePrimitiveStructure create;
 	//DataElementInformation record;
 	
@@ -52,6 +54,8 @@ public class MultipleRecordsPrimitiveRow extends Composite implements HasText {
 	}
 
 	void init() {
+		identifier = "id";
+		
 		info.setIconColor(Color.BLACK);
 		clear.setIconColor(Color.BLACK);
 		add.setIconColor(Color.BLACK);
@@ -68,12 +72,13 @@ public class MultipleRecordsPrimitiveRow extends Composite implements HasText {
 	}
 	@UiHandler("add")
 	void addClick(ClickEvent ev) {
-		MaterialToast.fireToast("add");
 		PrimitiveDataStructureBase base = create.createEmptyStructure();
+		base.setIdentifier(identifier);
 		content.add(base);
 	}
 	
 	public PrimitiveDataStructureBase addStructure(PrimitiveDataStructureInformation info) {
+		info.setIdentifier(identifier);
 		PrimitiveDataStructureBase base = create.createStructure(info);
 		content.add(base);
 		return base;
@@ -84,6 +89,14 @@ public class MultipleRecordsPrimitiveRow extends Composite implements HasText {
 
 	public String getText() {
 		return parameterType.getText();
+	}
+
+	public String getIdentifier() {
+		return identifier;
+	}
+
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
 	}
 
 }

@@ -8,6 +8,7 @@ import java.util.Set;
 import com.google.gwt.user.client.Window;
 
 import gwt.material.design.client.constants.Color;
+import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.CreatePrimitiveStructure;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.PrimitiveDataStructureBase;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
@@ -25,10 +26,12 @@ public class MultipleRecordsPrimitive extends PrimitiveDataStructureBase {
 	
 	public MultipleRecordsPrimitive() {
 		structuremap = new HashMap<String, PrimitiveDataStructureBase>();
+		row = null;
 	}
 	public MultipleRecordsPrimitive(String structure,
 			CreatePrimitiveStructure create) {
 		row = new MultipleRecordsPrimitiveRow(structure,create);
+		row.setIdentifier(getIdentifier());
 		structuremap = new HashMap<String, PrimitiveDataStructureBase>();
 		add(row);
 		this.setRowColorMultiple(Color.GREY_LIGHTEN_1);
@@ -48,27 +51,30 @@ public class MultipleRecordsPrimitive extends PrimitiveDataStructureBase {
 	}
 	
 	public void fillInSpecifications(String id, SubsystemInformation subsysteminfo) {
-		
 		Set<SetOfObservationsInformation> observations = subsysteminfo.getObservations();
 		for(SetOfObservationsInformation obs : observations) {
 			PrimitiveParameterValueInformation info = (PrimitiveParameterValueInformation) obs;
 			String subid = id + "-" + TextUtilities.removeNamespace(obs.getTopConcept());
 			info.setIdentifier(subid);
 			row.addStructure(info);
-
 		}
-		
 	}
 
 	private void createParameterSet(String id, int count, Set<String> set, ArrayList<String> parameternames) {
 		parameternames.addAll(set);
 		for(String parameter : set) {
 			PrimitiveParameterValueInformation info = new PrimitiveParameterValueInformation();
-			String subid = id + "-" + TextUtilities.removeNamespace(parameter);
-			info.setIdentifier(subid);
+			//String subid = id + "-" + TextUtilities.removeNamespace(parameter);
+			info.setIdentifier(id);
 			info.setPropertyType(parameter);
 			PrimitiveDataStructureBase base = row.addStructure(info);
 			structuremap.put(parameter, base);
+		}
+	}
+	public void setIdentifier(String identifier) {
+		super.setIdentifier(identifier);
+		if(row != null) {
+			row.setIdentifier(identifier);
 		}
 	}
 }

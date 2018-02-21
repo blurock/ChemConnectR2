@@ -59,4 +59,15 @@ public class PrimitiveDataStructureBase extends Composite {
 	public void setRowColorMultiple(Color color) {
 		row.setBackgroundColor(color);
 	}
+	public String getIdentifier() {
+		return id;
+	}
+
+	public void setIdentifier(String identifier) {
+		if(primitiveinfo != null) {
+			primitiveinfo.setIdentifier(identifier);
+		}
+		this.id = identifier;
+	}
+
 }

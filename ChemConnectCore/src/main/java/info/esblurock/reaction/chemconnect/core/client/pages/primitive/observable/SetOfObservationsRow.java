@@ -20,9 +20,6 @@ public class SetOfObservationsRow extends Composite implements HasText {
 	interface SetOfObservationsRowUiBinder extends UiBinder<Widget, SetOfObservationsRow> {
 	}
 
-	public SetOfObservationsRow() {
-		initWidget(uiBinder.createAndBindUi(this));
-	}
 
 	@UiField
 	MaterialTooltip identifiertip;
@@ -35,13 +32,29 @@ public class SetOfObservationsRow extends Composite implements HasText {
 	@UiField
 	MaterialColumn measures;
 	
-	public SetOfObservationsRow(String id, String top, String type) {
+	public SetOfObservationsRow() {
 		initWidget(uiBinder.createAndBindUi(this));
-		topconcept.setText(TextUtilities.removeNamespace(top));
-		valuetype.setText(TextUtilities.removeNamespace(type));
-		identifiertip.setText(id);
+		init();
 	}
 
+	public SetOfObservationsRow(String id, String top, String type) {
+		initWidget(uiBinder.createAndBindUi(this));
+		if(top != null) {
+		topconcept.setText(TextUtilities.removeNamespace(top));
+		}
+		if(type != null) {
+		valuetype.setText(TextUtilities.removeNamespace(type));
+		}
+		if(id != null) {
+			identifiertip.setText(id);
+		}
+	}
+
+	public void init() {
+		identifiertip.setText("id");
+		topconcept.setText("Specification of Value");
+		valuetype.setText("Value Type");
+	}
 	public void addParameter(PrimitiveParameterSpecificationInformation info) {
 		PrimitiveParameterSpecification spec = new PrimitiveParameterSpecification(info);
 		if(info.isDimension()) {
