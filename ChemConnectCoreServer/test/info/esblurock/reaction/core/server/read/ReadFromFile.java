@@ -1,13 +1,9 @@
 package info.esblurock.reaction.core.server.read;
 
-import static org.junit.Assert.*;
+//import static org.junit.Assert.*;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,6 +13,7 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.junit.Test;
 
@@ -52,10 +49,8 @@ public class ReadFromFile {
 	 }
 	
 	
-	@SuppressWarnings("deprecation")
 	public void readXLSFile(String xlsS) throws IOException
 	{
-		//URL oracle = new URL("http://cms.heatfluxburner.org/wp-content/uploads/Bosschaart_CH4_Air_1atm_Tu_295K_thesis.xls");
 		URL oracle = new URL(xlsS);
         InputStream is = oracle.openStream();
 		//InputStream ExcelFileToRead = new FileInputStream(oracle);
@@ -74,11 +69,11 @@ public class ReadFromFile {
 			ArrayList<String> rowarray = new ArrayList<String>();
 			while (cells.hasNext()) {
 				cell=(HSSFCell) cells.next();
-				if (cell.getCellType() == HSSFCell.CELL_TYPE_STRING) {
+				if(cell.getCellTypeEnum() == CellType.STRING){
 					String element = cell.getStringCellValue();
 					rowarray.add(element);
 				}
-				else if(cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC) {
+				else if(cell.getCellTypeEnum() == CellType.NUMERIC) {
 					double dbl = cell.getNumericCellValue();
 					Double elementD = new Double(dbl);
 					String elementS = elementD.toString();
@@ -90,5 +85,6 @@ public class ReadFromFile {
 			matrix.add(rowarray);
 		}
 		System.out.println(matrix);
+		wb.close();
 	}
 }
