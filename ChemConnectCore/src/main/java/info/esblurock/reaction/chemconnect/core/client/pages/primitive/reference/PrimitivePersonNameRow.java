@@ -116,7 +116,6 @@ public class PrimitivePersonNameRow extends Composite implements 	PersonNameInte
 	}
 	@UiHandler("add")
 	void onAddClick(ClickEvent ev) {
-		PrimitivePersonNameChip chip = addChip();
 		openModal();
 	}
 	public void openModal() {

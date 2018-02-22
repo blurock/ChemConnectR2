@@ -8,9 +8,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialLink;
@@ -23,7 +21,6 @@ import gwt.material.design.client.ui.MaterialTooltip;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHeirarchy;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchies;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
-import info.esblurock.reaction.chemconnect.core.data.transfer.ObservationsAndSpecificationsInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterSpecificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.SetOfObservationsInformation;
 
@@ -109,7 +106,6 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite imp
 		chosenParameter = null;
 		identifier = obsspec.getIdentifier();
 		setFullIdentifier();
-		String classtype = obsspec.getClass().getCanonicalName();
 			specificationpanel.clear();
 		SetOfObservationsRow obsrow = new SetOfObservationsRow(obsspec.getIdentifier(), 
 				obsspec.getTopConcept(),

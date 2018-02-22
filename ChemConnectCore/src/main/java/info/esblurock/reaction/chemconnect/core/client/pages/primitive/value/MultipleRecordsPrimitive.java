@@ -5,10 +5,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.gwt.user.client.Window;
-
 import gwt.material.design.client.constants.Color;
-import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.CreatePrimitiveStructure;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.PrimitiveDataStructureBase;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;

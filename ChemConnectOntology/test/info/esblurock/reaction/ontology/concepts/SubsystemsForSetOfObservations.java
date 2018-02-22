@@ -1,6 +1,6 @@
 package info.esblurock.reaction.ontology.concepts;
 
-import static org.junit.Assert.*;
+//import static org.junit.Assert.*;
 
 import java.util.Set;
 

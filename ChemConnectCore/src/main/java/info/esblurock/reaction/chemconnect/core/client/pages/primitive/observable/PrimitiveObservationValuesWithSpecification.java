@@ -1,7 +1,5 @@
 package info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable;
 
-import com.google.gwt.user.client.Window;
-
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.PrimitiveDataStructureBase;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ObservationsAndSpecificationsInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
