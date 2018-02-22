@@ -7,27 +7,31 @@
 	<m:MaterialCollapsibleItem ui:field="body">
 		<m:MaterialCollapsibleHeader>
 			<m:MaterialRow>
-				<m:MaterialColumn grid="s11">
+				<m:MaterialColumn grid="s10">
 					<m:MaterialLabel ui:field="typetitle" textColor="BLACK" />
 				</m:MaterialColumn>
 				<m:MaterialColumn grid="s1">
 					<m:MaterialLink ui:field="info" iconType="INFO"
 						iconPosition="RIGHT" />
 				</m:MaterialColumn>
+				<m:MaterialColumn grid="s1">
+					<m:MaterialLink ui:field="clear" iconType="CLEAR"
+						iconPosition="RIGHT" />
+				</m:MaterialColumn>
 			</m:MaterialRow>
 		</m:MaterialCollapsibleHeader>
 		<m:MaterialCollapsibleBody>
-			<m:MaterialCollapsible ui:field="contentcollapsible">
-				<m:MaterialCollapsibleItem>
-					<m:MaterialCollapsibleHeader>
-						<m:MaterialLink ui:field="infoelements" text="Info"
-							textColor="BLACK" />
-					</m:MaterialCollapsibleHeader>
-					<m:MaterialCollapsibleBody>
-						<m:MaterialCollapsible ui:field="infocollapsible" />
-					</m:MaterialCollapsibleBody>
-				</m:MaterialCollapsibleItem>
-			</m:MaterialCollapsible>
+				<m:MaterialCollapsible ui:field="contentcollapsible">
+					<m:MaterialCollapsibleItem>
+						<m:MaterialCollapsibleHeader>
+							<m:MaterialLink ui:field="infoelements" text="Info"
+								textColor="BLACK" />
+						</m:MaterialCollapsibleHeader>
+						<m:MaterialCollapsibleBody>
+							<m:MaterialCollapsible ui:field="infocollapsible" />
+						</m:MaterialCollapsibleBody>
+					</m:MaterialCollapsibleItem>
+				</m:MaterialCollapsible>
 		</m:MaterialCollapsibleBody>
 	</m:MaterialCollapsibleItem>
 </ui:UiBinder> 

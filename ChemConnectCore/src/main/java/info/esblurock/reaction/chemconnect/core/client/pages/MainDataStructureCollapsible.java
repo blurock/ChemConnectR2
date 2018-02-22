@@ -60,9 +60,9 @@ public class MainDataStructureCollapsible extends Composite {
 	MaterialCollapsibleItem body;
 	@UiField
 	MaterialColumn infocolumn;
-	@UiField
-	MaterialPanel modalpanal;
 
+	
+	MaterialPanel modalpanel;
 	String identifier;
 
 	CardModal card;
@@ -89,14 +89,20 @@ public class MainDataStructureCollapsible extends Composite {
 	}
 	
 	public MainDataStructureCollapsible(String parentId, DataElementInformation element,
-			ChemConnectDataStructure totalstructure, SetOfObservationsInformation observations, String observationStructure) {
+			ChemConnectDataStructure totalstructure, 
+			SetOfObservationsInformation observations, 
+			String observationStructure,
+			MaterialPanel modalpanel) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.observations = observations;
 		insert(parentId,element,totalstructure);
+		this.modalpanel = modalpanel;
 	}
 	
 	public MainDataStructureCollapsible(String parentId, DataElementInformation element,
-			ChemConnectDataStructure totalstructure, SubsystemInformation subsysteminfo) {
+			ChemConnectDataStructure totalstructure, 
+			SubsystemInformation subsysteminfo,
+			MaterialPanel modalpanel) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.subsysteminfo = subsysteminfo;		
 		insert(parentId,element,totalstructure);
@@ -212,7 +218,7 @@ public class MainDataStructureCollapsible extends Composite {
 		ClassificationInformationCard infocard = new ClassificationInformationCard(clsinfo);
 		card.setContent(infocard, false);
 		card.open();
-		modalpanal.add(card);
+		modalpanel.add(card);
 	}
 
 	public void setStructureSubElements(ChemConnectCompoundDataStructure subelements) {

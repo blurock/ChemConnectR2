@@ -123,7 +123,7 @@ public class DeviceWithSubystemsDefinition extends Composite implements HasText,
 	}
 	
 	public void addTopHierarchialModal(String id,HierarchyNode hierarchy, TotalSubsystemInformation top) {
-		SubsystemsAndDeviceCollapsible devicetop = new SubsystemsAndDeviceCollapsible(hierarchy.getIdentifier());
+		SubsystemsAndDeviceCollapsible devicetop = new SubsystemsAndDeviceCollapsible(hierarchy.getIdentifier(),modalpanel);
 		contentcollapsible.add(devicetop);
 		addHierarchialModal(id,hierarchy, top,devicetop);
 	}
@@ -137,14 +137,15 @@ public class DeviceWithSubystemsDefinition extends Composite implements HasText,
 			String type = element.getDataElementName();
 			SubsystemInformation subsysteminfo = top.getSubsystemsandcomponents().get(hierarchy.getIdentifier());
 			if(infoStructure.getMapping().getStructure(element.getDataElementName()) != null) {
-				MainDataStructureCollapsible main = new MainDataStructureCollapsible(subid,element,infoStructure,subsysteminfo);
+				MainDataStructureCollapsible main = new MainDataStructureCollapsible(subid,element,
+						infoStructure,subsysteminfo,modalpanel);
 				devicetop.getInfoCollapsible().add(main);
 			} else {
 				Window.alert("Compound element not found: " + type);
 			}
 		}
 		for(HierarchyNode sub: hierarchy.getSubNodes()) {
-			SubsystemsAndDeviceCollapsible subsystem = new SubsystemsAndDeviceCollapsible(sub.getIdentifier());
+			SubsystemsAndDeviceCollapsible subsystem = new SubsystemsAndDeviceCollapsible(sub.getIdentifier(),modalpanel);
 			devicetop.getCollapsible().add(subsystem);
 			String subid = id + "-" + TextUtilities.removeNamespace(sub.getIdentifier());
 			addHierarchialModal(subid,sub,top,subsystem);

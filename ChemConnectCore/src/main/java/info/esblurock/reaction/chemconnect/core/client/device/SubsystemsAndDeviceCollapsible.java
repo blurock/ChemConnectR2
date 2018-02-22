@@ -3,8 +3,10 @@ package info.esblurock.reaction.chemconnect.core.client.device;
 import java.util.ArrayList;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
@@ -13,13 +15,18 @@ import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
+import gwt.material.design.client.ui.MaterialModal;
+import gwt.material.design.client.ui.MaterialPanel;
+import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.chemconnect.core.client.cards.CardModal;
+import info.esblurock.reaction.chemconnect.core.client.modal.OKAnswerInterface;
+import info.esblurock.reaction.chemconnect.core.client.modal.OKModal;
 import info.esblurock.reaction.chemconnect.core.client.pages.MainDataStructureCollapsible;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
 
-public class SubsystemsAndDeviceCollapsible extends Composite implements HasText {
+public class SubsystemsAndDeviceCollapsible extends Composite implements OKAnswerInterface {
 
 	private static SubsystemsAndDeviceCollapsibleUiBinder uiBinder = GWT
 			.create(SubsystemsAndDeviceCollapsibleUiBinder.class);
@@ -47,8 +54,15 @@ public class SubsystemsAndDeviceCollapsible extends Composite implements HasText
 	MaterialCollapsible infocollapsible;
 	@UiField
 	MaterialLink info;
+	@UiField
+	MaterialLink clear;
+	
 	CardModal card;
-
+	OKModal okmodal;
+	String clearConcept;
+	String clearText;
+	MaterialPanel modalpanel;
+	
 	ArrayList<SubsystemsAndDeviceCollapsible> subList;
 	String catagory;
 	String suffix;
@@ -60,9 +74,10 @@ public class SubsystemsAndDeviceCollapsible extends Composite implements HasText
 		init();
 	}
 
-	public SubsystemsAndDeviceCollapsible(String name) {
+	public SubsystemsAndDeviceCollapsible(String name, MaterialPanel modalpanel) {
 		initWidget(uiBinder.createAndBindUi(this));
 		typetitle.setText(eliminateNamespace(name));
+		this.modalpanel = modalpanel;
 		init();
 	}
 
@@ -71,6 +86,8 @@ public class SubsystemsAndDeviceCollapsible extends Composite implements HasText
 		catagory = "";
 		suffix = null;
 		this.readOnly = true;
+		clearText = "Are you sure you want delete";
+		clearConcept = "Delete";
 	}
 
 	MaterialCollapsible getCollapsible() {
@@ -150,4 +167,23 @@ public class SubsystemsAndDeviceCollapsible extends Composite implements HasText
 		}
 		return ans;
 	}
+	@UiHandler("info")
+	void onInfoClick(ClickEvent ev) {
+		
+	}
+	@UiHandler("clear")
+	void onClearClick(ClickEvent ev) {
+		MaterialToast.fireToast("Clear");
+		okmodal = new OKModal(clearConcept, clearText, this);
+		modalpanel.clear();
+		modalpanel.add(okmodal);
+		okmodal.openModal();
+		MaterialToast.fireToast("Clear");
+	}
+
+	@Override
+	public void answeredOK(String answer) {
+		this.removeFromParent();
+	}
+	
 }

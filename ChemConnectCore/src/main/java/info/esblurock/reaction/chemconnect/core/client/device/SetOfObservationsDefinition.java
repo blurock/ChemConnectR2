@@ -121,7 +121,9 @@ public class SetOfObservationsDefinition extends Composite implements ChooseFrom
 			//SubsystemInformation subsysteminfo = transfer.getSubsystemsandcomponents().get(element.getIdentifier());
 			if(infoStructure.getMapping().getStructure(type) != null) {
 					MainDataStructureCollapsible main = new MainDataStructureCollapsible(subid,element,
-							infoStructure,transfer.getObservations(),transfer.getObservationStructure());
+							infoStructure,transfer.getObservations(),
+							transfer.getObservationStructure(),
+							modalpanel);
 					obstop.getInfoCollapsible().add(main);
 			} else {
 				Window.alert("Compound element not found: " + type);

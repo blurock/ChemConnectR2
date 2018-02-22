@@ -10,6 +10,9 @@ import info.esblurock.reaction.chemconnect.core.client.device.SetOfObservationsD
 import info.esblurock.reaction.chemconnect.core.client.graph.pages.VisualizeGraphicalObjects;
 
 public enum DataStructurePages implements Serializable {
+	
+	
+	
 
 	DataStructures {
 
@@ -23,7 +26,7 @@ public enum DataStructurePages implements Serializable {
 		}
 		@Override
 		public Widget getContent() {
-			return new MainDataStructureVisualization();
+			return dataStructures;
 		}
 	}, GraphicalStructures {
 
@@ -39,7 +42,7 @@ public enum DataStructurePages implements Serializable {
 
 		@Override
 		public Widget getContent() {
-			return new VisualizeGraphicalObjects();
+			return graphicalObjects;
 		}
 		
 	}, DeviceDefinition {
@@ -56,7 +59,7 @@ public enum DataStructurePages implements Serializable {
 
 		@Override
 		public Widget getContent() {
-			return new DeviceWithSubystemsDefinition();
+			return subsystems;
 		}
 		
 	}, Observations {
@@ -73,7 +76,7 @@ public enum DataStructurePages implements Serializable {
 
 		@Override
 		public Widget getContent() {
-			return new SetOfObservationsDefinition();
+			return setofobservations;
 		}
 		
 	}, Methodology {
@@ -90,7 +93,7 @@ public enum DataStructurePages implements Serializable {
 
 		@Override
 		public Widget getContent() {
-			return new MethodologyDefinition();
+			return methodology;
 		}
 		
 	};
@@ -98,4 +101,10 @@ public enum DataStructurePages implements Serializable {
 	public abstract String getTitle();
 	public abstract String getDescription();
 	public abstract Widget getContent();
+	
+	static MainDataStructureVisualization dataStructures = new MainDataStructureVisualization();
+	static VisualizeGraphicalObjects graphicalObjects = new VisualizeGraphicalObjects();
+	static DeviceWithSubystemsDefinition subsystems = new DeviceWithSubystemsDefinition();
+	static SetOfObservationsDefinition setofobservations = new SetOfObservationsDefinition();
+	static MethodologyDefinition methodology = new MethodologyDefinition();
 }
