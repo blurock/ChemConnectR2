@@ -16,6 +16,7 @@ import gwt.material.design.client.ui.MaterialColumn;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
+import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.chemconnect.core.client.administration.GetMainStructureSubElementsCallback;
 import info.esblurock.reaction.chemconnect.core.client.cards.CardModal;
 import info.esblurock.reaction.chemconnect.core.client.cards.ClassificationInformationCard;
@@ -106,6 +107,7 @@ public class MainDataStructureCollapsible extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.subsysteminfo = subsysteminfo;		
 		insert(parentId,element,totalstructure);
+		this.modalpanel = modalpanel;
 	}
 	private void insert(String parentId, DataElementInformation element,
 			ChemConnectDataStructure totalstructure) {
@@ -215,10 +217,12 @@ public class MainDataStructureCollapsible extends Composite {
 
 	@UiHandler("info")
 	public void onInfoClick(ClickEvent event) {
+		MaterialToast.fireToast("Fire Info 1");
 		ClassificationInformationCard infocard = new ClassificationInformationCard(clsinfo);
 		card.setContent(infocard, false);
 		card.open();
 		modalpanel.add(card);
+		MaterialToast.fireToast("Fire Info 2");
 	}
 
 	public void setStructureSubElements(ChemConnectCompoundDataStructure subelements) {
