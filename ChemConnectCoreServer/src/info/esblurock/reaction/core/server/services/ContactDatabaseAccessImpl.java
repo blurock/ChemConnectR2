@@ -9,6 +9,8 @@ import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.concepts.SetOfUnitProperties;
 import info.esblurock.reaction.chemconnect.core.data.contact.Organization;
 import info.esblurock.reaction.chemconnect.core.data.login.UserAccount;
+import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
+import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
 import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.data.rdf.SetOfKeywordRDF;
@@ -16,6 +18,7 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInfo
 import info.esblurock.reaction.chemconnect.core.data.transfer.DatasetInformationFromOntology;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterValueInformation;
 import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
+import info.esblurock.reaction.core.server.read.InterpretSpreadSheet;
 import info.esblurock.reaction.core.server.services.util.DatabaseObjectUtilities;
 import info.esblurock.reaction.io.dataset.InterpretData;
 import info.esblurock.reaction.io.db.QueryBase;
@@ -133,5 +136,8 @@ public class ContactDatabaseAccessImpl  extends ServerBase implements ContactDat
 			= new BuildSetOfObservationsInformation(observations);
 		return build.getTransfer();
 	}
-	
+	public ObservationsFromSpreadSheet interpretSpreadSheet(SpreadSheetInputInformation input) throws IOException {
+		ObservationsFromSpreadSheet obs = InterpretSpreadSheet.readSpreadSheet(input);
+		return obs;
+	}
 }
