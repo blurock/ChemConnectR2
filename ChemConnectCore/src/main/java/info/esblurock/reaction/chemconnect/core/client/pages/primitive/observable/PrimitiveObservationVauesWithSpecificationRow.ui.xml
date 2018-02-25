@@ -11,7 +11,7 @@
 		<m:MaterialPanel ui:field="modalpanel" />
 
 		<m:MaterialRow ui:field="info">
-			<m:MaterialColumn  grid="s4">
+			<m:MaterialColumn grid="s4">
 				<m:MaterialTooltip ui:field="identifiertip">
 					<m:MaterialLink ui:field="topconcept" textColor="BLACK" />
 				</m:MaterialTooltip>
@@ -32,23 +32,39 @@
 		</m:MaterialRow>
 		<m:MaterialRow ui:field="inputrow">
 			<m:MaterialColumn grid="s4">
-			<m:MaterialTooltip ui:field="blocktip">
-				<m:MaterialLink ui:field="blockform" text="Type" textColor="BLACK" />
+				<m:MaterialTooltip ui:field="blocktip">
+					<m:MaterialLink ui:field="blockform" text="Type"
+						textColor="BLACK" />
 				</m:MaterialTooltip>
 			</m:MaterialColumn>
-			<m:MaterialColumn grid="s4">
-				<m:MaterialLink ui:field="readinput" text="Read Input" textColor="BLACK" />
+			<m:MaterialColumn grid="s8">
+				<m:MaterialLink ui:field="readinput" text="Read Input"
+					textColor="BLACK" />
 			</m:MaterialColumn>
 		</m:MaterialRow>
 		<m:MaterialRow ui:field="sourcerow">
-			<m:MaterialColumn grid="s12">
-				<m:MaterialTextBox ui:field="sourceline" textColor="BLACK" />
+			<m:MaterialColumn grid="s2">
+				<m:MaterialLink ui:field="readhttp" textColor="BLACK" />
 			</m:MaterialColumn>
+			<m:MaterialColumn grid="s10">
+				<m:MaterialTextBox ui:field="httpsourceline"
+					textColor="BLACK" />
+			</m:MaterialColumn>
+		</m:MaterialRow>
+		<m:MaterialRow>
 			<m:MaterialColumn grid="s12">
 				<m:MaterialTextBox ui:field="readfile" textColor="BLACK" />
 			</m:MaterialColumn>
+		</m:MaterialRow>
+		<m:MaterialRow>
 			<m:MaterialColumn ui:field="measures" grid="s12">
-				<m:MaterialTextArea ui:field="textarea" textColor="BLACK" resizeRule="FOCUS"/>
+				<m:MaterialTextArea ui:field="textarea"
+					textColor="BLACK" resizeRule="FOCUS" />
+			</m:MaterialColumn>
+		</m:MaterialRow>
+		<m:MaterialRow>
+			<m:MaterialColumn ui:field="tables" grid="s12">
+				<m:MaterialPanel ui:field="tablepanel" />
 			</m:MaterialColumn>
 		</m:MaterialRow>
 	</m:MaterialPanel>

@@ -138,6 +138,7 @@ public class ContactDatabaseAccessImpl  extends ServerBase implements ContactDat
 	}
 	public ObservationsFromSpreadSheet interpretSpreadSheet(SpreadSheetInputInformation input) throws IOException {
 		ObservationsFromSpreadSheet obs = InterpretSpreadSheet.readSpreadSheet(input);
+		InterpretSpreadSheet.findBlocks(obs);
 		return obs;
 	}
 }

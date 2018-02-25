@@ -20,7 +20,10 @@ public class SpreadSheetBlockInformation implements Serializable {
 	ArrayList<String> comments;
 	ArrayList<ArrayList<String>> rows;
 	
-	public SpreadSheetBlockInformation(int linecount) {
+	public SpreadSheetBlockInformation() {
+		
+	}
+		public SpreadSheetBlockInformation(int linecount) {
 		numberOfLines = 0;
 		firstLine = 0;
 		lastLine = 0;
@@ -98,6 +101,15 @@ public class SpreadSheetBlockInformation implements Serializable {
 		this.title = title;
 	}
 
+	
+	
+	
+	public ArrayList<String> getComments() {
+		return comments;
+	}
+	public ArrayList<ArrayList<String>> getRows() {
+		return rows;
+	}
 	public void addComment(String comment) {
 		comments.add(comment);
 	}

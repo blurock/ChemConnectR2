@@ -29,6 +29,9 @@ public class ObservationsFromSpreadSheet implements Serializable{
 		this.blocks = new ArrayList<SpreadSheetBlockInformation>();
 	}
 	
+	public ArrayList<SpreadSheetBlockInformation> getBlocks() {
+		return blocks;
+	}
 	public void addBlock(SpreadSheetBlockInformation block) {
 		blocks.add(block);
 	}

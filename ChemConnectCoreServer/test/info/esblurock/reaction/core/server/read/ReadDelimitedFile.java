@@ -3,10 +3,15 @@ package info.esblurock.reaction.core.server.read;
 //import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.junit.Test;
 
+import com.google.api.server.spi.discovery.DiscoveryGenerator.Result;
+import com.google.appengine.api.search.Results;
+
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
+import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetBlockInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
 
 public class ReadDelimitedFile {
@@ -32,6 +37,14 @@ public class ReadDelimitedFile {
 			System.out.println(result);
 			InterpretSpreadSheet.findBlocks(result);
 			System.out.println(result);
+			
+			ArrayList<SpreadSheetBlockInformation> blocks = result.getBlocks();
+			for(SpreadSheetBlockInformation block : blocks) {
+				System.out.println("Block");
+			for(ArrayList<String> row : block.getRows()) {
+				System.out.println(row);
+			}
+			}
 			/*
 			url = "http://cms.heatfluxburner.org/wp-content/uploads/Goswami_CH4_Air_1atm_Tu_298K.xls";
 			input = new SpreadSheetInputInformation(SpreadSheetInputInformation.XLS,

@@ -18,9 +18,15 @@ import gwt.material.design.client.ui.MaterialSwitch;
 import gwt.material.design.client.ui.MaterialTextArea;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.MaterialTooltip;
+import info.esblurock.reaction.chemconnect.core.client.administration.GetMainStructureSubElementsCallback;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHeirarchy;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchies;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
+import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
+import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
+import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
+import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetBlockInformation;
+import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterSpecificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.SetOfObservationsInformation;
 
@@ -50,7 +56,9 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite imp
 	@UiField
 	MaterialLink readinput;
 	@UiField
-	MaterialTextBox sourceline;
+	MaterialLink readhttp;
+	@UiField
+	MaterialTextBox httpsourceline;
 	@UiField
 	MaterialTextBox readfile;
 	@UiField
@@ -65,6 +73,8 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite imp
 	MaterialTooltip toggletip;
 	@UiField
 	MaterialTooltip blocktip;
+	@UiField
+	MaterialPanel tablepanel;
 	
 	boolean visible;
 	String identifier;
@@ -88,13 +98,14 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite imp
 		identifiertip.setText(identifier);
 		topconcept.setText("Value Concept");
 		valuetype.setText("Device");
-		sourceline.setLabel("Source Line");
-		sourceline.setText("http://");
+		httpsourceline.setLabel("HTTP Source");
+		httpsourceline.setText("http://cms.heatfluxburner.org/wp-content/uploads/Bosschaart_CH4_Air_1atm_Tu_295K_thesis.xls");
 		readinput.setText("Read File");
 		textarea.setLabel("Source Input Area");
 		textarea.setText("xxxx,yyyy,zzz .....\naaa,bbb,ccc\n...");
 		blocktip.setText("Form of Input");
 		blockform.setText("MatrixOfValues");
+		readhttp.setText("Read URL");
 		visible = true;
 		toggleHideElements();
 
@@ -141,15 +152,30 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite imp
 	void onClickToggle(ClickEvent e) {
 		toggleHideElements();
 	}
-	@UiHandler("readinput")
+	@UiHandler("readhttp")
 	void onClickReadInput(ClickEvent e) {
-		Window.alert("readinput");
+		String sourceType = SpreadSheetInputInformation.URL;
+		String source = httpsourceline.getText();
+		String type = SpreadSheetInputInformation.CVS;
+		if(source.endsWith("xls")) {
+			type = SpreadSheetInputInformation.XLS;
+		}
+		SpreadSheetInputInformation input = new SpreadSheetInputInformation(type, sourceType, source);
+		readInSpreadSheet(input);
 	}
 	
 	@UiHandler("valuetype")
 	void onClickValueType(ClickEvent e) {
 		chooseConceptHieararchy();
 	}
+	
+	private void readInSpreadSheet(SpreadSheetInputInformation input) {
+		ContactDatabaseAccessAsync async = ContactDatabaseAccess.Util.getInstance();
+		ReadInSpreadSheetCallback callback = new ReadInSpreadSheetCallback(this);
+		async.interpretSpreadSheet(input,callback);
+		
+	}
+	
 	public String getIdentifier() {
 		return identifier;
 	}
@@ -178,6 +204,21 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite imp
 	@Override
 	public void conceptChosen(String topconcept, String concept) {
 		valuetype.setText(concept);
+	}
+
+	public void setUpResultMatrix(ObservationsFromSpreadSheet results) {
+		ArrayList<SpreadSheetBlockInformation> blocks = results.getBlocks();
+		for(SpreadSheetBlockInformation block : blocks) {
+			Window.alert(block.toString());
+			if(block.isJustTitle()) {
+				SpreadSheetBlockTitle titleblock = new SpreadSheetBlockTitle(block,this);
+				tablepanel.add(titleblock);
+			} else {
+				SpreadSheetBlockMatrix matrixblock = new SpreadSheetBlockMatrix(block, this);
+				tablepanel.add(matrixblock);
+			}
+		}
+		
 	}
 
 }
