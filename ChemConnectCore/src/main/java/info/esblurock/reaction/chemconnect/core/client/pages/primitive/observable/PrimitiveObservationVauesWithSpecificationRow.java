@@ -11,6 +11,8 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
+import gwt.material.design.client.ui.MaterialCollapsible;
+import gwt.material.design.client.ui.MaterialColumn;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialRow;
@@ -18,7 +20,7 @@ import gwt.material.design.client.ui.MaterialSwitch;
 import gwt.material.design.client.ui.MaterialTextArea;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.MaterialTooltip;
-import info.esblurock.reaction.chemconnect.core.client.administration.GetMainStructureSubElementsCallback;
+import info.esblurock.reaction.chemconnect.core.client.blobstorage.UploadPhoto;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHeirarchy;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchies;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
@@ -60,8 +62,6 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite imp
 	@UiField
 	MaterialTextBox httpsourceline;
 	@UiField
-	MaterialTextBox readfile;
-	@UiField
 	MaterialTextArea textarea;
 	@UiField
 	MaterialSwitch toggleinfo;
@@ -75,7 +75,17 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite imp
 	MaterialTooltip blocktip;
 	@UiField
 	MaterialPanel tablepanel;
-	
+	@UiField
+	MaterialColumn uploadcolumn;
+	@UiField
+	MaterialCollapsible uploadpanel;
+	/*
+	@UiField 
+	MaterialFileUploader cardUploader;
+	@UiField MaterialImage imgPreview;
+	@UiField MaterialProgress progress;
+	@UiField MaterialLabel lblName, lblSize;
+	*/
 	boolean visible;
 	String identifier;
 	String chosenParameter;
@@ -111,6 +121,19 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite imp
 
 		SetOfObservationsRow obsrow = new SetOfObservationsRow();
 		specificationpanel.add(obsrow);
+		
+		UploadPhoto photo = new UploadPhoto(identifier);
+		uploadpanel.add(photo);
+		/*
+		cardUploader.addSuccessHandler(new SuccessEvent.SuccessHandler<UploadFile>() {
+			@Override
+			public void onSuccess(SuccessEvent<UploadFile> event) {
+				lblName.setText(event.getTarget().getName());
+				lblSize.setText(event.getTarget().getType());
+				imgPreview.setUrl(GWT.getHostPageBaseURL() + "uploadedFiles/" + event.getTarget().getName());
+				}
+			});
+			*/
 	}
 	
 	public void fill(SetOfObservationsInformation obsspec) {

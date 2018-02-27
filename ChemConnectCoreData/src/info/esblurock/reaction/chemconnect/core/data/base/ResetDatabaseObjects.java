@@ -8,6 +8,7 @@ import com.googlecode.objectify.ObjectifyService;
 import info.esblurock.reaction.chemconnect.core.data.contact.RegisterContactData;
 import info.esblurock.reaction.chemconnect.core.data.dataset.RegistrerDataset;
 import info.esblurock.reaction.chemconnect.core.data.description.RegisterDescriptionData;
+import info.esblurock.reaction.chemconnect.core.data.image.RegisterImageInformation;
 import info.esblurock.reaction.chemconnect.core.data.initialization.RegisterInitializationData;
 import info.esblurock.reaction.chemconnect.core.data.login.RegisterUserLoginData;
 import info.esblurock.reaction.chemconnect.core.data.rdf.RegisterRDFData;
@@ -29,6 +30,6 @@ public class ResetDatabaseObjects {
 		RegisterTransactionData.reset();
 		RegistrerDataset.reset();
 		RegisterUserLoginData.reset();
-
+		RegisterImageInformation.reset();
 	}
 }

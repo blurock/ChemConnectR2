@@ -1,6 +1,8 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:m="urn:import:gwt.material.design.client.ui" xmlns:ma="urn:import:gwt.material.design.addins.client"
+	xmlns:m="urn:import:gwt.material.design.client.ui" 
+	xmlns:ma="urn:import:gwt.material.design.addins.client"
+	xmlns:maf="urn:import:gwt.material.design.addins.client.fileuploader"
 	xmlns:c="urn:import:gwt.material.design.addins.client.combobox">
 	<ui:style>
 	.important {
@@ -52,8 +54,31 @@
 			</m:MaterialColumn>
 		</m:MaterialRow>
 		<m:MaterialRow>
-			<m:MaterialColumn grid="s12">
-				<m:MaterialTextBox ui:field="readfile" textColor="BLACK" />
+		<m:MaterialColumn ui:field="uploadcolumn" grid="s12">
+		<m:MaterialCollapsible ui:field="uploadpanel"/>
+			<!--  maf:MaterialFileUploader
+				ui:field="cardUploader" acceptedFiles="image/*" grid="l4" url="/fileupload"
+				preview="false" maxFileSize="20" shadow="0" clickable="cardUpload">
+				<m:MaterialCard>
+					<m:MaterialCardImage>
+						<m:MaterialImage ui:field="imgPreview"
+							url="http://demo.geekslabs.com/materialize/v3.1/images/gallary/33.jpg" />
+					</m:MaterialCardImage>
+					<m:MaterialCardContent layoutPosition="RELATIVE">
+						<m:MaterialLabel ui:field="lblName" text="Sample.png"
+							fontSize="1.5em" />
+						<m:MaterialLabel ui:field="lblSize" text="13 mb"
+							fontSize="0.8em" />
+						<m:MaterialProgress ui:field="progress"
+							layoutPosition="ABSOLUTE" bottom="0" left="0" type="DETERMINATE"
+							percent="0" />
+						<m:MaterialButton m:id="cardUpload"
+							layoutPosition="ABSOLUTE" top="-25" right="25" type="FLOATING"
+							backgroundColor="PINK" size="LARGE" iconType="CLOUD_UPLOAD"
+							iconColor="WHITE" />
+					</m:MaterialCardContent>
+				</m:MaterialCard>
+			</maf:MaterialFileUploader  -->
 			</m:MaterialColumn>
 		</m:MaterialRow>
 		<m:MaterialRow>

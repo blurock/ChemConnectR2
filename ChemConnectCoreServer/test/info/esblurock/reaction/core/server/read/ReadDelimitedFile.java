@@ -7,9 +7,6 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import com.google.api.server.spi.discovery.DiscoveryGenerator.Result;
-import com.google.appengine.api.search.Results;
-
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetBlockInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;

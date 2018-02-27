@@ -1,8 +1,10 @@
 package info.esblurock.reaction.core.server.db;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.image.UploadedImage;
 import info.esblurock.reaction.chemconnect.core.data.transaction.TransactionInfo;
 
+import java.util.ArrayList;
 /*
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.contact.ContactInfoData;
@@ -28,6 +30,9 @@ import com.googlecode.objectify.ObjectifyService;
 public class DatabaseWriteBase {
 	public static void writeDatabaseObject(DatabaseObject object) {
 		ObjectifyService.ofy().save().entity(object).now();
+	}
+	public static void writeListOfDatabaseObjects(ArrayList<UploadedImage> images) {
+		ObjectifyService.ofy().save().entities(images);
 	}
 	public static void writeListOfDatabaseObjects(List<DatabaseObject> lst) {
 		ObjectifyService.ofy().save().entities(lst);

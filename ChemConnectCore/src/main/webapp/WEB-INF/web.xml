@@ -4,6 +4,35 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
   <servlet>
+    <servlet-name>fileupload</servlet-name>
+    <servlet-class>info.esblurock.reaction.core.server.db.image.UploadImageService</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>fileupload</servlet-name>
+    <url-pattern>/fileupload</url-pattern>
+  </servlet-mapping>
+  	<servlet>
+		<servlet-name>images</servlet-name>
+		<servlet-class>info.esblurock.reaction.core.server.db.image.UserImageServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>images</servlet-name>
+		<url-pattern>/chemconnectcore/images</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>uploadServlet</servlet-name>
+		<servlet-class>info.esblurock.reaction.core.server.db.image.UploadServlet</servlet-class>
+	</servlet>
+		<servlet-mapping>
+		<servlet-name>uploadServlet</servlet-name>
+		<url-pattern>/upload</url-pattern>
+	</servlet-mapping>
+  
+  
+  
+  
+  
+  <servlet>
     <servlet-name>initialization</servlet-name>
     <servlet-class>info.esblurock.reaction.core.server.services.InitalizationServiceImpl</servlet-class>
   </servlet>

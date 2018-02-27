@@ -19,5 +19,6 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/ChemConnectCore/src/main/webapp/WEB-INF/lib/objectify-5.1.21.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
