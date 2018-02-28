@@ -34,5 +34,13 @@ public class ChemConnectCompoundDataStructure extends ArrayList<DataElementInfor
 	public String getRecordType() {
 		return recordType;
 	}
+	@Override
+	public boolean add(DataElementInformation element) {
+		if(!this.contains(element)) {
+			super.add(element);
+		}
+		return false;
+		
+	}
 
 }

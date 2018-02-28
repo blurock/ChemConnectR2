@@ -58,7 +58,7 @@ public class UploadPhoto extends Composite implements HasText {
 		uploadButton.setText("Loading...");
 		uploadButton.setEnabled(true);
 
-		refreshPictures();
+		//refreshPictures();
 		uploadForm.addSubmitCompleteHandler(new FormPanel.SubmitCompleteHandler() {
 
 			@Override

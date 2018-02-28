@@ -44,14 +44,19 @@ public class ChemConnectDataStructure implements Serializable {
 
 	public void addElement(DataElementInformation element, ChemConnectCompoundDataStructure structure) {
 		if (element.getLink().compareTo(record) == 0) {
-			records.add(element);
+			addTo(records,element);
 		} else if (element.getLink().compareTo(linkedTo) == 0) {
-			linkedTos.add(element);
+			addTo(linkedTos, element);
 		} else {
-			other.add(element);
+			addTo(other, element);
 		}
 		if(structure != null) {
 		mapping.addStructure(structure);
+		}
+	}
+	private void addTo(ArrayList<DataElementInformation> set, DataElementInformation element) {
+		if(!set.contains(element)) {
+			set.add(element);
 		}
 	}
 	public void addToMapping(ChemConnectCompoundDataStructure structure) {

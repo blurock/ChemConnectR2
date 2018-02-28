@@ -14,6 +14,7 @@ public class SetofObservationsInformation {
 	public void test() {
 		BuildSetOfObservationsInformation build1 
 		= new BuildSetOfObservationsInformation("dataset:BurnerPlateObservations");
+		System.out.println("------------------------------------------------------");
 		System.out.println(build1.getTransfer());
 		System.out.println("------------------------------------------------------");
 

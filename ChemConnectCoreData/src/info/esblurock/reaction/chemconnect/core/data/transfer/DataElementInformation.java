@@ -1,6 +1,9 @@
 package info.esblurock.reaction.chemconnect.core.data.transfer;
 
 import java.io.Serializable;
+import java.util.Comparator;
+
+import com.sun.media.jfxmedia.effects.EqualizerBand;
 /*
  * 	dataset:GPSLocationID(dcterms:hasPart):  dataset:GPSLocationID  (ID):  single
  * 
@@ -11,7 +14,7 @@ import java.io.Serializable;
  * 
  * 
  */
-public class DataElementInformation implements Serializable {
+public class DataElementInformation implements Serializable,Comparable<DataElementInformation> {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -102,5 +105,23 @@ public class DataElementInformation implements Serializable {
 		}
 		return build.toString();
 	}
-
+		@Override
+		public int compareTo(DataElementInformation o) {
+			return dataElementName.compareTo(o.getDataElementName());
+		}
+		@Override
+		public boolean equals(Object o) {
+			boolean ans = false;
+			if(o instanceof DataElementInformation) {
+				DataElementInformation element = (DataElementInformation) o;
+				if(o != null) {
+					ans = dataElementName.equals(element.getDataElementName());
+				}
+			}
+			
+			return ans;
+		}
+		@Override public int hashCode() {
+	        return dataElementName.hashCode();
+		}
 }

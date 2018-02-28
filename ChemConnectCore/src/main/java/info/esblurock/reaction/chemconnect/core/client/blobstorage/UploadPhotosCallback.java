@@ -28,7 +28,7 @@ public class UploadPhotosCallback implements AsyncCallback<ArrayList<UploadedIma
 		for(UploadedImage imageinfo : result) {
 			upload.addImage(imageinfo);
 		}
-		upload.startNewBlobstoreSession(false);
+		//upload.startNewBlobstoreSession(false);
 	}
 
 }

@@ -134,6 +134,7 @@ public class ContactDatabaseAccessImpl  extends ServerBase implements ContactDat
 	public SetOfObservationsTransfer getSetOfObservationsInformation(String observations) {
 		BuildSetOfObservationsInformation build
 			= new BuildSetOfObservationsInformation(observations);
+		System.out.println("getSetOfObservationsInformation:\n" + build.getTransfer());
 		return build.getTransfer();
 	}
 	public ObservationsFromSpreadSheet interpretSpreadSheet(SpreadSheetInputInformation input) throws IOException {

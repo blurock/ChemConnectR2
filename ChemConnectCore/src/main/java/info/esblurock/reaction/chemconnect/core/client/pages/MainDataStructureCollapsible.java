@@ -94,6 +94,7 @@ public class MainDataStructureCollapsible extends Composite {
 			SetOfObservationsInformation observations, 
 			String observationStructure,
 			MaterialPanel modalpanel) {
+		Window.alert("MainDataStructureCollapsible:   " + parentId + ": " + element.toString());
 		initWidget(uiBinder.createAndBindUi(this));
 		this.observations = observations;
 		insert(parentId,element,totalstructure);
@@ -217,12 +218,10 @@ public class MainDataStructureCollapsible extends Composite {
 
 	@UiHandler("info")
 	public void onInfoClick(ClickEvent event) {
-		MaterialToast.fireToast("Fire Info 1");
 		ClassificationInformationCard infocard = new ClassificationInformationCard(clsinfo);
 		card.setContent(infocard, false);
 		card.open();
 		modalpanel.add(card);
-		MaterialToast.fireToast("Fire Info 2");
 	}
 
 	public void setStructureSubElements(ChemConnectCompoundDataStructure subelements) {

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.gwt.user.client.Window;
+
 import gwt.material.design.client.constants.Color;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.CreatePrimitiveStructure;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.PrimitiveDataStructureBase;
@@ -44,6 +46,7 @@ public class MultipleRecordsPrimitive extends PrimitiveDataStructureBase {
 		
 		ContactDatabaseAccessAsync async = ContactDatabaseAccess.Util.getInstance();
 		ParameterSetInfoCallback callback = new ParameterSetInfoCallback(id, structuremap);
+		Window.alert("MultipleRecordsPrimitive" + parameternames);
 		async.getParameterInfo(parameternames,callback);
 	}
 	
