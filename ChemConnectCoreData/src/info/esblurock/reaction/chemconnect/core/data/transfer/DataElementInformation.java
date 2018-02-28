@@ -1,9 +1,7 @@
 package info.esblurock.reaction.chemconnect.core.data.transfer;
 
 import java.io.Serializable;
-import java.util.Comparator;
 
-import com.sun.media.jfxmedia.effects.EqualizerBand;
 /*
  * 	dataset:GPSLocationID(dcterms:hasPart):  dataset:GPSLocationID  (ID):  single
  * 

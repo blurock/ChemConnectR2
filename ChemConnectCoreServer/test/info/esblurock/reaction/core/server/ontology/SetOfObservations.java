@@ -1,6 +1,6 @@
 package info.esblurock.reaction.core.server.ontology;
 
-import static org.junit.Assert.*;
+//import static org.junit.Assert.*;
 
 import org.junit.Test;
 
@@ -14,6 +14,7 @@ public class SetOfObservations {
 		String obs = "dataset:BurnerPlateObservations";
 		ContactDatabaseAccessImpl impl = new ContactDatabaseAccessImpl();
 		SetOfObservationsTransfer transfer = impl.getSetOfObservationsInformation(obs);
+		System.out.println(transfer);
 	}
 
 }
