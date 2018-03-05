@@ -8,20 +8,33 @@ public class GCSBlobContent implements Serializable {
 	
 	GCSBlobFileInformation info;
 	String url;
+	String bytes;
 	
 	public GCSBlobContent() {
 		
 	}
+	
 	public GCSBlobContent(String url, GCSBlobFileInformation info) {
 		super();
 		this.info = info;
 		this.url = url;
+		this.bytes = null;
 	}
+	
 	public GCSBlobFileInformation getInfo() {
 		return info;
 	}
+	
 	public String getUrl() {
 		return url;
+	}
+	
+	public String getBytes() {
+		return bytes;
+	}
+	
+	public void setBytes(String bytes) {
+		this.bytes = bytes;
 	}
 	
 	

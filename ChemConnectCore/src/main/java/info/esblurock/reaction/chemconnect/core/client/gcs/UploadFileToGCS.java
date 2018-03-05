@@ -101,7 +101,7 @@ public class UploadFileToGCS extends Composite implements DetermineBlobTargetInt
 	}
 	
 	void storeTarget(String type, String bucket, String path, String name) {
-		DetermineBlobTargetModal blob = new DetermineBlobTargetModal(this, type, bucket, path, name);
+		DetermineBlobTargetModal blob = new DetermineBlobTargetModal(this, identifier.getText(), type, bucket, path, name);
 		modalpanel.clear();
 		modalpanel.add(blob);
 		blob.openModal();	
@@ -126,14 +126,17 @@ public class UploadFileToGCS extends Composite implements DetermineBlobTargetInt
 	
 	@UiHandler("uploadButton")
 	void onClickUploadButton(ClickEvent event) {
+		/*
 		String name = lblName.getText();
 		String type = lblType.getText();
 		String bucket = GoogleCloudStorageConstants.storageBucket;
 		String path =  GoogleCloudStorageConstants.observationsPathPrefix + "/" + type + "/" + identifier.getText();
-		DetermineBlobTargetModal blob = new DetermineBlobTargetModal(this, type, bucket, path, name);
+		
+		DetermineBlobTargetModal blob = new DetermineBlobTargetModal(this, identifier.getText(), type, bucket, path, name);
 		modalpanel.clear();
 		modalpanel.add(blob);
 		blob.openModal();
+		*/
 	}
 	
 	
@@ -154,7 +157,6 @@ public class UploadFileToGCS extends Composite implements DetermineBlobTargetInt
 
 	@Override
 	public void insertBlobInformation(GCSBlobContent insert) {
-		Window.alert("UploadFileToGCS: insertBlobInformation: '" + insert.getUrl() + "'");
 		UploadedElementCollapsible coll = new UploadedElementCollapsible(insert);
 		collapsible.add(coll);
 		coll.setIdentifier(identifier.getText());

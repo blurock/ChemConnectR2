@@ -30,4 +30,6 @@ public interface UserImageServiceAsync {
 	void moveBlob(GCSBlobFileInformation fileinfo, GCSBlobFileInformation source,
 			AsyncCallback<GCSBlobContent> callback);
 
+	void getBlobContent(GCSBlobContent info, AsyncCallback<String> callback);
+
 }

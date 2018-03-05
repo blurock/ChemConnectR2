@@ -20,6 +20,7 @@ import com.google.appengine.tools.cloudstorage.ListResult;
 import com.google.apphosting.api.ApiProxy;
 import com.google.auth.Credentials;
 import com.google.cloud.storage.Blob;
+import com.google.cloud.storage.Blob.BlobSourceOption;
 import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.Bucket;
 import com.google.cloud.storage.CopyWriter;
@@ -46,6 +47,11 @@ import info.esblurock.reaction.io.db.QueryBase;
 
 @SuppressWarnings("serial")
 public class UserImageServiceImpl extends RemoteServiceServlet implements UserImageService {
+	
+	private static Storage storage = null;
+	static {
+	    storage = StorageOptions.getDefaultInstance().getService();
+	  }
 
 	public static String fileCodeParameter = "fileCode";
 	public static String userParameter = "user";
@@ -180,29 +186,65 @@ public class UserImageServiceImpl extends RemoteServiceServlet implements UserIm
 	}
 
 	public GCSBlobContent moveBlobFromUpload(GCSBlobFileInformation fileinfo) {
-		GCSBlobFileInformation source = new GCSBlobFileInformation(
-				GoogleCloudStorageConstants.uploadBucket,
-				GoogleCloudStorageConstants.uploadPathPrefix,
+		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
+		UserDTO user = util.getUserInfo();
+		System.out.println("User: " + user);
+
+		String path = GoogleCloudStorageConstants.uploadPathPrefix + "/" + user.getName();
+		String outputSourceCode = QueryBase.getDataSourceIdentification(user.getName());
+		String id = fileinfo.getIdentifier();
+		GCSBlobFileInformation source = new GCSBlobFileInformation(id,outputSourceCode,
+				GoogleCloudStorageConstants.uploadBucket, path,
 				fileinfo.getFilename(), fileinfo.getFiletype(), fileinfo.getDescription());
+		
+		fileinfo.setSourceID(source.getSourceID());
+		
+		System.out.println("moveBlobFromUpload: " + source.toString());
+		System.out.println("moveBlobFromUpload: " + fileinfo.toString());
+		
 		return moveBlob(fileinfo, source);
 	}
 
 	public GCSBlobContent moveBlob(GCSBlobFileInformation fileinfo, GCSBlobFileInformation source) {
         Storage storage = StorageOptions.getDefaultInstance().getService();
+        
+		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
+		UserDTO user = util.getUserInfo();
+		System.out.println("User: " + user);
 
-		String sourcefilename = source.getGSFilename();
+		String sourcefilename =   source.getGSFilename();
 		String sourcebucket = source.getBucket();
 		String targetfilename = fileinfo.getGSFilename();
 		String targetbucket = fileinfo.getBucket();
 
+		System.out.println("moveBlob: " + sourcebucket);
+		System.out.println("moveBlob: " + sourcefilename);
+		System.out.println("moveBlob: " + targetbucket);
+		System.out.println("moveBlob: " + targetfilename);
+		
  		BlobId blobId = BlobId.of(sourcebucket, sourcefilename);
+		System.out.println("moveBlob: " + blobId);
+		
  		
 		Blob blob = storage.get(blobId);
 		CopyWriter copyWriter = blob.copyTo(BlobId.of(targetbucket, targetfilename));
 		Blob copiedBlob = copyWriter.getResult();
 		GCSBlobContent content = new GCSBlobContent(copiedBlob.getMediaLink(),fileinfo);
 		DatabaseWriteBase.writeObjectWithTransaction(fileinfo);
+		
 		return content;
 	}
 
+	public String getBlobContent(GCSBlobContent info) {
+		GCSBlobFileInformation gcsinfo = info.getInfo();
+ 		BlobId blobId = BlobId.of(gcsinfo.getBucket(), gcsinfo.getGSFilename()); 		
+		Blob blob = storage.get(blobId);
+		
+		GCSBlobContent content = new GCSBlobContent(blob.getMediaLink(),info.getInfo());
+		byte[] bytes = blob.getContent(BlobSourceOption.generationMatch());
+		String bytesS = new String(bytes);
+		//content.setBytes(bytesS);
+		return bytesS;
+	}
+	
 }

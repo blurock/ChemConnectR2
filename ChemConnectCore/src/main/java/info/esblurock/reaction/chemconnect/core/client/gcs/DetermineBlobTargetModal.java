@@ -5,6 +5,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
@@ -44,13 +45,15 @@ public class DetermineBlobTargetModal extends Composite  {
 	MaterialLink done;
 
 	DetermineBlobTargetInterface top;
+	String identifier;
 	
 	public DetermineBlobTargetModal() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
-	public DetermineBlobTargetModal(DetermineBlobTargetInterface top, String filetype, String bucket, String path, String filename) {
+	public DetermineBlobTargetModal(DetermineBlobTargetInterface top, String identifier, String filetype, String bucket, String path, String filename) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.top = top;
+		this.identifier = identifier;
 		init();
 		this.filetype.setText(filetype);
 		this.bucket.setText(bucket);
@@ -64,11 +67,12 @@ public class DetermineBlobTargetModal extends Composite  {
 	}
 	@UiHandler("done")
 	void onClickDone(ClickEvent e) {
-		Window.alert("onClickDone");
 		modal.close();
-		GCSBlobFileInformation fileinfo = new GCSBlobFileInformation(bucket.getText(), path.getText(), filename.getText(), 
+		String name = Cookies.getCookie("user");
+		GCSBlobFileInformation fileinfo = new GCSBlobFileInformation(
+				identifier,"",
+				bucket.getText(), path.getText(), filename.getText(), 
 				filetype.getText(), textArea.getText());
-		Window.alert("onClickDone");
 		top.handleTargetBlob(fileinfo);
 	}
 	@UiHandler("close")

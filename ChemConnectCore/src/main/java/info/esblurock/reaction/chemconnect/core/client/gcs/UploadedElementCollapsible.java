@@ -1,7 +1,5 @@
 package info.esblurock.reaction.chemconnect.core.client.gcs;
 
-import java.net.URL;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -16,6 +14,7 @@ import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialTextArea;
 import gwt.material.design.client.ui.MaterialTooltip;
+import info.esblurock.reaction.chemconnect.core.client.gcs.objects.UploadedTextObject;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 
@@ -53,9 +52,11 @@ public class UploadedElementCollapsible extends Composite {
 	String typeClass;
 	String typeInstance;
 	String linkUrl;
+	GCSBlobContent content;
 	
 	public UploadedElementCollapsible(GCSBlobContent content) {
 		initWidget(uiBinder.createAndBindUi(this));
+		this.content = content;
 		init();
 		fill(content);
 	}
@@ -68,6 +69,7 @@ public class UploadedElementCollapsible extends Composite {
 	}
 	
 	void fill(GCSBlobContent content) {
+		this.content = content;
 		info = content.getInfo();
 		linkUrl = content.getUrl();
 		url.setText(linkUrl);
@@ -86,11 +88,12 @@ public class UploadedElementCollapsible extends Composite {
 	
 	public void setContentVisual() {
 			if(isImage()) {
-				Window.alert(linkUrl);
-				MaterialImage image = new MaterialImage(linkUrl);
+				MaterialImage image = new MaterialImage(linkUrl);				
 				imagepanel.add(image);
 			} else if(isText()) {
-				
+				Window.alert("UploadedElementCollapsible: Text object");
+				UploadedTextObject textobject = new UploadedTextObject(this.content);
+				imagepanel.add(textobject);
 			}
 	}
 	

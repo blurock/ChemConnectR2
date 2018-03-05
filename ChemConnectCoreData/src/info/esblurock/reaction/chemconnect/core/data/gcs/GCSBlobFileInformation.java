@@ -23,8 +23,10 @@ public class GCSBlobFileInformation extends DatabaseObject {
 	public GCSBlobFileInformation() {
 	}
 
-	public GCSBlobFileInformation(String bucket, String path, String filename, String filetype, String description) {
-		super();
+	public GCSBlobFileInformation(String id,String sourceID,
+			String bucket, String path, String filename, String filetype, 
+			String description) {
+		super(id,sourceID);
 		this.bucket = bucket;
 		this.path = path;
 		this.filename = filename;
