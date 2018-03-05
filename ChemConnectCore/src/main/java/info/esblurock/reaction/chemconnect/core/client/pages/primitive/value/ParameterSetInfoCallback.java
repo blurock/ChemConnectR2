@@ -1,7 +1,7 @@
 package info.esblurock.reaction.chemconnect.core.client.pages.primitive.value;
 
-import java.util.Map;
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;

@@ -11,7 +11,6 @@ import com.google.gwt.place.shared.PlaceHistoryHandler;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 
-
 import info.esblurock.reaction.chemconnect.core.client.activity.ClientFactory;
 import info.esblurock.reaction.chemconnect.core.client.mvp.AppActivityMapper;
 import info.esblurock.reaction.chemconnect.core.client.mvp.AppPlaceHistoryMapper;

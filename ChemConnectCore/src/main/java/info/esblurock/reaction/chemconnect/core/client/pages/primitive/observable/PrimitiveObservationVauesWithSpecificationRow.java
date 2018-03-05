@@ -20,9 +20,9 @@ import gwt.material.design.client.ui.MaterialSwitch;
 import gwt.material.design.client.ui.MaterialTextArea;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.MaterialTooltip;
-import info.esblurock.reaction.chemconnect.core.client.blobstorage.UploadPhoto;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHeirarchy;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchies;
+import info.esblurock.reaction.chemconnect.core.client.gcs.UploadFileToGCS;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
@@ -32,8 +32,7 @@ import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInp
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterSpecificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.SetOfObservationsInformation;
 
-public class PrimitiveObservationVauesWithSpecificationRow extends Composite implements  ChooseFromConceptHeirarchy{
-
+public class PrimitiveObservationVauesWithSpecificationRow extends Composite implements  ChooseFromConceptHeirarchy {
 	private static PrimitiveObservationVauesWithSpecificationRowUiBinder uiBinder = GWT
 			.create(PrimitiveObservationVauesWithSpecificationRowUiBinder.class);
 
@@ -89,7 +88,9 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite imp
 	boolean visible;
 	String identifier;
 	String chosenParameter;
-
+	//UploadPhoto photo;
+	UploadFileToGCS photo;
+	
 	public PrimitiveObservationVauesWithSpecificationRow() {
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
@@ -122,7 +123,7 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite imp
 		SetOfObservationsRow obsrow = new SetOfObservationsRow();
 		specificationpanel.add(obsrow);
 		
-		UploadPhoto photo = new UploadPhoto(identifier);
+		photo = new UploadFileToGCS(modalpanel);
 		uploadpanel.add(photo);
 		/*
 		cardUploader.addSuccessHandler(new SuccessEvent.SuccessHandler<UploadFile>() {
@@ -139,6 +140,7 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite imp
 	public void fill(SetOfObservationsInformation obsspec) {
 		chosenParameter = null;
 		identifier = obsspec.getIdentifier();
+		photo.setIdentifier(identifier);
 		setFullIdentifier();
 			specificationpanel.clear();
 		SetOfObservationsRow obsrow = new SetOfObservationsRow(obsspec.getIdentifier(), 
@@ -241,7 +243,6 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite imp
 				tablepanel.add(matrixblock);
 			}
 		}
-		
 	}
 
 }

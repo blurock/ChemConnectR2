@@ -8,6 +8,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialLink;
@@ -15,8 +16,6 @@ import gwt.material.design.client.ui.MaterialTextArea;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.image.UploadedImage;
-
-import com.google.gwt.user.client.ui.Image;
 
 
 public class ImageColumn extends Composite implements HasText {
@@ -63,7 +62,7 @@ public class ImageColumn extends Composite implements HasText {
 	@UiHandler("delete")
 	public void onDelete(ClickEvent event) {
 		DeleteImageCallback callback = new DeleteImageCallback(this);
-		UserImageServiceAsync userImageService = GWT.create(UserImageService.class);
+		UserImageServiceAsync userImageService = UserImageService.Util.getInstance();
 		userImageService.deleteFromStorage(imageinfo.getBlobKey(), callback);
 	}
 	

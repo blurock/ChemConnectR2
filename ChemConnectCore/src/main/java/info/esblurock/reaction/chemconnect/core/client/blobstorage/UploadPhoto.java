@@ -13,13 +13,14 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
-
-
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialCollapsible;
+import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialLink;
+import gwt.material.design.client.ui.MaterialTooltip;
+import info.esblurock.reaction.chemconnect.core.client.resources.ImageResources;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.image.ImageServiceInformation;
@@ -33,6 +34,7 @@ public class UploadPhoto extends Composite implements HasText {
 	}
 
 	UserImageServiceAsync userImageService = GWT.create(UserImageService.class);
+	ImageResources images = GWT.create(ImageResources.class);
 
 	@UiField
 	Button uploadButton;
@@ -46,48 +48,67 @@ public class UploadPhoto extends Composite implements HasText {
 	MaterialLink delete;
 	@UiField
 	MaterialLink save;
-
+	@UiField
+	MaterialTooltip identifiertip;
+	@UiField
+	MaterialImage imgPreview;
+	
+	String imgPreviewS;
 	String keywordName;
 	ImageServiceInformation serviceInformation;
 	
+	public UploadPhoto() {
+		initWidget(uiBinder.createAndBindUi(this));
+		init();
+	}
 	public UploadPhoto(String keywordName) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.keywordName = keywordName;
-		// Now we use out GWT-RPC service and get an URL
-		startNewBlobstoreSession(true);
-		uploadButton.setText("Loading...");
-		uploadButton.setEnabled(true);
-
-		//refreshPictures();
+		init();
+	}
+	
+	void init() {
+		resetUpload();
 		uploadForm.addSubmitCompleteHandler(new FormPanel.SubmitCompleteHandler() {
 
 			@Override
 			public void onSubmitComplete(SubmitCompleteEvent event) {
-				uploadForm.reset();
-				Window.alert("onSubmitComplete");
-				startNewBlobstoreSession(false);
+				resetUpload();
+				Window.alert("onSubmitComplete: " + event.getResults());
+				imgPreview.setUrl(event.getResults());
+				refreshPictures();
+				startNewBlobstoreSession(true);
 			}
-			
 		});
 	}
-
+	
+	void resetUpload() {
+		uploadForm.reset();
+		imgPreview.setResource(images.SetOfKeysSmall());
+		imgPreviewS = images.SetOfKeysSmall().toString();
+	}
+	
 	public void startNewBlobstoreSession(boolean uploadService) {
-		ImageServiceCallback callback = new ImageServiceCallback(this);
+		ImageServiceCallback callback = new ImageServiceCallback(uploadService, this);
 		userImageService.getBlobstoreUploadUrl(keywordName, uploadService, callback);
 	}
 
 	public void fillUpload(ImageServiceInformation result) {
-		uploadField.setName("image");
 		uploadButton.setText("Upload");
 		uploadButton.setEnabled(true);
+		uploadField.setName("image");
 		uploadForm.setEncoding(FormPanel.ENCODING_MULTIPART);
 		uploadForm.setMethod(FormPanel.METHOD_POST);
+		Window.alert(result.toString("fillUpload: "));
+		serviceInformation = result;
+		/*
 		if(result.getFileCode() != null) {
 			serviceInformation = result;
 		} else {
 			UploadPhotosCallback callback = new UploadPhotosCallback(this);
 			userImageService.getUploadedImageSet(serviceInformation, callback);
 		}
+		*/
 	}
 	
 	public void refreshPictures() {
@@ -119,8 +140,9 @@ public class UploadPhoto extends Composite implements HasText {
 	
 	@UiHandler("uploadButton")
 	void onSubmit(ClickEvent e) {
+		Window.alert(serviceInformation.getUploadUrl());
 		uploadForm.setAction(serviceInformation.getUploadUrl());
-		uploadForm.submit();
+		uploadForm.submit();			
 	}
 	@UiHandler("save")
 	void onSave(ClickEvent e) {
@@ -134,5 +156,12 @@ public class UploadPhoto extends Composite implements HasText {
 	public String getText() {
 		return uploadButton.getText();
 	}
-
+	public String getIdentifier() {
+		return keywordName;
+	}
+	public void setIdentifier(String identifier) {
+		this.keywordName = identifier + "-image";
+		identifiertip.setText(this.keywordName);
+		startNewBlobstoreSession(true);
+	}
 }

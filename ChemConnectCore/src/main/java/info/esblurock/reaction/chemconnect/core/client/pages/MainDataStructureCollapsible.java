@@ -16,7 +16,6 @@ import gwt.material.design.client.ui.MaterialColumn;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
-import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.chemconnect.core.client.administration.GetMainStructureSubElementsCallback;
 import info.esblurock.reaction.chemconnect.core.client.cards.CardModal;
 import info.esblurock.reaction.chemconnect.core.client.cards.ClassificationInformationCard;
@@ -94,7 +93,6 @@ public class MainDataStructureCollapsible extends Composite {
 			SetOfObservationsInformation observations, 
 			String observationStructure,
 			MaterialPanel modalpanel) {
-		Window.alert("MainDataStructureCollapsible:   " + parentId + ": " + element.toString());
 		initWidget(uiBinder.createAndBindUi(this));
 		this.observations = observations;
 		insert(parentId,element,totalstructure);

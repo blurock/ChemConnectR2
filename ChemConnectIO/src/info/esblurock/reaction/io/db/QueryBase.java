@@ -163,6 +163,13 @@ public class QueryBase {
 		Object o = ofy().load().type(cls).filter(propertyname, propertyvalue).first().now();
 		if(o != null) {
 			ofy().delete().entity(o);
+		} else { 
+			System.out.println(cls.getCanonicalName() + " not found: property='" + propertyname + "  value='" + propertyvalue + "'");
+		}
+	}
+	public static void deleteObject(Object o) {
+		if(o != null) {
+			deleteObject(o);
 		}
 	}
 }

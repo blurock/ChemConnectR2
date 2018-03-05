@@ -1,8 +1,8 @@
 package info.esblurock.reaction.chemconnect.core.client.activity;
 
 import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.event.shared.SimpleEventBus;
+import com.google.gwt.place.shared.PlaceController;
 
 import info.esblurock.reaction.chemconnect.core.client.administration.ChemConnectAdministrationImpl;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.ChemConnectAdministrationView;

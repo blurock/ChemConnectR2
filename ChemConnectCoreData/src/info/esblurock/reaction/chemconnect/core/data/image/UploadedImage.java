@@ -3,6 +3,7 @@ package info.esblurock.reaction.chemconnect.core.data.image;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.Unindex;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 
@@ -14,12 +15,9 @@ public class UploadedImage extends DatabaseObject {
     String user;
   
     @Index
-    String keyWord;
-    
-    @Index
     String blobKey;
 
-    @Index
+    @Unindex
     String imageUrl;
 
     @Index
@@ -33,9 +31,8 @@ public class UploadedImage extends DatabaseObject {
     
 	public UploadedImage(String user, String fileCode, String keyWord, String blobKey, 
 			String imageUrl, String filename, String description) {
-		super(null,fileCode);
+		super(keyWord,fileCode);
 		this.user = user;
-		this.keyWord = keyWord;
 		this.blobKey = blobKey;
 		this.imageUrl = imageUrl;
 		this.filename = filename;
@@ -47,7 +44,7 @@ public class UploadedImage extends DatabaseObject {
 	}
 
 	public String getKeyWord() {
-		return keyWord;
+		return super.getIdentifier();
 	}
 
 	public String getBlobKey() {
@@ -70,5 +67,18 @@ public class UploadedImage extends DatabaseObject {
 		this.description = description;
 	}
     
+	public String toString() {
+		return toString("");
+	}
+	
+	public String toString(String prefix) {
+		StringBuilder build = new StringBuilder();
+		build.append(super.toString(prefix));
+		build.append(user + ":  ");
+		build.append("'" + filename + "'   ");
+		build.append("'" + description + "'\n");
+		build.append(imageUrl + "\n");
+		return build.toString();
+	}
     
 }

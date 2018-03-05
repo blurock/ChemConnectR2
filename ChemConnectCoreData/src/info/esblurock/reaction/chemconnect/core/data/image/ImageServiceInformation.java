@@ -49,5 +49,32 @@ public class ImageServiceInformation implements Serializable{
 		return uploadUrl;
 	}
 
+	public String toString() {
+		return toString("");
+	}
+	public String toString(String prefix) {
+		StringBuilder build = new StringBuilder();
+		build.append(prefix + "Image: ");
+		if(uploadUrl != null) {
+			build.append(uploadUrl + "\n");
+			build.append(prefix);
+		}
+		if(keyWord != null) {
+			build.append(keyWord + ": ");
+		}
+		if(bucketName != null) {
+			build.append(bucketName + " ");
+		}
+		build.append(user + "(");
+		if(user != null) {
+			build.append(user + " ");
+		}
+		if(fileCode != null) {
+			build.append(fileCode);
+		}
+		build.append(user + ")");
+		
+		return build.toString();
+	}
 	
 }

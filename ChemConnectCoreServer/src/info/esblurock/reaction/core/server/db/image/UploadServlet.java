@@ -85,7 +85,8 @@ public class UploadServlet extends HttpServlet {
 				UploadedImage uploadedImage = new UploadedImage(user.getName(),fileCode,keyword, 
 						key.getKeyString(), imageUrl,fileinfo.getFilename(), description);
 				store.store(uploadedImage);
-
+				BlobKeyCorrespondence corr = new BlobKeyCorrespondence(key.getKeyString(),key);
+				store.store(corr);
 				String url = "/upload?imageUrl=" + imageUrl;
 				res.setHeader("Content-Type", "text/html");
 				res.sendRedirect(url);

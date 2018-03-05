@@ -9,9 +9,11 @@ import info.esblurock.reaction.chemconnect.core.data.image.ImageServiceInformati
 public class ImageServiceCallback implements AsyncCallback<ImageServiceInformation>{
 
 	UploadPhoto uploadPhoto;
+	boolean uploadService;
 	
-	public ImageServiceCallback(UploadPhoto uploadPhoto) {
+	public ImageServiceCallback(boolean uploadService, UploadPhoto uploadPhoto) {
 		this.uploadPhoto = uploadPhoto;
+		this.uploadService = uploadService;
 	}
 
 	@Override

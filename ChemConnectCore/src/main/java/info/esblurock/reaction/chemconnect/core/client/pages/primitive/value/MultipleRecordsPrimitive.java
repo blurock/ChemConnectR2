@@ -1,7 +1,7 @@
 package info.esblurock.reaction.chemconnect.core.client.pages.primitive.value;
 
-import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 

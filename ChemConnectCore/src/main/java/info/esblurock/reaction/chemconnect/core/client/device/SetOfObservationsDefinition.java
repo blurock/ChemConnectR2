@@ -115,7 +115,6 @@ public class SetOfObservationsDefinition extends Composite implements ChooseFrom
 	}
 	public void addHierarchialModal(String id, SetOfObservationsTransfer transfer,SetOfObservationsCollapsible obstop) {
 		ChemConnectDataStructure infoStructure = transfer.getStructure();
-		Window.alert("addHierarchialModal: " + infoStructure.getRecords());
 		for(DataElementInformation element : infoStructure.getRecords()) {
 			String subid = id + "-" + element.getSuffix();
 			String type = element.getDataElementName();

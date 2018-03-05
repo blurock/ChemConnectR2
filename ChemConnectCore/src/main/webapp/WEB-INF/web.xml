@@ -3,6 +3,18 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
+
+
+
+  <servlet>
+    <servlet-name>gcsfileupload</servlet-name>
+    <servlet-class>info.esblurock.reaction.core.server.db.gcs.FileUploadServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>gcsfileupload</servlet-name>
+    <url-pattern>/gcsfileupload</url-pattern>
+  </servlet-mapping>
+
   <servlet>
     <servlet-name>fileupload</servlet-name>
     <servlet-class>info.esblurock.reaction.core.server.db.image.UploadImageService</servlet-class>

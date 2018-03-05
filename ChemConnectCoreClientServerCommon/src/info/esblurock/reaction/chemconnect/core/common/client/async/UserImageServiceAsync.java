@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobContent;
+import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.data.image.ImageServiceInformation;
 import info.esblurock.reaction.chemconnect.core.data.image.UploadedImage;
 
@@ -22,5 +24,10 @@ public interface UserImageServiceAsync {
 	void deleteFromStorage(String blobkey, AsyncCallback<String> callback);
 
 	void updateImages(ArrayList<UploadedImage> images, AsyncCallback<String> callback);
+
+	void moveBlobFromUpload(GCSBlobFileInformation fileinfo, AsyncCallback<GCSBlobContent> callback);
+
+	void moveBlob(GCSBlobFileInformation fileinfo, GCSBlobFileInformation source,
+			AsyncCallback<GCSBlobContent> callback);
 
 }

@@ -221,8 +221,8 @@ public class StoreObject {
 					store(objectrdf);
 				}
 			}
-			toBeStored = objectsStored;
-			writeSet();
+			//toBeStored = objectsStored;
+			//writeSet();
 			toBeStored = new ArrayList<DatabaseObject>();
 			objectsStored = new ArrayList<DatabaseObject>();
 		}

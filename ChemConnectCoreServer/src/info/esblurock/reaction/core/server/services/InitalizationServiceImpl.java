@@ -5,6 +5,7 @@ import java.io.IOException;
 import info.esblurock.reaction.chemconnect.core.common.client.async.InitializationService;
 import info.esblurock.reaction.chemconnect.core.data.base.ResetDatabaseObjects;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
+import info.esblurock.reaction.core.server.db.image.BlobKeyCorrespondence;
 import info.esblurock.reaction.core.server.initialization.InitializeDatabaseObjectImpl;
 import info.esblurock.reaction.core.server.services.util.RegisterEvent;
 
@@ -20,6 +21,7 @@ public class InitalizationServiceImpl  extends ServerBase implements Initializat
 	public void clearDatabaseObjects() throws IOException {
 		verify("Clear database objects", MetaDataKeywords.accessDataDelete);
 		ResetDatabaseObjects.clearDatabase();
+		ResetDatabaseObjects.resetClass(BlobKeyCorrespondence.class);
 		register("Initialize", "Clear database objects", RegisterEvent.checkLevel3);
 	}
 }
