@@ -32,4 +32,6 @@ public interface UserImageServiceAsync {
 
 	void getBlobContent(GCSBlobContent info, AsyncCallback<String> callback);
 
+	void getBlobAsLines(GCSBlobContent info, AsyncCallback<ArrayList<String>> callback);
+
 }

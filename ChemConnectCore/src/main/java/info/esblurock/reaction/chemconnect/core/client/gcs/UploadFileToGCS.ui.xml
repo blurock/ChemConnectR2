@@ -16,57 +16,10 @@
 			</m:MaterialTooltip>
 			<m:MaterialLink ui:field="delete" iconType="CLOSE"
 				iconPosition="RIGHT" />
-			<m:MaterialLink ui:field="save" iconType="SAVE"
+			<m:MaterialLink ui:field="upload" iconType="CLOUD_UPLOAD"
 				iconPosition="RIGHT" />
 		</m:MaterialCollapsibleHeader>
 		<m:MaterialCollapsibleBody> 
-			<m:MaterialRow height="150">
-				<m:MaterialColumn grid="s6" >
-					<ma:fileuploader.MaterialFileUploader
-						ui:field="uploader" url="/gcsfileupload" maxFileSize="20" shadow="1">
-						<ma:fileuploader.MaterialUploadLabel
-							title="Drag Files to Upload" description="Some description here" 
-						 />
-					</ma:fileuploader.MaterialFileUploader>
-				</m:MaterialColumn>
-				<m:MaterialColumn grid="s6">
-					<m:MaterialRow>
-						<m:MaterialColumn grid="s12">
-						<m:MaterialTooltip ui:field="identifiertooltip">
-						<m:MaterialLink ui:field="identifier" textColor="BLACK"/>
-						</m:MaterialTooltip>
-						</m:MaterialColumn>
-					</m:MaterialRow>
-					<m:MaterialRow>
-						<m:MaterialColumn grid="s12">
-						<m:MaterialTooltip ui:field="nametooltip">
-						<m:MaterialLink ui:field="lblName"  textColor="BLACK"/>
-						</m:MaterialTooltip>
-						</m:MaterialColumn>
-					</m:MaterialRow>
-					<m:MaterialRow>
-						<m:MaterialColumn grid="s12">
-						<m:MaterialTooltip ui:field="typetooltip">
-						<m:MaterialLink ui:field="lblType"  textColor="BLACK"/>
-						</m:MaterialTooltip>
-						</m:MaterialColumn>
-					</m:MaterialRow>
-					<m:MaterialRow>
-						<m:MaterialColumn grid="s12">
-						<m:MaterialTooltip ui:field="sizetooltip">
-						<m:MaterialLink ui:field="lblSize"  textColor="BLACK"/>
-						</m:MaterialTooltip>
-						</m:MaterialColumn>
-					</m:MaterialRow>
-					<m:MaterialRow>
-						<m:MaterialColumn grid="s12">
-						<m:MaterialTooltip ui:field="uploadtooltip">
-						<m:MaterialLink ui:field="uploadButton"  textColor="BLACK"/>
-						</m:MaterialTooltip>
-						</m:MaterialColumn>
-					</m:MaterialRow>
-				</m:MaterialColumn>
-			</m:MaterialRow>
 			<m:MaterialRow>
 				<m:MaterialColumn grid="s12">
 					<m:MaterialCollapsible ui:field="collapsible" />

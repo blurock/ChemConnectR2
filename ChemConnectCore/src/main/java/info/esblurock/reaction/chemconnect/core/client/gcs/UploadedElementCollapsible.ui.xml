@@ -19,10 +19,13 @@
 			backgroundColor="GREY">
 			<m:MaterialLink ui:field="type" textColor="BLACK" />
 			<m:MaterialTooltip ui:field="identifiertooltip">
-			<m:MaterialLink ui:field="path" text="Image"
-				textColor="BLACK" />
-				</m:MaterialTooltip>
-			<m:MaterialLink ui:field="delete" iconType="CLOSE"
+				<m:MaterialLink ui:field="path" text="Image"
+					textColor="BLACK" />
+			</m:MaterialTooltip>
+				<m:MaterialTooltip ui:field="urltooltip">
+					<m:MaterialLink ui:field="url" iconType="SAVE" iconColor="BLACK" iconPosition="RIGHT" />
+					</m:MaterialTooltip>
+			<m:MaterialLink ui:field="delete" iconType="CLOSE"  iconColor="BLACK"
 				iconPosition="RIGHT" />
 		</m:MaterialCollapsibleHeader>
 		<m:MaterialCollapsibleBody>
@@ -33,7 +36,6 @@
 			</m:MaterialRow>
 			<m:MaterialRow>
 				<m:MaterialColumn grid="s12">
-				<m:MaterialLink ui:field="url" textColor="BLACK"/>
 				</m:MaterialColumn>
 			</m:MaterialRow>
 			<m:MaterialRow>

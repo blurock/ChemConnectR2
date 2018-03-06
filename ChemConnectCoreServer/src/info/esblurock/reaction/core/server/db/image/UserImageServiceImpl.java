@@ -1,32 +1,19 @@
 package info.esblurock.reaction.core.server.db.image;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
+import java.util.Scanner;
+import java.util.StringTokenizer;
 
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.blobstore.UploadOptions;
-import com.google.appengine.tools.cloudstorage.GcsFilename;
-import com.google.appengine.tools.cloudstorage.GcsService;
-import com.google.appengine.tools.cloudstorage.GcsServiceFactory;
-import com.google.appengine.tools.cloudstorage.ListItem;
-import com.google.appengine.tools.cloudstorage.ListOptions;
-import com.google.appengine.tools.cloudstorage.ListResult;
-import com.google.apphosting.api.ApiProxy;
-import com.google.auth.Credentials;
 import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.Blob.BlobSourceOption;
 import com.google.cloud.storage.BlobId;
-import com.google.cloud.storage.Bucket;
 import com.google.cloud.storage.CopyWriter;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
-import com.google.cloud.storage.BlobInfo;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
@@ -239,12 +226,21 @@ public class UserImageServiceImpl extends RemoteServiceServlet implements UserIm
 		GCSBlobFileInformation gcsinfo = info.getInfo();
  		BlobId blobId = BlobId.of(gcsinfo.getBucket(), gcsinfo.getGSFilename()); 		
 		Blob blob = storage.get(blobId);
-		
-		GCSBlobContent content = new GCSBlobContent(blob.getMediaLink(),info.getInfo());
 		byte[] bytes = blob.getContent(BlobSourceOption.generationMatch());
 		String bytesS = new String(bytes);
 		//content.setBytes(bytesS);
 		return bytesS;
+	}
+	
+	public ArrayList<String> getBlobAsLines(GCSBlobContent info) {
+		String text = getBlobContent(info);
+		ArrayList<String> lines = new ArrayList<String>();
+		Scanner tok = new Scanner(text);
+		while(tok.hasNextLine()) {
+			lines.add(tok.nextLine());
+		}
+		tok.close();
+		return lines;
 	}
 	
 }

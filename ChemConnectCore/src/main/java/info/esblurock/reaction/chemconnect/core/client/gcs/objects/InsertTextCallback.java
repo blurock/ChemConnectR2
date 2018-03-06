@@ -1,9 +1,11 @@
 package info.esblurock.reaction.chemconnect.core.client.gcs.objects;
 
+import java.util.ArrayList;
+
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-public class InsertTextCallback implements AsyncCallback<String> {
+public class InsertTextCallback implements AsyncCallback<ArrayList<String>> {
 
 	InsertBlobTextContentInterface top;
 	public InsertTextCallback(InsertBlobTextContentInterface top) {
@@ -15,7 +17,7 @@ public class InsertTextCallback implements AsyncCallback<String> {
 	}
 
 	@Override
-	public void onSuccess(String content) {
+	public void onSuccess(ArrayList<String> content) {
 		top.insertBlobContent(content);
 	}
 

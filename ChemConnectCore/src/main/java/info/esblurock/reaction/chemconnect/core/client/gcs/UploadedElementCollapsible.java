@@ -45,6 +45,8 @@ public class UploadedElementCollapsible extends Composite {
 	MaterialLink url;
 	@UiField
 	MaterialTooltip identifiertooltip;
+	@UiField
+	MaterialTooltip urltooltip;
 	
 	GCSBlobFileInformation info;
 	String identifierRoot;
@@ -66,13 +68,14 @@ public class UploadedElementCollapsible extends Composite {
 		typeInstance = null;
 		identifier = null;
 		textDescription.setLabel("Description");
+		urltooltip.setText("Download File");
 	}
 	
 	void fill(GCSBlobContent content) {
 		this.content = content;
 		info = content.getInfo();
 		linkUrl = content.getUrl();
-		url.setText(linkUrl);
+		urltooltip.setText(linkUrl);
 		
 		if(info != null) {
 			parseType(info.getFiletype());
@@ -91,7 +94,7 @@ public class UploadedElementCollapsible extends Composite {
 				MaterialImage image = new MaterialImage(linkUrl);				
 				imagepanel.add(image);
 			} else if(isText()) {
-				Window.alert("UploadedElementCollapsible: Text object");
+				Window.alert("UploadedElementCollapsible: Text object: " + this.content);
 				UploadedTextObject textobject = new UploadedTextObject(this.content);
 				imagepanel.add(textobject);
 			}
@@ -126,6 +129,10 @@ public class UploadedElementCollapsible extends Composite {
 	@UiHandler("delete")
 	void onClick(ClickEvent e) {
 		Window.alert("Hello!");
+	}
+	@UiHandler("url")
+	void onClickUrl(ClickEvent e) {
+		Window.open(linkUrl, "Download", "");
 	}
 	
 	public String setIdentifier(String identifierRoot) {

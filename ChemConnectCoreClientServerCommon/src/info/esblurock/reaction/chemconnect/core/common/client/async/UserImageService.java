@@ -50,4 +50,6 @@ public interface UserImageService  extends RemoteService  {
 	GCSBlobContent moveBlob(GCSBlobFileInformation fileinfo, GCSBlobFileInformation source);
 	
 	String getBlobContent(GCSBlobContent info);
+	
+	ArrayList<String> getBlobAsLines(GCSBlobContent info);
 }

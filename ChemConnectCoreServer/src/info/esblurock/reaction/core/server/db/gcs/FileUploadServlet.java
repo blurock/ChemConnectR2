@@ -4,17 +4,9 @@ import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
-import com.google.appengine.tools.cloudstorage.GcsFileMetadata;
-import com.google.appengine.tools.cloudstorage.GcsFileOptions;
-import com.google.appengine.tools.cloudstorage.GcsFilename;
-import com.google.appengine.tools.cloudstorage.GcsOutputChannel;
-import com.google.appengine.tools.cloudstorage.GcsService;
-import com.google.appengine.tools.cloudstorage.GcsServiceFactory;
-import com.google.cloud.WriteChannel;
 import com.google.cloud.storage.Acl;
 import com.google.cloud.storage.Acl.Role;
 import com.google.cloud.storage.Acl.User;
-import com.google.cloud.storage.BlobId;
 
 import info.esblurock.reaction.chemconnect.core.data.base.GoogleCloudStorageConstants;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
@@ -24,18 +16,13 @@ import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilit
 import info.esblurock.reaction.io.db.QueryBase;
 
 import com.google.cloud.storage.BlobInfo;
-import com.google.cloud.storage.Bucket;
-import com.google.cloud.storage.BucketInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
 
-import java.nio.channels.Channels;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -66,7 +53,7 @@ public class FileUploadServlet extends HttpServlet {
 				// response.setBufferSize(32768);
 
 				InputStream in = fileItem.openStream();
-				String filename = fileItem.getName().trim();
+				//String filename = fileItem.getName().trim();
 				Storage storage = StorageOptions.getDefaultInstance().getService();
 				String uploadDescriptionText = "Uploaded File from FileUploadServlet";
 				
@@ -88,6 +75,7 @@ public class FileUploadServlet extends HttpServlet {
 						.setAcl(new ArrayList<>(Arrays.asList(Acl.of(User.ofAllUsers(), Role.READER)))).build();
 
 				System.out.println("FileUploadServlet: " + info.toString());
+				@SuppressWarnings("deprecation")
 				BlobInfo blobInfo = storage.create(info, in);
 				String url = blobInfo.getMediaLink();
 				System.out.println("Blob url:  " + url);

@@ -39,116 +39,42 @@ public class UploadFileToGCS extends Composite implements DetermineBlobTargetInt
 	@UiField
 	MaterialLink delete;
 	@UiField
-	MaterialLink save;
-	@UiField
-	MaterialFileUploader uploader;
+	MaterialLink upload;
 	@UiField
 	MaterialCollapsible collapsible;
-	@UiField
-	MaterialLink lblName;
-	@UiField
-	MaterialLink lblType;
-	@UiField
-	MaterialLink lblSize;
-	@UiField
-	MaterialLink uploadButton;
-	@UiField
-	MaterialLink identifier;
-	@UiField
-	MaterialTooltip identifiertooltip;
-	@UiField
-	MaterialTooltip nametooltip;
-	@UiField
-	MaterialTooltip typetooltip;
-	@UiField
-	MaterialTooltip sizetooltip;
-	@UiField
-	MaterialTooltip uploadtooltip;
 	
 	String rootID;
+	String identifier;
 	MaterialPanel modalpanel;
 	
 	public UploadFileToGCS(	MaterialPanel modalpanel) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.modalpanel = modalpanel;
 		init();
-		uploader.addSuccessHandler(new SuccessEvent.SuccessHandler<UploadFile>() {
-			@Override
-			public void onSuccess(SuccessEvent<UploadFile> event) {
-				String name = event.getTarget().getName();
-				String type = event.getTarget().getType();
-				
-				String sizeS = String.valueOf(event.getTarget().getFileSize());
-				
-				lblName.setText(name);
-				lblType.setText(type);
-				lblSize.setText(sizeS);
-				
-				String bucket = GoogleCloudStorageConstants.storageBucket;
-				String path =  GoogleCloudStorageConstants.observationsPathPrefix + "/" + type + "/" + identifier.getText();
-				storeTarget(type,bucket,path,name);
-				
-				}
-			 });		
-		
-		uploader.addDragOverHandler(new DragOverEvent.DragOverHandler() {
-			@Override
-			public void onDragOver(DragOverEvent event) {
-				MaterialAnimation animate = new MaterialAnimation(uploader);
-				animate.animate();
-				}
-			});
 	}
-	
-	void storeTarget(String type, String bucket, String path, String name) {
-		DetermineBlobTargetModal blob = new DetermineBlobTargetModal(this, identifier.getText(), type, bucket, path, name);
-		modalpanel.clear();
-		modalpanel.add(blob);
-		blob.openModal();	
-	}
-	
 	void init() {
-		resetForm();
 		specification.setText("Supplementary Material");
-		identifiertooltip.setText("Root identifier");
-		nametooltip.setText("Uploaded Filename");
-		typetooltip.setText("Uploaded file type");
-		sizetooltip.setText("Uploaded file size (MB)");
-		uploadtooltip.setText("Click to save supplementary information");
 	}
 	
-	void resetForm() {
-		uploadButton.setText("Upload");
-		lblName.setText("No file yet");
-		lblType.setText("filetype");
-		lblSize.setText("0");
-	}
-	
-	@UiHandler("uploadButton")
-	void onClickUploadButton(ClickEvent event) {
-		/*
-		String name = lblName.getText();
-		String type = lblType.getText();
-		String bucket = GoogleCloudStorageConstants.storageBucket;
-		String path =  GoogleCloudStorageConstants.observationsPathPrefix + "/" + type + "/" + identifier.getText();
-		
-		DetermineBlobTargetModal blob = new DetermineBlobTargetModal(this, identifier.getText(), type, bucket, path, name);
+	@UiHandler("upload")
+	void onClickCloudUploadButton(ClickEvent event) {
+		MaterialUploadFileModalPanel modal = new MaterialUploadFileModalPanel(identifier, modalpanel, this);
 		modalpanel.clear();
-		modalpanel.add(blob);
-		blob.openModal();
-		*/
+		modalpanel.add(modal);
+		modal.open();
 	}
-	
-	
+	@UiHandler("delete")
+	void onClickDelete(ClickEvent event) {
+		
+	}
 	public void setIdentifier(String id) {
 		rootID = id;
-		identifier.setText(id + "-suppinfo");
+		identifier= id + "-suppinfo";
 	}
 
 	@Override
 	public void handleTargetBlob(GCSBlobFileInformation fileinfo) {
 		Window.alert(fileinfo.toString());
-		
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		GCSContentCallback callback = new GCSContentCallback(this);
 		async.moveBlobFromUpload(fileinfo,callback);
@@ -159,7 +85,7 @@ public class UploadFileToGCS extends Composite implements DetermineBlobTargetInt
 	public void insertBlobInformation(GCSBlobContent insert) {
 		UploadedElementCollapsible coll = new UploadedElementCollapsible(insert);
 		collapsible.add(coll);
-		coll.setIdentifier(identifier.getText());
+		coll.setIdentifier(identifier);
 	}
 	
 }
