@@ -7,6 +7,7 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 
+import info.esblurock.reaction.chemconnect.core.data.base.spreadsheet.object.InterpretInputDataObject;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 
 /** This is the base class for all data objects in the database.

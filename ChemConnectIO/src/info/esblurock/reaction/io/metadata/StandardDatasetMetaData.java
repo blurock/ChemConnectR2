@@ -115,6 +115,25 @@ public class StandardDatasetMetaData {
 
 	public static String UserAccountInformation = "dataset:UserAccountInformation";
 	
+	public static String conversionStructure = "dataset:conversionType";
+	
+	public static String propertyTypeS = "dataset:propertyType";
+	public static String valueS = "dataset:value";
+	
+	public static String unitS = "dataset:unit";
+	public static String unitclassS = "dataset:unitClass";
+	public static String conceptS = "dataset:concept";
+	public static String uncertaintyValueS = "dataset:uncertaintyValue";
+	public static String uncertaintyTypeS = "dataset:uncertaintyType";
+	
+	public static String inputTypeS = "dataset:inputType";
+	public static String outputTypeS = "dataset:outputType";
+
+	public static String fileTypeS = "dataset:fileType";
+	public static String delimitorS = "dataset:delimitor";
+	
+	
+	
 	
 
 }

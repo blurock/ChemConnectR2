@@ -15,6 +15,7 @@ import gwt.material.design.client.ui.MaterialPanel;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.CreatePrimitiveStructure;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.DefaultPrimiiveDataStructure;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.PrimitiveDataStructureBase;
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.CompoundDataStructureInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
@@ -49,18 +50,20 @@ public class RecordStructureCollapsible extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
-	public RecordStructureCollapsible(String rootID, DataElementInformation element,
+	public RecordStructureCollapsible(DatabaseObject obj, DataElementInformation element,
 			MapToChemConnectCompoundDataStructure mapping) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.mapping = mapping;
 		datatype.setText(element.getDataElementName());
-		String id = rootID + "-" + element.getSuffix();
+		String id = obj.getIdentifier() + "-" + element.getSuffix();
 		identifier.setText(id);
+		DatabaseObject subobj = new DatabaseObject(obj);
+		subobj.setIdentifier(id);
 		this.structure = mapping.getStructure(datatype.getText());
 		if (structure != null) {
 			//setUpStructureElements(this.structure);
 		} else {
-			primitive(element, id);
+			primitive(element, subobj);
 		}
 	}
 /*
@@ -79,17 +82,16 @@ public class RecordStructureCollapsible extends Composite {
 		}
 	}
 	*/
-	private void primitive(DataElementInformation element, String identifier) {
+	private void primitive(DataElementInformation element, DatabaseObject obj) {
 		String structurename = element.getDataElementName();
 		try {
 			CreatePrimitiveStructure create = CreatePrimitiveStructure.valueOf(structurename);
-			PrimitiveDataStructureInformation info = new PrimitiveDataStructureInformation(
-					element.getDataElementName(), element.getIdentifier(), "");
+			PrimitiveDataStructureInformation info = new PrimitiveDataStructureInformation(obj,
+					element.getDataElementName(), "");
 			PrimitiveDataStructureBase base = create.createStructure(info);
 			infoheader.add(base);
 		} catch (Exception ex) {
-			PrimitiveDataStructureInformation info = new PrimitiveDataStructureInformation(structurename,
-					identifier, "");
+			PrimitiveDataStructureInformation info = new PrimitiveDataStructureInformation(obj,structurename, "");
 			DefaultPrimiiveDataStructure base = new DefaultPrimiiveDataStructure(info);
 			panel.add(base);
 			

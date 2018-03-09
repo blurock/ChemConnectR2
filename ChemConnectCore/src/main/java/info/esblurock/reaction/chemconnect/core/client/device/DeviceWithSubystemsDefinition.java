@@ -26,6 +26,8 @@ import info.esblurock.reaction.chemconnect.core.client.pages.MainDataStructureCo
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.SubsystemInformation;
@@ -54,6 +56,7 @@ public class DeviceWithSubystemsDefinition extends Composite implements HasText,
 	MaterialPanel modalpanel;
 
 	InputLineModal line; 
+	String access;
 	
 	public DeviceWithSubystemsDefinition() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -75,6 +78,7 @@ public class DeviceWithSubystemsDefinition extends Composite implements HasText,
 		topname.setPlaceholder(name);
 		enterkeyS = "Enter Catagory Name";
 		keynameS = "Catagory";
+		access = MetaDataKeywords.publicAccess;
 	}
 	
 	@UiHandler("choose")
@@ -113,7 +117,9 @@ public class DeviceWithSubystemsDefinition extends Composite implements HasText,
 	String getTopCatagory() {
 		return topname.getText();
 	}
-	
+	String getAccessLevel() {
+		return access;
+	}
 	@Override
 	public void conceptChosen(String topconcept, String concept) {
 		DeviceHierarchyCallback callback = new DeviceHierarchyCallback(this);
@@ -121,22 +127,24 @@ public class DeviceWithSubystemsDefinition extends Composite implements HasText,
 		async.buildSubSystem(concept,callback);
 	}
 	
-	public void addTopHierarchialModal(String id,HierarchyNode hierarchy, TotalSubsystemInformation top) {
+	public void addTopHierarchialModal(DatabaseObject obj,HierarchyNode hierarchy, TotalSubsystemInformation top) {
 		SubsystemsAndDeviceCollapsible devicetop = new SubsystemsAndDeviceCollapsible(hierarchy.getIdentifier(),modalpanel);
 		contentcollapsible.add(devicetop);
-		addHierarchialModal(id,hierarchy, top,devicetop);
+		addHierarchialModal(obj,hierarchy, top,devicetop);
 	}
 	
 	
-	public void addHierarchialModal(String id, HierarchyNode hierarchy, TotalSubsystemInformation top,
+	public void addHierarchialModal(DatabaseObject obj, HierarchyNode hierarchy, TotalSubsystemInformation top,
 			SubsystemsAndDeviceCollapsible devicetop) {
 		ChemConnectDataStructure infoStructure = top.getInfoStructure();
 		for(DataElementInformation element : infoStructure.getRecords()) {
-			String subid = id + "-" + element.getSuffix();
+			String subid = obj.getIdentifier() + "-" + element.getSuffix();
+			DatabaseObject subobj = new DatabaseObject(obj);
+			subobj.setIdentifier(subid);
 			String type = element.getDataElementName();
 			SubsystemInformation subsysteminfo = top.getSubsystemsandcomponents().get(hierarchy.getIdentifier());
 			if(infoStructure.getMapping().getStructure(element.getDataElementName()) != null) {
-				MainDataStructureCollapsible main = new MainDataStructureCollapsible(subid,element,
+				MainDataStructureCollapsible main = new MainDataStructureCollapsible(subobj,element,
 						infoStructure,subsysteminfo,modalpanel);
 				devicetop.getInfoCollapsible().add(main);
 			} else {
@@ -146,8 +154,10 @@ public class DeviceWithSubystemsDefinition extends Composite implements HasText,
 		for(HierarchyNode sub: hierarchy.getSubNodes()) {
 			SubsystemsAndDeviceCollapsible subsystem = new SubsystemsAndDeviceCollapsible(sub.getIdentifier(),modalpanel);
 			devicetop.getCollapsible().add(subsystem);
-			String subid = id + "-" + TextUtilities.removeNamespace(sub.getIdentifier());
-			addHierarchialModal(subid,sub,top,subsystem);
+			String subid = obj.getIdentifier() + "-" + TextUtilities.removeNamespace(sub.getIdentifier());
+			DatabaseObject subobj = new DatabaseObject(obj);
+			subobj.setIdentifier(subid);
+			addHierarchialModal(subobj,sub,top,subsystem);
 		}
 	}
 

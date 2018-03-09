@@ -20,17 +20,12 @@
 					<m:MaterialLink ui:field="parse" textColor="BLACK" />
 				</m:MaterialTooltip>
 			</m:MaterialColumn>
-			<m:MaterialColumn grid="s4">
-				<m:MaterialRow>
-					<m:MaterialColumn grid="s12">
-						<m:MaterialTooltip ui:field="totaltooltip">
-							<m:MaterialLink ui:field="total" textColor="BLACK" />
-						</m:MaterialTooltip>
-					</m:MaterialColumn>
-				</m:MaterialRow>
-				<m:MaterialRow>
-					<m:MaterialColumn grid="s12">
-						<!-- m:MaterialTooltip ui:field="dropnote" -->
+			<m:MaterialColumn grid="s3">
+				<m:MaterialTooltip ui:field="totaltooltip">
+					<m:MaterialLink ui:field="total" textColor="BLACK" />
+				</m:MaterialTooltip>
+			</m:MaterialColumn>
+			<m:MaterialColumn grid="s3">
 						<m:MaterialLink ui:field="dropdown" text="Dropdown"
 							iconType="ARROW_DROP_DOWN" iconColor="BLACK" iconPosition="RIGHT"
 							textColor="BLACK" activates="dp-2" />
@@ -42,11 +37,9 @@
 							<m:MaterialLink text="200" />
 						</m:MaterialDropDown>
 						<!-- -/m:MaterialTooltip -->
-					</m:MaterialColumn>
-				</m:MaterialRow>
 			</m:MaterialColumn>
-			<m:MaterialColumn grid="s5">
-				<m:MaterialTextBox ui:field="beginline" textColor="BLACK" />
+			<m:MaterialColumn grid="s3">
+				<m:MaterialLink ui:field="beginline" textColor="BLACK"/>
 			</m:MaterialColumn>
 		</m:MaterialRow>
 		<m:MaterialRow>

@@ -117,13 +117,17 @@ public class ExtractCatalogInformation {
 					StringTokenizer tok = new StringTokenizer(value, ",");
 					while (tok.hasMoreTokens()) {
 						String subvalue = tok.nextToken();
-						PrimitiveDataStructureInformation primitivedata = new PrimitiveDataStructureInformation(
-								primitivetype, identifier, subvalue);
+						DatabaseObject baseobj = new DatabaseObject(obj);
+						baseobj.setIdentifier(identifier);
+						PrimitiveDataStructureInformation primitivedata 
+							= new PrimitiveDataStructureInformation(baseobj,primitivetype, subvalue);
 						compound.addPrimitive(primitivedata);
 					}
 				} else {
+					DatabaseObject baseobj = new DatabaseObject(obj);
+					baseobj.setIdentifier(identifier);
 					PrimitiveDataStructureInformation primitivedata = new PrimitiveDataStructureInformation(
-							primitivetype, identifier, value);
+							baseobj,primitivetype, value);
 					compound.addPrimitive(primitivedata);
 				}
 			} else if (primitiveclass.compareTo("dataset:ChemConnectPrimitiveCompound") == 0

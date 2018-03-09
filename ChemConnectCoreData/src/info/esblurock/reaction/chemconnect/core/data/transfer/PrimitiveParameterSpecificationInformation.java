@@ -1,11 +1,15 @@
 package info.esblurock.reaction.chemconnect.core.data.transfer;
 
+import com.googlecode.objectify.annotation.Entity;
+
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 
 /*
  * 
  * The observableType is the value from the PrimitiveDataStructureInformation
  */
 @SuppressWarnings("serial")
+@Entity
 public class PrimitiveParameterSpecificationInformation extends PrimitiveParameterValueInformation {
 
 	boolean dimension;
@@ -14,11 +18,9 @@ public class PrimitiveParameterSpecificationInformation extends PrimitiveParamet
 		super();
 	}
 
-	public PrimitiveParameterSpecificationInformation(String identifier, String label, String observableType, 
-			String unit, String unitclass, 
-			String purpose, String concept, 
-			String uncertaintyValue, String uncertaintyType) {
-		super(identifier, label, observableType, unit, unitclass, purpose, concept, uncertaintyValue, uncertaintyType);
+	public PrimitiveParameterSpecificationInformation(PrimitiveParameterValueInformation info, boolean dimension) {
+		super(info);
+		this.dimension = dimension;
 	}
 
 	public boolean isDimension() {

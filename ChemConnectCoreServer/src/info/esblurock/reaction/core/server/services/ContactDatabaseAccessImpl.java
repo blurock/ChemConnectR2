@@ -9,6 +9,7 @@ import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.concepts.SetOfUnitProperties;
 import info.esblurock.reaction.chemconnect.core.data.contact.Organization;
 import info.esblurock.reaction.chemconnect.core.data.login.UserAccount;
+import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
 import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
@@ -19,6 +20,7 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.DatasetInformation
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterValueInformation;
 import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.read.InterpretSpreadSheet;
+import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
 import info.esblurock.reaction.core.server.services.util.DatabaseObjectUtilities;
 import info.esblurock.reaction.io.dataset.InterpretData;
 import info.esblurock.reaction.io.db.QueryBase;
@@ -114,6 +116,14 @@ public class ContactDatabaseAccessImpl  extends ServerBase implements ContactDat
 
 	public TotalSubsystemInformation buildSubSystem(String concept) {
 		BuildSubsystemInformation build = new BuildSubsystemInformation(concept);
+		
+		
+		
+		ContextAndSessionUtilities context = getUtilities();
+		String username = context.getUserName();
+		String sourceID = QueryBase.getDataSourceIdentification(username);
+		build.setUser(username);
+		build.setSourceID(sourceID);
 		return build.SubsystemInformation();
 	}
 	

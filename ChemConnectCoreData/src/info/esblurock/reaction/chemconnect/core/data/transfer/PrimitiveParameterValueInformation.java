@@ -1,18 +1,27 @@
 package info.esblurock.reaction.chemconnect.core.data.transfer;
 
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Index;
 
 @SuppressWarnings("serial")
+@Entity
 public class PrimitiveParameterValueInformation extends PrimitiveDataStructureInformation {
 
+	@Index
 	String unit; 
+	@Index
 	String unitclass; 
+	@Index
 	String purpose;
+	@Index
 	String concept;
+	@Index
 	String uncertaintyValue;
+	@Index
 	String uncertaintyType;
 	
 	public PrimitiveParameterValueInformation() {
-		super("Label", "id", "value");
+		super();
 		unit = null; 
 		unitclass = null; 
 		purpose = null;
@@ -21,20 +30,36 @@ public class PrimitiveParameterValueInformation extends PrimitiveDataStructureIn
 		uncertaintyType = null;
 	}
 
-	public PrimitiveParameterValueInformation(String identifier, String label, String value) {
-		super(label, identifier, value);
+	public PrimitiveParameterValueInformation(PrimitiveDataStructureInformation info) {
+		super(info);
+		unit = null; 
+		unitclass = null; 
+		purpose = null;
+		concept = null;
+		uncertaintyValue = "0";
+		uncertaintyType = null;
 		
 	}
-	public PrimitiveParameterValueInformation(String identifier, String label, String value, String unit, 
-			String unitclass,
-			String purpose, String concept, String uncertaintyValue, String uncertaintyType) {
-		super(label, identifier, value);
+	public PrimitiveParameterValueInformation(PrimitiveDataStructureInformation info, 
+			String unit, String unitclass,
+			String purpose, String concept, 
+			String uncertaintyValue, String uncertaintyType) {
+		super(info);
 		this.unit = unit; 
 		this.unitclass = unitclass; 
 		this.concept = concept;
 		this.purpose = purpose;
 		this.uncertaintyValue = uncertaintyValue;
 		this.uncertaintyType = uncertaintyType;
+	}
+	public PrimitiveParameterValueInformation(PrimitiveParameterValueInformation info) {
+		super(info);
+		this.unit = info.getUnit(); 
+		this.unitclass = info.getUnitclass(); 
+		this.concept = info.getConcept();
+		this.purpose = info.getPurpose();
+		this.uncertaintyValue = info.getUncertaintyValue();
+		this.uncertaintyType = info.getUncertaintyType();
 	}
 
 	public String getUnitclass() {

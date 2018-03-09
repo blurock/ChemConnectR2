@@ -83,7 +83,7 @@ public class UploadFileToGCS extends Composite implements DetermineBlobTargetInt
 
 	@Override
 	public void insertBlobInformation(GCSBlobContent insert) {
-		UploadedElementCollapsible coll = new UploadedElementCollapsible(insert);
+		UploadedElementCollapsible coll = new UploadedElementCollapsible(insert,modalpanel);
 		collapsible.add(coll);
 		coll.setIdentifier(identifier);
 	}

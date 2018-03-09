@@ -40,6 +40,10 @@ import info.esblurock.reaction.chemconnect.core.data.dataset.ParameterSpecificat
 import info.esblurock.reaction.chemconnect.core.data.dataset.ValueUnits;
 import info.esblurock.reaction.chemconnect.core.data.dataset.PurposeConceptPair;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DeviceDescription;
+import info.esblurock.reaction.io.spreadsheet.ConvertToMatrixOfObjects;
+import info.esblurock.reaction.io.spreadsheet.ConvertInputDataBase;
+import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterValueInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
 
 public enum InterpretData {
 
@@ -1207,6 +1211,167 @@ public enum InterpretData {
 			return Consortium.class.getCanonicalName();
 		}
 
+	}, ConvertInputDataBase {
+		@Override
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
+				throws IOException {
+
+			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
+			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);
+			
+			ConvertInputDataBase convert = null;
+			String inputType = (String) yaml.get(StandardDatasetMetaData.inputTypeS);
+			String outputType = (String) yaml.get(StandardDatasetMetaData.outputTypeS);
+
+			convert = new ConvertInputDataBase(objdata,inputType,outputType);
+			return convert;
+		}
+
+		@Override
+		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
+
+			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
+			Map<String, Object> map = interpret.createYamlFromObject(object);
+
+			ConvertInputDataBase base = (ConvertInputDataBase) object;
+			map.put(StandardDatasetMetaData.inputTypeS, base.getInputType());
+			map.put(StandardDatasetMetaData.outputTypeS, base.getOutputType());
+
+			return map;
+		}
+
+		@Override
+		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(ConvertInputDataBase.class.getCanonicalName(), identifier);
+		}
+
+		@Override
+		public String canonicalClassName() {
+			return ConvertInputDataBase.class.getCanonicalName();
+		}
+		
+	}, ConvertToMatrixOfObjects {
+		@Override
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
+				throws IOException {
+
+			InterpretData interpret = InterpretData.valueOf("ConvertInputDataBase");
+			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);
+			
+			ConvertToMatrixOfObjects convert = null;
+			String fileType = (String) yaml.get(StandardDatasetMetaData.fileTypeS);
+			String delimitor = (String) yaml.get(StandardDatasetMetaData.delimitorS);
+
+			convert = new ConvertToMatrixOfObjects(objdata,fileType,delimitor);
+			return convert;
+		}
+
+		@Override
+		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
+
+			InterpretData interpret = InterpretData.valueOf("ConvertInputDataBase");
+			Map<String, Object> map = interpret.createYamlFromObject(object);
+
+			ConvertToMatrixOfObjects convert = (ConvertToMatrixOfObjects ) object;
+			map.put(StandardDatasetMetaData.fileTypeS, convert.getFileType());
+			map.put(StandardDatasetMetaData.delimitorS, convert.getDelimitor());
+
+			return map;
+		}
+
+		@Override
+		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(ConvertToMatrixOfObjects.class.getCanonicalName(), identifier);
+		}
+
+		@Override
+		public String canonicalClassName() {
+			return ConvertToMatrixOfObjects.class.getCanonicalName();
+		}
+		
+	}, PrimitiveDataStructureInformation {
+		@Override
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
+				throws IOException {
+
+			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
+			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);
+			
+			PrimitiveDataStructureInformation convert = null;
+			String propertyType = (String) yaml.get(StandardDatasetMetaData.propertyTypeS);
+			String value = (String) yaml.get(StandardDatasetMetaData.valueS);
+
+			convert = new PrimitiveDataStructureInformation(objdata,propertyType,value);
+			return convert;
+		}
+
+		@Override
+		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
+
+			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
+			Map<String, Object> map = interpret.createYamlFromObject(object);
+
+			PrimitiveDataStructureInformation structure = (PrimitiveDataStructureInformation) object;
+			map.put(StandardDatasetMetaData.propertyTypeS, structure.getPropertyType());
+			map.put(StandardDatasetMetaData.valueS, structure.getValue());
+
+			return map;
+		}
+
+		@Override
+		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(PrimitiveDataStructureInformation.class.getCanonicalName(), identifier);
+		}
+
+		@Override
+		public String canonicalClassName() {
+			return PrimitiveDataStructureInformation.class.getCanonicalName();
+		}
+		
+	}, PrimitiveParameterValueInformation {
+		@Override
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
+				throws IOException {
+
+			InterpretData interpret = InterpretData.valueOf("PrimitiveDataStructureInformation");
+			PrimitiveDataStructureInformation objdata = (PrimitiveDataStructureInformation) interpret.fillFromYamlString(top, yaml, sourceID);
+			
+			PrimitiveParameterValueInformation convert = null;
+			
+			String unit = (String) yaml.get(StandardDatasetMetaData.unitS);
+			String unitclass = (String) yaml.get(StandardDatasetMetaData.unitClassS);
+			String purpose = (String) yaml.get(StandardDatasetMetaData.purposeS);
+			String concept = (String) yaml.get(StandardDatasetMetaData.conceptS);;
+			String uncertaintyValue = (String) yaml.get(StandardDatasetMetaData.uncertaintyValueS);
+			String uncertaintyType = (String) yaml.get(StandardDatasetMetaData.uncertaintyTypeS);
+
+			convert = new PrimitiveParameterValueInformation(objdata,unit,unitclass,purpose,concept,uncertaintyValue,uncertaintyType);
+			return convert;
+		}
+
+		@Override
+		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
+
+			InterpretData interpret = InterpretData.valueOf("PrimitiveDataStructureInformation");
+			Map<String, Object> map = interpret.createYamlFromObject(object);
+
+			PrimitiveDataStructureInformation structure = (PrimitiveDataStructureInformation) object;
+			map.put(StandardDatasetMetaData.propertyTypeS, structure.getPropertyType());
+			map.put(StandardDatasetMetaData.valueS, structure.getValue());
+
+			return map;
+		}
+
+		@Override
+		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(PrimitiveParameterValueInformation.class.getCanonicalName(), identifier);
+		}
+
+		@Override
+		public String canonicalClassName() {
+			return PrimitiveParameterValueInformation.class.getCanonicalName();
+		}
+		
 	};
 
 	public abstract DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)

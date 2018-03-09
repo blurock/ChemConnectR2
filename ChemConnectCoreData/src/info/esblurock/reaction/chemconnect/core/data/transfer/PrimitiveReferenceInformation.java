@@ -2,27 +2,39 @@ package info.esblurock.reaction.chemconnect.core.data.transfer;
 
 import java.util.ArrayList;
 
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.Unindex;
+
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+
 @SuppressWarnings("serial")
+@Entity
 public class PrimitiveReferenceInformation extends PrimitiveDataStructureInformation {
 
+	@Index
 	String title;
+	@Index
 	String referenceString;
+	@Index
 	String DOI;
+	@Unindex
 	ArrayList<PrimitiveParameterValueInformation> parameters;
+	@Unindex
 	ArrayList<PrimitivePersonNameInformation> names;
 	
 	public PrimitiveReferenceInformation() {
-		super("Reference", "id", "DOI");
+		super(new DatabaseObject(),"Reference","DOI");
 		this.title = "Title of Reference";
 		this.referenceString = "Reference String";
 		this.names = new ArrayList<PrimitivePersonNameInformation>();
 		this.parameters = new ArrayList<PrimitiveParameterValueInformation>();
 	}
-	public PrimitiveReferenceInformation(String identifier, String propertyClass,
-			String doi, String title, String referenceString,
+	public PrimitiveReferenceInformation(PrimitiveDataStructureInformation info,
+			String title, String referenceString,
 			ArrayList<PrimitivePersonNameInformation> names,
 			ArrayList<PrimitiveParameterValueInformation> parameters) {
-		super(propertyClass, identifier, doi);
+		super(info);
 		this.title = title;
 		this.referenceString = referenceString;
 		this.names = names;

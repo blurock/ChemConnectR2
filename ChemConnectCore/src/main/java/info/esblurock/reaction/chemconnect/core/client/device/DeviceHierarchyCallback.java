@@ -3,6 +3,7 @@ package info.esblurock.reaction.chemconnect.core.client.device;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.TotalSubsystemInformation;
 
 public class DeviceHierarchyCallback implements AsyncCallback<TotalSubsystemInformation> {
@@ -23,7 +24,8 @@ public class DeviceHierarchyCallback implements AsyncCallback<TotalSubsystemInfo
 	public void onSuccess(TotalSubsystemInformation hierarchy) {
 		String topobject = hierarchy.getSubsystemtree().getIdentifier();
 		String id = top.getTopCatagory() + "-" + TextUtilities.removeNamespace(topobject);
-		top.addTopHierarchialModal(id,hierarchy.getSubsystemtree(),hierarchy);
+		DatabaseObject obj = new DatabaseObject(id, top.getAccessLevel(), hierarchy.getUserName(), hierarchy.getSourceID());
+		top.addTopHierarchialModal(obj,hierarchy.getSubsystemtree(),hierarchy);
 	}
 
 }

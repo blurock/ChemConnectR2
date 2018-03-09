@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpSession;
+
 import info.esblurock.reaction.chemconnect.core.data.concepts.AttributeDescription;
 import info.esblurock.reaction.chemconnect.core.data.transfer.SetOfObservationsInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
@@ -21,7 +23,6 @@ public class BuildSubsystemInformation {
 	TotalSubsystemInformation total;
 
 	public BuildSubsystemInformation(String concept) {
-
 		total = new TotalSubsystemInformation(concept);
 		HierarchyNode info = buildHierarchy(concept,total.getSubsystemsandcomponents(), total.getAttributesubsystemMap());
 		total.setSubsystemtree(info);
@@ -97,7 +98,13 @@ public class BuildSubsystemInformation {
 	public TotalSubsystemInformation SubsystemInformation() {
 		return total;
 	}
-	
+
+	public void setUser(String name) {
+		total.setUserName(name);
+	}
+	public void setSourceID(String sourceID) {
+		total.setSourceID(sourceID);
+	}
 	
 	
 }

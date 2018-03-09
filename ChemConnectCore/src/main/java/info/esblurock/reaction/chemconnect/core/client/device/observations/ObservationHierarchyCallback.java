@@ -1,9 +1,13 @@
 package info.esblurock.reaction.chemconnect.core.client.device.observations;
 
+import static org.junit.Assert.assertNotNull;
+
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import info.esblurock.reaction.chemconnect.core.client.device.SetOfObservationsDefinition;
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.transfer.SetOfObservationsInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.observations.SetOfObservationsTransfer;
 
 public class ObservationHierarchyCallback implements AsyncCallback<SetOfObservationsTransfer> {

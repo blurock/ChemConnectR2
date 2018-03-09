@@ -26,6 +26,7 @@ import info.esblurock.reaction.chemconnect.core.client.pages.primitive.value.Mul
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
@@ -88,27 +89,27 @@ public class MainDataStructureCollapsible extends Composite {
 		init(clsinfo.getIdName());
 	}
 	
-	public MainDataStructureCollapsible(String parentId, DataElementInformation element,
+	public MainDataStructureCollapsible(DatabaseObject obj, DataElementInformation element,
 			ChemConnectDataStructure totalstructure, 
 			SetOfObservationsInformation observations, 
 			String observationStructure,
 			MaterialPanel modalpanel) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.observations = observations;
-		insert(parentId,element,totalstructure);
+		insert(obj,element,totalstructure);
 		this.modalpanel = modalpanel;
 	}
 	
-	public MainDataStructureCollapsible(String parentId, DataElementInformation element,
+	public MainDataStructureCollapsible(DatabaseObject obj, DataElementInformation element,
 			ChemConnectDataStructure totalstructure, 
 			SubsystemInformation subsysteminfo,
 			MaterialPanel modalpanel) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.subsysteminfo = subsysteminfo;		
-		insert(parentId,element,totalstructure);
+		insert(obj,element,totalstructure);
 		this.modalpanel = modalpanel;
 	}
-	private void insert(String parentId, DataElementInformation element,
+	private void insert(DatabaseObject obj, DataElementInformation element,
 			ChemConnectDataStructure totalstructure) {
 		ChemConnectCompoundDataStructure compound = totalstructure.getMapping()
 				.getStructure(element.getDataElementName());
@@ -116,50 +117,53 @@ public class MainDataStructureCollapsible extends Composite {
 		isParameterDescriptionSet = type.compareTo(parameterDescriptionSetS) == 0;
 		isObservationSpecification = type.compareTo(observationSpecificationS) == 0;
 		this.subelements = compound;
-		clsinfo = new ClassificationInformation(null, null, null, parentId, type);
+		clsinfo = new ClassificationInformation(null, null, null, obj.getIdentifier(), type);
 		if (subelements != null) {
 			datatype.setText(TextUtilities.removeNamespace(type));
 			setIdenifier(false);
 			init(type);
 			MapToChemConnectCompoundDataStructure mapping = totalstructure.getMapping();
-			setUpStructureElements(parentId, element, compound, mapping);
+			setUpStructureElements(obj, element, compound, mapping);
 		} else {
 			Window.alert("MainDataStructureCollapsible: can't find element: " + type);
 		}
 	}
 
-	private void setUpStructureElements(String id, DataElementInformation element,
+	private void setUpStructureElements(DatabaseObject obj, DataElementInformation element,
 			ChemConnectCompoundDataStructure struct, MapToChemConnectCompoundDataStructure mapping) {
 		try {
 			CreatePrimitiveStructure create = CreatePrimitiveStructure.valueOf(element.getChemconnectStructure());
-			structureWithPrimitiveStructure(id,element,create);
+			structureWithPrimitiveStructure(obj,element,create);
 		} catch (Exception ex) {
 			for (DataElementInformation subelement : struct) {
-				compound(id,subelement,mapping);
+				compound(obj,subelement,mapping);
 			}
 		}
 	}
 
-	private void compound(String id, DataElementInformation subelement,MapToChemConnectCompoundDataStructure mapping) {
+	private void compound(DatabaseObject obj, DataElementInformation subelement,MapToChemConnectCompoundDataStructure mapping) {
 		String structurename = subelement.getDataElementName();
 		ChemConnectCompoundDataStructure sub = mapping.getStructure(structurename);
-		String subid = id + "-" + subelement.getSuffix();
+		String subid = obj.getIdentifier() + "-" + subelement.getSuffix();
+		DatabaseObject subobj = new DatabaseObject(obj);
+		subobj.setIdentifier(subid);
 		if (sub != null) {
-			setUpStructureElements(subid, subelement, sub, mapping);
+			setUpStructureElements(subobj, subelement, sub, mapping);
 		} else {
 			try {
 				CreatePrimitiveStructure create = CreatePrimitiveStructure.valueOf(subelement.getChemconnectStructure());
-				structureWithPrimitiveStructure(subid,subelement,create);
+				structureWithPrimitiveStructure(subobj,subelement,create);
 			}  catch (Exception ex) {
-				PrimitiveDataStructureInformation info = new PrimitiveDataStructureInformation(structurename,
-					subid, subelement.getIdentifier());
+				
+				PrimitiveDataStructureInformation info = new PrimitiveDataStructureInformation(subobj,structurename,
+					subelement.getIdentifier());
 				DefaultPrimiiveDataStructure defaultbase = new DefaultPrimiiveDataStructure(info);
 				content.add(defaultbase);
 			}
 		}
 	}
 	
-	private void structureWithPrimitiveStructure(String id, DataElementInformation element,CreatePrimitiveStructure create ) {
+	private void structureWithPrimitiveStructure(DatabaseObject obj, DataElementInformation element,CreatePrimitiveStructure create ) {
 		if (element.isSinglet()) {
 			PrimitiveDataStructureBase base;
 			if(specandvalues.compareTo(element.getDataElementName()) == 0) {
@@ -170,19 +174,19 @@ public class MainDataStructureCollapsible extends Composite {
 				}
 			} else {
 				base = create.createEmptyStructure();
-				base.setIdentifier(id);
+				base.setIdentifier(obj.getIdentifier());
 			}
 			content.add(base);
 		} else {
 			try {
 			String elementname = element.getDataElementName();
 			MultipleRecordsPrimitive multiple = new MultipleRecordsPrimitive(elementname, create);
-			multiple.setIdentifier(id);
+			multiple.setIdentifier(obj.getIdentifier());
 			if (isParameterDescriptionSet && elementname.compareTo(parameterValueS) == 0) {
-				multiple.fillInParameters(id, subsysteminfo);
+				multiple.fillInParameters(obj.getIdentifier(), subsysteminfo);
 			}
 			if (isObservationSpecification && elementname.compareTo(observationSpecificationS) == 0) {
-				multiple.fillInSpecifications(id, subsysteminfo);
+				multiple.fillInSpecifications(obj.getIdentifier(), subsysteminfo);
 			}
 			content.add(multiple);
 			} catch(Exception ex) {

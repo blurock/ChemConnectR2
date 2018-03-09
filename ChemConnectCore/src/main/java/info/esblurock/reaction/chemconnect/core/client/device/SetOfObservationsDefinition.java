@@ -25,7 +25,9 @@ import info.esblurock.reaction.chemconnect.core.client.modal.SetLineContentInter
 import info.esblurock.reaction.chemconnect.core.client.pages.MainDataStructureCollapsible;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.SetOfObservationsInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.observations.SetOfObservationsTransfer;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
 
@@ -107,20 +109,25 @@ public class SetOfObservationsDefinition extends Composite implements ChooseFrom
 
 	
 	public void addSetOfObservations(SetOfObservationsTransfer transfer) {
+		SetOfObservationsInformation info = transfer.getObservations();
+		DatabaseObject topobj = new DatabaseObject(info);
 		String observationName = transfer.getObservationStructure();
 		SetOfObservationsCollapsible observations = new SetOfObservationsCollapsible(observationName);
 		contentcollapsible.add(observations);
-		String id = topname.getText();
-		addHierarchialModal(id, transfer, observations);
+		String id = topobj.getIdentifier() + "-" + topname.getText();
+		topobj.setIdentifier(id);
+		addHierarchialModal(topobj, transfer, observations);
 	}
-	public void addHierarchialModal(String id, SetOfObservationsTransfer transfer,SetOfObservationsCollapsible obstop) {
+	public void addHierarchialModal(DatabaseObject topobj, SetOfObservationsTransfer transfer,SetOfObservationsCollapsible obstop) {
 		ChemConnectDataStructure infoStructure = transfer.getStructure();
 		for(DataElementInformation element : infoStructure.getRecords()) {
-			String subid = id + "-" + element.getSuffix();
+			String subid = topobj.getIdentifier() + "-" + element.getSuffix();
+			DatabaseObject subobj = new DatabaseObject(topobj);
+			subobj.setIdentifier(subid);
 			String type = element.getDataElementName();
 			//SubsystemInformation subsysteminfo = transfer.getSubsystemsandcomponents().get(element.getIdentifier());
 			if(infoStructure.getMapping().getStructure(type) != null) {
-					MainDataStructureCollapsible main = new MainDataStructureCollapsible(subid,element,
+					MainDataStructureCollapsible main = new MainDataStructureCollapsible(subobj,element,
 							infoStructure,transfer.getObservations(),
 							transfer.getObservationStructure(),
 							modalpanel);

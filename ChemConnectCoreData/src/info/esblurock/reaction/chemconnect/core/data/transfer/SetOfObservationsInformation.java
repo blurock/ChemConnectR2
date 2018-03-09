@@ -2,16 +2,21 @@ package info.esblurock.reaction.chemconnect.core.data.transfer;
 
 import java.util.ArrayList;
 
+import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.Unindex;
+
 /*
  * The valueType is put in the value of the PrimitiveDataStructureInformation class
  */
 
+@SuppressWarnings("serial")
 public class SetOfObservationsInformation extends PrimitiveParameterValueInformation {
 	
-	private static final long serialVersionUID = 1L;
-	
+	@Unindex
 	ArrayList<PrimitiveParameterSpecificationInformation> dimensions;
+	@Unindex
 	ArrayList<PrimitiveParameterSpecificationInformation> measures;
+	@Index
 	String topConcept;
 
 	public SetOfObservationsInformation() {
@@ -19,7 +24,7 @@ public class SetOfObservationsInformation extends PrimitiveParameterValueInforma
 	}
 	
 	public SetOfObservationsInformation(SetOfObservationsInformation specs) {
-		super(specs.getPropertyType(),specs.getIdentifier(),specs.getValue());
+		super(specs);
 		init();
 		this.topConcept = specs.getTopConcept();
 		for(PrimitiveParameterSpecificationInformation info : dimensions) {
@@ -30,12 +35,6 @@ public class SetOfObservationsInformation extends PrimitiveParameterValueInforma
 		}
 	}
 	
-	public SetOfObservationsInformation(String identifier, String label, String topConcept, String valueType ) {
-		super(label,identifier,valueType);
-		this.topConcept = topConcept;
-		init();
-	}
-
 	void init() {
 		dimensions = new ArrayList<PrimitiveParameterSpecificationInformation>();
 		measures = new ArrayList<PrimitiveParameterSpecificationInformation>();

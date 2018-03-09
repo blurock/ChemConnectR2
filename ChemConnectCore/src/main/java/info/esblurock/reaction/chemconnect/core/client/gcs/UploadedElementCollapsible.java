@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialLink;
+import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTextArea;
 import gwt.material.design.client.ui.MaterialTooltip;
 import info.esblurock.reaction.chemconnect.core.client.gcs.objects.UploadedTextObject;
@@ -55,9 +56,11 @@ public class UploadedElementCollapsible extends Composite {
 	String typeInstance;
 	String linkUrl;
 	GCSBlobContent content;
+	MaterialPanel modalpanel;
 	
-	public UploadedElementCollapsible(GCSBlobContent content) {
+	public UploadedElementCollapsible(GCSBlobContent content,MaterialPanel modalpanel) {
 		initWidget(uiBinder.createAndBindUi(this));
+		this.modalpanel = modalpanel;
 		this.content = content;
 		init();
 		fill(content);
@@ -95,7 +98,7 @@ public class UploadedElementCollapsible extends Composite {
 				imagepanel.add(image);
 			} else if(isText()) {
 				Window.alert("UploadedElementCollapsible: Text object: " + this.content);
-				UploadedTextObject textobject = new UploadedTextObject(this.content);
+				UploadedTextObject textobject = new UploadedTextObject(this.content,modalpanel);
 				imagepanel.add(textobject);
 			}
 	}

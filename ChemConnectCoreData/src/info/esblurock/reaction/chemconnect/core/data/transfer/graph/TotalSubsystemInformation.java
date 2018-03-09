@@ -9,6 +9,8 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConn
 
 public class TotalSubsystemInformation implements Serializable {
 	private static final long serialVersionUID = 1L;
+	String userName;
+	String sourceID;
 	String identifier;
 	Map<String, SubsystemInformation> subsystemsandcomponents;
 	Map<String, String> attributesubsystemMap;
@@ -66,6 +68,20 @@ public class TotalSubsystemInformation implements Serializable {
 	public void setInfoStructure(ChemConnectDataStructure infoStructure) {
 		this.infoStructure = infoStructure;
 	}
+	
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	
+	public String getSourceID() {
+		return sourceID;
+	}
+	public void setSourceID(String sourceID) {
+		this.sourceID = sourceID;
+	}
 	public String toString() {
 		return toString("");
 	}
@@ -102,4 +118,5 @@ public class TotalSubsystemInformation implements Serializable {
 		
 		return build.toString();
 	}
+	
 }

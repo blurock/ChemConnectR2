@@ -3,7 +3,6 @@ package info.esblurock.reaction.chemconnect.core.client.gcs.objects;
 import java.util.ArrayList;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -13,18 +12,19 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
-import gwt.material.design.client.constants.Color;
-import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialDropDown;
 import gwt.material.design.client.ui.MaterialLink;
+import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTextArea;
-import gwt.material.design.client.ui.MaterialTextBox;
+import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.MaterialTooltip;
+import info.esblurock.reaction.chemconnect.core.client.modal.InputLineModal;
+import info.esblurock.reaction.chemconnect.core.client.modal.SetLineContentInterface;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobContent;
 
-public class UploadedTextObject extends Composite implements InsertBlobTextContentInterface {
+public class UploadedTextObject extends Composite implements InsertBlobTextContentInterface,SetLineContentInterface {
 
 	private static UploadedTextObjectUiBinder uiBinder = GWT.create(UploadedTextObjectUiBinder.class);
 
@@ -42,7 +42,7 @@ public class UploadedTextObject extends Composite implements InsertBlobTextConte
 	@UiField
 	MaterialTooltip parsetooltip;
 	@UiField
-	MaterialTextBox beginline;
+	MaterialLink beginline;
 	//@UiField
 	//MaterialTooltip dropnote;
 	@UiField
@@ -54,11 +54,14 @@ public class UploadedTextObject extends Composite implements InsertBlobTextConte
 	ArrayList<String> totaltext;
 	int showlines;
 	int totalNumberOfLines;
+	MaterialPanel modalpanel;
+	
 	public UploadedTextObject() {
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
 	}
-	public UploadedTextObject(GCSBlobContent content) {
+	public UploadedTextObject(GCSBlobContent content,MaterialPanel modalpanel) {
+		this.modalpanel = modalpanel;
 		Window.alert("UploadedTextObject");
 		initWidget(uiBinder.createAndBindUi(this));
 		Window.alert("UploadedTextObject");
@@ -77,7 +80,6 @@ public class UploadedTextObject extends Composite implements InsertBlobTextConte
 		parsetooltip.setText("Parse text as spreadsheet");
 		totaltooltip.setText("Total number of lines");
 		total.setText("0");
-		beginline.setLabel("First line (starting 1)");
 		beginline.setText("0");
 	}
 	@UiHandler("numlinesdrop")
@@ -91,10 +93,10 @@ public class UploadedTextObject extends Composite implements InsertBlobTextConte
 	
 	@UiHandler("beginline")
 	void begintype(KeyDownEvent event) {
-		int key = KeyCodes.KEY_ENTER;
-		if(event.getNativeKeyCode() == key) {
-			setText();
-		}
+		InputLineModal modal = new InputLineModal("Starting line", "0",this);
+		modalpanel.clear();
+		modalpanel.add(modal);
+		modal.openModal();
 	}
 	@Override
 	public void insertBlobContent(ArrayList<String> text) {
@@ -123,5 +125,20 @@ public class UploadedTextObject extends Composite implements InsertBlobTextConte
 			build.append("\n");
 		}
 		textFile.setText(build.toString());
+	}
+	@Override
+	public void setLineContent(String line) {
+		try {
+			int first = Integer.parseInt(beginline.getText());
+			if(first <= 0 || first > totalNumberOfLines) {
+				MaterialToast.fireToast("Begin line out of bounds");
+			}
+			
+		} catch(Exception ex) {
+			MaterialToast.fireToast("Illegal number for begin line");
+		}
+		
+		beginline.setText(line);
+		
 	}
 }

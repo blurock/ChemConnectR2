@@ -7,14 +7,14 @@ public class PrimitivePersonNameInformation extends PrimitiveDataStructureInform
 	String personGivenName;
 	
 	public PrimitivePersonNameInformation() {
-		super("Person", "id", "Lastname");
+		super();
 		this.personTitle = "Title";
 		this.personGivenName = "Name";
 	}
 
-	public PrimitivePersonNameInformation(String identifier, String propertyClass,
-			String personTitle, String personGivenName, String personFamilyName) {
-		super(propertyClass, identifier, personFamilyName);
+	public PrimitivePersonNameInformation(PrimitiveDataStructureInformation info,
+			String personTitle, String personGivenName) {
+		super(info);
 		this.personTitle = personTitle;
 		this.personGivenName = personGivenName;
 	}

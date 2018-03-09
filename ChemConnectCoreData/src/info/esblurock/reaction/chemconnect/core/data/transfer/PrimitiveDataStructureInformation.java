@@ -1,29 +1,36 @@
 package info.esblurock.reaction.chemconnect.core.data.transfer;
 
-import java.io.Serializable;
 
-public class PrimitiveDataStructureInformation implements Serializable{
-	private static final long serialVersionUID = 1L;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Index;
 
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+
+@SuppressWarnings("serial")
+@Entity
+public class PrimitiveDataStructureInformation extends DatabaseObject {
+
+	@Index
 	String propertyType;
-	String identifier;
+	@Index
 	String value;
 	
 	public PrimitiveDataStructureInformation() {
 	}
 	
-	public PrimitiveDataStructureInformation(String propertyType, String identifier,
+	public PrimitiveDataStructureInformation(DatabaseObject obj, String propertyType,
 			String value) {
-		super();
+		super(obj);
 		this.propertyType = propertyType;
-		this.identifier = identifier;
 		this.value = value;
+	}
+	public PrimitiveDataStructureInformation(PrimitiveDataStructureInformation info) {
+		super(info);
+		this.propertyType = info.getPropertyType();
+		this.value = info.getValue();
 	}
 	public String getPropertyType() {
 		return propertyType;
-	}
-	public String getIdentifier() {
-		return identifier;
 	}
 	public String getValue() {
 		return value;
@@ -31,10 +38,6 @@ public class PrimitiveDataStructureInformation implements Serializable{
 
 	public void setPropertyType(String propertyType) {
 		this.propertyType = propertyType;
-	}
-
-	public void setIdentifier(String identifier) {
-		this.identifier = identifier;
 	}
 
 	public void setValue(String value) {
@@ -47,10 +50,9 @@ public class PrimitiveDataStructureInformation implements Serializable{
 	
 	public String toString(String prefix) {
 		StringBuilder builder = new StringBuilder();
-		builder.append(prefix);
-		builder.append(propertyType);
+		builder.append(super.toString(prefix));
 		builder.append(" (");
-		builder.append(identifier);
+		builder.append(propertyType);
 		builder.append(") ");
 		if(value != null) {
 			builder.append(value);
