@@ -2,7 +2,6 @@ package info.esblurock.reaction.chemconnect.core.data.transfer;
 
 import com.googlecode.objectify.annotation.Entity;
 
-import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 
 /*
  * 

@@ -1,25 +1,18 @@
 package info.esblurock.reaction.chemconnect.core.client.gcs;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.addins.client.fileuploader.MaterialFileUploader;
 import gwt.material.design.addins.client.fileuploader.base.UploadFile;
 import gwt.material.design.addins.client.fileuploader.events.SuccessEvent;
-import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.events.DragOverEvent;
 import gwt.material.design.client.ui.MaterialModal;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.animate.MaterialAnimation;
-import gwt.material.design.client.ui.html.Icon;
 import info.esblurock.reaction.chemconnect.core.data.base.GoogleCloudStorageConstants;
 
 public class MaterialUploadFileModalPanel extends Composite {

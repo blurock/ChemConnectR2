@@ -22,9 +22,11 @@ public class DeviceHierarchyCallback implements AsyncCallback<TotalSubsystemInfo
 
 	@Override
 	public void onSuccess(TotalSubsystemInformation hierarchy) {
+		String username = hierarchy.getUserName();
+		String sourceID = hierarchy.getSourceID();
 		String topobject = hierarchy.getSubsystemtree().getIdentifier();
 		String id = top.getTopCatagory() + "-" + TextUtilities.removeNamespace(topobject);
-		DatabaseObject obj = new DatabaseObject(id, top.getAccessLevel(), hierarchy.getUserName(), hierarchy.getSourceID());
+		DatabaseObject obj = new DatabaseObject(id, top.getAccessLevel(),username, sourceID);
 		top.addTopHierarchialModal(obj,hierarchy.getSubsystemtree(),hierarchy);
 	}
 

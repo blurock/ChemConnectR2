@@ -3,7 +3,6 @@ package info.esblurock.reaction.core.server.db.image;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.StringTokenizer;
 
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;

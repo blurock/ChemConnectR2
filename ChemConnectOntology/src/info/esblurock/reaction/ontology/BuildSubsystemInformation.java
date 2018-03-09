@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.http.HttpSession;
 
 import info.esblurock.reaction.chemconnect.core.data.concepts.AttributeDescription;
 import info.esblurock.reaction.chemconnect.core.data.transfer.SetOfObservationsInformation;
