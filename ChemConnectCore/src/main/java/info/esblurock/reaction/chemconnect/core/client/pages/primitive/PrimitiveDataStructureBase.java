@@ -3,11 +3,13 @@ package info.esblurock.reaction.chemconnect.core.client.pages.primitive;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.ui.MaterialPanel;
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
 
 public class PrimitiveDataStructureBase extends Composite {
@@ -17,17 +19,17 @@ public class PrimitiveDataStructureBase extends Composite {
 	interface PrimitiveDataStructureBaseUiBinder extends UiBinder<Widget, PrimitiveDataStructureBase> {
 	}
 
-	String id;
 	
 	@UiField
 	MaterialPanel row;
 	boolean editable;
 	
 	PrimitiveDataStructureInformation primitiveinfo;
+	DatabaseObject obj;
 	
 	public PrimitiveDataStructureBase() {
 		initWidget(uiBinder.createAndBindUi(this));
-		id = "";
+		obj = new DatabaseObject();
 		init();
 	}
 
@@ -35,7 +37,7 @@ public class PrimitiveDataStructureBase extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
 		this.primitiveinfo = primitiveinfo;
-		id = primitiveinfo.getIdentifier();		
+		obj = new DatabaseObject(primitiveinfo);
 	}
 	public void init() {
 		editable = false;
@@ -46,6 +48,8 @@ public class PrimitiveDataStructureBase extends Composite {
 	}
 	
 	public void fill(PrimitiveDataStructureInformation primitiveinfo) {
+		Window.alert("PrimitiveDataStructureBase: fill:  " + primitiveinfo.toString());
+		obj = new DatabaseObject(primitiveinfo);
 	}
 		
 	public boolean isEditable() {
@@ -60,14 +64,18 @@ public class PrimitiveDataStructureBase extends Composite {
 		row.setBackgroundColor(color);
 	}
 	public String getIdentifier() {
-		return id;
+		return obj.getIdentifier();
 	}
 
-	public void setIdentifier(String identifier) {
+	public DatabaseObject getDatabaseObject() {
+		return obj;
+	}
+	public void setIdentifier(DatabaseObject obj) {
+		this.obj = obj;
 		if(primitiveinfo != null) {
-			primitiveinfo.setIdentifier(identifier);
+			primitiveinfo.fill(obj.getIdentifier(), obj.getAccess(), obj.getOwner(), obj.getSourceID());
+			primitiveinfo.setIdentifier(obj.getIdentifier());
 		}
-		this.id = identifier;
 	}
 
 }

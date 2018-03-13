@@ -16,9 +16,8 @@ import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTextBox;
-import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHeirarchy;
-import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchies;
-import info.esblurock.reaction.chemconnect.core.client.device.observations.ObservationHierarchyCallback;
+import info.esblurock.reaction.chemconnect.core.client.administration.ChemConnectDataStructureInterface;
+import info.esblurock.reaction.chemconnect.core.client.device.observations.ObservationStructureCallback;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.SetOfObservationsCollapsible;
 import info.esblurock.reaction.chemconnect.core.client.modal.InputLineModal;
 import info.esblurock.reaction.chemconnect.core.client.modal.SetLineContentInterface;
@@ -26,12 +25,11 @@ import info.esblurock.reaction.chemconnect.core.client.pages.MainDataStructureCo
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
-import info.esblurock.reaction.chemconnect.core.data.transfer.SetOfObservationsInformation;
-import info.esblurock.reaction.chemconnect.core.data.transfer.observations.SetOfObservationsTransfer;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
 
-public class SetOfObservationsDefinition extends Composite implements ChooseFromConceptHeirarchy, SetLineContentInterface{
+public class SetOfObservationsDefinition extends Composite implements  SetLineContentInterface, ChemConnectDataStructureInterface {
 
 	private static SetOfObservationsDefinitionUiBinder uiBinder = GWT.create(SetOfObservationsDefinitionUiBinder.class);
 
@@ -50,6 +48,7 @@ public class SetOfObservationsDefinition extends Composite implements ChooseFrom
 	MaterialLink choose;
 	@UiField
 	MaterialPanel modalpanel;
+	String access;
 
 	InputLineModal line; 
 
@@ -65,13 +64,14 @@ public class SetOfObservationsDefinition extends Composite implements ChooseFrom
 
 	private void init() {
 		parameter.setText("Set of Observations");
-		choose.setText("Choose Observations");
+		choose.setText("Create");
 		topname.setLabel("Catagory Name");
 		topname.setText("");
 		String name = Cookies.getCookie("user");
 		topname.setPlaceholder(name);
 		enterkeyS = "Enter Observations Catagory";
 		keynameS = "Catagory";
+		access = MetaDataKeywords.publicAccess;
 	}
 	
 	@UiHandler("choose")
@@ -81,43 +81,55 @@ public class SetOfObservationsDefinition extends Composite implements ChooseFrom
 			modalpanel.add(line);
 			line.openModal();
 		} else {
-			chooseConceptHieararchy();
+			//chooseConceptHieararchy();
+			setUpObservationStructure();
 		}
 	}
-
+/*
 	private void chooseConceptHieararchy() {
 		ArrayList<String> choices = new ArrayList<String>();
-		choices.add("dataset:ChemConnectSetOfObservations");
+		choices.add("dataset:ChemConnectObservable");
 		ChooseFromConceptHierarchies choosedevice = new ChooseFromConceptHierarchies(choices,this);
 		modalpanel.add(choosedevice);
 		choosedevice.open();		
 	}
-
+*/
 	@Override
 	public void setLineContent(String line) {
 		topname.setText(line);
-		chooseConceptHieararchy();
+		//chooseConceptHieararchy();
+		setUpObservationStructure();
 	}
-
+	public void setUpObservationStructure() {
+		ObservationStructureCallback callback = new ObservationStructureCallback(this);
+		ContactDatabaseAccessAsync async = ContactDatabaseAccess.Util.getInstance();
+		async.getSetOfObservationsStructructure(callback);
+	}
+	
+	
+/*
 	@Override
 	public void conceptChosen(String topconcept, String concept) {
-		ObservationHierarchyCallback callback = new ObservationHierarchyCallback(this);
+		ObservationStructureCallback callback = new ObservationStructureCallback(this);
 		ContactDatabaseAccessAsync async = ContactDatabaseAccess.Util.getInstance();
-		async.getSetOfObservationsInformation(concept,callback);
+		async.getSetOfObservationsStructructure(callback);
 	}
-
-
-	
+	*/
+	/*
 	public void addSetOfObservations(SetOfObservationsTransfer transfer) {
+		DatabaseObject topobj = transfer.getBaseobject();
 		SetOfObservationsInformation info = transfer.getObservations();
-		DatabaseObject topobj = new DatabaseObject(info);
 		String observationName = transfer.getObservationStructure();
-		SetOfObservationsCollapsible observations = new SetOfObservationsCollapsible(observationName);
+		SetOfObservationsCollapsible observations = new SetOfObservationsCollapsible(observationName,modalpanel);
 		contentcollapsible.add(observations);
-		String id = topobj.getIdentifier() + "-" + topname.getText();
+		String id = topname.getText();
 		topobj.setIdentifier(id);
+		topobj.setAccess(access);
+		info.setIdentifier(id);
 		addHierarchialModal(topobj, transfer, observations);
 	}
+	*/
+	/*
 	public void addHierarchialModal(DatabaseObject topobj, SetOfObservationsTransfer transfer,SetOfObservationsCollapsible obstop) {
 		ChemConnectDataStructure infoStructure = transfer.getStructure();
 		for(DataElementInformation element : infoStructure.getRecords()) {
@@ -125,17 +137,43 @@ public class SetOfObservationsDefinition extends Composite implements ChooseFrom
 			DatabaseObject subobj = new DatabaseObject(topobj);
 			subobj.setIdentifier(subid);
 			String type = element.getDataElementName();
-			//SubsystemInformation subsysteminfo = transfer.getSubsystemsandcomponents().get(element.getIdentifier());
 			if(infoStructure.getMapping().getStructure(type) != null) {
-					MainDataStructureCollapsible main = new MainDataStructureCollapsible(subobj,element,
-							infoStructure,transfer.getObservations(),
-							transfer.getObservationStructure(),
-							modalpanel);
+					MainDataStructureCollapsible main = new MainDataStructureCollapsible(subobj,element,modalpanel);
 					obstop.getInfoCollapsible().add(main);
 			} else {
 				Window.alert("Compound element not found: " + type);
 			}
 		}
+	}
+	*/
+	public void addHierarchialModal(DatabaseObject topobj,ChemConnectDataStructure infoStructure, SetOfObservationsCollapsible obstop) {
+		Window.alert("addHierarchialModal");
+		Window.alert("addHierarchialModal: " + topobj.toString());
+		for(DataElementInformation element : infoStructure.getRecords()) {
+			Window.alert("addHierarchialModal: " + element.toString());
+			String subid = topobj.getIdentifier() + "-" + element.getSuffix();
+			DatabaseObject subobj = new DatabaseObject(topobj);
+			subobj.setIdentifier(subid);
+			String type = element.getDataElementName();
+			if(infoStructure.getMapping().getStructure(type) != null) {
+					MainDataStructureCollapsible main = new MainDataStructureCollapsible(subobj,element,infoStructure,modalpanel);
+					obstop.getInfoCollapsible().add(main);
+			} else {
+				Window.alert("Compound element not found: " + type);
+			}	
+		}
+	}
+
+	@Override
+	public void addChemConnectDataStructure(ChemConnectDataStructure structure) {
+		DatabaseObject topobj = structure.getIdentifier();
+		String id = topname.getText();
+		topobj.setIdentifier(id);
+		topobj.setAccess(access);
+		Window.alert("addChemConnectDataStructure: " + id);
+		SetOfObservationsCollapsible observations = new SetOfObservationsCollapsible(id,modalpanel);
+		contentcollapsible.add(observations);
+		//addHierarchialModal(topobj,structure,observations);
 	}
 
 

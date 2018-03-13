@@ -1,6 +1,7 @@
 package info.esblurock.reaction.chemconnect.core.client.pages.primitive.value;
 
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.PrimitiveDataStructureBase;
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterValueInformation;
 
@@ -28,9 +29,9 @@ public class PrimitiveParameterValue extends PrimitiveDataStructureBase {
 		return row.getIdentifier();
 	}
 	@Override
-	public void setIdentifier(String identifier) {
-		super.setIdentifier(identifier);
-		row.setIdentifier(identifier);
+	public void setIdentifier(DatabaseObject obj) {
+		super.setIdentifier(obj);
+		row.setIdentifier(obj);
 	}
 
 }

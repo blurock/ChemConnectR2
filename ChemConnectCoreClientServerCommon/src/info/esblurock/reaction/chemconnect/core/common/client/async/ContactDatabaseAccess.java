@@ -22,6 +22,7 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNod
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.TotalSubsystemInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.observations.SetOfObservationsTransfer;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
 
 @RemoteServiceRelativePath("contactservice")
 public interface ContactDatabaseAccess extends RemoteService {
@@ -57,4 +58,6 @@ public interface ContactDatabaseAccess extends RemoteService {
 	HierarchyNode hierarchyFromPrimitiveStructure(String structure);
 	SetOfObservationsTransfer getSetOfObservationsInformation(String observations);
 	ObservationsFromSpreadSheet interpretSpreadSheet(SpreadSheetInputInformation input) throws IOException;
+	ChemConnectDataStructure getSetOfObservationsStructructure();
+	DatabaseObject getBaseUserDatabaseObject();
 }

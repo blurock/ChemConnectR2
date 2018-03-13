@@ -15,6 +15,7 @@ import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTooltip;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 
@@ -37,9 +38,10 @@ public class UploadFileToGCS extends Composite implements DetermineBlobTargetInt
 	@UiField
 	MaterialCollapsible collapsible;
 	
-	String rootID;
-	String identifier;
+	//String rootID;
+	//String identifier;
 	MaterialPanel modalpanel;
+	DatabaseObject obj;
 	
 	public UploadFileToGCS(	MaterialPanel modalpanel) {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -48,11 +50,12 @@ public class UploadFileToGCS extends Composite implements DetermineBlobTargetInt
 	}
 	void init() {
 		specification.setText("Supplementary Material");
+		obj = new DatabaseObject();
 	}
 	
 	@UiHandler("upload")
 	void onClickCloudUploadButton(ClickEvent event) {
-		MaterialUploadFileModalPanel modal = new MaterialUploadFileModalPanel(identifier, modalpanel, this);
+		MaterialUploadFileModalPanel modal = new MaterialUploadFileModalPanel(obj.getIdentifier(), modalpanel, this);
 		modalpanel.clear();
 		modalpanel.add(modal);
 		modal.open();
@@ -61,9 +64,10 @@ public class UploadFileToGCS extends Composite implements DetermineBlobTargetInt
 	void onClickDelete(ClickEvent event) {
 		
 	}
-	public void setIdentifier(String id) {
-		rootID = id;
-		identifier= id + "-suppinfo";
+	public void setIdentifier(DatabaseObject obj) {
+		this.obj = new DatabaseObject(obj);
+		String id = obj.getIdentifier() + "-suppinfo";
+		this.obj.setIdentifier(id);
 	}
 
 	@Override
@@ -79,7 +83,7 @@ public class UploadFileToGCS extends Composite implements DetermineBlobTargetInt
 	public void insertBlobInformation(GCSBlobContent insert) {
 		UploadedElementCollapsible coll = new UploadedElementCollapsible(insert,modalpanel);
 		collapsible.add(coll);
-		coll.setIdentifier(identifier);
+		coll.setIdentifier(obj.getIdentifier());
 	}
 	
 }

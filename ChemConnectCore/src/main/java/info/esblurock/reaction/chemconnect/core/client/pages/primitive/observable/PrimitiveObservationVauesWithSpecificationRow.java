@@ -26,6 +26,7 @@ import info.esblurock.reaction.chemconnect.core.client.gcs.UploadFileToGCS;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetBlockInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
@@ -86,10 +87,10 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite imp
 	@UiField MaterialLabel lblName, lblSize;
 	*/
 	boolean visible;
-	String identifier;
-	String chosenParameter;
+	DatabaseObject obj;
 	//UploadPhoto photo;
 	UploadFileToGCS photo;
+	SetOfObservationsRow obsrow;
 	
 	public PrimitiveObservationVauesWithSpecificationRow() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -99,14 +100,13 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite imp
 	public PrimitiveObservationVauesWithSpecificationRow(SetOfObservationsInformation obsspec) {
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
+		Window.alert("PrimitiveObservationVauesWithSpecificationRow constructor:  " + obsspec.getIdentifier());
 		fill(obsspec);
 	}
 
 	public void init() {
-		
-		identifier = "id";
-		chosenParameter = null;
-		identifiertip.setText(identifier);
+		obj = new DatabaseObject();
+		identifiertip.setText(obj.getIdentifier());
 		topconcept.setText("Value Concept");
 		valuetype.setText("Device");
 		httpsourceline.setLabel("HTTP Source");
@@ -120,30 +120,21 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite imp
 		visible = true;
 		toggleHideElements();
 
-		SetOfObservationsRow obsrow = new SetOfObservationsRow();
+		obsrow = new SetOfObservationsRow();
 		specificationpanel.add(obsrow);
 		
 		photo = new UploadFileToGCS(modalpanel);
 		uploadpanel.add(photo);
-		/*
-		cardUploader.addSuccessHandler(new SuccessEvent.SuccessHandler<UploadFile>() {
-			@Override
-			public void onSuccess(SuccessEvent<UploadFile> event) {
-				lblName.setText(event.getTarget().getName());
-				lblSize.setText(event.getTarget().getType());
-				imgPreview.setUrl(GWT.getHostPageBaseURL() + "uploadedFiles/" + event.getTarget().getName());
-				}
-			});
-			*/
 	}
 	
 	public void fill(SetOfObservationsInformation obsspec) {
-		chosenParameter = null;
-		identifier = obsspec.getIdentifier();
-		photo.setIdentifier(identifier);
+		obj = new DatabaseObject(obsspec);
 		setFullIdentifier();
-			specificationpanel.clear();
-		SetOfObservationsRow obsrow = new SetOfObservationsRow(obsspec.getIdentifier(), 
+		photo.setIdentifier(obj);
+		setFullIdentifier();
+		specificationpanel.clear();
+		Window.alert("PrimitiveObservationVauesWithSpecificationRow: " + obj);
+		obsrow = new SetOfObservationsRow(obsspec, 
 				obsspec.getTopConcept(),
 				obsspec.getValueType());
 		specificationpanel.add(obsrow);
@@ -202,17 +193,17 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite imp
 	}
 	
 	public String getIdentifier() {
-		return identifier;
+		return obj.getIdentifier();
 	}
-	public void setIdentifier(String identifier) {
-		this.identifier = identifier;
-		identifiertip.setText(this.identifier);
+	public void setIdentifier(DatabaseObject obj) {
+		
+		this.obj = obj;
+		setFullIdentifier();
+		obsrow.setIdentifier(this.obj);
 	}
 	public String setFullIdentifier() {
-		String id = identifier;
-		if(chosenParameter != null) {
-			id = identifier + "-" + TextUtilities.removeNamespace(chosenParameter);
-		}
+		Window.alert("PrimitiveObservationVauesWithSpecificationRow setFullIdentifier:  " + this.obj);
+		String id = obj.getIdentifier();
 		identifiertip.setText(id);
 		return id;
 	}

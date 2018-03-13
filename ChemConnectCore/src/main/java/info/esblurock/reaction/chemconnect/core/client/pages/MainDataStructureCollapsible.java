@@ -48,7 +48,6 @@ public class MainDataStructureCollapsible extends Composite {
 	String observationSpecificationS = "dataset:SetOfObservationsSpecification";
 	String parameterSpecificationS = "dataset:ParameterSpecification";
 	String parameterValueS = "dataset:ParameterValue";
-	
 	String specandvalues = "dataset:ObservationValuesWithSpecification";
 	
 	@UiField
@@ -75,7 +74,7 @@ public class MainDataStructureCollapsible extends Composite {
 	boolean isParameterDescriptionSet;
 	boolean isObservationSpecification;
 	
-	SetOfObservationsInformation observations;
+	//SetOfObservationsInformation observations;
 
 	public MainDataStructureCollapsible() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -91,11 +90,8 @@ public class MainDataStructureCollapsible extends Composite {
 	
 	public MainDataStructureCollapsible(DatabaseObject obj, DataElementInformation element,
 			ChemConnectDataStructure totalstructure, 
-			SetOfObservationsInformation observations, 
-			String observationStructure,
 			MaterialPanel modalpanel) {
 		initWidget(uiBinder.createAndBindUi(this));
-		this.observations = observations;
 		insert(obj,element,totalstructure);
 		this.modalpanel = modalpanel;
 	}
@@ -166,28 +162,35 @@ public class MainDataStructureCollapsible extends Composite {
 	private void structureWithPrimitiveStructure(DatabaseObject obj, DataElementInformation element,CreatePrimitiveStructure create ) {
 		if (element.isSinglet()) {
 			PrimitiveDataStructureBase base;
+			/*
 			if(specandvalues.compareTo(element.getDataElementName()) == 0) {
 				if(observations != null) {
 					base = create.createStructure(observations);
+					base.setIdentifier(obj);
 				} else {
 					base = create.createEmptyStructure();
+					base.setIdentifier(obj);
 				}
-			} else {
-				base = create.createEmptyStructure();
-				base.setIdentifier(obj.getIdentifier());
 			}
+			*/
+			//else {
+				base = create.createEmptyStructure();
+				base.setIdentifier(obj);
+			//}
 			content.add(base);
 		} else {
 			try {
 			String elementname = element.getDataElementName();
 			MultipleRecordsPrimitive multiple = new MultipleRecordsPrimitive(elementname, create);
-			multiple.setIdentifier(obj.getIdentifier());
+			multiple.setIdentifier(obj);
 			if (isParameterDescriptionSet && elementname.compareTo(parameterValueS) == 0) {
-				multiple.fillInParameters(obj.getIdentifier(), subsysteminfo);
+				multiple.fillInParameters(obj, subsysteminfo);
 			}
+			/*
 			if (isObservationSpecification && elementname.compareTo(observationSpecificationS) == 0) {
-				multiple.fillInSpecifications(obj.getIdentifier(), subsysteminfo);
+				multiple.fillInSpecifications(obj, subsysteminfo);
 			}
+			*/
 			content.add(multiple);
 			} catch(Exception ex) {
 				Window.alert(ex.toString());
@@ -236,14 +239,6 @@ public class MainDataStructureCollapsible extends Composite {
 
 	public ChemConnectCompoundDataStructure getSubelements() {
 		return subelements;
-	}
-
-	public SetOfObservationsInformation getObservations() {
-		return observations;
-	}
-
-	public void setObservations(SetOfObservationsInformation observations) {
-		this.observations = observations;
 	}
 	
 }

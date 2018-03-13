@@ -3,14 +3,13 @@ package info.esblurock.reaction.chemconnect.core.client.device.observations;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import info.esblurock.reaction.chemconnect.core.client.device.SetOfObservationsDefinition;
 import info.esblurock.reaction.chemconnect.core.data.transfer.observations.SetOfObservationsTransfer;
 
 public class ObservationHierarchyCallback implements AsyncCallback<SetOfObservationsTransfer> {
 
-	SetOfObservationsDefinition top;
+	ObservationHierarchyInterface top;
 	
-	public ObservationHierarchyCallback(SetOfObservationsDefinition top) {
+	public ObservationHierarchyCallback(ObservationHierarchyInterface top) {
 		this.top = top;
 	}
 	@Override

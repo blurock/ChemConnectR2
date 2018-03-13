@@ -34,15 +34,6 @@ public class SubsystemsAndDeviceCollapsible extends Composite implements OKAnswe
 
 	@UiField
 	MaterialLabel typetitle;
-	/*
-	 * @UiField MaterialTextBox changeableIdentifier;
-	 * 
-	 * @UiField MaterialLabel identifier;
-	 * 
-	 * @UiField MaterialColumn texboxcolumn;
-	 * 
-	 * @UiField MaterialColumn labelcolumn;
-	 */
 
 	String identifier;
 

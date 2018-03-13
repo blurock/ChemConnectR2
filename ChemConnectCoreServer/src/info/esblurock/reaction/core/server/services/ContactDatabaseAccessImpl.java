@@ -33,6 +33,7 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNod
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.TotalSubsystemInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.observations.SetOfObservationsTransfer;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
 
 @SuppressWarnings("serial")
 public class ContactDatabaseAccessImpl  extends ServerBase implements ContactDatabaseAccess {
@@ -135,15 +136,45 @@ public class ContactDatabaseAccessImpl  extends ServerBase implements ContactDat
 		ArrayList<PrimitiveParameterValueInformation> parameters  = new ArrayList<PrimitiveParameterValueInformation>();
 		for(String name : parameternames) {
 			PrimitiveParameterValueInformation info = ConceptParsing.fillParameterInfo(name);
+			ContextAndSessionUtilities context = getUtilities();
+			String username = context.getUserName();
+			String sourceID = QueryBase.getDataSourceIdentification(username);
+
+			//info.setIdentifier(identifier);
+			//info.setAccess(access);
+			info.setOwner(username);
+			info.setSourceID(sourceID);
 			parameters.add(info);
 		}
 		System.out.println(parameters);
 		return parameters;
  	}
+	
+	public DatabaseObject getBaseUserDatabaseObject() {
+		ContextAndSessionUtilities context = getUtilities();
+		String username = context.getUserName();
+		String sourceID = QueryBase.getDataSourceIdentification(username);
+		DatabaseObject obj = new DatabaseObject();
+		obj.setOwner(username);
+		obj.setSourceID(sourceID);
+		return obj;
+	}
+	
 	public SetOfObservationsTransfer getSetOfObservationsInformation(String observations) {
 		BuildSetOfObservationsInformation build
 			= new BuildSetOfObservationsInformation(observations);
+		SetOfObservationsTransfer transfer = build.getTransfer();
+		DatabaseObject obj = getBaseUserDatabaseObject();
+		transfer.setBaseobject(obj);
+		
 		return build.getTransfer();
+	}
+	
+	public ChemConnectDataStructure getSetOfObservationsStructructure() {
+		ChemConnectDataStructure structure = DatasetOntologyParsing.getChemConnectDataStructure("dataset:SetOfObservationsStructure");
+		DatabaseObject obj = getBaseUserDatabaseObject();
+		structure.setIdentifier(obj);
+		return structure;
 	}
 	public ObservationsFromSpreadSheet interpretSpreadSheet(SpreadSheetInputInformation input) throws IOException {
 		ObservationsFromSpreadSheet obs = InterpretSpreadSheet.readSpreadSheet(input);

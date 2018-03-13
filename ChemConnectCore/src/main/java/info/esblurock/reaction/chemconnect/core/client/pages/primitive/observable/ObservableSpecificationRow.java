@@ -16,6 +16,7 @@ import gwt.material.design.client.ui.MaterialRow;
 import gwt.material.design.client.ui.MaterialSwitch;
 import gwt.material.design.client.ui.MaterialTooltip;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterSpecificationInformation;
 
@@ -52,19 +53,20 @@ public class ObservableSpecificationRow extends Composite implements HasText {
 	@UiField
 	MaterialTooltip identifiertip;
 	
-	String identifier; 
 	String propertyType;
 	boolean rowVisible;
-
+	DatabaseObject obj;
 	public ObservableSpecificationRow() {
 		initWidget(uiBinder.createAndBindUi(this));
 		PrimitiveParameterSpecificationInformation info = new PrimitiveParameterSpecificationInformation();
+		obj = new DatabaseObject();
 		fill(info);
 	}
 	
 	public ObservableSpecificationRow(String label) {
 		initWidget(uiBinder.createAndBindUi(this));
 		PrimitiveParameterSpecificationInformation info = new PrimitiveParameterSpecificationInformation();
+		obj = new DatabaseObject(info);
 		fill(info);
 		parameterLabel.setText(label);
 	}
@@ -72,12 +74,13 @@ public class ObservableSpecificationRow extends Composite implements HasText {
 	
 	public ObservableSpecificationRow(PrimitiveParameterSpecificationInformation info) {
 		initWidget(uiBinder.createAndBindUi(this));
+		obj = new DatabaseObject(info);
 		fill(info);
 	}
 	
 	void fill(PrimitiveDataStructureInformation info) {
 		PrimitiveParameterSpecificationInformation paraminfo = (PrimitiveParameterSpecificationInformation) info;
-		this.identifier = paraminfo.getIdentifier();
+		obj = new DatabaseObject(info);
 		this.propertyType = paraminfo.getPropertyType();
 		toppanel.setBackgroundColor(Color.GREY_LIGHTEN_1);
 		identifiertip.setText(info.getIdentifier());
@@ -132,6 +135,12 @@ public class ObservableSpecificationRow extends Composite implements HasText {
 
 	public String getText() {
 		return parameterLabel.getText();
+	}
+	public void setIdentifier(DatabaseObject obj) {
+		this.obj = new DatabaseObject(obj);
+		String id = obj.getIdentifier() + "-" + parameterLabel.getText();
+		this.obj.setIdentifier(id);
+		identifiertip.setText(this.obj.getIdentifier());
 	}
 
 }

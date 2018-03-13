@@ -20,6 +20,7 @@ import info.esblurock.reaction.chemconnect.core.client.modal.InputLineModal;
 import info.esblurock.reaction.chemconnect.core.client.modal.SetLineContentInterface;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.CreatePrimitiveStructure;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.value.MultipleRecordsPrimitiveRow;
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveReferenceInformation;
 
 public class PrimitiveReferenceRow extends Composite implements SetLineContentInterface {
@@ -59,7 +60,7 @@ public class PrimitiveReferenceRow extends Composite implements SetLineContentIn
 	PrimitivePersonNameRow person;
 	
 	boolean extra;
-	String identifier;
+	DatabaseObject obj;
 	String doi;
 	String labelS;
 	String referenceS;
@@ -101,7 +102,7 @@ public class PrimitiveReferenceRow extends Composite implements SetLineContentIn
 		title.setText("Title of paper");
 		doi = "DOI";
 		doitip.setText(doi);
-		identifier = "id";
+		obj = new DatabaseObject();
 		
 		referenceTitle.setText("Reference");
 		referenceTitle.setTextColor(Color.BLACK);
@@ -126,7 +127,7 @@ public class PrimitiveReferenceRow extends Composite implements SetLineContentIn
 	}
 	@UiHandler("info")
 	void onClickAdd(ClickEvent e) {
-		MaterialToast.fireToast(identifier);
+		MaterialToast.fireToast("Click Add: " + obj.getIdentifier());
 	}
 	
 	@UiHandler("title")
@@ -169,14 +170,15 @@ public class PrimitiveReferenceRow extends Composite implements SetLineContentIn
 	}
 
 	public String getIdentifier() {
-		return identifier;
+		return obj.getIdentifier();
 	}
-	public void setIdentifier(String identifier) {
-		this.identifier = identifier;
+	public void setIdentifier(DatabaseObject obj) {
+		this.obj = obj;
 		setFullIdentifier();
 	}
 	public String setFullIdentifier() {
-		String id = identifier + "-" + doi;
+		String id = obj.getIdentifier() + "-" + doi;
+		obj.setIdentifier(id);
 		identifiertip.setText(id);
 		return id;
 		

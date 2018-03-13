@@ -4,9 +4,7 @@ import java.util.Set;
 
 import info.esblurock.reaction.chemconnect.core.data.transfer.SetOfObservationsInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.observations.SetOfObservationsTransfer;
-import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
 import info.esblurock.reaction.ontology.dataset.ConceptParsing;
-import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 
 public class BuildSetOfObservationsInformation {
 	
@@ -22,8 +20,6 @@ public class BuildSetOfObservationsInformation {
 		SetOfObservationsInformation obs = ConceptParsing.fillSetOfObservations(observations);
 		transfer.setObservations(obs);
 
-		ChemConnectDataStructure structure = DatasetOntologyParsing.getChemConnectDataStructure("dataset:SetOfObservationsStructure");
-		transfer.setStructure(structure);
 	}
 
 	public SetOfObservationsTransfer getTransfer() {

@@ -19,6 +19,7 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNod
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.TotalSubsystemInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.observations.SetOfObservationsTransfer;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
 
 
 public interface ContactDatabaseAccessAsync {
@@ -62,5 +63,9 @@ public interface ContactDatabaseAccessAsync {
 	void getSetOfObservationsInformation(String observations, AsyncCallback<SetOfObservationsTransfer> callback);
 
 	void interpretSpreadSheet(SpreadSheetInputInformation input, AsyncCallback<ObservationsFromSpreadSheet> callback);
+
+	void getSetOfObservationsStructructure(AsyncCallback<ChemConnectDataStructure> callback);
+
+	void getBaseUserDatabaseObject(AsyncCallback<DatabaseObject> callback);
 
 }

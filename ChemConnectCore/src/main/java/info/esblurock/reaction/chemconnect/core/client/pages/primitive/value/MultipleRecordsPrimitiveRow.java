@@ -1,10 +1,13 @@
 package info.esblurock.reaction.chemconnect.core.client.pages.primitive.value;
 
+import java.util.ArrayList;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
@@ -15,6 +18,7 @@ import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.CreatePrimitiveStructure;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.PrimitiveDataStructureBase;
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
 
 public class MultipleRecordsPrimitiveRow extends Composite implements HasText {
@@ -35,7 +39,8 @@ public class MultipleRecordsPrimitiveRow extends Composite implements HasText {
 	@UiField
 	MaterialPanel content;
 
-	String identifier;
+	DatabaseObject obj;
+	ArrayList<PrimitiveDataStructureBase> contentList;
 	
 	CreatePrimitiveStructure create;
 	//DataElementInformation record;
@@ -54,12 +59,12 @@ public class MultipleRecordsPrimitiveRow extends Composite implements HasText {
 	}
 
 	void init() {
-		identifier = "id";
-		
+		obj = new DatabaseObject();
 		info.setIconColor(Color.BLACK);
 		clear.setIconColor(Color.BLACK);
 		add.setIconColor(Color.BLACK);
 		parameterType.setTextColor(Color.BLACK);
+		contentList = new ArrayList<PrimitiveDataStructureBase>();
 	}
 	
 	@UiHandler("clear")
@@ -73,13 +78,16 @@ public class MultipleRecordsPrimitiveRow extends Composite implements HasText {
 	@UiHandler("add")
 	void addClick(ClickEvent ev) {
 		PrimitiveDataStructureBase base = create.createEmptyStructure();
-		base.setIdentifier(identifier);
+		base.setIdentifier(obj);
 		content.add(base);
 	}
 	
 	public PrimitiveDataStructureBase addStructure(PrimitiveDataStructureInformation info) {
-		info.setIdentifier(identifier);
+		//info.fill(obj.getIdentifier(), obj.getAccess(), obj.getOwner(), obj.getSourceID());
+		Window.alert("PrimitiveDataStructureBase:  " + obj.getIdentifier() + ", info id=" + info.getIdentifier());
 		PrimitiveDataStructureBase base = create.createStructure(info);
+		base.setIdentifier(obj);
+		contentList.add(base);
 		content.add(base);
 		return base;
 	}
@@ -92,11 +100,14 @@ public class MultipleRecordsPrimitiveRow extends Composite implements HasText {
 	}
 
 	public String getIdentifier() {
-		return identifier;
+		return obj.getIdentifier();
 	}
 
-	public void setIdentifier(String identifier) {
-		this.identifier = identifier;
+	public void setIdentifier(DatabaseObject obj) {
+		this.obj = obj;
+		for(PrimitiveDataStructureBase base : contentList) {
+			base.setIdentifier(obj);
+		}
 	}
 
 }

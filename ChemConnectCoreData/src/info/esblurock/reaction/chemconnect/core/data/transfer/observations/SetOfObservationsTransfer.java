@@ -3,8 +3,8 @@ package info.esblurock.reaction.chemconnect.core.data.transfer.observations;
 import java.io.Serializable;
 import java.util.Set;
 
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.SetOfObservationsInformation;
-import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
 
 public class SetOfObservationsTransfer implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -12,7 +12,7 @@ public class SetOfObservationsTransfer implements Serializable {
 	String observationStructure;
 	Set<String> subsystems;
 	SetOfObservationsInformation observations;
-	ChemConnectDataStructure structure;
+	DatabaseObject baseobject;
 	
 	public SetOfObservationsTransfer() {
 		super();
@@ -47,25 +47,23 @@ public class SetOfObservationsTransfer implements Serializable {
 		this.observations = observations;
 	}
 
-	public ChemConnectDataStructure getStructure() {
-		return structure;
-	}
-
-	public void setStructure(ChemConnectDataStructure structure) {
-		this.structure = structure;
-	}
-
 	public String toString() {
 		return toString("");
 	}
+
 	
+	public DatabaseObject getBaseobject() {
+		return baseobject;
+	}
+	public void setBaseobject(DatabaseObject baseobject) {
+		this.baseobject = baseobject;
+	}
 	public String toString(String prefix)  {
 		StringBuilder builder = new StringBuilder();
 		builder.append(prefix + "------------   " + observations + "   ------------\n");
 		builder.append(prefix + "Subsystems using Observations");
 		builder.append(prefix + subsystems + "\n");
 		builder.append(observations);
-		builder.append(structure);
 		return builder.toString();
 	}
 

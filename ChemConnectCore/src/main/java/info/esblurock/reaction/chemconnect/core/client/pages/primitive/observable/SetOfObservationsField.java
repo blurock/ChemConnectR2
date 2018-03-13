@@ -12,7 +12,7 @@ public class SetOfObservationsField extends PrimitiveDataStructureBase {
 		super();
 	}
 	public SetOfObservationsField(SetOfObservationsInformation obs) {
-		SetOfObservationsRow obsrow = new SetOfObservationsRow(obs.getIdentifier(), obs.getTopConcept(),obs.getValueType());
+		SetOfObservationsRow obsrow = new SetOfObservationsRow(obs, obs.getTopConcept(),obs.getValueType());
 		add(obsrow);
 		for(PrimitiveParameterSpecificationInformation info: obs.getDimensions()) {
 			String subid = obs.getIdentifier() + "-" + TextUtilities.removeNamespace(info.getPropertyType());

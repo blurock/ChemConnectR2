@@ -27,6 +27,7 @@ import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConcep
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.concepts.SetOfUnitProperties;
 import info.esblurock.reaction.chemconnect.core.data.concepts.UnitProperties;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
@@ -75,7 +76,7 @@ public class PrimitiveParameterValueRow extends Composite implements HasText,Cho
 	@UiField
 	MaterialTooltip identifiertip;
 	
-	String identifier; 
+	DatabaseObject obj;
 	String propertyType;
 	boolean rowVisible;
 	String chosenConcept;
@@ -111,7 +112,7 @@ public class PrimitiveParameterValueRow extends Composite implements HasText,Cho
 	
 	public void fill(PrimitiveDataStructureInformation info) {
 		PrimitiveParameterValueInformation paraminfo = (PrimitiveParameterValueInformation) info;
-		this.identifier = paraminfo.getIdentifier();
+		obj = new DatabaseObject(info);
 		setFullIdentifier();
 		this.propertyType = paraminfo.getPropertyType();
 		if(paraminfo.getPropertyType() != null) {
@@ -297,16 +298,16 @@ public class PrimitiveParameterValueRow extends Composite implements HasText,Cho
 	}
 
 	public String getIdentifier() {
-		return identifier;
+		return obj.getIdentifier();
 	}
-	public void setIdentifier(String identifier) {
-		this.identifier = identifier;
-		identifiertip.setText(this.identifier);
+	public void setIdentifier(DatabaseObject obj) {
+		this.obj = obj;
+		identifiertip.setText(this.obj.getIdentifier());
 	}
 	public String setFullIdentifier() {
-		String id = identifier;
+		String id = obj.getIdentifier();
 		if(chosenParameter != null) {
-			id = identifier + "-" + TextUtilities.removeNamespace(chosenParameter);
+			id = obj.getIdentifier() + "-" + TextUtilities.removeNamespace(chosenParameter);
 		}
 		identifiertip.setText(id);
 		return id;
