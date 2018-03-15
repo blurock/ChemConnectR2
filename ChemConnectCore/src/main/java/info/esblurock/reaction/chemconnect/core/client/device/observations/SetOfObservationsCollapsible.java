@@ -18,11 +18,15 @@ import gwt.material.design.client.ui.MaterialPanel;
 import info.esblurock.reaction.chemconnect.core.client.cards.CardModal;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHeirarchy;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchies;
+import info.esblurock.reaction.chemconnect.core.client.pages.MainDataStructureCollapsible;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.PrimitiveGeneralObservation;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.transfer.SetOfObservationsInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.observations.SetOfObservationsTransfer;
+import info.esblurock.reaction.core.server.ontology.SetOfObservations;
 
 public class SetOfObservationsCollapsible extends Composite implements ChooseFromConceptHeirarchy, ObservationHierarchyInterface {
 
@@ -33,7 +37,6 @@ public class SetOfObservationsCollapsible extends Composite implements ChooseFro
 	}
 
 
-	String identifier;
 
 	@UiField
 	MaterialLabel typetitle;
@@ -45,19 +48,40 @@ public class SetOfObservationsCollapsible extends Composite implements ChooseFro
 	MaterialLink info;
 	@UiField
 	MaterialLink add;	
+	@UiField
+	MaterialLink infoelements;
 
 	MaterialPanel modalpanel;
+	ArrayList<PrimitiveGeneralObservation> obsset;
+	ArrayList<MainDataStructureCollapsible> infoset;
+	DatabaseObject baseobj;
+	String rootID;
+	String catalog;
 	
 	public SetOfObservationsCollapsible() {
 		initWidget(uiBinder.createAndBindUi(this));
+		init();
 	}
 
-	public SetOfObservationsCollapsible(String name, MaterialPanel modalpanel) {
+	public SetOfObservationsCollapsible(String catalog, String rootID, MaterialPanel modalpanel) {
 		initWidget(uiBinder.createAndBindUi(this));
-		typetitle.setText(TextUtilities.removeNamespace(name));
+		init();
+		this.catalog = catalog;
+		this.rootID = TextUtilities.removeNamespace(rootID);
 		this.modalpanel = modalpanel;
 	}
-
+	
+	void init() {
+		obsset = new ArrayList<PrimitiveGeneralObservation>();
+		infoset = new ArrayList<MainDataStructureCollapsible>();
+		baseobj = new DatabaseObject();
+	}
+	
+	public void addInfoCollapsible(MainDataStructureCollapsible main) {
+		infocollapsible.add(main);
+		infoset.add(main);
+	}
+	
 	public MaterialCollapsible getInfoCollapsible() {
 		return infocollapsible;
 	}
@@ -77,6 +101,7 @@ public class SetOfObservationsCollapsible extends Composite implements ChooseFro
 
 	@Override
 	public void conceptChosen(String topconcept, String concept) {
+		rootID = TextUtilities.removeNamespace(concept);
 		ObservationHierarchyCallback callback = new ObservationHierarchyCallback(this);
 		ContactDatabaseAccessAsync async = ContactDatabaseAccess.Util.getInstance();
 		async.getSetOfObservationsInformation(concept,callback);
@@ -84,10 +109,28 @@ public class SetOfObservationsCollapsible extends Composite implements ChooseFro
 
 	@Override
 	public void addSetOfObservations(SetOfObservationsTransfer transfer) {
-		String observationname = transfer.getObservationStructure();
-		PrimitiveGeneralObservation observation = new PrimitiveGeneralObservation(observationname);
+		PrimitiveGeneralObservation observation = new PrimitiveGeneralObservation(transfer);
+		baseobj = new DatabaseObject(transfer.getBaseobject());
+		baseobj.setIdentifier(catalog);
+		obsset.add(observation);
 		contentcollapsible.add(observation);
+		setIdentifier(baseobj);
 	}
 	
+	public void setIdentifier(DatabaseObject obj) {
+		baseobj = new DatabaseObject(obj);
+		String id = baseobj.getIdentifier() + "-" + rootID;
+		baseobj.setIdentifier(id);
+		Window.alert("SetOfObservationsCollapsible   setIdentifier\n" + obj.toString());
+
+		typetitle.setText(baseobj.getIdentifier());
+		
+		for(MainDataStructureCollapsible main : infoset) {
+			main.setIdenifier(baseobj);
+		}
+		for(PrimitiveGeneralObservation obs : obsset) {
+			obs.setIdentifier(baseobj);
+		}
+	}
 	
 }

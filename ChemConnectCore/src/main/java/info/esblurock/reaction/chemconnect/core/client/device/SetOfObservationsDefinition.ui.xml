@@ -13,21 +13,10 @@
 				<m:MaterialLink ui:field="choose" textColor="BLACK" />
 			</m:MaterialColumn>
 			<m:MaterialColumn grid="s8">
-				<m:MaterialTextBox ui:field="topname" label="Catagory"
-					textColor="BLACK" />
+				<m:MaterialLink ui:field="topname" textColor="BLACK" />
 			</m:MaterialColumn>
 		</m:MaterialRow>
 
-		<m:MaterialCollapsible>
-			<m:MaterialCollapsibleItem>
-				<m:MaterialCollapsibleHeader>
-					<m:MaterialLink ui:field="parameter" textColor="BLACK" />
-				</m:MaterialCollapsibleHeader>
-				<m:MaterialCollapsibleBody ui:field="bodycollapsible">
-					<m:MaterialCollapsible ui:field="contentcollapsible">
-					</m:MaterialCollapsible>
-				</m:MaterialCollapsibleBody>
-			</m:MaterialCollapsibleItem>
-		</m:MaterialCollapsible>
+		<m:MaterialCollapsible ui:field="contentcollapsible"/>
 	</m:MaterialPanel>
 </ui:UiBinder> 

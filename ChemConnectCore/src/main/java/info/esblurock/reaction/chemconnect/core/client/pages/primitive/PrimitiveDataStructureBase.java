@@ -38,6 +38,7 @@ public class PrimitiveDataStructureBase extends Composite {
 		init();
 		this.primitiveinfo = primitiveinfo;
 		obj = new DatabaseObject(primitiveinfo);
+		setIdentifier(obj);
 	}
 	public void init() {
 		editable = false;
@@ -48,7 +49,6 @@ public class PrimitiveDataStructureBase extends Composite {
 	}
 	
 	public void fill(PrimitiveDataStructureInformation primitiveinfo) {
-		Window.alert("PrimitiveDataStructureBase: fill:  " + primitiveinfo.toString());
 		obj = new DatabaseObject(primitiveinfo);
 	}
 		
@@ -71,7 +71,7 @@ public class PrimitiveDataStructureBase extends Composite {
 		return obj;
 	}
 	public void setIdentifier(DatabaseObject obj) {
-		this.obj = obj;
+		this.obj = new DatabaseObject(obj);
 		if(primitiveinfo != null) {
 			primitiveinfo.fill(obj.getIdentifier(), obj.getAccess(), obj.getOwner(), obj.getSourceID());
 			primitiveinfo.setIdentifier(obj.getIdentifier());

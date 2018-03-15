@@ -160,13 +160,17 @@ public class ContactDatabaseAccessImpl  extends ServerBase implements ContactDat
 		return obj;
 	}
 	
+
+	
+	
+	
+	
 	public SetOfObservationsTransfer getSetOfObservationsInformation(String observations) {
 		BuildSetOfObservationsInformation build
 			= new BuildSetOfObservationsInformation(observations);
-		SetOfObservationsTransfer transfer = build.getTransfer();
 		DatabaseObject obj = getBaseUserDatabaseObject();
+		SetOfObservationsTransfer transfer = build.getTransfer();
 		transfer.setBaseobject(obj);
-		
 		return build.getTransfer();
 	}
 	

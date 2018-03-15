@@ -8,7 +8,9 @@
 		<m:MaterialCollapsibleHeader>
 			<m:MaterialRow>
 				<m:MaterialColumn grid="s10">
-					<m:MaterialLabel ui:field="observationtype" textColor="BLACK" />
+					<m:MaterialTooltip ui:field = "obstooltip">
+						<m:MaterialLabel ui:field="observationtype" textColor="BLACK" />
+					</m:MaterialTooltip>
 				</m:MaterialColumn>
 				<m:MaterialColumn grid="s1">
 					<m:MaterialLink ui:field="info" iconType="INFO"

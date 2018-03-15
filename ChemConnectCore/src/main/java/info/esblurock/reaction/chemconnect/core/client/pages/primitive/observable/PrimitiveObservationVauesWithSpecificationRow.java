@@ -196,7 +196,6 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite imp
 		return obj.getIdentifier();
 	}
 	public void setIdentifier(DatabaseObject obj) {
-		
 		this.obj = obj;
 		setFullIdentifier();
 		obsrow.setIdentifier(this.obj);

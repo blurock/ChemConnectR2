@@ -63,7 +63,7 @@ public class MainDataStructureCollapsible extends Composite {
 
 	
 	MaterialPanel modalpanel;
-	String identifier;
+	DatabaseObject baseobj;
 
 	CardModal card;
 	ClassificationInformation clsinfo;
@@ -73,7 +73,7 @@ public class MainDataStructureCollapsible extends Composite {
 
 	boolean isParameterDescriptionSet;
 	boolean isObservationSpecification;
-	
+	String rootID; 
 	//SetOfObservationsInformation observations;
 
 	public MainDataStructureCollapsible() {
@@ -84,7 +84,6 @@ public class MainDataStructureCollapsible extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 		clsinfo = info;
 		datatype.setText(info.getDataType());
-		setIdenifier(false);
 		init(clsinfo.getIdName());
 	}
 	
@@ -116,7 +115,6 @@ public class MainDataStructureCollapsible extends Composite {
 		clsinfo = new ClassificationInformation(null, null, null, obj.getIdentifier(), type);
 		if (subelements != null) {
 			datatype.setText(TextUtilities.removeNamespace(type));
-			setIdenifier(false);
 			init(type);
 			MapToChemConnectCompoundDataStructure mapping = totalstructure.getMapping();
 			setUpStructureElements(obj, element, compound, mapping);
@@ -162,21 +160,8 @@ public class MainDataStructureCollapsible extends Composite {
 	private void structureWithPrimitiveStructure(DatabaseObject obj, DataElementInformation element,CreatePrimitiveStructure create ) {
 		if (element.isSinglet()) {
 			PrimitiveDataStructureBase base;
-			/*
-			if(specandvalues.compareTo(element.getDataElementName()) == 0) {
-				if(observations != null) {
-					base = create.createStructure(observations);
-					base.setIdentifier(obj);
-				} else {
-					base = create.createEmptyStructure();
-					base.setIdentifier(obj);
-				}
-			}
-			*/
-			//else {
 				base = create.createEmptyStructure();
 				base.setIdentifier(obj);
-			//}
 			content.add(base);
 		} else {
 			try {
@@ -186,11 +171,6 @@ public class MainDataStructureCollapsible extends Composite {
 			if (isParameterDescriptionSet && elementname.compareTo(parameterValueS) == 0) {
 				multiple.fillInParameters(obj, subsysteminfo);
 			}
-			/*
-			if (isObservationSpecification && elementname.compareTo(observationSpecificationS) == 0) {
-				multiple.fillInSpecifications(obj, subsysteminfo);
-			}
-			*/
 			content.add(multiple);
 			} catch(Exception ex) {
 				Window.alert(ex.toString());
@@ -206,6 +186,7 @@ public class MainDataStructureCollapsible extends Composite {
 	}
 
 	private void init(String name) {
+		rootID = TextUtilities.removeNamespace(name);
 		card = new CardModal();
 		body.add(card);
 		ContactDatabaseAccessAsync async = ContactDatabaseAccess.Util.getInstance();
@@ -213,12 +194,11 @@ public class MainDataStructureCollapsible extends Composite {
 		async.getChemConnectCompoundDataStructure(name, callback);
 	}
 
-	public void setIdenifier(boolean textbox) {
-		if (textbox) {
-
-		} else {
-
-		}
+	public void setIdenifier(DatabaseObject obj) {
+		baseobj = new DatabaseObject(obj);
+		String id = obj.getIdentifier() + "-" + rootID;
+		baseobj.setIdentifier(id);
+		datatype.setText(id);
 	}
 
 	@UiHandler("info")

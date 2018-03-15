@@ -2,6 +2,7 @@ package info.esblurock.reaction.chemconnect.core.client.device.observations;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.chemconnect.core.client.administration.ChemConnectDataStructureInterface;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
 

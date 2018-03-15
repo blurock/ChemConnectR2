@@ -7,7 +7,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
@@ -15,7 +14,7 @@ import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
-import gwt.material.design.client.ui.MaterialTextBox;
+import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.chemconnect.core.client.administration.ChemConnectDataStructureInterface;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.ObservationStructureCallback;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.SetOfObservationsCollapsible;
@@ -36,12 +35,11 @@ public class SetOfObservationsDefinition extends Composite implements  SetLineCo
 	interface SetOfObservationsDefinitionUiBinder extends UiBinder<Widget, SetOfObservationsDefinition> {
 	}
 
+	String defaultCatagory;
 	String enterkeyS;
 	String keynameS;
 	@UiField
-	MaterialLink parameter;
-	@UiField
-	MaterialTextBox topname;
+	MaterialLink topname;
 	@UiField
 	MaterialCollapsible contentcollapsible;
 	@UiField
@@ -51,7 +49,10 @@ public class SetOfObservationsDefinition extends Composite implements  SetLineCo
 	String access;
 
 	InputLineModal line; 
-
+	ArrayList<SetOfObservationsCollapsible> setofobservables;
+	SetOfObservationsCollapsible observations;
+	DatabaseObject baseobj;
+	
 	public SetOfObservationsDefinition() {
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
@@ -63,105 +64,41 @@ public class SetOfObservationsDefinition extends Composite implements  SetLineCo
 	}
 
 	private void init() {
-		parameter.setText("Set of Observations");
+		defaultCatagory = "Catagory";
+		baseobj = new DatabaseObject();
 		choose.setText("Create");
-		topname.setLabel("Catagory Name");
-		topname.setText("");
-		String name = Cookies.getCookie("user");
-		topname.setPlaceholder(name);
+		topname.setText(defaultCatagory);
 		enterkeyS = "Enter Observations Catagory";
 		keynameS = "Catagory";
 		access = MetaDataKeywords.publicAccess;
+		setofobservables = new ArrayList<SetOfObservationsCollapsible>();
+	}
+	
+	@UiHandler("topname")
+	public void changeCatagory(ClickEvent event) {
+		MaterialToast.fireToast("Change Catagory");
 	}
 	
 	@UiHandler("choose")
 	public void chooseConcept(ClickEvent event) {
-		if(topname.getText().length() == 0 ) {
+		if(topname.getText().compareTo(defaultCatagory) == 0 ) {
 			line = new InputLineModal(enterkeyS,keynameS,this);
 			modalpanel.add(line);
 			line.openModal();
 		} else {
-			//chooseConceptHieararchy();
 			setUpObservationStructure();
 		}
 	}
-/*
-	private void chooseConceptHieararchy() {
-		ArrayList<String> choices = new ArrayList<String>();
-		choices.add("dataset:ChemConnectObservable");
-		ChooseFromConceptHierarchies choosedevice = new ChooseFromConceptHierarchies(choices,this);
-		modalpanel.add(choosedevice);
-		choosedevice.open();		
-	}
-*/
 	@Override
 	public void setLineContent(String line) {
 		topname.setText(line);
-		//chooseConceptHieararchy();
 		setUpObservationStructure();
 	}
+	
 	public void setUpObservationStructure() {
 		ObservationStructureCallback callback = new ObservationStructureCallback(this);
 		ContactDatabaseAccessAsync async = ContactDatabaseAccess.Util.getInstance();
 		async.getSetOfObservationsStructructure(callback);
-	}
-	
-	
-/*
-	@Override
-	public void conceptChosen(String topconcept, String concept) {
-		ObservationStructureCallback callback = new ObservationStructureCallback(this);
-		ContactDatabaseAccessAsync async = ContactDatabaseAccess.Util.getInstance();
-		async.getSetOfObservationsStructructure(callback);
-	}
-	*/
-	/*
-	public void addSetOfObservations(SetOfObservationsTransfer transfer) {
-		DatabaseObject topobj = transfer.getBaseobject();
-		SetOfObservationsInformation info = transfer.getObservations();
-		String observationName = transfer.getObservationStructure();
-		SetOfObservationsCollapsible observations = new SetOfObservationsCollapsible(observationName,modalpanel);
-		contentcollapsible.add(observations);
-		String id = topname.getText();
-		topobj.setIdentifier(id);
-		topobj.setAccess(access);
-		info.setIdentifier(id);
-		addHierarchialModal(topobj, transfer, observations);
-	}
-	*/
-	/*
-	public void addHierarchialModal(DatabaseObject topobj, SetOfObservationsTransfer transfer,SetOfObservationsCollapsible obstop) {
-		ChemConnectDataStructure infoStructure = transfer.getStructure();
-		for(DataElementInformation element : infoStructure.getRecords()) {
-			String subid = topobj.getIdentifier() + "-" + element.getSuffix();
-			DatabaseObject subobj = new DatabaseObject(topobj);
-			subobj.setIdentifier(subid);
-			String type = element.getDataElementName();
-			if(infoStructure.getMapping().getStructure(type) != null) {
-					MainDataStructureCollapsible main = new MainDataStructureCollapsible(subobj,element,modalpanel);
-					obstop.getInfoCollapsible().add(main);
-			} else {
-				Window.alert("Compound element not found: " + type);
-			}
-		}
-	}
-	*/
-	public void addHierarchialModal(DatabaseObject topobj,ChemConnectDataStructure infoStructure, SetOfObservationsCollapsible obstop) {
-		Window.alert("addHierarchialModal");
-		Window.alert("addHierarchialModal: " + topobj.toString());
-		for(DataElementInformation element : infoStructure.getRecords()) {
-			Window.alert("addHierarchialModal: " + element.toString());
-			String subid = topobj.getIdentifier() + "-" + element.getSuffix();
-			DatabaseObject subobj = new DatabaseObject(topobj);
-			subobj.setIdentifier(subid);
-			String type = element.getDataElementName();
-			if(infoStructure.getMapping().getStructure(type) != null) {
-					MainDataStructureCollapsible main = new MainDataStructureCollapsible(subobj,element,infoStructure,modalpanel);
-					obstop.getInfoCollapsible().add(main);
-			} else {
-				Window.alert("Compound element not found: " + type);
-			}	
-		}
 	}
 
 	@Override
@@ -170,11 +107,35 @@ public class SetOfObservationsDefinition extends Composite implements  SetLineCo
 		String id = topname.getText();
 		topobj.setIdentifier(id);
 		topobj.setAccess(access);
-		Window.alert("addChemConnectDataStructure: " + id);
-		SetOfObservationsCollapsible observations = new SetOfObservationsCollapsible(id,modalpanel);
+		String defaultObservationID = "Observation";
+		observations = new SetOfObservationsCollapsible(id, defaultObservationID, modalpanel);
+		setofobservables.add(observations);
+		addHierarchialModal(topobj,structure,observations);
 		contentcollapsible.add(observations);
-		//addHierarchialModal(topobj,structure,observations);
+		setIdentifer(topobj);
 	}
 
+	public void addHierarchialModal(DatabaseObject topobj,ChemConnectDataStructure infoStructure, SetOfObservationsCollapsible obstop) {
+		for(DataElementInformation element : infoStructure.getRecords()) {
+			String subid = topobj.getIdentifier() + "-" + element.getSuffix();
+			DatabaseObject subobj = new DatabaseObject(topobj);
+			subobj.setIdentifier(subid);
+			String type = element.getDataElementName();
+			if(infoStructure.getMapping().getStructure(type) != null) {
+					MainDataStructureCollapsible main = new MainDataStructureCollapsible(subobj,element,infoStructure,modalpanel);
+					obstop.addInfoCollapsible(main);
+			} else {
+				Window.alert("Compound element not found: " + type);
+			}	
+		}
+	}
+	
+	public void setIdentifer(DatabaseObject obj) {
+		Window.alert("SetOfObservationsDefinition  setIdentifer\n" + obj.toString());
+		baseobj = new DatabaseObject(obj);
+		for(SetOfObservationsCollapsible observe : setofobservables) {
+			observe.setIdentifier(obj);
+		}
+	}
 
 }
