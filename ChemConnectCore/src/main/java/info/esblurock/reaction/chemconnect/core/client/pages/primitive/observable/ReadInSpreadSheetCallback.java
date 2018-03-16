@@ -3,13 +3,14 @@ package info.esblurock.reaction.chemconnect.core.client.pages.primitive.observab
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.spreadsheet.ObservationsFromSpreadSheetInterface;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
 
 public class ReadInSpreadSheetCallback  implements AsyncCallback<ObservationsFromSpreadSheet> {
 
-	PrimitiveObservationVauesWithSpecificationRow top;
+	ObservationsFromSpreadSheetInterface top;
 	
-	public ReadInSpreadSheetCallback(PrimitiveObservationVauesWithSpecificationRow top) {
+	public ReadInSpreadSheetCallback(ObservationsFromSpreadSheetInterface top) {
 		this.top = top;
 	}
 	@Override

@@ -21,14 +21,12 @@ public class PrimitiveObservationValuesWithSpecification extends PrimitiveDataSt
 	public PrimitiveObservationValuesWithSpecification(PrimitiveDataStructureInformation info) {
 		super();
 		SetOfObservationsInformation primitiveinfo = (SetOfObservationsInformation) info;
-		Window.alert("PrimitiveObservationValuesWithSpecification:  " + info.getIdentifier());
 		row = new PrimitiveObservationVauesWithSpecificationRow(primitiveinfo);
 		add(row);
 	}
 
 	@Override
 	public void fill(PrimitiveDataStructureInformation primitiveinfo) {
-		Window.alert("PrimitiveObservationValuesWithSpecification:  " + primitiveinfo.getIdentifier());
 		ObservationsAndSpecificationsInformation info = (ObservationsAndSpecificationsInformation) primitiveinfo;
 		row.fill(info);
 		add(row);

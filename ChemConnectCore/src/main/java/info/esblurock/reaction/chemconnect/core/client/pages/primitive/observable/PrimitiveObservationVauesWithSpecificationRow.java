@@ -23,6 +23,7 @@ import gwt.material.design.client.ui.MaterialTooltip;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHeirarchy;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchies;
 import info.esblurock.reaction.chemconnect.core.client.gcs.UploadFileToGCS;
+import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.spreadsheet.ReadInSpreadSheetInformation;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
@@ -58,17 +59,11 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite imp
 	@UiField
 	MaterialLink readinput;
 	@UiField
-	MaterialLink readhttp;
-	@UiField
-	MaterialTextBox httpsourceline;
-	@UiField
 	MaterialTextArea textarea;
 	@UiField
 	MaterialSwitch toggleinfo;
 	@UiField
 	MaterialRow inputrow;
-	@UiField
-	MaterialRow sourcerow;
 	@UiField
 	MaterialTooltip toggletip;
 	@UiField
@@ -79,17 +74,10 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite imp
 	MaterialColumn uploadcolumn;
 	@UiField
 	MaterialCollapsible uploadpanel;
-	/*
-	@UiField 
-	MaterialFileUploader cardUploader;
-	@UiField MaterialImage imgPreview;
-	@UiField MaterialProgress progress;
-	@UiField MaterialLabel lblName, lblSize;
-	*/
+
 	boolean visible;
 	DatabaseObject obj;
-	//UploadPhoto photo;
-	UploadFileToGCS photo;
+	//UploadFileToGCS photo;
 	SetOfObservationsRow obsrow;
 	
 	public PrimitiveObservationVauesWithSpecificationRow() {
@@ -100,7 +88,6 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite imp
 	public PrimitiveObservationVauesWithSpecificationRow(SetOfObservationsInformation obsspec) {
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
-		Window.alert("PrimitiveObservationVauesWithSpecificationRow constructor:  " + obsspec.getIdentifier());
 		fill(obsspec);
 	}
 
@@ -109,42 +96,45 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite imp
 		identifiertip.setText(obj.getIdentifier());
 		topconcept.setText("Value Concept");
 		valuetype.setText("Device");
-		httpsourceline.setLabel("HTTP Source");
-		httpsourceline.setText("http://cms.heatfluxburner.org/wp-content/uploads/Bosschaart_CH4_Air_1atm_Tu_295K_thesis.xls");
 		readinput.setText("Read File");
 		textarea.setLabel("Source Input Area");
 		textarea.setText("xxxx,yyyy,zzz .....\naaa,bbb,ccc\n...");
 		blocktip.setText("Form of Input");
 		blockform.setText("MatrixOfValues");
-		readhttp.setText("Read URL");
 		visible = true;
 		toggleHideElements();
 
 		obsrow = new SetOfObservationsRow();
 		specificationpanel.add(obsrow);
 		
-		photo = new UploadFileToGCS(modalpanel);
-		uploadpanel.add(photo);
+		//photo = new UploadFileToGCS(modalpanel);
+		//uploadpanel.add(photo);
 	}
 	
 	public void fill(SetOfObservationsInformation obsspec) {
 		obj = new DatabaseObject(obsspec);
 		setFullIdentifier();
-		photo.setIdentifier(obj);
+		//photo.setIdentifier(obj);
 		setFullIdentifier();
 		specificationpanel.clear();
-		Window.alert("PrimitiveObservationVauesWithSpecificationRow: " + obj);
 		obsrow = new SetOfObservationsRow(obsspec, 
 				obsspec.getTopConcept(),
 				obsspec.getValueType());
 		specificationpanel.add(obsrow);
+		
+		ArrayList<String> properties = new ArrayList<String>();
+		
 		for(PrimitiveParameterSpecificationInformation info: obsspec.getDimensions()) {
-			String subid = obsspec.getIdentifier() + "-" + TextUtilities.removeNamespace(info.getPropertyType());
+			String property = TextUtilities.removeNamespace(info.getPropertyType());
+			properties.add(property);
+			String subid = obsspec.getIdentifier() + "-" + property;
 			info.setIdentifier(subid);
 			obsrow.addParameter(info);
 		}
 		for(PrimitiveParameterSpecificationInformation info: obsspec.getMeasures()) {
-			String subid = obsspec.getIdentifier() + "-" + TextUtilities.removeNamespace(info.getPropertyType());
+			String property = TextUtilities.removeNamespace(info.getPropertyType());
+			properties.add(property);
+			String subid = obsspec.getIdentifier() + "-" + property;
 			info.setIdentifier(subid);
 			obsrow.addParameter(info);			
 		}
@@ -159,25 +149,22 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite imp
 			toggletip.setText("Hide");
 		}
 		toggleinfo.setValue(visible);
-		sourcerow.setVisible(visible);
 		inputrow.setVisible(visible);
 		specificationpanel.setVisible(visible);;
+	}
+	
+	@UiHandler("readinput")
+	void onClickReadInfo(ClickEvent e) {
+		Window.alert("ReadInSpreadSheetInformation");
+		ReadInSpreadSheetInformation sheet = new ReadInSpreadSheetInformation(modalpanel);
+		sheet.open();
+		modalpanel.add(sheet);
+		Window.alert("ReadInSpreadSheetInformation");		
 	}
 	
 	@UiHandler("toggleinfo")
 	void onClickToggle(ClickEvent e) {
 		toggleHideElements();
-	}
-	@UiHandler("readhttp")
-	void onClickReadInput(ClickEvent e) {
-		String sourceType = SpreadSheetInputInformation.URL;
-		String source = httpsourceline.getText();
-		String type = SpreadSheetInputInformation.CVS;
-		if(source.endsWith("xls")) {
-			type = SpreadSheetInputInformation.XLS;
-		}
-		SpreadSheetInputInformation input = new SpreadSheetInputInformation(type, sourceType, source);
-		readInSpreadSheet(input);
 	}
 	
 	@UiHandler("valuetype")
@@ -185,13 +172,7 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite imp
 		chooseConceptHieararchy();
 	}
 	
-	private void readInSpreadSheet(SpreadSheetInputInformation input) {
-		ContactDatabaseAccessAsync async = ContactDatabaseAccess.Util.getInstance();
-		ReadInSpreadSheetCallback callback = new ReadInSpreadSheetCallback(this);
-		async.interpretSpreadSheet(input,callback);
-		
-	}
-	
+
 	public String getIdentifier() {
 		return obj.getIdentifier();
 	}
@@ -201,7 +182,6 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite imp
 		obsrow.setIdentifier(this.obj);
 	}
 	public String setFullIdentifier() {
-		Window.alert("PrimitiveObservationVauesWithSpecificationRow setFullIdentifier:  " + this.obj);
 		String id = obj.getIdentifier();
 		identifiertip.setText(id);
 		return id;
@@ -221,18 +201,5 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite imp
 		valuetype.setText(concept);
 	}
 
-	public void setUpResultMatrix(ObservationsFromSpreadSheet results) {
-		ArrayList<SpreadSheetBlockInformation> blocks = results.getBlocks();
-		for(SpreadSheetBlockInformation block : blocks) {
-			Window.alert(block.toString());
-			if(block.isJustTitle()) {
-				SpreadSheetBlockTitle titleblock = new SpreadSheetBlockTitle(block,this);
-				tablepanel.add(titleblock);
-			} else {
-				SpreadSheetBlockMatrix matrixblock = new SpreadSheetBlockMatrix(block, this);
-				tablepanel.add(matrixblock);
-			}
-		}
-	}
 
 }

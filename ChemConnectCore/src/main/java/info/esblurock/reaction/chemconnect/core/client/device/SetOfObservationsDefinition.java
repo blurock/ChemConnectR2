@@ -131,7 +131,6 @@ public class SetOfObservationsDefinition extends Composite implements  SetLineCo
 	}
 	
 	public void setIdentifer(DatabaseObject obj) {
-		Window.alert("SetOfObservationsDefinition  setIdentifer\n" + obj.toString());
 		baseobj = new DatabaseObject(obj);
 		for(SetOfObservationsCollapsible observe : setofobservables) {
 			observe.setIdentifier(obj);

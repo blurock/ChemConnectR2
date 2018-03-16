@@ -121,8 +121,6 @@ public class SetOfObservationsCollapsible extends Composite implements ChooseFro
 		baseobj = new DatabaseObject(obj);
 		String id = baseobj.getIdentifier() + "-" + rootID;
 		baseobj.setIdentifier(id);
-		Window.alert("SetOfObservationsCollapsible   setIdentifier\n" + obj.toString());
-
 		typetitle.setText(baseobj.getIdentifier());
 		
 		for(MainDataStructureCollapsible main : infoset) {
