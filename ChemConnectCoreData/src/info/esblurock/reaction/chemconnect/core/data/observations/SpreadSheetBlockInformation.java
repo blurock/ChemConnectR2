@@ -18,7 +18,7 @@ public class SpreadSheetBlockInformation implements Serializable {
 	
 	String title;
 	ArrayList<String> comments;
-	ArrayList<ArrayList<String>> rows;
+	ArrayList<SpreadSheetRow> rows;
 	
 	public SpreadSheetBlockInformation() {
 		
@@ -34,7 +34,7 @@ public class SpreadSheetBlockInformation implements Serializable {
 		justTitle = false;
 		title = "";
 		comments = new ArrayList<String>();
-		rows = new ArrayList<ArrayList<String>>();
+		rows = new ArrayList<SpreadSheetRow>();
 		currentLineCount = linecount;
 	}
 	public int getNumberOfLines() {
@@ -107,13 +107,13 @@ public class SpreadSheetBlockInformation implements Serializable {
 	public ArrayList<String> getComments() {
 		return comments;
 	}
-	public ArrayList<ArrayList<String>> getRows() {
+	public ArrayList<SpreadSheetRow> getRows() {
 		return rows;
 	}
 	public void addComment(String comment) {
 		comments.add(comment);
 	}
-	public void addRow(ArrayList<String> row) {
+	public void addRow(SpreadSheetRow row) {
 		rows.add(row);
 	}
 	public void incrementLineCount() {

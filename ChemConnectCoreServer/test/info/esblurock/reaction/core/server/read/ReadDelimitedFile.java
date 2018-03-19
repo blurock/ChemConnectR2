@@ -7,9 +7,11 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetBlockInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
+import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetRow;
 
 public class ReadDelimitedFile {
 
@@ -19,7 +21,8 @@ public class ReadDelimitedFile {
 				+ "c,d,e\n"
 				+ "1.4, 4.5, 3.0";
 		try {
-			SpreadSheetInputInformation input = new SpreadSheetInputInformation(SpreadSheetInputInformation.CVS,
+			DatabaseObject obj = new DatabaseObject();
+			SpreadSheetInputInformation input = new SpreadSheetInputInformation(obj,SpreadSheetInputInformation.CVS,
 					SpreadSheetInputInformation.STRINGSOURCE,matrix);
 			System.out.println(input.toString());
 			ObservationsFromSpreadSheet result = InterpretSpreadSheet.readSpreadSheet(input);
@@ -27,7 +30,7 @@ public class ReadDelimitedFile {
 			
 			
 			String url = "http://cms.heatfluxburner.org/wp-content/uploads/Bosschaart_CH4_Air_1atm_Tu_295K_thesis.xls";
-			input = new SpreadSheetInputInformation(SpreadSheetInputInformation.XLS,
+			input = new SpreadSheetInputInformation(obj,SpreadSheetInputInformation.XLS,
 					SpreadSheetInputInformation.URL,url);
 			System.out.println(input.toString());
 			result = InterpretSpreadSheet.readSpreadSheet(input);
@@ -38,7 +41,7 @@ public class ReadDelimitedFile {
 			ArrayList<SpreadSheetBlockInformation> blocks = result.getBlocks();
 			for(SpreadSheetBlockInformation block : blocks) {
 				System.out.println("Block");
-			for(ArrayList<String> row : block.getRows()) {
+			for(SpreadSheetRow row : block.getRows()) {
 				System.out.println(row);
 			}
 			}

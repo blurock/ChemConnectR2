@@ -1,8 +1,12 @@
 package info.esblurock.reaction.chemconnect.core.data.observations;
 
-import java.io.Serializable;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Index;
 
-public class SpreadSheetInputInformation implements Serializable {
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+
+@Entity
+public class SpreadSheetInputInformation  extends DatabaseObject  {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -19,9 +23,13 @@ public class SpreadSheetInputInformation implements Serializable {
 	public static String[] sourcechoices = {URL,STRINGSOURCE};
 	
 	
+	@Index
 	String type;
+	@Index
 	String delimitor;
+	@Index
 	String source;
+	@Index
 	String sourceType;
 	
 	public SpreadSheetInputInformation() {
@@ -31,7 +39,8 @@ public class SpreadSheetInputInformation implements Serializable {
 	}
 	
 
-	public SpreadSheetInputInformation(String type, String sourceType, String source) {
+	public SpreadSheetInputInformation(DatabaseObject obj, String type, String sourceType, String source) {
+		super(obj);
 		this.type = type;
 		this.sourceType = sourceType;
 		this.delimitor = ",";

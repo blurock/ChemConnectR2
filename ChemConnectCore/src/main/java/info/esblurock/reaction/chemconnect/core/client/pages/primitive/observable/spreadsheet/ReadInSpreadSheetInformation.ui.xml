@@ -1,134 +1,144 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-xmlns:g="urn:import:com.google.gwt.user.client.ui"
-	xmlns:m="urn:import:gwt.material.design.client.ui" 
-	xmlns:ma="urn:import:gwt.material.design.addins.client"
-	xmlns:c="urn:import:gwt.material.design.addins.client.combobox">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:m="urn:import:gwt.material.design.client.ui"
+	xmlns:ma="urn:import:gwt.material.design.addins.client" xmlns:c="urn:import:gwt.material.design.addins.client.combobox">
 	<ui:style>
 	.important {
 		font-weight: bold;
 	}
 	</ui:style>
 	<ma:overlay.MaterialOverlay ui:field="overlay"
-		textAlign="CENTER" textColor="WHITE">
-	<g:ScrollPanel height="500px">
-	<m:MaterialPanel>
-		<ma:stepper.MaterialStepper ui:field="stepper">
-			<ma:stepper.MaterialStep ui:field="step1" step="1"
-				title="Name of Step 1" description="Description of Step 1"
-				backgroundColor="GREY_DARKEN_2">
-				<m:MaterialPanel width="100%" backgroundColor="GREY_LIGHTEN_2">
-					<m:MaterialRow ui:field="sheetprops">
-						<m:MaterialColumn grid="s3">
-							<m:MaterialTooltip ui:field="delimitortooltip">
-								<m:MaterialLink ui:field="delimitor" textColor="BLACK" />
-							</m:MaterialTooltip>
-						</m:MaterialColumn>
-						<m:MaterialColumn grid="s3">
-							<m:MaterialTooltip ui:field="typetooltip">
-								<m:MaterialLink ui:field="filetype" textColor="BLACK" />
-							</m:MaterialTooltip>
-						</m:MaterialColumn>
-						<m:MaterialColumn grid="s3">
-							<m:MaterialTooltip ui:field="sourcetooltip">
-								<m:MaterialLink ui:field="sourcetype" textColor="BLACK" />
-							</m:MaterialTooltip>
-						</m:MaterialColumn>
-					</m:MaterialRow>
-					<m:MaterialRow ui:field="sourcerow">
-						<m:MaterialColumn grid="s2">
-							<m:MaterialLink ui:field="readhttp" textColor="BLACK" />
-						</m:MaterialColumn>
-						<m:MaterialColumn grid="s10">
-							<m:MaterialTextBox ui:field="httpsourceline"
-								textColor="BLACK" />
-						</m:MaterialColumn>
+		height="100%" textAlign="CENTER" textColor="WHITE">
+		<g:ScrollPanel height="100%">
+			<m:MaterialPanel>
+				<ma:stepper.MaterialStepper ui:field="stepper">
+					<ma:stepper.MaterialStep ui:field="step1"
+						step="1" title="Name of Step 1" description="Description of Step 1"
+						backgroundColor="GREY_DARKEN_2">
+						<m:MaterialPanel width="100%" backgroundColor="GREY_LIGHTEN_2">
+							<m:MaterialRow ui:field="sheetprops">
+								<m:MaterialColumn grid="s3">
+									<m:MaterialTooltip ui:field="delimitortooltip">
+										<m:MaterialLink ui:field="delimitor" textColor="BLACK" />
+									</m:MaterialTooltip>
+								</m:MaterialColumn>
+								<m:MaterialColumn grid="s3">
+									<m:MaterialTooltip ui:field="typetooltip">
+										<m:MaterialLink ui:field="filetype" textColor="BLACK" />
+									</m:MaterialTooltip>
+								</m:MaterialColumn>
+								<m:MaterialColumn grid="s3">
+									<m:MaterialTooltip ui:field="sourcetooltip">
+										<m:MaterialLink ui:field="sourcetype"
+											textColor="BLACK" />
+									</m:MaterialTooltip>
+								</m:MaterialColumn>
+							</m:MaterialRow>
+							<m:MaterialRow ui:field="sourcerow">
+								<m:MaterialColumn grid="s2">
+									<m:MaterialLink ui:field="readhttp" textColor="BLACK" />
+								</m:MaterialColumn>
+								<m:MaterialColumn grid="s10">
+									<m:MaterialTextBox ui:field="httpsourceline"
+										textColor="BLACK" />
+								</m:MaterialColumn>
+							</m:MaterialRow>
+						</m:MaterialPanel>
+						<m:MaterialButton ui:field="btnContinue1" text="Continue to Step 2"
+							grid="l4" marginTop="12" textColor="WHITE" waves="DEFAULT" />
+						<m:MaterialButton ui:field="btnPrev1" text="Cancel"
+							grid="l4" marginTop="12" type="FLAT" waves="DEFAULT" />
+					</ma:stepper.MaterialStep>
+					<ma:stepper.MaterialStep ui:field="step2"
+						step="2" title="Name of Step 2" description="Description of Step 1"
+						backgroundColor="GREY_DARKEN_2">
+						<m:MaterialPanel backgroundColor="GREY_LIGHTEN_2">
+							<m:MaterialRow>
+								<ma:splitpanel.MaterialSplitPanel
+									backgroundColor="BLUE" height="500px" barPosition="10">
+									<m:MaterialPanel ui:field="interpret"
+										backgroundColor="GREY_LIGHTEN_2">
+										<m:MaterialRow>
+											<m:MaterialColumn grid="s4">
+												<m:MaterialTooltip ui:field="uptooltip">
+													<m:MaterialIcon ui:field="up" iconType="ARROW_DROP_UP"
+														iconColor="BLACK" />
+												</m:MaterialTooltip>
+											</m:MaterialColumn>
+											<m:MaterialColumn grid="s4">
+												<m:MaterialTooltip ui:field="downtooltip">
+													<m:MaterialIcon ui:field="down" iconType="ARROW_DROP_DOWN"
+														iconColor="BLACK" />
+												</m:MaterialTooltip>
+											</m:MaterialColumn>
+											<m:MaterialColumn grid="s4">
+												<m:MaterialTooltip ui:field="rowstooltip">
+													<m:MaterialTextBox ui:field="numberrows" />
+												</m:MaterialTooltip>
+											</m:MaterialColumn>
+										</m:MaterialRow>
+										<m:MaterialRow>
+											<m:MaterialColumn grid="s6">
+												<m:MaterialTextBox ui:field="beginrows" />
+											</m:MaterialColumn>
+											<m:MaterialColumn grid="s6">
+												<m:MaterialTextBox ui:field="endrows" />
+											</m:MaterialColumn>
+										</m:MaterialRow>
+										<m:MaterialRow>
+											<m:MaterialColumn grid="s12">
+												<m:MaterialTooltip ui:field="searchtooltip">
+													<m:MaterialTextBox ui:field="searchbegin" />
+												</m:MaterialTooltip>
+											</m:MaterialColumn>
+										</m:MaterialRow>
+										<m:MaterialRow>
+											<m:MaterialColumn grid="s6">
+												<m:MaterialTooltip ui:field="titletooltip">
+													<m:MaterialCheckBox ui:field="title"
+														text="Title" type="FILLED" />
+												</m:MaterialTooltip>
+											</m:MaterialColumn>
+											<m:MaterialColumn grid="s6">
+												<m:MaterialTooltip ui:field="nonblacktooltip">
+													<m:MaterialCheckBox ui:field="nonblank"
+														text="Empty" type="FILLED" />
+												</m:MaterialTooltip>
+											</m:MaterialColumn>
+										</m:MaterialRow>
+									</m:MaterialPanel>
+									<g:ScrollPanel ui:field="tablepanel" />
+								</ma:splitpanel.MaterialSplitPanel>
+							</m:MaterialRow>
+						</m:MaterialPanel>
+						<m:MaterialButton ui:field="btnContinue2" text="Continue to Step 3"
+							grid="l4" marginTop="12" textColor="WHITE" waves="DEFAULT" />
+						<m:MaterialButton ui:field="btnPrev2" text="Cancel"
+							grid="l4" marginTop="12" type="FLAT" waves="DEFAULT" />
+					</ma:stepper.MaterialStep>
+					<ma:stepper.MaterialStep ui:field="step3"
+						step="3" title="Name of Step 3" description="Description of Step 1"
+						backgroundColor="GREY_DARKEN_2">
+						<m:MaterialPanel width="100%" backgroundColor="GREY_LIGHTEN_2">
+							<ma:splitpanel.MaterialSplitPanel
+								backgroundColor="BLUE" height="500px">
+								<m:MaterialPanel backgroundColor="GREY_LIGHTEN_2"></m:MaterialPanel>
+								<m:MaterialPanel backgroundColor="GREY_LIGHTEN_3"></m:MaterialPanel>
+							</ma:splitpanel.MaterialSplitPanel>
+						</m:MaterialPanel>
+						<m:MaterialButton ui:field="btnContinue3" text="Finish"
+							grid="l4" marginTop="12" textColor="WHITE" waves="DEFAULT" />
+						<m:MaterialButton ui:field="btnPrev3" text="Cancel"
+							grid="l4" marginTop="12" type="FLAT" waves="DEFAULT" />
+					</ma:stepper.MaterialStep>
+				</ma:stepper.MaterialStepper>
+				<m:MaterialPanel backgroundColor="GREY_LIGHTEN_1">
+					<m:MaterialRow ui:field="closerow">
+						<m:MaterialButton ui:field="close" text="Close"
+							type="FLAT" />
 					</m:MaterialRow>
 				</m:MaterialPanel>
-				<m:MaterialButton ui:field="btnContinue1" text="Continue to Step 2"
-					grid="l4" marginTop="12" textColor="WHITE" waves="DEFAULT" />
-				<m:MaterialButton ui:field="btnPrev1" text="Cancel"
-					grid="l4" marginTop="12" type="FLAT" waves="DEFAULT" />
-			</ma:stepper.MaterialStep>
-			<ma:stepper.MaterialStep  ui:field="step2" step="2"
-				title="Name of Step 2" description="Description of Step 1" backgroundColor="GREY_DARKEN_2">
-				<m:MaterialPanel width="100%" backgroundColor="GREY_LIGHTEN_2"
-				>
-					<m:MaterialRow>
-						<ma:splitpanel.MaterialSplitPanel
-							backgroundColor="BLUE" height="500px">
-							<m:MaterialPanel backgroundColor="GREY_LIGHTEN_2">
-								<m:MaterialPanel ui:field="interpret">
-									<m:MaterialRow>
-										<m:MaterialColumn grid="s1">
-											<m:MaterialCheckBox ui:field="linecheck" />
-										</m:MaterialColumn>
-										<m:MaterialColumn grid="s5">
-											<m:MaterialTooltip ui:field="linetooltip">
-												<m:MaterialTextBox ui:field="linebegin" />
-											</m:MaterialTooltip>
-										</m:MaterialColumn>
-									</m:MaterialRow>
-									<m:MaterialRow>
-										<m:MaterialColumn grid="s1">
-											<m:MaterialCheckBox ui:field="searchcheck" />
-										</m:MaterialColumn>
-										<m:MaterialColumn grid="s5">
-											<m:MaterialTooltip ui:field="searchtooltip">
-												<m:MaterialTextBox ui:field="searchbegin" />
-											</m:MaterialTooltip>
-										</m:MaterialColumn>
-									</m:MaterialRow>
-									<m:MaterialRow>
-										<m:MaterialColumn grid="s6">
-											<m:MaterialTooltip ui:field="titletooltip">
-												<m:MaterialCheckBox ui:field="title"
-													text="Title" type="FILLED" />
-											</m:MaterialTooltip>
-										</m:MaterialColumn>
-									</m:MaterialRow>
-									<m:MaterialRow>
-									</m:MaterialRow>
-								</m:MaterialPanel>
-								<m:MaterialPanel ui:field="parameters">
-								</m:MaterialPanel>
-							</m:MaterialPanel>
-							<m:MaterialPanel ui:field="tablepanel"
-								backgroundColor="GREY_LIGHTEN_3">
-							</m:MaterialPanel>
-						</ma:splitpanel.MaterialSplitPanel>
-					</m:MaterialRow>
-
-
-				</m:MaterialPanel>
-				<m:MaterialButton ui:field="btnContinue2" text="Continue to Step 3"
-					grid="l4" marginTop="12" textColor="WHITE" waves="DEFAULT" />
-				<m:MaterialButton ui:field="btnPrev2" text="Cancel"
-					grid="l4" marginTop="12" type="FLAT" waves="DEFAULT" />
-			</ma:stepper.MaterialStep>
-			<ma:stepper.MaterialStep  ui:field="step3" step="3"
-				title="Name of Step 3" description="Description of Step 1"
-				backgroundColor="GREY_DARKEN_2">
-				<m:MaterialPanel width="100%" backgroundColor="GREY_LIGHTEN_2">
-					<ma:splitpanel.MaterialSplitPanel
-						backgroundColor="BLUE" height="500px">
-					<m:MaterialPanel backgroundColor="GREY_LIGHTEN_2"></m:MaterialPanel>
-					<m:MaterialPanel backgroundColor="GREY_LIGHTEN_3"></m:MaterialPanel>
-				</ma:splitpanel.MaterialSplitPanel>
-				</m:MaterialPanel>
-				<m:MaterialButton ui:field="btnContinue3" text="Finish"
-					grid="l4" marginTop="12" textColor="WHITE" waves="DEFAULT" />
-				<m:MaterialButton ui:field="btnPrev3" text="Cancel"
-					grid="l4" marginTop="12" type="FLAT" waves="DEFAULT" />
-			</ma:stepper.MaterialStep>
-		</ma:stepper.MaterialStepper>
-		<m:MaterialPanel backgroundColor="GREY_LIGHTEN_1">
-			<m:MaterialRow ui:field="closerow">
-				<m:MaterialButton ui:field="close" text="Close"
-					type="FLAT" />
-			</m:MaterialRow>
-		</m:MaterialPanel>
-		</m:MaterialPanel>
+			</m:MaterialPanel>
 		</g:ScrollPanel>
 	</ma:overlay.MaterialOverlay>
 </ui:UiBinder> 

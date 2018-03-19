@@ -160,11 +160,6 @@ public class ContactDatabaseAccessImpl  extends ServerBase implements ContactDat
 		return obj;
 	}
 	
-
-	
-	
-	
-	
 	public SetOfObservationsTransfer getSetOfObservationsInformation(String observations) {
 		BuildSetOfObservationsInformation build
 			= new BuildSetOfObservationsInformation(observations);
@@ -182,7 +177,8 @@ public class ContactDatabaseAccessImpl  extends ServerBase implements ContactDat
 	}
 	public ObservationsFromSpreadSheet interpretSpreadSheet(SpreadSheetInputInformation input) throws IOException {
 		ObservationsFromSpreadSheet obs = InterpretSpreadSheet.readSpreadSheet(input);
-		InterpretSpreadSheet.findBlocks(obs);
+		System.out.println(obs.toString());
+		//InterpretSpreadSheet.findBlocks(obs);
 		return obs;
 	}
 }

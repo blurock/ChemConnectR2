@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.ui.table.MaterialDataTable;
 import gwt.material.design.client.ui.table.cell.TextColumn;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetBlockInformation;
+import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetRow;
 
 public class SpreadSheetBlockMatrix extends Composite {
 
@@ -26,7 +27,7 @@ public class SpreadSheetBlockMatrix extends Composite {
 	}
 
 	@UiField
-	MaterialDataTable<ArrayList<String>> table;
+	MaterialDataTable<SpreadSheetRow> table;
 	
 	ArrayList<String> row;
 	
@@ -42,7 +43,6 @@ public class SpreadSheetBlockMatrix extends Composite {
 	void init() {
 		
 	}
-
 	void fill() {
 		for(int i=0;i<block.getMaxNumberOfColumns();i++) {
 			String name = "Col:" + i;
@@ -55,13 +55,12 @@ public class SpreadSheetBlockMatrix extends Composite {
 	void addColumn(int columnnumber, String columnname) {
 		int number = columnnumber;
 		
-		TextColumn<ArrayList<String>> cell = new TextColumn<ArrayList<String>>() {
-
+		TextColumn<SpreadSheetRow> cell = new TextColumn<SpreadSheetRow>() {
 			@Override
-			public String getValue(ArrayList<String> object) {
+			public String getValue(SpreadSheetRow object) {
 				String ans = "empty";
-				if(object.size() > number) {
-					ans = object.get(number);
+				if(object.getRow().size() > number) {
+					ans = object.getRow().get(number);
 				}
 				return ans;
 			}

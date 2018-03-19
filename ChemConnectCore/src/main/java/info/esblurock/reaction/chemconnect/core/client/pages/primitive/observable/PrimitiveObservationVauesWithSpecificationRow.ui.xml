@@ -49,12 +49,6 @@
 			</m:MaterialColumn>
 		</m:MaterialRow>
 		<m:MaterialRow>
-			<m:MaterialColumn ui:field="measures" grid="s12">
-				<m:MaterialTextArea ui:field="textarea"
-					textColor="BLACK" resizeRule="FOCUS" />
-			</m:MaterialColumn>
-		</m:MaterialRow>
-		<m:MaterialRow>
 			<m:MaterialColumn ui:field="tables" grid="s12">
 				<m:MaterialPanel ui:field="tablepanel" />
 			</m:MaterialColumn>

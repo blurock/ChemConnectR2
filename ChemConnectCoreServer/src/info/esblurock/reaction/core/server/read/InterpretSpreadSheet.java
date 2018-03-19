@@ -24,6 +24,7 @@ import com.ibm.icu.util.StringTokenizer;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetBlockInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
+import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetRow;
 
 public class InterpretSpreadSheet {
 
@@ -66,18 +67,21 @@ public class InterpretSpreadSheet {
 
 	public static void readDelimitedFile(InputStream is, String delimiter, ObservationsFromSpreadSheet obs)
 			throws IOException {
+		String parent = "";
 		BufferedInputStream reader = new BufferedInputStream(is);
 		BufferedReader r = new BufferedReader(new InputStreamReader(reader, StandardCharsets.UTF_8));
 		boolean notdone = true;
+		int count = 0;
+		ArrayList<String> lst = new ArrayList<String>();
 		while (notdone) {
-			ArrayList<String> row = new ArrayList<String>();
 			String line = r.readLine();
 			if (line != null) {
 				StringTokenizer tok = new StringTokenizer(line, delimiter);
 				while (tok.hasMoreTokens()) {
 					String cell = tok.nextToken();
-					row.add(cell);
+					lst.add(cell);
 				}
+				SpreadSheetRow row = new SpreadSheetRow(obs.getBase(),count++,parent,lst);
 				obs.addRow(row);
 			} else {
 				notdone = false;
@@ -86,6 +90,8 @@ public class InterpretSpreadSheet {
 	}
 
 	public static void readXLSFile(InputStream is, ObservationsFromSpreadSheet obs) throws IOException {
+		String parent = "";
+		
 		HSSFWorkbook wb = new HSSFWorkbook(is);
 
 		HSSFSheet sheet = wb.getSheetAt(0);
@@ -93,35 +99,37 @@ public class InterpretSpreadSheet {
 		HSSFCell cell;
 
 		Iterator<Row> rows = sheet.rowIterator();
+		int count = 0;
 		while (rows.hasNext()) {
 			row = (HSSFRow) rows.next();
 			Iterator<Cell> cells = row.cellIterator();
-			ArrayList<String> rowarray = new ArrayList<String>();
+			ArrayList<String> array = new ArrayList<String>();
 			while (cells.hasNext()) {
 				cell = (HSSFCell) cells.next();
 				if (cell.getCellTypeEnum() == CellType.STRING) {
 					String element = cell.getStringCellValue();
-					rowarray.add(element);
+					array.add(element);
 				} else if (cell.getCellTypeEnum() == CellType.NUMERIC) {
 					double dbl = cell.getNumericCellValue();
 					Double elementD = new Double(dbl);
 					String elementS = elementD.toString();
-					rowarray.add(elementS);
+					array.add(elementS);
 				} else {
 					// U Can Handel Boolean, Formula, Errors
 				}
 			}
-			obs.addRow(rowarray);
+			SpreadSheetRow arrayrow = new SpreadSheetRow(obs.getBase(),count++,parent,array);
+			obs.addRow(arrayrow);
 		}
 		wb.close();
 	}
 
 	public static void findBlocks(ObservationsFromSpreadSheet obs) {
-		ArrayList<ArrayList<String>> rows = obs.getMatrix();
-		Iterator<ArrayList<String>> iter = rows.iterator();
+		ArrayList<SpreadSheetRow> rows = obs.getMatrix();
+		Iterator<SpreadSheetRow> iter = rows.iterator();
 		int linecount = 0;
 		boolean morerows = iter.hasNext();
-		ArrayList<String> row = iter.next();
+		SpreadSheetRow row = iter.next();
 		while (morerows) {
 			SpreadSheetBlockInformation block = new SpreadSheetBlockInformation(linecount);
 			block.setFirstLine(linecount);
@@ -149,7 +157,7 @@ public class InterpretSpreadSheet {
 		}
 	}
 
-	public static ArrayList<String> isolateTitleAndComments(ArrayList<String> row, Iterator<ArrayList<String>> iter,
+	public static SpreadSheetRow isolateTitleAndComments(SpreadSheetRow row, Iterator<SpreadSheetRow> iter,
 			SpreadSheetBlockInformation block) {
 		if (row.size() == 1) {
 			block.setTitle(row.get(0));
@@ -177,7 +185,7 @@ public class InterpretSpreadSheet {
 		return row;
 	}
 
-	public static ArrayList<String> isolateBlockElements(ArrayList<String> row, Iterator<ArrayList<String>> iter,
+	public static SpreadSheetRow isolateBlockElements(SpreadSheetRow row, Iterator<SpreadSheetRow> iter,
 			SpreadSheetBlockInformation block) {
 		block.setMinNumberOfColumns(1000000);
 		while (row.size() > 1) {
@@ -195,8 +203,8 @@ public class InterpretSpreadSheet {
 		return row;
 	}
 
-	public static ArrayList<String> nextRow(Iterator<ArrayList<String>> iter, SpreadSheetBlockInformation block) {
-		ArrayList<String> row = iter.next();
+	public static SpreadSheetRow nextRow(Iterator<SpreadSheetRow> iter, SpreadSheetBlockInformation block) {
+		SpreadSheetRow row = iter.next();
 		block.incrementTotalLineCount();
 		return row;
 	}

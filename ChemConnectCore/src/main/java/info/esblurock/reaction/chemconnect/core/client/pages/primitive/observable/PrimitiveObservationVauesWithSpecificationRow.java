@@ -7,7 +7,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -17,20 +16,12 @@ import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialRow;
 import gwt.material.design.client.ui.MaterialSwitch;
-import gwt.material.design.client.ui.MaterialTextArea;
-import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.MaterialTooltip;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHeirarchy;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchies;
-import info.esblurock.reaction.chemconnect.core.client.gcs.UploadFileToGCS;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.spreadsheet.ReadInSpreadSheetInformation;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
-import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
-import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
-import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
-import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetBlockInformation;
-import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterSpecificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.SetOfObservationsInformation;
 
@@ -58,8 +49,6 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite imp
 	MaterialLink blockform;
 	@UiField
 	MaterialLink readinput;
-	@UiField
-	MaterialTextArea textarea;
 	@UiField
 	MaterialSwitch toggleinfo;
 	@UiField
@@ -97,8 +86,6 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite imp
 		topconcept.setText("Value Concept");
 		valuetype.setText("Device");
 		readinput.setText("Read File");
-		textarea.setLabel("Source Input Area");
-		textarea.setText("xxxx,yyyy,zzz .....\naaa,bbb,ccc\n...");
 		blocktip.setText("Form of Input");
 		blockform.setText("MatrixOfValues");
 		visible = true;
@@ -113,8 +100,6 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite imp
 	
 	public void fill(SetOfObservationsInformation obsspec) {
 		obj = new DatabaseObject(obsspec);
-		setFullIdentifier();
-		//photo.setIdentifier(obj);
 		setFullIdentifier();
 		specificationpanel.clear();
 		obsrow = new SetOfObservationsRow(obsspec, 
@@ -155,11 +140,9 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite imp
 	
 	@UiHandler("readinput")
 	void onClickReadInfo(ClickEvent e) {
-		Window.alert("ReadInSpreadSheetInformation");
-		ReadInSpreadSheetInformation sheet = new ReadInSpreadSheetInformation(modalpanel);
+		ReadInSpreadSheetInformation sheet = new ReadInSpreadSheetInformation(identifiertip.getText(), modalpanel);
 		sheet.open();
 		modalpanel.add(sheet);
-		Window.alert("ReadInSpreadSheetInformation");		
 	}
 	
 	@UiHandler("toggleinfo")

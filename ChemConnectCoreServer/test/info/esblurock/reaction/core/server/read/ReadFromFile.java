@@ -59,7 +59,7 @@ public class ReadFromFile {
 		HSSFSheet sheet=wb.getSheetAt(0);
 		HSSFRow row; 
 		HSSFCell cell;
-
+		int rowcount = 0;
 		Iterator<Row> rows = sheet.rowIterator();
 		ArrayList<ArrayList<String>> matrix = new ArrayList<ArrayList<String>>();
 		while (rows.hasNext())
@@ -82,9 +82,12 @@ public class ReadFromFile {
 					//U Can Handel Boolean, Formula, Errors
 				}
 			}
+			System.out.println(rowcount++ + ":  " + rowarray.size());
+			System.out.println(rowarray);
 			matrix.add(rowarray);
 		}
 		System.out.println(matrix);
 		wb.close();
 	}
+
 }
