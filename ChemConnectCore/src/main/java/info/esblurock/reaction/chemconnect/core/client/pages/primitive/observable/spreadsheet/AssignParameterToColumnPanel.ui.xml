@@ -7,8 +7,6 @@
 		font-weight: bold;
 	}
 	</ui:style>
-	<g:HTMLPanel>
-		Hello,
-		<g:Button styleName="{style.important}" ui:field="button" />
-	</g:HTMLPanel>
+	<m:MaterialPanel ui:field="parameterpanel"  padding="0" backgroundColor="GREY_LIGHTEN_1">
+	</m:MaterialPanel>
 </ui:UiBinder> 

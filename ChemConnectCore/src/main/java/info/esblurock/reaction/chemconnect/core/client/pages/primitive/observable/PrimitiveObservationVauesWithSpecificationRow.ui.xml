@@ -10,20 +10,24 @@
 	</ui:style>
 	<m:MaterialPanel ui:field="toppanel">
 		<m:MaterialPanel ui:field="modalpanel" />
-
+			<m:MaterialDivider/>
 		<m:MaterialRow ui:field="info">
-			<m:MaterialColumn grid="s4">
+			<m:MaterialColumn grid="s3">
 				<m:MaterialTooltip ui:field="identifiertip">
 					<m:MaterialLink ui:field="topconcept" textColor="BLACK" />
 				</m:MaterialTooltip>
 			</m:MaterialColumn>
-			<m:MaterialColumn grid="s4">
+			<m:MaterialColumn grid="s3">
 				<m:MaterialLink ui:field="valuetype" textColor="BLACK" />
 			</m:MaterialColumn>
-			<m:MaterialColumn grid="s4">
+			<m:MaterialColumn grid="s3">
 				<m:MaterialTooltip ui:field="toggletip">
 					<m:MaterialSwitch ui:field="toggleinfo" />
 				</m:MaterialTooltip>
+			</m:MaterialColumn>
+			<m:MaterialColumn grid="s3">
+				<m:MaterialLink ui:field="readinput" text="Read Input"
+					textColor="BLACK" />
 			</m:MaterialColumn>
 		</m:MaterialRow>
 		<m:MaterialRow>
@@ -31,26 +35,14 @@
 				<m:MaterialPanel ui:field="specificationpanel" />
 			</m:MaterialColumn>
 		</m:MaterialRow>
-		<m:MaterialRow ui:field="inputrow">
-			<m:MaterialColumn grid="s4">
-				<m:MaterialTooltip ui:field="blocktip">
-					<m:MaterialLink ui:field="blockform" text="Type"
-						textColor="BLACK" />
-				</m:MaterialTooltip>
-			</m:MaterialColumn>
-			<m:MaterialColumn grid="s8">
-				<m:MaterialLink ui:field="readinput" text="Read Input"
-					textColor="BLACK" />
-			</m:MaterialColumn>
-		</m:MaterialRow>
-		<m:MaterialRow>
-			<m:MaterialColumn ui:field="uploadcolumn" grid="s12">
-				<m:MaterialCollapsible ui:field="uploadpanel" />
-			</m:MaterialColumn>
-		</m:MaterialRow>
 		<m:MaterialRow>
 			<m:MaterialColumn ui:field="tables" grid="s12">
-				<m:MaterialPanel ui:field="tablepanel" />
+			<m:MaterialDivider/>
+				<m:MaterialPanel ui:field="tablepanel">
+				<m:MaterialRow ui:field="interpretationrow"/>
+				<m:MaterialRow ui:field="matrixrow"/>
+				<m:MaterialRow ui:field="matrixformrow"/>
+				</m:MaterialPanel>
 			</m:MaterialColumn>
 		</m:MaterialRow>
 	</m:MaterialPanel>

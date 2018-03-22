@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.function.Predicate;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -31,6 +33,7 @@ import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatab
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
+import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInterpretation;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetRow;
 
 public class ReadInSpreadSheetInformation extends Composite implements ObservationsFromSpreadSheetInterface {
@@ -77,6 +80,8 @@ public class ReadInSpreadSheetInformation extends Composite implements Observati
 	MaterialLink readhttp;
 	@UiField
 	MaterialTextBox httpsourceline;
+	@UiField
+	MaterialPanel columnpanel;
 
 	@UiField
 	MaterialTooltip rowstooltip;
@@ -104,27 +109,36 @@ public class ReadInSpreadSheetInformation extends Composite implements Observati
 	@UiField
 	MaterialStep step1, step2, step3;
 
+	ArrayList<String> parameterNames;
 	SpreadSheetMatrix spreadsheet;
-	MaterialPanel toptablepanel;
+	SpreadSheetInformationExtractionInterface top;
 	int numberOfVisibleRows;
 	int beginningRow;
 	int endingRow;
 	ArrayList<SpreadSheetRow> origmatrix;
 	ArrayList<SpreadSheetRow> matrix;
 	ArrayList<SpreadSheetRow> visiblematrix;
+	SpreadSheetInterpretation interpretation;
 	String obstitle;
 	int maxcount;
-
+	AssignParameterToColumnPanel assign;
+	DatabaseObject obj;
+	String parent;
 	public ReadInSpreadSheetInformation() {
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
 	}
 
-	public ReadInSpreadSheetInformation(String obstitle, MaterialPanel toptablepanel) {
+	public ReadInSpreadSheetInformation(
+			DatabaseObject obj, String parent,
+			String obstitle, ArrayList<String> parameterNames, SpreadSheetInformationExtractionInterface top) {
 		initWidget(uiBinder.createAndBindUi(this));
+		this.obj = obj;
+		this.parent = parent;
+		this.parameterNames = parameterNames;
 		this.obstitle = obstitle;
 		spreadsheet = null;
-		this.toptablepanel = toptablepanel;
+		this.top = top;
 		init();
 	}
 
@@ -181,9 +195,27 @@ public class ReadInSpreadSheetInformation extends Composite implements Observati
 		this.removeFromParent();
 	}
 
-	@UiHandler({ "btnContinue1", "btnContinue2" })
-	void onNextStep(ClickEvent e) {
+	@UiHandler("btnContinue1")
+	void onNextStep1(ClickEvent e) {
 		stepper.nextStep();
+	}
+	
+	@UiHandler("btnContinue2")
+	void onNextStep2(ClickEvent e) {
+		stepper.nextStep();
+		columnpanel.clear();
+		columnpanel.setVerticalAlign(VerticalAlign.TOP);
+		boolean error = true;
+		SpreadSheetRow spreadrow = matrix.get(beginningRow);
+		if(title.getValue().booleanValue()) {
+			ArrayList<String> columns = spreadrow.getRow();
+			assign = new AssignParameterToColumnPanel(parameterNames,error,columns);
+			columnpanel.add(assign);
+		} else {
+			int colcount = spreadrow.getRow().size();
+			assign = new AssignParameterToColumnPanel(parameterNames,error,colcount);
+			columnpanel.add(assign);
+		}
 	}
 
 	@UiHandler("btnContinue3")
@@ -210,6 +242,20 @@ public class ReadInSpreadSheetInformation extends Composite implements Observati
 	@UiHandler("btnContinue3")
 	void onFinish(ClickEvent e) {
 		MaterialToast.fireToast("All done.");
+		top.setCorrespondences(assign.getCorrespondences(obj, parent));
+		
+		ArrayList<SpreadSheetRow> visible = new ArrayList<SpreadSheetRow>();
+		for(int i=beginningRow; i<endingRow;i++) {
+			visible.add(matrix.get(i));
+		}
+		top.setIsolatedMatrix(visible);
+		
+		int titlerow = -1;
+		if(title.getValue().booleanValue()) {
+			titlerow = beginningRow;
+		}
+		interpretation = new SpreadSheetInterpretation(obj,parent,beginningRow,endingRow,titlerow,searchbegin.getText(),title.getValue().booleanValue());
+		top.setMatrixInterpretation(interpretation);
 		stepper.reset();
 		overlay.close();
 	}
@@ -319,7 +365,8 @@ public class ReadInSpreadSheetInformation extends Composite implements Observati
 		endingRow = matrix.size();
 		numberOfVisibleRows = 200;
 		setUpMatrix();
-		}
+		stepper.nextStep();
+	}
 
 	public void fieldUpdate() {
 		numberrows.setText(String.valueOf(numberOfVisibleRows));

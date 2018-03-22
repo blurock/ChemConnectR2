@@ -1,0 +1,24 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:m="urn:import:gwt.material.design.client.ui"
+	xmlns:ma="urn:import:gwt.material.design.addins.client" xmlns:c="urn:import:gwt.material.design.addins.client.combobox">
+	<ui:style>
+	.important {
+		font-weight: bold;
+	}
+	</ui:style>
+	<m:MaterialRow>
+		<m:MaterialColumn grid="s5">
+			<m:MaterialLink ui:field="parametername" textColor="BLACK" />
+		</m:MaterialColumn>
+		<m:MaterialColumn grid="s4">
+			<m:MaterialLink ui:field="columnname" textColor="BLACK" />
+		</m:MaterialColumn>
+		<m:MaterialColumn grid="s2">
+			<m:MaterialLink ui:field="error" textColor="BLACK" />
+		</m:MaterialColumn>
+		<m:MaterialColumn grid="s1">
+			<m:MaterialLink ui:field="columnnumber" textColor="BLACK" />
+		</m:MaterialColumn>
+	</m:MaterialRow>
+</ui:UiBinder> 

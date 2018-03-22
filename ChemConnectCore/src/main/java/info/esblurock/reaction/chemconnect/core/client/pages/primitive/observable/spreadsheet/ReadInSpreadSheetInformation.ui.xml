@@ -47,7 +47,7 @@
 						<m:MaterialButton ui:field="btnContinue1" text="Continue to Step 2"
 							grid="l4" marginTop="12" textColor="WHITE" waves="DEFAULT" />
 						<m:MaterialButton ui:field="btnPrev1" text="Cancel"
-							grid="l4" marginTop="12" type="FLAT" waves="DEFAULT" />
+							grid="l4" marginTop="12" textColor="WHITE" waves="DEFAULT" />
 					</ma:stepper.MaterialStep>
 					<ma:stepper.MaterialStep ui:field="step2"
 						step="2" title="Name of Step 2" description="Description of Step 1"
@@ -114,22 +114,18 @@
 						<m:MaterialButton ui:field="btnContinue2" text="Continue to Step 3"
 							grid="l4" marginTop="12" textColor="WHITE" waves="DEFAULT" />
 						<m:MaterialButton ui:field="btnPrev2" text="Cancel"
-							grid="l4" marginTop="12" type="FLAT" waves="DEFAULT" />
+							grid="l4" marginTop="12" textColor="WHITE" waves="DEFAULT" />
 					</ma:stepper.MaterialStep>
-					<ma:stepper.MaterialStep ui:field="step3"
-						step="3" title="Name of Step 3" description="Description of Step 1"
-						backgroundColor="GREY_DARKEN_2">
-						<m:MaterialPanel width="100%" backgroundColor="GREY_LIGHTEN_2">
-							<ma:splitpanel.MaterialSplitPanel
-								backgroundColor="BLUE" height="500px">
-								<m:MaterialPanel backgroundColor="GREY_LIGHTEN_2"></m:MaterialPanel>
-								<m:MaterialPanel backgroundColor="GREY_LIGHTEN_3"></m:MaterialPanel>
-							</ma:splitpanel.MaterialSplitPanel>
-						</m:MaterialPanel>
+					<ma:stepper.MaterialStep ui:field="step3" step="3" backgroundColor="GREY_DARKEN_1">
+					<g:ScrollPanel>
+					    <m:MaterialRow>
+						<m:MaterialPanel ui:field="columnpanel" width="100%" backgroundColor="GREY_LIGHTEN_4"/>
+						</m:MaterialRow>
+					</g:ScrollPanel>
 						<m:MaterialButton ui:field="btnContinue3" text="Finish"
 							grid="l4" marginTop="12" textColor="WHITE" waves="DEFAULT" />
 						<m:MaterialButton ui:field="btnPrev3" text="Cancel"
-							grid="l4" marginTop="12" type="FLAT" waves="DEFAULT" />
+							grid="l4" marginTop="12" textColor="WHITE" waves="DEFAULT" />
 					</ma:stepper.MaterialStep>
 				</ma:stepper.MaterialStepper>
 				<m:MaterialPanel backgroundColor="GREY_LIGHTEN_1">

@@ -7,11 +7,10 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
-import gwt.material.design.client.ui.MaterialCollapsible;
-import gwt.material.design.client.ui.MaterialColumn;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialRow;
@@ -20,12 +19,18 @@ import gwt.material.design.client.ui.MaterialTooltip;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHeirarchy;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchies;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.spreadsheet.ReadInSpreadSheetInformation;
+import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.spreadsheet.SpreadSheetInformationExtractionInterface;
+import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.spreadsheet.SpreadSheetMatrix;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInterpretation;
+import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetRow;
+import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetTitleRowCorrespondence;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterSpecificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.SetOfObservationsInformation;
 
-public class PrimitiveObservationVauesWithSpecificationRow extends Composite implements  ChooseFromConceptHeirarchy {
+public class PrimitiveObservationVauesWithSpecificationRow extends Composite 
+	implements  ChooseFromConceptHeirarchy,SpreadSheetInformationExtractionInterface {
 	private static PrimitiveObservationVauesWithSpecificationRowUiBinder uiBinder = GWT
 			.create(PrimitiveObservationVauesWithSpecificationRowUiBinder.class);
 
@@ -46,28 +51,23 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite imp
 	@UiField
 	MaterialPanel specificationpanel;
 	@UiField
-	MaterialLink blockform;
-	@UiField
 	MaterialLink readinput;
 	@UiField
 	MaterialSwitch toggleinfo;
 	@UiField
-	MaterialRow inputrow;
-	@UiField
 	MaterialTooltip toggletip;
-	@UiField
-	MaterialTooltip blocktip;
 	@UiField
 	MaterialPanel tablepanel;
 	@UiField
-	MaterialColumn uploadcolumn;
+	MaterialRow matrixrow;
 	@UiField
-	MaterialCollapsible uploadpanel;
-
+	MaterialRow interpretationrow;
+	
 	boolean visible;
 	DatabaseObject obj;
 	//UploadFileToGCS photo;
 	SetOfObservationsRow obsrow;
+	ArrayList<String> parameterNames;
 	
 	public PrimitiveObservationVauesWithSpecificationRow() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -86,8 +86,6 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite imp
 		topconcept.setText("Value Concept");
 		valuetype.setText("Device");
 		readinput.setText("Read File");
-		blocktip.setText("Form of Input");
-		blockform.setText("MatrixOfValues");
 		visible = true;
 		toggleHideElements();
 
@@ -99,6 +97,7 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite imp
 	}
 	
 	public void fill(SetOfObservationsInformation obsspec) {
+		parameterNames = new ArrayList<String>(); 
 		obj = new DatabaseObject(obsspec);
 		setFullIdentifier();
 		specificationpanel.clear();
@@ -107,18 +106,16 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite imp
 				obsspec.getValueType());
 		specificationpanel.add(obsrow);
 		
-		ArrayList<String> properties = new ArrayList<String>();
-		
 		for(PrimitiveParameterSpecificationInformation info: obsspec.getDimensions()) {
 			String property = TextUtilities.removeNamespace(info.getPropertyType());
-			properties.add(property);
+			parameterNames.add(property);
 			String subid = obsspec.getIdentifier() + "-" + property;
 			info.setIdentifier(subid);
 			obsrow.addParameter(info);
 		}
 		for(PrimitiveParameterSpecificationInformation info: obsspec.getMeasures()) {
 			String property = TextUtilities.removeNamespace(info.getPropertyType());
-			properties.add(property);
+			parameterNames.add(property);
 			String subid = obsspec.getIdentifier() + "-" + property;
 			info.setIdentifier(subid);
 			obsrow.addParameter(info);			
@@ -134,13 +131,18 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite imp
 			toggletip.setText("Hide");
 		}
 		toggleinfo.setValue(visible);
-		inputrow.setVisible(visible);
-		specificationpanel.setVisible(visible);;
+		specificationpanel.setVisible(visible);
 	}
 	
 	@UiHandler("readinput")
 	void onClickReadInfo(ClickEvent e) {
-		ReadInSpreadSheetInformation sheet = new ReadInSpreadSheetInformation(identifiertip.getText(), modalpanel);
+		String parent = identifiertip.getText();
+		DatabaseObject readobj = new DatabaseObject(obj);
+		String id = parent + "-read";
+		readobj.setIdentifier(id);
+		ReadInSpreadSheetInformation sheet = new ReadInSpreadSheetInformation(
+				readobj,parent,
+				id, parameterNames, this);
 		sheet.open();
 		modalpanel.add(sheet);
 	}
@@ -184,5 +186,26 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite imp
 		valuetype.setText(concept);
 	}
 
+	@Override
+	public void setCorrespondences(ArrayList<SpreadSheetTitleRowCorrespondence> correspondences) {
+		for(SpreadSheetTitleRowCorrespondence corr : correspondences) {
+			SpreadSheetColumnInterpretationRow row = new SpreadSheetColumnInterpretationRow(corr);
+			interpretationrow.add(row);
+		}
+	}
+
+	@Override
+	public void setIsolatedMatrix(ArrayList<SpreadSheetRow> matrix) {
+		String title = obj.getIdentifier() + "-read";
+		SpreadSheetMatrix spread = new SpreadSheetMatrix(title, matrix);
+		matrixrow.add(spread);
+	}
+
+	@Override
+	public void setMatrixInterpretation(SpreadSheetInterpretation interpretation) {
+		Window.alert(interpretation.toString());
+	}
+
+	
 
 }

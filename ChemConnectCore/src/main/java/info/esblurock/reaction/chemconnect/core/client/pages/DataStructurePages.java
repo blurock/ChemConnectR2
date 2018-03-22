@@ -79,7 +79,26 @@ public enum DataStructurePages implements Serializable {
 			return setofobservations;
 		}
 		
-	}, Methodology {
+	}, BlobStorage {
+
+		@Override
+		public String getTitle() {
+			return "BlobStorage";
+		}
+
+		@Override
+		public String getDescription() {
+			return "Read in and set in blob storage";
+		}
+
+		@Override
+		public Widget getContent() {
+			return ;
+		}
+		
+	},
+	
+	Methodology {
 
 		@Override
 		public String getTitle() {
