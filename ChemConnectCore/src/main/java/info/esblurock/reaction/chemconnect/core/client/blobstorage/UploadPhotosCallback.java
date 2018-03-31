@@ -10,10 +10,10 @@ import info.esblurock.reaction.chemconnect.core.data.image.UploadedImage;
 
 public class UploadPhotosCallback implements AsyncCallback<ArrayList<UploadedImage>>{
 
-	UploadPhoto upload;
+	BlobStorageUploadInterface upload;
 	
 	
-	public UploadPhotosCallback(UploadPhoto upload) {
+	public UploadPhotosCallback(BlobStorageUploadInterface upload) {
 		this.upload = upload;
 	}
 

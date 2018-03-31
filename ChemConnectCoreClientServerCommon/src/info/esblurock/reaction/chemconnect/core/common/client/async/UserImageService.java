@@ -49,7 +49,13 @@ public interface UserImageService  extends RemoteService  {
 	
 	GCSBlobContent moveBlob(GCSBlobFileInformation fileinfo, GCSBlobFileInformation source);
 	
-	String getBlobContent(GCSBlobContent info);
+	GCSBlobContent getBlobContent(GCSBlobFileInformation gcsinfo);
 	
 	ArrayList<String> getBlobAsLines(GCSBlobContent info);
+	
+	void deleteUploadedFile(GCSBlobFileInformation gcsinfo);
+	
+	void deleteUploadedFiles(ArrayList<GCSBlobFileInformation> fileset);
+	
+	ArrayList<GCSBlobFileInformation> getUploadedFiles() throws IOException;
 }

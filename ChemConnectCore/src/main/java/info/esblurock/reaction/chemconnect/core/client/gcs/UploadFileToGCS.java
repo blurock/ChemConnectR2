@@ -27,6 +27,8 @@ public class UploadFileToGCS extends Composite implements DetermineBlobTargetInt
 	interface UploadFileToGCSUiBinder extends UiBinder<Widget, UploadFileToGCS> {
 	}
 
+	UserImageServiceAsync async = UserImageService.Util.getInstance();
+	
 	@UiField
 	MaterialTooltip identifiertip;
 	@UiField

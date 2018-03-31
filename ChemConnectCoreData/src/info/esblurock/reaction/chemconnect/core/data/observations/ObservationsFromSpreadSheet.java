@@ -1,11 +1,10 @@
 package info.esblurock.reaction.chemconnect.core.data.observations;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 
-public class ObservationsFromSpreadSheet implements Serializable{
+public class ObservationsFromSpreadSheet extends VisualizeObservationBase {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -13,26 +12,25 @@ public class ObservationsFromSpreadSheet implements Serializable{
 	ArrayList<SpreadSheetRow> matrix;
 	ArrayList<SpreadSheetBlockInformation> blocks;
 	SpreadSheetInputInformation input;
-	DatabaseObject obj = new DatabaseObject();
 
 	public ObservationsFromSpreadSheet() {
+		super();
 		this.matrix = new ArrayList<SpreadSheetRow>();
 		this.blocks = new ArrayList<SpreadSheetBlockInformation>();
-		this.obj = new DatabaseObject();
 	}
 	public ObservationsFromSpreadSheet(SpreadSheetInputInformation input) {
+		super(input);
 		this.input = input;
 		this.matrix = new ArrayList<SpreadSheetRow>();
 		this.blocks = new ArrayList<SpreadSheetBlockInformation>();
-		this.obj = new DatabaseObject(input);
 	}
 
 	public ObservationsFromSpreadSheet(SpreadSheetInputInformation input, 
 			ArrayList<SpreadSheetRow> matrix) {
+		super(input);
 		this.input = input;
 		this.matrix = matrix;
 		this.blocks = new ArrayList<SpreadSheetBlockInformation>();
-		this.obj = new DatabaseObject(input);
 	}
 	
 	public ArrayList<SpreadSheetBlockInformation> getBlocks() {
@@ -53,21 +51,20 @@ public class ObservationsFromSpreadSheet implements Serializable{
 		return toString("");
 	}
 	
-	public DatabaseObject getBase() {
-		return obj;
-	}
 	public String toString(String prefix) {
 		StringBuilder build = new StringBuilder();
 		build.append(input.toString(prefix + "ObservationsFromSpreadSheet: "));
 		build.append("\n");
-		int count = 0;
+		//int count = 0;
 		for(SpreadSheetRow row : matrix) {
 			build.append(row.toString());
+			/*
 			build.append(prefix + count++ + ": ");
 			for(String cell : row.getRow()) {
 				build.append("'" + cell + "' \t");
 			}
 			build.append("\n");
+			*/
 		}
 
 		for(SpreadSheetBlockInformation block : blocks) {

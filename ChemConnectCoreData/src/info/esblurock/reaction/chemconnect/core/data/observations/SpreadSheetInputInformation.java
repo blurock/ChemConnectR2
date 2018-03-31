@@ -10,17 +10,18 @@ public class SpreadSheetInputInformation  extends DatabaseObject  {
 
 	private static final long serialVersionUID = 1L;
 	
-	public static String CVS = "CVS";
+	public static String CSV = "CSV";
 	public static String XLS = "XLS";
-	public static String SpaceDelimited = "Delimited";
-	public static String TabDelimited = "Delimited";
+	public static String SpaceDelimited = "SpaceDelimited";
+	public static String TabDelimited = "TabDelimited";
 	public static String Delimited = "Delimited";
 	
 	public static String URL = "URL";
 	public static String STRINGSOURCE = "String";
+	public static String BLOBSOURCE = "Blob";
 	
-	public static String[] choices = {CVS,XLS,SpaceDelimited,TabDelimited,Delimited};
-	public static String[] sourcechoices = {URL,STRINGSOURCE};
+	public static String[] choices = {CSV,XLS,SpaceDelimited,TabDelimited,Delimited};
+	public static String[] sourcechoices = {URL,STRINGSOURCE,BLOBSOURCE};
 	
 	
 	@Index
@@ -33,7 +34,7 @@ public class SpreadSheetInputInformation  extends DatabaseObject  {
 	String sourceType;
 	
 	public SpreadSheetInputInformation() {
-		this.type = CVS;
+		this.type = CSV;
 		this.delimitor = ",";
 		this.source = "a,b,c";
 	}

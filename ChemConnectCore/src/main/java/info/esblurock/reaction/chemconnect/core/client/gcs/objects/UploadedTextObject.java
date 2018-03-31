@@ -8,7 +8,6 @@ import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -62,14 +61,11 @@ public class UploadedTextObject extends Composite implements InsertBlobTextConte
 	}
 	public UploadedTextObject(GCSBlobContent content,MaterialPanel modalpanel) {
 		this.modalpanel = modalpanel;
-		Window.alert("UploadedTextObject");
 		initWidget(uiBinder.createAndBindUi(this));
-		Window.alert("UploadedTextObject");
 		init();
 		this.blobContent = content;
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		InsertTextCallback callback = new InsertTextCallback(this);
-		Window.alert("UploadedTextObject");
 		async.getBlobAsLines(content, callback);
 	}
 
@@ -104,7 +100,6 @@ public class UploadedTextObject extends Composite implements InsertBlobTextConte
 		String totalS = Integer.toString(totalNumberOfLines);
 		total.setText(totalS);
 		totaltext = text;
-		Window.alert("insertBlobContent" + totalNumberOfLines);
 		setText();
 	}
 	void setText() {
@@ -117,7 +112,6 @@ public class UploadedTextObject extends Composite implements InsertBlobTextConte
 		if(last > totalNumberOfLines) {
 			last = totalNumberOfLines;
 		}
-		Window.alert("setText: " + first + ", " + last);
 		StringBuilder build = new StringBuilder();
 		for(int i=first ; i< last; i++) {
 			build.append(i + "   ");

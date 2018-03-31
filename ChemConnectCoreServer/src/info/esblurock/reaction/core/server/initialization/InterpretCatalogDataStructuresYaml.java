@@ -11,7 +11,7 @@ import info.esblurock.reaction.core.server.db.rdf.WriteDatabaseObjectRDF;
 import info.esblurock.reaction.io.rdf.StoreObject;
 import info.esblurock.reaction.ontology.initialization.ReadYamlDataset;
 
-public class InitializeCatalogDataStructuresYaml extends YamlFileInterpreterBase {
+public class InterpretCatalogDataStructuresYaml extends YamlFileInterpreterBase {
 	public static String sourceKeyS = "";
 	public static String inputKeyS = "Administration";
 

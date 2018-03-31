@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.appengine.api.datastore.Cursor;
-import com.google.appengine.api.datastore.QueryResultIterator;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
 
@@ -127,34 +126,49 @@ public class QueryBase {
 	
 	public static SingleQueryResult StandardQueryResult(QuerySetupBase parameters) throws ClassNotFoundException {
 
-		System.out.println("StandardQueryResult: set up query: " + parameters.getQueryClass());
+		System.out.println("StandardQueryResult: set up query: " + parameters.toString());
 		Class<?> cls = Class.forName(parameters.getQueryClass());
 		Query<?> query = ofy().load().type(cls);
+		
 		if(parameters.getCursorS() != null) {
 			query = query.startAt(Cursor.fromWebSafeString(parameters.getCursorS()));
 		}
-		query = query.limit(parameters.getAnswerLimit());
+		
+		
+		//query = query.limit(parameters.getAnswerLimit());
+		
 		if(parameters.getQueryvalues() != null) {
-		for(QueryPropertyValue pv : parameters.getQueryvalues()) {
-			query = query.filter(pv.getProperty(),pv.getValue());
+			for(QueryPropertyValue pv : parameters.getQueryvalues()) {
+				System.out.println("property: " + pv.getProperty() + ", value: " + pv.getValue() );
+				query = query.filter(pv.getProperty(),pv.getValue());
+			}
 		}
+		
+		ArrayList<DatabaseObject> lst = new ArrayList<DatabaseObject>();
+		System.out.println("Query results with right filter");
+		for(Object obj : query) {
+			System.out.println(obj.toString());
+			lst.add((DatabaseObject) obj);
 		}
-		System.out.println("StandardQueryResult: set up query: " + parameters.getQueryClass());
+		System.out.println("StandardQueryResult: with property" + parameters.toString());
+		/*
 		@SuppressWarnings("unchecked")
 		QueryResultIterator<DatabaseObject> iterator = (QueryResultIterator<DatabaseObject>) query.iterator();
-		ArrayList<DatabaseObject> lst = new ArrayList<DatabaseObject>();
-		boolean continu = false;
+		boolean cont = false;
 		while(iterator.hasNext()) {
-			DatabaseObject obj = iterator.next();
-			System.out.println("StandardQueryResult: " + obj.getIdentifier());
+			DatabaseObject obj = (DatabaseObject) iterator.next();
+			System.out.println("StandardQueryResult: " + obj.toString());
 			lst.add(obj);
-			continu = true;
+			cont = true;
 		}
+		*/
 		String encodedCursor = null;
-		if(continu) {
+		/*
+		if(cont) {
 			Cursor cursor = iterator.getCursor();
 			encodedCursor = cursor.toWebSafeString();
 		}
+		*/
 		SingleQueryResult result = new SingleQueryResult(lst,parameters,encodedCursor);
 		return result;
 	}

@@ -21,23 +21,29 @@ import org.apache.poi.ss.usermodel.Row;
 
 import com.ibm.icu.util.StringTokenizer;
 
+import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetBlockInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetRow;
+import info.esblurock.reaction.core.server.db.image.UserImageServiceImpl;
 
 public class InterpretSpreadSheet {
 
+	public static ObservationsFromSpreadSheet readSpreadSheetFromGCS(GCSBlobFileInformation gcsinfo, 
+			SpreadSheetInputInformation input) throws IOException {
+		InputStream stream = UserImageServiceImpl.getInputStream(gcsinfo);
+		return streamReadSpreadSheet(stream, input);
+	}
+	
 	public static ObservationsFromSpreadSheet readSpreadSheet(SpreadSheetInputInformation input) throws IOException {
-		ObservationsFromSpreadSheet obs = new ObservationsFromSpreadSheet(input);
 		InputStream is = null;
 		System.out.println(input.getSource());
 
 		System.out.println(SpreadSheetInputInformation.STRINGSOURCE);
 		System.out.println(input.getSourceType());
 		System.out.println(input.isSourceType(SpreadSheetInputInformation.STRINGSOURCE));
-		try {
-			if (input.isSourceType(SpreadSheetInputInformation.URL)) {
+		if (input.isSourceType(SpreadSheetInputInformation.URL)) {
 				URL oracle;
 				oracle = new URL(input.getSource());
 				is = oracle.openStream();
@@ -45,23 +51,24 @@ public class InterpretSpreadSheet {
 				String source = input.getSource();
 				System.out.println(input.getSource());
 				is = new ByteArrayInputStream(source.getBytes(StandardCharsets.UTF_8));
+			} else if(input.isSourceType(SpreadSheetInputInformation.BLOBSOURCE)) {
 			}
-
-			if (is != null) {
+		if (is == null) {
+			throw new IOException("Source Error: couldn't open source");
+		}
+		return streamReadSpreadSheet(is,input);
+	}
+		public static ObservationsFromSpreadSheet streamReadSpreadSheet(InputStream is, SpreadSheetInputInformation input) throws IOException {
+		ObservationsFromSpreadSheet obs = new ObservationsFromSpreadSheet(input);
+		System.out.println(input.toString());
 				if (input.isType(SpreadSheetInputInformation.XLS)) {
 					readXLSFile(is, obs);
-				} else if (input.isType(SpreadSheetInputInformation.CVS)) {
+				} else if (input.isType(SpreadSheetInputInformation.CSV)) {
+					System.out.println("streamReadSpreadSheet: CSV");
 					readDelimitedFile(is, ",", obs);
 				} else if (input.isType(SpreadSheetInputInformation.Delimited)) {
 					readDelimitedFile(is, input.getDelimitor(), obs);
 				}
-			} else {
-				throw new IOException("Source Error: couldn't open source");
-			}
-		} catch (IOException e) {
-			throw new IOException("Source Error: couldn't open source");
-		}
-
 		return obs;
 	}
 
@@ -72,9 +79,9 @@ public class InterpretSpreadSheet {
 		BufferedReader r = new BufferedReader(new InputStreamReader(reader, StandardCharsets.UTF_8));
 		boolean notdone = true;
 		int count = 0;
-		ArrayList<String> lst = new ArrayList<String>();
 		while (notdone) {
 			String line = r.readLine();
+			ArrayList<String> lst = new ArrayList<String>();
 			if (line != null) {
 				StringTokenizer tok = new StringTokenizer(line, delimiter);
 				while (tok.hasMoreTokens()) {

@@ -1,6 +1,7 @@
 package info.esblurock.reaction.chemconnect.core.common.client.async;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import com.google.gwt.core.client.GWT;
@@ -9,8 +10,10 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.concepts.SetOfUnitProperties;
+import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
+import info.esblurock.reaction.chemconnect.core.data.observations.VisualizeObservationBase;
 import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.data.rdf.SetOfKeywordRDF;
@@ -58,6 +61,8 @@ public interface ContactDatabaseAccess extends RemoteService {
 	HierarchyNode hierarchyFromPrimitiveStructure(String structure);
 	SetOfObservationsTransfer getSetOfObservationsInformation(String observations);
 	ObservationsFromSpreadSheet interpretSpreadSheet(SpreadSheetInputInformation input) throws IOException;
+	VisualizeObservationBase interpretSpreadSheetGCS(GCSBlobFileInformation gcsinfo, 
+			SpreadSheetInputInformation input) throws IOException;
 	ChemConnectDataStructure getSetOfObservationsStructructure();
 	DatabaseObject getBaseUserDatabaseObject();
 }

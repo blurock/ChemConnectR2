@@ -65,6 +65,17 @@ public class QuerySetupBase implements Serializable {
 		QuerySetupBase newquery = new QuerySetupBase(access,queryClass,queryvalues);
 		return newquery;
 	}
-	
+	public String toString() {
+		return toString("");
+	}
+	public String toString(String prefix) {
+		StringBuilder build = new StringBuilder();
+		build.append(prefix + " QuerySetupBase: ");
+		build.append(queryClass);
+		build.append("( " + access + ", " + answerLimit + ")\n");
+		build.append(queryvalues.toString(prefix));
+		build.append("\n");
+		return build.toString();
+	}	
 
 }

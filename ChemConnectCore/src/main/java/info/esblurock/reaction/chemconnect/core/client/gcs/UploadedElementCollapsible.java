@@ -18,8 +18,9 @@ import gwt.material.design.client.ui.MaterialTooltip;
 import info.esblurock.reaction.chemconnect.core.client.gcs.objects.UploadedTextObject;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
+import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
 
-public class UploadedElementCollapsible extends Composite {
+public class UploadedElementCollapsible extends Composite implements VisualizationOfBlobStorage {
 
 	private static UploadedElementCollapsibleUiBinder uiBinder = GWT.create(UploadedElementCollapsibleUiBinder.class);
 
@@ -48,6 +49,10 @@ public class UploadedElementCollapsible extends Composite {
 	MaterialTooltip identifiertooltip;
 	@UiField
 	MaterialTooltip urltooltip;
+	@UiField
+	MaterialTooltip typetooltip;
+	@UiField
+	MaterialLink add;
 	
 	GCSBlobFileInformation info;
 	String identifierRoot;
@@ -57,6 +62,7 @@ public class UploadedElementCollapsible extends Composite {
 	String linkUrl;
 	GCSBlobContent content;
 	MaterialPanel modalpanel;
+	String visualType;
 	
 	public UploadedElementCollapsible(GCSBlobContent content,MaterialPanel modalpanel) {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -78,11 +84,16 @@ public class UploadedElementCollapsible extends Composite {
 		this.content = content;
 		info = content.getInfo();
 		linkUrl = content.getUrl();
-		urltooltip.setText(linkUrl);
+		if(linkUrl != null) {
+			urltooltip.setText(linkUrl);
+		} else {
+			urltooltip.setText("");
+		}
 		
 		if(info != null) {
 			parseType(info.getFiletype());
 			type.setText(info.getFiletype());
+			typetooltip.setText(info.getFiletype());
 			identifiertooltip.setText(info.getGSFilename());
 			path.setText(info.getFilename());
 			textDescription.setText(info.getDescription());
@@ -97,7 +108,6 @@ public class UploadedElementCollapsible extends Composite {
 				MaterialImage image = new MaterialImage(linkUrl);				
 				imagepanel.add(image);
 			} else if(isText()) {
-				Window.alert("UploadedElementCollapsible: Text object: " + this.content);
 				UploadedTextObject textobject = new UploadedTextObject(this.content,modalpanel);
 				imagepanel.add(textobject);
 			}
@@ -128,11 +138,36 @@ public class UploadedElementCollapsible extends Composite {
 			typeClass = type.substring(0, pos);
 			typeInstance = type.substring(pos+1);
 		}
+		visualType = "SpreadSheet";
+		if(typeClass.compareTo("image") == 0) {
+			visualType = "Image";
+		} else {
+			
+		}
 	}
+	
+	@UiHandler("type")
+	void onClickType(ClickEvent e) {
+		Window.alert("Type=" + visualType);
+	}
+	
 	@UiHandler("delete")
-	void onClick(ClickEvent e) {
-		Window.alert("Hello!");
+	void onClickDelete(ClickEvent e) {
+		Window.alert("Delete");
 	}
+	
+	@UiHandler("add")
+	void onClick(ClickEvent e) {
+		VisualizeMedia visual = VisualizeMedia.valueOf(visualType);
+		String type = SpreadSheetInputInformation.CSV;
+		String sourceType = SpreadSheetInputInformation.BLOBSOURCE;
+		String source = info.getGSFilename();
+		SpreadSheetInputInformation spread = new SpreadSheetInputInformation(info,type,sourceType,source);
+		if(visual != null) {
+			visual.getInterpretedBlob(info, spread, this);
+		}
+	}
+	
 	@UiHandler("url")
 	void onClickUrl(ClickEvent e) {
 		Window.open(linkUrl, "Download", "");
@@ -145,5 +180,10 @@ public class UploadedElementCollapsible extends Composite {
 			this.identifier = this.identifierRoot + "-" + info.getFilename();
 		}
 		return this.identifier;
+	}
+
+	@Override
+	public void insertVisualization(Widget panel) {
+		imagepanel.add(panel);
 	}
 }

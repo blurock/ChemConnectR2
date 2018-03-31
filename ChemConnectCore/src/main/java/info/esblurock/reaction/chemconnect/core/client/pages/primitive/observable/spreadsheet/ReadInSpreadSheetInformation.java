@@ -349,7 +349,7 @@ public class ReadInSpreadSheetInformation extends Composite implements Observati
 	void onClickReadInput(ClickEvent e) {
 		String sourceType = SpreadSheetInputInformation.URL;
 		String source = httpsourceline.getText();
-		String type = SpreadSheetInputInformation.CVS;
+		String type = SpreadSheetInputInformation.CSV;
 		if (source.endsWith("xls")) {
 			type = SpreadSheetInputInformation.XLS;
 		}

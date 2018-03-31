@@ -16,8 +16,11 @@ public class SetOfQueryPropertyValues extends ArrayList<QueryPropertyValue> impl
 	}
 	
 	public String toString() {
+		return toString("");
+	}
+	public String toString(String prefix) {
 		StringBuilder build = new StringBuilder();
-		build.append("QueryPropertyValues[");
+		build.append(prefix + " QueryPropertyValues[");
 		boolean notfirst = false;
 		for(QueryPropertyValue pv: this) {
 			if(notfirst) {

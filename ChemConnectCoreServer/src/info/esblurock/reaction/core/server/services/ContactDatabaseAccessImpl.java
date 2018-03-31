@@ -8,9 +8,11 @@ import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatab
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.concepts.SetOfUnitProperties;
 import info.esblurock.reaction.chemconnect.core.data.contact.Organization;
+import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.data.login.UserAccount;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
+import info.esblurock.reaction.chemconnect.core.data.observations.VisualizeObservationBase;
 import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.data.rdf.SetOfKeywordRDF;
@@ -79,7 +81,8 @@ public class ContactDatabaseAccessImpl  extends ServerBase implements ContactDat
 			throw new IOException("Query class not found: " + query.getQueryClass());
 		}
 		return ans;
-	}
+	}	
+	
 	public RecordInformation extractRecordElementsFromStructure(ClassificationInformation clsinfo,
 			ChemConnectCompoundDataStructure subelements, DatabaseObject object) throws IOException {
 		
@@ -178,6 +181,13 @@ public class ContactDatabaseAccessImpl  extends ServerBase implements ContactDat
 	public ObservationsFromSpreadSheet interpretSpreadSheet(SpreadSheetInputInformation input) throws IOException {
 		ObservationsFromSpreadSheet obs = InterpretSpreadSheet.readSpreadSheet(input);
 		System.out.println(obs.toString());
+		//InterpretSpreadSheet.findBlocks(obs);
+		return obs;
+	}
+	public VisualizeObservationBase interpretSpreadSheetGCS(GCSBlobFileInformation gcsinfo, 
+			SpreadSheetInputInformation input) throws IOException {
+		ObservationsFromSpreadSheet obs = InterpretSpreadSheet.readSpreadSheetFromGCS(gcsinfo, input);
+		//System.out.println(obs.toString());
 		//InterpretSpreadSheet.findBlocks(obs);
 		return obs;
 	}

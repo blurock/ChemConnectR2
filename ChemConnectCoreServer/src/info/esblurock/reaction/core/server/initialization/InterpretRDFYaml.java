@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 
-public class InitializeRDFYaml extends YamlFileInterpreterBase {
+public class InterpretRDFYaml extends YamlFileInterpreterBase {
 	@SuppressWarnings("rawtypes")
 	public void interpret( Map map) {
 		System.out.println("InitializeRDFYaml");

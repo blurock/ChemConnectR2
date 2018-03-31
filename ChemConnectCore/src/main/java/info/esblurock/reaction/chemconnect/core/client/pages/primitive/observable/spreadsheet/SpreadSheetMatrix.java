@@ -11,7 +11,9 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.constants.Color;
+import gwt.material.design.client.data.ListDataSource;
 import gwt.material.design.client.data.events.RowSelectEvent;
+import gwt.material.design.client.ui.pager.MaterialDataPager;
 import gwt.material.design.client.ui.table.MaterialDataTable;
 import gwt.material.design.client.ui.table.cell.TextColumn;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetRow;
@@ -22,6 +24,10 @@ public class SpreadSheetMatrix extends Composite  {
 
 	interface SpreadSheetMatrixUiBinder extends UiBinder<Widget, SpreadSheetMatrix> {
 	}
+	// Declare your Pager 
+    private MaterialDataPager<SpreadSheetRow> pager = new MaterialDataPager<>();
+
+    private ListDataSource<SpreadSheetRow> dataSource;
 
 	public SpreadSheetMatrix() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -58,14 +64,25 @@ public class SpreadSheetMatrix extends Composite  {
 			addColumn(i, name);
 		}
 		table.setTextColor(Color.BLACK);
-		table.setVisibleRange(0, matrix.size());
-		table.setRowData(0, matrix);
-		table.getView().refresh();
+		//table.setVisibleRange(0, matrix.size());
+		//table.setRowData(0, matrix);
+		//table.getView().refresh();
 		if(table.getTableTitle() != null) {
 			table.getTableTitle().setText(obstitle);
 		} else {
 			table.setTitle(obstitle);
 		}
+        dataSource = new ListDataSource<SpreadSheetRow>();
+        dataSource.add(0, matrix);
+
+        pager.setTable(table);
+        pager.setDataSource(dataSource);
+
+        table.setVisibleRange(1, 10);
+        table.add(pager);
+		
+		
+		
 	}
 
 	void addColumn(int columnnumber, String columnname) {

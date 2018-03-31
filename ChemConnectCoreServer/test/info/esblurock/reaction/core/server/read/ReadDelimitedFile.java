@@ -22,13 +22,13 @@ public class ReadDelimitedFile {
 				+ "1.4, 4.5, 3.0";
 		try {
 			DatabaseObject obj = new DatabaseObject();
-			SpreadSheetInputInformation input = new SpreadSheetInputInformation(obj,SpreadSheetInputInformation.CVS,
+			SpreadSheetInputInformation input = new SpreadSheetInputInformation(obj,SpreadSheetInputInformation.CSV,
 					SpreadSheetInputInformation.STRINGSOURCE,matrix);
 			System.out.println(input.toString());
 			ObservationsFromSpreadSheet result = InterpretSpreadSheet.readSpreadSheet(input);
 			System.out.println(result);
 			
-			
+			/*
 			String url = "http://cms.heatfluxburner.org/wp-content/uploads/Bosschaart_CH4_Air_1atm_Tu_295K_thesis.xls";
 			input = new SpreadSheetInputInformation(obj,SpreadSheetInputInformation.XLS,
 					SpreadSheetInputInformation.URL,url);
@@ -45,6 +45,7 @@ public class ReadDelimitedFile {
 				System.out.println(row);
 			}
 			}
+			*/
 			/*
 			url = "http://cms.heatfluxburner.org/wp-content/uploads/Goswami_CH4_Air_1atm_Tu_298K.xls";
 			input = new SpreadSheetInputInformation(SpreadSheetInputInformation.XLS,

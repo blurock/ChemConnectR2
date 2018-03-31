@@ -59,7 +59,7 @@ public class ReadInitialization {
 		//String userInitialization = "resources/contact/UserInitialization.yaml";
 		//String userInitialization = "resources/contact/OrganizationInitialization.yaml";
 		String userInitialization = "resources/contact/AccountInitialization.yaml";
-		DatabaseInitializeBase base = new DatabaseInitializeBase();
+		DatabaseInterpretBase base = new DatabaseInterpretBase();
 		System.out.println("Initializing users: " + userInitialization);
 		try {
 			base.readInitializationFile(userInitialization, "yaml");

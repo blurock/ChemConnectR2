@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.Widget;
 import info.esblurock.reaction.chemconnect.core.client.device.DeviceWithSubystemsDefinition;
 import info.esblurock.reaction.chemconnect.core.client.device.MethodologyDefinition;
 import info.esblurock.reaction.chemconnect.core.client.device.SetOfObservationsDefinition;
+import info.esblurock.reaction.chemconnect.core.client.gcs.UploadFileToBlobStorage;
 import info.esblurock.reaction.chemconnect.core.client.graph.pages.VisualizeGraphicalObjects;
 
 public enum DataStructurePages implements Serializable {
@@ -93,7 +94,7 @@ public enum DataStructurePages implements Serializable {
 
 		@Override
 		public Widget getContent() {
-			return ;
+			return blobstorage;
 		}
 		
 	},
@@ -126,4 +127,5 @@ public enum DataStructurePages implements Serializable {
 	static DeviceWithSubystemsDefinition subsystems = new DeviceWithSubystemsDefinition();
 	static SetOfObservationsDefinition setofobservations = new SetOfObservationsDefinition();
 	static MethodologyDefinition methodology = new MethodologyDefinition();
+	static UploadFileToBlobStorage blobstorage = new UploadFileToBlobStorage();
 }

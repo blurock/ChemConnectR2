@@ -11,7 +11,7 @@ public class InitializeDatabaseObjectImpl {
 		//String organizationInitialization = "resources/contact/OrganizationInitialization.yaml";
 		String userInitialization = "resources/contact/UserInitialization.yaml";
 
-		DatabaseInitializeBase base = new DatabaseInitializeBase();
+		DatabaseInterpretBase base = new DatabaseInterpretBase();
 		
 		if (!base.alreadyRead(userInitialization)) {
 			System.out.println("Initializing users: " + userInitialization);

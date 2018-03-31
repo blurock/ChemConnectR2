@@ -22,17 +22,17 @@ public class GCSBlobFileInformation extends DatabaseObject {
 	
 	public GCSBlobFileInformation() {
 	}
-
-	public GCSBlobFileInformation(String id,String sourceID,
+	public GCSBlobFileInformation(DatabaseObject obj, 
 			String bucket, String path, String filename, String filetype, 
 			String description) {
-		super(id,sourceID);
+		super(obj);
 		this.bucket = bucket;
 		this.path = path;
 		this.filename = filename;
 		this.filetype = filetype;
 		this.description = description;
-	}
+}
+
 	public String getBucket() {
 		return bucket;
 	}

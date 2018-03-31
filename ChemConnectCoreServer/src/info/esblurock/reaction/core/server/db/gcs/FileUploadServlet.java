@@ -8,12 +8,10 @@ import com.google.cloud.storage.Acl;
 import com.google.cloud.storage.Acl.Role;
 import com.google.cloud.storage.Acl.User;
 
-import info.esblurock.reaction.chemconnect.core.data.base.GoogleCloudStorageConstants;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
-import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
 import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
+import info.esblurock.reaction.core.server.db.image.UserImageServiceImpl;
 import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
-import info.esblurock.reaction.io.db.QueryBase;
 
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
@@ -57,23 +55,20 @@ public class FileUploadServlet extends HttpServlet {
 				Storage storage = StorageOptions.getDefaultInstance().getService();
 				String uploadDescriptionText = "Uploaded File from FileUploadServlet";
 				
-				ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
-				UserDTO user = util.getUserInfo();
-				System.out.println("User: " + user);
-				String outputSourceCode = QueryBase.getDataSourceIdentification(user.getName());
-				String id = util.getUserInfo().getIP() + ":" + user.getName();
-				String path = GoogleCloudStorageConstants.uploadPathPrefix + "/" + user.getName();
-
-				GCSBlobFileInformation source = new GCSBlobFileInformation(id,outputSourceCode,
-						GoogleCloudStorageConstants.uploadBucket,path,
-						fileItem.getName(), fileItem.getContentType(),
-						uploadDescriptionText);
 				
+				
+				ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
+				GCSBlobFileInformation source = UserImageServiceImpl.createInitialUploadInfo(fileItem.getName(), 
+						fileItem.getContentType(), 
+						uploadDescriptionText, util);
+								
 				System.out.println("FileUploadServlet: " + source.toString());
 				
 				BlobInfo info = BlobInfo.newBuilder(source.getBucket(), source.getGSFilename())
-						.setAcl(new ArrayList<>(Arrays.asList(Acl.of(User.ofAllUsers(), Role.READER)))).build();
-
+						.setAcl(new ArrayList<>(Arrays.asList(Acl.of(User.ofAllUsers(), Role.READER))))
+						.setContentType(fileItem.getContentType())
+						.build();
+				
 				System.out.println("FileUploadServlet: " + info.toString());
 				@SuppressWarnings("deprecation")
 				BlobInfo blobInfo = storage.create(info, in);

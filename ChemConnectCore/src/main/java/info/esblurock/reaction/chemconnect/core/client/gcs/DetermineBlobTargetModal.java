@@ -14,6 +14,7 @@ import gwt.material.design.client.ui.MaterialModal;
 import gwt.material.design.client.ui.MaterialModalContent;
 import gwt.material.design.client.ui.MaterialTextArea;
 import gwt.material.design.client.ui.MaterialTextBox;
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 
 public class DetermineBlobTargetModal extends Composite  {
@@ -68,9 +69,17 @@ public class DetermineBlobTargetModal extends Composite  {
 	void onClickDone(ClickEvent e) {
 		modal.close();
 		String name = Cookies.getCookie("user");
+
+		String id = identifier;
+		String access = name;
+		String owner = name;
+		String sourceID = "";
+		DatabaseObject obj = new DatabaseObject(id, access,owner,sourceID);
+
+		
+		
 		GCSBlobFileInformation fileinfo = new GCSBlobFileInformation(
-				identifier,"",
-				bucket.getText(), path.getText(), filename.getText(), 
+				obj, bucket.getText(), path.getText(), filename.getText(), 
 				filetype.getText(), textArea.getText());
 		top.handleTargetBlob(fileinfo);
 	}

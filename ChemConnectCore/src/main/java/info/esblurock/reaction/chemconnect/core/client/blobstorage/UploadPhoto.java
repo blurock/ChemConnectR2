@@ -26,7 +26,7 @@ import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageSer
 import info.esblurock.reaction.chemconnect.core.data.image.ImageServiceInformation;
 import info.esblurock.reaction.chemconnect.core.data.image.UploadedImage;
 
-public class UploadPhoto extends Composite implements HasText {
+public class UploadPhoto extends Composite implements HasText, BlobStorageUploadInterface {
 
 	private static UploadPhotoUiBinder uiBinder = GWT.create(UploadPhotoUiBinder.class);
 

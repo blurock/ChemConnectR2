@@ -13,7 +13,7 @@ import info.esblurock.reaction.chemconnect.core.data.initialization.Initializati
 import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
 import info.esblurock.reaction.io.db.QueryBase;
 
-public class DatabaseInitializeBase {
+public class DatabaseInterpretBase {
 	
 	static String fileInterpreterClassS = "interpreter";
 
