@@ -1,16 +1,11 @@
 package info.esblurock.reaction.chemconnect.core.common.client.async;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.concepts.SetOfUnitProperties;
-import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
-import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
-import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
-import info.esblurock.reaction.chemconnect.core.data.observations.VisualizeObservationBase;
 import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.data.rdf.SetOfKeywordRDF;
@@ -65,13 +60,8 @@ public interface ContactDatabaseAccessAsync {
 
 	void getSetOfObservationsInformation(String observations, AsyncCallback<SetOfObservationsTransfer> callback);
 
-	void interpretSpreadSheet(SpreadSheetInputInformation input, AsyncCallback<ObservationsFromSpreadSheet> callback);
-
 	void getSetOfObservationsStructructure(AsyncCallback<ChemConnectDataStructure> callback);
 
 	void getBaseUserDatabaseObject(AsyncCallback<DatabaseObject> callback);
-
-	void interpretSpreadSheetGCS(GCSBlobFileInformation gcsinfo, SpreadSheetInputInformation input,
-			AsyncCallback<VisualizeObservationBase> callback);
 
 }

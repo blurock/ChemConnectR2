@@ -7,5 +7,36 @@
 		font-weight: bold;
 	}
 	</ui:style>
-	<m:table.MaterialDataTable ui:field="table" shadow="1" rowHeight="30" selectionType="SINGLE" />
+	<m:MaterialPanel ui:field="panel">
+		<m:MaterialRow>
+			<m:MaterialColumn grid="s2">
+				<m:MaterialLink ui:field="startcountlabel" textColor="BLACK" />
+			</m:MaterialColumn>
+			<m:MaterialColumn  grid="s1">
+				<m:MaterialLink ui:field="startcount" textColor="BLACK" />
+			</m:MaterialColumn>
+			<m:MaterialColumn  grid="s2">
+				<m:MaterialLink ui:field="showinglabel" textColor="BLACK" />
+			</m:MaterialColumn>
+			<m:MaterialColumn  grid="s1">
+				<m:MaterialLink ui:field="showing" textColor="BLACK" />
+			</m:MaterialColumn>
+			<m:MaterialColumn  grid="s2">
+				<m:MaterialLink ui:field="totalcountlabel" textColor="BLACK" />
+			</m:MaterialColumn>
+			<m:MaterialColumn  grid="s1">
+				<m:MaterialLink ui:field="totalcount" textColor="BLACK" />
+			</m:MaterialColumn>
+			<m:MaterialColumn  grid="s3">
+				<m:MaterialLink ui:field="delete" iconType="CLOSE" 
+					iconPosition="RIGHT" iconColor="BLACK" />
+			</m:MaterialColumn>
+		</m:MaterialRow>
+		<m:MaterialRow>
+		<m:MaterialPanel ui:field="tablepanel"/>
+		</m:MaterialRow>
+	</m:MaterialPanel>
+
+
+
 </ui:UiBinder> 

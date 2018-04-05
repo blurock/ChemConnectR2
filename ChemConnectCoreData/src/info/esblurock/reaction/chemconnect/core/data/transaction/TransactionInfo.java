@@ -83,4 +83,19 @@ public class TransactionInfo extends DatabaseObject {
 	public void setStoredObjectKey(Long storedObjectKey) {
 		this.storedObjectKey = storedObjectKey;
 	}
+	
+	public String toString() {
+		return toString("");
+	}
+	public String toString(String prefix) {
+		StringBuilder build = new StringBuilder();
+		super.toString(prefix);
+		build.append("Object Type:       " + transactionObjectType + "\n");
+		build.append("Stored Object Key: " + storedObjectKey + "\n");
+		build.append("Object Type: " + transactionObjectType + "\n");
+		
+		
+		return build.toString();
+	}
+	
 }

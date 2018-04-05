@@ -12,6 +12,7 @@ import info.esblurock.reaction.chemconnect.core.data.gcs.RegisterGCSClasses;
 import info.esblurock.reaction.chemconnect.core.data.image.RegisterImageInformation;
 import info.esblurock.reaction.chemconnect.core.data.initialization.RegisterInitializationData;
 import info.esblurock.reaction.chemconnect.core.data.login.RegisterUserLoginData;
+import info.esblurock.reaction.chemconnect.core.data.observations.RegisterObservationData;
 import info.esblurock.reaction.chemconnect.core.data.rdf.RegisterRDFData;
 import info.esblurock.reaction.chemconnect.core.data.transaction.RegisterTransactionData;
 
@@ -33,5 +34,6 @@ public class ResetDatabaseObjects {
 		RegisterUserLoginData.reset();
 		RegisterImageInformation.reset();
 		RegisterGCSClasses.reset();
+		RegisterObservationData.reset();
 	}
 }

@@ -16,13 +16,8 @@ public enum VerityAndInterpretMedia {
 		@Override
 		public ArrayList<DatabaseObjectHierarchy> extractDataObject(InputStream inputstream, DatabaseObject interpretation)  throws IOException {
 			SpreadSheetInputInformation info = (SpreadSheetInputInformation) interpretation;
-			ObservationsFromSpreadSheet observations = InterpretSpreadSheet.streamReadSpreadSheet(inputstream, info);
-			ArrayList<SpreadSheetRow> rows =  observations.getMatrix();
+			ObservationsFromSpreadSheet observations = InterpretSpreadSheet.streamReadSpreadSheet(inputstream, info,true);
 			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(info);
-			for(SpreadSheetRow row : rows) {
-				DatabaseObjectHierarchy sub = new DatabaseObjectHierarchy(row);
-				hierarchy.addSubobject(sub);
-			}
 			ArrayList<DatabaseObjectHierarchy> lst = new ArrayList<DatabaseObjectHierarchy>();
 			lst.add(hierarchy);
 			return lst;

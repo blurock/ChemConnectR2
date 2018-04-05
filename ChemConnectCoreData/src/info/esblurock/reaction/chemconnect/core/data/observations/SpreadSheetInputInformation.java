@@ -12,13 +12,14 @@ public class SpreadSheetInputInformation  extends DatabaseObject  {
 	
 	public static String CSV = "CSV";
 	public static String XLS = "XLS";
-	public static String SpaceDelimited = "SpaceDelimited";
-	public static String TabDelimited = "TabDelimited";
-	public static String Delimited = "Delimited";
+	public static String SpaceDelimited    = "SpaceDelimited";
+	public static String TabDelimited      = "TabDelimited";
+	public static String Delimited         = "Delimited";
+	public static String SpaceTabDelimited = "SpaceTabDelimited";
 	
-	public static String URL = "URL";
+	public static String URL          = "URL";
 	public static String STRINGSOURCE = "String";
-	public static String BLOBSOURCE = "Blob";
+	public static String BLOBSOURCE   = "Blob";
 	
 	public static String[] choices = {CSV,XLS,SpaceDelimited,TabDelimited,Delimited};
 	public static String[] sourcechoices = {URL,STRINGSOURCE,BLOBSOURCE};
@@ -44,7 +45,7 @@ public class SpreadSheetInputInformation  extends DatabaseObject  {
 		super(obj);
 		this.type = type;
 		this.sourceType = sourceType;
-		this.delimitor = ",";
+		setDelimitor(type);
 		this.source = source;
 	}
 	public SpreadSheetInputInformation(String type, String sourceType, String source, String delimitor) {
@@ -54,6 +55,21 @@ public class SpreadSheetInputInformation  extends DatabaseObject  {
 		this.source = source;
 	}
 
+	void setDelimitor(String type) {
+		if(type.compareTo(CSV) == 0) {
+			delimitor = ",";
+		} else if(type.compareTo(XLS) == 0) {
+			delimitor = " ";
+		} else if(type.compareTo(SpaceDelimited) == 0) {
+			delimitor = " ";
+		} else if(type.compareTo(TabDelimited) == 0) {
+			delimitor = "\t";
+		} else if(type.compareTo(Delimited) == 0) {
+			delimitor = " ";
+		} else if(type.compareTo(SpaceTabDelimited) == 0) {
+			delimitor = " \t";
+		}		
+	}
 	public String getType() {
 		return type;
 	}

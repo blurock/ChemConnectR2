@@ -2,8 +2,6 @@ package info.esblurock.reaction.chemconnect.core.data.observations;
 
 import java.util.ArrayList;
 
-import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
-
 public class ObservationsFromSpreadSheet extends VisualizeObservationBase {
 
 	private static final long serialVersionUID = 1L;
@@ -12,17 +10,23 @@ public class ObservationsFromSpreadSheet extends VisualizeObservationBase {
 	ArrayList<SpreadSheetRow> matrix;
 	ArrayList<SpreadSheetBlockInformation> blocks;
 	SpreadSheetInputInformation input;
+	int sizeOfMatrix;
+	int numberOfColumns;
 
 	public ObservationsFromSpreadSheet() {
 		super();
-		this.matrix = new ArrayList<SpreadSheetRow>();
-		this.blocks = new ArrayList<SpreadSheetBlockInformation>();
+		//this.matrix = new ArrayList<SpreadSheetRow>();
+		//this.blocks = new ArrayList<SpreadSheetBlockInformation>();
+		this.matrix = null;
+		this.blocks = null;
 	}
 	public ObservationsFromSpreadSheet(SpreadSheetInputInformation input) {
 		super(input);
 		this.input = input;
-		this.matrix = new ArrayList<SpreadSheetRow>();
-		this.blocks = new ArrayList<SpreadSheetBlockInformation>();
+		//this.matrix = new ArrayList<SpreadSheetRow>();
+		//this.blocks = new ArrayList<SpreadSheetBlockInformation>();
+		this.matrix = null;
+		this.blocks = null;
 	}
 
 	public ObservationsFromSpreadSheet(SpreadSheetInputInformation input, 
@@ -30,16 +34,18 @@ public class ObservationsFromSpreadSheet extends VisualizeObservationBase {
 		super(input);
 		this.input = input;
 		this.matrix = matrix;
-		this.blocks = new ArrayList<SpreadSheetBlockInformation>();
+		this.blocks = null;
+		//this.blocks = new ArrayList<SpreadSheetBlockInformation>();
 	}
 	
 	public ArrayList<SpreadSheetBlockInformation> getBlocks() {
 		return blocks;
 	}
+	
 	public void addBlock(SpreadSheetBlockInformation block) {
 		blocks.add(block);
 	}
-	
+	/*	
 	public void addRow(SpreadSheetRow row) {
 		matrix.add(row);
 	}
@@ -47,29 +53,42 @@ public class ObservationsFromSpreadSheet extends VisualizeObservationBase {
 	public ArrayList<SpreadSheetRow> getMatrix() {
 		return matrix;
 	}
+	*/
 	public String toString() {
 		return toString("");
 	}
 	
+	public int getSizeOfMatrix() {
+		return sizeOfMatrix;
+	}
+	
+	public void setSizeOfMatrix(int sizeOfMatrix) {
+		this.sizeOfMatrix = sizeOfMatrix;
+	}
+	
+	public void setNumberOfColumns(int numberOfColumns) {
+		this.numberOfColumns = numberOfColumns;
+	}
+	public int getNumberOfColumns() {
+		return numberOfColumns;
+	}
 	public String toString(String prefix) {
 		StringBuilder build = new StringBuilder();
 		build.append(input.toString(prefix + "ObservationsFromSpreadSheet: "));
 		build.append("\n");
 		//int count = 0;
+		if(matrix != null) {
 		for(SpreadSheetRow row : matrix) {
 			build.append(row.toString());
-			/*
-			build.append(prefix + count++ + ": ");
-			for(String cell : row.getRow()) {
-				build.append("'" + cell + "' \t");
-			}
-			build.append("\n");
-			*/
 		}
-
+		} else {
+			build.append("Matrix size: " + sizeOfMatrix);
+		}
+		if(blocks != null) {
 		for(SpreadSheetBlockInformation block : blocks) {
 			build.append(block.toString(prefix));
 			build.append("\n");
+		}
 		}
 		return build.toString();
 	}

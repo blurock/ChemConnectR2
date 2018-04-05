@@ -70,6 +70,14 @@
 		<servlet-name>contactservice</servlet-name>
 		<url-pattern>/chemconnectcore/contactservice</url-pattern>
 	</servlet-mapping>
+  	<servlet>
+		<servlet-name>spreadsheet</servlet-name>
+		<servlet-class>info.esblurock.reaction.core.server.services.SpreadSheetServicesImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>spreadsheet</servlet-name>
+		<url-pattern>/chemconnectcore/spreadsheet</url-pattern>
+	</servlet-mapping>
   
   <filter>
 	<filter-name>ObjectifyFilter</filter-name>

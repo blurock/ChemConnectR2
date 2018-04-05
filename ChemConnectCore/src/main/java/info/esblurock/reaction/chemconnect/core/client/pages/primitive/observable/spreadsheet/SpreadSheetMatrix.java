@@ -3,6 +3,7 @@ package info.esblurock.reaction.chemconnect.core.client.pages.primitive.observab
 import java.util.ArrayList;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -10,82 +11,147 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
-import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.data.ListDataSource;
-import gwt.material.design.client.data.events.RowSelectEvent;
-import gwt.material.design.client.ui.pager.MaterialDataPager;
+import gwt.material.design.client.ui.MaterialLink;
+import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.table.MaterialDataTable;
+import gwt.material.design.client.ui.table.MaterialInfiniteDataTable;
 import gwt.material.design.client.ui.table.cell.TextColumn;
+import gwt.material.design.client.data.infinite.InfiniteDataView;
+import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServices;
+import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServicesAsync;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetRow;
+import javax.inject.Inject;
 
-public class SpreadSheetMatrix extends Composite  {
+public class SpreadSheetMatrix extends Composite {
 
 	private static SpreadSheetMatrixUiBinder uiBinder = GWT.create(SpreadSheetMatrixUiBinder.class);
 
 	interface SpreadSheetMatrixUiBinder extends UiBinder<Widget, SpreadSheetMatrix> {
 	}
-	// Declare your Pager 
-    private MaterialDataPager<SpreadSheetRow> pager = new MaterialDataPager<>();
+	// Declare your Pager
 
-    private ListDataSource<SpreadSheetRow> dataSource;
+	@UiField
+	MaterialPanel panel;
+	@UiField
+	MaterialLink startcountlabel;
+	@UiField
+	MaterialLink startcount;
+	@UiField
+	MaterialLink showinglabel;
+	@UiField
+	MaterialLink showing;
+	@UiField
+	MaterialLink totalcountlabel;
+	@UiField
+	MaterialLink totalcount;
+	@UiField
+	MaterialPanel tablepanel;
+	@UiField
+	MaterialLink delete;
+
+	MaterialInfiniteDataTable<SpreadSheetRow> inftable;
+	MaterialDataTable<SpreadSheetRow> table;
+	ArrayList<SpreadSheetRow> matrix;
+	String obstitle;
+	String parent;
+	int numbercolumns;
+	boolean infinitetable = false;
+
+	ListDataSource<SpreadSheetRow> dataSource;
 
 	public SpreadSheetMatrix() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
-	@UiField
-	MaterialDataTable<SpreadSheetRow> table;
-	
-	ArrayList<SpreadSheetRow> matrix;
-	String obstitle;
-	int maxcount;
-
-	public SpreadSheetMatrix(String title, ArrayList<SpreadSheetRow> origmatrix) {
+	@Inject
+	public SpreadSheetMatrix(String title, String parent, int numbercolumns, int totalcount) {
 		initWidget(uiBinder.createAndBindUi(this));
+
+		SpreadSheetServicesAsync spreadsheet = SpreadSheetServices.Util.getInstance();
+		init();
+		this.parent = parent;
+		this.numbercolumns = numbercolumns;
+		this.totalcount.setText(String.valueOf(totalcount));
 		obstitle = title;
-		setUpResultMatrix(origmatrix);
+
+		if (infinitetable) {
+			SpreadSheetDataSource source = new SpreadSheetDataSource(parent, totalcount, spreadsheet);
+			inftable = new MaterialInfiniteDataTable<>(20, InfiniteDataView.DYNAMIC_VIEW, source);
+			setUpGenericColumns(table);
+			table.setUseCategories(false);
+			tablepanel.add(table);
+		} else {
+			table = new MaterialDataTable<SpreadSheetRow>();
+			table.setTitle(obstitle);
+			panel.add(table);
+			getSectionOfData();
+			setUpGenericColumns(table);
+		}
 	}
-	
-	@UiHandler("table")
-	void onRowClick(RowSelectEvent<SpreadSheetRow> event) {
-		Window.alert(event.getModel().toString());
+
+	private void init() {
+		startcount.setText("0");
+		showing.setText("50");
+		totalcount.setText("0");
+		startcountlabel.setText("Start");
+		showinglabel.setText("Show");
+		totalcountlabel.setText("Total");
 	}
+
+	@UiHandler("delete")
+	public void onDeleteClick(ClickEvent event) {
+		String filename = table.getTableTitle().getText();
+		Window.alert("Delete Spreadsheet: " + filename);
+		SpreadSheetServicesAsync async = SpreadSheetServices.Util.getInstance();
+		DeleteObjectCallback callback = new DeleteObjectCallback(filename);
+		async.deleteSpreadSheetTransaction(filename,callback);
+	}
+	public void getSectionOfData() {
+		int startI = Integer.valueOf(startcount.getText());
+		int numberI = Integer.valueOf(showing.getText());
+		SpreadSheetServicesAsync async = SpreadSheetServices.Util.getInstance();
+		SpreadSheetSectionCallback asyncallback = new SpreadSheetSectionCallback(this);
+		async.getSpreadSheetRows(parent, startI, numberI, asyncallback);
+	}
+
 	public void setUpResultMatrix(ArrayList<SpreadSheetRow> origmatrix) {
 		matrix = new ArrayList<SpreadSheetRow>(origmatrix);
-		maxcount = 0;
-		for (SpreadSheetRow row : matrix) {
-			ArrayList<String> lst = row.getRow();
-			if (maxcount < lst.size()) {
-				maxcount = lst.size();
-			}
-		}
-		for (int i = 0; i < maxcount + 1; i++) {
-			String name = "Col:" + i;
-			addColumn(i, name);
-		}
-		table.setTextColor(Color.BLACK);
-		//table.setVisibleRange(0, matrix.size());
-		//table.setRowData(0, matrix);
-		//table.getView().refresh();
-		if(table.getTableTitle() != null) {
+		if (table.getTableTitle() != null) {
 			table.getTableTitle().setText(obstitle);
 		} else {
 			table.setTitle(obstitle);
 		}
-        dataSource = new ListDataSource<SpreadSheetRow>();
-        dataSource.add(0, matrix);
-
-        pager.setTable(table);
-        pager.setDataSource(dataSource);
-
-        table.setVisibleRange(1, 10);
-        table.add(pager);
-		
-		
-		
+		setNumberOfColumns();
+		setUpGenericColumns(table);
+		try {
+			table.setVisibleRange(0, 500);
+			dataSource = new ListDataSource<SpreadSheetRow>(matrix);
+			table.setRowData(0, matrix);
+		} catch(Exception e) {
+			Window.alert("setUpResultMatrix    " + e.toString());
+		}
 	}
 
-	void addColumn(int columnnumber, String columnname) {
+	void setNumberOfColumns() {
+		numbercolumns = 0;
+		for(SpreadSheetRow row : matrix) {
+			if(row.getRow().size() > numbercolumns) {
+				numbercolumns = row.getRow().size();
+			}
+		}
+		Window.alert("setNumberOfColumns: " + numbercolumns);
+	}
+	
+	void setUpGenericColumns(MaterialDataTable<SpreadSheetRow> datatable) {
+		for (int i = 0; i < numbercolumns; i++) {
+			String name = "Col:" + i;
+			addColumn(i, name, datatable);
+		}
+
+	}
+
+	void addColumn(int columnnumber, String columnname, MaterialDataTable<SpreadSheetRow> datatable) {
 		int number = columnnumber;
 		TextColumn<SpreadSheetRow> cell = new TextColumn<SpreadSheetRow>() {
 			@Override
@@ -98,7 +164,26 @@ public class SpreadSheetMatrix extends Composite  {
 				return ans;
 			}
 		};
-		table.addColumn(cell, columnname);
+		datatable.addColumn(cell, columnname);
 	}
+/*
+	@Override
+	protected void onAttach() {
+		Window.alert("SpreadSheetMatrix:  onAttach");
+		try {
+			super.onAttach();
+			table.getTableTitle().setText("Infinite Table");
+			table.clearRowsAndCategories(true);
+			table.getView().setLoadMask(false);
+			Window.alert("SpreadSheetMatrix:  onAttach end");
+		} catch (Exception ex) {
+			Window.alert(ex.toString());
+		}
+	}
+*/
+	/*
+	 * @UiHandler("table") void onRowClick(RowSelectEvent<SpreadSheetRow> event) {
+	 * Window.alert(event.getModel().toString()); }
+	 */
 
 }

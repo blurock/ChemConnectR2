@@ -3,15 +3,12 @@ package info.esblurock.reaction.core.server.read;
 //import static org.junit.Assert.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import org.junit.Test;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
-import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetBlockInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
-import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetRow;
 
 public class ReadDelimitedFile {
 
@@ -25,7 +22,7 @@ public class ReadDelimitedFile {
 			SpreadSheetInputInformation input = new SpreadSheetInputInformation(obj,SpreadSheetInputInformation.CSV,
 					SpreadSheetInputInformation.STRINGSOURCE,matrix);
 			System.out.println(input.toString());
-			ObservationsFromSpreadSheet result = InterpretSpreadSheet.readSpreadSheet(input);
+			ObservationsFromSpreadSheet result = InterpretSpreadSheet.readSpreadSheet(false,input);
 			System.out.println(result);
 			
 			/*

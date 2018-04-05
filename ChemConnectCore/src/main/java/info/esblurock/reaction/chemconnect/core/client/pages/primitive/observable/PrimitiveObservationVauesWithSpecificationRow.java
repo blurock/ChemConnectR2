@@ -20,7 +20,6 @@ import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConcep
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchies;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.spreadsheet.ReadInSpreadSheetInformation;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.spreadsheet.SpreadSheetInformationExtractionInterface;
-import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.spreadsheet.SpreadSheetMatrix;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInterpretation;
@@ -196,9 +195,10 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite
 
 	@Override
 	public void setIsolatedMatrix(ArrayList<SpreadSheetRow> matrix) {
-		String title = obj.getIdentifier() + "-read";
-		SpreadSheetMatrix spread = new SpreadSheetMatrix(title, matrix);
-		matrixrow.add(spread);
+		//String title = obj.getIdentifier() + "-read";
+		Window.alert("PrimitiveObservationVauesWithSpecificationRow   setIsolatedMatrix: not implemented");
+		//SpreadSheetMatrix spread = new SpreadSheetMatrix(title, matrix);
+		//matrixrow.add(spread);
 	}
 
 	@Override

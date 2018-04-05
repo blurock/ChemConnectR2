@@ -139,8 +139,13 @@ public class QueryBase {
 		
 		if(parameters.getQueryvalues() != null) {
 			for(QueryPropertyValue pv : parameters.getQueryvalues()) {
-				System.out.println("property: " + pv.getProperty() + ", value: " + pv.getValue() );
-				query = query.filter(pv.getProperty(),pv.getValue());
+				if(pv.isStringvalue()) {
+					query = query.filter(pv.getProperty(),pv.getValueS());
+				} else if(pv.isDoublevalue()) {
+					query = query.filter(pv.getProperty(),pv.getValueD());
+				} else if(pv.isIntvalue()) {
+					query = query.filter(pv.getProperty(),pv.getValueI());
+				}
 			}
 		}
 		

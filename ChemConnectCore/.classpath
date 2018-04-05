@@ -58,5 +58,6 @@
 	<classpathentry kind="lib" path="jar/gwt-material-jquery-2.0.1.jar"/>
 	<classpathentry kind="lib" path="jar/gwt-material-table-2.0.1.jar"/>
 	<classpathentry kind="lib" path="jar/gwt-material-themes-2.0.1.jar"/>
+	<classpathentry kind="lib" path="jar/javax.inject-1.jar"/>
 	<classpathentry kind="output" path="src/main/webapp/WEB-INF/classes"/>
 </classpath>

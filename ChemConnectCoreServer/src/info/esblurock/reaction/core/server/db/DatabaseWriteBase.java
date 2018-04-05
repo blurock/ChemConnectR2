@@ -3,7 +3,9 @@ package info.esblurock.reaction.core.server.db;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.image.UploadedImage;
 import info.esblurock.reaction.chemconnect.core.data.transaction.TransactionInfo;
+import info.esblurock.reaction.core.server.delete.DeleteDataStructures;
 
+import java.io.IOException;
 import java.util.ArrayList;
 /*
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
@@ -40,6 +42,29 @@ public class DatabaseWriteBase {
 	public static void writeEntity(Object entity) {
 		ObjectifyService.ofy().save().entity(entity).now();
 	}
+
+	public static void deleteTransactionInfo(TransactionInfo info) throws IOException {
+		String sourceID = info.getSourceID();
+		String sourceClass = info.getTransactionObjectType();
+		Class<?> typeclass;
+		try {
+			typeclass = Class.forName(sourceClass);
+		} catch (ClassNotFoundException e) {
+			throw new IOException("Delete: Can't resolve source class: " + sourceClass);
+		}
+		System.out.println("deleteTransactionInfo: sourceID:          " + sourceID);
+		System.out.println("deleteTransactionInfo: classname:         " + sourceClass);
+		DatabaseObject entity = (DatabaseObject) ObjectifyService.ofy().load().type(typeclass).filter("sourceID",sourceID).first().now();
+		System.out.println("deleteTransactionInfo: number of objects: " + entity.toString());
+		DeleteDataStructures.deleteObject(entity);
+		ObjectifyService.ofy().delete().entity(entity);
+		ObjectifyService.ofy().delete().entity(info);
+		System.out.println("deleteTransactionInfo:  ");
+	}
+
+	
+	
+	
 	/** This writes the transaction object and the TransactionInfo.
 	 * @param id The keyword id of the transaction
 	 * @param access access of the objects in the transaction
@@ -59,6 +84,10 @@ public class DatabaseWriteBase {
 		transaction.setStoredObjectKey(object.getKey());
 		writeDatabaseObject(transaction);
 	}
+	
+	
+	
+	
 	static public void initializeIndividualInformation(String username, String password, String email, String userrole) {
 /*
 		String sourceID = QueryBase.getDataSourceIdentification(username);

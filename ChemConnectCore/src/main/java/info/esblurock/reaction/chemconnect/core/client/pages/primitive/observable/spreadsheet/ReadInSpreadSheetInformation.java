@@ -28,8 +28,8 @@ import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.MaterialTooltip;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.ReadInSpreadSheetCallback;
-import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
-import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
+import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServices;
+import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServicesAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
@@ -359,6 +359,8 @@ public class ReadInSpreadSheetInformation extends Composite implements Observati
 	}
 	
 	public void setUpResultMatrix(ObservationsFromSpreadSheet results) {
+		Window.alert("ReadInSpreadSheetInformation  setUpResultMatrix(");
+		/*
 		origmatrix = results.getMatrix();
 		matrix = new ArrayList<SpreadSheetRow>(origmatrix);
 		beginningRow = 0;
@@ -366,6 +368,7 @@ public class ReadInSpreadSheetInformation extends Composite implements Observati
 		numberOfVisibleRows = 200;
 		setUpMatrix();
 		stepper.nextStep();
+		*/
 	}
 
 	public void fieldUpdate() {
@@ -386,14 +389,15 @@ public class ReadInSpreadSheetInformation extends Composite implements Observati
 			visible.add(matrix.get(i));
 		}
 		tablepanel.clear();
-		spreadsheet = new SpreadSheetMatrix(obstitle,visible);
-		tablepanel.add(spreadsheet);
+		Window.alert("ReadInSpreadSheetInformation   setUpMatrix()");
+		//spreadsheet = new SpreadSheetMatrix(obstitle,visible);
+		//tablepanel.add(spreadsheet);
 	}
 	
 	private void readInSpreadSheet(SpreadSheetInputInformation input) {
-		ContactDatabaseAccessAsync async = ContactDatabaseAccess.Util.getInstance();
+		SpreadSheetServicesAsync async = SpreadSheetServices.Util.getInstance();
 		ReadInSpreadSheetCallback callback = new ReadInSpreadSheetCallback(this);
-		async.interpretSpreadSheet(input, callback);
+		async.interpretSpreadSheet(input,true, callback);
 	}
 
 

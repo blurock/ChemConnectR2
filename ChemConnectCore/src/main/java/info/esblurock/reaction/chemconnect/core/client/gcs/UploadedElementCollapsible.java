@@ -158,12 +158,14 @@ public class UploadedElementCollapsible extends Composite implements Visualizati
 	
 	@UiHandler("add")
 	void onClick(ClickEvent e) {
+		Window.alert("onClick:  getInterpretedBlob "+ visualType);
 		VisualizeMedia visual = VisualizeMedia.valueOf(visualType);
-		String type = SpreadSheetInputInformation.CSV;
+		String type = SpreadSheetInputInformation.TabDelimited;
 		String sourceType = SpreadSheetInputInformation.BLOBSOURCE;
 		String source = info.getGSFilename();
 		SpreadSheetInputInformation spread = new SpreadSheetInputInformation(info,type,sourceType,source);
 		if(visual != null) {
+			Window.alert("onClick:  getInterpretedBlob "+ spread.toString());
 			visual.getInterpretedBlob(info, spread, this);
 		}
 	}
