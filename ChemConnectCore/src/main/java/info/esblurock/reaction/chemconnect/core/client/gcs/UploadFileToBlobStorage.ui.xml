@@ -45,6 +45,12 @@
 							text="text area upload" backgroundColor="WHITE" textColor="BLACK" />
 					</m:MaterialColumn>
 				</m:MaterialRow>
+				<m:MaterialRow>
+					<m:MaterialColumn grid="s12" backgroundColor="WHITE">
+						<m:MaterialLink ui:field="textname"
+							text="filename.txt" backgroundColor="WHITE" textColor="BLACK" />
+					</m:MaterialColumn>
+				</m:MaterialRow>
 				<m:MaterialRow backgroundColor="GREY_LIGHTEN_3">
 					<g:ScrollPanel height="100%">
 						<m:MaterialTextArea ui:field="textarea" />

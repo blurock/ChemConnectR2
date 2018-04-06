@@ -3,6 +3,9 @@ package info.esblurock.reaction.core.server.db.image;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -324,8 +327,50 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		return fileset;
 	}
 
+	public GCSBlobFileInformation retrieveBlobFromURL(String requestUrl) throws IOException {
+		ContextAndSessionUtilities context = getUtilities();
+		String path = createUploadPath(context);
+		System.out.println("Path: " + path);
+		//Storage storage = StorageOptions.getDefaultInstance().getService();
+		String uploadDescriptionText = "Uploaded File from URL";
+		
+		URL urlconnect = new URL(requestUrl);
+		URLConnection c = urlconnect.openConnection();
+		String contentType = c.getContentType();
+
+		URL urlstream = new URL(requestUrl);
+		InputStream in = urlstream.openStream();
+		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
+
+		GCSBlobFileInformation source = createInitialUploadInfo(requestUrl, contentType, uploadDescriptionText, util);
+		retrieveContentFromStream(in,source);
+		
+		return source;
+	}
+
+	public GCSBlobFileInformation retrieveBlobFromContent(String filename, String content) throws IOException {
+		String contentType = "text/plain";
+		String uploadDescriptionText = "Uploaded File from text input";
+		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
+		GCSBlobFileInformation source = createInitialUploadInfo(filename, contentType, uploadDescriptionText, util);
+		
+		InputStream in = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
+		retrieveContentFromStream(in,source);
+		return source;
+	}
 	
-	
+	private void retrieveContentFromStream(InputStream in, GCSBlobFileInformation source) {
+		BlobInfo info = BlobInfo.newBuilder(source.getBucket(), source.getGSFilename())
+				.setAcl(new ArrayList<>(Arrays.asList(Acl.of(User.ofAllUsers(), Role.READER))))
+				.setContentType(source.getFiletype())
+				.build();
+
+		@SuppressWarnings("deprecation")
+		BlobInfo blobInfo = storage.create(info, in);
+		System.out.println("Blob content type:  " + blobInfo.getContentType());
+		DatabaseWriteBase.writeObjectWithTransaction(source);
+		
+	}
 	
 	public static String createUploadPath(ContextAndSessionUtilities util) {
 		String username = util.getUserName();
@@ -350,17 +395,8 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		return source;
 	}
 	
+	
 	public static InputStream getInputStream(GCSBlobFileInformation info) {
-		/*
-		String fname = info.getFilename();
-		if(info.getPath() != null) {
-			if(info.getPath().length() > 0) {
-				fname = info.getPath() + "/" + info.getFilename();
-			}
-		}
-		
-		
-		*/
 		System.out.println("getInputStream from string" + info.getBucket() + ":  " + info.getGSFilename());
 		GCSBlobContent content = getContent(info);
 		String contentstring = content.getBytes();
@@ -378,6 +414,9 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	    */
 		return inputstream;
 	}
+	
+	
+	
 	public static GCSBlobContent getContent(GCSBlobFileInformation gcsinfo) {
  		BlobId blobId = BlobId.of(gcsinfo.getBucket(), gcsinfo.getGSFilename()); 		
 		Blob blob = storage.get(blobId);

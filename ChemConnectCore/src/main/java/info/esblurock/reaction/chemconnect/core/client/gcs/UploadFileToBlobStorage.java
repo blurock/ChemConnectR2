@@ -1,8 +1,10 @@
 package info.esblurock.reaction.chemconnect.core.client.gcs;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
@@ -54,7 +56,9 @@ public class UploadFileToBlobStorage extends Composite implements DetermineBlobT
 	MaterialTooltip httptip;
 	@UiField
 	MaterialFileUploader uploader;
-	
+	@UiField
+	MaterialLink textname;
+		
 	DatabaseObject obj;
 	
 	public UploadFileToBlobStorage() {
@@ -68,14 +72,14 @@ public class UploadFileToBlobStorage extends Composite implements DetermineBlobT
 		httpupload.setText("HTTP Upload");
 		textareaupload.setText("Click to upload text area");
 		title.setTitle("Upload Files");
+		textname.setText("textfilename.txt");
 		obj = new DatabaseObject();
 		getUploadedFiles();
 		
 		uploader.addSuccessHandler(new SuccessEvent.SuccessHandler<UploadFile>() {
 			@Override
 			public void onSuccess(SuccessEvent<UploadFile> event) {
-				collapsible.clear();
-				getUploadedFiles();
+				refresh();
 				}
 			 });		
 		uploader.addDragOverHandler(new DragOverEvent.DragOverHandler() {
@@ -86,6 +90,29 @@ public class UploadFileToBlobStorage extends Composite implements DetermineBlobT
 				}
 			});
 		
+	}
+	
+	@UiHandler("httpupload")
+	public void onHttpUpload(ClickEvent event) {
+		UserImageServiceAsync async = UserImageService.Util.getInstance();
+		ContentUploadCallback callback = new ContentUploadCallback(this);
+		String url = httpaddress.getText();
+		async.retrieveBlobFromURL(url,callback);
+	}
+	
+	@UiHandler("textareaupload")
+	public void onTextFileUpload(ClickEvent event) {
+		UserImageServiceAsync async = UserImageService.Util.getInstance();
+		ContentUploadCallback callback = new ContentUploadCallback(this);
+		String filename = textname.getText();
+		String content = textarea.getText();
+		async.retrieveBlobFromContent(filename,content,callback);
+
+	}
+	
+	public void refresh() {
+		collapsible.clear();
+		getUploadedFiles();		
 	}
 	
 	private void getUploadedFiles() {

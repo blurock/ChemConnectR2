@@ -39,6 +39,10 @@ public interface UserImageServiceAsync {
 	void deleteUploadedFiles(ArrayList<GCSBlobFileInformation> fileset, AsyncCallback<Void> callback);
 
 	void deleteUploadedFile(GCSBlobFileInformation gcsinfo, AsyncCallback<Void> callback);
+
+	void retrieveBlobFromContent(String filename, String content, AsyncCallback<GCSBlobFileInformation> callback);
+
+	void retrieveBlobFromURL(String requestUrl, AsyncCallback<GCSBlobFileInformation> callback);
 	
 
 }

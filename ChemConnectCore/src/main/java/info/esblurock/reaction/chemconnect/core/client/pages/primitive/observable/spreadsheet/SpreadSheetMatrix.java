@@ -1,6 +1,7 @@
 package info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.spreadsheet;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -16,6 +17,7 @@ import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.table.MaterialDataTable;
 import gwt.material.design.client.ui.table.MaterialInfiniteDataTable;
+import gwt.material.design.client.ui.table.cell.Column;
 import gwt.material.design.client.ui.table.cell.TextColumn;
 import gwt.material.design.client.data.infinite.InfiniteDataView;
 import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServices;
@@ -29,7 +31,6 @@ public class SpreadSheetMatrix extends Composite {
 
 	interface SpreadSheetMatrixUiBinder extends UiBinder<Widget, SpreadSheetMatrix> {
 	}
-	// Declare your Pager
 
 	@UiField
 	MaterialPanel panel;
@@ -101,12 +102,18 @@ public class SpreadSheetMatrix extends Composite {
 
 	@UiHandler("delete")
 	public void onDeleteClick(ClickEvent event) {
+		deleteSpreadSheet();
+	}
+	
+	public void deleteSpreadSheet() {
 		String filename = table.getTableTitle().getText();
 		Window.alert("Delete Spreadsheet: " + filename);
 		SpreadSheetServicesAsync async = SpreadSheetServices.Util.getInstance();
 		DeleteObjectCallback callback = new DeleteObjectCallback(filename);
 		async.deleteSpreadSheetTransaction(filename,callback);
+		this.removeFromParent();		
 	}
+	
 	public void getSectionOfData() {
 		int startI = Integer.valueOf(startcount.getText());
 		int numberI = Integer.valueOf(showing.getText());

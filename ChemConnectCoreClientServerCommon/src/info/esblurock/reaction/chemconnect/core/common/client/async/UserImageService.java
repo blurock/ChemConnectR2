@@ -58,4 +58,8 @@ public interface UserImageService  extends RemoteService  {
 	void deleteUploadedFiles(ArrayList<GCSBlobFileInformation> fileset);
 	
 	ArrayList<GCSBlobFileInformation> getUploadedFiles() throws IOException;
+	
+	GCSBlobFileInformation retrieveBlobFromContent(String filename, String content) throws IOException;
+	
+	GCSBlobFileInformation retrieveBlobFromURL(String requestUrl) throws IOException;
 }
