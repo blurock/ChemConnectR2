@@ -13,14 +13,18 @@ import gwt.material.design.addins.client.fileuploader.MaterialFileUploader;
 import gwt.material.design.addins.client.fileuploader.base.UploadFile;
 import gwt.material.design.addins.client.fileuploader.events.SuccessEvent;
 import gwt.material.design.client.events.DragOverEvent;
+import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTextArea;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.MaterialTitle;
+import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.MaterialTooltip;
 import gwt.material.design.client.ui.animate.MaterialAnimation;
+import info.esblurock.reaction.chemconnect.core.client.modal.InputLineModal;
+import info.esblurock.reaction.chemconnect.core.client.modal.SetLineContentInterface;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.spreadsheet.UploadedFilesInterface;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
@@ -29,7 +33,7 @@ import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 
 public class UploadFileToBlobStorage extends Composite implements DetermineBlobTargetInterface, 
-			InsertBlobContentInterface, UploadedFilesInterface {
+			InsertBlobContentInterface, UploadedFilesInterface, SetLineContentInterface {
 
 	private static UploadFileToBlobStorageUiBinder uiBinder = GWT.create(UploadFileToBlobStorageUiBinder.class);
 
@@ -45,20 +49,19 @@ public class UploadFileToBlobStorage extends Composite implements DetermineBlobT
 	@UiField
 	MaterialPanel modalpanel;
 	@UiField
-	MaterialLink textareaupload;
+	MaterialButton textareaupload;
 	@UiField
 	MaterialTextArea textarea;
 	@UiField
-	MaterialTextBox httpaddress;
-	@UiField
-	MaterialLink httpupload;
-	@UiField
-	MaterialTooltip httptip;
+	MaterialButton httpupload;
 	@UiField
 	MaterialFileUploader uploader;
 	@UiField
 	MaterialLink textname;
-		
+	@UiField
+	MaterialLink textlabel;
+	
+	
 	DatabaseObject obj;
 	
 	public UploadFileToBlobStorage() {
@@ -67,12 +70,11 @@ public class UploadFileToBlobStorage extends Composite implements DetermineBlobT
 	}
 
 	void init() {
-		httpaddress.setText("http://cms.heatfluxburner.org/wp-content/uploads/Bosschaart_CH4_Air_1atm_Tu_295K_thesis.xls");
-		httptip.setText("Click to upload from HTTP address");
-		httpupload.setText("HTTP Upload");
-		textareaupload.setText("Click to upload text area");
+		httpupload.setText("Upload as URL");
+		textareaupload.setText("Upload text area");
 		title.setTitle("Upload Files");
-		textname.setText("textfilename.txt");
+		textname.setText("click to set URL or text area filename");
+		textlabel.setText("filename/URL");
 		obj = new DatabaseObject();
 		getUploadedFiles();
 		
@@ -96,8 +98,10 @@ public class UploadFileToBlobStorage extends Composite implements DetermineBlobT
 	public void onHttpUpload(ClickEvent event) {
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		ContentUploadCallback callback = new ContentUploadCallback(this);
-		String url = httpaddress.getText();
-		async.retrieveBlobFromURL(url,callback);
+		String url = textname.getText();
+		if(uniqueFilename(url)) {
+			async.retrieveBlobFromURL(url,callback);
+		}
 	}
 	
 	@UiHandler("textareaupload")
@@ -106,8 +110,16 @@ public class UploadFileToBlobStorage extends Composite implements DetermineBlobT
 		ContentUploadCallback callback = new ContentUploadCallback(this);
 		String filename = textname.getText();
 		String content = textarea.getText();
-		async.retrieveBlobFromContent(filename,content,callback);
+		if(uniqueFilename(filename) ) {
+			async.retrieveBlobFromContent(filename,content,callback);
+		}
 
+	}
+	@UiHandler("textname")
+	public void onClickFilename(ClickEvent event) {
+		InputLineModal modal = new InputLineModal("Input Text file name", textname.getText(), this);
+		modalpanel.add(modal);
+		modal.openModal();
 	}
 	
 	public void refresh() {
@@ -122,6 +134,19 @@ public class UploadFileToBlobStorage extends Composite implements DetermineBlobT
 		
 	}
 
+	private boolean uniqueFilename(String filename) {
+		boolean ans = true;
+		for(Widget widget : collapsible) {
+			UploadedElementCollapsible coll = (UploadedElementCollapsible) widget;
+			String path = coll.getPath();
+			if(path.compareTo(filename) == 0) {
+				ans = false;
+				MaterialToast.fireToast("Filename in use:  choose another");
+			}
+		}
+		return ans;
+	}
+	
 	public void setIdentifier(DatabaseObject obj) {
 		this.obj = new DatabaseObject(obj);
 		String id = obj.getIdentifier() + "-suppinfo";
@@ -147,12 +172,21 @@ public class UploadFileToBlobStorage extends Composite implements DetermineBlobT
 	@Override
 	public void addCollapsible(UploadedElementCollapsible coll) {
 		collapsible.add(coll);
-		
 	}
 
 	@Override
 	public MaterialPanel getModalPanel() {
 		return modalpanel;
 	}
+
+	@Override
+	public void setLineContent(String line) {
+		if(line.length() > 0) {
+		if(uniqueFilename(line)) {
+			textname.setText(line);
+		}
+		}
+	}
+
 
 }

@@ -13,7 +13,7 @@
 
 	<m:MaterialPanel>
 		<m:MaterialPanel ui:field="modalpanel" />
-		<m:MaterialDivider/>
+		<m:MaterialDivider />
 		<m:MaterialRow>
 			<m:MaterialColumn grid="s12">
 				<m:MaterialTooltip ui:field="identifiertip">
@@ -22,33 +22,32 @@
 			</m:MaterialColumn>
 		</m:MaterialRow>
 		<m:MaterialRow>
-			<m:MaterialColumn grid="s2">
-				<m:MaterialTooltip ui:field="httptip">
-					<m:MaterialLink ui:field="httpupload" textColor="BLACK" />
-				</m:MaterialTooltip>
-			</m:MaterialColumn>
-			<m:MaterialColumn grid="s10">
-				<m:MaterialTextBox ui:field="httpaddress" textColor="BLACK"/>
-			</m:MaterialColumn>
-		</m:MaterialRow>
-		<m:MaterialRow>
 			<m:MaterialColumn grid="s3" backgroundColor="GREY_LIGHTEN_3">
 				<ma:fileuploader.MaterialFileUploader
 					ui:field="uploader" url="/gcsfileupload" maxFileSize="20" shadow="1">
-					<ma:fileuploader.MaterialUploadLabel title="Drag Files to Upload" description="Some description here" />
+					<ma:fileuploader.MaterialUploadLabel
+						title="Drag Files to Upload" description="Some description here" />
 				</ma:fileuploader.MaterialFileUploader>
 			</m:MaterialColumn>
 			<m:MaterialColumn grid="s9">
 				<m:MaterialRow>
-					<m:MaterialColumn grid="s12" backgroundColor="WHITE">
-						<m:MaterialLink ui:field="textareaupload"
-							text="text area upload" backgroundColor="WHITE" textColor="BLACK" />
+					<m:MaterialColumn grid="s6">
+						<m:MaterialButton ui:field="textareaupload" width="80%"
+						 backgroundColor="GREY_LIGHTEN_3" textColor="BLACK" />
+					</m:MaterialColumn>
+					<m:MaterialColumn grid="s6">
+							<m:MaterialButton ui:field="httpupload" width="80%"
+							backgroundColor="GREY_LIGHTEN_3" textColor="BLACK" />
 					</m:MaterialColumn>
 				</m:MaterialRow>
 				<m:MaterialRow>
-					<m:MaterialColumn grid="s12" backgroundColor="WHITE">
+					<m:MaterialColumn grid="s3" backgroundColor="GREY_LIGHTEN_3">
+						<m:MaterialLink ui:field="textlabel"
+							backgroundColor="GREY_LIGHTEN_3" textColor="BLACK" />
+					</m:MaterialColumn>
+					<m:MaterialColumn grid="s9" backgroundColor="WHITE">
 						<m:MaterialLink ui:field="textname"
-							text="filename.txt" backgroundColor="WHITE" textColor="BLACK" />
+							backgroundColor="WHITE" textColor="BLACK" />
 					</m:MaterialColumn>
 				</m:MaterialRow>
 				<m:MaterialRow backgroundColor="GREY_LIGHTEN_3">
@@ -58,7 +57,7 @@
 				</m:MaterialRow>
 			</m:MaterialColumn>
 		</m:MaterialRow>
-		<m:MaterialDivider/>
+		<m:MaterialDivider />
 		<m:MaterialRow>
 			<m:MaterialColumn grid="s12">
 				<m:MaterialCollapsible ui:field="collapsible" />

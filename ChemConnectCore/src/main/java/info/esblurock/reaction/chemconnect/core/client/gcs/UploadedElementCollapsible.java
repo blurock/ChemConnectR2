@@ -186,4 +186,7 @@ public class UploadedElementCollapsible extends Composite implements Visualizati
 	public void insertVisualization(Widget panel) {
 		imagepanel.add(panel);
 	}
+	public String getPath() {
+		return path.getText();
+	}
 }
