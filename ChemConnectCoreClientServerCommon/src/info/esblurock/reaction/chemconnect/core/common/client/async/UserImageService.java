@@ -62,4 +62,6 @@ public interface UserImageService  extends RemoteService  {
 	GCSBlobFileInformation retrieveBlobFromContent(String filename, String content) throws IOException;
 	
 	GCSBlobFileInformation retrieveBlobFromURL(String requestUrl) throws IOException;
+	
+	void deleteTransaction(String sourceID) throws IOException;
 }

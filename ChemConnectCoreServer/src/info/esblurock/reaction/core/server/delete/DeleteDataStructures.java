@@ -8,7 +8,9 @@ import com.googlecode.objectify.ObjectifyService;
 
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetRow;
+import info.esblurock.reaction.core.server.db.image.UserImageServiceImpl;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 
 public enum DeleteDataStructures {
 
@@ -25,7 +27,17 @@ public enum DeleteDataStructures {
 			return null;
 		}
 		
-	};
+	}, GCSBlobFileInformation {
+
+		@Override
+		public String deleteStructure(DatabaseObject info) throws IOException {
+			GCSBlobFileInformation gcsinfo = (GCSBlobFileInformation) info;
+			UserImageServiceImpl.deleteBlob(gcsinfo);
+			return null;
+		}
+		
+	}
+	;
 	
 	
 	

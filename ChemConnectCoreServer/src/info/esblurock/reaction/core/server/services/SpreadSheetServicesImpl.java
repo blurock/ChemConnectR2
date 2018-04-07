@@ -16,6 +16,7 @@ import info.esblurock.reaction.chemconnect.core.data.query.SetOfQueryPropertyVal
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.data.transaction.TransactionInfo;
 import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
+import info.esblurock.reaction.core.server.db.image.UserImageServiceImpl;
 import info.esblurock.reaction.core.server.read.InterpretSpreadSheet;
 import info.esblurock.reaction.io.db.QueryBase;
 
@@ -94,11 +95,7 @@ public class SpreadSheetServicesImpl extends ServerBase implements SpreadSheetSe
 				QueryBase.getFirstDatabaseObjectsFromSingleProperty(SpreadSheetInputInformation.class.getCanonicalName(), 
 				"source", filename);
 		String sourceID = spreadsheet.getSourceID();
-		TransactionInfo info = (TransactionInfo) 
-				QueryBase.getFirstDatabaseObjectsFromSingleProperty(TransactionInfo.class.getCanonicalName(), 
-				"sourceID", sourceID);
-		System.out.println("deleteSpreadSheetTransaction:  " + info.toString());
-		DatabaseWriteBase.deleteTransactionInfo(info);
+		UserImageServiceImpl.deleteTransactionFromSourceID(sourceID);
 	}
 	
 	

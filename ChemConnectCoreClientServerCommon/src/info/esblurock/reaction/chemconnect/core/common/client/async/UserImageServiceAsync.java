@@ -43,6 +43,8 @@ public interface UserImageServiceAsync {
 	void retrieveBlobFromContent(String filename, String content, AsyncCallback<GCSBlobFileInformation> callback);
 
 	void retrieveBlobFromURL(String requestUrl, AsyncCallback<GCSBlobFileInformation> callback);
+
+	void deleteTransaction(String sourceID, AsyncCallback<Void> callback);
 	
 
 }

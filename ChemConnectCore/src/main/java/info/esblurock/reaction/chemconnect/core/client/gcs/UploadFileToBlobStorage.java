@@ -63,6 +63,7 @@ public class UploadFileToBlobStorage extends Composite implements DetermineBlobT
 	
 	
 	DatabaseObject obj;
+	boolean filenamegiven;
 	
 	public UploadFileToBlobStorage() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -72,7 +73,7 @@ public class UploadFileToBlobStorage extends Composite implements DetermineBlobT
 	void init() {
 		httpupload.setText("Upload as URL");
 		textareaupload.setText("Upload text area");
-		title.setTitle("Upload Files");
+		title.setTitle("File Upload Staging");
 		textname.setText("click to set URL or text area filename");
 		textlabel.setText("filename/URL");
 		obj = new DatabaseObject();
@@ -91,37 +92,50 @@ public class UploadFileToBlobStorage extends Composite implements DetermineBlobT
 				animate.animate();
 				}
 			});
-		
+		filenamegiven = false;
 	}
 	
 	@UiHandler("httpupload")
 	public void onHttpUpload(ClickEvent event) {
+		if(filenamegiven) {
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		ContentUploadCallback callback = new ContentUploadCallback(this);
 		String url = textname.getText();
 		if(uniqueFilename(url)) {
 			async.retrieveBlobFromURL(url,callback);
 		}
+		} else {
+			MaterialToast.fireToast("Please enter a URL");
+		}
+		filenamegiven = false;
 	}
 	
 	@UiHandler("textareaupload")
 	public void onTextFileUpload(ClickEvent event) {
+		if(filenamegiven) {
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		ContentUploadCallback callback = new ContentUploadCallback(this);
 		String filename = textname.getText();
 		String content = textarea.getText();
 		if(uniqueFilename(filename) ) {
 			async.retrieveBlobFromContent(filename,content,callback);
+			
 		}
-
+		} else {
+			MaterialToast.fireToast("Please enter a filename for the text");
+		}
+		filenamegiven = false;
 	}
 	@UiHandler("textname")
 	public void onClickFilename(ClickEvent event) {
-		InputLineModal modal = new InputLineModal("Input Text file name", textname.getText(), this);
-		modalpanel.add(modal);
-		modal.openModal();
+		askForFilename();
 	}
 	
+	public void askForFilename() {
+		InputLineModal modal = new InputLineModal("Input Text file name", textname.getText(), this);
+		modalpanel.add(modal);
+		modal.openModal();		
+	}
 	public void refresh() {
 		collapsible.clear();
 		getUploadedFiles();		
@@ -184,6 +198,7 @@ public class UploadFileToBlobStorage extends Composite implements DetermineBlobT
 		if(line.length() > 0) {
 		if(uniqueFilename(line)) {
 			textname.setText(line);
+			filenamegiven = true;
 		}
 		}
 	}

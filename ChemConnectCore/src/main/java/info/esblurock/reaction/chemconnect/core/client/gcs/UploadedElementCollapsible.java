@@ -16,6 +16,9 @@ import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTextArea;
 import gwt.material.design.client.ui.MaterialTooltip;
 import info.esblurock.reaction.chemconnect.core.client.gcs.objects.UploadedTextObject;
+import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.spreadsheet.DeleteObjectCallback;
+import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
+import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
@@ -154,6 +157,10 @@ public class UploadedElementCollapsible extends Composite implements Visualizati
 	@UiHandler("delete")
 	void onClickDelete(ClickEvent e) {
 		Window.alert("Delete");
+		UserImageServiceAsync async = UserImageService.Util.getInstance();
+		DeleteObjectCallback callback = new DeleteObjectCallback(path.getText());
+		async.deleteTransaction(info.getSourceID(), callback);
+		this.removeFromParent();
 	}
 	
 	@UiHandler("add")

@@ -3,7 +3,6 @@ package info.esblurock.reaction.core.server.db.image;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.ByteBuffer;
@@ -42,6 +41,7 @@ import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
 import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.data.query.SetOfQueryPropertyValues;
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
+import info.esblurock.reaction.chemconnect.core.data.transaction.TransactionInfo;
 import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
 import info.esblurock.reaction.core.server.services.ServerBase;
 import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
@@ -294,8 +294,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		 }
 
 	public void deleteUploadedFile(GCSBlobFileInformation gcsinfo) {
- 		BlobId blobId = BlobId.of(gcsinfo.getBucket(), gcsinfo.getGSFilename()); 		
-		storage.delete(blobId);
+		deleteBlob(gcsinfo);
 	}
 	
 	public void deleteUploadedFiles(ArrayList<GCSBlobFileInformation> fileset) {
@@ -359,6 +358,11 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		return source;
 	}
 	
+	public void deleteTransaction(String sourceID) throws IOException {
+		deleteTransactionFromSourceID(sourceID);
+	}
+
+	
 	private void retrieveContentFromStream(InputStream in, GCSBlobFileInformation source) {
 		BlobInfo info = BlobInfo.newBuilder(source.getBucket(), source.getGSFilename())
 				.setAcl(new ArrayList<>(Arrays.asList(Acl.of(User.ofAllUsers(), Role.READER))))
@@ -370,6 +374,20 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		System.out.println("Blob content type:  " + blobInfo.getContentType());
 		DatabaseWriteBase.writeObjectWithTransaction(source);
 		
+	}
+
+	public static void deleteTransactionFromSourceID(String sourceID) throws IOException {
+		TransactionInfo info = (TransactionInfo) 
+				QueryBase.getFirstDatabaseObjectsFromSingleProperty(TransactionInfo.class.getCanonicalName(), 
+				"sourceID", sourceID);		
+		DatabaseWriteBase.deleteTransactionInfo(info);
+	}
+
+	
+	public static void deleteBlob(GCSBlobFileInformation gcsinfo) {
+		System.out.println("deleteBlob: " + gcsinfo.toString());
+ 		BlobId blobId = BlobId.of(gcsinfo.getBucket(), gcsinfo.getGSFilename()); 		
+		storage.delete(blobId);
 	}
 	
 	public static String createUploadPath(ContextAndSessionUtilities util) {
