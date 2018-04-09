@@ -10,6 +10,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
@@ -341,6 +342,8 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		InputStream in = urlstream.openStream();
 		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
 
+		
+		
 		GCSBlobFileInformation source = createInitialUploadInfo(requestUrl, contentType, uploadDescriptionText, util);
 		retrieveContentFromStream(in,source);
 		
@@ -433,8 +436,6 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		return inputstream;
 	}
 	
-	
-	
 	public static GCSBlobContent getContent(GCSBlobFileInformation gcsinfo) {
  		BlobId blobId = BlobId.of(gcsinfo.getBucket(), gcsinfo.getGSFilename()); 		
 		Blob blob = storage.get(blobId);
@@ -449,4 +450,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		gcs.setBytes(bytesS);
 		return gcs;
 	}
+	
+
+	
 }
