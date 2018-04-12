@@ -13,6 +13,8 @@ import info.esblurock.reaction.chemconnect.core.data.contact.ContactLocationInfo
 import info.esblurock.reaction.chemconnect.core.data.contact.DatabasePerson;
 import info.esblurock.reaction.chemconnect.core.data.contact.GPSLocation;
 import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
+import info.esblurock.reaction.chemconnect.core.data.contact.Organization;
+import info.esblurock.reaction.chemconnect.core.data.contact.OrganizationDescription;
 import info.esblurock.reaction.chemconnect.core.data.contact.PersonalDescription;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
@@ -27,7 +29,7 @@ public class CreatePersonDescriptionFactory {
 			String purpose,
 			NameOfPerson person) {
 		Map<String, DataElementInformation> elementmap = createElementMap("dataset:DatabasePerson");
-		String concept = "";
+		String concept = "dataset:ChemConnectContactConcept";
 		String onlinedescription = person.getGivenName() + " " + person.getFamilyName();
 
 		
@@ -50,6 +52,48 @@ public class CreatePersonDescriptionFactory {
 		top.addSubobject(personal);
 		top.addSubobject(descr);
 		return top;
+	}
+	
+	static DatabaseObjectHierarchy createMinimalOrganization(DatabaseObject obj,
+			String organizationname, String purpose) {
+		Map<String, DataElementInformation> elementmap = createElementMap("dataset:Organization");
+
+		String concept = "dataset:ChemConnectContactConcept";
+		DatabaseObjectHierarchy contact = createContactInfo(obj,elementmap);
+		DatabaseObjectHierarchy location = createContactLocationInformation(obj,elementmap);
+		DatabaseObjectHierarchy orgdescr = createOrganizationDescription(obj,organizationname,elementmap);
+		DatabaseObjectHierarchy descr = createDescriptionDataData(obj,elementmap,
+				organizationname, concept,purpose);
+		
+		
+		ChemConnectDataStructure structure = new ChemConnectDataStructure(obj,descr.getObject().getIdentifier());
+		Organization org = new Organization(structure,
+				contact.getObject().getIdentifier(),
+				location.getObject().getIdentifier(),
+				orgdescr.getObject().getIdentifier()
+				);
+		
+		DatabaseObjectHierarchy top = new DatabaseObjectHierarchy(org);
+		top.addSubobject(contact);
+		top.addSubobject(location);
+		top.addSubobject(orgdescr);
+		top.addSubobject(descr);
+
+		return top;
+	}
+	
+	static DatabaseObjectHierarchy createOrganizationDescription(DatabaseObject obj, 
+			String organizationname, Map<String, DataElementInformation> elementmap) {
+		
+		DatabaseObject oobj = new DatabaseObject(obj);
+		String oid = createSuffix(obj,"dataset:OrganizationDescription",elementmap);
+		oobj.setIdentifier(oid);
+		ChemConnectCompoundDataStructure compound = new ChemConnectCompoundDataStructure(oobj,obj.getIdentifier());
+		OrganizationDescription descr = new OrganizationDescription(compound,
+				"","",organizationname,"");
+		DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(descr);
+		
+		return hierarchy;
 	}
 	
 	

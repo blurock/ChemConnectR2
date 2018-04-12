@@ -22,6 +22,10 @@ public class CreateDefault {
 		
 		System.out.println(hierarchy);
 		
+		DatabaseObjectHierarchy hierarchy2 = 
+		CreatePersonDescriptionFactory.createMinimalOrganization(obj,"Blurock Consulting AB", "dataset:Organization");
+
+		System.out.println(hierarchy2);
 	}
 
 }

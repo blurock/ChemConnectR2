@@ -82,15 +82,10 @@ public class OrganizationDescription extends ChemConnectCompoundDataStructure {
 	public String toString(String prefix) {
 		StringBuilder builder = new StringBuilder();
 		builder.append(super.toString(prefix));
-		builder.append(prefix);
-		builder.append(OrganizationName);
-		builder.append(", ");
-		builder.append(OrganizationUnit);
-		builder.append("\n" + prefix);
-		builder.append(SubOrganizationOf);
-		builder.append(", ");
-		builder.append(OrganizationClassification);
-		builder.append("\n");
+		builder.append(prefix + "Name      : " + OrganizationName + "\n");
+		builder.append(prefix + "Unit      : " + OrganizationUnit + "\n");
+		builder.append(prefix + "Belongs to: " + SubOrganizationOf + "\n");
+		builder.append(prefix + "Type      : " + OrganizationClassification + "\n");
 		return builder.toString();
 	}	
 }
