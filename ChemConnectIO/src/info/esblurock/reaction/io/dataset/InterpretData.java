@@ -18,6 +18,7 @@ import info.esblurock.reaction.io.db.QueryBase;
 import info.esblurock.reaction.io.metadata.StandardDatasetMetaData;
 import info.esblurock.reaction.chemconnect.core.data.description.DescriptionDataData;
 import info.esblurock.reaction.chemconnect.core.data.contact.ContactInfoData;
+import info.esblurock.reaction.chemconnect.core.data.contact.DatabasePerson;
 import info.esblurock.reaction.chemconnect.core.data.contact.ContactLocationInformation;
 import info.esblurock.reaction.chemconnect.core.data.contact.OrganizationDescription;
 import info.esblurock.reaction.chemconnect.core.data.description.DataSetReference;
@@ -112,11 +113,10 @@ public enum InterpretData {
 					
 			String descriptionDataDataS = (String) yaml.get(StandardDatasetMetaData.descriptionDataDataS);			
 			HashSet<String> dataSetReferenceS = interpretMultipleYaml(StandardDatasetMetaData.dataSetReferenceS,yaml);
-			HashSet<String> dataPurposeConceptPairS = interpretMultipleYaml(StandardDatasetMetaData.parameterPurposeConceptPairS,yaml);
 			HashSet<String> dataObjectLinkS = interpretMultipleYaml(StandardDatasetMetaData.parameterObjectLinkS,yaml);
 			
 
-			datastructure = new ChemConnectDataStructure(objdata, descriptionDataDataS, dataSetReferenceS,dataObjectLinkS,dataPurposeConceptPairS);
+			datastructure = new ChemConnectDataStructure(objdata, descriptionDataDataS, dataSetReferenceS,dataObjectLinkS);
 			
 			
 			return datastructure;
@@ -132,7 +132,6 @@ public enum InterpretData {
 			map.put(StandardDatasetMetaData.descriptionDataDataS, datastructure.getDescriptionDataData());
 			putMultipleInYaml(StandardDatasetMetaData.dataSetReferenceS, map,datastructure.getDataSetReference());
 			putMultipleInYaml(StandardDatasetMetaData.parameterObjectLinkS, map,datastructure.getChemConnectObjectLink());
-			putMultipleInYaml(StandardDatasetMetaData.parameterPurposeConceptPairS, map,datastructure.getChemConnectPurpose());
 
 			return map;
 		}
@@ -1031,15 +1030,14 @@ public enum InterpretData {
 			ChemConnectDataStructure datastructure = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml,
 					sourceID);
 
-			HashSet<String> accounts = interpretMultipleYaml(StandardDatasetMetaData.userAccountS, yaml);
 			String contactInfoDataID = (String) yaml.get(StandardDatasetMetaData.contactKeyS);
-			String contactLocationInformationID = (String) yaml
-					.get(StandardDatasetMetaData.locationKeyS);
-			String organizationDescriptionID = (String) yaml.get(StandardDatasetMetaData.orginfoKeyS);
+			String contactLocationInformationID = (String) 
+					yaml.get(StandardDatasetMetaData.locationKeyS);
+			String organizationDescriptionID = (String) 
+					yaml.get(StandardDatasetMetaData.orginfoKeyS);
 		
 			org = new Organization(datastructure, contactInfoDataID,
-					contactLocationInformationID, organizationDescriptionID,
-					accounts);
+					contactLocationInformationID, organizationDescriptionID);
 
 			return org;
 		}
@@ -1054,7 +1052,6 @@ public enum InterpretData {
 			map.put(StandardDatasetMetaData.contactKeyS, org.getContactInfoDataID());
 			map.put(StandardDatasetMetaData.locationKeyS, org.getContactLocationInformationID());
 			map.put(StandardDatasetMetaData.orginfoKeyS, org.getOrganizationDescriptionID());
-			putMultipleInYaml(StandardDatasetMetaData.userAccountS, map, org.getUserAccounts());
 			return map;
 		}
 
@@ -1154,8 +1151,56 @@ public enum InterpretData {
 			return UserAccount.class.getCanonicalName();
 		}
 
-	},
-	Consortium {
+	}, DatabasePerson {
+
+		@Override
+		public DatabaseObject fillFromYamlString(
+				DatabaseObject top, Map<String, Object> yaml,
+				String sourceID) throws IOException {
+			
+			DatabasePerson person = null;
+			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
+			ChemConnectDataStructure datastructure = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml,
+					sourceID);
+
+			String contactInfoDataID = (String) yaml.get(StandardDatasetMetaData.contactKeyS);
+			String contactLocationInformationID = (String) yaml
+					.get(StandardDatasetMetaData.locationKeyS);
+			String personalDescriptionID = (String) yaml
+					.get(StandardDatasetMetaData.personalDescriptionS);
+		
+			person = new DatabasePerson(datastructure, contactInfoDataID,
+					contactLocationInformationID, personalDescriptionID);
+			return person;
+		}
+
+		@Override
+		public Map<String, Object> createYamlFromObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject object) throws IOException {
+			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
+			Map<String, Object> map = interpret.createYamlFromObject(object);
+
+			DatabasePerson person = (DatabasePerson) object;
+
+			map.put(StandardDatasetMetaData.contactKeyS, person.getContactInfoDataID());
+			map.put(StandardDatasetMetaData.locationKeyS, person.getContactLocationInformationID());
+			map.put(StandardDatasetMetaData.personalDescriptionS, person.getPersonalDescriptionID());
+
+			return map;
+		}
+
+		@Override
+		public info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject readElementFromDatabase(
+				String identifier) throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(DatabasePerson.class.getCanonicalName(), identifier);
+		}
+
+		@Override
+		public String canonicalClassName() {
+			return DatabasePerson.class.getCanonicalName();
+		}
+		
+	},	Consortium {
 
 		@Override
 		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)

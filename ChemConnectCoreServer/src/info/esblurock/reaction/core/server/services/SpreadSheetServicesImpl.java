@@ -14,8 +14,6 @@ import info.esblurock.reaction.chemconnect.core.data.query.QueryPropertyValue;
 import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.data.query.SetOfQueryPropertyValues;
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
-import info.esblurock.reaction.chemconnect.core.data.transaction.TransactionInfo;
-import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
 import info.esblurock.reaction.core.server.db.image.UserImageServiceImpl;
 import info.esblurock.reaction.core.server.read.InterpretSpreadSheet;
 import info.esblurock.reaction.io.db.QueryBase;

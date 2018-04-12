@@ -53,5 +53,15 @@ public class PersonalDescription extends ChemConnectCompoundDataStructure {
 		return nameOfPersonIdentifier;
 	}
 	
+	public String toString() {
+		return toString("");
+	}
+	public String toString(String prefix) {
+		StringBuilder builder = new StringBuilder();
+		builder.append(super.toString(prefix));
+		builder.append(prefix + "User Classification    : " + UserClassification + "\n");
+		builder.append(prefix + "NameOfPerson Identifier: " + nameOfPersonIdentifier + "\n");
+		return builder.toString();
+	}
 	
 }

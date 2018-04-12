@@ -49,6 +49,7 @@ public class StandardDatasetMetaData {
 	public static String userAccountS = "prov:SoftwareAgent";
 	public static String databaseUserS = "vcard:Individual";
 	public static String personS = "foaf:Person";
+	public static String personalDescriptionS = "dataset:PersonalDescription";
 		
 	public static String  streetaddressKeyS = "vcard:street-address";           
 	public static String  localityKeyS = "vcard:locality";

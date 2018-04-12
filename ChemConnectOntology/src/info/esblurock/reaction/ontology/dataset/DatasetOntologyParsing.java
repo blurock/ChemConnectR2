@@ -380,6 +380,7 @@ dataset:ChemConnectPrimitiveDataStructure:
 		return info;
 	}
 
+
 	/**
 	 * From the structure/substructure name, return the list of
 	 * DataElementInformation
@@ -744,4 +745,37 @@ dataset:ChemConnectPrimitiveDataStructure:
 		return structure;
 	}
 
+	public static ArrayList<String> typesWithExtension(String extension) {
+		ArrayList<String> typelst = new ArrayList<String>();
+		String query = "SELECT ?type \n" + 
+				"	WHERE {?type dataset:fileextension  \"" + extension + "\"^^xsd:string }";
+		System.out.println("typesWithExtension: " + query);
+		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
+		System.out.println(lst.size());
+		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
+		System.out.println(stringlst.size());
+		for(Map<String, String> maptype : stringlst) {
+			String exttype = maptype.get("type");
+			System.out.println("typesWithExtension: " + exttype);
+			if(exttype != null) {
+				typelst.add(exttype);
+			}
+		}
+		return typelst;
+	}
+	public static ArrayList<String> typesFromFileType(String filetype) {
+		ArrayList<String> typelst = new ArrayList<String>();
+		String query = "SELECT ?type\n" + 
+				"			WHERE {?type <http://purl.org/dc/terms/identifier> \"" +  filetype +"\"^^xsd:string }";
+		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
+		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
+		for(Map<String, String> maptype : stringlst) {
+			String exttype = maptype.get("type");
+			if(exttype != null) {
+				typelst.add(exttype);
+			}
+		}
+		return typelst;
+	}
+	
 }

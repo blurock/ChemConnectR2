@@ -45,17 +45,18 @@ public class SpreadSheetInputInformation  extends DatabaseObject  {
 		super(obj);
 		this.type = type;
 		this.sourceType = sourceType;
-		setDelimitor(type);
+		setDelimitorType(type);
 		this.source = source;
 	}
-	public SpreadSheetInputInformation(String type, String sourceType, String source, String delimitor) {
+	public SpreadSheetInputInformation(DatabaseObject obj, String type, String sourceType, String source, String delimitor) {
+		super(obj);
 		this.type = type;
 		this.sourceType = sourceType;
 		this.delimitor = delimitor;
 		this.source = source;
 	}
 
-	void setDelimitor(String type) {
+	public void setDelimitorType(String type) {
 		if(type.compareTo(CSV) == 0) {
 			delimitor = ",";
 		} else if(type.compareTo(XLS) == 0) {
@@ -101,7 +102,13 @@ public class SpreadSheetInputInformation  extends DatabaseObject  {
 	
 	public String toString(String prefix) {
 		StringBuilder build = new StringBuilder();
-		build.append(prefix + type + ": " + sourceType + "(" + delimitor + ") ");
+		build.append(prefix);
+		if(type != null) {
+			build.append(type);
+		} else {
+			build.append("unknown");
+		}
+		build.append(": " + sourceType + "(" + delimitor + ") ");
 		if(isSourceType(URL)) {
 			build.append(source);
 		} else {

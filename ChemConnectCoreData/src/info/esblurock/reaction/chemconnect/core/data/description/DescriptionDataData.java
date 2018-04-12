@@ -17,7 +17,7 @@ public class DescriptionDataData extends ChemConnectCompoundDataStructure {
 	@Unindex
 	String descriptionAbstract;
 	@Index
-	String sourcekey;
+	String sourceConceptID;
 	@Index
 	Date sourceDate;
 	@Index
@@ -50,7 +50,8 @@ public class DescriptionDataData extends ChemConnectCompoundDataStructure {
 	 *            The set of keywords associated with the
 	 */
 	public DescriptionDataData(ChemConnectCompoundDataStructure compound,
-			String onlinedescription, String fulldescription, String sourcekey, Date sourceDate, String dataType,
+			String onlinedescription, String fulldescription, String sourcekey, 
+			Date sourceDate, String dataType,
 			HashSet<String> keywords) {
 		fill(compound,onlinedescription, fulldescription, sourcekey, sourceDate, dataType,
 			keywords);
@@ -66,28 +67,28 @@ public class DescriptionDataData extends ChemConnectCompoundDataStructure {
 		super(identifier, sourceID);
 		this.onlinedescription = "";
 		this.descriptionAbstract = "";
-		this.sourcekey = "";
+		this.sourceConceptID = "";
 		this.sourceDate = new Date();
 		this.dataType = "";
 		this.keywords = new HashSet<String>();
 	}
 
 	public void fill(String identifier, String owner, String access, String sourceID, String onlinedescription,
-			String fulldescription, String sourcekey, Date sourceDate, String dataType, HashSet<String> keywords) {
+			String fulldescription, String sourceConceptID, Date sourceDate, String dataType, HashSet<String> keywords) {
 		super.fill(identifier, owner, access, sourceID);
 		this.onlinedescription = onlinedescription;
 		this.descriptionAbstract = fulldescription;
-		this.sourcekey = sourcekey;
+		this.sourceConceptID = sourceConceptID;
 		this.sourceDate = sourceDate;
 		this.dataType = dataType;
 		this.keywords = keywords;
 	}
 	public void fill(ChemConnectCompoundDataStructure compound, String onlinedescription,
-			String fulldescription, String sourcekey, Date sourceDate, String dataType, HashSet<String> keywords) {
+			String fulldescription, String sourceConceptID, Date sourceDate, String dataType, HashSet<String> keywords) {
 		super.fill(compound);
 		this.onlinedescription = onlinedescription;
 		this.descriptionAbstract = fulldescription;
-		this.sourcekey = sourcekey;
+		this.sourceConceptID = sourceConceptID;
 		this.sourceDate = sourceDate;
 		this.dataType = dataType;
 		this.keywords = keywords;
@@ -102,7 +103,7 @@ public class DescriptionDataData extends ChemConnectCompoundDataStructure {
 	}
 
 	public String getSourcekey() {
-		return sourcekey;
+		return sourceConceptID;
 	}
 
 	public Date getSourceDate() {
@@ -126,7 +127,7 @@ public class DescriptionDataData extends ChemConnectCompoundDataStructure {
 		builder.append("Title: " + onlinedescription);
 		builder.append("\n");
 		builder.append(prefix);
-		builder.append("Source: " + sourcekey);
+		builder.append("Source: " + sourceConceptID);
 		builder.append(", Type: ");
 		builder.append(dataType);
 		builder.append("\n");

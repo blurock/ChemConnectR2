@@ -43,7 +43,8 @@ public class DatabaseObjectHierarchy implements Serializable {
 	public String toString(String prefix) {
 		StringBuilder builder = new StringBuilder();
 		builder.append(prefix);
-		builder.append("---------- DatabaseObjectHierarchy ----------\n");
+		builder.append("---------- DatabaseObjectHierarchy ---------- " 
+		+ subobjects.size() + "\n");
 		builder.append(object.toString(prefix));
 		String newprefix = prefix + "\t:  ";
 		for(DatabaseObjectHierarchy hierarchy : subobjects) {

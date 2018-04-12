@@ -10,7 +10,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
-import java.util.StringTokenizer;
 
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
@@ -35,6 +34,7 @@ import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.base.GoogleCloudStorageConstants;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
+import info.esblurock.reaction.chemconnect.core.data.gcs.ParsedFilename;
 import info.esblurock.reaction.chemconnect.core.data.image.ImageServiceInformation;
 import info.esblurock.reaction.chemconnect.core.data.image.ImageUploadTransaction;
 import info.esblurock.reaction.chemconnect.core.data.image.UploadedImage;
@@ -43,9 +43,11 @@ import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.data.query.SetOfQueryPropertyValues;
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.data.transaction.TransactionInfo;
+import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
 import info.esblurock.reaction.core.server.services.ServerBase;
 import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
+import info.esblurock.reaction.core.server.services.util.ParseUtilities;
 import info.esblurock.reaction.io.db.QueryBase;
 
 @SuppressWarnings("serial")
@@ -55,12 +57,14 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	static {
 	    storage = StorageOptions.getDefaultInstance().getService();
 	  }
-	
+
+	/*
 	private static final GcsService gcsService = GcsServiceFactory.createGcsService(new RetryParams.Builder()
 		      .initialRetryDelayMillis(10)
 		      .retryMaxAttempts(10)
 		      .totalRetryPeriodMillis(15000)
 		      .build());
+		      */
 	//private static final int BUFFER_SIZE = 2 * 1024 * 1024;
 	
 	public static String fileCodeParameter = "fileCode";
@@ -360,6 +364,8 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		retrieveContentFromStream(in,source);
 		return source;
 	}
+
+
 	
 	public void deleteTransaction(String sourceID) throws IOException {
 		deleteTransactionFromSourceID(sourceID);
@@ -377,6 +383,16 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		System.out.println("Blob content type:  " + blobInfo.getContentType());
 		DatabaseWriteBase.writeObjectWithTransaction(source);
 		
+	}
+	
+	public HierarchyNode getFileInterpretionChoices(GCSBlobFileInformation info) throws IOException {
+		ParsedFilename parsed = parseFilename(info);
+		return ParseUtilities.getFileInterpretionChoices(parsed);
+	}
+	
+	public static ParsedFilename parseFilename(GCSBlobFileInformation info) throws IOException {
+		ParsedFilename parsed = ParseUtilities.fillFileInformation(info,info.getFilename(),info.getFiletype());
+		return parsed;
 	}
 
 	public static void deleteTransactionFromSourceID(String sourceID) throws IOException {

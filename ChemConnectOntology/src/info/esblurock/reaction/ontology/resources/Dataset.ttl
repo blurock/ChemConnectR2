@@ -371,6 +371,10 @@
 :descriptionID rdf:type owl:AnnotationProperty .
 
 
+###  http://www.esblurock.info/dataset#fileextension
+:fileextension rdf:type owl:AnnotationProperty .
+
+
 ###  http://www.esblurock.info/dataset#organizationID
 :organizationID rdf:type owl:AnnotationProperty .
 
@@ -1034,6 +1038,11 @@ xsd:date rdf:type rdfs:Datatype .
                  rdfs:subClassOf :ChemConnectValueParameter .
 
 
+###  http://www.esblurock.info/dataset#ApplicationSpreadSheet
+:ApplicationSpreadSheet rdf:type owl:Class ;
+                        rdfs:subClassOf :FileTypeApplication .
+
+
 ###  http://www.esblurock.info/dataset#AttributeInDataset
 :AttributeInDataset rdf:type owl:Class ;
                     rdfs:subClassOf :ChemConnectPrimitiveCompound ,
@@ -1297,15 +1306,15 @@ xsd:date rdf:type rdfs:Datatype .
  ] .
 
 
-###  http://www.esblurock.info/dataset#CHEMKINMecahnismWithThermo
-:CHEMKINMecahnismWithThermo rdf:type owl:Class ;
-                            rdfs:subClassOf :CHEMKINMechanism ;
-                            owl:disjointWith :CHEMKINMechanismWithoutThermo .
-
-
 ###  http://www.esblurock.info/dataset#CHEMKINMechanism
 :CHEMKINMechanism rdf:type owl:Class ;
                   rdfs:subClassOf :ReactionMechanism .
+
+
+###  http://www.esblurock.info/dataset#CHEMKINMechanismWithThermo
+:CHEMKINMechanismWithThermo rdf:type owl:Class ;
+                            rdfs:subClassOf :CHEMKINMechanism ;
+                            owl:disjointWith :CHEMKINMechanismWithoutThermo .
 
 
 ###  http://www.esblurock.info/dataset#CHEMKINMechanismWithoutThermo
@@ -1315,7 +1324,7 @@ xsd:date rdf:type rdfs:Datatype .
 
 ###  http://www.esblurock.info/dataset#CHEMKINTransportProperties
 :CHEMKINTransportProperties rdf:type owl:Class ;
-                            rdfs:subClassOf :DataTypeFileFormat .
+                            rdfs:subClassOf :FileTypeChemical .
 
 
 ###  http://www.esblurock.info/dataset#CalculatedAbsoluteUncertainty
@@ -1470,6 +1479,11 @@ xsd:date rdf:type rdfs:Datatype .
                                 <http://purl.org/dc/terms/identifier> "dataset:MeasurementProtocol" ;
                                 rdfs:label "measurement protocol" ;
                                 <http://www.w3.org/2004/02/skos/core#altLabel> "measurementprotocol" .
+
+
+###  http://www.esblurock.info/dataset#ChemConnectMediaTypes
+:ChemConnectMediaTypes rdf:type owl:Class ;
+                       rdfs:subClassOf :ChemConnectDomainConcept .
 
 
 ###  http://www.esblurock.info/dataset#ChemConnectMethodology
@@ -2379,29 +2393,29 @@ Under the general type of is the actual data object referenced by the ChemConnec
             rdfs:isDefinedBy :DatabaseUser .
 
 
-###  http://www.esblurock.info/dataset#DatabaseUser
-:DatabaseUser rdf:type owl:Class ;
-              rdfs:subClassOf :UserInformation ,
-                              [ rdf:type owl:Restriction ;
-                                owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                owl:onClass :ContactInfoData
-                              ] ,
-                              [ rdf:type owl:Restriction ;
-                                owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                owl:onClass :ContactLocationInformation
-                              ] ,
-                              [ rdf:type owl:Restriction ;
-                                owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                owl:onClass :PersonalDescription
-                              ] ;
-              <http://purl.org/dc/elements/1.1/type> "IndividualInformation" ;
-              <http://purl.org/dc/terms/identifier> "vcard:Individual" ;
-              rdfs:isDefinedBy <http://www.w3.org/2006/vcard/ns#Individual> ;
-              rdfs:label "information about user" ;
-              <http://www.w3.org/2004/02/skos/core#altLabel> "usrinfo"^^xsd:string .
+###  http://www.esblurock.info/dataset#DatabasePerson
+:DatabasePerson rdf:type owl:Class ;
+                rdfs:subClassOf :UserInformation ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                  owl:onClass :ContactInfoData
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                  owl:onClass :ContactLocationInformation
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                  owl:onClass :PersonalDescription
+                                ] ;
+                <http://purl.org/dc/elements/1.1/type> "IndividualInformation" ;
+                <http://purl.org/dc/terms/identifier> "vcard:Individual" ;
+                rdfs:isDefinedBy <http://www.w3.org/2006/vcard/ns#Individual> ;
+                rdfs:label "information about user" ;
+                <http://www.w3.org/2004/02/skos/core#altLabel> "usrinfo"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#DatabaseUserIDReadAccess
@@ -2431,11 +2445,6 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#DatasetCatalogInformation
 :DatasetCatalogInformation rdf:type owl:Class ;
-                           owl:equivalentClass [ rdf:type owl:Restriction ;
-                                                 owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                 owl:onClass :PurposeConceptPair
-                                               ] ;
                            rdfs:subClassOf <http://www.w3.org/ns/dcat#Catalog> ,
                                            [ rdf:type owl:Restriction ;
                                              owl:onProperty <http://www.w3.org/ns/dcat#record> ;
@@ -2576,7 +2585,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                      [ rdf:type owl:Restriction ;
                                        owl:onProperty <http://purl.org/dc/terms/hasPart> ;
                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                       owl:onClass :PurposeKeyword
+                                       owl:onClass :PurposeConceptPair
                                      ] ,
                                      [ rdf:type owl:Restriction ;
                                        owl:onProperty <http://purl.org/dc/terms/hasPart> ;
@@ -3069,6 +3078,121 @@ Under the general type of is the actual data object referenced by the ChemConnec
                    <http://www.w3.org/2004/02/skos/core#altLabel> "filespec"^^xsd:string .
 
 
+###  http://www.esblurock.info/dataset#FileTypeApplication
+:FileTypeApplication rdf:type owl:Class ;
+                     rdfs:subClassOf :DataTypeFileFormat .
+
+
+###  http://www.esblurock.info/dataset#FileTypeChemical
+:FileTypeChemical rdf:type owl:Class ;
+                  rdfs:subClassOf :FileTypeText ;
+                  <http://purl.org/dc/elements/1.1/type> "text/plain"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#FileTypeExcelOffice
+:FileTypeExcelOffice rdf:type owl:Class ;
+                     rdfs:subClassOf :ApplicationSpreadSheet ;
+                     <http://purl.org/dc/elements/1.1/type> "XLS"^^xsd:string ;
+                     <http://purl.org/dc/terms/identifier> "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"^^xsd:string ;
+                     :fileextension "xlsx"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#FileTypeHTML
+:FileTypeHTML rdf:type owl:Class ;
+              rdfs:subClassOf :FileTypeText ;
+              <http://purl.org/dc/elements/1.1/type> "HTML"^^xsd:string ;
+              <http://purl.org/dc/terms/identifier> "text/html"^^xsd:string ;
+              :fileextension "html"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#FileTypeImage
+:FileTypeImage rdf:type owl:Class ;
+               rdfs:subClassOf :DataTypeFileFormat .
+
+
+###  http://www.esblurock.info/dataset#FileTypeInitializationFiles
+:FileTypeInitializationFiles rdf:type owl:Class ;
+                             rdfs:subClassOf :FileTypeYaml ;
+                             <http://purl.org/dc/elements/1.1/type> "YAML"^^xsd:string ;
+                             <http://purl.org/dc/terms/identifier> "text/yaml"^^xsd:string ;
+                             :fileextension "yaml"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#FileTypeMSExcel
+:FileTypeMSExcel rdf:type owl:Class ;
+                 rdfs:subClassOf :ApplicationSpreadSheet ;
+                 <http://purl.org/dc/elements/1.1/type> "XLS"^^xsd:string ;
+                 <http://purl.org/dc/terms/identifier> "application/vnd.ms-excel"^^xsd:string ;
+                 :fileextension "xls"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#FileTypeRespectFormat
+:FileTypeRespectFormat rdf:type owl:Class ;
+                       rdfs:subClassOf :FileTypeXML ;
+                       <http://purl.org/dc/terms/type> "RespectFormat"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#FileTypeSimpleText
+:FileTypeSimpleText rdf:type owl:Class ;
+                    rdfs:subClassOf :FileTypeText ;
+                    <http://purl.org/dc/elements/1.1/type> "TEXT"^^xsd:string ;
+                    <http://purl.org/dc/terms/identifier> "text/plain"^^xsd:string ;
+                    :fileextension "txt"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#FileTypeSpreadSheetCSV
+:FileTypeSpreadSheetCSV rdf:type owl:Class ;
+                        rdfs:subClassOf :FileTypeSpreadsheet ;
+                        <http://purl.org/dc/elements/1.1/type> "CSV"^^xsd:string ;
+                        <http://purl.org/dc/terms/identifier> "text/csv"^^xsd:string ;
+                        :fileextension "csv"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#FileTypeSpreadSheetSpaceDelimited
+:FileTypeSpreadSheetSpaceDelimited rdf:type owl:Class ;
+                                   rdfs:subClassOf :FileTypeSpreadsheet ;
+                                   <http://purl.org/dc/elements/1.1/type> "SpaceDelimited"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#FileTypeSpreadSheetTabDelimited
+:FileTypeSpreadSheetTabDelimited rdf:type owl:Class ;
+                                 rdfs:subClassOf :FileTypeSpreadsheet ;
+                                 <http://purl.org/dc/elements/1.1/type> "TabDelimited"^^xsd:string ;
+                                 <http://www.w3.org/2004/02/skos/core#example> "text/plain"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#FileTypeSpreadsheet
+:FileTypeSpreadsheet rdf:type owl:Class ;
+                     rdfs:subClassOf :FileTypeText .
+
+
+###  http://www.esblurock.info/dataset#FileTypeText
+:FileTypeText rdf:type owl:Class ;
+              rdfs:subClassOf :DataTypeFileFormat ;
+              <http://purl.org/dc/terms/identifier> "text/html"^^xsd:string ,
+                                                    "text/plain"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#FileTypeUninterpreted
+:FileTypeUninterpreted rdf:type owl:Class ;
+                       rdfs:subClassOf :DataTypeFileFormat .
+
+
+###  http://www.esblurock.info/dataset#FileTypeXML
+:FileTypeXML rdf:type owl:Class ;
+             rdfs:subClassOf :FileTypeApplication ;
+             <http://purl.org/dc/terms/type> "application/xml"^^xsd:string ;
+             :fileextension "xml"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#FileTypeYaml
+:FileTypeYaml rdf:type owl:Class ;
+              rdfs:subClassOf :FileTypeText ;
+              <http://purl.org/dc/elements/1.1/type> "YAML"^^xsd:string ;
+              <http://purl.org/dc/terms/identifier> "text/yaml"^^xsd:string ;
+              :fileextension "yaml"^^xsd:string .
+
+
 ###  http://www.esblurock.info/dataset#FileUploadFromDOI
 :FileUploadFromDOI rdf:type owl:Class ;
                    rdfs:subClassOf :UploadFileSpecification ;
@@ -3091,6 +3215,10 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :FileUploadFromTextArea rdf:type owl:Class ;
                         rdfs:subClassOf :UploadFileSpecification ;
                         <http://www.w3.org/2004/02/skos/core#altLabel> "uploadtext"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#FiletypeHTML
+:FiletypeHTML rdf:type owl:Class .
 
 
 ###  http://www.esblurock.info/dataset#FirstStageExpansionWithSkimmer
@@ -6410,12 +6538,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#ReactionMechanism
 :ReactionMechanism rdf:type owl:Class ;
-                   rdfs:subClassOf :DataTypeFileFormat .
+                   rdfs:subClassOf :FileTypeChemical .
 
 
 ###  http://www.esblurock.info/dataset#ReactionProperties
 :ReactionProperties rdf:type owl:Class ;
-                    rdfs:subClassOf :DataTypeFileFormat .
+                    rdfs:subClassOf :FileTypeChemical .
 
 
 ###  http://www.esblurock.info/dataset#ReferenceString
@@ -6762,7 +6890,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#SpeciesProperties
 :SpeciesProperties rdf:type owl:Class ;
-                   rdfs:subClassOf :DataTypeFileFormat .
+                   rdfs:subClassOf :FileTypeChemical .
 
 
 ###  http://www.esblurock.info/dataset#Specification
@@ -7170,7 +7298,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                              [ rdf:type owl:Restriction ;
                                owl:onProperty <http://www.w3.org/ns/org#organization> ;
                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                               owl:onClass :DatabaseUser
+                               owl:onClass :DatabasePerson
                              ] ;
              <http://purl.org/dc/elements/1.1/type> "UserAccount"^^xsd:string ;
              <http://purl.org/dc/terms/identifier> "prov:SoftwareAgent"^^xsd:string ;

@@ -11,6 +11,7 @@ import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.data.image.ImageServiceInformation;
 import info.esblurock.reaction.chemconnect.core.data.image.UploadedImage;
+import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 
 
 
@@ -64,4 +65,6 @@ public interface UserImageService  extends RemoteService  {
 	GCSBlobFileInformation retrieveBlobFromURL(String requestUrl) throws IOException;
 	
 	void deleteTransaction(String sourceID) throws IOException;
+	
+	HierarchyNode getFileInterpretionChoices(GCSBlobFileInformation info) throws IOException;
 }

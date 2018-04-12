@@ -33,10 +33,21 @@ public class NameOfPerson extends DatabaseObject {
 			String title, String givenName, String familyName) {
 		fill(identifier, access, owner,sourceID,title,givenName,familyName);
 	}
+	public NameOfPerson(DatabaseObject obj,
+			String title, String givenName, String familyName) {
+		fill(obj,title,givenName,familyName);
+	}
 
 	public void fill(String identifier, String access, String owner, String sourceID,
 			String title, String givenName, String familyName) {
 		super.fill(identifier, access, owner,sourceID);
+		this.title = title;
+		this.givenName = givenName;
+		this.familyName = familyName;
+	}
+	public void fill(DatabaseObject obj,
+			String title, String givenName, String familyName) {
+		super.fill(obj);
 		this.title = title;
 		this.givenName = givenName;
 		this.familyName = familyName;

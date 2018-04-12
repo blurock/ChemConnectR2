@@ -37,6 +37,7 @@
 			</ma:sideprofile.MaterialSideProfile>
 			<m:MaterialLink ui:field="interconnect" />
 			<m:MaterialLink ui:field="devicedeclaration" />
+			<m:MaterialLink ui:field="managecatalog" />
 			<m:MaterialLink ui:field="blobstorage" />
 			<m:MaterialLink ui:field="methodologydeclaration" />
 			<m:MaterialLink ui:field="observationsdeclaration" />

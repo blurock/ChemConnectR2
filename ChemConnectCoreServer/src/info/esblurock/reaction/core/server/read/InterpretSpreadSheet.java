@@ -70,6 +70,8 @@ public class InterpretSpreadSheet {
 		ArrayList<DatabaseObject> set = new ArrayList<DatabaseObject>();
 		DatabaseObject obj = new DatabaseObject(input);
 		int numberOfColumns = 0;
+		System.out.println("streamReadSpreadSheet: " + input.toString());
+		System.out.println("streamReadSpreadSheet: " + input.getType());
 		if (input.isType(SpreadSheetInputInformation.XLS)) {
 			numberOfColumns = readXLSFile(is, obj, set);
 		} else if (input.isType(SpreadSheetInputInformation.CSV)) {

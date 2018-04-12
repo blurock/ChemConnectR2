@@ -23,12 +23,26 @@ public class GPSLocation extends DatabaseObject {
 		this.GPSLatitude = "";
 		this.GPSLongitude = "";		
 	}
+	public GPSLocation(DatabaseObject obj) {
+		super(obj);
+		this.GPSLatitude = "";
+		this.GPSLongitude = "";		
+	}
 	
 	public GPSLocation(String identifier, String access, String owner, String sourceID,
 			String GPSLatitude, String GPSLongitude) {
 		fill(identifier, access, owner,sourceID,GPSLatitude,GPSLongitude);
 	}
+	public GPSLocation(DatabaseObject obj,
+			String GPSLatitude, String GPSLongitude) {
+		fill(obj,GPSLatitude,GPSLongitude);
+	}
 	
+	public void fill(DatabaseObject obj, String GPSLatitude, String GPSLongitude) {
+		super.fill(obj);
+		this.GPSLatitude = GPSLatitude;
+		this.GPSLongitude = GPSLongitude;		
+	}
 	public void fill(String identifier, String access, String owner, String sourceID,
 			String GPSLatitude, String GPSLongitude) {
 		super.fill(identifier, access, owner,sourceID);

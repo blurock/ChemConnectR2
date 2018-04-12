@@ -52,6 +52,8 @@ public class ChemConnectAdministrationImpl extends Composite implements ChemConn
 	@UiField
 	MaterialLink methodologydeclaration;
 	@UiField
+	MaterialLink managecatalog;
+	@UiField
 	MaterialLink blobstorage;
 	@UiField
 	MaterialLink explore;
@@ -106,6 +108,8 @@ public class ChemConnectAdministrationImpl extends Composite implements ChemConn
 		observationsdeclaration.setIconType(IconType.BUILD);
 		methodologydeclaration.setText(basetext.methodology());
 		methodologydeclaration.setIconType(IconType.BUILD);
+		managecatalog.setText("Manage Catalog");
+		managecatalog.setIconType(IconType.BUILD);
 		blobstorage.setText("Blob Storage");
 		blobstorage.setIconType(IconType.BUILD);
 		okmodal.setBackgroundColor(Color.BLUE_GREY_DARKEN_1);
@@ -183,9 +187,14 @@ public class ChemConnectAdministrationImpl extends Composite implements ChemConn
 		handleHistoryToken("Observations");
 		}
 	
+	@UiHandler("managecatalog")
+	public void onManageCatalog(ClickEvent event) {
+		MaterialToast.fireToast("ManageCatalog");
+		handleHistoryToken("ManageCatalog");
+		}
+
 	@UiHandler("blobstorage")
 	public void onBlobStorage(ClickEvent event) {
-		MaterialToast.fireToast("Blob Storage");
 		handleHistoryToken("BlobStorage");
 		}
 

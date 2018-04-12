@@ -1,5 +1,8 @@
 package info.esblurock.reaction.chemconnect.core.client.gcs;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -15,6 +18,8 @@ import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTextArea;
 import gwt.material.design.client.ui.MaterialTooltip;
+import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHeirarchy;
+import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchies;
 import info.esblurock.reaction.chemconnect.core.client.gcs.objects.UploadedTextObject;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.spreadsheet.DeleteObjectCallback;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
@@ -22,8 +27,10 @@ import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageSer
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
+import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 
-public class UploadedElementCollapsible extends Composite implements VisualizationOfBlobStorage {
+public class UploadedElementCollapsible extends Composite implements VisualizationOfBlobStorage, ChooseFromConceptHeirarchy {
 
 	private static UploadedElementCollapsibleUiBinder uiBinder = GWT.create(UploadedElementCollapsibleUiBinder.class);
 
@@ -38,6 +45,8 @@ public class UploadedElementCollapsible extends Composite implements Visualizati
 	public static String textClassS = "text";
 	@UiField
 	MaterialLink type;
+	@UiField
+	MaterialLink filetype;
 	@UiField
 	MaterialLink path;
 	@UiField
@@ -58,6 +67,8 @@ public class UploadedElementCollapsible extends Composite implements Visualizati
 	MaterialLink add;
 	
 	GCSBlobFileInformation info;
+	Map<String, ClassificationInformation> interpretmap;
+	ClassificationInformation interpretinfo;
 	String identifierRoot;
 	String identifier;
 	String typeClass;
@@ -151,7 +162,9 @@ public class UploadedElementCollapsible extends Composite implements Visualizati
 	
 	@UiHandler("type")
 	void onClickType(ClickEvent e) {
-		Window.alert("Type=" + visualType);
+		UserImageServiceAsync async = UserImageService.Util.getInstance();
+		FindFileTypeCallback callback = new FindFileTypeCallback(this);
+		async.getFileInterpretionChoices(info,callback);
 	}
 	
 	@UiHandler("delete")
@@ -166,10 +179,9 @@ public class UploadedElementCollapsible extends Composite implements Visualizati
 	@UiHandler("add")
 	void onClick(ClickEvent e) {
 		VisualizeMedia visual = VisualizeMedia.valueOf(visualType);
-		String type = SpreadSheetInputInformation.TabDelimited;
 		String sourceType = SpreadSheetInputInformation.BLOBSOURCE;
 		String source = info.getGSFilename();
-		SpreadSheetInputInformation spread = new SpreadSheetInputInformation(info,type,sourceType,source);
+		SpreadSheetInputInformation spread = new SpreadSheetInputInformation(info," ",sourceType,source);
 		if(visual != null) {
 			visual.getInterpretedBlob(info, spread, this);
 		}
@@ -195,5 +207,42 @@ public class UploadedElementCollapsible extends Composite implements Visualizati
 	}
 	public String getPath() {
 		return path.getText();
+	}
+
+	@Override
+	public void conceptChosen(String topconcept, String concept) {
+		visualType = concept;
+		interpretinfo = interpretmap.get(concept);
+		filetype.setText(concept);
+	}
+
+	public void askForInterpretationType(HierarchyNode hierarchy) {
+		interpretmap = new HashMap<String, ClassificationInformation>();
+		findClassifications(hierarchy,interpretmap);
+		ChooseFromConceptHierarchies choose = new ChooseFromConceptHierarchies(this);
+		choose.setupTree(hierarchy);
+		modalpanel.add(choose);
+		choose.open();
+	}
+
+	// dataset:   ....  16 characters
+	private void findClassifications(HierarchyNode hierarchy, Map<String, ClassificationInformation> interpretmap) {
+		String name = hierarchy.getIdentifier();
+		String shortname = name;
+		if(name.startsWith("dataset:")) {
+			shortname = name.substring(8);
+		}
+		if(shortname.startsWith("FileType")) {
+			shortname = shortname.substring(8);
+		}
+		hierarchy.setIdentifier(shortname);
+		if(hierarchy.getInfo() != null) {
+			interpretmap.put(shortname,hierarchy.getInfo());
+		}
+		if(hierarchy.getSubNodes() != null) {
+			for(HierarchyNode node : hierarchy.getSubNodes()) {
+				findClassifications(node,interpretmap);
+			}
+		}
 	}
 }

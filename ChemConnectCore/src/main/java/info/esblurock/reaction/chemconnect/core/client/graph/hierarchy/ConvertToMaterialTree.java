@@ -27,6 +27,7 @@ public class ConvertToMaterialTree {
 			MaterialTreeItem subitem = new MaterialTreeItem(sub.getIdentifier());
 			if(sub.getSubNodes().size() > 0) {
 				subitem.setIconType(IconType.FOLDER);
+				subitem.collapse();
 			} else {
 				subitem.setIconType(IconType.BUILD);
 			}

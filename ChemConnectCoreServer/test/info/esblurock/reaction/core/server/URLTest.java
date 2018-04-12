@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.gcs.ParsedFilename;
+import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.core.server.services.util.ParseUtilities;
 
 public class URLTest {
@@ -28,7 +29,13 @@ public class URLTest {
 			ParsedFilename fileparsed = ParseUtilities.fillFileInformation(obj, filename, "text/plain");
 			System.out.println(fileparsed.toString());
 			
+			System.out.println("==========================================================");
+			HierarchyNode hierarchy1 =  ParseUtilities.getFileInterpretionChoices(parsed);
+			System.out.println(hierarchy1);
 			
+			System.out.println("==========================================================");
+			HierarchyNode hierarchy2 =  ParseUtilities.getFileInterpretionChoices(fileparsed);
+			System.out.println(hierarchy2);
 			
 		} catch (IOException e) {
 			e.printStackTrace();

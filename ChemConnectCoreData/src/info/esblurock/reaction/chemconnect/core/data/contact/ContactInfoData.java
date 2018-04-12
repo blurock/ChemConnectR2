@@ -31,6 +31,12 @@ public class ContactInfoData extends ChemConnectCompoundDataStructure {
 			this.topSite = new HashSet<String>();
 			this.hasSite = new HashSet<String>();
 		}
+	    public ContactInfoData(ChemConnectCompoundDataStructure obj) {
+	    	super(obj);
+			this.email = "";
+			this.topSite = new HashSet<String>();
+			this.hasSite = new HashSet<String>();
+		}
 	    
 	    /**
 	     * @param identifier The id of contact info
@@ -82,13 +88,9 @@ public class ContactInfoData extends ChemConnectCompoundDataStructure {
 		public String toString(String prefix) {
 			StringBuilder builder = new StringBuilder();
 			builder.append(super.toString(prefix));
-			builder.append(prefix + "email: ");
-			builder.append(email);
-			builder.append("\n" + prefix + "topSite: ");
-			builder.append(topSite);
-			builder.append("\n" + prefix + "hasSite: ");
-			builder.append(hasSite);
-			builder.append("\n");
+			builder.append(prefix + "email: " + email + "\n");
+			builder.append(prefix + "topSite: " + topSite + "\n");
+			builder.append(prefix + "hasSite: " + hasSite + "\n");
 			return builder.toString();
 		}	
 }
