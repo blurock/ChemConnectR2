@@ -22,6 +22,12 @@ public class ParameterDescriptionSet extends ChemConnectCompoundDataStructure {
 		super(compound);
 		this.parameterValues = parameterValues;
 	}
+	
+	public ParameterDescriptionSet(ChemConnectCompoundDataStructure compound) {
+		super(compound);
+		this.parameterValues = new HashSet<String>();
+	}
+	
 	public void fill(ChemConnectCompoundDataStructure compound,
 			HashSet<String> parameterValues) {
 		super.fill(compound);

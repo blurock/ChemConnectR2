@@ -18,11 +18,13 @@ import info.esblurock.reaction.chemconnect.core.data.contact.OrganizationDescrip
 import info.esblurock.reaction.chemconnect.core.data.contact.PersonalDescription;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
+import info.esblurock.reaction.chemconnect.core.data.dataset.ParameterDescriptionSet;
 import info.esblurock.reaction.chemconnect.core.data.dataset.PurposeConceptPair;
+import info.esblurock.reaction.chemconnect.core.data.dataset.device.DeviceSubsystemElement;
 import info.esblurock.reaction.chemconnect.core.data.description.DescriptionDataData;
 import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 
-public class CreatePersonDescriptionFactory {
+public class CreateDefaultObjectsFactory {
 
 	public static DatabaseObjectHierarchy createMinimalPersonDescription(DatabaseObject obj, 
 			String userClassification,
@@ -81,6 +83,20 @@ public class CreatePersonDescriptionFactory {
 
 		return top;
 	}
+	
+	static DatabaseObjectHierarchy createSubSystemDescription(DatabaseObject obj,
+			String devicename, String purpose, String concept) {
+		Map<String, DataElementInformation> elementmap = createElementMap("dataset:SubSystemDescription");
+
+		DatabaseObjectHierarchy descr = createDescriptionDataData(obj,elementmap,
+				devicename, concept,purpose);
+
+		ChemConnectDataStructure structure = new ChemConnectDataStructure(obj,descr.getObject().getIdentifier());
+		DeviceSubsystemElement device = new DeviceSubsystemElement(structure);
+		DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(device);
+		hierarchy.addSubobject(descr);
+		return hierarchy;
+	}	
 	
 	static DatabaseObjectHierarchy createOrganizationDescription(DatabaseObject obj, 
 			String organizationname, Map<String, DataElementInformation> elementmap) {

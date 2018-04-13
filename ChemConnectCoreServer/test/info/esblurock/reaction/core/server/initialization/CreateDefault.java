@@ -18,14 +18,23 @@ public class CreateDefault {
 		NameOfPerson person = new NameOfPerson(obj,"Mr.", "Edward", "Blurock");
 		
 		DatabaseObjectHierarchy hierarchy = 
-		CreatePersonDescriptionFactory.createMinimalPersonDescription(obj, "UserClass", "Purpose",person);
+		CreateDefaultObjectsFactory.createMinimalPersonDescription(obj, "UserClass", "Purpose",person);
 		
 		System.out.println(hierarchy);
 		
 		DatabaseObjectHierarchy hierarchy2 = 
-		CreatePersonDescriptionFactory.createMinimalOrganization(obj,"Blurock Consulting AB", "dataset:Organization");
+		CreateDefaultObjectsFactory.createMinimalOrganization(obj,"Blurock Consulting AB", "dataset:Organization");
 
 		System.out.println(hierarchy2);
+		
+		System.out.println("--------------------------------------------------------------------\n");
+		
+		String devicename = "Heat Flux Burner";
+		String purpose = "dataset:DeviceComponentSpecification";
+		String concept = "dataset:HeatFluxBurnerConfiguration";
+		DatabaseObjectHierarchy hierarchy3 = 
+				CreateDefaultObjectsFactory.createSubSystemDescription(obj,devicename, purpose, concept);
+		System.out.println(hierarchy3);
 	}
 
 }
