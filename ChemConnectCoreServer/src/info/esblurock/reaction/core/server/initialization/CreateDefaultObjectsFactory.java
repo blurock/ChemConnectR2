@@ -18,6 +18,8 @@ import info.esblurock.reaction.chemconnect.core.data.contact.OrganizationDescrip
 import info.esblurock.reaction.chemconnect.core.data.contact.PersonalDescription;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
+import info.esblurock.reaction.chemconnect.core.data.dataset.DataObjectLink;
+import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHierarchy;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ParameterDescriptionSet;
 import info.esblurock.reaction.chemconnect.core.data.dataset.PurposeConceptPair;
 import info.esblurock.reaction.chemconnect.core.data.dataset.device.DeviceSubsystemElement;
@@ -96,6 +98,55 @@ public class CreateDefaultObjectsFactory {
 		return hierarchy;
 	}	
 	
+	static DatabaseObjectHierarchy createCataogHierarchyForUser(DatabaseObject obj, 
+			String userid, String organizationid) {
+		Map<String, DataElementInformation> elementmap = createElementMap("dataset:DataSetCatalog");
+		System.out.println(elementmap);
+
+		ChemConnectDataStructure userstructure = new ChemConnectDataStructure(obj);
+		DatasetCatalogHierarchy usercatalog = new DatasetCatalogHierarchy(userstructure);
+		DatabaseObjectHierarchy userhierarchy = new DatabaseObjectHierarchy(usercatalog);
+		
+		DatabaseObject aobj = new DatabaseObject(obj);
+		String aid = obj.getIdentifier() + "-orglink";
+		aobj.setIdentifier(aid);
+		ChemConnectDataStructure orgstructure = new ChemConnectDataStructure(aobj);
+		DatasetCatalogHierarchy orgcatalog = new DatasetCatalogHierarchy(orgstructure);
+		DatabaseObjectHierarchy orghierarchy = new DatabaseObjectHierarchy(orgcatalog);
+		
+		userhierarchy.addSubobject(orghierarchy);
+	
+		DatabaseObject subobj = new DatabaseObject(obj);
+		subobj.setIdentifier(aid);
+		DatabaseObjectHierarchy subcatalog = createDataObjectLink(obj,
+				"1", "dataset:ChemConnectConceptSubCatalog",
+				aid,elementmap);
+		
+		DatabaseObjectHierarchy userlink =   createDataObjectLink(obj,
+				"2", "dataset:ChemConnectConceptUser",
+				userid,elementmap);
+		
+		DatabaseObjectHierarchy orglink =    createDataObjectLink(subobj,
+				"1", "dataset:ChemConnectConceptOrganization",
+				organizationid,elementmap);
+
+
+		DataObjectLink subcataloglink = (DataObjectLink) subcatalog.getObject();
+		DataObjectLink orglinklink    = (DataObjectLink) orglink.getObject();
+		DataObjectLink userlinklink   = (DataObjectLink) userlink.getObject();
+
+		userhierarchy.addSubobject(subcatalog);
+		userhierarchy.addSubobject(userlink);
+		orghierarchy.addSubobject(orglink);
+		
+		usercatalog.addObjectDataLink(subcataloglink);
+		usercatalog.addObjectDataLink(userlinklink);
+		orgcatalog.addObjectDataLink(orglinklink);
+		
+		return userhierarchy;
+	}
+
+	
 	static DatabaseObjectHierarchy createOrganizationDescription(DatabaseObject obj, 
 			String organizationname, Map<String, DataElementInformation> elementmap) {
 		
@@ -107,9 +158,27 @@ public class CreateDefaultObjectsFactory {
 				"","",organizationname,"");
 		DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(descr);
 		
+		
 		return hierarchy;
 	}
 	
+	
+	static DatabaseObjectHierarchy createDataObjectLink(DatabaseObject obj, 
+			String linknumber,
+			String concept, String parent,
+			Map<String, DataElementInformation> elementmap) {
+		DatabaseObject lobj = new DatabaseObject(obj);
+		
+		String oid = createSuffix(obj,"dataset:DataObjectLink",elementmap);
+		lobj.setIdentifier(oid+linknumber);
+		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(lobj,parent);
+		DataObjectLink userlink = new DataObjectLink(structure,concept, parent);
+		
+		DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(userlink);
+		
+		return hierarchy;
+		
+	}
 	
 	static DatabaseObjectHierarchy createContactInfo(DatabaseObject obj, Map<String, DataElementInformation> elementmap) {
 		DatabaseObject cobj = new DatabaseObject(obj);

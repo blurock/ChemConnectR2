@@ -1404,6 +1404,11 @@ xsd:date rdf:type rdfs:Datatype .
                               rdfs:subClassOf :ChemConnectConceptProperties .
 
 
+###  http://www.esblurock.info/dataset#ChemConnectConceptOrganization
+:ChemConnectConceptOrganization rdf:type owl:Class ;
+                                rdfs:subClassOf :ChemConnectContactConcept .
+
+
 ###  http://www.esblurock.info/dataset#ChemConnectConceptProperties
 :ChemConnectConceptProperties rdf:type owl:Class ;
                               rdfs:subClassOf :ChemConnectDomainConcept .
@@ -1419,9 +1424,19 @@ xsd:date rdf:type rdfs:Datatype .
                            rdfs:subClassOf :ChemConnectConceptProperties .
 
 
+###  http://www.esblurock.info/dataset#ChemConnectConceptSubCatalog
+:ChemConnectConceptSubCatalog rdf:type owl:Class ;
+                              rdfs:subClassOf :ChemConnectConceptProperties .
+
+
 ###  http://www.esblurock.info/dataset#ChemConnectConceptSubsystem
 :ChemConnectConceptSubsystem rdf:type owl:Class ;
                              rdfs:subClassOf :ChemConnectConceptProperties .
+
+
+###  http://www.esblurock.info/dataset#ChemConnectConceptUser
+:ChemConnectConceptUser rdf:type owl:Class ;
+                        rdfs:subClassOf :ChemConnectContactConcept .
 
 
 ###  http://www.esblurock.info/dataset#ChemConnectContact
@@ -1508,26 +1523,6 @@ xsd:date rdf:type rdfs:Datatype .
                         rdfs:isDefinedBy <http://www.w3.org/ns/prov#Activity> ;
                         rdfs:label "ChemConnect Methodology"^^xsd:string ;
                         <http://www.w3.org/2004/02/skos/core#altLabel> "meth"^^xsd:string .
-
-
-###  http://www.esblurock.info/dataset#ChemConnectObjectLink
-:ChemConnectObjectLink rdf:type owl:Class ;
-                       rdfs:subClassOf :ChemConnectCompoundDataStructure ,
-                                       [ rdf:type owl:Restriction ;
-                                         owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                         owl:onClass :DataTypeConcept
-                                       ] ,
-                                       [ rdf:type owl:Restriction ;
-                                         owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                         owl:onClass :ObjectLinkToDataStructure
-                                       ] ;
-                       <http://purl.org/dc/elements/1.1/type> "ChemConnectObjectLink" ;
-                       <http://purl.org/dc/terms/identifier> "skos:mappingRelation" ;
-                       rdfs:isDefinedBy <http://purl.org/dc/terms/relation> ;
-                       rdfs:label "Object link" ;
-                       <http://www.w3.org/2004/02/skos/core#altLabel> "link" .
 
 
 ###  http://www.esblurock.info/dataset#ChemConnectObservable
@@ -1618,7 +1613,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                              rdfs:subClassOf :ChemConnectActivity ,
                                              [ rdf:type owl:Restriction ;
                                                owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                                               owl:someValuesFrom :ChemConnectObjectLink
+                                               owl:someValuesFrom :DataObjectLink
                                              ] ,
                                              [ rdf:type owl:Restriction ;
                                                owl:onProperty <http://www.w3.org/ns/dcat#record> ;
@@ -1640,7 +1635,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                 rdfs:subClassOf :ChemConnectActivity ,
                                                 [ rdf:type owl:Restriction ;
                                                   owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unit> ;
-                                                  owl:someValuesFrom :ChemConnectObjectLink
+                                                  owl:someValuesFrom :DataObjectLink
                                                 ] ,
                                                 [ rdf:type owl:Restriction ;
                                                   owl:onProperty <http://www.w3.org/ns/dcat#record> ;
@@ -1766,7 +1761,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                        [ rdf:type owl:Restriction ;
                                          owl:onProperty <http://www.w3.org/ns/dcat#record> ;
                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                         owl:onClass :ChemConnectObjectLink
+                                         owl:onClass :DataObjectLink
                                        ] .
 
 
@@ -2081,6 +2076,26 @@ Under the general type of is the actual data object referenced by the ChemConnec
               <http://www.w3.org/2004/02/skos/core#definition> :ChemConnectLinkType .
 
 
+###  http://www.esblurock.info/dataset#DataObjectLink
+:DataObjectLink rdf:type owl:Class ;
+                rdfs:subClassOf :ChemConnectCompoundDataStructure ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                  owl:onClass :DataTypeConcept
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                  owl:onClass :ObjectLinkToDataStructure
+                                ] ;
+                <http://purl.org/dc/elements/1.1/type> "ChemConnectObjectLink" ;
+                <http://purl.org/dc/terms/identifier> "skos:mappingRelation" ;
+                rdfs:isDefinedBy <http://purl.org/dc/terms/relation> ;
+                rdfs:label "Object link" ;
+                <http://www.w3.org/2004/02/skos/core#altLabel> "link" .
+
+
 ###  http://www.esblurock.info/dataset#DataOwner
 :DataOwner rdf:type owl:Class ;
            rdfs:subClassOf :Classification ;
@@ -2099,11 +2114,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#DataSetCatalog
 :DataSetCatalog rdf:type owl:Class ;
-                rdfs:subClassOf :DatasetCatalogHierarchy ,
-                                [ rdf:type owl:Restriction ;
-                                  owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                                  owl:someValuesFrom :DatasetOfAttributes
-                                ] ;
+                rdfs:subClassOf :DatasetCatalogHierarchy ;
                 <http://purl.org/dc/elements/1.1/type> "DatasetCatalog" ;
                 <http://purl.org/dc/terms/identifier> "dataset:DataSetCatalog" ;
                 rdfs:comment "This is a catalog of datasets produced by an organization. These data sets can be, for example, part of a project, a series of experimental results, a set of mechanisms of a given type, etc."^^xsd:string ;
@@ -2465,7 +2476,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                            rdfs:subClassOf :SimpleDatasetObject ,
                                            [ rdf:type owl:Restriction ;
                                              owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                                             owl:someValuesFrom :ChemConnectObjectLink
+                                             owl:someValuesFrom :DataObjectLink
                                            ] ,
                                            [ rdf:type owl:Restriction ;
                                              owl:onProperty <http://www.w3.org/ns/dcat#record> ;

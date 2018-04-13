@@ -35,6 +35,11 @@ public class CreateDefault {
 		DatabaseObjectHierarchy hierarchy3 = 
 				CreateDefaultObjectsFactory.createSubSystemDescription(obj,devicename, purpose, concept);
 		System.out.println(hierarchy3);
+		
+		
+		DatabaseObjectHierarchy hierarchy4 = 
+				CreateDefaultObjectsFactory.createCataogHierarchyForUser(obj,"userid","orgid");
+		System.out.println(hierarchy4);
 	}
 
 }

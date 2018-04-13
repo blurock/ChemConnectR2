@@ -5,6 +5,8 @@ import java.util.HashSet;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
 
+import info.esblurock.reaction.chemconnect.core.data.dataset.DataObjectLink;
+
 @SuppressWarnings("serial")
 @Entity
 public class ChemConnectDataStructure extends DatabaseObject {
@@ -75,6 +77,11 @@ public class ChemConnectDataStructure extends DatabaseObject {
 		this.descriptionDataData = datastructure.getDescriptionDataData();
 		this.ChemConnectObjectLink = datastructure.getChemConnectObjectLink();
 	}
+	
+	public void addObjectDataLink(DataObjectLink link) {
+		ChemConnectObjectLink.add(link.getIdentifier());
+	}
+	
 	public HashSet<String> getDataSetReference() {
 		return dataSetReference;
 	}
