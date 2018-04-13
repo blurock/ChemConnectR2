@@ -34,8 +34,6 @@ public class CreateDefaultObjectsFactory {
 		String concept = "dataset:ChemConnectContactConcept";
 		String onlinedescription = person.getGivenName() + " " + person.getFamilyName();
 
-		
-		
 		DatabaseObjectHierarchy contact = createContactInfo(obj,elementmap);
 		DatabaseObjectHierarchy location = createContactLocationInformation(obj,elementmap);
 		DatabaseObjectHierarchy personal = createPersonalDescription(obj,elementmap,person,userClassification);

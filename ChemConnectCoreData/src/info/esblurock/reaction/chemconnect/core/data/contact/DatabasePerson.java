@@ -15,6 +15,10 @@ public class DatabasePerson extends ChemConnectDataStructure {
 	String contactLocationInformationID;
 	@Index
 	String personalDescriptionID;
+	
+	public DatabasePerson() {
+	}
+	
 	public DatabasePerson(ChemConnectDataStructure structure, String contactInfoDataID, 
 			String contactLocationInformationID, String personalDescriptionID) {
 		fill(structure, contactInfoDataID, 

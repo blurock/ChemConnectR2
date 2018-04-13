@@ -9,12 +9,17 @@ import java.util.List;
 
 import info.esblurock.reaction.chemconnect.core.common.client.async.LoginService;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.contact.DatabasePerson;
+import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
 import info.esblurock.reaction.chemconnect.core.data.login.UnverifiedUserAccount;
 import info.esblurock.reaction.chemconnect.core.data.login.UserAccountInformation;
 import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
 import info.esblurock.reaction.chemconnect.core.data.rdf.KeywordRDF;
 import info.esblurock.reaction.chemconnect.core.data.transaction.EventCount;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
+import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
+import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFactory;
 import info.esblurock.reaction.core.server.mail.SendMail;
 import info.esblurock.reaction.core.server.services.ServerBase;
 import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
@@ -45,6 +50,22 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 			passwd = adminpass;
 			lvl = level;
 			QueryBase.getNextEventCount(name);
+			
+			try {
+			DatabasePerson person = (DatabasePerson)
+			QueryBase.getFirstDatabaseObjectsFromSingleProperty(DatabasePerson.class.getCanonicalName(), 
+					"owner", "Administration");
+			System.out.println("User: " + person.toString());
+			} catch(IOException ex) {
+				String sourceID = QueryBase.getDataSourceIdentification("Administraction");
+				DatabaseObject obj = new DatabaseObject("Administration", "Administration","Administration",sourceID);
+				NameOfPerson person = new NameOfPerson(obj,"","","Administration");
+				DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.createMinimalPersonDescription(obj, 
+						"Administraction", "dataset:PurposeUser", person);
+				System.out.println("User information:\n" + hierarchy.toString());
+				WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(hierarchy);
+			}
+			
 		} else {
 			System.out.println("Login: Normal user: " + name);
 			
