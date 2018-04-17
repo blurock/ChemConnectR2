@@ -21,4 +21,12 @@ public class MetaDataKeywords {
 	public static String accessTypeDataUser = "DataUser";
 	public static String accessTypeAdministrator = "Administrator";
 	public static String accessTypeSuperUser = "SuperUser";
+	
+	public static String linkSubCatalog = "dataset:ChemConnectConceptSubCatalog";
+	public static String linkUser = "dataset:ChemConnectConceptUser";
+	public static String linkOrganization = "dataset:ChemConnectConceptOrganization";
+	
+	
+	public static String conceptContact = "dataset:ChemConnectContactConcept";
+
 }

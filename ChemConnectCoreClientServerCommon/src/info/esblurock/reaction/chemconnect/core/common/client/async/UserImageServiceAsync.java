@@ -9,6 +9,7 @@ import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.data.image.ImageServiceInformation;
 import info.esblurock.reaction.chemconnect.core.data.image.UploadedImage;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.TransferDatabaseCatalogHierarchy;
 
 
 
@@ -48,6 +49,8 @@ public interface UserImageServiceAsync {
 	void deleteTransaction(String sourceID, AsyncCallback<Void> callback);
 
 	void getFileInterpretionChoices(GCSBlobFileInformation info, AsyncCallback<HierarchyNode> callback);
+
+	void getUserDatasetCatalogHierarchy(String username, AsyncCallback<TransferDatabaseCatalogHierarchy> callback);
 	
 
 }

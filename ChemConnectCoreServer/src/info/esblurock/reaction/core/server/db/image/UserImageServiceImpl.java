@@ -44,10 +44,12 @@ import info.esblurock.reaction.chemconnect.core.data.query.SetOfQueryPropertyVal
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.data.transaction.TransactionInfo;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.TransferDatabaseCatalogHierarchy;
 import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
 import info.esblurock.reaction.core.server.services.ServerBase;
 import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
 import info.esblurock.reaction.core.server.services.util.ParseUtilities;
+import info.esblurock.reaction.io.dataset.ReadWriteDatabaseCatalog;
 import info.esblurock.reaction.io.db.QueryBase;
 
 @SuppressWarnings("serial")
@@ -384,6 +386,11 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		DatabaseWriteBase.writeObjectWithTransaction(source);
 		
 	}
+	
+	public TransferDatabaseCatalogHierarchy getUserDatasetCatalogHierarchy(String username) throws IOException {
+		return ReadWriteDatabaseCatalog.getUserDatasetCatalogHierarchy(username);
+	}
+	
 	
 	public HierarchyNode getFileInterpretionChoices(GCSBlobFileInformation info) throws IOException {
 		ParsedFilename parsed = parseFilename(info);

@@ -17,6 +17,9 @@ import gwt.material.design.client.ui.MaterialCollapsibleBody;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialTitle;
 import gwt.material.design.client.ui.MaterialTooltip;
+import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
+import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.TransferDatabaseCatalogHierarchy;
 
 public class ManageCatalogHierarchy extends Composite {
 
@@ -49,7 +52,14 @@ public class ManageCatalogHierarchy extends Composite {
 		
 		identifiertip.setText(userName);
 		title.setTitle("Manage User Catalag Hierarchy");
-		
+		UserImageServiceAsync async = UserImageService.Util.getInstance();
+		SetUpUserCatalogCallback callback = new SetUpUserCatalogCallback(this);
+		async.getUserDatasetCatalogHierarchy(userName,callback);
+	}
+
+	public void insertCatalog(TransferDatabaseCatalogHierarchy transfer) {
+		Window.alert(transfer.getCatalogElements().toString());
+		Window.alert(transfer.getObjectLinks().toString());
 	}
 
 

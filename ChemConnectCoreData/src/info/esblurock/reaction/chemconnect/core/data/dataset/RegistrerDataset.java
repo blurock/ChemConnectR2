@@ -16,6 +16,8 @@ public class RegistrerDataset {
 			ObjectifyService.register(ParameterSpecification.class);
 			ObjectifyService.register(ParameterDescriptionSet.class);
 			ObjectifyService.register(DataSpecification.class);
+			ObjectifyService.register(DatasetCatalogHierarchy.class);
+			
 		}
 		
 		public static void reset() {
@@ -28,5 +30,7 @@ public class RegistrerDataset {
 			ResetDatabaseObjects.resetClass(ParameterSpecification.class);
 			ResetDatabaseObjects.resetClass(ParameterDescriptionSet.class);
 			ResetDatabaseObjects.resetClass(DataSpecification.class);
+			ResetDatabaseObjects.resetClass(DatasetCatalogHierarchy.class);
+			
 		}	
 }

@@ -44,4 +44,14 @@ public class ChemConnectCompoundDataStructure extends DatabaseObject {
 		this.parentLink = parentLink;
 	}
 
+	public String toString() {
+		return toString("");
+	}
+	
+	public String toString(String prefix) {
+		StringBuilder build = new StringBuilder();
+		build.append(super.toString(prefix));
+		build.append(prefix + "Parent: " + parentLink + "\n");
+		return build.toString();
+	}
 }

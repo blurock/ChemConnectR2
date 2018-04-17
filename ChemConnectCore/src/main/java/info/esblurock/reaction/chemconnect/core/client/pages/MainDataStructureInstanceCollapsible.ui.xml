@@ -9,7 +9,7 @@
 			<m:MaterialLink ui:field="title" textColor="BLACK" />
 			<m:MaterialLink ui:field="info" iconType="INFO"
 				iconPosition="RIGHT" />
-			<m:MaterialLink ui:field="expand" iconPosition="RIGHT" />
+			<m:MaterialLink ui:field="expand" iconPosition="RIGHT" iconType="EXPLORE"/>
 		</m:MaterialCollapsibleHeader>
 		<m:MaterialCollapsibleBody>
 			<m:MaterialCollapsible ui:field="contentcollapsible">

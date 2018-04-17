@@ -6461,6 +6461,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                 <http://www.w3.org/2004/02/skos/core#definition> :ChemConnectPurpose .
 
 
+###  http://www.esblurock.info/dataset#PurposeOrganization
+:PurposeOrganization rdf:type owl:Class ;
+                     rdfs:subClassOf :ChemConnectContact .
+
+
 ###  http://www.esblurock.info/dataset#PurposeResearcher
 :PurposeResearcher rdf:type owl:Class ;
                    rdfs:subClassOf :ChemConnectContact .

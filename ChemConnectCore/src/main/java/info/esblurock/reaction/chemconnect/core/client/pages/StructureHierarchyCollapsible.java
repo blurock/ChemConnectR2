@@ -21,6 +21,7 @@ public class StructureHierarchyCollapsible extends Composite implements HasText 
 
 	interface StructureHierarchyCollapsibleUiBinder extends UiBinder<Widget, StructureHierarchyCollapsible> {
 	}
+
 	@UiField
 	MaterialLink title;
 	@UiField
@@ -36,16 +37,17 @@ public class StructureHierarchyCollapsible extends Composite implements HasText 
 	public StructureHierarchyCollapsible() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
+
 	public StructureHierarchyCollapsible(HierarchyNode node) {
 		initWidget(uiBinder.createAndBindUi(this));
 		title.setText(node.getIdentifier());
-		if(node.getSubNodes().size() > 0) {
-		for(HierarchyNode subnode : node.getSubNodes()) {
-			StructureHierarchyCollapsible subnodeC = new StructureHierarchyCollapsible(subnode);
-			contentcollapsible.add(subnodeC);
-		}
+		if (node.getSubNodes().size() > 0) {
+			for (HierarchyNode subnode : node.getSubNodes()) {
+				StructureHierarchyCollapsible subnodeC = new StructureHierarchyCollapsible(subnode);
+				contentcollapsible.add(subnodeC);
+			}
 		} else {
-			if(node.getInfo() != null) {
+			if (node.getInfo() != null) {
 				MainDataStructureCollapsible collapse = new MainDataStructureCollapsible(node.getInfo());
 				contentcollapsible.add(collapse);
 			} else {

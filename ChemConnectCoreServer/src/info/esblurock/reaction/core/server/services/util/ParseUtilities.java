@@ -36,7 +36,6 @@ public class ParseUtilities {
 			throw new IOException("");
 		}
 		return parsed;
-
 	}
 
 	public static ParsedFilename fillURLInformation(DatabaseObject obj, URL url, String filetype) {

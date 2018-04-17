@@ -13,7 +13,7 @@ public class CreateDefault {
 	@Test
 	public void test() {
 		
-		DatabaseObject obj = new DatabaseObject("ID","Public","Administration","99" );
+		DatabaseObject obj = new DatabaseObject("AdministrationCatalog","Public","Administration","1" );
 		
 		NameOfPerson person = new NameOfPerson(obj,"Mr.", "Edward", "Blurock");
 		

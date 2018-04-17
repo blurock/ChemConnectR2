@@ -23,6 +23,7 @@ import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFa
 import info.esblurock.reaction.core.server.mail.SendMail;
 import info.esblurock.reaction.core.server.services.ServerBase;
 import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
+import info.esblurock.reaction.io.dataset.ReadWriteDatabaseCatalog;
 import info.esblurock.reaction.io.db.QueryBase;
 
 public class LoginServiceImpl extends ServerBase implements LoginService {
@@ -58,12 +59,25 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 			System.out.println("User: " + person.toString());
 			} catch(IOException ex) {
 				String sourceID = QueryBase.getDataSourceIdentification("Administraction");
+				
 				DatabaseObject obj = new DatabaseObject("Administration", "Administration","Administration",sourceID);
 				NameOfPerson person = new NameOfPerson(obj,"","","Administration");
-				DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.createMinimalPersonDescription(obj, 
+				DatabaseObjectHierarchy user = CreateDefaultObjectsFactory.createMinimalPersonDescription(obj, 
 						"Administraction", "dataset:PurposeUser", person);
-				System.out.println("User information:\n" + hierarchy.toString());
-				WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(hierarchy);
+				System.out.println("User information:\n" + user.toString());
+				WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(user);
+
+				DatabaseObject orgobj = new DatabaseObject("BlurockConsultingAB", "Administration","Administration",sourceID);
+				DatabaseObjectHierarchy org = CreateDefaultObjectsFactory.createMinimalOrganization(orgobj, "Blurock Consulting AB", "dataset:PurposeOrganization");
+				System.out.println("Organization information:\n" + org.toString());
+				WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(org);
+
+				String catalogname = ReadWriteDatabaseCatalog.createUserCatalogName("Administration");
+				DatabaseObject catobj = new DatabaseObject(catalogname, "Administration","Administration",sourceID);
+				DatabaseObjectHierarchy cat = CreateDefaultObjectsFactory.createCataogHierarchyForUser(catobj, "Administration", "BlurockConsultingAB");
+				System.out.println("Organization information:\n" + cat.toString());
+				WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(cat);
+
 			}
 			
 		} else {

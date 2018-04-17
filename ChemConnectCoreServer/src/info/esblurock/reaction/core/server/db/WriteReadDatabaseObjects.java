@@ -21,6 +21,13 @@ public class WriteReadDatabaseObjects {
 		writeDatabaseObjectHierarchy(object.getObjecthierarchy());
 	}
 
+	public static void writeDatabaseObjectHierarchyWithTransaction(DatabaseObjectHierarchy objecthierarchy) {
+		DatabaseWriteBase.writeObjectWithTransaction(objecthierarchy.getObject());
+		for (DatabaseObjectHierarchy subhierarchy : objecthierarchy.getSubobjects()) {
+			writeDatabaseObjectHierarchy(subhierarchy);
+		}
+	}
+
 	public static void writeDatabaseObjectHierarchy(DatabaseObjectHierarchy objecthierarchy) {
 		DatabaseWriteBase.writeDatabaseObject(objecthierarchy.getObject());
 		for (DatabaseObjectHierarchy subhierarchy : objecthierarchy.getSubobjects()) {
