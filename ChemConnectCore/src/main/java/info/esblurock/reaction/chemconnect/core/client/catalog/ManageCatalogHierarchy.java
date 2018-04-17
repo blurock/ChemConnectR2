@@ -34,11 +34,8 @@ public class ManageCatalogHierarchy extends Composite {
 	@UiField
 	MaterialTitle title;
 	@UiField
-	MaterialLink cataloghead;
-	@UiField
-	MaterialCollapsibleBody bodycollapsible;
-	@UiField
-	MaterialCollapsible contentcollapsible;
+	MaterialCollapsible catalog;
+	
 	
 	String userName;
 	
@@ -51,15 +48,15 @@ public class ManageCatalogHierarchy extends Composite {
 		userName = Cookies.getCookie("user");
 		
 		identifiertip.setText(userName);
-		title.setTitle("Manage User Catalag Hierarchy");
+		title.setTitle("Manage User Catalog Hierarchy");
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		SetUpUserCatalogCallback callback = new SetUpUserCatalogCallback(this);
 		async.getUserDatasetCatalogHierarchy(userName,callback);
 	}
 
 	public void insertCatalog(TransferDatabaseCatalogHierarchy transfer) {
-		Window.alert(transfer.getCatalogElements().toString());
-		Window.alert(transfer.getObjectLinks().toString());
+		CatalogHierarchyNode topnode = new CatalogHierarchyNode(transfer.getTop(), transfer);
+		catalog.add(topnode);
 	}
 
 

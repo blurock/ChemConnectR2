@@ -17,16 +17,7 @@
 			</m:MaterialColumn>
 		</m:MaterialRow>
 
-		<m:MaterialCollapsible>
-			<m:MaterialCollapsibleItem>
-				<m:MaterialCollapsibleHeader>
-					<m:MaterialLink ui:field="cataloghead" textColor="BLACK" />
-				</m:MaterialCollapsibleHeader>
-				<m:MaterialCollapsibleBody ui:field="bodycollapsible">
-					<m:MaterialCollapsible ui:field="contentcollapsible">
-					</m:MaterialCollapsible>
-				</m:MaterialCollapsibleBody>
-			</m:MaterialCollapsibleItem>
+		<m:MaterialCollapsible ui:field="catalog">
 		</m:MaterialCollapsible>
 	</m:MaterialPanel>
 </ui:UiBinder> 
