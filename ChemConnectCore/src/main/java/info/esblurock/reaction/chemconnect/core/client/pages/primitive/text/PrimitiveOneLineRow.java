@@ -60,7 +60,7 @@ public class PrimitiveOneLineRow extends Composite implements HasText, ChooseFro
 	}
 
 	public void fill(PrimitiveDataStructureInformation info) {
-		typeWithNamespace = info.getPropertyType();
+		typeWithNamespace = info.getType();
 		type.setText(TextUtilities.removeNamespace(typeWithNamespace));
 		value.setText(info.getValue());
 		identifier = info.getIdentifier();

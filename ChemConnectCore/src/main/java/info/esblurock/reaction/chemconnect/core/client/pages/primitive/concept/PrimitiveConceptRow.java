@@ -52,7 +52,7 @@ public class PrimitiveConceptRow extends Composite implements HasText, ChooseFro
 	public PrimitiveConceptRow(PrimitiveDataStructureInformation info) {
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
-		typeWithNamespace = info.getPropertyType();
+		typeWithNamespace = info.getType();
 		identifier = info.getIdentifier();
 		type.setText(TextUtilities.removeNamespace(typeWithNamespace));
 		tip.setText(identifier);

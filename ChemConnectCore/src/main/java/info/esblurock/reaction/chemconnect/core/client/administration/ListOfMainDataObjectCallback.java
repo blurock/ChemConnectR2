@@ -26,9 +26,7 @@ public class ListOfMainDataObjectCallback implements AsyncCallback<SingleQueryRe
 		for(DatabaseObject obj : result.getResults()) {
 			MainDataStructureInstanceCollapsible collapsible 
 			= new MainDataStructureInstanceCollapsible(obj, main.getClsinfo(), main.getSubelements());
-			
-			// The concept of expand has changed... this will probably move up in the hierarchy
-			//main.addObjectCollapsible(collapsible);
+			main.addObjectCollapsible(collapsible);
 		}
 	}
 

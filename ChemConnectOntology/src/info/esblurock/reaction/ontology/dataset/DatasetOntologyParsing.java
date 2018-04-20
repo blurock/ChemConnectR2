@@ -332,6 +332,8 @@ dataset:ChemConnectPrimitiveDataStructure:
 				+ "UNION\n" + "	{ " + id
 				+ " <" + ReasonerVocabulary.directSubClassOf + "> ?subclass .\n"
 				+ "	   ?subclass <http://purl.org/dc/elements/1.1/type>  ?datatype\n" + "	}" + "  }";
+		
+		
 		ClassificationInformation classification = null;
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		if (lst.size() > 0) {
@@ -360,11 +362,11 @@ dataset:ChemConnectPrimitiveDataStructure:
 	static public DataElementInformation getSubElementStructureFromIDObject(String structure) {
 		String query = "SELECT ?id ?type ?super ?altl\n" 
 				+ "	WHERE {\n" 
-				+ "   " + structure + " <http://purl.org/dc/terms/references> ?type .\n"
-				+ "	?type <http://purl.org/dc/terms/identifier> ?id .\n" 
-				+ "	?type rdfs:subClassOf ?super .\n"
-				+ " ?type <http://www.w3.org/2004/02/skos/core#altLabel> ?altl .\n"
-				+ "	?super rdfs:subClassOf dcat:Dataset\n" 
+				+ "   " + structure + " <http://purl.org/dc/elements/1.1/type> ?type .\n"
+				+ "	" + structure + " <http://purl.org/dc/terms/identifier> ?id .\n" 
+				+ "	" + structure + " rdfs:subClassOf ?super .\n"
+				+ " " + structure + " <http://www.w3.org/2004/02/skos/core#altLabel> ?altl .\n"
+				+   "?super rdfs:subClassOf dcat:CatalogRecord .\n"
 				+ "  }";
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
@@ -375,7 +377,7 @@ dataset:ChemConnectPrimitiveDataStructure:
 			String typeS = stringlst.get(0).get("type");
 			String superS = stringlst.get(0).get("super");
 			String altlabelS = stringlst.get(0).get("altl");
-			info = new DataElementInformation(typeS, null, true, 1, superS, idS,altlabelS);
+			info = new DataElementInformation(structure, null, true, 1, typeS, idS,altlabelS);
 		}
 		return info;
 	}
@@ -467,18 +469,21 @@ dataset:ChemConnectPrimitiveDataStructure:
 	 * dataset:ContactEmail rdfs:subClassOf ?subtype } returns: dataset:Email
 	 * 
 	 */
-	public static String getPrimitiveStructureType(String primitivestructure) {
+	public static List<String> getPrimitiveStructureType(String primitivestructure) {
 		String query = "SELECT ?subtype\n" + "	WHERE {\n" + "     " + primitivestructure
 				+ "  rdfs:subClassOf ?subtype \n" + "}";
 
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
+		List<String> ans = new ArrayList<String>();
 		String subtype = null;
 		if (stringlst.size() > 0) {
-			Map<String, String> map = stringlst.get(0);
+			for(Map<String, String> map:stringlst) {
 			subtype = map.get("subtype");
+			ans.add(subtype);
+			}
 		}
-		return subtype;
+		return ans;
 	}
 
 	/*
@@ -487,15 +492,18 @@ dataset:ChemConnectPrimitiveDataStructure:
 	 * 
 	 */
 	public static String getPrimitiveStructureClass(String primitivetype) {
-		String query = "SELECT ?subsubtype\n" + "	WHERE {\n" + "     " + primitivetype
-				+ "  rdfs:subClassOf ?subsubtype\n" + "}";
+		String query = "SELECT ?subsubtype ?type\n" 
+				+ "	WHERE {\n" 
+				+ "     " + primitivetype + "   rdfs:subClassOf ?subsubtype .\n" 
+				+ "  ?subsubtype <http://purl.org/dc/elements/1.1/type> ?type .\n" 
+				+ "}";
 
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
 		String subtype = null;
 		if (stringlst.size() > 0) {
 			Map<String, String> map = stringlst.get(0);
-			subtype = map.get("subsubtype");
+			subtype = map.get("type");
 		}
 		return subtype;
 	}

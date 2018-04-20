@@ -16,6 +16,7 @@ import gwt.material.design.client.ui.MaterialPanel;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.CreatePrimitiveStructure;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.DefaultPrimiiveDataStructure;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.PrimitiveDataStructureBase;
+import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.CompoundDataStructureInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
@@ -90,14 +91,14 @@ public class RecordStructureCollapsible extends Composite {
 		try {
 			CreatePrimitiveStructure create = CreatePrimitiveStructure.valueOf(structurename);
 			PrimitiveDataStructureInformation info = new PrimitiveDataStructureInformation(obj,
-					element.getDataElementName(), "");
+					structurename, element.getChemconnectStructure(), "");
 			Window.alert("RecordStructureCollapsible: primitive:  " + obj.getIdentifier());
 			PrimitiveDataStructureBase base = create.createStructure(info);
 			base.setIdentifier(obj);
 			infoheader.add(base);
 		} catch (Exception ex) {
 			Window.alert("RecordStructureCollapsible: primitive: empty ");
-			PrimitiveDataStructureInformation info = new PrimitiveDataStructureInformation(obj,structurename, "");
+			PrimitiveDataStructureInformation info = new PrimitiveDataStructureInformation(obj,structurename, element.getChemconnectStructure(), "");
 			DefaultPrimiiveDataStructure base = new DefaultPrimiiveDataStructure(info);
 			base.setIdentifier(obj);
 			panel.add(base);
@@ -105,11 +106,11 @@ public class RecordStructureCollapsible extends Composite {
 		}
 	}
 
-	public RecordStructureCollapsible(CompoundDataStructureInformation compound) {
+	public RecordStructureCollapsible(DatabaseObject obj, CompoundDataStructureInformation compound) {
 		initWidget(uiBinder.createAndBindUi(this));
+		this.obj = obj;
 		this.compound = compound;
-		// title.setText(compound.getPropertyType());
-		datatype.setText("Text");
+		datatype.setText(TextUtilities.removeNamespace(compound.getPropertyType()));
 		// info.setText(compound.getChemconnectcompound());
 		datatype.setTextColor(Color.BLACK);
 		// info.setTextColor(Color.BLACK);
@@ -119,12 +120,10 @@ public class RecordStructureCollapsible extends Composite {
 			String id = obj.getIdentifier() + "-" + primitive.getPropertyType();
 			subobj.setIdentifier(id);
 			if (create != null) {
-				Window.alert("RecordStructureCollapsible: create:  " + primitive.getIdentifier());
 				PrimitiveDataStructureBase element = create.createStructure(primitive);
 				element.setIdentifier(subobj);
 				panel.add(element);
 			} else {
-				Window.alert("RecordStructureCollapsible: default:  " + primitive.getIdentifier());
 				DefaultPrimiiveDataStructure base = new DefaultPrimiiveDataStructure(primitive);
 				base.setIdentifier(primitive);
 				base.setIdentifier(subobj);

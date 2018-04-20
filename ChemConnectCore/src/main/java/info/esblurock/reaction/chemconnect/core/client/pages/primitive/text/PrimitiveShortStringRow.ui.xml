@@ -18,7 +18,7 @@
 					<m:MaterialLink ui:field="type" />
 			</m:MaterialColumn>
 			<m:MaterialColumn grid="s8">
-				<m:MaterialLink ui:field="value" textColor="BLACK" />
+				<m:MaterialLink ui:field="value" textColor="BLACK" iconType="CREATE" iconColor="BLACK"/>
 			</m:MaterialColumn>
 		</m:MaterialRow>
 	</m:MaterialPanel>

@@ -24,7 +24,7 @@ public class PrimitiveReferenceInformation extends PrimitiveDataStructureInforma
 	ArrayList<PrimitivePersonNameInformation> names;
 	
 	public PrimitiveReferenceInformation() {
-		super(new DatabaseObject(),"Reference","DOI");
+		super(new DatabaseObject(),"ReferenceString", "OneLine","DOI");
 		this.title = "Title of Reference";
 		this.referenceString = "Reference String";
 		this.names = new ArrayList<PrimitivePersonNameInformation>();

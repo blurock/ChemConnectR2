@@ -1344,7 +1344,7 @@ xsd:date rdf:type rdfs:Datatype .
 
 ###  http://www.esblurock.info/dataset#CatalogDataSet
 :CatalogDataSet rdf:type owl:Class ;
-                rdfs:subClassOf :ChemConnectDataStructure ,
+                rdfs:subClassOf :ComponentOfDataObject ,
                                 [ rdf:type owl:Restriction ;
                                   owl:onProperty <http://purl.org/dc/terms/hasPart> ;
                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
@@ -1513,7 +1513,7 @@ xsd:date rdf:type rdfs:Datatype .
 
 ###  http://www.esblurock.info/dataset#ChemConnectMethodology
 :ChemConnectMethodology rdf:type owl:Class ;
-                        rdfs:subClassOf :ChemConnectDataStructure ,
+                        rdfs:subClassOf :ComponentOfDataObject ,
                                         [ rdf:type owl:Restriction ;
                                           owl:onProperty <http://www.w3.org/ns/dcat#record> ;
                                           owl:someValuesFrom :ParameterDescriptionSet
@@ -1806,8 +1806,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#ConceptLinkDataset
 :ConceptLinkDataset rdf:type owl:Class ;
                     rdfs:subClassOf :ConceptLinkDataStructures ;
-                    <http://purl.org/dc/elements/1.1/relation> :DataTypeDataset ;
-                    rdfs:isDefinedBy :DataSetCatalog .
+                    <http://purl.org/dc/elements/1.1/relation> :DataTypeDataset .
 
 
 ###  http://www.esblurock.info/dataset#ConceptLinkDatasetHierarchy
@@ -1829,20 +1828,17 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#ConceptLinkHierarchyDataset
 :ConceptLinkHierarchyDataset rdf:type owl:Class ;
-                             rdfs:subClassOf :ConceptLinkDatasetHierarchy ;
-                             rdfs:isDefinedBy :DataSetHierarchy .
+                             rdfs:subClassOf :ConceptLinkDatasetHierarchy .
 
 
 ###  http://www.esblurock.info/dataset#ConceptLinkHierarchyOrganization
 :ConceptLinkHierarchyOrganization rdf:type owl:Class ;
-                                  rdfs:subClassOf :ConceptLinkDatasetHierarchy ;
-                                  rdfs:isDefinedBy :DatasetCatalogOrganization .
+                                  rdfs:subClassOf :ConceptLinkDatasetHierarchy .
 
 
 ###  http://www.esblurock.info/dataset#ConceptLinkHierarchyOwner
 :ConceptLinkHierarchyOwner rdf:type owl:Class ;
-                           rdfs:subClassOf :ConceptLinkDatasetHierarchy ;
-                           rdfs:isDefinedBy :DatasetCatalogOwner .
+                           rdfs:subClassOf :ConceptLinkDatasetHierarchy .
 
 
 ###  http://www.esblurock.info/dataset#ConceptLinkInstrument
@@ -2112,35 +2108,6 @@ Under the general type of is the actual data object referenced by the ChemConnec
                       <http://www.w3.org/2004/02/skos/core#altLabel> "uncertain"^^xsd:string .
 
 
-###  http://www.esblurock.info/dataset#DataSetCatalog
-:DataSetCatalog rdf:type owl:Class ;
-                rdfs:subClassOf :DatasetCatalogHierarchy ;
-                <http://purl.org/dc/elements/1.1/type> "DatasetCatalog" ;
-                <http://purl.org/dc/terms/identifier> "dataset:DataSetCatalog" ;
-                rdfs:comment "This is a catalog of datasets produced by an organization. These data sets can be, for example, part of a project, a series of experimental results, a set of mechanisms of a given type, etc."^^xsd:string ;
-                rdfs:isDefinedBy <http://purl.org/dc/dcmitype/Collection> ;
-                rdfs:label "A catalog of related datasets" ;
-                <http://www.w3.org/2004/02/skos/core#altLabel> "catalog"^^xsd:string .
-
-
-###  http://www.esblurock.info/dataset#DataSetHierarchy
-:DataSetHierarchy rdf:type owl:Class ;
-                  rdfs:subClassOf :DatasetCatalogHierarchy ,
-                                  [ rdf:type owl:Restriction ;
-                                    owl:onProperty <http://www.w3.org/ns/org#linkedTo> ;
-                                    owl:someValuesFrom :ChemConnectDataStructure
-                                  ] ,
-                                  [ rdf:type owl:Restriction ;
-                                    owl:onProperty <http://www.w3.org/ns/org#linkedTo> ;
-                                    owl:someValuesFrom :DataSetHierarchy
-                                  ] ;
-                  <http://purl.org/dc/elements/1.1/type> "DataSetHierarchy"^^xsd:string ;
-                  <http://purl.org/dc/terms/identifier> "skos:narrower"^^xsd:string ;
-                  rdfs:isDefinedBy <http://www.w3.org/ns/dcat#Catalog> ;
-                  rdfs:label "Hierarchy of data set"^^xsd:string ;
-                  <http://www.w3.org/2004/02/skos/core#altLabel> "dsethier"^^xsd:string .
-
-
 ###  http://www.esblurock.info/dataset#DataSetReference
 :DataSetReference rdf:type owl:Class ;
                   rdfs:subClassOf :ChemConnectCompoundDataStructure ,
@@ -2228,8 +2195,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#DataTypeDataset
 :DataTypeDataset rdf:type owl:Class ;
                  rdfs:subClassOf :DataTypeDataStructure ;
-                 <http://purl.org/dc/elements/1.1/relation> :ConceptLinkDataset ;
-                 rdfs:isDefinedBy :DataSetCatalog .
+                 <http://purl.org/dc/elements/1.1/relation> :ConceptLinkDataset .
 
 
 ###  http://www.esblurock.info/dataset#DataTypeDatasetHierarchy
@@ -2275,20 +2241,17 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#DataTypeHierarchyDataset
 :DataTypeHierarchyDataset rdf:type owl:Class ;
-                          rdfs:subClassOf :DataTypeDatasetHierarchy ;
-                          rdfs:isDefinedBy :DataSetHierarchy .
+                          rdfs:subClassOf :DataTypeDatasetHierarchy .
 
 
 ###  http://www.esblurock.info/dataset#DataTypeHierarchyOrganization
 :DataTypeHierarchyOrganization rdf:type owl:Class ;
-                               rdfs:subClassOf :DataTypeDatasetHierarchy ;
-                               rdfs:isDefinedBy :DatasetCatalogOrganization .
+                               rdfs:subClassOf :DataTypeDatasetHierarchy .
 
 
 ###  http://www.esblurock.info/dataset#DataTypeHierarchyOwner
 :DataTypeHierarchyOwner rdf:type owl:Class ;
-                        rdfs:subClassOf :DataTypeDatasetHierarchy ;
-                        rdfs:isDefinedBy :DatasetCatalogOwner .
+                        rdfs:subClassOf :DataTypeDatasetHierarchy .
 
 
 ###  http://www.esblurock.info/dataset#DataTypeInterpretationActivity
@@ -2423,7 +2386,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#DatabasePerson
 :DatabasePerson rdf:type owl:Class ;
-                rdfs:subClassOf :UserInformation ,
+                rdfs:subClassOf :ChemConnectDataStructure ,
                                 [ rdf:type owl:Restriction ;
                                   owl:onProperty <http://www.w3.org/ns/dcat#record> ;
                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
@@ -2464,7 +2427,8 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#DatasetCatalogHierarchy
 :DatasetCatalogHierarchy rdf:type owl:Class ;
-                         rdfs:subClassOf :DatasetCatalogInformation ;
+                         rdfs:subClassOf :ChemConnectDataStructure ;
+                         <http://purl.org/dc/elements/1.1/type> "DatasetCatalogHierarchy"^^xsd:string ;
                          <http://purl.org/dc/terms/identifier> "dataset:DatasetCatalogHierarchy"^^xsd:string ;
                          rdfs:isDefinedBy <http://www.w3.org/ns/dcat#Catalog> ;
                          rdfs:label "Data set hierarchy structure"^^xsd:string ;
@@ -2490,43 +2454,6 @@ Under the general type of is the actual data object referenced by the ChemConnec
                            <http://purl.org/dc/terms/identifier> "prov:component"^^xsd:string ;
                            rdfs:label "Data set catalog information"^^xsd:string ;
                            <http://www.w3.org/2004/02/skos/core#altLabel> "comp"^^xsd:string .
-
-
-###  http://www.esblurock.info/dataset#DatasetCatalogOrganization
-:DatasetCatalogOrganization rdf:type owl:Class ;
-                            rdfs:subClassOf :DatasetCatalogHierarchy ,
-                                            [ rdf:type owl:Restriction ;
-                                              owl:onProperty <http://www.w3.org/ns/org#linkedTo> ;
-                                              owl:someValuesFrom :DataSetHierarchy
-                                            ] ,
-                                            [ rdf:type owl:Restriction ;
-                                              owl:onProperty <http://www.w3.org/ns/org#linkedTo> ;
-                                              owl:someValuesFrom :Organization
-                                            ] ;
-                            <http://purl.org/dc/elements/1.1/type> "DatasetOrganizationOwner"^^xsd:string ;
-                            <http://purl.org/dc/terms/identifier> "dataset:DatasetOrganization"^^xsd:string ;
-                            rdfs:isDefinedBy <http://www.w3.org/ns/dcat#Catalog> ;
-                            rdfs:label "Dataset Organization"^^xsd:string ;
-                            <http://www.w3.org/2004/02/skos/core#altLabel> "dsetorg"^^xsd:string .
-
-
-###  http://www.esblurock.info/dataset#DatasetCatalogOwner
-:DatasetCatalogOwner rdf:type owl:Class ;
-                     rdfs:subClassOf :DatasetCatalogHierarchy ,
-                                     [ rdf:type owl:Restriction ;
-                                       owl:onProperty <http://www.w3.org/ns/org#linkedTo> ;
-                                       owl:someValuesFrom :DatasetCatalogOrganization
-                                     ] ,
-                                     [ rdf:type owl:Restriction ;
-                                       owl:onProperty <http://www.w3.org/ns/org#linkedTo> ;
-                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                       owl:onClass :UserAccount
-                                     ] ;
-                     <http://purl.org/dc/elements/1.1/type> "DatasetOwner"^^xsd:string ;
-                     <http://purl.org/dc/terms/identifier> "dataset:DatasetOwner"^^xsd:string ;
-                     rdfs:isDefinedBy <http://www.w3.org/ns/dcat#Catalog> ;
-                     rdfs:label "Dataset owner"^^xsd:string ;
-                     <http://www.w3.org/2004/02/skos/core#altLabel> "dsetowner"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#DatasetOfAttributes
@@ -5967,7 +5894,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#Organization
 :Organization rdf:type owl:Class ;
-              rdfs:subClassOf :UserInformation ,
+              rdfs:subClassOf :ChemConnectDataStructure ,
                               [ rdf:type owl:Restriction ;
                                 owl:onProperty <http://www.w3.org/ns/dcat#record> ;
                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
@@ -6710,7 +6637,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#SetOfObservationsStructure
 :SetOfObservationsStructure rdf:type owl:Class ;
-                            rdfs:subClassOf :ChemConnectDataStructure ;
+                            rdfs:subClassOf :ComponentOfDataObject ;
                             <http://purl.org/dc/elements/1.1/type> "SetOfObservationsStructure" ;
                             <http://purl.org/dc/terms/identifier> "dataset:SetOfObservations" ;
                             rdfs:label "Data set of observations" ;
@@ -6943,7 +6870,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#StandardFileFormatInput
 :StandardFileFormatInput rdf:type owl:Class ;
-                         rdfs:subClassOf :ChemConnectDataStructure ,
+                         rdfs:subClassOf :ComponentOfDataObject ,
                                          [ rdf:type owl:Restriction ;
                                            owl:onProperty <http://www.w3.org/ns/dcat#record> ;
                                            owl:someValuesFrom :FileSpecification
@@ -8888,8 +8815,8 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
                                     <http://purl.org/dc/terms/issued> "2000-07-11"^^xsd:date .
 
 
-<http://purl.org/dc/terms/rights> <http://purl.org/dc/terms/issued> "2008-01-14"^^xsd:date ;
-                                  rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
+<http://purl.org/dc/terms/rights> rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
+                                  <http://purl.org/dc/terms/issued> "2008-01-14"^^xsd:date ;
                                   rdfs:label "Rights"@en ;
                                   rdfs:comment "Information about rights held in and over the resource."@en ;
                                   <http://purl.org/dc/terms/modified> "2008-01-14"^^xsd:date ;
@@ -8897,8 +8824,8 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
                                   <http://purl.org/dc/terms/description> "Typically, rights information includes a statement about various property rights associated with the resource, including intellectual property rights."@en .
 
 
-<http://purl.org/dc/terms/rightsHolder> rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
-                                        <http://purl.org/dc/terms/hasVersion> <http://dublincore.org/usage/terms/history/#rightsHolder-002> ;
+<http://purl.org/dc/terms/rightsHolder> <http://purl.org/dc/terms/hasVersion> <http://dublincore.org/usage/terms/history/#rightsHolder-002> ;
+                                        rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
                                         <http://purl.org/dc/terms/modified> "2008-01-14"^^xsd:date ;
                                         rdfs:comment "A person or organization owning or managing rights over the resource."@en ;
                                         <http://purl.org/dc/terms/issued> "2004-06-14"^^xsd:date ;

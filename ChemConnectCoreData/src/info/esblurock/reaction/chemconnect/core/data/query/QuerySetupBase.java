@@ -73,7 +73,11 @@ public class QuerySetupBase implements Serializable {
 		build.append(prefix + " QuerySetupBase: ");
 		build.append(queryClass);
 		build.append("( " + access + ", " + answerLimit + ")\n");
+		if(queryvalues != null) {
 		build.append(queryvalues.toString(prefix));
+		} else {
+			build.append("query values empty\n");
+		}
 		build.append("\n");
 		return build.toString();
 	}	

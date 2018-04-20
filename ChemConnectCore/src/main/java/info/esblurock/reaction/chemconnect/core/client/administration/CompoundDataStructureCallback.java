@@ -29,7 +29,7 @@ public class CompoundDataStructureCallback implements AsyncCallback<RecordInform
 		ElementsOfASetOfMainStructure elements = record.getSubelements();
 		ArrayList<CompoundDataStructureInformation> lst = elements.getElements();
 		for (CompoundDataStructureInformation info : lst) {
-			RecordStructureCollapsible collapsible = new RecordStructureCollapsible(info);
+			RecordStructureCollapsible collapsible = new RecordStructureCollapsible(record.getObject(), info);
 			main.getCollapsible().add(collapsible);
 		}
 	}

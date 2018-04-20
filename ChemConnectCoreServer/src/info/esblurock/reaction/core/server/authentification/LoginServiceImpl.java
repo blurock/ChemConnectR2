@@ -10,6 +10,7 @@ import java.util.List;
 import info.esblurock.reaction.chemconnect.core.common.client.async.LoginService;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.contact.DatabasePerson;
+import info.esblurock.reaction.chemconnect.core.data.contact.IndividualInformation;
 import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
 import info.esblurock.reaction.chemconnect.core.data.login.UnverifiedUserAccount;
 import info.esblurock.reaction.chemconnect.core.data.login.UserAccountInformation;
@@ -53,8 +54,8 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 			QueryBase.getNextEventCount(name);
 			
 			try {
-			DatabasePerson person = (DatabasePerson)
-			QueryBase.getFirstDatabaseObjectsFromSingleProperty(DatabasePerson.class.getCanonicalName(), 
+				IndividualInformation person = (IndividualInformation)
+			QueryBase.getFirstDatabaseObjectsFromSingleProperty(IndividualInformation.class.getCanonicalName(), 
 					"owner", "Administration");
 			System.out.println("User: " + person.toString());
 			} catch(IOException ex) {

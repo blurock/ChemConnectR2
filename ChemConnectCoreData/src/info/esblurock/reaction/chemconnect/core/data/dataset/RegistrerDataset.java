@@ -3,6 +3,7 @@ package info.esblurock.reaction.chemconnect.core.data.dataset;
 import com.googlecode.objectify.ObjectifyService;
 
 import info.esblurock.reaction.chemconnect.core.data.base.ResetDatabaseObjects;
+import info.esblurock.reaction.chemconnect.core.data.dataset.device.DeviceSubsystemElement;
 
 public class RegistrerDataset {
 		public static void register() {
@@ -17,6 +18,8 @@ public class RegistrerDataset {
 			ObjectifyService.register(ParameterDescriptionSet.class);
 			ObjectifyService.register(DataSpecification.class);
 			ObjectifyService.register(DatasetCatalogHierarchy.class);
+			ObjectifyService.register(DeviceSubsystemElement.class);
+			ObjectifyService.register(SetOfKeywords.class);
 			
 		}
 		
@@ -31,6 +34,7 @@ public class RegistrerDataset {
 			ResetDatabaseObjects.resetClass(ParameterDescriptionSet.class);
 			ResetDatabaseObjects.resetClass(DataSpecification.class);
 			ResetDatabaseObjects.resetClass(DatasetCatalogHierarchy.class);
-			
+			ResetDatabaseObjects.resetClass(DeviceSubsystemElement.class);
+			ResetDatabaseObjects.resetClass(SetOfKeywords.class);
 		}	
 }

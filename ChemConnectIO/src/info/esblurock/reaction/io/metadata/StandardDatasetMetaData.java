@@ -35,6 +35,7 @@ public class StandardDatasetMetaData {
 	public static String dataTypeKeyS = "dcterms:type";
 	public static String keywordKeyS = "dcat:keyword";
 	public static String sourceDateKeyS = "dcterms:created";
+	public static String setOfKeywordsS = "dataset:SetOfKeywords";
 
 	public static String parentCatalogS = "dcterms:CatalogRecord";
 	public static String parameterDescriptionS = "qb:observation";
@@ -119,6 +120,7 @@ public class StandardDatasetMetaData {
 	public static String conversionStructure = "dataset:conversionType";
 	
 	public static String propertyTypeS = "dataset:propertyType";
+	public static String valueTypeS = "dataset:valueType";
 	public static String valueS = "dataset:value";
 	
 	public static String unitS = "dataset:unit";

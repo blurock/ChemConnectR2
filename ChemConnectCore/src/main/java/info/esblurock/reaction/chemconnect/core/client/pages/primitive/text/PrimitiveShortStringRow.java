@@ -69,7 +69,7 @@ public class PrimitiveShortStringRow extends Composite implements HasText, Choos
 		value.setTextColor(Color.BLACK);
 	}
 	public void fill(PrimitiveDataStructureInformation info) {
-		typeWithNamespace = info.getPropertyType();
+		typeWithNamespace = info.getType();
 		identifier =info.getIdentifier();
 		tip.setText(identifier);
 		type.setText(TextUtilities.removeNamespace(typeWithNamespace));

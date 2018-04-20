@@ -320,7 +320,6 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		values.add("bucket",GoogleCloudStorageConstants.uploadBucket);
 		System.out.println("getUploadedFiles()");
 		QuerySetupBase query = new QuerySetupBase(GCSBlobFileInformation.class.getCanonicalName(),values);
-		System.out.println(query.toString());
 		try {
 			result = QueryBase.StandardQueryResult(query);
 		} catch (ClassNotFoundException e) {

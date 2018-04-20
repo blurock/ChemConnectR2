@@ -20,39 +20,33 @@ public class IndividualInformation extends ChemConnectDataStructure {
 	@Index
 	String personalDescriptionID;
 	
-	@Unindex
-	HashSet<String> organizationID;
-
 	public IndividualInformation() {
 		this.contactInfoDataID = "";
 		this.contactLocationInformationID = "";
 		this.personalDescriptionID = "";
-		this.organizationID = new HashSet<String>();		
 	}
 	public IndividualInformation(String identifier, String sourceID) {
 		super(identifier,sourceID);
 		this.contactInfoDataID = "";
 		this.contactLocationInformationID = "";
 		this.personalDescriptionID = "";
-		this.organizationID = new HashSet<String>();		
 	}
 	
 	public IndividualInformation(ChemConnectDataStructure datastructure,
 			String contactInfoDataID, String contactLocationInformationID,
-			String personalDescriptionID, HashSet<String> organizationID) {
+			String personalDescriptionID) {
 		fill(datastructure,
 				contactInfoDataID,contactLocationInformationID,
-				personalDescriptionID,organizationID);
+				personalDescriptionID);
 	}
 
 	public void fill(ChemConnectDataStructure datastructure,
 			String contactInfoDataID, String contactLocationInformationID,
-			String personalDescriptionID, HashSet<String> organizationID) {
+			String personalDescriptionID) {
 		super.fill(datastructure);
 		this.contactInfoDataID = contactInfoDataID;
 		this.contactLocationInformationID = contactLocationInformationID;
 		this.personalDescriptionID = personalDescriptionID;
-		this.organizationID = organizationID;
 	}
 	
 	public String getContactInfoDataID() {
@@ -67,9 +61,6 @@ public class IndividualInformation extends ChemConnectDataStructure {
 		return personalDescriptionID;
 	}
 
-	public HashSet<String> getOrganizationID() {
-		return organizationID;
-	}
 	public String toString() {
 		return toString("");
 	}
@@ -81,7 +72,6 @@ public class IndividualInformation extends ChemConnectDataStructure {
 		build.append("Contact Location: " + contactLocationInformationID + "\n");
 		build.append(prefix);
 		build.append("Personal Description: " +  personalDescriptionID + ",  ");
-		build.append("Organizations" + organizationID + "\n");
 		return build.toString();
 	}
 }

@@ -10,8 +10,8 @@ import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructu
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.contact.ContactInfoData;
 import info.esblurock.reaction.chemconnect.core.data.contact.ContactLocationInformation;
-import info.esblurock.reaction.chemconnect.core.data.contact.DatabasePerson;
 import info.esblurock.reaction.chemconnect.core.data.contact.GPSLocation;
+import info.esblurock.reaction.chemconnect.core.data.contact.IndividualInformation;
 import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
 import info.esblurock.reaction.chemconnect.core.data.contact.Organization;
 import info.esblurock.reaction.chemconnect.core.data.contact.OrganizationDescription;
@@ -21,6 +21,7 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.structure.Database
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataObjectLink;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHierarchy;
 import info.esblurock.reaction.chemconnect.core.data.dataset.PurposeConceptPair;
+import info.esblurock.reaction.chemconnect.core.data.dataset.SetOfKeywords;
 import info.esblurock.reaction.chemconnect.core.data.dataset.device.DeviceSubsystemElement;
 import info.esblurock.reaction.chemconnect.core.data.description.DescriptionDataData;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
@@ -43,7 +44,7 @@ public class CreateDefaultObjectsFactory {
 				onlinedescription, concept,purpose);
 		
 		ChemConnectDataStructure structure = new ChemConnectDataStructure(obj,descr.getObject().getIdentifier());
-		DatabasePerson info = new DatabasePerson(structure, 
+		IndividualInformation info = new IndividualInformation(structure, 
 				contact.getObject().getIdentifier(),
 				location.getObject().getIdentifier(),
 				personal.getObject().getIdentifier());
@@ -100,7 +101,7 @@ public class CreateDefaultObjectsFactory {
 	
 	public static DatabaseObjectHierarchy createCataogHierarchyForUser(DatabaseObject obj, 
 			String userid, String organizationid) {
-		Map<String, DataElementInformation> elementmap = createElementMap("dataset:DataSetCatalog");
+		Map<String, DataElementInformation> elementmap = createElementMap("dataset:DatasetCatalogHierarchy");
 		System.out.println(elementmap);
 
 		ChemConnectDataStructure userstructure = new ChemConnectDataStructure(obj);
@@ -201,6 +202,7 @@ public class CreateDefaultObjectsFactory {
 		DatabaseObject gpsobj = new DatabaseObject(compound2);
 		Map<String, DataElementInformation> elementmap2 = createElementMap("dataset:ContactLocationInformation");
 		String gpsid = createSuffix(compound2,"dataset:GPSLocation",elementmap2);
+		gpsobj.setIdentifier(gpsid);
 		GPSLocation gps = new GPSLocation(gpsobj);
 		
 		ContactLocationInformation location = new ContactLocationInformation(compound2,gpsid);
@@ -219,7 +221,9 @@ public class CreateDefaultObjectsFactory {
 		dobj.setIdentifier(descid);
 		ChemConnectCompoundDataStructure compound3 = new ChemConnectCompoundDataStructure(dobj,obj.getIdentifier());
 		
-		String personid = createSuffix(compound3,"dataset:PersonalDescription",elementmap);
+		
+		Map<String, DataElementInformation> elementmap2 = createElementMap("dataset:PersonalDescription");
+		String personid = createSuffix(compound3,"dataset:NameOfPerson",elementmap2);
 		person.setIdentifier(personid);
 		
 		PersonalDescription description = new PersonalDescription(compound3, userClassification,personid);
@@ -246,17 +250,22 @@ public class CreateDefaultObjectsFactory {
 		conceptobj.setIdentifier(conceptid);
 		PurposeConceptPair pair = new PurposeConceptPair(conceptobj, concept,purpose);
 		
+		DatabaseObject keyobj = new DatabaseObject(cobj);
+		String keysid = createSuffix(cobj,"dataset:SetOfKeywords",subelementmap);
+		keyobj.setIdentifier(keysid);
+		SetOfKeywords keywords = new SetOfKeywords(keyobj);
 		String fulldescription = "";
 		Date sourceDate = new Date();
 		String dataType = "";
-		HashSet<String> keywords = new HashSet<String>();
 		DescriptionDataData descr = new DescriptionDataData(compound,
 				onlinedescription, fulldescription, pair.getIdentifier(), 
-				sourceDate, dataType, keywords);
+				sourceDate, dataType, keysid);
 
 		DatabaseObjectHierarchy top = new DatabaseObjectHierarchy(descr);
 		DatabaseObjectHierarchy sub = new DatabaseObjectHierarchy(pair);
+		DatabaseObjectHierarchy keys = new DatabaseObjectHierarchy(keywords);
 		top.addSubobject(sub);
+		top.addSubobject(keys);
 
 		return top;
 	}

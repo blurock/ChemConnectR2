@@ -11,12 +11,14 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
+import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialCollapsibleItem;
 import gwt.material.design.client.ui.MaterialColumn;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import info.esblurock.reaction.chemconnect.core.client.administration.GetMainStructureSubElementsCallback;
+import info.esblurock.reaction.chemconnect.core.client.administration.ListOfMainDataObjectCallback;
 import info.esblurock.reaction.chemconnect.core.client.cards.CardModal;
 import info.esblurock.reaction.chemconnect.core.client.cards.ClassificationInformationCard;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.CreatePrimitiveStructure;
@@ -148,7 +150,8 @@ public class MainDataStructureCollapsible extends Composite {
 				structureWithPrimitiveStructure(subobj,subelement,create);
 			}  catch (Exception ex) {
 				
-				PrimitiveDataStructureInformation info = new PrimitiveDataStructureInformation(subobj,structurename,
+				PrimitiveDataStructureInformation info = new PrimitiveDataStructureInformation(subobj,
+						subelement.getDataElementName(), structurename,
 					subelement.getIdentifier());
 				DefaultPrimiiveDataStructure defaultbase = new DefaultPrimiiveDataStructure(info);
 				content.add(defaultbase);
@@ -210,6 +213,9 @@ public class MainDataStructureCollapsible extends Composite {
 
 	public void setStructureSubElements(ChemConnectCompoundDataStructure subelements) {
 		this.subelements = subelements;
+		ContactDatabaseAccessAsync async = ContactDatabaseAccess.Util.getInstance();
+		ListOfMainDataObjectCallback callback = new ListOfMainDataObjectCallback(this);
+		async.getMainObjects(clsinfo, callback);
 	}
 
 	public ClassificationInformation getClsinfo() {
@@ -218,6 +224,12 @@ public class MainDataStructureCollapsible extends Composite {
 
 	public ChemConnectCompoundDataStructure getSubelements() {
 		return subelements;
+	}
+
+	public void addObjectCollapsible(MainDataStructureInstanceCollapsible collapsible) {
+		MaterialCollapsible object = new MaterialCollapsible();
+		object.add(collapsible);
+		content.add(object);
 	}
 	
 }

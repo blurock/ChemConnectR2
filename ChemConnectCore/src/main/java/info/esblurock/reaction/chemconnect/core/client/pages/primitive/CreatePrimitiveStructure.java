@@ -2,10 +2,13 @@ package info.esblurock.reaction.chemconnect.core.client.pages.primitive;
 
 
 
+import com.google.gwt.user.client.Window;
+
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.concept.PrimitiveConcept;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.PrimitiveObservationValuesWithSpecification;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.PrimitiveParameterSpecification;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.SetOfObservationsField;
+import info.esblurock.reaction.chemconnect.core.client.pages.primitive.reference.PrimitiveDateObject;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.reference.PrimitivePersonName;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.reference.PrimitiveReference;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.text.PrimitiveOneLine;
@@ -101,7 +104,26 @@ public enum CreatePrimitiveStructure {
 			return "Paragraph";
 		}
 		
-	}, ShortString {
+	}, ShortStringLabel {
+
+		@Override
+		public PrimitiveDataStructureBase createStructure(PrimitiveDataStructureInformation info) {
+			PrimitiveShortString shortstring = new PrimitiveShortString(info);
+			return shortstring;
+		}
+
+		@Override
+		public PrimitiveDataStructureBase createEmptyStructure() {
+			PrimitiveShortString shortstring = new PrimitiveShortString();
+			return shortstring;
+		}
+
+		@Override
+		public String getStructureName() {
+			return "ShortString";
+		}
+		
+	}, Classification {
 
 		@Override
 		public PrimitiveDataStructureBase createStructure(PrimitiveDataStructureInformation info) {
@@ -196,7 +218,26 @@ public enum CreatePrimitiveStructure {
 			return "NameOfPerson";
 		}
 		
-	}, DataSetReference {
+	}, DateObject {
+
+		@Override
+		public PrimitiveDataStructureBase createStructure(PrimitiveDataStructureInformation info) {
+			PrimitiveDateObject date = new PrimitiveDateObject(info);
+			return date;
+		}
+
+		@Override
+		public PrimitiveDataStructureBase createEmptyStructure() {
+			PrimitiveDateObject date = new PrimitiveDateObject();
+			return date;
+		}
+
+		@Override
+		public String getStructureName() {
+			return "Date";
+		}
+		
+	},DataSetReference {
 
 		@Override
 		public PrimitiveDataStructureBase createStructure(PrimitiveDataStructureInformation info) {
@@ -287,11 +328,13 @@ public enum CreatePrimitiveStructure {
 			try {
 				create = CreatePrimitiveStructure.valueOf(key);
 			} catch (Exception ex) {
+				Window.alert("CreatePrimitiveStructure (id): " + ex.toString());
 			}
 		} else {
 			try {
 				create = CreatePrimitiveStructure.valueOf(identifier);
 			} catch (Exception ex) {
+				Window.alert("CreatePrimitiveStructure (type): " + ex.toString());
 			}
 		}
 		return create;

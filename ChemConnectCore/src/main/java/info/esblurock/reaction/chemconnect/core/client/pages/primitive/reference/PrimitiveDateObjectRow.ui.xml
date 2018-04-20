@@ -1,6 +1,6 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:m="urn:import:gwt.material.design.client.ui" 
-	xmlns:ma="urn:import:gwt.material.design.addins.client"
+	xmlns:m="urn:import:gwt.material.design.client.ui" xmlns:ma="urn:import:gwt.material.design.addins.client"
 	xmlns:c="urn:import:gwt.material.design.addins.client.combobox">
 	<ui:style>
 	.important {
@@ -8,7 +8,6 @@
 	}
 	</ui:style>
 	<m:MaterialPanel ui:field="toppanel">
-	<m:MaterialPanel ui:field="modalpanel"/>
 		<m:MaterialRow>
 			<m:MaterialColumn grid="s1">
 				<m:MaterialTooltip ui:field="tip">
@@ -16,11 +15,11 @@
 				</m:MaterialTooltip>
 			</m:MaterialColumn>
 			<m:MaterialColumn grid="s3">
-					<m:MaterialLink ui:field="type"/>
+					<m:MaterialLink ui:field="dateType"  textColor="BLACK" />
 			</m:MaterialColumn>
 			<m:MaterialColumn grid="s8">
-				<m:MaterialLink ui:field="value" width="100%"  iconType="CREATE" iconColor="BLACK"/>
+				<m:MaterialDatePicker ui:field="value" textColor="BLACK" />
 			</m:MaterialColumn>
 		</m:MaterialRow>
 	</m:MaterialPanel>
-</ui:UiBinder>
+</ui:UiBinder> 

@@ -24,10 +24,14 @@ public class ElementsOfASetOfMainStructure implements Serializable {
 	}
 	
 	public String toString() {
+		return toString("");
+	}
+	public String toString(String prefix) {
 		StringBuilder build = new StringBuilder();
-		build.append("CompoundDataStructureInformation\n");
+		build.append(prefix + "CompoundDataStructureInformation\n");
+		String newprefix = prefix + "\t  ";
 		for(CompoundDataStructureInformation compound : elements) {
-			build.append(compound);
+			build.append(compound.toString(newprefix));
 		}
 		return build.toString();
 	}
@@ -35,5 +39,6 @@ public class ElementsOfASetOfMainStructure implements Serializable {
 	public ArrayList<CompoundDataStructureInformation> getElements() {
 		return elements;
 	}
+	
 	
 }

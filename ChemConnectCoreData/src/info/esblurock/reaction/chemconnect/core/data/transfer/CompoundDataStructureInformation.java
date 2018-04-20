@@ -48,19 +48,23 @@ public class CompoundDataStructureInformation implements Serializable {
 		return primitiveelements;
 	}
 	public String toString() {
+		return toString("");
+	}
+		public String toString(String prefix) {
 		StringBuilder build = new StringBuilder();
-		build.append(propertyType);
+		build.append(prefix + propertyType);
 		build.append(" (");
 		build.append(chemconnectcompound);
 		build.append(")\n");
-		build.append("Primitive\n");
+		build.append(prefix + "Primitive\n");
+		String newprefix = prefix + "\t  ";
 		for(PrimitiveDataStructureInformation info : primitiveelements) {
-			build.append(info.toString());
+			build.append(info.toString(newprefix));
 			build.append("\n");
 		}
-		build.append("Compound Structures\n");
+		build.append(prefix + "Compound Structures\n");
 		for(CompoundDataStructureInformation info : compoundelements) {
-			build.append(info.toString());
+			build.append(info.toString(newprefix));
 			build.append("\n");
 		}
 		
