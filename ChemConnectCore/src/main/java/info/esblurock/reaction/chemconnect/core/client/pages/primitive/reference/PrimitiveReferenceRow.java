@@ -21,6 +21,8 @@ import info.esblurock.reaction.chemconnect.core.client.modal.SetLineContentInter
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.CreatePrimitiveStructure;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.value.MultipleRecordsPrimitiveRow;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.description.DataSetReference;
+import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveInterpretedInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveReferenceInformation;
 
 public class PrimitiveReferenceRow extends Composite implements SetLineContentInterface {
@@ -69,14 +71,15 @@ public class PrimitiveReferenceRow extends Composite implements SetLineContentIn
 	String titlePlaceholderS;
 	String referenceStringS;
 	String referenceStringPlaceholderS;
-	PrimitiveReferenceInformation referenceinfo;
+	PrimitiveInterpretedInformation referenceinfo;
+	DataSetReference reference;
 	
 	public PrimitiveReferenceRow() {
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
 	}
 
-	public PrimitiveReferenceRow(PrimitiveReferenceInformation referenceinfo) {
+	public PrimitiveReferenceRow(PrimitiveInterpretedInformation referenceinfo) {
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
 		this.referenceinfo = referenceinfo;
@@ -113,15 +116,16 @@ public class PrimitiveReferenceRow extends Composite implements SetLineContentIn
 		setFullIdentifier();
 	}
 	
-	public void fill(PrimitiveReferenceInformation referenceinfo) {
-		if(referenceinfo.getTitle() != null) {
-			title.setText(referenceinfo.getTitle());
+	public void fill(PrimitiveInterpretedInformation referenceinfo) {
+		reference = (DataSetReference) referenceinfo.getObj();
+		if(reference.getTitle() != null) {
+			title.setText(reference.getTitle());
 		}
-		if(referenceinfo.getReferenceString() != null) {
-			referenceString.setText(referenceinfo.getReferenceString());
+		if(reference.getReferenceString() != null) {
+			referenceString.setText(reference.getReferenceString());
 		}
-		if(referenceinfo.getDOI() != null) {
-			doi = referenceinfo.getDOI();
+		if(reference.getDOI() != null) {
+			doi = reference.getDOI();
 		}
 		setFullIdentifier();
 	}

@@ -115,6 +115,7 @@ public class RecordStructureCollapsible extends Composite {
 		datatype.setTextColor(Color.BLACK);
 		// info.setTextColor(Color.BLACK);
 		for (PrimitiveDataStructureInformation primitive : compound.getPrimitiveelements()) {
+			Window.alert("RecordStructureCollapsible: " + primitive.toString());
 			CreatePrimitiveStructure create = CreatePrimitiveStructure.getStructureType(primitive);
 			DatabaseObject subobj = new DatabaseObject(primitive);
 			String id = obj.getIdentifier() + "-" + primitive.getPropertyType();
@@ -129,6 +130,11 @@ public class RecordStructureCollapsible extends Composite {
 				base.setIdentifier(subobj);
 				panel.add(base);
 			}
+		}
+		for (CompoundDataStructureInformation primitive : compound.getCompoundelements()) {
+			DatabaseObject subobj = new DatabaseObject(obj);
+			
+			Window.alert(primitive.toString());
 		}
 	}
 

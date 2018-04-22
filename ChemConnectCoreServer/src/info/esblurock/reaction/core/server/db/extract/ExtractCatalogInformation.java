@@ -13,6 +13,7 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInforma
 import info.esblurock.reaction.chemconnect.core.data.transfer.DatasetInformationFromOntology;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ElementsOfASetOfMainStructure;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveInterpretedInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.RecordInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.io.dataset.InterpretData;
@@ -121,8 +122,6 @@ public class ExtractCatalogInformation {
 			System.out.println("extractCompoundDataStructure primitive id=" + objid);
 			String simplestructure = "dataset:ChemConnectPrimitiveDataStructure";
 			String compoundstructure = "dataset:ChemConnectPrimitiveCompound";
-			System.out.println(
-					"primitivetype.contains(simplestructure: " + simplestructure + "\n" + primitivetype.toString());
 			if (primitivetype.contains(simplestructure)) {
 				System.out.println("dataset:ChemConnectPrimitiveDataStructure");
 				if (primitive.isSinglet()) {
@@ -164,17 +163,31 @@ public class ExtractCatalogInformation {
 			} else if (primitivetype.contains(compoundstructure)) {
 				System.out.println("ChemConnectPrimitiveCompound:   " + primitive.getChemconnectStructure());
 				InterpretData subinterpret = InterpretData.valueOf(primitive.getChemconnectStructure());
+				if(subinterpret != null) {
 				try {
 					DatabaseObject subobj = subinterpret.readElementFromDatabase(objid);
 					System.out.println("ChemConnectPrimitiveCompound:   " + subobj.toString());
-					Map<String, Object> submap = subinterpret.createYamlFromObject(subobj);
+					PrimitiveDataStructureInformation subprimitive = new PrimitiveDataStructureInformation(
+							subobj,
+							primitive.getDataElementName(),
+							primitive.getChemconnectStructure(),
+							objid);
+					PrimitiveInterpretedInformation interpreted = new PrimitiveInterpretedInformation(subprimitive,subobj);
+					System.out.println("ChemConnectPrimitiveCompound:\n" + interpreted.toString());
+					compound.addPrimitive(interpreted);
+				} catch (IOException ex) {
+					System.out.println("No elements found:   " + ex.toString());
+				}
+				} else {
+					System.out.println("Sub object not found to be interpreted: " + primitive.getChemconnectStructure());
+					@SuppressWarnings("unchecked")
+					Map<String, Object> submap = (Map<String, Object>) map.get(primitive.getIdentifier());
+					InterpretData objinterpret = InterpretData.valueOf("DatabaseObject");
+					DatabaseObject subobj = objinterpret.fillFromYamlString(obj, submap, obj.getSourceID());
 					CompoundDataStructureInformation subcompound = extractCompoundDataStructure(subobj, submap,
 							primitive);
 					System.out.println("ChemConnectPrimitiveCompound:   Compound=\n" + subcompound.toString());
-					
 					compound.addCompound(subcompound);
-				} catch (IOException ex) {
-					System.out.println("No elements found:   " + ex.toString());
 				}
 			}
 		}

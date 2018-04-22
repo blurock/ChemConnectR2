@@ -3,6 +3,7 @@ package info.esblurock.reaction.chemconnect.core.client.pages.primitive.referenc
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.PrimitiveDataStructureBase;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveInterpretedInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveReferenceInformation;
 
 public class PrimitiveReference extends PrimitiveDataStructureBase {
@@ -16,13 +17,13 @@ public class PrimitiveReference extends PrimitiveDataStructureBase {
 	
 	public PrimitiveReference(PrimitiveDataStructureInformation primitiveinfo) {
 		super();
-		PrimitiveReferenceInformation info = (PrimitiveReferenceInformation) primitiveinfo;
+		PrimitiveInterpretedInformation info = (PrimitiveInterpretedInformation) primitiveinfo;
 		row = new PrimitiveReferenceRow(info);
 		add(row);
 	}
 	@Override
 	public void fill(PrimitiveDataStructureInformation primitiveinfo) {
-		PrimitiveReferenceInformation info = (PrimitiveReferenceInformation) primitiveinfo;
+		PrimitiveInterpretedInformation info = (PrimitiveInterpretedInformation) primitiveinfo;
 		row.fill(info);
 		add(row);
 	}

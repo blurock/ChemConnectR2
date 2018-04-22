@@ -6,29 +6,27 @@ import info.esblurock.reaction.chemconnect.core.client.pages.primitive.Primitive
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveInterpretedInformation;
 
-public class PrimitivePersonName  extends PrimitiveDataStructureBase {
-
-	PrimitivePersonNameRow row;
+public class PrimitiveGPSLocation extends PrimitiveDataStructureBase {
+	PrimitiveGPSLocationRow row;
 	
-	public PrimitivePersonName() {
+	public PrimitiveGPSLocation() {
 		super();
-		row = new PrimitivePersonNameRow();
-		add(row);		
-	}
-
-	public PrimitivePersonName(PrimitiveDataStructureInformation primitiveinfo) {
-		super(primitiveinfo);
-		PrimitiveInterpretedInformation info = (PrimitiveInterpretedInformation) primitiveinfo;
-		row = new PrimitivePersonNameRow(info);
+		row = new PrimitiveGPSLocationRow();
 		add(row);
+	}
+	public PrimitiveGPSLocation(PrimitiveDataStructureInformation primitiveinfo) {
+		super();
+		Window.alert("PrimitiveGPSLocation : fill");
+		fill(primitiveinfo);
 	}
 	@Override
 	public void fill(PrimitiveDataStructureInformation primitiveinfo) {
 		PrimitiveInterpretedInformation info = (PrimitiveInterpretedInformation) primitiveinfo;
-		row.fill(info);
+		row = new PrimitiveGPSLocationRow(info);
 		add(row);
 	}
-
+	
+	
 	public String getIdentifier() {
 		return row.getIdentifier();
 	}

@@ -5,6 +5,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -16,7 +17,8 @@ import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.MaterialTooltip;
-import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitivePersonNameInformation;
+import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
+import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveInterpretedInformation;
 
 public class PrimitivePersonNameRow extends Composite implements 	PersonNameInterface {
 
@@ -46,7 +48,8 @@ public class PrimitivePersonNameRow extends Composite implements 	PersonNameInte
 
 	String identifier;
 	PrimitivePersonNameChip chip;
-	PrimitivePersonNameInformation info;
+	PrimitiveInterpretedInformation info;
+	NameOfPerson person;
 	
 	public PrimitivePersonNameRow() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -56,9 +59,12 @@ public class PrimitivePersonNameRow extends Composite implements 	PersonNameInte
 		names.add(chip);			
 	}
 
-	public PrimitivePersonNameRow(PrimitivePersonNameInformation info) {
+	public PrimitivePersonNameRow(PrimitiveInterpretedInformation info) {
 		initWidget(uiBinder.createAndBindUi(this));
 		identifier = info.getIdentifier();
+		Window.alert("PrimitivePersonNameRow");
+		init();
+		Window.alert("PrimitivePersonNameRow: after init");
 		addChip(info);
 	}
 	void init() {
@@ -78,37 +84,42 @@ public class PrimitivePersonNameRow extends Composite implements 	PersonNameInte
 		ok.setTextColor(Color.BLACK);
 		personmodal.setBackgroundColor(Color.GREY_LIGHTEN_4);
 	}
-	public void fillModal(PrimitivePersonNameInformation info, PrimitivePersonNameChip chip) {
-		if(info.getPersonTitle() != null) {
-			personTitle.setText(info.getPersonTitle());
+	public void fillModal(PrimitiveInterpretedInformation info, PrimitivePersonNameChip chip) {
+		person = (NameOfPerson) info.getObj();
+		if(person != null) {
+		if(person.getTitle() != null) {
+			personTitle.setText(person.getTitle());
 		} else {
 			personTitle.setText("");
 		}
-		if(info.getPersonGivenName() != null) {
-			personName.setText(info.getPersonGivenName());
+		if(person.getGivenName() != null) {
+			personName.setText(person.getGivenName());
 		} else {
 			personName.setText("");
 		}
-		if(info.getPersonFamiltyName() != null) {
-			personeFamilyName.setText(info.getPersonFamiltyName());
+		if(person.getFamilyName() != null) {
+			personeFamilyName.setText(person.getFamilyName());
 		} else {
 			personeFamilyName.setText("LastName");
 		}
 		identifiertip.setText(info.getIdentifier());
 		this.chip = chip;
 		this.info = info;
+		} else {
+			Window.alert("PrimitivePersonNameRow: no person");
+		}
 	}
 
-	public void fill(PrimitivePersonNameInformation info) {
+	public void fill(PrimitiveInterpretedInformation info) {
 		addChip(info);
 	}
-	public PrimitivePersonNameChip addChip(PrimitivePersonNameInformation info) {
+	public PrimitivePersonNameChip addChip(PrimitiveInterpretedInformation info) {
 		PrimitivePersonNameChip chip = new PrimitivePersonNameChip(info,this);
 		names.add(chip);		
 		return chip;
 	}
 	public PrimitivePersonNameChip addChip() {
-		PrimitivePersonNameInformation info = new PrimitivePersonNameInformation();
+		PrimitiveInterpretedInformation info = new PrimitiveInterpretedInformation();
 		return addChip(info);
 	}
 	public String getIdentifier() {
@@ -123,9 +134,11 @@ public class PrimitivePersonNameRow extends Composite implements 	PersonNameInte
 	}
 	@UiHandler("ok")
 	void onClickOK(ClickEvent e) {
-		info.setPersonTitle(personTitle.getText());
-		info.setPersonGivenName(personName.getText());
-		info.setValue(personeFamilyName.getText());
+		String title = personTitle.getText();
+		String name = personName.getText();
+		String family = personeFamilyName.getText();
+		person = new NameOfPerson(person,title,name,family);
+		info = new PrimitiveInterpretedInformation(info,person);
 		chip.setInfo(info);
 		personmodal.close();
 		MaterialToast.fireToast("Updated");

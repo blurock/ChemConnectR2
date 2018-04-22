@@ -9,6 +9,7 @@ import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observabl
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.PrimitiveParameterSpecification;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.SetOfObservationsField;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.reference.PrimitiveDateObject;
+import info.esblurock.reaction.chemconnect.core.client.pages.primitive.reference.PrimitiveGPSLocation;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.reference.PrimitivePersonName;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.reference.PrimitiveReference;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.text.PrimitiveOneLine;
@@ -17,9 +18,9 @@ import info.esblurock.reaction.chemconnect.core.client.pages.primitive.text.Prim
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.text.PrimitiveShortString;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.value.PrimitiveParameterValue;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveInterpretedInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterSpecificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterValueInformation;
-import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveReferenceInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.SetOfObservationsInformation;
 
 public enum CreatePrimitiveStructure {
@@ -203,6 +204,7 @@ public enum CreatePrimitiveStructure {
 
 		@Override
 		public PrimitiveDataStructureBase createStructure(PrimitiveDataStructureInformation info) {
+			Window.alert("Create NameOfPerson");
 			PrimitivePersonName person = new PrimitivePersonName(info);
 			return person;
 		}
@@ -241,7 +243,7 @@ public enum CreatePrimitiveStructure {
 
 		@Override
 		public PrimitiveDataStructureBase createStructure(PrimitiveDataStructureInformation info) {
-			PrimitiveReferenceInformation information = (PrimitiveReferenceInformation) info;
+			PrimitiveInterpretedInformation information = (PrimitiveInterpretedInformation) info;
 			PrimitiveReference reference = new PrimitiveReference(information);
 			return reference;
 		}
@@ -311,6 +313,25 @@ public enum CreatePrimitiveStructure {
 		@Override
 		public String getStructureName() {
 			return "dctermsdescription";
+		}
+		
+	}, GPSLocation {
+
+		@Override
+		public PrimitiveDataStructureBase createStructure(PrimitiveDataStructureInformation info) {
+			PrimitiveGPSLocation location = new PrimitiveGPSLocation(info);
+			return location;
+		}
+
+		@Override
+		public PrimitiveDataStructureBase createEmptyStructure() {
+			PrimitiveGPSLocation location = new PrimitiveGPSLocation();
+			return location;
+		}
+
+		@Override
+		public String getStructureName() {
+			return "GPSLocation";
 		}
 		
 	};
