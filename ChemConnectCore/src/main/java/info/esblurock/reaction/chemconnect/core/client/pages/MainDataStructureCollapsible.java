@@ -112,8 +112,9 @@ public class MainDataStructureCollapsible extends Composite {
 		String type = compound.getRecordType();
 		isParameterDescriptionSet = type.compareTo(parameterDescriptionSetS) == 0;
 		isObservationSpecification = type.compareTo(observationSpecificationS) == 0;
+		
 		this.subelements = compound;
-		clsinfo = new ClassificationInformation(null, null, null, obj.getIdentifier(), type);
+		clsinfo = new ClassificationInformation(null, null, null, obj.getIdentifier(), element.getChemconnectStructure());
 		if (subelements != null) {
 			datatype.setText(TextUtilities.removeNamespace(type));
 			init(type);
@@ -128,6 +129,7 @@ public class MainDataStructureCollapsible extends Composite {
 			ChemConnectCompoundDataStructure struct, MapToChemConnectCompoundDataStructure mapping) {
 		try {
 			CreatePrimitiveStructure create = CreatePrimitiveStructure.valueOf(element.getChemconnectStructure());
+
 			structureWithPrimitiveStructure(obj,element,create);
 		} catch (Exception ex) {
 			for (DataElementInformation subelement : struct) {

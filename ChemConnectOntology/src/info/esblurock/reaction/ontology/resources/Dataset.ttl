@@ -6893,7 +6893,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#SubSystemDescription
 :SubSystemDescription rdf:type owl:Class ;
-                      rdfs:subClassOf :ChemConnectDataStructure ;
+                      rdfs:subClassOf :ChemConnectDataStructure ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                        owl:onClass :ParameterDescriptionSet
+                                      ] ;
                       <http://purl.org/dc/elements/1.1/type> "SubSystemDescription"^^xsd:string ;
                       <http://purl.org/dc/terms/identifier> "ssn:hasSubSystem"^^xsd:string ;
                       rdfs:isDefinedBy <http://www.w3.org/ns/ssn/System> ;

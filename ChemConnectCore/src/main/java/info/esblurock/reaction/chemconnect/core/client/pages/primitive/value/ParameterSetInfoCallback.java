@@ -32,8 +32,6 @@ public class ParameterSetInfoCallback  implements AsyncCallback<ArrayList<Primit
 			PrimitiveDataStructureBase base = structuremap.get(elementName);
 			info.setIdentifier(obj.getIdentifier());
 			info.setAccess(obj.getAccess());
-			Window.alert("ParameterSetInfoCallback:  " + obj.getIdentifier());
-			Window.alert("ParameterSetInfoCallback  " + info.toString());
 			base.fill(info);
 		}
 	}

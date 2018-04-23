@@ -7,7 +7,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
@@ -83,8 +82,6 @@ public class MultipleRecordsPrimitiveRow extends Composite implements HasText {
 	}
 	
 	public PrimitiveDataStructureBase addStructure(PrimitiveDataStructureInformation info) {
-		//info.fill(obj.getIdentifier(), obj.getAccess(), obj.getOwner(), obj.getSourceID());
-		Window.alert("PrimitiveDataStructureBase:  " + obj.getIdentifier() + ", info id=" + info.getIdentifier());
 		PrimitiveDataStructureBase base = create.createStructure(info);
 		base.setIdentifier(obj);
 		contentList.add(base);

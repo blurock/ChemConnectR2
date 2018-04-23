@@ -18,6 +18,9 @@ public class PrimitiveDataStructureInformation extends DatabaseObject {
 	String value;
 	
 	public PrimitiveDataStructureInformation() {
+		this.type = null;
+		this.propertyType = null;
+		this.value = null;
 	}
 	
 	public PrimitiveDataStructureInformation(DatabaseObject obj, String type, String propertyType,

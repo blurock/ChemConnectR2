@@ -9,6 +9,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.concepts.SetOfUnitProperties;
+import info.esblurock.reaction.chemconnect.core.data.contact.GPSLocation;
 import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.data.rdf.SetOfKeywordRDF;
@@ -58,4 +59,5 @@ public interface ContactDatabaseAccess extends RemoteService {
 	SetOfObservationsTransfer getSetOfObservationsInformation(String observations);
 	ChemConnectDataStructure getSetOfObservationsStructructure();
 	DatabaseObject getBaseUserDatabaseObject();
+	GPSLocation getGPSLocation(DatabaseObject obj, String city, String country) throws IOException;
 }

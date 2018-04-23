@@ -7,6 +7,7 @@ import java.util.List;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.concepts.SetOfUnitProperties;
+import info.esblurock.reaction.chemconnect.core.data.contact.GPSLocation;
 import info.esblurock.reaction.chemconnect.core.data.contact.Organization;
 import info.esblurock.reaction.chemconnect.core.data.login.UserAccount;
 import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
@@ -16,6 +17,7 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInfo
 import info.esblurock.reaction.chemconnect.core.data.transfer.DatasetInformationFromOntology;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterValueInformation;
 import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
+import info.esblurock.reaction.core.server.db.extract.GeocodingLatituteAndLongitude;
 import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
 import info.esblurock.reaction.core.server.services.util.DatabaseObjectUtilities;
 import info.esblurock.reaction.io.dataset.InterpretData;
@@ -60,6 +62,7 @@ public class ContactDatabaseAccessImpl extends ServerBase implements ContactData
 	}
 
 	public SingleQueryResult getMainObjects(ClassificationInformation clsinfo) throws IOException {
+		System.out.println("getMainObjects: " + clsinfo.toString());
 		InterpretData interpret = InterpretData.valueOf(clsinfo.getDataType());
 		String classname = interpret.canonicalClassName();
 		System.out.println("getMainObjects: " + classname);
@@ -117,6 +120,14 @@ public class ContactDatabaseAccessImpl extends ServerBase implements ContactData
 		System.out.println("hierarchyOfConceptsWithLevelLimit" + hierarchy);
 		return hierarchy;
 	}
+	
+	public GPSLocation getGPSLocation(DatabaseObject obj, String city, String country) throws IOException {
+		GeocodingLatituteAndLongitude geo = new GeocodingLatituteAndLongitude();
+		geo.coordinates(city, country);
+		GPSLocation gps = new GPSLocation(obj, geo.getLatitude(), geo.getLongitude());
+		return gps;
+	}
+	
 
 	public TotalSubsystemInformation buildSubSystem(String concept) {
 		BuildSubsystemInformation build = new BuildSubsystemInformation(concept);
@@ -136,14 +147,12 @@ public class ContactDatabaseAccessImpl extends ServerBase implements ContactData
 	public ArrayList<PrimitiveParameterValueInformation> getParameterInfo(ArrayList<String> parameternames) {
 		System.out.println(parameternames);
 		ArrayList<PrimitiveParameterValueInformation> parameters = new ArrayList<PrimitiveParameterValueInformation>();
+		System.out.println("getParameterInfo: \n" + parameternames);
 		for (String name : parameternames) {
 			PrimitiveParameterValueInformation info = ConceptParsing.fillParameterInfo(name);
 			ContextAndSessionUtilities context = getUtilities();
 			String username = context.getUserName();
 			String sourceID = QueryBase.getDataSourceIdentification(username);
-
-			// info.setIdentifier(identifier);
-			// info.setAccess(access);
 			info.setOwner(username);
 			info.setSourceID(sourceID);
 			parameters.add(info);

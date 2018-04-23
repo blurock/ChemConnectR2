@@ -5,11 +5,11 @@ package info.esblurock.reaction.chemconnect.core.client.pages.primitive;
 import com.google.gwt.user.client.Window;
 
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.concept.PrimitiveConcept;
+import info.esblurock.reaction.chemconnect.core.client.pages.primitive.gps.PrimitiveGPSLocation;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.PrimitiveObservationValuesWithSpecification;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.PrimitiveParameterSpecification;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.SetOfObservationsField;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.reference.PrimitiveDateObject;
-import info.esblurock.reaction.chemconnect.core.client.pages.primitive.reference.PrimitiveGPSLocation;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.reference.PrimitivePersonName;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.reference.PrimitiveReference;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.text.PrimitiveOneLine;

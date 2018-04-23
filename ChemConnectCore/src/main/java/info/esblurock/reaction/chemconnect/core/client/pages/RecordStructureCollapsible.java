@@ -92,12 +92,10 @@ public class RecordStructureCollapsible extends Composite {
 			CreatePrimitiveStructure create = CreatePrimitiveStructure.valueOf(structurename);
 			PrimitiveDataStructureInformation info = new PrimitiveDataStructureInformation(obj,
 					structurename, element.getChemconnectStructure(), "");
-			Window.alert("RecordStructureCollapsible: primitive:  " + obj.getIdentifier());
 			PrimitiveDataStructureBase base = create.createStructure(info);
 			base.setIdentifier(obj);
 			infoheader.add(base);
 		} catch (Exception ex) {
-			Window.alert("RecordStructureCollapsible: primitive: empty ");
 			PrimitiveDataStructureInformation info = new PrimitiveDataStructureInformation(obj,structurename, element.getChemconnectStructure(), "");
 			DefaultPrimiiveDataStructure base = new DefaultPrimiiveDataStructure(info);
 			base.setIdentifier(obj);
@@ -115,7 +113,6 @@ public class RecordStructureCollapsible extends Composite {
 		datatype.setTextColor(Color.BLACK);
 		// info.setTextColor(Color.BLACK);
 		for (PrimitiveDataStructureInformation primitive : compound.getPrimitiveelements()) {
-			Window.alert("RecordStructureCollapsible: " + primitive.toString());
 			CreatePrimitiveStructure create = CreatePrimitiveStructure.getStructureType(primitive);
 			DatabaseObject subobj = new DatabaseObject(primitive);
 			String id = obj.getIdentifier() + "-" + primitive.getPropertyType();
@@ -134,7 +131,7 @@ public class RecordStructureCollapsible extends Composite {
 		for (CompoundDataStructureInformation primitive : compound.getCompoundelements()) {
 			DatabaseObject subobj = new DatabaseObject(obj);
 			
-			Window.alert(primitive.toString());
+			Window.alert("Compound:   " + primitive.toString());
 		}
 	}
 

@@ -25,7 +25,8 @@ public class BuildSubsystemInformation {
 		total = new TotalSubsystemInformation(concept);
 		HierarchyNode info = buildHierarchy(concept,total.getSubsystemsandcomponents(), total.getAttributesubsystemMap());
 		total.setSubsystemtree(info);
-		ChemConnectDataStructure struct = DatasetOntologyParsing.getChemConnectDataStructure("dataset:DeviceDescription");
+		ChemConnectDataStructure struct = DatasetOntologyParsing.getChemConnectDataStructure("dataset:SubSystemDescription");
+		System.out.println("BuildSubsystemInformation:  " + struct.toString());
 		total.setInfoStructure(struct);
 		System.out.println(total.toString());
 	}

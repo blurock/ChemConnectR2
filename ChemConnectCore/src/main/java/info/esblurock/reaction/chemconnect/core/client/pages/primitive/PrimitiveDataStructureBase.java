@@ -34,10 +34,10 @@ public class PrimitiveDataStructureBase extends Composite {
 
 	public PrimitiveDataStructureBase(PrimitiveDataStructureInformation primitiveinfo) {
 		initWidget(uiBinder.createAndBindUi(this));
+		this.primitiveinfo = primitiveinfo;
 		init();
 		this.primitiveinfo = primitiveinfo;
 		obj = new DatabaseObject(primitiveinfo);
-		setIdentifier(obj);
 	}
 	public void init() {
 		editable = false;
