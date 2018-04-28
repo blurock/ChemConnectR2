@@ -179,12 +179,16 @@ public class ContactDatabaseAccessImpl extends ServerBase implements ContactData
 		return build.getTransfer();
 	}
 
-	public ChemConnectDataStructure getSetOfObservationsStructructure() {
+	public ChemConnectDataStructure getChemConnectDataStructure(String structureS) {
 		ChemConnectDataStructure structure = DatasetOntologyParsing
-				.getChemConnectDataStructure("dataset:SetOfObservationsStructure");
+				.getChemConnectDataStructure(structureS);
 		DatabaseObject obj = getBaseUserDatabaseObject();
 		structure.setIdentifier(obj);
 		return structure;
+	}
+	
+	public ChemConnectDataStructure getSetOfObservationsStructructure() {
+		return getChemConnectDataStructure("dataset:SetOfObservationsStructure");
 	}
 	
 	public void delete() {

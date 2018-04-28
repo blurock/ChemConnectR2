@@ -126,6 +126,10 @@ public class ChemConnectDataStructureTest {
 		ChemConnectDataStructure struct3 = DatasetOntologyParsing.getChemConnectDataStructure("dataset:Organization");
 		System.out.println("getChemConnectDataStructure(\"dataset:Organization\");");
 		System.out.println(struct3);
+
+		ChemConnectDataStructure struct4 = DatasetOntologyParsing.getChemConnectDataStructure("dataset:DatasetCatalogHierarchy");
+		System.out.println("getChemConnectDataStructure(\"dataset:DatasetCatalogHierarchy\");");
+		System.out.println(struct4);
 	}
 
 }

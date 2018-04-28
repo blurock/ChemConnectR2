@@ -15,7 +15,6 @@ import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialToast;
-import info.esblurock.reaction.chemconnect.core.client.administration.ChemConnectDataStructureInterface;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.ObservationStructureCallback;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.SetOfObservationsCollapsible;
 import info.esblurock.reaction.chemconnect.core.client.modal.InputLineModal;
@@ -28,7 +27,7 @@ import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
 
-public class SetOfObservationsDefinition extends Composite implements  SetLineContentInterface, ChemConnectDataStructureInterface {
+public class SetOfObservationsDefinition extends Composite implements  SetLineContentInterface {
 
 	private static SetOfObservationsDefinitionUiBinder uiBinder = GWT.create(SetOfObservationsDefinitionUiBinder.class);
 
@@ -101,7 +100,6 @@ public class SetOfObservationsDefinition extends Composite implements  SetLineCo
 		async.getSetOfObservationsStructructure(callback);
 	}
 
-	@Override
 	public void addChemConnectDataStructure(ChemConnectDataStructure structure) {
 		DatabaseObject topobj = structure.getIdentifier();
 		String id = topname.getText();

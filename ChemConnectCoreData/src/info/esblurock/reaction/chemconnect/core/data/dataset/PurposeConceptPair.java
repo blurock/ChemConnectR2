@@ -13,6 +13,13 @@ public class PurposeConceptPair extends DatabaseObject {
 	String purpose;
 	@Index
 	String concept;
+	
+	
+	public PurposeConceptPair() {
+		purpose = "";
+		concept = "";
+	}
+	
 	public PurposeConceptPair(DatabaseObject obj, String purpose, String concept) {
 		fill(obj,purpose,concept);
 	}

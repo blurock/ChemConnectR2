@@ -67,4 +67,7 @@ public interface ContactDatabaseAccessAsync {
 
 	void getGPSLocation(DatabaseObject obj, String city, String country, AsyncCallback<GPSLocation> callback);
 
+	void getChemConnectDataStructure(String structureS, AsyncCallback<ChemConnectDataStructure> callback);
+
+
 }

@@ -1,11 +1,7 @@
 package info.esblurock.reaction.chemconnect.core.client.pages.primitive.reference;
 
-import gwt.material.design.client.constants.Color;
-import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHeirarchy;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.PrimitiveDataStructureBase;
-import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
-import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitivePersonNameInformation;
 
 public class PrimitiveDateObject extends PrimitiveDataStructureBase  {
 

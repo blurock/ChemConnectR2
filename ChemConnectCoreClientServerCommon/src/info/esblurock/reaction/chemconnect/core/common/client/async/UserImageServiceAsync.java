@@ -4,11 +4,13 @@ import java.util.ArrayList;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.data.image.ImageServiceInformation;
 import info.esblurock.reaction.chemconnect.core.data.image.UploadedImage;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.TransferDatabaseCatalogHierarchy;
 
 
@@ -51,6 +53,8 @@ public interface UserImageServiceAsync {
 	void getFileInterpretionChoices(GCSBlobFileInformation info, AsyncCallback<HierarchyNode> callback);
 
 	void getUserDatasetCatalogHierarchy(String username, AsyncCallback<TransferDatabaseCatalogHierarchy> callback);
+
+	void getNewCatalogHierarchy(DatabaseObject obj, String id, String onelinedescription, AsyncCallback<DatabaseObjectHierarchy> callback);
 	
 
 }

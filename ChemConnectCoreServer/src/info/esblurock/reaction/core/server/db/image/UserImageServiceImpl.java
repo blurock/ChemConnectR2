@@ -14,9 +14,6 @@ import java.util.Scanner;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.blobstore.UploadOptions;
-import com.google.appengine.tools.cloudstorage.GcsService;
-import com.google.appengine.tools.cloudstorage.GcsServiceFactory;
-import com.google.appengine.tools.cloudstorage.RetryParams;
 import com.google.cloud.WriteChannel;
 import com.google.cloud.storage.Acl;
 import com.google.cloud.storage.Blob;
@@ -32,6 +29,7 @@ import com.google.cloud.storage.Acl.User;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.base.GoogleCloudStorageConstants;
+import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHierarchy;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.data.gcs.ParsedFilename;
@@ -44,8 +42,11 @@ import info.esblurock.reaction.chemconnect.core.data.query.SetOfQueryPropertyVal
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.data.transaction.TransactionInfo;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.TransferDatabaseCatalogHierarchy;
 import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
+import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
+import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFactory;
 import info.esblurock.reaction.core.server.services.ServerBase;
 import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
 import info.esblurock.reaction.core.server.services.util.ParseUtilities;
@@ -390,6 +391,16 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		return ReadWriteDatabaseCatalog.getUserDatasetCatalogHierarchy(username);
 	}
 	
+	public DatabaseObjectHierarchy getNewCatalogHierarchy(DatabaseObject obj, String id, String onelinedescription) throws IOException {
+		System.out.println("getNewCatalogHierarchy: " + obj.toString());
+		String classname = DatasetCatalogHierarchy.class.getCanonicalName();
+		DatasetCatalogHierarchy catalog = (DatasetCatalogHierarchy) 
+				QueryBase.getDatabaseObjectFromIdentifier(classname, obj.getIdentifier());
+		DatabaseObjectHierarchy subs = CreateDefaultObjectsFactory.createCatalogHierarchy(catalog,obj,id,onelinedescription);
+		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(subs);	
+		DatabaseWriteBase.writeDatabaseObject(catalog);
+		return subs;
+	}
 	
 	public HierarchyNode getFileInterpretionChoices(GCSBlobFileInformation info) throws IOException {
 		ParsedFilename parsed = parseFilename(info);

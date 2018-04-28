@@ -7,11 +7,13 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.data.image.ImageServiceInformation;
 import info.esblurock.reaction.chemconnect.core.data.image.UploadedImage;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.TransferDatabaseCatalogHierarchy;
 
 
@@ -70,4 +72,6 @@ public interface UserImageService  extends RemoteService  {
 	HierarchyNode getFileInterpretionChoices(GCSBlobFileInformation info) throws IOException;
 	
 	TransferDatabaseCatalogHierarchy getUserDatasetCatalogHierarchy(String username) throws IOException;
+	
+	DatabaseObjectHierarchy getNewCatalogHierarchy(DatabaseObject obj, String id, String onelinedescription) throws IOException;
 }

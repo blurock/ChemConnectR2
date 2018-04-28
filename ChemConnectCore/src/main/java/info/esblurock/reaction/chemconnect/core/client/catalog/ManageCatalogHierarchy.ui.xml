@@ -10,13 +10,15 @@
 		<m:MaterialPanel ui:field="modalpanel" />
 		<m:MaterialDivider />
 		<m:MaterialRow>
-			<m:MaterialColumn grid="s12">
+			<m:MaterialColumn grid="s11">
 				<m:MaterialTooltip ui:field="identifiertip">
 					<m:MaterialTitle ui:field="title" textColor="BLACK" />
 				</m:MaterialTooltip>
 			</m:MaterialColumn>
+			<m:MaterialColumn grid="s1">
+			<m:MaterialIcon ui:field="refresh" iconColor="BLACK" iconType="REFRESH"/>
+			</m:MaterialColumn>
 		</m:MaterialRow>
-
 		<m:MaterialCollapsible ui:field="catalog">
 		</m:MaterialCollapsible>
 	</m:MaterialPanel>

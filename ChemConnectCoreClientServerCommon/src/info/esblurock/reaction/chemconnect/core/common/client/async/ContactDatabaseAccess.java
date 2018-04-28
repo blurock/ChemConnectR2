@@ -60,4 +60,5 @@ public interface ContactDatabaseAccess extends RemoteService {
 	ChemConnectDataStructure getSetOfObservationsStructructure();
 	DatabaseObject getBaseUserDatabaseObject();
 	GPSLocation getGPSLocation(DatabaseObject obj, String city, String country) throws IOException;
+	ChemConnectDataStructure getChemConnectDataStructure(String structureS);
 }

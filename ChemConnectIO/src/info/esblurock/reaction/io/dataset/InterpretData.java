@@ -234,8 +234,8 @@ public enum InterpretData {
 			DatasetCatalogHierarchy datastructure = null;
 			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
 			ChemConnectDataStructure objdata = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);					
-			
-			datastructure = new DatasetCatalogHierarchy(objdata);
+			String simplename = "";
+			datastructure = new DatasetCatalogHierarchy(simplename,objdata);
 			
 			return datastructure;
 		}
@@ -422,8 +422,8 @@ public enum InterpretData {
 				throws IOException {
 
 			DescriptionDataData descdata = null;
-			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
-			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);
+			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
+			ChemConnectCompoundDataStructure objdata = (ChemConnectCompoundDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
 
 			String titleS = (String) yaml.get(StandardDatasetMetaData.titleKeyS);
 			String descriptionS = (String) yaml.get(StandardDatasetMetaData.descriptionKeyS);
@@ -474,6 +474,41 @@ public enum InterpretData {
 			return DescriptionDataData.class.getCanonicalName();
 		}
 
+	}, CatalogName {
+
+		@Override
+		public info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject fillFromYamlString(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject top, Map<String, Object> yaml,
+				String sourceID) throws IOException {
+
+			DescriptionDataData descdata = null;
+			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
+			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);
+
+			String titleS = (String) yaml.get(StandardDatasetMetaData.titleKeyS);
+			return null;
+		}
+
+		@Override
+		public Map<String, Object> createYamlFromObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject object) throws IOException {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject readElementFromDatabase(
+				String identifier) throws IOException {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public String canonicalClassName() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		
 	},
 	DataSpecification {
 

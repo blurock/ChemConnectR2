@@ -13,8 +13,6 @@ import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTextBox;
 import info.esblurock.reaction.chemconnect.core.client.cards.CardModal;
-import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
-import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.contact.GPSLocation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;

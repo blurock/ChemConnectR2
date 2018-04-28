@@ -375,7 +375,7 @@ dataset:ChemConnectPrimitiveDataStructure:
 		if (stringlst.size() > 0) {
 			String idS = stringlst.get(0).get("id");
 			String typeS = stringlst.get(0).get("type");
-			String superS = stringlst.get(0).get("super");
+			//String superS = stringlst.get(0).get("super");
 			String altlabelS = stringlst.get(0).get("altl");
 			info = new DataElementInformation(structure, null, true, 1, typeS, idS,altlabelS);
 		}

@@ -15,7 +15,7 @@ public class DatabaseObjectHierarchy implements Serializable {
 		object = null;
 		init();
 	}
-		public DatabaseObjectHierarchy(DatabaseObject object) {
+	public DatabaseObjectHierarchy(DatabaseObject object) {
 		this.object = object;
 		init();
 	}
@@ -45,7 +45,11 @@ public class DatabaseObjectHierarchy implements Serializable {
 		builder.append(prefix);
 		builder.append("---------- DatabaseObjectHierarchy ---------- " 
 		+ subobjects.size() + "\n");
-		builder.append(object.toString(prefix));
+		if(object != null) {
+			builder.append(object.toString(prefix));
+		} else {
+			builder.append(prefix + " No object defined");
+		}
 		String newprefix = prefix + "\t:  ";
 		for(DatabaseObjectHierarchy hierarchy : subobjects) {
 			builder.append(hierarchy.toString(newprefix));

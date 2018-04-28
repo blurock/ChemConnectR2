@@ -6,17 +6,28 @@
 		font-weight: bold;
 	}
 	</ui:style>
-			<m:MaterialCollapsibleItem>
-				<m:MaterialCollapsibleHeader>
-					<m:MaterialLink ui:field="cataloghead" textColor="BLACK" />
-				</m:MaterialCollapsibleHeader>
-				<m:MaterialCollapsibleBody ui:field="bodycollapsible">
-				<m:MaterialRow>
-				
-				</m:MaterialRow>
-				<m:MaterialRow>
-					<m:MaterialCollapsible ui:field="contentcollapsible"/>
-					</m:MaterialRow>
-				</m:MaterialCollapsibleBody>
-			</m:MaterialCollapsibleItem>
+	<m:MaterialCollapsibleItem>
+		<m:MaterialCollapsibleHeader>
+			<m:MaterialLink ui:field="cataloghead" textColor="BLACK" />
+			<m:MaterialIcon ui:field="edit" iconType="EDIT"
+				iconColor="BLACK" iconPosition="RIGHT" textColor="BLACK" />
+			<m:MaterialIcon ui:field="delete" iconType="DELETE"
+				iconColor="BLACK" iconPosition="RIGHT" textColor="BLACK" />
+			<m:MaterialIcon ui:field="add" iconType="ADD"
+				iconColor="BLACK" iconPosition="RIGHT" textColor="BLACK" />
+		</m:MaterialCollapsibleHeader>
+		<m:MaterialCollapsibleBody ui:field="bodycollapsible">
+			<m:MaterialCollapsible ui:field="contentcollapsible">
+				<m:MaterialCollapsibleItem>
+					<m:MaterialCollapsibleHeader>
+						<m:MaterialLink ui:field="infohead" text="info" textColor="BLACK" />
+					</m:MaterialCollapsibleHeader>
+					<m:MaterialCollapsibleBody ui:field="infobodycollapsible">
+						<m:MaterialCollapsible ui:field="infocollapsible">
+						</m:MaterialCollapsible>
+					</m:MaterialCollapsibleBody>
+				</m:MaterialCollapsibleItem>
+			</m:MaterialCollapsible>
+		</m:MaterialCollapsibleBody>
+	</m:MaterialCollapsibleItem>
 </ui:UiBinder> 

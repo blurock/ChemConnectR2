@@ -1,7 +1,6 @@
 package info.esblurock.reaction.chemconnect.core.data.dataset.device;
 
 import com.googlecode.objectify.annotation.Entity;
-import com.googlecode.objectify.annotation.Index;
 
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
 

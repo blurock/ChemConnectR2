@@ -14,6 +14,7 @@ import com.esotericsoftware.yamlbeans.YamlReader;
 
 import info.esblurock.reaction.core.server.initialization.InterpretCatalogDataStructuresYaml;
 
+
 public class InitializeOrganization {
 
 	@Test

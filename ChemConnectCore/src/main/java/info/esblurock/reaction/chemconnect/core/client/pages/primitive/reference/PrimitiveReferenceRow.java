@@ -23,7 +23,6 @@ import info.esblurock.reaction.chemconnect.core.client.pages.primitive.value.Mul
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.description.DataSetReference;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveInterpretedInformation;
-import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveReferenceInformation;
 
 public class PrimitiveReferenceRow extends Composite implements SetLineContentInterface {
 

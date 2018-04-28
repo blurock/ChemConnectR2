@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
-import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetRow;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 public enum VerityAndInterpretMedia {

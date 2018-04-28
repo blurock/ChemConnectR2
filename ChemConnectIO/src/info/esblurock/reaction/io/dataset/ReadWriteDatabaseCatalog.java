@@ -22,11 +22,13 @@ import info.esblurock.reaction.io.db.QueryBase;
 
 public class ReadWriteDatabaseCatalog {
 
-	public static String createUserCatalogName(String username ) {
-		return username + "Catalog";
+	public static String createCatalogName(String base, String suffix ) {
+		return base + "-" + suffix;
 	}
 	
 	public static TransferDatabaseCatalogHierarchy getUserDatasetCatalogHierarchy(String username) throws IOException {
+		System.out.println("getUserDatasetCatalogHierarchy: username" + username); 
+		
 		TransferDatabaseCatalogHierarchy transfer = new TransferDatabaseCatalogHierarchy();
 		SetOfQueryPropertyValues props = new SetOfQueryPropertyValues();
 		QueryPropertyValue prop1 = new QueryPropertyValue("owner", username);
@@ -72,6 +74,7 @@ public class ReadWriteDatabaseCatalog {
 			}
 			transfer.setNonCatalogLinks(noncataloglinks);
 			transfer.setObjectLinks(ans);
+			System.out.println("getCatalogDataObjectLinks: " + ans.toString());
 			createCatalogHierarchy(transfer);
 		} catch (ClassNotFoundException e) {
 			throw new IOException("Can't retrieve catalog hierarchy for user:\n" + e.toString());
@@ -80,12 +83,17 @@ public class ReadWriteDatabaseCatalog {
 	
 	static void createCatalogHierarchy(TransferDatabaseCatalogHierarchy transfer) {
 		String username = transfer.getUsername();
-		String topCatalog = createUserCatalogName(username);
+		System.out.println("createCatalogHierarchy: username: " + username);
+		String topCatalog = DatasetCatalogHierarchy.createFullCatalogName("Catalog", username);
+		System.out.println("createCatalogHierarchy: topCatalog: " + topCatalog);
 		Map<String, DatasetCatalogHierarchy> catalogmap = createCatalogMap(transfer.getCatalogElements());
+		System.out.println("createCatalogHierarchy catalog map:\n" + catalogmap.toString());
 		Map<String, DataObjectLink> linkmap = createDataObjectLinkgMap(transfer.getObjectLinks());
+		System.out.println("createCatalogHierarchy link map:\n" + linkmap.toString());
 		DatasetCatalogHierarchy user = catalogmap.get(topCatalog);
+		System.out.println("createCatalogHierarchy user\n" + user.toString());
 		DatabaseObjectHierarchy top = new DatabaseObjectHierarchy(user);
-		System.out.println("createCatalogHierarchy:\n" + top.toString());		
+		System.out.println("createCatalogHierarchy: top\n" + top.toString());		
 		createHierarchy(top,catalogmap,linkmap);
 		System.out.println("createCatalogHierarchy:\n" + top.toString());
 		transfer.setTop(top);
@@ -95,6 +103,7 @@ public class ReadWriteDatabaseCatalog {
 			Map<String, DatasetCatalogHierarchy> catalogmap, Map<String, DataObjectLink> linkmap) {
 		System.out.println("createHierarchy:\n" + top);
 		DatasetCatalogHierarchy obj = (DatasetCatalogHierarchy) top.getObject();
+		System.out.println("createHierarchy:\n" + obj);
 		for(String sub : obj.getChemConnectObjectLink()) {
 			DataObjectLink link = linkmap.get(sub);
 			if(link != null) {

@@ -68,6 +68,7 @@ public class ExtractCatalogInformation {
 					String identifier = (String) map.get(element.getIdentifier());
 					addStructure(identifier, subclassify, subelement, structure);
 				} else {
+					@SuppressWarnings("unchecked")
 					List<String> lst = (List<String>) map.get(element.getIdentifier());
 					for (String identifier : lst) {
 						addStructure(identifier, subclassify, subelement, structure);

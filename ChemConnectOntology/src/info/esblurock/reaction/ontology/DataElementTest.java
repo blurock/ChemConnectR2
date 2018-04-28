@@ -1,6 +1,6 @@
 package info.esblurock.reaction.ontology;
 
-import static org.junit.Assert.*;
+//import static org.junit.Assert.*;
 
 import org.junit.Test;
 

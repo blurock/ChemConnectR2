@@ -71,6 +71,7 @@ public class MainDataStructureCollapsible extends Composite {
 	ChemConnectCompoundDataStructure subelements;
 	ArrayList<DataElementInformation> records;
 	SubsystemInformation subsysteminfo;
+	boolean findStructures;
 
 	boolean isParameterDescriptionSet;
 	boolean isObservationSpecification;
@@ -79,10 +80,19 @@ public class MainDataStructureCollapsible extends Composite {
 
 	public MainDataStructureCollapsible() {
 		initWidget(uiBinder.createAndBindUi(this));
+		findStructures = true;
 	}
 
 	public MainDataStructureCollapsible(ClassificationInformation info) {
 		initWidget(uiBinder.createAndBindUi(this));
+		findStructures = true;
+		clsinfo = info;
+		datatype.setText(info.getDataType());
+		init(clsinfo.getIdName());
+	}
+	public MainDataStructureCollapsible(ClassificationInformation info, boolean findStructures) {
+		initWidget(uiBinder.createAndBindUi(this));
+		this.findStructures = findStructures;
 		clsinfo = info;
 		datatype.setText(info.getDataType());
 		init(clsinfo.getIdName());
@@ -92,6 +102,7 @@ public class MainDataStructureCollapsible extends Composite {
 			ChemConnectDataStructure totalstructure, 
 			MaterialPanel modalpanel) {
 		initWidget(uiBinder.createAndBindUi(this));
+		findStructures = true;
 		insert(obj,element,totalstructure);
 		this.modalpanel = modalpanel;
 	}
@@ -102,6 +113,7 @@ public class MainDataStructureCollapsible extends Composite {
 			MaterialPanel modalpanel) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.subsysteminfo = subsysteminfo;		
+		findStructures = true;
 		insert(obj,element,totalstructure);
 		this.modalpanel = modalpanel;
 	}
@@ -214,10 +226,14 @@ public class MainDataStructureCollapsible extends Composite {
 	}
 
 	public void setStructureSubElements(ChemConnectCompoundDataStructure subelements) {
-		this.subelements = subelements;
-		ContactDatabaseAccessAsync async = ContactDatabaseAccess.Util.getInstance();
-		ListOfMainDataObjectCallback callback = new ListOfMainDataObjectCallback(this);
-		async.getMainObjects(clsinfo, callback);
+		if(findStructures) {
+			this.subelements = subelements;
+			ContactDatabaseAccessAsync async = ContactDatabaseAccess.Util.getInstance();
+			ListOfMainDataObjectCallback callback = new ListOfMainDataObjectCallback(this);
+			async.getMainObjects(clsinfo, callback);
+		} else {
+			
+		}
 	}
 
 	public ClassificationInformation getClsinfo() {

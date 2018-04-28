@@ -1342,6 +1342,14 @@ xsd:date rdf:type rdfs:Datatype .
                rdfs:subClassOf :ReactionMechanism .
 
 
+###  http://www.esblurock.info/dataset#CatalogBaseName
+:CatalogBaseName rdf:type owl:Class ;
+                 rdfs:subClassOf :ShortStringLabel ;
+                 <http://purl.org/dc/elements/1.1/type> "ShortString" ;
+                 <http://purl.org/dc/terms/identifier> "dataset:catalogbase" ;
+                 <http://www.w3.org/2004/02/skos/core#altLabel> "base" .
+
+
 ###  http://www.esblurock.info/dataset#CatalogDataSet
 :CatalogDataSet rdf:type owl:Class ;
                 rdfs:subClassOf :ComponentOfDataObject ,
@@ -1457,6 +1465,11 @@ xsd:date rdf:type rdfs:Datatype .
                           rdfs:isDefinedBy <http://www.w3.org/ns/prov#Collection> ;
                           rdfs:label "ChemConnect data structures"^^xsd:string ;
                           <http://www.w3.org/2004/02/skos/core#altLabel> "structure"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#ChemConnectDefineSubCatagory
+:ChemConnectDefineSubCatagory rdf:type owl:Class ;
+                              rdfs:subClassOf :ChemConnectPurpose .
 
 
 ###  http://www.esblurock.info/dataset#ChemConnectDomainConcept
@@ -3407,6 +3420,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
    owl:annotatedTarget :DescriptionKeyword ;
    <http://www.w3.org/2004/02/skos/core#example> "WaterBath"
  ] .
+
+
+###  http://www.esblurock.info/dataset#FuelCellPowerGenerator
+:FuelCellPowerGenerator rdf:type owl:Class ;
+                        rdfs:subClassOf :PowerGenerators .
 
 
 ###  http://www.esblurock.info/dataset#FuelCompositionPercentage
@@ -6158,6 +6176,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
           <http://www.w3.org/2004/02/skos/core#altLabel> "pos"^^xsd:string .
 
 
+###  http://www.esblurock.info/dataset#PowerGenerators
+:PowerGenerators rdf:type owl:Class ;
+                 rdfs:subClassOf :DataTypeDevice .
+
+
 ###  http://www.esblurock.info/dataset#PreIgnitionTemperature
 :PreIgnitionTemperature rdf:type owl:Class ;
                         rdfs:subClassOf :FlameConcept .
@@ -7377,6 +7400,14 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#givenName
 :givenName rdf:type owl:Class ;
            rdfs:subClassOf :ShortStringLabel .
+
+
+###  http://www.esblurock.info/dataset#simpleCatalogName
+:simpleCatalogName rdf:type owl:Class ;
+                   rdfs:subClassOf :ShortStringLabel ;
+                   <http://purl.org/dc/elements/1.1/type> "ShortString" ;
+                   <http://purl.org/dc/terms/identifier> "dataset:catalogsuffix" ;
+                   <http://www.w3.org/2004/02/skos/core#altLabel> "simple" .
 
 
 ###  http://www.esblurock.info/dataset#username

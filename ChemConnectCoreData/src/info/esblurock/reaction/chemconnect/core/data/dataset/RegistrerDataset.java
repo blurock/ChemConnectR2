@@ -30,6 +30,7 @@ public class RegistrerDataset {
 			ResetDatabaseObjects.resetClass(ParameterValue.class);
 			ResetDatabaseObjects.resetClass(DataObjectLink.class);
 			ResetDatabaseObjects.resetClass(ChemConnectObjectLink.class);
+			ResetDatabaseObjects.resetClass(PurposeConceptPair.class);
 			ResetDatabaseObjects.resetClass(ParameterSpecification.class);
 			ResetDatabaseObjects.resetClass(ParameterDescriptionSet.class);
 			ResetDatabaseObjects.resetClass(DataSpecification.class);

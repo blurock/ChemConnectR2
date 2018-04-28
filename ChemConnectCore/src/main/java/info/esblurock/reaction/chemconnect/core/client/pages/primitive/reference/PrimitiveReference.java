@@ -4,7 +4,6 @@ import info.esblurock.reaction.chemconnect.core.client.pages.primitive.Primitive
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveInterpretedInformation;
-import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveReferenceInformation;
 
 public class PrimitiveReference extends PrimitiveDataStructureBase {
 	PrimitiveReferenceRow row;

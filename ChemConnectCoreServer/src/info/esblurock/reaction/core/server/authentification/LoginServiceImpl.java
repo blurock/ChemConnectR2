@@ -9,9 +9,9 @@ import java.util.List;
 
 import info.esblurock.reaction.chemconnect.core.common.client.async.LoginService;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
-import info.esblurock.reaction.chemconnect.core.data.contact.DatabasePerson;
 import info.esblurock.reaction.chemconnect.core.data.contact.IndividualInformation;
 import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
+import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHierarchy;
 import info.esblurock.reaction.chemconnect.core.data.login.UnverifiedUserAccount;
 import info.esblurock.reaction.chemconnect.core.data.login.UserAccountInformation;
 import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
@@ -24,7 +24,6 @@ import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFa
 import info.esblurock.reaction.core.server.mail.SendMail;
 import info.esblurock.reaction.core.server.services.ServerBase;
 import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
-import info.esblurock.reaction.io.dataset.ReadWriteDatabaseCatalog;
 import info.esblurock.reaction.io.db.QueryBase;
 
 public class LoginServiceImpl extends ServerBase implements LoginService {
@@ -73,8 +72,9 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 				System.out.println("Organization information:\n" + org.toString());
 				WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(org);
 
-				String catalogname = ReadWriteDatabaseCatalog.createUserCatalogName("Administration");
-				DatabaseObject catobj = new DatabaseObject(catalogname, "Administration","Administration",sourceID);
+				//String catalogname = DatasetCatalogHierarchy.createFullCatalogName("Catalog", "Administration");
+						//ReadWriteDatabaseCatalog.createUserCatalogName("Administration");
+				DatabaseObject catobj = new DatabaseObject("Catalog", "Administration","Administration",sourceID);
 				DatabaseObjectHierarchy cat = CreateDefaultObjectsFactory.createCataogHierarchyForUser(catobj, "Administration", "BlurockConsultingAB");
 				System.out.println("Organization information:\n" + cat.toString());
 				WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(cat);
