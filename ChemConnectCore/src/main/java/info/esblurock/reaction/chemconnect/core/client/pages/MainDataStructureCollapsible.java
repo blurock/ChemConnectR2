@@ -144,6 +144,7 @@ public class MainDataStructureCollapsible extends Composite {
 
 			structureWithPrimitiveStructure(obj,element,create);
 		} catch (Exception ex) {
+			Window.alert("setUpStructureElements: no create: " +  element.getChemconnectStructure());
 			for (DataElementInformation subelement : struct) {
 				compound(obj,subelement,mapping);
 			}
@@ -163,7 +164,7 @@ public class MainDataStructureCollapsible extends Composite {
 				CreatePrimitiveStructure create = CreatePrimitiveStructure.valueOf(subelement.getChemconnectStructure());
 				structureWithPrimitiveStructure(subobj,subelement,create);
 			}  catch (Exception ex) {
-				
+				Window.alert("MainDataStructureCollapsible  compound: " + subelement.getChemconnectStructure());
 				PrimitiveDataStructureInformation info = new PrimitiveDataStructureInformation(subobj,
 						subelement.getDataElementName(), structurename,
 					subelement.getIdentifier());

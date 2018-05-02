@@ -18,6 +18,8 @@ public class TestSubElements {
 		System.out.println(subs.toString());
 		ChemConnectCompoundDataStructure subs1 = DatasetOntologyParsing.subElementsOfStructure("dataset:NameOfPerson");
 		System.out.println(subs1.toString());
+		ChemConnectCompoundDataStructure subs2 = DatasetOntologyParsing.subElementsOfStructure("dataset:DataObjectLink");
+		System.out.println(subs2.toString());
 		
 	}
 

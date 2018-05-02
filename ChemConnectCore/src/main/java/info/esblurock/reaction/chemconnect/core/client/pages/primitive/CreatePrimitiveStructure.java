@@ -6,6 +6,7 @@ import com.google.gwt.user.client.Window;
 
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.concept.PrimitiveConcept;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.gps.PrimitiveGPSLocation;
+import info.esblurock.reaction.chemconnect.core.client.pages.primitive.link.PrimitiveDataObjectLink;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.PrimitiveObservationValuesWithSpecification;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.PrimitiveParameterSpecification;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.SetOfObservationsField;
@@ -124,6 +125,44 @@ public enum CreatePrimitiveStructure {
 			return "ShortString";
 		}
 		
+	}, DataObjectLink {
+
+		@Override
+		public PrimitiveDataStructureBase createStructure(PrimitiveDataStructureInformation info) {
+			PrimitiveDataObjectLink link = new PrimitiveDataObjectLink(info);
+			return link;
+		}
+
+		@Override
+		public PrimitiveDataStructureBase createEmptyStructure() {
+			PrimitiveDataObjectLink link = new PrimitiveDataObjectLink();
+			return link;
+		}
+
+		@Override
+		public String getStructureName() {
+			return "DataObjectLink";
+		}
+		
+	}, LinkToDataStructure {
+
+		@Override
+		public PrimitiveDataStructureBase createStructure(PrimitiveDataStructureInformation info) {
+			PrimitiveShortString shortstring = new PrimitiveShortString(info);
+			return shortstring;
+		}
+
+		@Override
+		public PrimitiveDataStructureBase createEmptyStructure() {
+			PrimitiveShortString shortstring = new PrimitiveShortString();
+			return shortstring;
+		}
+
+		@Override
+		public String getStructureName() {
+			return "LinkToDataStructure";
+		}
+		
 	}, Classification {
 
 		@Override
@@ -140,7 +179,7 @@ public enum CreatePrimitiveStructure {
 
 		@Override
 		public String getStructureName() {
-			return "ShortString";
+			return "Classification";
 		}
 		
 	}, OneLine {

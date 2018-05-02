@@ -21,6 +21,7 @@ import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.CompoundDataStructureInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveInterpretedInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.MapToChemConnectCompoundDataStructure;
 
@@ -64,43 +65,40 @@ public class RecordStructureCollapsible extends Composite {
 		subobj.setIdentifier(id);
 		this.structure = mapping.getStructure(datatype.getText());
 		if (structure != null) {
-			//setUpStructureElements(this.structure);
+			// setUpStructureElements(this.structure);
 		} else {
 			primitive(element, subobj);
 		}
 	}
-/*
-	private void setUpStructureElements(ChemConnectCompoundDataStructure struct) {
-		for (DataElementInformation element : struct) {
-			String structurename = element.getDataElementName();
-				ChemConnectCompoundDataStructure sub = mapping.getStructure(structurename);
-				if (sub != null) {
-					setUpStructureElements(sub);
-				} else {
-					PrimitiveDataStructureInformation info = new PrimitiveDataStructureInformation(structurename,
-							element.getIdentifier(), "");
-					PrimitiveDataStructureBase base = new PrimitiveDataStructureBase(info);
-					infoheader.add(base);
-				}
-		}
-	}
-	*/
+
+	/*
+	 * private void setUpStructureElements(ChemConnectCompoundDataStructure struct)
+	 * { for (DataElementInformation element : struct) { String structurename =
+	 * element.getDataElementName(); ChemConnectCompoundDataStructure sub =
+	 * mapping.getStructure(structurename); if (sub != null) {
+	 * setUpStructureElements(sub); } else { PrimitiveDataStructureInformation info
+	 * = new PrimitiveDataStructureInformation(structurename,
+	 * element.getIdentifier(), ""); PrimitiveDataStructureBase base = new
+	 * PrimitiveDataStructureBase(info); infoheader.add(base); } } }
+	 */
 	private void primitive(DataElementInformation element, DatabaseObject obj) {
 		this.obj = obj;
 		String structurename = element.getDataElementName();
 		try {
 			CreatePrimitiveStructure create = CreatePrimitiveStructure.valueOf(structurename);
-			PrimitiveDataStructureInformation info = new PrimitiveDataStructureInformation(obj,
-					structurename, element.getChemconnectStructure(), "");
+			PrimitiveDataStructureInformation info = new PrimitiveDataStructureInformation(obj, structurename,
+					element.getChemconnectStructure(), "");
 			PrimitiveDataStructureBase base = create.createStructure(info);
 			base.setIdentifier(obj);
 			infoheader.add(base);
 		} catch (Exception ex) {
-			PrimitiveDataStructureInformation info = new PrimitiveDataStructureInformation(obj,structurename, element.getChemconnectStructure(), "");
+			Window.alert("Not found: " + structurename);
+			PrimitiveDataStructureInformation info = new PrimitiveDataStructureInformation(obj, structurename,
+					element.getChemconnectStructure(), "");
 			DefaultPrimiiveDataStructure base = new DefaultPrimiiveDataStructure(info);
 			base.setIdentifier(obj);
 			panel.add(base);
-			
+
 		}
 	}
 
@@ -108,30 +106,50 @@ public class RecordStructureCollapsible extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.obj = obj;
 		this.compound = compound;
-		datatype.setText(TextUtilities.removeNamespace(compound.getPropertyType()));
-		// info.setText(compound.getChemconnectcompound());
+		String structuretype = TextUtilities.removeNamespace(compound.getPropertyType());
+		datatype.setText(structuretype);
+		Window.alert("RecordStructureCollapsible: structuretype " + structuretype);
+		Window.alert("RecordStructureCollapsible: Compound\n" + compound.toString());
+		Window.alert("RecordStructureCollapsible: Object\n" + obj.getClass().getCanonicalName());
+		Window.alert("RecordStructureCollapsible: Object\n" + obj.toString());
 		datatype.setTextColor(Color.BLACK);
-		// info.setTextColor(Color.BLACK);
-		for (PrimitiveDataStructureInformation primitive : compound.getPrimitiveelements()) {
-			CreatePrimitiveStructure create = CreatePrimitiveStructure.getStructureType(primitive);
-			DatabaseObject subobj = new DatabaseObject(primitive);
-			String id = obj.getIdentifier() + "-" + primitive.getPropertyType();
-			subobj.setIdentifier(id);
-			if (create != null) {
+		try {
+			CreatePrimitiveStructure create = CreatePrimitiveStructure.valueOf(structuretype);
+				Window.alert("RecordStructureCollapsible: using create:  " + structuretype);
+				DatabaseObject cobj = new DatabaseObject(compound.getObject());
+				String type = compound.getChemconnectcompound();
+				String propertyType = compound.getPropertyType();
+				String value = obj.getIdentifier();
+				PrimitiveDataStructureInformation info = new PrimitiveDataStructureInformation(obj, type, propertyType,
+						value);
+				PrimitiveInterpretedInformation primitive = new PrimitiveInterpretedInformation(info, compound.getObject());
 				PrimitiveDataStructureBase element = create.createStructure(primitive);
-				element.setIdentifier(subobj);
+				element.setIdentifier(cobj);
 				panel.add(element);
-			} else {
-				DefaultPrimiiveDataStructure base = new DefaultPrimiiveDataStructure(primitive);
-				base.setIdentifier(primitive);
-				base.setIdentifier(subobj);
-				panel.add(base);
+		} catch(IllegalArgumentException ex) {
+			for (PrimitiveDataStructureInformation primitive : compound.getPrimitiveelements()) {
+				Window.alert("RecordStructureCollapsible: " + primitive.toString());
+				CreatePrimitiveStructure create = CreatePrimitiveStructure.getStructureType(primitive);
+				DatabaseObject subobj = new DatabaseObject(primitive);
+				String id = obj.getIdentifier() + "-" + primitive.getPropertyType();
+				subobj.setIdentifier(id);
+				if (create != null) {
+					PrimitiveDataStructureBase element = create.createStructure(primitive);
+					element.setIdentifier(subobj);
+					panel.add(element);
+				} else {
+					Window.alert("No Create found: " + primitive.toString());
+					DefaultPrimiiveDataStructure base = new DefaultPrimiiveDataStructure(primitive);
+					base.setIdentifier(primitive);
+					base.setIdentifier(subobj);
+					panel.add(base);
+				}
 			}
-		}
-		for (CompoundDataStructureInformation primitive : compound.getCompoundelements()) {
-			DatabaseObject subobj = new DatabaseObject(obj);
-			
-			Window.alert("Compound:   " + primitive.toString());
+			for (CompoundDataStructureInformation primitive : compound.getCompoundelements()) {
+				DatabaseObject subobj = new DatabaseObject(obj);
+
+				Window.alert("Compound:   " + primitive.toString());
+			}
 		}
 	}
 

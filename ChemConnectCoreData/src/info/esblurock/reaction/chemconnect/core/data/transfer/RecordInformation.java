@@ -42,11 +42,16 @@ public class RecordInformation implements Serializable {
 	
 	public String toString() {
 		StringBuilder build = new StringBuilder();
-		build.append(chemconnectStructure);
+		build.append("RecordInformation\n");
+		build.append("Object-->" + object.getClass().getCanonicalName() + "\n");
+		build.append(object.toString("Object-->"));
+		build.append("\n");
+		build.append("RecordInformation Elements\n");
+		build.append("Elements-->" + chemconnectStructure);
 		build.append("(");
 		build.append(identifier);
 		build.append(")\n");
-		build.append(subelements);
+		build.append(subelements.toString("Elements--->"));
 		return build.toString();
 	}
 	

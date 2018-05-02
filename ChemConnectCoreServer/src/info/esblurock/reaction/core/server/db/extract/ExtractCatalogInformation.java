@@ -85,20 +85,32 @@ public class ExtractCatalogInformation {
 
 	private static void addStructure(String identifier, ClassificationInformation subclassify,
 			DataElementInformation subelement, ElementsOfASetOfMainStructure structure) throws IOException {
-
+		System.out.println("extractRecordElementsFromStructure: begin");
+		System.out.println("extractRecordElementsFromStructure: subelement: " + subelement.toString());
 		System.out.println("extractRecordElementsFromStructure: Identifier: " + identifier);
 		String dataElementName = subclassify.getDataType();
 		System.out.println("extractRecordElementsFromStructure: dataElementName: " + dataElementName);
 		InterpretData subinterpret = InterpretData.valueOf(dataElementName);
 		System.out.println("extractRecordElementsFromStructure: dataElementName: " + subinterpret.canonicalClassName());
-		DatabaseObject obj = subinterpret.readElementFromDatabase(identifier);
-		System.out.println("extractRecordElementsFromStructure: dataElementName: " + obj.getClass().getCanonicalName());
-		System.out.println("extractRecordElementsFromStructure: dcat:record " + subelement.getIdentifier());
-		System.out.println("extractRecordElementsFromStructure: dcat:record " + obj.getClass().getCanonicalName());
-		Map<String, Object> submap = subinterpret.createYamlFromObject(obj);
-		CompoundDataStructureInformation substructures = extractCompoundDataStructure(obj, submap, subelement);
-		System.out.println("extractRecordElementsFromStructure: Substructures " + substructures);
-		structure.addCompoundStructure(substructures);
+		DatabaseObject obj = null;
+		try {
+			obj = subinterpret.readElementFromDatabase(identifier);
+		} catch (IOException ex) {
+			System.out.println("No structure found for identifier: " + identifier);
+		}
+		if (obj != null) {
+			System.out.println(
+					"extractRecordElementsFromStructure: dataElementName: " + obj.getClass().getCanonicalName());
+			System.out.println("extractRecordElementsFromStructure: dcat:record " + subelement.getIdentifier());
+			System.out.println("extractRecordElementsFromStructure: dcat:record " + obj.getClass().getCanonicalName());
+			Map<String, Object> submap = subinterpret.createYamlFromObject(obj);
+			CompoundDataStructureInformation substructures = extractCompoundDataStructure(obj, submap, subelement);
+			substructures.setObject(obj);
+			System.out.println("extractRecordElementsFromStructure: Substructures " + substructures);
+			structure.addCompoundStructure(substructures);
+		} else {
+			System.out.println("No structure added");
+		}
 
 	}
 
@@ -130,22 +142,22 @@ public class ExtractCatalogInformation {
 					System.out.println("dataset:ChemConnectPrimitiveDataStructure: '" + value + "'  non-null");
 					if (value != null) {
 						System.out.println("dataset:ChemConnectPrimitiveDataStructure: size" + value.length());
-						if(value.length() > 0) {
-						StringTokenizer tok = new StringTokenizer(value, ",");
-						while (tok.hasMoreTokens()) {
-							String subvalue = tok.nextToken();
-							DatabaseObject baseobj = new DatabaseObject(obj);
-							baseobj.setIdentifier(objid);
-							PrimitiveDataStructureInformation primitivedata = new PrimitiveDataStructureInformation(
-									baseobj, valueType,primitiveclass, subvalue);
-							compound.addPrimitive(primitivedata);
-						}
+						if (value.length() > 0) {
+							StringTokenizer tok = new StringTokenizer(value, ",");
+							while (tok.hasMoreTokens()) {
+								String subvalue = tok.nextToken();
+								DatabaseObject baseobj = new DatabaseObject(obj);
+								baseobj.setIdentifier(objid);
+								PrimitiveDataStructureInformation primitivedata = new PrimitiveDataStructureInformation(
+										baseobj, valueType, primitiveclass, subvalue);
+								compound.addPrimitive(primitivedata);
+							}
 						} else {
 							DatabaseObject baseobj = new DatabaseObject(obj);
 							baseobj.setIdentifier(objid);
 							PrimitiveDataStructureInformation primitivedata = new PrimitiveDataStructureInformation(
 									baseobj, valueType, primitiveclass, value);
-							compound.addPrimitive(primitivedata);							
+							compound.addPrimitive(primitivedata);
 						}
 					} else {
 						System.out.println("dataset:ChemConnectPrimitiveDataStructure: " + map);
@@ -157,30 +169,29 @@ public class ExtractCatalogInformation {
 					if (mapobj != null) {
 						String valueS = (String) mapobj.toString();
 						PrimitiveDataStructureInformation primitivedata = new PrimitiveDataStructureInformation(baseobj,
-								 valueType, primitiveclass, valueS);
+								valueType, primitiveclass, valueS);
 						compound.addPrimitive(primitivedata);
 					}
 				}
 			} else if (primitivetype.contains(compoundstructure)) {
 				System.out.println("ChemConnectPrimitiveCompound:   " + primitive.getChemconnectStructure());
 				InterpretData subinterpret = InterpretData.valueOf(primitive.getChemconnectStructure());
-				if(subinterpret != null) {
-				try {
-					DatabaseObject subobj = subinterpret.readElementFromDatabase(objid);
-					System.out.println("ChemConnectPrimitiveCompound:   " + subobj.toString());
-					PrimitiveDataStructureInformation subprimitive = new PrimitiveDataStructureInformation(
-							subobj,
-							primitive.getDataElementName(),
-							primitive.getChemconnectStructure(),
-							objid);
-					PrimitiveInterpretedInformation interpreted = new PrimitiveInterpretedInformation(subprimitive,subobj);
-					System.out.println("ChemConnectPrimitiveCompound:\n" + interpreted.toString());
-					compound.addPrimitive(interpreted);
-				} catch (IOException ex) {
-					System.out.println("No elements found:   " + ex.toString());
-				}
+				if (subinterpret != null) {
+					try {
+						DatabaseObject subobj = subinterpret.readElementFromDatabase(objid);
+						System.out.println("ChemConnectPrimitiveCompound:   " + subobj.toString());
+						PrimitiveDataStructureInformation subprimitive = new PrimitiveDataStructureInformation(subobj,
+								primitive.getDataElementName(), primitive.getChemconnectStructure(), objid);
+						PrimitiveInterpretedInformation interpreted = new PrimitiveInterpretedInformation(subprimitive,
+								subobj);
+						System.out.println("ChemConnectPrimitiveCompound:\n" + interpreted.toString());
+						compound.addPrimitive(interpreted);
+					} catch (IOException ex) {
+						System.out.println("No elements found:   " + ex.toString());
+					}
 				} else {
-					System.out.println("Sub object not found to be interpreted: " + primitive.getChemconnectStructure());
+					System.out
+							.println("Sub object not found to be interpreted: " + primitive.getChemconnectStructure());
 					@SuppressWarnings("unchecked")
 					Map<String, Object> submap = (Map<String, Object>) map.get(primitive.getIdentifier());
 					InterpretData objinterpret = InterpretData.valueOf("DatabaseObject");

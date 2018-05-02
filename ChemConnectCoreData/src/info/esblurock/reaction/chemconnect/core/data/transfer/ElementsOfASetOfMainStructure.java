@@ -30,8 +30,10 @@ public class ElementsOfASetOfMainStructure implements Serializable {
 		StringBuilder build = new StringBuilder();
 		build.append(prefix + "CompoundDataStructureInformation\n");
 		String newprefix = prefix + "\t  ";
+		int count = 0;
 		for(CompoundDataStructureInformation compound : elements) {
-			build.append(compound.toString(newprefix));
+			String pr = newprefix + count++ + ": ";
+			build.append(compound.toString(pr));
 		}
 		return build.toString();
 	}

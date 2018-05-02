@@ -32,7 +32,7 @@ import info.esblurock.reaction.chemconnect.core.data.login.UserAccount;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataSpecification;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
-import info.esblurock.reaction.chemconnect.core.data.dataset.ChemConnectObjectLink;
+import info.esblurock.reaction.chemconnect.core.data.dataset.DataObjectLink;
 import info.esblurock.reaction.chemconnect.core.data.dataset.AttributeInDataset;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ParameterDescriptionSet;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ParameterValue;
@@ -911,7 +911,7 @@ public enum InterpretData {
 			return DataSetReference.class.getCanonicalName();
 		}
 
-	}, ChemConnectObjectLink {
+	}, DataObjectLink {
 
 		@Override
 		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
@@ -922,35 +922,33 @@ public enum InterpretData {
 
 			String dataStructureIdentifierS = (String) yaml.get(StandardDatasetMetaData.dataStructureIdentifierS);
 			String linkConceptTypeS = (String) yaml.get(StandardDatasetMetaData.linkConceptTypeS);
-			String dataConceptTypeS = (String) yaml.get(StandardDatasetMetaData.dataConceptTypeS);
-			ChemConnectObjectLink refset = new ChemConnectObjectLink(compound, 
-					dataStructureIdentifierS,linkConceptTypeS,dataConceptTypeS);
+			DataObjectLink refset = new DataObjectLink(compound, 
+					linkConceptTypeS,dataStructureIdentifierS);
 
 			return refset;
 		}
 
 		@Override
 		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
-			ChemConnectObjectLink ref = (ChemConnectObjectLink) object;
+			DataObjectLink ref = (DataObjectLink) object;
 
 			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
 			map.put(StandardDatasetMetaData.dataStructureIdentifierS, ref.getDataStructure());
-			map.put(StandardDatasetMetaData.linkConceptTypeS, ref.getLinkConceptType());
-			map.put(StandardDatasetMetaData.dataConceptTypeS, ref.getDataConceptType());
+			map.put(StandardDatasetMetaData.linkConceptTypeS, ref.getLinkConcept());
 
 			return map;
 		}
 
 		@Override
 		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
-			return QueryBase.getDatabaseObjectFromIdentifier(ChemConnectObjectLink.class.getCanonicalName(), identifier);
+			return QueryBase.getDatabaseObjectFromIdentifier(DataObjectLink.class.getCanonicalName(), identifier);
 		}
 
 		@Override
 		public String canonicalClassName() {
-			return ChemConnectObjectLink.class.getCanonicalName();
+			return DataObjectLink.class.getCanonicalName();
 		}
 
 	},
