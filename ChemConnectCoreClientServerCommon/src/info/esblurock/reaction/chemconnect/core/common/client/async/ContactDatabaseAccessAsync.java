@@ -1,6 +1,7 @@
 package info.esblurock.reaction.chemconnect.core.common.client.async;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -67,7 +68,11 @@ public interface ContactDatabaseAccessAsync {
 
 	void getGPSLocation(DatabaseObject obj, String city, String country, AsyncCallback<GPSLocation> callback);
 
-	void getChemConnectDataStructure(String structureS, AsyncCallback<ChemConnectDataStructure> callback);
+	void getChemConnectDataStructure(String identifier, String structureS,
+			AsyncCallback<ChemConnectDataStructure> callback);
+
+	void getElementsOfCatalogObject(String identifier, String dataElementName,
+			AsyncCallback<Map<String, DatabaseObject>> callback);
 
 
 }

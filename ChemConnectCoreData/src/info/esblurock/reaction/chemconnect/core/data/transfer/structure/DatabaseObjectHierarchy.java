@@ -50,6 +50,7 @@ public class DatabaseObjectHierarchy implements Serializable {
 		} else {
 			builder.append(prefix + " No object defined");
 		}
+		builder.append("\n");
 		String newprefix = prefix + "\t:  ";
 		for(DatabaseObjectHierarchy hierarchy : subobjects) {
 			builder.append(hierarchy.toString(newprefix));

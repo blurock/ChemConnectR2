@@ -2,6 +2,7 @@ package info.esblurock.reaction.chemconnect.core.data.transfer.structure;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Map;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
@@ -16,7 +17,7 @@ public class ChemConnectDataStructure implements Serializable {
 
 	String elementType;
 	ClassificationInformation classification; 
-	
+	Map<String, DatabaseObject> objectMap;
 	ArrayList<DataElementInformation> records;
 	ArrayList<DataElementInformation> linkedTos;
 	ArrayList<DataElementInformation> other;
@@ -100,9 +101,15 @@ public class ChemConnectDataStructure implements Serializable {
 	public String toString() {
 		return toString("");
 	}
+	
+	public Map<String, DatabaseObject> getObjectMap() {
+		return objectMap;
+	}
 
-	
-	
+	public void setObjectMap(Map<String, DatabaseObject> objectMap) {
+		this.objectMap = objectMap;
+	}
+
 	public String toString(String prefix) {
 		StringBuilder builder = new StringBuilder();
 		builder.append(prefix + "------------ SetOfChemConnectDataStructureElements ------------\n");

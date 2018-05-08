@@ -201,7 +201,7 @@ public enum CreatePrimitiveStructure {
 			return "Oneline";
 		}
 		
-	}, Concept {
+	}, PurposeConceptPair {
 
 		@Override
 		public PrimitiveDataStructureBase createStructure(PrimitiveDataStructureInformation info) {
@@ -217,7 +217,7 @@ public enum CreatePrimitiveStructure {
 
 		@Override
 		public String getStructureName() {
-			return "Concept";
+			return "PurposeConceptPair";
 		}
 		
 	}, SetOfKeywords {

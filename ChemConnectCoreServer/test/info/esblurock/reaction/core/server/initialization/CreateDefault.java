@@ -12,9 +12,9 @@ public class CreateDefault {
 
 	@Test
 	public void test() {
-		
 		DatabaseObject obj = new DatabaseObject("AdministrationCatalog","Public","Administration","1" );
 		
+		/*
 		NameOfPerson person = new NameOfPerson(obj,"Mr.", "Edward", "Blurock");
 		
 		DatabaseObjectHierarchy hierarchy = 
@@ -22,24 +22,31 @@ public class CreateDefault {
 		
 		System.out.println(hierarchy);
 		
+		DatabaseObject orgobj = new DatabaseObject("BlurockAB","Public","Administration","1" );
 		DatabaseObjectHierarchy hierarchy2 = 
-		CreateDefaultObjectsFactory.createMinimalOrganization(obj,"Blurock Consulting AB", "dataset:Organization");
+		CreateDefaultObjectsFactory.createMinimalOrganization(orgobj,"Blurock Consulting AB", "dataset:Organization");
 
 		System.out.println(hierarchy2);
 		
 		System.out.println("--------------------------------------------------------------------\n");
+		System.out.println("createSubSystemDescription\n");
+		System.out.println("--------------------------------------------------------------------\n");
+		DatabaseObject subobj = new DatabaseObject("HeatFluxBurner","Public","Administration","1" );
 		
 		String devicename = "Heat Flux Burner";
 		String purpose = "dataset:DeviceComponentSpecification";
 		String concept = "dataset:HeatFluxBurnerConfiguration";
 		DatabaseObjectHierarchy hierarchy3 = 
-				CreateDefaultObjectsFactory.createSubSystemDescription(obj,devicename, purpose, concept);
+				CreateDefaultObjectsFactory.createSubSystemDescription(subobj,devicename, purpose, concept);
 		System.out.println(hierarchy3);
 		
-		
-		DatabaseObjectHierarchy hierarchy4 = 
-				CreateDefaultObjectsFactory.createCataogHierarchyForUser(obj,"userid","orgid");
-		System.out.println(hierarchy4);
+		*/
+		System.out.println("--------------------------------------------------------------------\n");
+		System.out.println("createCataogHierarchyForUser\n");
+		System.out.println("--------------------------------------------------------------------\n");
+		DatabaseObject catobj = new DatabaseObject("Catalog", "Administration","Administration","1");
+		DatabaseObjectHierarchy cat = CreateDefaultObjectsFactory.createCataogHierarchyForUser(catobj, "Administration", "BlurockConsultingAB");
+		System.out.println(cat);
 	}
 
 }

@@ -4,6 +4,10 @@ import javax.servlet.ServletContextListener;
 
 import com.googlecode.objectify.ObjectifyService;
 
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.contact.RegisterContactData;
 import info.esblurock.reaction.chemconnect.core.data.dataset.RegistrerDataset;
 import info.esblurock.reaction.chemconnect.core.data.description.RegisterDescriptionData;
@@ -37,6 +41,10 @@ public class DatabaseRegistry  implements ServletContextListener  {
 		RegisterGCSClasses.register();
 		RegisterObservationData.register();
 		ObjectifyService.register(BlobKeyCorrespondence.class);
+		ObjectifyService.register(DatabaseObject.class);
+		ObjectifyService.register(ChemConnectCompoundMultiple.class);
+		ObjectifyService.register(ChemConnectDataStructure.class);
+		ObjectifyService.register(ChemConnectCompoundDataStructure.class);
 		System.out.println("Classes Registered");
 	}
 

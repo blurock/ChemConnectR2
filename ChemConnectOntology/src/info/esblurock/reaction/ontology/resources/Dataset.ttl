@@ -1393,7 +1393,8 @@ xsd:date rdf:type rdfs:Datatype .
                                   rdfs:subClassOf <http://www.w3.org/ns/dcat#CatalogRecord> ,
                                                   [ rdf:type owl:Restriction ;
                                                     owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                                    owl:someValuesFrom :ParentLinkToDataStructure
+                                                    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                    owl:onClass :ParentLinkToDataStructure
                                                   ] ;
                                   <http://purl.org/dc/elements/1.1/type> "ChemConnectCompoundDataStructure"^^xsd:string ;
                                   <http://purl.org/dc/terms/identifier> "dcat:CatalogRecord" ;
@@ -2530,11 +2531,6 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#DescriptionDataData
 :DescriptionDataData rdf:type owl:Class ;
                      rdfs:subClassOf :ChemConnectCompoundDataStructure ,
-                                     [ rdf:type owl:Restriction ;
-                                       owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                       owl:onClass :DataTypeConcept
-                                     ] ,
                                      [ rdf:type owl:Restriction ;
                                        owl:onProperty <http://purl.org/dc/terms/hasPart> ;
                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;

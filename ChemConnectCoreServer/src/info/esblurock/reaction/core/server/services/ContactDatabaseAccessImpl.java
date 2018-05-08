@@ -3,6 +3,7 @@ package info.esblurock.reaction.core.server.services;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
@@ -16,6 +17,7 @@ import info.esblurock.reaction.chemconnect.core.data.rdf.SetOfKeywordRDF;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DatasetInformationFromOntology;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterValueInformation;
+import info.esblurock.reaction.core.server.db.ReadWriteDatabaseObjectsWithSubobjects;
 import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.db.extract.GeocodingLatituteAndLongitude;
 import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
@@ -61,13 +63,17 @@ public class ContactDatabaseAccessImpl extends ServerBase implements ContactData
 		return info;
 	}
 
-	public SingleQueryResult getMainObjects(ClassificationInformation clsinfo) throws IOException {
+		public SingleQueryResult getMainObjects(ClassificationInformation clsinfo) throws IOException {
 		System.out.println("getMainObjects: " + clsinfo.toString());
 		InterpretData interpret = InterpretData.valueOf(clsinfo.getDataType());
 		String classname = interpret.canonicalClassName();
 		System.out.println("getMainObjects: " + classname);
 		QuerySetupBase query = new QuerySetupBase(classname);
 		return standardQuery(query);
+	}
+
+	public Map<String,DatabaseObject> getElementsOfCatalogObject(String identifier, String dataElementName) {
+		return ReadWriteDatabaseObjectsWithSubobjects.readCatalogObjectWithElements(dataElementName, identifier);
 	}
 
 	public ChemConnectCompoundDataStructure getChemConnectCompoundDataStructure(String dataElementName) {
@@ -179,16 +185,22 @@ public class ContactDatabaseAccessImpl extends ServerBase implements ContactData
 		return build.getTransfer();
 	}
 
-	public ChemConnectDataStructure getChemConnectDataStructure(String structureS) {
+	public ChemConnectDataStructure getChemConnectDataStructure(String identifier, String structureS) {
 		ChemConnectDataStructure structure = DatasetOntologyParsing
 				.getChemConnectDataStructure(structureS);
-		DatabaseObject obj = getBaseUserDatabaseObject();
+		Map<String,DatabaseObject> map = getElementsOfCatalogObject(identifier,structureS);
+		DatabaseObject obj = map.get(identifier);
+		if(obj == null) {
+			obj = getBaseUserDatabaseObject();
+		}
+		structure.setObjectMap(map);
 		structure.setIdentifier(obj);
 		return structure;
 	}
 	
 	public ChemConnectDataStructure getSetOfObservationsStructructure() {
-		return getChemConnectDataStructure("dataset:SetOfObservationsStructure");
+		
+		return getChemConnectDataStructure("Administration", "dataset:SetOfObservationsStructure");
 	}
 	
 	public void delete() {

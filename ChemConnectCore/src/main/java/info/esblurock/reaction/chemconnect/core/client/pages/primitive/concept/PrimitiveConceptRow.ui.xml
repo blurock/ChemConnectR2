@@ -16,10 +16,14 @@
 				</m:MaterialTooltip>
 			</m:MaterialColumn>
 			<m:MaterialColumn grid="s3">
-					<m:MaterialLink ui:field="type"/>
+				<m:MaterialTooltip ui:field="purposetip">
+					<m:MaterialLink ui:field="purpose"/>
+					</m:MaterialTooltip>
 			</m:MaterialColumn>
 			<m:MaterialColumn grid="s8">
+			<m:MaterialTooltip ui:field="concepttip">
 				<m:MaterialLink ui:field="concept" />
+				</m:MaterialTooltip>
 			</m:MaterialColumn>
 		</m:MaterialRow>
 	</m:MaterialPanel>

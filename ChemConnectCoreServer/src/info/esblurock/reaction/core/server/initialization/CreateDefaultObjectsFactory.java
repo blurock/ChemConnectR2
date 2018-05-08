@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.contact.ContactInfoData;
@@ -100,9 +101,7 @@ public class CreateDefaultObjectsFactory {
 	
 	public static DatabaseObjectHierarchy productCatalogDescription(DatabaseObject obj, String onelinedescription,
 			Map<String, DataElementInformation> elementmap) {
-		String did = createSuffix(obj,"dataset:DescriptionDataData",elementmap);
 		DatabaseObject dobj = new DatabaseObject(obj);
-		dobj.setIdentifier(did);
 		String concept = "dataset:ChemConnectConceptSubCatalog";
 		String purpose = "dataset:ChemConnectDefineSubCatagory";
 		DatabaseObjectHierarchy descr = createDescriptionDataData(dobj, elementmap, onelinedescription, concept, purpose);
@@ -130,7 +129,7 @@ public class CreateDefaultObjectsFactory {
 		int num = topcatalog.getChemConnectObjectLink().size();
 		String linknum = Integer.toString(num+1);
 		DatabaseObject lobj = new DatabaseObject(obj);
-		String oid = createSuffix(obj,"dataset:DataObjectLink",elementmap);
+		String oid = createSuffix(lobj,"dataset:DataObjectLink",elementmap);
 		lobj.setIdentifier(oid+linknum);
 		ChemConnectCompoundDataStructure lstructure = new ChemConnectCompoundDataStructure(lobj,topcatalog.getIdentifier());
 		DataObjectLink cataloglink = new DataObjectLink(lstructure,MetaDataKeywords.linkSubCatalog, catalog.getIdentifier());
@@ -151,54 +150,69 @@ public class CreateDefaultObjectsFactory {
 		System.out.println(elementmap);
 
 		String uid = DatasetCatalogHierarchy.createFullCatalogName(obj.getIdentifier(), userid);
-		obj.setIdentifier(uid);
+		DatabaseObject dobj = new DatabaseObject(obj);
+		dobj.setIdentifier(uid);
 
 		String onelinedescription = "User's Catalog";
-		DatabaseObjectHierarchy descr = productCatalogDescription(obj, onelinedescription, elementmap);
+		DatabaseObjectHierarchy descr = productCatalogDescription(dobj, onelinedescription, elementmap);
 		String did = descr.getObject().getIdentifier();
 		
-		ChemConnectDataStructure userstructure = new ChemConnectDataStructure(obj,did);
+		ChemConnectDataStructure userstructure = new ChemConnectDataStructure(dobj,did);
 		DatasetCatalogHierarchy usercatalog = new DatasetCatalogHierarchy(userid,userstructure);
 		DatabaseObjectHierarchy userhierarchy = new DatabaseObjectHierarchy(usercatalog);
 		
-		DatabaseObject aobj = new DatabaseObject(obj);
+		DatabaseObject aobj = new DatabaseObject(dobj);
 		String orgsuffix = "orglink";
-		String aid = DatasetCatalogHierarchy.createFullCatalogName(obj.getIdentifier(), orgsuffix);
+		String aid = DatasetCatalogHierarchy.createFullCatalogName(dobj.getIdentifier(), orgsuffix);
 		aobj.setIdentifier(aid);
 
 		String orgcatdescription = "Institute's Catalog";
 		DatabaseObjectHierarchy orgcatdescr = productCatalogDescription(aobj, orgcatdescription, elementmap);
 		String orgcatid = descr.getObject().getIdentifier();
 
-		
-		ChemConnectDataStructure orgstructure = new ChemConnectDataStructure(aobj,orgcatid);
+		DatabaseObject orgobj = new DatabaseObject(aobj);
+		ChemConnectDataStructure orgstructure = new ChemConnectDataStructure(orgobj,orgcatid);
 		DatasetCatalogHierarchy orgcatalog = new DatasetCatalogHierarchy(orgsuffix,orgstructure);
 		DatabaseObjectHierarchy orghierarchy = new DatabaseObjectHierarchy(orgcatalog);
 		
 		userhierarchy.addSubobject(orghierarchy);
-	
-		DatabaseObject subobj = new DatabaseObject(obj);
-		subobj.setIdentifier(aid);
-		DatabaseObjectHierarchy subcatalog = createDataObjectLink(obj,
+		
+		String cid = createSuffix(obj,"dataset:DataObjectLink",elementmap);
+		DatabaseObject mult1obj = new DatabaseObject(obj);
+		mult1obj.setIdentifier(cid);
+		ChemConnectCompoundMultiple mult1 = new ChemConnectCompoundMultiple(mult1obj);
+		DatabaseObjectHierarchy mhier1 = new DatabaseObjectHierarchy(mult1);
+			
+		DatabaseObjectHierarchy subcatalog = createDataObjectLink(dobj,
 				"1", MetaDataKeywords.linkSubCatalog,
 				orgcatalog.getIdentifier(),elementmap);
 		
-		DatabaseObjectHierarchy userlink =   createDataObjectLink(obj,
+		DatabaseObjectHierarchy userlink =   createDataObjectLink(dobj,
 				"2", MetaDataKeywords.linkUser,
 				userid,elementmap);
+		mhier1.addSubobject(subcatalog);
+		mhier1.addSubobject(userlink);
+		userhierarchy.addSubobject(mhier1);
 		
+		DatabaseObject subobj = new DatabaseObject(dobj);
+		subobj.setIdentifier(aid);
+		String orglnkid = createSuffix(subobj,"dataset:DataObjectLink",elementmap);
+
+		DatabaseObject sublnkobj = new DatabaseObject(dobj);
+		sublnkobj.setIdentifier(orglnkid);
+		ChemConnectCompoundMultiple mult2 = new ChemConnectCompoundMultiple(sublnkobj);
+		DatabaseObjectHierarchy mhier2 = new DatabaseObjectHierarchy(mult2);
+
 		DatabaseObjectHierarchy orglink =    createDataObjectLink(subobj,
 				"1", MetaDataKeywords.linkOrganization,
 				organizationid,elementmap);
-
+		mhier2.addSubobject(orglink);
+		orghierarchy.addSubobject(mhier2);
 
 		DataObjectLink subcataloglink = (DataObjectLink) subcatalog.getObject();
 		DataObjectLink orglinklink    = (DataObjectLink) orglink.getObject();
 		DataObjectLink userlinklink   = (DataObjectLink) userlink.getObject();
 
-		userhierarchy.addSubobject(subcatalog);
-		userhierarchy.addSubobject(userlink);
-		orghierarchy.addSubobject(orglink);
 		userhierarchy.addSubobject(descr);
 		orghierarchy.addSubobject(orgcatdescr);
 		
@@ -304,13 +318,13 @@ public class CreateDefaultObjectsFactory {
 		String cid = createSuffix(obj,"dataset:DescriptionDataData",elementmap);
 		cobj.setIdentifier(cid);
 		ChemConnectCompoundDataStructure compound = new ChemConnectCompoundDataStructure(cobj,obj.getIdentifier());
-				
 		Map<String, DataElementInformation> subelementmap = createElementMap("dataset:DescriptionDataData");
-		
+
 		DatabaseObject conceptobj = new DatabaseObject(cobj);
 		String conceptid = createSuffix(cobj,"dataset:PurposeConceptPair",subelementmap);
 		conceptobj.setIdentifier(conceptid);
-		PurposeConceptPair pair = new PurposeConceptPair(conceptobj, concept,purpose);
+		ChemConnectCompoundDataStructure conceptcompound = new ChemConnectCompoundDataStructure(conceptobj,cobj.getIdentifier());
+		PurposeConceptPair pair = new PurposeConceptPair(conceptcompound, concept,purpose);
 		
 		DatabaseObject keyobj = new DatabaseObject(cobj);
 		String keysid = createSuffix(cobj,"dataset:SetOfKeywords",subelementmap);

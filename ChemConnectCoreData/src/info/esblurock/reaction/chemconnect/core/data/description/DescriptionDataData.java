@@ -49,16 +49,18 @@ public class DescriptionDataData extends ChemConnectCompoundDataStructure {
 	 *            The set of keywords associated with the
 	 */
 	public DescriptionDataData(ChemConnectCompoundDataStructure compound,
-			String onlinedescription, String fulldescription, String sourcekey, 
-			Date sourceDate, String dataType,
+			String onlinedescription, String fulldescription, 
+			String purposeConcept, Date sourceDate, String dataType,
 			String keywords) {
-		fill(compound,onlinedescription, fulldescription, sourcekey, sourceDate, dataType,
+		fill(compound,onlinedescription, fulldescription, purposeConcept, sourceDate, dataType,
 			keywords);
 	}
 	public DescriptionDataData(String identifier, String owner, String access, String sourceID,
-			String onlinedescription, String fulldescription, String sourcekey, Date sourceDate, String dataType,
+			String onlinedescription, String fulldescription, 
+			String purposeConcept, Date sourceDate, String dataType,
 			String keywords) {
-		fill(identifier,owner,access,sourceID,onlinedescription, fulldescription, sourcekey, sourceDate, dataType,
+		fill(identifier,owner,access,sourceID,onlinedescription, fulldescription, 
+				purposeConcept, sourceDate, dataType,
 			keywords);
 	}
 
@@ -72,8 +74,10 @@ public class DescriptionDataData extends ChemConnectCompoundDataStructure {
 		this.keywords = "";
 	}
 
-	public void fill(String identifier, String owner, String access, String sourceID, String onlinedescription,
-			String fulldescription, String sourceConceptID, Date sourceDate, String dataType, String keywords) {
+	public void fill(String identifier, String owner, String access, String sourceID, 
+			String onlinedescription, String fulldescription, 
+			String sourceConceptID, Date sourceDate, String dataType, 
+			String keywords) {
 		super.fill(identifier, owner, access, sourceID);
 		this.onlinedescription = onlinedescription;
 		this.descriptionAbstract = fulldescription;
@@ -82,8 +86,10 @@ public class DescriptionDataData extends ChemConnectCompoundDataStructure {
 		this.dataType = dataType;
 		this.keywords = keywords;
 	}
-	public void fill(ChemConnectCompoundDataStructure compound, String onlinedescription,
-			String fulldescription, String sourceConceptID, Date sourceDate, String dataType, String keywords) {
+	public void fill(ChemConnectCompoundDataStructure compound, 
+			String onlinedescription, String fulldescription, 
+			String sourceConceptID, Date sourceDate, String dataType, 
+			String keywords) {
 		super.fill(compound);
 		this.onlinedescription = onlinedescription;
 		this.descriptionAbstract = fulldescription;
@@ -101,7 +107,7 @@ public class DescriptionDataData extends ChemConnectCompoundDataStructure {
 		return descriptionAbstract;
 	}
 
-	public String getSourcekey() {
+	public String getSourceConcept() {
 		return sourceConceptID;
 	}
 

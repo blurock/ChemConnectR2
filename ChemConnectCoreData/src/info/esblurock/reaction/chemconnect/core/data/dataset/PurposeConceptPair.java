@@ -3,11 +3,12 @@ package info.esblurock.reaction.chemconnect.core.data.dataset;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
 
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 
 @Entity
 @SuppressWarnings("serial")
-public class PurposeConceptPair extends DatabaseObject {
+public class PurposeConceptPair extends ChemConnectCompoundDataStructure {
 
 	@Index
 	String purpose;
@@ -20,11 +21,11 @@ public class PurposeConceptPair extends DatabaseObject {
 		concept = "";
 	}
 	
-	public PurposeConceptPair(DatabaseObject obj, String purpose, String concept) {
+	public PurposeConceptPair(ChemConnectCompoundDataStructure obj, String purpose, String concept) {
 		fill(obj,purpose,concept);
 	}
 	
-	public void fill(DatabaseObject obj, String purpose, String concept) {
+	public void fill(ChemConnectCompoundDataStructure obj, String purpose, String concept) {
 		super.fill(obj);
 		this.purpose = purpose;
 		this.concept = concept;

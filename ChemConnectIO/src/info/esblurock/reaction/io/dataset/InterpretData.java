@@ -422,12 +422,12 @@ public enum InterpretData {
 				throws IOException {
 
 			DescriptionDataData descdata = null;
-			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
+			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
 			ChemConnectCompoundDataStructure objdata = (ChemConnectCompoundDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
 
 			String titleS = (String) yaml.get(StandardDatasetMetaData.titleKeyS);
 			String descriptionS = (String) yaml.get(StandardDatasetMetaData.descriptionKeyS);
-			String datasetS = (String) yaml.get(StandardDatasetMetaData.datasetKeyS);
+			String purposeS = (String) yaml.get(StandardDatasetMetaData.parameterPurposeConceptPairS);
 			String datatypeS = (String) yaml.get(StandardDatasetMetaData.dataTypeKeyS);
 			String sourceDateS = (String) yaml.get(StandardDatasetMetaData.sourceDateKeyS);
 			String keywordsS = (String) yaml.get(StandardDatasetMetaData.keywordKeyS);
@@ -439,8 +439,10 @@ public enum InterpretData {
 				dateD = new Date();
 			}
 
-			descdata = new DescriptionDataData(objdata.getIdentifier(), objdata.getAccess(), objdata.getOwner(),
-					sourceID, titleS, descriptionS, datasetS, dateD, datatypeS, keywordsS);
+			descdata = new DescriptionDataData(objdata,
+					titleS, descriptionS, 
+					purposeS, dateD, datatypeS, 
+					keywordsS);
 
 			return descdata;
 		}
@@ -448,18 +450,18 @@ public enum InterpretData {
 		@Override
 		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
 			DescriptionDataData description = (DescriptionDataData) object;
-			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
+			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
 			String sourceDateS = dateToString(description.getSourceDate());
-			System.out.println("DescriptionDataData: keys" + description.getKeywords());
-			
+
 			map.put(StandardDatasetMetaData.keywordKeyS, description.getKeywords());
 			map.put(StandardDatasetMetaData.titleKeyS, description.getOnlinedescription());
 			map.put(StandardDatasetMetaData.descriptionKeyS, description.getFulldescription());
-			map.put(StandardDatasetMetaData.datasetKeyS, description.getSourcekey());
+			map.put(StandardDatasetMetaData.parameterPurposeConceptPairS, description.getSourceConcept());
 			map.put(StandardDatasetMetaData.dataTypeKeyS, description.getDataType());
 			map.put(StandardDatasetMetaData.sourceDateKeyS, sourceDateS);
+			map.put(StandardDatasetMetaData.keywordKeyS, description.getKeywords());
 
 			return map;
 		}

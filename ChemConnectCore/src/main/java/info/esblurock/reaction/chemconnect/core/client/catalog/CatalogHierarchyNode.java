@@ -66,6 +66,19 @@ public class CatalogHierarchyNode extends Composite implements ChemConnectDataSt
 	ArrayList<CatalogHierarchyNode> subcatagories;
 	NewSubCatalogWizard wizard;
 	
+	/**
+	 * @param top This is the current node of the Catalog hiearachy 
+	 * @param modal Modal panel from top level
+	 * 
+	 * This recursively adds CatalogHierarchyNode for each DatabaseObjectHierarchy in the tree
+	 * 1. Setup
+	 * 2. Insert the information associated with this DatabaseObjectHierarchy  (insertInfo())
+	 * 3. For each DatabaseObjectHierarchy:
+	 * 3.1 Make sure it is a DatasetCatalogHierarchy
+	 * 3.1.1 create the next CatalogHierarchyNode (recursive)
+	 * 3.1.2 Add under this node.
+	 * 
+	 */
 	public CatalogHierarchyNode(DatabaseObjectHierarchy top, MaterialPanel modal) {
 		initWidget(uiBinder.createAndBindUi(this));
 		subcatagories = new ArrayList<CatalogHierarchyNode>();
@@ -148,12 +161,19 @@ public class CatalogHierarchyNode extends Composite implements ChemConnectDataSt
 		subcatagories.add(node);
 	}
 	
+	/* This inserts the underlying information for the node (under the Info node)
+	 * 1. Set up the top object information (with DatabaseObject subobj)
+	 * 2. Async call getChemConnectDataStructure
+	 * 3. ChemConnectDataStructureCallback creates (MainDataStructureCollapsible) and sets info in info panel
+	 *         ModalPanel:   top.getModalPanel();
+	 *         Content panel (info panel)  top.getInfoContentCollapisble();
+	 */
 	private void insertInfo() {
 		DatabaseObject subobj = new DatabaseObject(hierarchy);
-
 		ContactDatabaseAccessAsync conasync = ContactDatabaseAccess.Util.getInstance();
 		ChemConnectDataStructureCallback callback = new ChemConnectDataStructureCallback(subobj,this);
-		conasync.getChemConnectDataStructure(catalogS, callback);
+		Window.alert("CatalogHierarchyNode  insertInfo(): " + obj.getIdentifier());
+		conasync.getChemConnectDataStructure(obj.getIdentifier(), catalogS, callback);
 	}
 
 	public DatabaseObject getDatabaseObject() {

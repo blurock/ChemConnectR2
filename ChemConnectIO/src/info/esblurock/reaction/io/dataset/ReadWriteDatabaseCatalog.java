@@ -25,7 +25,21 @@ public class ReadWriteDatabaseCatalog {
 	public static String createCatalogName(String base, String suffix ) {
 		return base + "-" + suffix;
 	}
-	
+	/* This retrieves the DatasetCatalogHierarchy for the user (username) and put them in a tree
+	 * 
+	 * @param username  The user name
+	 * @return The DatasetCatalogHierarchy for the user (in TransferDatabaseCatalogHierarchy)
+	 * @throws IOException  If something goes wrong... shouldn't happen
+	 * 
+	 * Only the links of DatasetCatalogHierarchy are read in, not other underlying data (description and references)
+	 * 
+	 *  1. Query for all DatasetCatalogHierarchy that belongs to user (username)
+	 *  2. For each DatasetCatalogHierarchy found:
+	 *  2.1  Add to list (which will be transfer.setCatalogElements)
+	 *  2.2  Add links of catalog to totallist (totalinks.addAll(links) ... transfer.setListedLinks(totallist))
+	 *  3. After loop, read in from database all the catalog links (getCatalogDataObjectLinks)
+	 *  4. Using the links, create the catalog hierarchy (createCatalogHierarchy(transfer))
+	 */
 	public static TransferDatabaseCatalogHierarchy getUserDatasetCatalogHierarchy(String username) throws IOException {
 		System.out.println("getUserDatasetCatalogHierarchy: username" + username); 
 		
@@ -49,12 +63,21 @@ public class ReadWriteDatabaseCatalog {
 			transfer.setCatalogElements(ans);
 			transfer.setListedLinks(totallinks);;
 			getCatalogDataObjectLinks(transfer);
+			createCatalogHierarchy(transfer);
 		} catch (ClassNotFoundException e) {
 			throw new IOException("Can't retrieve catalog hierarchy for user:\n" + e.toString());
 		}
 		return transfer;
 		}
-
+/*
+ *  1. Read in all the links of the user that have the concept 'dataset:ChemConnectConceptSubCatalog' 
+ *                     (MetaDataKeywords.linkSubCatalog)
+ *  3. Get all the links that have been found for all the hierarchy (transfer.getListedLinks())
+ *  3. For each link found:
+ *  3.1  Add to set of links   (after transfer.setObjectLinks(ans))
+ *  3.2  Remove this link id from the total list of links (at the end this list will be all non catalog links)
+ *  
+ */
 	static void getCatalogDataObjectLinks(TransferDatabaseCatalogHierarchy transfer) throws IOException {
 		SetOfQueryPropertyValues props = new SetOfQueryPropertyValues();
 		QueryPropertyValue prop1 = new QueryPropertyValue("owner", transfer.getUsername());
@@ -75,35 +98,41 @@ public class ReadWriteDatabaseCatalog {
 			transfer.setNonCatalogLinks(noncataloglinks);
 			transfer.setObjectLinks(ans);
 			System.out.println("getCatalogDataObjectLinks: " + ans.toString());
-			createCatalogHierarchy(transfer);
 		} catch (ClassNotFoundException e) {
 			throw new IOException("Can't retrieve catalog hierarchy for user:\n" + e.toString());
 		}
 	}
-	
+	/*
+	 * 1. Create the top catagory id with username and "Catalog" (createFullCatalogName("Catalog", username);)
+	 * 2. Create a map of the id to catalog elements (createCatalogMap)
+	 * 3. Create a map of the link ids to links (createDataObjectLinkgMap)
+	 * 4. Start with the top element  (catalogmap.get(topCatalog)
+	 * 5. Recursive call (createHierarchy)
+	 * 6. Put the tree into transfer (transfer.setTop(top);)
+	 * 
+	 */
 	static void createCatalogHierarchy(TransferDatabaseCatalogHierarchy transfer) {
 		String username = transfer.getUsername();
-		System.out.println("createCatalogHierarchy: username: " + username);
 		String topCatalog = DatasetCatalogHierarchy.createFullCatalogName("Catalog", username);
-		System.out.println("createCatalogHierarchy: topCatalog: " + topCatalog);
 		Map<String, DatasetCatalogHierarchy> catalogmap = createCatalogMap(transfer.getCatalogElements());
-		System.out.println("createCatalogHierarchy catalog map:\n" + catalogmap.toString());
 		Map<String, DataObjectLink> linkmap = createDataObjectLinkgMap(transfer.getObjectLinks());
-		System.out.println("createCatalogHierarchy link map:\n" + linkmap.toString());
 		DatasetCatalogHierarchy user = catalogmap.get(topCatalog);
-		System.out.println("createCatalogHierarchy user\n" + user.toString());
 		DatabaseObjectHierarchy top = new DatabaseObjectHierarchy(user);
-		System.out.println("createCatalogHierarchy: top\n" + top.toString());		
 		createHierarchy(top,catalogmap,linkmap);
-		System.out.println("createCatalogHierarchy:\n" + top.toString());
 		transfer.setTop(top);
 	}
-	
+	/*  Recursive call through tree using links
+	 * 1. Get the current node (top.getObject())
+	 * 2. For each link of the current node:
+	 * 2.1 If link is non-null (if null, the link is not to a catalog member)
+	 * 2.1.1 Get the catalog id
+	 * 2.1.2 Retrieve subnode using map (catalogmap.get(sublink);)
+	 * 2.1.3 Add as subnode of current node
+	 * 2.1.4 Recursive call (createHierarchy)
+	 */
 	static void createHierarchy(DatabaseObjectHierarchy top,
 			Map<String, DatasetCatalogHierarchy> catalogmap, Map<String, DataObjectLink> linkmap) {
-		System.out.println("createHierarchy:\n" + top);
 		DatasetCatalogHierarchy obj = (DatasetCatalogHierarchy) top.getObject();
-		System.out.println("createHierarchy:\n" + obj);
 		for(String sub : obj.getChemConnectObjectLink()) {
 			DataObjectLink link = linkmap.get(sub);
 			if(link != null) {
@@ -131,6 +160,7 @@ public class ReadWriteDatabaseCatalog {
 		}
 		return mapping;
 	}
+	
 	
 	
 	

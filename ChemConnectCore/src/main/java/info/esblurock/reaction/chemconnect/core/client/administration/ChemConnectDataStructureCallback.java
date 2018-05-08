@@ -1,5 +1,7 @@
 package info.esblurock.reaction.chemconnect.core.client.administration;
 
+import java.util.Map;
+
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -35,7 +37,24 @@ public class ChemConnectDataStructureCallback implements AsyncCallback<ChemConne
 		addHierarchialModal(topobj,structure);
 		top.setIdentifer(topobj);
 	}
+	/*
+	 * ChemConnectDataStructure has the information structure, but the elements are not filled in
+	 * The objects are filled in with MainDataStructureCollapsible
+	 * 
+	 * 1. This loops through each record:
+	 * 1.1 Using the suffix, determine the subelement name
+	 * 1.2 Create a new subobj information (subobj) -- inheirits all from top object
+	 * 1.3 If the type is listed in the mapping, then create a MainDataStructureCollapsible
+	 * 1.4 Add content
+	 */
 	public void addHierarchialModal(DatabaseObject topobj,ChemConnectDataStructure infoStructure) {
+		Map<String, DatabaseObject> objectmap = infoStructure.getObjectMap();
+		Window.alert("ChemConnectDataStructureCallback: object map keys\n" + objectmap.keySet());
+		Window.alert("ChemConnectDataStructureCallback: top identifier   " + topobj.getIdentifier());
+		DatabaseObject topcatalogobject = objectmap.get(topobj.getIdentifier());
+		if(topcatalogobject != null ) {
+			topobj = topcatalogobject;
+		}
 		for(DataElementInformation element : infoStructure.getRecords()) {
 			String subid = topobj.getIdentifier() + "-" + element.getSuffix();
 			DatabaseObject subobj = new DatabaseObject(topobj);

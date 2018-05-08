@@ -13,6 +13,8 @@ import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveInterpretedInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterValueInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.SetOfObservationsInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.SubSystemParameters;
@@ -22,13 +24,16 @@ public class MultipleRecordsPrimitive extends PrimitiveDataStructureBase {
 
 	MultipleRecordsPrimitiveRow row;
 	Map<String, PrimitiveDataStructureBase> structuremap;
+	CreatePrimitiveStructure create;
 	
 	public MultipleRecordsPrimitive() {
 		structuremap = new HashMap<String, PrimitiveDataStructureBase>();
 		row = null;
+		create = null;
 	}
 	public MultipleRecordsPrimitive(String structure,
 			CreatePrimitiveStructure create) {
+		this.create = create;
 		row = new MultipleRecordsPrimitiveRow(structure,create);
 		row.setIdentifier(getDatabaseObject());
 		structuremap = new HashMap<String, PrimitiveDataStructureBase>();
@@ -36,6 +41,16 @@ public class MultipleRecordsPrimitive extends PrimitiveDataStructureBase {
 		this.setRowColorMultiple(Color.GREY_LIGHTEN_1);
 	}
 
+	public void addPrimitive(ArrayList<String> lst, Map<String,DatabaseObject> objectmap) {
+		for(String id : lst) {
+			DatabaseObject obj = objectmap.get(id);
+			PrimitiveDataStructureInformation base = new PrimitiveDataStructureInformation();
+			PrimitiveInterpretedInformation info = new PrimitiveInterpretedInformation(base, obj);
+			PrimitiveDataStructureBase structure = row.addStructure(info);
+			structuremap.put(id,structure);
+		}
+	}
+	
 	public void fillInParameters(DatabaseObject obj, SubsystemInformation subsysteminfo) {
 		ArrayList<String> parameternames = new ArrayList<String>();
 		SubSystemParameters parameters = subsysteminfo.getAttributes();

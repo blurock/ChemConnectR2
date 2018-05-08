@@ -114,18 +114,6 @@ public class RecordStructureCollapsible extends Composite {
 		Window.alert("RecordStructureCollapsible: Object\n" + obj.toString());
 		datatype.setTextColor(Color.BLACK);
 		try {
-			CreatePrimitiveStructure create = CreatePrimitiveStructure.valueOf(structuretype);
-				Window.alert("RecordStructureCollapsible: using create:  " + structuretype);
-				DatabaseObject cobj = new DatabaseObject(compound.getObject());
-				String type = compound.getChemconnectcompound();
-				String propertyType = compound.getPropertyType();
-				String value = obj.getIdentifier();
-				PrimitiveDataStructureInformation info = new PrimitiveDataStructureInformation(obj, type, propertyType,
-						value);
-				PrimitiveInterpretedInformation primitive = new PrimitiveInterpretedInformation(info, compound.getObject());
-				PrimitiveDataStructureBase element = create.createStructure(primitive);
-				element.setIdentifier(cobj);
-				panel.add(element);
 		} catch(IllegalArgumentException ex) {
 			for (PrimitiveDataStructureInformation primitive : compound.getPrimitiveelements()) {
 				Window.alert("RecordStructureCollapsible: " + primitive.toString());
@@ -151,6 +139,21 @@ public class RecordStructureCollapsible extends Composite {
 				Window.alert("Compound:   " + primitive.toString());
 			}
 		}
+	}
+	
+	private void putCreateObjectInPanel(String structuretype) throws IllegalArgumentException {
+		CreatePrimitiveStructure create = CreatePrimitiveStructure.valueOf(structuretype);
+		Window.alert("RecordStructureCollapsible: using create:  " + structuretype);
+		DatabaseObject cobj = new DatabaseObject(compound.getObject());
+		String type = compound.getChemconnectcompound();
+		String propertyType = compound.getPropertyType();
+		String value = obj.getIdentifier();
+		PrimitiveDataStructureInformation info = new PrimitiveDataStructureInformation(obj, type, propertyType,
+				value);
+		PrimitiveInterpretedInformation primitive = new PrimitiveInterpretedInformation(info, compound.getObject());
+		PrimitiveDataStructureBase element = create.createStructure(primitive);
+		element.setIdentifier(cobj);
+		panel.add(element);
 	}
 
 }

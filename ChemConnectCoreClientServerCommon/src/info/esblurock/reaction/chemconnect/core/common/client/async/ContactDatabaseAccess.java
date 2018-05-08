@@ -2,6 +2,7 @@ package info.esblurock.reaction.chemconnect.core.common.client.async;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -60,5 +61,6 @@ public interface ContactDatabaseAccess extends RemoteService {
 	ChemConnectDataStructure getSetOfObservationsStructructure();
 	DatabaseObject getBaseUserDatabaseObject();
 	GPSLocation getGPSLocation(DatabaseObject obj, String city, String country) throws IOException;
-	ChemConnectDataStructure getChemConnectDataStructure(String structureS);
+	ChemConnectDataStructure getChemConnectDataStructure(String identifier, String structureS);
+	Map<String,DatabaseObject> getElementsOfCatalogObject(String identifier, String dataElementName);
 }

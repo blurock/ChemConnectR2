@@ -20,7 +20,11 @@ import gwt.material.design.client.ui.MaterialTooltip;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHeirarchy;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchyFromDefinition;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.dataset.DataObjectLink;
+import info.esblurock.reaction.chemconnect.core.data.dataset.PurposeConceptPair;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveInterpretedInformation;
 
 public class PrimitiveConceptRow extends Composite implements HasText, ChooseFromConceptHeirarchy {
 
@@ -29,13 +33,9 @@ public class PrimitiveConceptRow extends Composite implements HasText, ChooseFro
 	interface PrimitiveConceptRowUiBinder extends UiBinder<Widget, PrimitiveConceptRow> {
 	}
 
-	public PrimitiveConceptRow() {
-		initWidget(uiBinder.createAndBindUi(this));
-		init();
-	}
 
 	@UiField
-	MaterialLink type;
+	MaterialLink purpose;
 	@UiField
 	MaterialLink concept;
 	@UiField
@@ -43,25 +43,40 @@ public class PrimitiveConceptRow extends Composite implements HasText, ChooseFro
 	@UiField
 	MaterialTooltip tip;
 	@UiField
+	MaterialTooltip purposetip;
+	@UiField
+	MaterialTooltip concepttip;
+	@UiField
 	MaterialIcon info;
 	
 	boolean conceptSet;
 	String identifier;
 	String typeWithNamespace;
 	
+	public PrimitiveConceptRow() {
+		initWidget(uiBinder.createAndBindUi(this));
+		init();
+		purpose.setText("choose purpose");
+		concept.setText("choose concept");
+	}
 	public PrimitiveConceptRow(PrimitiveDataStructureInformation info) {
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
+		PrimitiveInterpretedInformation interpreted = (PrimitiveInterpretedInformation) info;
+		DatabaseObject cobject = interpreted.getObj();
+		PurposeConceptPair conceptobj = (PurposeConceptPair) cobject;
 		typeWithNamespace = info.getType();
 		identifier = info.getIdentifier();
-		type.setText(TextUtilities.removeNamespace(typeWithNamespace));
+		purpose.setText(TextUtilities.removeNamespace(conceptobj.getPurpose()));
+		concept.setText(TextUtilities.removeNamespace(conceptobj.getConcept()));
 		tip.setText(identifier);
-		concept.setText(info.getValue());
 		conceptSet = true;
 	}
 
 	private void init() {
-		type.setTextColor(Color.BLACK);
+		purposetip.setText("Purpose");
+		concepttip.setText("Concept");
+		purpose.setTextColor(Color.BLACK);
 		concept.setTextColor(Color.BLACK);
 		conceptSet = false;
 	}

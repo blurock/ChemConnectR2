@@ -14,6 +14,7 @@ import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.MaterialTooltip;
+import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataObjectLink;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
@@ -74,7 +75,7 @@ public class PrimitiveDataObjectLinkRow extends Composite {
 		PrimitiveInterpretedInformation interpreted = (PrimitiveInterpretedInformation) info;
 		DatabaseObject cobject = interpreted.getObj();
 		DataObjectLink objlink = (DataObjectLink) cobject;
-		concept.setText(objlink.getLinkConcept());
+		concept.setText(TextUtilities.removeNamespace(objlink.getLinkConcept()));
 		link.setText(objlink.getDataStructure());
 		String parentlink = "Parent: " + objlink.getParentLink();
 		linktip.setText(parentlink);
