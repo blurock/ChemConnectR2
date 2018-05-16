@@ -192,7 +192,11 @@ public class MainDataStructureCollapsible extends Composite {
 	private void setUpStructureElements(DatabaseObject obj, DataElementInformation element,
 			ChemConnectCompoundDataStructure struct, MapToChemConnectCompoundDataStructure mapping,
 			Map<String, DatabaseObject> objectmap) {
-		DatabaseObject currentobject = objectmap.get(obj.getIdentifier());
+		Window.alert("setUpStructureElements: ID: " + obj.getIdentifier() + "   " + isParameterDescriptionSet);
+		DatabaseObject currentobject = null;
+		if(objectmap != null) {
+			currentobject = objectmap.get(obj.getIdentifier());
+		}
 		try {
 			CreatePrimitiveStructure create = CreatePrimitiveStructure.valueOf(element.getChemconnectStructure());
 			structureWithPrimitiveStructure(obj, currentobject, element, create, objectmap);
@@ -251,17 +255,23 @@ public class MainDataStructureCollapsible extends Composite {
 			base.setIdentifier(obj);
 			content.add(base);
 		} else {
+			Window.alert("structureWithPrimitiveStructure");
 			try {
 				String elementname = element.getDataElementName();
+				MultipleRecordsPrimitive multiple = new MultipleRecordsPrimitive(elementname, create);
+				if(currentobject != null) {
 				ChemConnectCompoundMultiple compound = (ChemConnectCompoundMultiple) currentobject;
 				ArrayList<String> lst = compound.getIds();
-				MultipleRecordsPrimitive multiple = new MultipleRecordsPrimitive(elementname, create);
 				multiple.setIdentifier(currentobject);
 				multiple.addPrimitive(lst, objectmap);
-				if (isParameterDescriptionSet && elementname.compareTo(parameterValueS) == 0) {
-					multiple.fillInParameters(obj, subsysteminfo);
-				}
+				} else {
+					Window.alert("Test: " + isParameterDescriptionSet + "    " + elementname);
+					if (isParameterDescriptionSet && elementname.compareTo(parameterValueS) == 0) {
+						Window.alert("fill");
+						multiple.fillInParameters(obj, subsysteminfo);
+					}
 				content.add(multiple);
+				}
 			} catch (Exception ex) {
 				Window.alert(ex.toString());
 			}

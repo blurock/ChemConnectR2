@@ -49,8 +49,6 @@ public class ChemConnectDataStructureCallback implements AsyncCallback<ChemConne
 	 */
 	public void addHierarchialModal(DatabaseObject topobj,ChemConnectDataStructure infoStructure) {
 		Map<String, DatabaseObject> objectmap = infoStructure.getObjectMap();
-		Window.alert("ChemConnectDataStructureCallback: object map keys\n" + objectmap.keySet());
-		Window.alert("ChemConnectDataStructureCallback: top identifier   " + topobj.getIdentifier());
 		DatabaseObject topcatalogobject = objectmap.get(topobj.getIdentifier());
 		if(topcatalogobject != null ) {
 			topobj = topcatalogobject;

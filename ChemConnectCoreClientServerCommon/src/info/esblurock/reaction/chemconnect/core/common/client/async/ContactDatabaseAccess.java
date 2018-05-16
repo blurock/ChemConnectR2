@@ -53,7 +53,7 @@ public interface ContactDatabaseAccess extends RemoteService {
 	SetOfKeywordRDF subsystemInterconnections(String topnode, String access, String owner, String sourceID);
 	HierarchyNode hierarchyOfConcepts(String topnode);
 	HierarchyNode hierarchyOfConceptsWithLevelLimit(String topnode, int maxlevel);
-	TotalSubsystemInformation buildSubSystem(String concept);
+	TotalSubsystemInformation buildSubSystem(String id, String concept);
 	SetOfUnitProperties unitProperties(String topunit);
 	ArrayList<PrimitiveParameterValueInformation> getParameterInfo(ArrayList<String> parameternames);
 	HierarchyNode hierarchyFromPrimitiveStructure(String structure);

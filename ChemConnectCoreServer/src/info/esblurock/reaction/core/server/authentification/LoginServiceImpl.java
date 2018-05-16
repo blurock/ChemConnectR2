@@ -62,23 +62,20 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 				
 				DatabaseObject obj = new DatabaseObject("Administration", "Administration","Administration",sourceID);
 				NameOfPerson person = new NameOfPerson(obj,"","","Administration");
-				DatabaseObjectHierarchy user = CreateDefaultObjectsFactory.createMinimalPersonDescription(obj, 
-						"Administraction", "dataset:PurposeUser", person);
+				DatabaseObjectHierarchy user = CreateDefaultObjectsFactory.fillMinimalPersonDescription(obj, 
+						"Administraction", person);
 				System.out.println("User information:\n" + user.toString());
 				WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(user);
 
 				DatabaseObject orgobj = new DatabaseObject("BlurockConsultingAB", "Administration","Administration",sourceID);
-				DatabaseObjectHierarchy org = CreateDefaultObjectsFactory.createMinimalOrganization(orgobj, "Blurock Consulting AB", "dataset:PurposeOrganization");
+				DatabaseObjectHierarchy org = CreateDefaultObjectsFactory.fillOrganization(orgobj, "Blurock Consulting AB");
 				System.out.println("Organization information:\n" + org.toString());
 				WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(org);
 
-				//String catalogname = DatasetCatalogHierarchy.createFullCatalogName("Catalog", "Administration");
-						//ReadWriteDatabaseCatalog.createUserCatalogName("Administration");
 				DatabaseObject catobj = new DatabaseObject("Catalog", "Administration","Administration",sourceID);
-				DatabaseObjectHierarchy cat = CreateDefaultObjectsFactory.createCataogHierarchyForUser(catobj, "Administration", "BlurockConsultingAB");
+				DatabaseObjectHierarchy cat = CreateDefaultObjectsFactory.fillCataogHierarchyForUser(catobj, "Administration", "BlurockConsultingAB");
 				System.out.println("Organization information:\n" + cat.toString());
 				WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(cat);
-
 			}
 			
 		} else {

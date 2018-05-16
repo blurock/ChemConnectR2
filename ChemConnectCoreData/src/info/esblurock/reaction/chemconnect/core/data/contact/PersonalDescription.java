@@ -53,6 +53,13 @@ public class PersonalDescription extends ChemConnectCompoundDataStructure {
 		return nameOfPersonIdentifier;
 	}
 	
+	
+	public void setUserClassification(String userClassification) {
+		UserClassification = userClassification;
+	}
+	public void setNameOfPersonIdentifier(String nameOfPersonIdentifier) {
+		this.nameOfPersonIdentifier = nameOfPersonIdentifier;
+	}
 	public String toString() {
 		return toString("");
 	}

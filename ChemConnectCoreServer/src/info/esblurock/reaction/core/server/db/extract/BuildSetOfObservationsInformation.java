@@ -1,4 +1,4 @@
-package info.esblurock.reaction.ontology;
+package info.esblurock.reaction.core.server.db.extract;
 
 import java.util.Set;
 

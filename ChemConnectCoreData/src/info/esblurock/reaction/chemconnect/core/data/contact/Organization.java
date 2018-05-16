@@ -69,12 +69,11 @@ public class Organization extends ChemConnectDataStructure {
 		StringBuilder builder = new StringBuilder();
 		builder.append(super.toString(prefix));
 		builder.append(prefix + "Contact: ");
-		builder.append(contactInfoDataID);
-		builder.append(", Location: ");
-		builder.append(contactLocationInformationID);
-		builder.append("\n" + prefix + "OrgDescr: ");
-		builder.append(organizationDescriptionID);
-		builder.append("\n");
+		builder.append(contactInfoDataID + "\n");
+		builder.append(prefix + "Location: ");
+		builder.append(contactLocationInformationID + "\n");
+		builder.append(prefix + "OrgDescr: ");
+		builder.append(organizationDescriptionID + "\n");
 		return builder.toString();
 	}
 	

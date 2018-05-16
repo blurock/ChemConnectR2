@@ -76,6 +76,24 @@ public class OrganizationDescription extends ChemConnectCompoundDataStructure {
 		return SubOrganizationOf;
 	}
 	
+	
+	
+	public void setOrganizationUnit(String organizationUnit) {
+		OrganizationUnit = organizationUnit;
+	}
+
+	public void setOrganizationClassification(String organizationClassification) {
+		OrganizationClassification = organizationClassification;
+	}
+
+	public void setOrganizationName(String organizationName) {
+		OrganizationName = organizationName;
+	}
+
+	public void setSubOrganizationOf(String subOrganizationOf) {
+		SubOrganizationOf = subOrganizationOf;
+	}
+
 	public String toString() {
 		return toString("");
 	}

@@ -36,6 +36,9 @@ public class DataSpecification extends DatabaseObject {
 		return purposeandconcept;
 	}
 
+	public void setPurposeandconcept(String purposeandconcept) {
+		this.purposeandconcept = purposeandconcept;
+	}
 	@Override
 	public String toString() {
 		return toString("");

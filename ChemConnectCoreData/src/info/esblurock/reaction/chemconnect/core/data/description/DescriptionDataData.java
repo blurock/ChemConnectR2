@@ -122,6 +122,28 @@ public class DescriptionDataData extends ChemConnectCompoundDataStructure {
 	public String getKeywords() {
 		return keywords;
 	}
+	
+	public String getSourceConceptID() {
+		return sourceConceptID;
+	}
+	public void setSourceConceptID(String sourceConceptID) {
+		this.sourceConceptID = sourceConceptID;
+	}
+	public String getDescriptionAbstract() {
+		return descriptionAbstract;
+	}
+	public void setOnlinedescription(String onlinedescription) {
+		this.onlinedescription = onlinedescription;
+	}
+	public void setSourceDate(Date sourceDate) {
+		this.sourceDate = sourceDate;
+	}
+	public void setDataType(String dataType) {
+		this.dataType = dataType;
+	}
+	public void setKeywords(String keywords) {
+		this.keywords = keywords;
+	}
 	public String toString() {
 		return toString("");
 	}
@@ -132,8 +154,9 @@ public class DescriptionDataData extends ChemConnectCompoundDataStructure {
 		builder.append("Title: " + onlinedescription);
 		builder.append("\n");
 		builder.append(prefix);
-		builder.append("Source: " + sourceConceptID);
-		builder.append(", Type: ");
+		builder.append("Source: " + sourceConceptID + "\n");
+		builder.append(prefix);
+		builder.append("Type: ");
 		builder.append(dataType);
 		builder.append("\n");
 		abstractType(prefix,descriptionAbstract,builder);

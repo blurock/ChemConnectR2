@@ -40,6 +40,15 @@ public class ParameterSpecification extends DataSpecification {
 	public String getUnits() {
 		return Units;
 	}
+
+	public void setDataPointUncertainty(String dataPointUncertainty) {
+		DataPointUncertainty = dataPointUncertainty;
+	}
+
+	public void setUnits(String units) {
+		Units = units;
+	}
+
 	@Override
 	public String toString() {
 		return toString("");

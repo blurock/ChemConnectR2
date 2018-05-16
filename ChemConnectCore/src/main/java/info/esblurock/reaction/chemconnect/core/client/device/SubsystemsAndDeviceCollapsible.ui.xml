@@ -7,8 +7,14 @@
 	<m:MaterialCollapsibleItem ui:field="body">
 		<m:MaterialCollapsibleHeader>
 			<m:MaterialRow>
-				<m:MaterialColumn grid="s10">
-					<m:MaterialLabel ui:field="typetitle" textColor="BLACK" />
+				<m:MaterialColumn grid="s9">
+					<m:MaterialTooltip ui:field="idtip">
+						<m:MaterialLabel ui:field="typetitle" textColor="BLACK" />
+					</m:MaterialTooltip>
+				</m:MaterialColumn>
+				<m:MaterialColumn grid="s1">
+					<m:MaterialLink ui:field="save" iconType="SAVE"
+						iconPosition="RIGHT" />
 				</m:MaterialColumn>
 				<m:MaterialColumn grid="s1">
 					<m:MaterialLink ui:field="info" iconType="INFO"

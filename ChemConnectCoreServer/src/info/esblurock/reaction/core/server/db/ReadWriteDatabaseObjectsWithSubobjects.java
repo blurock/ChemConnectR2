@@ -15,8 +15,12 @@ import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 public class ReadWriteDatabaseObjectsWithSubobjects {
 
 	public static Map<String,DatabaseObject> readCatalogObjectWithElements(String type, String identifier) {
+		
+		System.out.println("readCatalogObjectWithElements: " + type + "  -   " + identifier);
+		
 		Map<String,DatabaseObject> map = new HashMap<String,DatabaseObject>();
 		ClassificationInformation info = DatasetOntologyParsing.getIdentificationInformation(type);
+		System.out.println("readCatalogObjectWithElements: " + info);
 		addDatabaseObject(identifier,info.getDataType(),info.getIdentifier(),map);
 		return map;
 	}

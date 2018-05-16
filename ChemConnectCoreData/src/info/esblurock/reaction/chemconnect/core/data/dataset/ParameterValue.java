@@ -34,6 +34,15 @@ public class ParameterValue extends AttributeInDataset {
 		return parameterSpec;
 	}
 	
+	public void setValueAsString(String valueAsString) {
+		this.valueAsString = valueAsString;
+	}
+	public void setUncertainty(String uncertainty) {
+		this.uncertainty = uncertainty;
+	}
+	public void setParameterSpec(String parameterSpec) {
+		this.parameterSpec = parameterSpec;
+	}
 	public String toString() {
 		return toString("");
 	}

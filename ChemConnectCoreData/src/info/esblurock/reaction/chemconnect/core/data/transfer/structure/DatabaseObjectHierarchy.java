@@ -2,6 +2,8 @@ package info.esblurock.reaction.chemconnect.core.data.transfer.structure;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 
@@ -9,7 +11,7 @@ public class DatabaseObjectHierarchy implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	DatabaseObject object;
-	ArrayList<DatabaseObjectHierarchy> subobjects;
+	HashMap<String, DatabaseObjectHierarchy> subobjects;
 	
 	public DatabaseObjectHierarchy() {
 		object = null;
@@ -20,20 +22,38 @@ public class DatabaseObjectHierarchy implements Serializable {
 		init();
 	}
 	private void init() {
-		subobjects = new ArrayList<DatabaseObjectHierarchy>();
+		subobjects = new HashMap<String,DatabaseObjectHierarchy>();
 	}
 	public DatabaseObject getObject() {
 		return object;
 	}
+	
 	public void setObject(DatabaseObject obj) {
 		this.object = obj;
 	}
 	
+	public DatabaseObjectHierarchy getSubObject(String name) {
+		return subobjects.get(name);
+	}
+	
+	public void transferSubObjects(DatabaseObjectHierarchy hierarchy) {
+		ArrayList<DatabaseObjectHierarchy> subs = hierarchy.getSubobjects();
+		for(DatabaseObjectHierarchy sub : subs) {
+			this.addSubobject(sub);
+		}
+	}
+	
 	public ArrayList<DatabaseObjectHierarchy> getSubobjects() {
-		return subobjects;
+		ArrayList<DatabaseObjectHierarchy> array = new ArrayList<DatabaseObjectHierarchy>();
+		Set<String> names = subobjects.keySet();
+		for(String name : names) {
+			array.add(subobjects.get(name));
+		}
+		return array;
 	}
 	public void addSubobject(DatabaseObjectHierarchy objecthierarchy) {
-		subobjects.add(objecthierarchy);
+		DatabaseObject obj = objecthierarchy.getObject();
+		subobjects.put(obj.getIdentifier(),objecthierarchy);
 	}
 	
 	public String toString() {
@@ -45,15 +65,20 @@ public class DatabaseObjectHierarchy implements Serializable {
 		builder.append(prefix);
 		builder.append("---------- DatabaseObjectHierarchy ---------- " 
 		+ subobjects.size() + "\n");
+		String objprefix = prefix + " Obj: ";
 		if(object != null) {
-			builder.append(object.toString(prefix));
+			builder.append(object.toString(objprefix));
 		} else {
-			builder.append(prefix + " No object defined");
+			builder.append(objprefix + " No object defined");
 		}
 		builder.append("\n");
 		String newprefix = prefix + "\t:  ";
-		for(DatabaseObjectHierarchy hierarchy : subobjects) {
-			builder.append(hierarchy.toString(newprefix));
+		Set<String> names = subobjects.keySet();
+		int count = 0;
+		for(String name : names) {
+			String subprefix = newprefix + count++ + ": ";
+			DatabaseObjectHierarchy hierarchy = subobjects.get(name);
+			builder.append(hierarchy.toString(subprefix));
 		}
 		return builder.toString();
 	}

@@ -66,10 +66,11 @@ public class IndividualInformation extends ChemConnectDataStructure {
 		StringBuilder build = new StringBuilder();
 		build.append(super.toString(prefix));
 		build.append(prefix);
-		build.append("Contact Info: " + contactInfoDataID + ",  ");
+		build.append("Contact Info: " + contactInfoDataID + "\n");
+		build.append(prefix);
 		build.append("Contact Location: " + contactLocationInformationID + "\n");
 		build.append(prefix);
-		build.append("Personal Description: " +  personalDescriptionID + ",  ");
+		build.append("Personal Description: " +  personalDescriptionID + "\n");
 		return build.toString();
 	}
 }

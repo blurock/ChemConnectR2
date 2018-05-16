@@ -18,14 +18,15 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInfo
 import info.esblurock.reaction.chemconnect.core.data.transfer.DatasetInformationFromOntology;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterValueInformation;
 import info.esblurock.reaction.core.server.db.ReadWriteDatabaseObjectsWithSubobjects;
+import info.esblurock.reaction.core.server.db.extract.BuildFromCatalogInformation;
+import info.esblurock.reaction.core.server.db.extract.BuildSetOfObservationsInformation;
+import info.esblurock.reaction.core.server.db.extract.BuildSubsystemInformation;
 import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.db.extract.GeocodingLatituteAndLongitude;
 import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
 import info.esblurock.reaction.core.server.services.util.DatabaseObjectUtilities;
 import info.esblurock.reaction.io.dataset.InterpretData;
 import info.esblurock.reaction.io.db.QueryBase;
-import info.esblurock.reaction.ontology.BuildSetOfObservationsInformation;
-import info.esblurock.reaction.ontology.BuildSubsystemInformation;
 import info.esblurock.reaction.ontology.dataset.ConceptParsing;
 import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 import info.esblurock.reaction.ontology.units.OntologyUnits;
@@ -135,9 +136,8 @@ public class ContactDatabaseAccessImpl extends ServerBase implements ContactData
 	}
 	
 
-	public TotalSubsystemInformation buildSubSystem(String concept) {
-		BuildSubsystemInformation build = new BuildSubsystemInformation(concept);
-
+	public TotalSubsystemInformation buildSubSystem(String id, String concept) {
+		BuildSubsystemInformation build = new BuildSubsystemInformation(id,concept);
 		ContextAndSessionUtilities context = getUtilities();
 		String username = context.getUserName();
 		String sourceID = QueryBase.getDataSourceIdentification(username);
@@ -186,26 +186,20 @@ public class ContactDatabaseAccessImpl extends ServerBase implements ContactData
 	}
 
 	public ChemConnectDataStructure getChemConnectDataStructure(String identifier, String structureS) {
-		ChemConnectDataStructure structure = DatasetOntologyParsing
-				.getChemConnectDataStructure(structureS);
-		Map<String,DatabaseObject> map = getElementsOfCatalogObject(identifier,structureS);
-		DatabaseObject obj = map.get(identifier);
-		if(obj == null) {
-			obj = getBaseUserDatabaseObject();
+		ChemConnectDataStructure structure = BuildFromCatalogInformation.getChemConnectDataStructure(identifier, structureS);
+		if(structure.getIdentifier() == null) {
+			DatabaseObject obj = getBaseUserDatabaseObject();
+			structure.setIdentifier(obj);
 		}
-		structure.setObjectMap(map);
-		structure.setIdentifier(obj);
 		return structure;
 	}
 	
 	public ChemConnectDataStructure getSetOfObservationsStructructure() {
-		
 		return getChemConnectDataStructure("Administration", "dataset:SetOfObservationsStructure");
 	}
 	
 	public void delete() {
 		
 	}
-	
 	
 }

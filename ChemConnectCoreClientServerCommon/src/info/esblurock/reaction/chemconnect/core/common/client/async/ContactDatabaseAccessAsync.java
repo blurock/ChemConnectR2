@@ -51,7 +51,7 @@ public interface ContactDatabaseAccessAsync {
 
 	void hierarchyOfConceptsWithLevelLimit(String topnode, int maxlevel, AsyncCallback<HierarchyNode> callback);
 
-	void buildSubSystem(String concept, AsyncCallback<TotalSubsystemInformation> callback);
+	void buildSubSystem(String id, String concept, AsyncCallback<TotalSubsystemInformation> callback);
 
 	void unitProperties(String topunit, AsyncCallback<SetOfUnitProperties> callback);
 

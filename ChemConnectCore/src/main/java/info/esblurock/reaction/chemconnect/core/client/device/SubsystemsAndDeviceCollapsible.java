@@ -16,10 +16,12 @@ import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialToast;
+import gwt.material.design.client.ui.MaterialTooltip;
 import info.esblurock.reaction.chemconnect.core.client.cards.CardModal;
 import info.esblurock.reaction.chemconnect.core.client.modal.OKAnswerInterface;
 import info.esblurock.reaction.chemconnect.core.client.modal.OKModal;
 import info.esblurock.reaction.chemconnect.core.client.pages.MainDataStructureCollapsible;
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
@@ -34,9 +36,8 @@ public class SubsystemsAndDeviceCollapsible extends Composite implements OKAnswe
 
 	@UiField
 	MaterialLabel typetitle;
-
-	String identifier;
-
+	@UiField
+	MaterialTooltip idtip;
 	@UiField
 	MaterialCollapsible contentcollapsible;
 	@UiField
@@ -55,7 +56,8 @@ public class SubsystemsAndDeviceCollapsible extends Composite implements OKAnswe
 	ArrayList<SubsystemsAndDeviceCollapsible> subList;
 	String catagory;
 	String suffix;
-
+	DatabaseObject object;
+	String identifier;
 	boolean readOnly;
 
 	public SubsystemsAndDeviceCollapsible() {
@@ -63,11 +65,12 @@ public class SubsystemsAndDeviceCollapsible extends Composite implements OKAnswe
 		init();
 	}
 
-	public SubsystemsAndDeviceCollapsible(String name, MaterialPanel modalpanel) {
+	public SubsystemsAndDeviceCollapsible(String name, DatabaseObject object, MaterialPanel modalpanel) {
 		initWidget(uiBinder.createAndBindUi(this));
 		typetitle.setText(eliminateNamespace(name));
 		this.modalpanel = modalpanel;
 		init();
+		idtip.setText(object.getIdentifier());
 	}
 
 	void init() {
@@ -136,10 +139,13 @@ public class SubsystemsAndDeviceCollapsible extends Composite implements OKAnswe
 			newsuffix = "";
 		}
 		*/
+		Window.alert("addHierarchialModal: # " + infoStructure.getRecords().size());
 		for (DataElementInformation element : infoStructure.getRecords()) {
+			Window.alert("addHierarchialModal: element:  " + element.toString());
 			String type = element.getDataElementName();
 			ChemConnectCompoundDataStructure compound = infoStructure.getMapping().getStructure(type);
 			if (compound != null) {
+				Window.alert("addHierarchialModal:compound:   " + compound.toString());
 				//MainDataStructureCollapsible main = new MainDataStructureCollapsible(compound, infoStructure,null);
 				//add(main);
 			} else {

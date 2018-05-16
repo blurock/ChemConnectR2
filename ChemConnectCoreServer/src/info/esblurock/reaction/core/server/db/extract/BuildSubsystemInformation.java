@@ -1,4 +1,4 @@
-package info.esblurock.reaction.ontology;
+package info.esblurock.reaction.core.server.db.extract;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -14,18 +14,17 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.graph.SubsystemInf
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.TotalSubsystemInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
 import info.esblurock.reaction.ontology.dataset.ConceptParsing;
-import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 
 public class BuildSubsystemInformation {
 	
 	public static String hasOutput = "ssn:hasOutput";
 	TotalSubsystemInformation total;
 
-	public BuildSubsystemInformation(String concept) {
-		total = new TotalSubsystemInformation(concept);
-		HierarchyNode info = buildHierarchy(concept,total.getSubsystemsandcomponents(), total.getAttributesubsystemMap());
+	public BuildSubsystemInformation(String topid, String structureS) {
+		total = new TotalSubsystemInformation(structureS);
+		HierarchyNode info = buildHierarchy(structureS,total.getSubsystemsandcomponents(), total.getAttributesubsystemMap());
 		total.setSubsystemtree(info);
-		ChemConnectDataStructure struct = DatasetOntologyParsing.getChemConnectDataStructure("dataset:SubSystemDescription");
+		ChemConnectDataStructure struct = BuildFromCatalogInformation.getChemConnectDataStructure(topid,"dataset:SubSystemDescription");
 		System.out.println("BuildSubsystemInformation:  " + struct.toString());
 		total.setInfoStructure(struct);
 		System.out.println(total.toString());

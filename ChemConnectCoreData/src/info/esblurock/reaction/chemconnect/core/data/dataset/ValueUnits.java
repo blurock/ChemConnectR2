@@ -38,6 +38,12 @@ public class ValueUnits extends DatabaseObject {
 	public String getUnitsOfValue() {
 		return unitsOfValue;
 	}
+	public void setUnitClass(String unitClass) {
+		this.unitClass = unitClass;
+	}
+	public void setUnitsOfValue(String unitsOfValue) {
+		this.unitsOfValue = unitsOfValue;
+	}
 
 	
 }

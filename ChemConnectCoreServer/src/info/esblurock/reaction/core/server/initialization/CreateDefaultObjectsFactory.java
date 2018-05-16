@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
@@ -18,203 +19,339 @@ import info.esblurock.reaction.chemconnect.core.data.contact.OrganizationDescrip
 import info.esblurock.reaction.chemconnect.core.data.contact.PersonalDescription;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
+import info.esblurock.reaction.chemconnect.core.data.dataset.AttributeInDataset;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataObjectLink;
+import info.esblurock.reaction.chemconnect.core.data.dataset.DataSpecification;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHierarchy;
+import info.esblurock.reaction.chemconnect.core.data.dataset.ParameterSpecification;
+import info.esblurock.reaction.chemconnect.core.data.dataset.ParameterValue;
 import info.esblurock.reaction.chemconnect.core.data.dataset.PurposeConceptPair;
 import info.esblurock.reaction.chemconnect.core.data.dataset.SetOfKeywords;
+import info.esblurock.reaction.chemconnect.core.data.dataset.ValueUnits;
 import info.esblurock.reaction.chemconnect.core.data.dataset.device.DeviceSubsystemElement;
 import info.esblurock.reaction.chemconnect.core.data.description.DescriptionDataData;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
+import info.esblurock.reaction.ontology.OntologyKeys;
+import info.esblurock.reaction.ontology.dataset.ConceptParsing;
 import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 
 public class CreateDefaultObjectsFactory {
 	
-	public static DatabaseObjectHierarchy createMinimalPersonDescription(DatabaseObject obj, 
-			String userClassification,
-			String purpose,
-			NameOfPerson person) {
-		Map<String, DataElementInformation> elementmap = createElementMap("dataset:DatabasePerson");
-		String concept = "dataset:ChemConnectContactConcept";
-		String onlinedescription = person.getGivenName() + " " + person.getFamilyName();
-
-		DatabaseObjectHierarchy contact = createContactInfo(obj,elementmap);
-		DatabaseObjectHierarchy location = createContactLocationInformation(obj,elementmap);
-		DatabaseObjectHierarchy personal = createPersonalDescription(obj,elementmap,person,userClassification);
-		DatabaseObjectHierarchy descr = createDescriptionDataData(obj,elementmap,
-				onlinedescription, concept,purpose);
+	
+	
+	static DatabaseObjectHierarchy fillDescriptionDataData(DatabaseObject obj,
+			String onelinedescription, String concept, String purpose) {
+		DatabaseObjectHierarchy descrhier = createDescriptionDataData(obj);
+		DescriptionDataData descr = (DescriptionDataData) descrhier.getObject();
+		descr.setOnlinedescription(onelinedescription);
 		
-		ChemConnectDataStructure structure = new ChemConnectDataStructure(obj,descr.getObject().getIdentifier());
+		setOneLineDescription(descrhier, onelinedescription);
+		setPurposeConceptPair(descrhier,concept,purpose);
+
+		return descrhier;
+	}
+
+	public static DatabaseObjectHierarchy createIndividualInformation(DatabaseObject obj) {
+		DatabaseObject indobj = new DatabaseObject(obj);
+		DataElementInformation element = DatasetOntologyParsing.getSubElementStructureFromIDObject(OntologyKeys.individualInformation);
+		String indid = createSuffix(obj,element);
+		indobj.setIdentifier(indid);
+		
+		DatabaseObjectHierarchy structhier = createChemConnectDataStructure(indobj);
+		ChemConnectDataStructure structure = (ChemConnectDataStructure) structhier.getObject();
+		
+		DatabaseObjectHierarchy contact = createContactInfo(indobj);
+		DatabaseObjectHierarchy location = createContactLocationInformation(indobj);
+		DatabaseObjectHierarchy personalhier = createPersonalDescription(indobj);
 		IndividualInformation info = new IndividualInformation(structure, 
 				contact.getObject().getIdentifier(),
 				location.getObject().getIdentifier(),
-				personal.getObject().getIdentifier());
-		
+				personalhier.getObject().getIdentifier());
+		info.setIdentifier(indid);
 		DatabaseObjectHierarchy top = new DatabaseObjectHierarchy(info);
 		top.addSubobject(contact);
 		top.addSubobject(location);
-		top.addSubobject(personal);
-		top.addSubobject(descr);
+		top.addSubobject(personalhier);
+		top.transferSubObjects(structhier);
+		
 		return top;
 	}
-	
-	public static DatabaseObjectHierarchy createMinimalOrganization(DatabaseObject obj,
-			String organizationname, String purpose) {
-		Map<String, DataElementInformation> elementmap = createElementMap("dataset:Organization");
 
-		String concept = MetaDataKeywords.conceptContact;
-		DatabaseObjectHierarchy contact = createContactInfo(obj,elementmap);
-		DatabaseObjectHierarchy location = createContactLocationInformation(obj,elementmap);
-		DatabaseObjectHierarchy orgdescr = createOrganizationDescription(obj,organizationname,elementmap);
-		DatabaseObjectHierarchy descr = createDescriptionDataData(obj,elementmap,
-				organizationname, concept,purpose);
+	
+	public static DatabaseObjectHierarchy fillMinimalPersonDescription(DatabaseObject obj, 
+			String userClassification,
+			NameOfPerson person) {
+		DatabaseObjectHierarchy infohier = createIndividualInformation(obj);
+		IndividualInformation info = (IndividualInformation) infohier.getObject();
 		
+		DatabaseObjectHierarchy personalhier = infohier.getSubObject(info.getPersonalDescriptionID());
+		PersonalDescription personal = (PersonalDescription) personalhier.getObject();
+		personal.setUserClassification(userClassification);
 		
-		ChemConnectDataStructure structure = new ChemConnectDataStructure(obj,descr.getObject().getIdentifier());
+		 String nameID = personal.getNameOfPersonIdentifier();
+		 DatabaseObjectHierarchy namehier = personalhier.getSubObject(nameID);
+		 NameOfPerson name = (NameOfPerson) namehier.getObject();
+		 name.fill(name, person.getTitle(), person.getGivenName(), person.getFamilyName());
+		 
+		 String onlinedescription = person.getGivenName() + " " + person.getFamilyName();
+		 setOneLineDescription(infohier, onlinedescription);
+		 
+		 String concept = "dataset:ChemConnectContactConcept";
+		 String purpose = "dataset:PurposeOrganization";
+		 setPurposeConceptPair(infohier, concept, purpose);
+		 
+		return infohier;
+	}
+
+	public static DatabaseObjectHierarchy createOrganization(DatabaseObject obj) {
+		DatabaseObject compobj = new DatabaseObject(obj);
+		DataElementInformation element = DatasetOntologyParsing.getSubElementStructureFromIDObject(OntologyKeys.organization);
+		String compid = createSuffix(obj,element);
+		compobj.setIdentifier(compid);
+		DatabaseObjectHierarchy contact = createContactInfo(compobj);
+		DatabaseObjectHierarchy location = createContactLocationInformation(compobj);
+		DatabaseObjectHierarchy orgdescr = createOrganizationDescription(compobj);
+		
+		DatabaseObjectHierarchy structurehier = createChemConnectDataStructure(obj);
+		ChemConnectDataStructure structure = (ChemConnectDataStructure) structurehier.getObject();
 		Organization org = new Organization(structure,
 				contact.getObject().getIdentifier(),
 				location.getObject().getIdentifier(),
 				orgdescr.getObject().getIdentifier()
 				);
-		
+		org.setIdentifier(compid);
 		DatabaseObjectHierarchy top = new DatabaseObjectHierarchy(org);
 		top.addSubobject(contact);
 		top.addSubobject(location);
 		top.addSubobject(orgdescr);
-		top.addSubobject(descr);
-
+		top.transferSubObjects(structurehier);
+		
 		return top;
 	}
-	
-	public static DatabaseObjectHierarchy createSubSystemDescription(DatabaseObject obj,
-			String devicename, String purpose, String concept) {
-		Map<String, DataElementInformation> elementmap = createElementMap("dataset:SubSystemDescription");
+	public static DatabaseObjectHierarchy fillOrganization(DatabaseObject obj,
+			String organizationname) {
+		String concept = MetaDataKeywords.conceptContact;
+		String purpose = MetaDataKeywords.purposeOrganization;
 
-		DatabaseObjectHierarchy descr = createDescriptionDataData(obj,elementmap,
-				devicename, concept,purpose);
+		DatabaseObjectHierarchy orghier = createOrganization(obj);
+		Organization org = (Organization) orghier.getObject();
+		
+		DatabaseObjectHierarchy orgdescrhier = orghier.getSubObject(org.getOrganizationDescriptionID());
+		OrganizationDescription orgdescr = (OrganizationDescription) orgdescrhier.getObject();
+		orgdescr.setOrganizationName(organizationname);
+				
+		setOneLineDescription(orghier, organizationname);
+		setPurposeConceptPair(orghier, concept, purpose);
 
-		ChemConnectDataStructure structure = new ChemConnectDataStructure(obj,descr.getObject().getIdentifier());
-		DeviceSubsystemElement device = new DeviceSubsystemElement(structure);
-		DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(device);
-		hierarchy.addSubobject(descr);
-		return hierarchy;
-	}	
-	
-	public static DatabaseObjectHierarchy productCatalogDescription(DatabaseObject obj, String onelinedescription,
-			Map<String, DataElementInformation> elementmap) {
-		DatabaseObject dobj = new DatabaseObject(obj);
-		String concept = "dataset:ChemConnectConceptSubCatalog";
-		String purpose = "dataset:ChemConnectDefineSubCatagory";
-		DatabaseObjectHierarchy descr = createDescriptionDataData(dobj, elementmap, onelinedescription, concept, purpose);
-		return descr;
+		return orghier;
 	}
 	
-	public static DatabaseObjectHierarchy createCatalogHierarchy(
+	public static DatabaseObjectHierarchy createSubSystemDescription(DatabaseObject obj) {
+		DatabaseObject subobj = new DatabaseObject(obj);
+		DataElementInformation element = DatasetOntologyParsing.getSubElementStructureFromIDObject(OntologyKeys.subSystemDescription);
+		String subid = createSuffix(obj,element);
+		subobj.setIdentifier(subid);
+		
+		DatabaseObjectHierarchy structhier = createChemConnectDataStructure(subobj);
+		ChemConnectDataStructure structure = (ChemConnectDataStructure) structhier.getObject();
+		
+		DeviceSubsystemElement device = new DeviceSubsystemElement(structure);
+		DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(device);
+		hierarchy.transferSubObjects(structhier);
+		
+		return hierarchy;
+	}
+	
+	public static DatabaseObjectHierarchy fillSubSystemDescription(DatabaseObject obj,
+			String devicename, String purpose, String concept) {
+		DatabaseObjectHierarchy hierarchy = createSubSystemDescription(obj);
+		DeviceSubsystemElement device = (DeviceSubsystemElement) hierarchy.getObject();
+		
+		DatabaseObjectHierarchy descrhier = hierarchy.getSubObject(device.getDescriptionDataData());
+		DescriptionDataData descr = (DescriptionDataData) descrhier.getObject();
+		descr.setOnlinedescription(devicename);
+		
+		setOneLineDescription(hierarchy, devicename);
+		setPurposeConceptPair(hierarchy, concept, purpose);
+		
+		return hierarchy;
+	}	
+	public static void setOneLineDescription(DatabaseObjectHierarchy hierarchy, String oneline) {
+		ChemConnectDataStructure structure = (ChemConnectDataStructure) hierarchy.getObject();
+		DatabaseObjectHierarchy descrhierarchy = hierarchy.getSubObject(structure.getDescriptionDataData());
+		DescriptionDataData descr = (DescriptionDataData) descrhierarchy.getObject();
+		descr.setOnlinedescription(oneline);
+	}
+
+	public static void setPurposeConceptPair(DatabaseObjectHierarchy hierarchy, String concept, String purpose) {
+		ChemConnectDataStructure structure = (ChemConnectDataStructure) hierarchy.getObject();
+		DatabaseObjectHierarchy descrhierarchy = hierarchy.getSubObject(structure.getDescriptionDataData());
+		DescriptionDataData descr = (DescriptionDataData) descrhierarchy.getObject();
+		
+		String pairID = descr.getSourceConceptID();
+		DatabaseObjectHierarchy pairhierarchy = descrhierarchy.getSubObject(pairID);
+		PurposeConceptPair pair = (PurposeConceptPair) pairhierarchy.getObject();
+		pair.setConcept(concept);
+		pair.setPurpose(purpose);
+	}
+
+	
+	public static DatabaseObjectHierarchy fillDatasetCatalogHierarchy(
 			DatasetCatalogHierarchy topcatalog,
 			DatabaseObject obj, String id, 
 			String onelinedescription) {
-		Map<String, DataElementInformation> elementmap = createElementMap("dataset:DatasetCatalogHierarchy");
-		System.out.println(elementmap);
+		DataElementInformation linkelement = DatasetOntologyParsing.getSubElementStructureFromIDObject(OntologyKeys.dataObjectLink);
 		
 		DatabaseObject aobj = new DatabaseObject(obj);
 		String aid = DatasetCatalogHierarchy.createFullCatalogName(obj.getIdentifier(),id);
 		aobj.setIdentifier(aid);
 
-		DatabaseObjectHierarchy descr = productCatalogDescription(aobj, onelinedescription, elementmap);
-		String did = descr.getObject().getIdentifier();
-		ChemConnectDataStructure structure = new ChemConnectDataStructure(aobj,did);
-		DatasetCatalogHierarchy catalog = new DatasetCatalogHierarchy(id,structure);
-		DatabaseObjectHierarchy cathierarchy = new DatabaseObjectHierarchy(catalog);
+		DatabaseObjectHierarchy cathierarchy = createDatasetCatalogHierarchy(aobj);
+		DatasetCatalogHierarchy catalog = (DatasetCatalogHierarchy) cathierarchy.getObject();
 		
+		setOneLineDescription(cathierarchy,onelinedescription);
 		
 		int num = topcatalog.getChemConnectObjectLink().size();
 		String linknum = Integer.toString(num+1);
 		DatabaseObject lobj = new DatabaseObject(obj);
-		String oid = createSuffix(lobj,"dataset:DataObjectLink",elementmap);
+		String oid = createSuffix(lobj,linkelement);
 		lobj.setIdentifier(oid+linknum);
 		ChemConnectCompoundDataStructure lstructure = new ChemConnectCompoundDataStructure(lobj,topcatalog.getIdentifier());
 		DataObjectLink cataloglink = new DataObjectLink(lstructure,MetaDataKeywords.linkSubCatalog, catalog.getIdentifier());
 		DatabaseObjectHierarchy subcatalog = new DatabaseObjectHierarchy(cataloglink);
 
-
 		cathierarchy.addSubobject(subcatalog);
-		cathierarchy.addSubobject(descr);
 		
 		topcatalog.addObjectDataLink(cataloglink);
 		
 		return cathierarchy;
 	}
-	
+	/*
 	public static DatabaseObjectHierarchy createCataogHierarchyForUser(DatabaseObject obj, 
 			String userid, String organizationid) {
-		Map<String, DataElementInformation> elementmap = createElementMap("dataset:DatasetCatalogHierarchy");
-		System.out.println(elementmap);
+		DataElementInformation linkelement = DatasetOntologyParsing.getSubElementStructureFromIDObject(OntologyKeys.dataObjectLink);
 
 		String uid = DatasetCatalogHierarchy.createFullCatalogName(obj.getIdentifier(), userid);
 		DatabaseObject dobj = new DatabaseObject(obj);
 		dobj.setIdentifier(uid);
-
-		String onelinedescription = "User's Catalog";
-		DatabaseObjectHierarchy descr = productCatalogDescription(dobj, onelinedescription, elementmap);
-		String did = descr.getObject().getIdentifier();
 		
-		ChemConnectDataStructure userstructure = new ChemConnectDataStructure(dobj,did);
-		DatasetCatalogHierarchy usercatalog = new DatasetCatalogHierarchy(userid,userstructure);
-		DatabaseObjectHierarchy userhierarchy = new DatabaseObjectHierarchy(usercatalog);
+		DatabaseObjectHierarchy userhierarchy = createDatasetCatalogHierarchy(dobj);
+		
+		DatasetCatalogHierarchy usercatalog = (DatasetCatalogHierarchy) userhierarchy.getObject();
+		
+		String onelinedescription = "User's Catalog";
+		setOneLineDescription(userhierarchy, onelinedescription);
+		String concept = "dataset:ChemConnectConceptSubCatalog";
+		String purpose = "dataset:ChemConnectDefineSubCatagory";
+		setPurposeConceptPair(userhierarchy, concept, purpose);
 		
 		DatabaseObject aobj = new DatabaseObject(dobj);
 		String orgsuffix = "orglink";
 		String aid = DatasetCatalogHierarchy.createFullCatalogName(dobj.getIdentifier(), orgsuffix);
 		aobj.setIdentifier(aid);
-
 		String orgcatdescription = "Institute's Catalog";
-		DatabaseObjectHierarchy orgcatdescr = productCatalogDescription(aobj, orgcatdescription, elementmap);
-		String orgcatid = descr.getObject().getIdentifier();
+		
+		return userhierarchy;
+	}
+	*/
+	public static DatabaseObjectHierarchy createChemConnectDataStructure(DatabaseObject obj) {
+		DatabaseObject compobj = new DatabaseObject(obj);
+		DataElementInformation element = DatasetOntologyParsing.getSubElementStructureFromIDObject(OntologyKeys.chemConnectDataStructure);
+		String compid = createSuffix(obj,element);
+		compobj.setIdentifier(compid);
+		
+		DatabaseObjectHierarchy descrhier = createDescriptionDataData(compobj);
+		DescriptionDataData descr = (DescriptionDataData)  descrhier.getObject();
+		
+		ChemConnectDataStructure compound = new ChemConnectDataStructure(compobj,descr.getIdentifier());
+		
+		DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(compound);
+		hierarchy.addSubobject(descrhier);
+		
+		return hierarchy;
+	}
+	
+	public static DatabaseObjectHierarchy createDatasetCatalogHierarchy(DatabaseObject obj) {
+		DatabaseObject catobj = new DatabaseObject(obj);
+		DataElementInformation element = DatasetOntologyParsing.getSubElementStructureFromIDObject(OntologyKeys.datasetCatalogHierarchy);
 
-		DatabaseObject orgobj = new DatabaseObject(aobj);
-		ChemConnectDataStructure orgstructure = new ChemConnectDataStructure(orgobj,orgcatid);
-		DatasetCatalogHierarchy orgcatalog = new DatasetCatalogHierarchy(orgsuffix,orgstructure);
-		DatabaseObjectHierarchy orghierarchy = new DatabaseObjectHierarchy(orgcatalog);
+		String catid = createSuffix(obj,element);
+		catobj.setIdentifier(catid);
 		
-		userhierarchy.addSubobject(orghierarchy);
+		DatabaseObjectHierarchy comphier = createChemConnectDataStructure(catobj);
+		ChemConnectDataStructure structure = (ChemConnectDataStructure) comphier.getObject();
 		
-		String cid = createSuffix(obj,"dataset:DataObjectLink",elementmap);
-		DatabaseObject mult1obj = new DatabaseObject(obj);
+		DatasetCatalogHierarchy catalog = new DatasetCatalogHierarchy(structure);
+		catalog.setIdentifier(catid);
+		
+		DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(catalog);
+		hierarchy.transferSubObjects(comphier);
+		return hierarchy;
+	}
+
+	public static DatabaseObjectHierarchy fillCataogHierarchyForUser(DatabaseObject obj, 
+			String userid, String organizationid) {
+		
+		String uid = DatasetCatalogHierarchy.createFullCatalogName(obj.getIdentifier(), userid);
+		DatabaseObject dobj = new DatabaseObject(obj);
+		dobj.setIdentifier(uid);
+		
+		String onelinedescription = "User's Catalog";
+		DatabaseObjectHierarchy userhierarchy = createDatasetCatalogHierarchy(dobj);
+		DatasetCatalogHierarchy usercatalog = (DatasetCatalogHierarchy) userhierarchy.getObject();
+		usercatalog.setSimpleCatalogName(userid);
+		setOneLineDescription(userhierarchy, onelinedescription);
+
+		DatabaseObject aobj = new DatabaseObject(dobj);
+		String orgsuffix = "orglink";
+		String aid = DatasetCatalogHierarchy.createFullCatalogName(dobj.getIdentifier(), orgsuffix);
+		aobj.setIdentifier(aid);
+		
+		String orgcatdescription = "Institute's Catalog";
+		DatabaseObjectHierarchy orghierarchy = createDatasetCatalogHierarchy(aobj);
+		DatasetCatalogHierarchy orgcatalog = (DatasetCatalogHierarchy) orghierarchy.getObject();
+		orgcatalog.setSimpleCatalogName(organizationid);
+		setOneLineDescription(orghierarchy, orgcatdescription);
+		
+		userhierarchy.addSubobject(orghierarchy);		
+		
+		DataElementInformation element = DatasetOntologyParsing.getSubElementStructureFromIDObject(OntologyKeys.dataObjectLink);
+		String cid = createSuffix(usercatalog,element);
+
+		DatabaseObject mult1obj = new DatabaseObject(usercatalog);
 		mult1obj.setIdentifier(cid);
 		ChemConnectCompoundMultiple mult1 = new ChemConnectCompoundMultiple(mult1obj);
 		DatabaseObjectHierarchy mhier1 = new DatabaseObjectHierarchy(mult1);
 			
-		DatabaseObjectHierarchy subcatalog = createDataObjectLink(dobj,
+		DatabaseObjectHierarchy subcatalog = fillDataObjectLink(mult1obj,
 				"1", MetaDataKeywords.linkSubCatalog,
-				orgcatalog.getIdentifier(),elementmap);
+				orgcatalog.getIdentifier());
 		
-		DatabaseObjectHierarchy userlink =   createDataObjectLink(dobj,
+		DatabaseObjectHierarchy userlink =   fillDataObjectLink(mult1obj,
 				"2", MetaDataKeywords.linkUser,
-				userid,elementmap);
+				userid);
 		mhier1.addSubobject(subcatalog);
 		mhier1.addSubobject(userlink);
 		userhierarchy.addSubobject(mhier1);
 		
-		DatabaseObject subobj = new DatabaseObject(dobj);
+		DatabaseObject subobj = new DatabaseObject(orgcatalog);
 		subobj.setIdentifier(aid);
-		String orglnkid = createSuffix(subobj,"dataset:DataObjectLink",elementmap);
+		String orglnkid = createSuffix(aobj,element);
 
-		DatabaseObject sublnkobj = new DatabaseObject(dobj);
+		DatabaseObject sublnkobj = new DatabaseObject(subobj);
 		sublnkobj.setIdentifier(orglnkid);
 		ChemConnectCompoundMultiple mult2 = new ChemConnectCompoundMultiple(sublnkobj);
 		DatabaseObjectHierarchy mhier2 = new DatabaseObjectHierarchy(mult2);
 
-		DatabaseObjectHierarchy orglink =    createDataObjectLink(subobj,
+		DatabaseObjectHierarchy orglink =    fillDataObjectLink(sublnkobj,
 				"1", MetaDataKeywords.linkOrganization,
-				organizationid,elementmap);
+				organizationid);
 		mhier2.addSubobject(orglink);
 		orghierarchy.addSubobject(mhier2);
 
 		DataObjectLink subcataloglink = (DataObjectLink) subcatalog.getObject();
 		DataObjectLink orglinklink    = (DataObjectLink) orglink.getObject();
 		DataObjectLink userlinklink   = (DataObjectLink) userlink.getObject();
-
-		userhierarchy.addSubobject(descr);
-		orghierarchy.addSubobject(orgcatdescr);
 		
 		usercatalog.addObjectDataLink(subcataloglink);
 		usercatalog.addObjectDataLink(userlinklink);
@@ -223,131 +360,335 @@ public class CreateDefaultObjectsFactory {
 		return userhierarchy;
 	}
 
-	
-	static DatabaseObjectHierarchy createOrganizationDescription(DatabaseObject obj, 
-			String organizationname, Map<String, DataElementInformation> elementmap) {
+	static DatabaseObjectHierarchy fillOrganizationDescription(DatabaseObject obj, String organizationname) {
 		
-		DatabaseObject oobj = new DatabaseObject(obj);
-		String oid = createSuffix(obj,"dataset:OrganizationDescription",elementmap);
-		oobj.setIdentifier(oid);
-		ChemConnectCompoundDataStructure compound = new ChemConnectCompoundDataStructure(oobj,obj.getIdentifier());
-		OrganizationDescription descr = new OrganizationDescription(compound,
-				"","",organizationname,"");
+		DatabaseObjectHierarchy orghier = createOrganizationDescription(obj);
+		OrganizationDescription descr = (OrganizationDescription) orghier.getObject();
+		descr.setOrganizationName(organizationname);
+		
 		DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(descr);
-		
 		
 		return hierarchy;
 	}
 	
-	
-	static DatabaseObjectHierarchy createDataObjectLink(DatabaseObject obj, 
-			String linknumber,
-			String concept, String linkedobj,
-			Map<String, DataElementInformation> elementmap) {
-		DatabaseObject lobj = new DatabaseObject(obj);
+	static DatabaseObjectHierarchy createOrganizationDescription(DatabaseObject obj) {
+		DatabaseObject orgobj = new DatabaseObject(obj);
+		DataElementInformation element = DatasetOntologyParsing.getSubElementStructureFromIDObject(OntologyKeys.organizationDescription);
+		String orgid = createSuffix(obj,element);
+		orgobj.setIdentifier(orgid);
 		
-		String oid = createSuffix(obj,"dataset:DataObjectLink",elementmap);
-		lobj.setIdentifier(oid+linknumber);
-		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(lobj,obj.getIdentifier());
-		DataObjectLink userlink = new DataObjectLink(structure,concept, linkedobj);
+		DatabaseObjectHierarchy compoundhier = createChemConnectCompoundDataStructure(orgobj);
+		ChemConnectCompoundDataStructure compound = (ChemConnectCompoundDataStructure) compoundhier.getObject();
+		
+		OrganizationDescription descr = new OrganizationDescription(compound,
+				"organization unit","organization class","organization","suborganization");
+		descr.setIdentifier(orgid);
+		
+		DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(descr);
+	
+		return hierarchy;
+	}
+	
+	
+	static DatabaseObjectHierarchy fillDataObjectLink(DatabaseObject obj, 
+			String linknumber,
+			String concept, String linkedobj) {
+		DatabaseObjectHierarchy linkhier = createDataObjectLink(obj);
+		DataObjectLink userlink = (DataObjectLink) linkhier.getObject();
+		
+		userlink.setLinkConcept(concept);
+		userlink.setDataStructure(linkedobj);
+		String id = userlink.getIdentifier() + linknumber;
+		userlink.setIdentifier(id);
 		
 		DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(userlink);
 		
 		return hierarchy;
 		
 	}
-	
-	static DatabaseObjectHierarchy createContactInfo(DatabaseObject obj, Map<String, DataElementInformation> elementmap) {
-		DatabaseObject cobj = new DatabaseObject(obj);
-		String cid = createSuffix(obj,"dataset:ContactInfoData",elementmap);
-		cobj.setIdentifier(cid);
-		ChemConnectCompoundDataStructure compound1 = new ChemConnectCompoundDataStructure(cobj,obj.getIdentifier());
-		ContactInfoData contact = new ContactInfoData(compound1);
 
+	static DatabaseObjectHierarchy createDataObjectLink(DatabaseObject obj) {
+		DatabaseObject linkobj = new DatabaseObject(obj);
+		DataElementInformation element = DatasetOntologyParsing.getSubElementStructureFromIDObject(OntologyKeys.dataObjectLink);
+		String linkid = createSuffix(obj,element);
+		linkobj.setIdentifier(linkid);
+		
+		DatabaseObjectHierarchy compoundhier = createChemConnectCompoundDataStructure(obj);
+		ChemConnectCompoundDataStructure compound = (ChemConnectCompoundDataStructure) compoundhier.getObject();
+		
+		DataObjectLink userlink = new DataObjectLink(compound,"link concept", "linked object");
+		
+		DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(userlink);
+		
+		return hierarchy;
+	}
+
+	static DatabaseObjectHierarchy createContactInfo(DatabaseObject obj) {
+		DatabaseObject contactobj = new DatabaseObject(obj);
+		DataElementInformation element = DatasetOntologyParsing.getSubElementStructureFromIDObject(OntologyKeys.contactInfoData);
+		String contactid = createSuffix(obj,element);
+		contactobj.setIdentifier(contactid);
+		
+		DatabaseObjectHierarchy compoundhier = createChemConnectCompoundDataStructure(obj);
+		ChemConnectCompoundDataStructure compound = (ChemConnectCompoundDataStructure) compoundhier.getObject();
+		
+		ContactInfoData contact = new ContactInfoData(compound);
+		contact.setIdentifier(contactid);
 		DatabaseObjectHierarchy top = new DatabaseObjectHierarchy(contact);
 		
 		return top;
 	}
-	
-	static DatabaseObjectHierarchy createContactLocationInformation(DatabaseObject obj, Map<String, DataElementInformation> elementmap) {
-		DatabaseObject lobj = new DatabaseObject(obj);
-		String locationid = createSuffix(obj,"dataset:ContactLocationInformation",elementmap);
-		lobj.setIdentifier(locationid);
-		ChemConnectCompoundDataStructure compound2 = new ChemConnectCompoundDataStructure(lobj,obj.getIdentifier());
 		
-		DatabaseObject gpsobj = new DatabaseObject(compound2);
-		Map<String, DataElementInformation> elementmap2 = createElementMap("dataset:ContactLocationInformation");
-		String gpsid = createSuffix(compound2,"dataset:GPSLocation",elementmap2);
-		gpsobj.setIdentifier(gpsid);
-		GPSLocation gps = new GPSLocation(gpsobj);
+	static DatabaseObjectHierarchy createContactLocationInformation(DatabaseObject obj) {
+		DatabaseObject contactobj = new DatabaseObject(obj);
+		DataElementInformation element = DatasetOntologyParsing.getSubElementStructureFromIDObject(OntologyKeys.contactLocationInformation);
+		String contactid = createSuffix(obj,element);
+		contactobj.setIdentifier(contactid);
 		
-		ContactLocationInformation location = new ContactLocationInformation(compound2,gpsid);
+		DatabaseObjectHierarchy compoundhier = createChemConnectCompoundDataStructure(obj);
+		ChemConnectCompoundDataStructure compound = (ChemConnectCompoundDataStructure) compoundhier.getObject();
 		
+		DatabaseObjectHierarchy gpshier = createGPSLocation(contactobj);
+		GPSLocation gps = (GPSLocation) gpshier.getObject();
+		
+		ContactLocationInformation location = new ContactLocationInformation(compound,gps.getIdentifier());
+		location.setIdentifier(contactid);
 		DatabaseObjectHierarchy top = new DatabaseObjectHierarchy(location);
-		DatabaseObjectHierarchy sub = new DatabaseObjectHierarchy(gps);
-		top.addSubobject(sub);
+		top.addSubobject(gpshier);
 
 		return top;
 	}
 	
-	static DatabaseObjectHierarchy createPersonalDescription(DatabaseObject obj, Map<String, DataElementInformation> elementmap,
+	public static DatabaseObjectHierarchy createGPSLocation(DatabaseObject obj) {
+		DatabaseObject gpsobj = new DatabaseObject(obj);
+		DataElementInformation element = DatasetOntologyParsing.getSubElementStructureFromIDObject(OntologyKeys.gPSLocation);
+		String gpsid = createSuffix(obj,element);
+		gpsobj.setIdentifier(gpsid);
+		
+		GPSLocation gps = new GPSLocation(gpsobj);
+		DatabaseObjectHierarchy gpshier = new DatabaseObjectHierarchy(gps);
+		
+		return gpshier;
+	}
+	
+	
+	static DatabaseObjectHierarchy fillPersonalDescription(DatabaseObject obj,
 			NameOfPerson person, String userClassification) {
-		DatabaseObject dobj = new DatabaseObject(obj);
-		String descid = createSuffix(obj,"dataset:PersonalDescription",elementmap);
-		dobj.setIdentifier(descid);
-		ChemConnectCompoundDataStructure compound3 = new ChemConnectCompoundDataStructure(dobj,obj.getIdentifier());
 		
+		DatabaseObjectHierarchy descrhier = createPersonalDescription(obj);
+		PersonalDescription description = (PersonalDescription) descrhier.getObject();
 		
-		Map<String, DataElementInformation> elementmap2 = createElementMap("dataset:PersonalDescription");
-		String personid = createSuffix(compound3,"dataset:NameOfPerson",elementmap2);
-		person.setIdentifier(personid);
+		DatabaseObjectHierarchy personhier = descrhier.getSubObject(description.getNameOfPersonIdentifier());
+		NameOfPerson subperson = (NameOfPerson) personhier.getObject();
+		subperson.fill(subperson,person.getTitle(),person.getGivenName(),person.getFamilyName());
 		
-		PersonalDescription description = new PersonalDescription(compound3, userClassification,personid);
+		description.setUserClassification(userClassification);
+		return descrhier;
+	}
+	
+	static DatabaseObjectHierarchy createPersonalDescription(DatabaseObject obj) {
+		DatabaseObject personobj = new DatabaseObject(obj);
+		DataElementInformation element = DatasetOntologyParsing.getSubElementStructureFromIDObject(OntologyKeys.personalDescription);
+		String personid = createSuffix(obj,element);
+		personobj.setIdentifier(personid);
+
+		DatabaseObjectHierarchy compoundhier = createChemConnectCompoundDataStructure(obj);
+		ChemConnectCompoundDataStructure compound = (ChemConnectCompoundDataStructure) compoundhier.getObject();
+		
+		DatabaseObjectHierarchy namehier = createNameOfPerson(personobj);
+		NameOfPerson person = (NameOfPerson) namehier.getObject();
+		
+		PersonalDescription description = new PersonalDescription(compound, "user class",person.getIdentifier());
+		description.setIdentifier(personid);
 		
 		DatabaseObjectHierarchy top = new DatabaseObjectHierarchy(description);
-		DatabaseObjectHierarchy sub = new DatabaseObjectHierarchy(person);
-		top.addSubobject(sub);
+		top.addSubobject(namehier);
 		
 		return top;
 	}
 	
-	static DatabaseObjectHierarchy createDescriptionDataData(DatabaseObject obj, Map<String, DataElementInformation> elementmap,
-			String onlinedescription, String concept, String purpose) {
+	static DatabaseObjectHierarchy createNameOfPerson(DatabaseObject obj) {
+		DatabaseObject personobj = new DatabaseObject(obj);
+		DataElementInformation element = DatasetOntologyParsing.getSubElementStructureFromIDObject(OntologyKeys.nameOfPerson);
+		String personid = createSuffix(obj,element);
+		personobj.setIdentifier(personid);
 		
-		DatabaseObject cobj = new DatabaseObject(obj);
-		String cid = createSuffix(obj,"dataset:DescriptionDataData",elementmap);
-		cobj.setIdentifier(cid);
-		ChemConnectCompoundDataStructure compound = new ChemConnectCompoundDataStructure(cobj,obj.getIdentifier());
-		Map<String, DataElementInformation> subelementmap = createElementMap("dataset:DescriptionDataData");
+		NameOfPerson person = new NameOfPerson(personobj,"title","firstname","lastname");
+		DatabaseObjectHierarchy personhier = new DatabaseObjectHierarchy(person);
+		
+		return personhier;
+	}
+	
+	static DatabaseObjectHierarchy createDescriptionDataData(DatabaseObject obj) {
+		DatabaseObject descrobj = new DatabaseObject(obj);
+		DataElementInformation element = DatasetOntologyParsing.getSubElementStructureFromIDObject(OntologyKeys.descriptionDataData);
+		String descrid = createSuffix(obj,element);
+		descrobj.setIdentifier(descrid);
+		
+		DatabaseObjectHierarchy comphier = createChemConnectCompoundDataStructure(obj);
+		ChemConnectCompoundDataStructure compound = (ChemConnectCompoundDataStructure) comphier.getObject();
+		
+		DatabaseObjectHierarchy pairhier = createPurposeConceptPair(descrobj);
+		PurposeConceptPair pair = (PurposeConceptPair) pairhier.getObject();
 
-		DatabaseObject conceptobj = new DatabaseObject(cobj);
-		String conceptid = createSuffix(cobj,"dataset:PurposeConceptPair",subelementmap);
-		conceptobj.setIdentifier(conceptid);
-		ChemConnectCompoundDataStructure conceptcompound = new ChemConnectCompoundDataStructure(conceptobj,cobj.getIdentifier());
-		PurposeConceptPair pair = new PurposeConceptPair(conceptcompound, concept,purpose);
-		
-		DatabaseObject keyobj = new DatabaseObject(cobj);
-		String keysid = createSuffix(cobj,"dataset:SetOfKeywords",subelementmap);
-		keyobj.setIdentifier(keysid);
-		SetOfKeywords keywords = new SetOfKeywords(keyobj);
-		String fulldescription = "";
-		Date sourceDate = new Date();
-		String dataType = "";
+		DatabaseObjectHierarchy keyshier = createSetOfKeywords(descrobj);
+		SetOfKeywords keywords = (SetOfKeywords) keyshier.getObject();
+
 		DescriptionDataData descr = new DescriptionDataData(compound,
-				onlinedescription, fulldescription, pair.getIdentifier(), 
-				sourceDate, dataType, keysid);
+				"one line", "full description", pair.getIdentifier(), 
+				new Date(), "datatype", keywords.getIdentifier());
+		descr.setIdentifier(descrid);
+		
+		DatabaseObjectHierarchy descrhier = new DatabaseObjectHierarchy(descr);
+		descrhier.addSubobject(pairhier);
+		descrhier.addSubobject(keyshier);
+		
+		return descrhier;
+	}
+	
+	public static DatabaseObjectHierarchy createChemConnectCompoundDataStructure(DatabaseObject obj) {
+		DatabaseObject compobj = new DatabaseObject(obj);
+		DataElementInformation element = DatasetOntologyParsing.getSubElementStructureFromIDObject(OntologyKeys.chemConnectCompoundDataStructure);
+		String compid = createSuffix(obj,element);
+		compobj.setIdentifier(compid);
+		
+		ChemConnectCompoundDataStructure compound = new ChemConnectCompoundDataStructure(compobj,"no parent");
+		compound.setParentLink(obj.getIdentifier());
+		DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(compound);
+		
+		return hierarchy;
+	}
+	
+	
+	static DatabaseObjectHierarchy createSetOfKeywords(DatabaseObject obj) {
+		DatabaseObject keyobj = new DatabaseObject(obj);
+		DataElementInformation element = DatasetOntologyParsing.getSubElementStructureFromIDObject(OntologyKeys.setOfKeywords);
+		String keysid = createSuffix(obj,element);
+		keyobj.setIdentifier(keysid);
+		
+		SetOfKeywords keywords = new SetOfKeywords(keyobj);
+		
+		DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(keywords);
+		
+		return hierarchy;
+	}
+	
+	static DatabaseObjectHierarchy createPurposeConceptPair(DatabaseObject obj) {
+		DataElementInformation element = DatasetOntologyParsing.getSubElementStructureFromIDObject(OntologyKeys.purposeConceptPair);
+		DatabaseObject conceptobj = new DatabaseObject(obj);
+		String conceptid = createSuffix(obj,element);
+		conceptobj.setIdentifier(conceptid);
+		ChemConnectCompoundDataStructure conceptcompound = new ChemConnectCompoundDataStructure(conceptobj,obj.getIdentifier());
+		PurposeConceptPair pair = new PurposeConceptPair(conceptcompound, "no concept","no purpose");
+		DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(pair);
+		return hierarchy;
+	}
+	
+	public static DatabaseObjectHierarchy createDataSpecification(DatabaseObject obj) {
+		DatabaseObject specobj = new DatabaseObject(obj);
+		DataElementInformation element = DatasetOntologyParsing.getSubElementStructureFromIDObject(OntologyKeys.dataSpecification);
+		String specsid = createSuffix(obj,element);
+		specobj.setIdentifier(specsid);
+		
+		DatabaseObjectHierarchy concepthier = createPurposeConceptPair(specobj);
+		PurposeConceptPair concept = (PurposeConceptPair) concepthier.getObject();
+		DataSpecification spec = new DataSpecification(specobj, concept.getIdentifier());
+		DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(spec);
+		hierarchy.addSubobject(concepthier);
+		return hierarchy;
+	}
+	public static DatabaseObjectHierarchy createParameterSpecification(DatabaseObject obj) {
+		DatabaseObject specobj = new DatabaseObject(obj);
+		DataElementInformation element = DatasetOntologyParsing.getSubElementStructureFromIDObject(OntologyKeys.parameterSpecification);
+		String specsid = createSuffix(obj,element);
+		specobj.setIdentifier(specsid);
+		
+		DatabaseObjectHierarchy valuehier = createValueUnits(specobj);
+		DatabaseObjectHierarchy dspechier = createDataSpecification(obj);
+		DataSpecification dspec = (DataSpecification) dspechier.getObject();
+		ValueUnits value = (ValueUnits) valuehier.getObject();
+		ParameterSpecification specs = new ParameterSpecification(dspec,"no uncertainty",value.getIdentifier());
+		specs.setIdentifier(specsid);
+		
+		DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(specs);
+		hierarchy.addSubobject(valuehier);
+		
+		return hierarchy;
+	}
+	
+	public static DatabaseObjectHierarchy createValueUnits(DatabaseObject obj) {
+		DatabaseObject unitsobj = new DatabaseObject(obj);
+		DataElementInformation element = DatasetOntologyParsing.getSubElementStructureFromIDObject(OntologyKeys.valueUnits);
+		String unitsid = createSuffix(obj,element);
+		unitsobj.setIdentifier(unitsid);
+		
+		ValueUnits units = new ValueUnits(unitsobj,"no unit class","no value units");
+		
+		DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(units);
+		
+		return hierarchy;
+	}
+	
+	public static DatabaseObjectHierarchy createAttributeInDataset(DatabaseObject obj) {
+		DatabaseObject attrobj = new DatabaseObject(obj);
+		DataElementInformation element = DatasetOntologyParsing.getSubElementStructureFromIDObject(OntologyKeys.attributeInDataset);
+		String attrid = createSuffix(obj,element);
+		attrobj.setIdentifier(attrid);
+		
+		AttributeInDataset attr = new AttributeInDataset(attrobj,"parametername");
+		DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(attr);
+		
+		return hierarchy;
+	}
+	
+	public static DatabaseObjectHierarchy createParameterValue(DatabaseObject obj) {
+		DatabaseObject valueobj = new DatabaseObject(obj);
+		DataElementInformation element = DatasetOntologyParsing.getSubElementStructureFromIDObject(OntologyKeys.parameterValue);
+		String valueid = createSuffix(obj,element);
+		valueobj.setIdentifier(valueid);
 
-		DatabaseObjectHierarchy top = new DatabaseObjectHierarchy(descr);
-		DatabaseObjectHierarchy sub = new DatabaseObjectHierarchy(pair);
-		DatabaseObjectHierarchy keys = new DatabaseObjectHierarchy(keywords);
-		top.addSubobject(sub);
-		top.addSubobject(keys);
+		DatabaseObjectHierarchy attribute = createAttributeInDataset(obj);
+		AttributeInDataset attr = (AttributeInDataset) attribute.getObject();
+		DatabaseObjectHierarchy parameterspec = createParameterSpecification(valueobj);
+		ParameterSpecification pspec = (ParameterSpecification) parameterspec.getObject();
+		
+		ParameterValue value = new ParameterValue(attr,pspec.getIdentifier(),"no value","no uncertainty");
+		value.setIdentifier(valueid);
+		
+		DatabaseObjectHierarchy hier = new DatabaseObjectHierarchy(value);
+		hier.addSubobject(attribute);
+		hier.addSubobject(parameterspec);
 
-		return top;
+		return hier;
+	}
+	
+	public static DatabaseObjectHierarchy fillParameterSpecification(DatabaseObject obj, String parameter) {
+		DatabaseObjectHierarchy valuehier = createParameterValue(obj);
+		ParameterValue value = (ParameterValue) valuehier.getObject();
+		
+		String specID = value.getParameterSpec();
+		DatabaseObjectHierarchy  spechier = valuehier.getSubObject(specID);
+		ParameterSpecification parameterspec = (ParameterSpecification) spechier.getObject();
+		
+		String unitsID = parameterspec.getUnits();
+		DatabaseObjectHierarchy  unitshier = spechier.getSubObject(unitsID);
+		ValueUnits units = (ValueUnits) unitshier.getObject();
+				
+		String conceptID = parameterspec.getPurposeandconcept();
+		DatabaseObjectHierarchy concepthier = spechier.getSubObject(conceptID);
+		PurposeConceptPair concept = (PurposeConceptPair) concepthier.getObject();
+		
+		ConceptParsing.fillAnnotatedExample(parameter,units,concept,parameterspec,value);
+		ConceptParsing.fillInProperties(parameter,units,concept,parameterspec,value);
+		
+		return valuehier;
 	}
 	
 	static String createSuffix(DatabaseObject obj, String elementname, Map<String, DataElementInformation> elementmap) {
 		DataElementInformation element = elementmap.get(elementname);
+		return createSuffix(obj,element);
+	}
+	static String createSuffix(DatabaseObject obj, DataElementInformation element) {
 		return obj.getIdentifier() + "-" + element.getSuffix();
 	}
 	

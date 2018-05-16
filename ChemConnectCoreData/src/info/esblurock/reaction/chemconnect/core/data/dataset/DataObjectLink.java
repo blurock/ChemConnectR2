@@ -33,16 +33,23 @@ public class DataObjectLink  extends ChemConnectCompoundDataStructure {
 	public String getDataStructure() {
 		return dataStructure;
 	}
+	
+	
+	
+	public void setLinkConcept(String linkConcept) {
+		this.linkConcept = linkConcept;
+	}
+	public void setDataStructure(String dataStructure) {
+		this.dataStructure = dataStructure;
+	}
 	public String toString() {
 		return toString("");
 	}
 	public String toString(String prefix) {
 		StringBuilder builder = new StringBuilder();
 		builder.append(super.toString(prefix));
-		builder.append(prefix + "Link Concept: ");
-		builder.append(linkConcept);
-		builder.append("data: " + dataStructure);
-		builder.append("\n");
+		builder.append(prefix + "Concept: " + linkConcept + "\n");
+		builder.append(prefix + "Data:    " + dataStructure + "\n");
 		return builder.toString();
 	}	
 	

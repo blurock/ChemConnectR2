@@ -28,5 +28,6 @@ public class MetaDataKeywords {
 	
 	
 	public static String conceptContact = "dataset:ChemConnectContactConcept";
+	public static String purposeOrganization = "dataset:PurposeOrganization";
 
 }

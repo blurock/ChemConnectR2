@@ -26,20 +26,28 @@ public class DatasetCatalogHierarchy extends ChemConnectDataStructure {
 		super(datastructure);
 		this.simpleCatalogName = simpleCatalogName;
 	}
+	public DatasetCatalogHierarchy(ChemConnectDataStructure datastructure) {
+		super(datastructure);
+		this.simpleCatalogName = "";
+	}
 
 	public String getSimpleCatalogName() {
 		return simpleCatalogName;
 	}
 	
+	public void setSimpleCatalogName(String simpleCatalogName) {
+		this.simpleCatalogName = simpleCatalogName;
+	}
+
 	public String toString() {
 		return toString("");
 	}
 
 	public String toString(String prefix) {
 		StringBuilder build = new StringBuilder();
-		super.toString(prefix);
+		build.append(super.toString(prefix));
 		build.append(prefix);
-		build.append(" " + simpleCatalogName);
+		build.append("Catalog name: " + simpleCatalogName);
 		return build.toString();
 	}	
 	

@@ -172,7 +172,6 @@ public class CatalogHierarchyNode extends Composite implements ChemConnectDataSt
 		DatabaseObject subobj = new DatabaseObject(hierarchy);
 		ContactDatabaseAccessAsync conasync = ContactDatabaseAccess.Util.getInstance();
 		ChemConnectDataStructureCallback callback = new ChemConnectDataStructureCallback(subobj,this);
-		Window.alert("CatalogHierarchyNode  insertInfo(): " + obj.getIdentifier());
 		conasync.getChemConnectDataStructure(obj.getIdentifier(), catalogS, callback);
 	}
 

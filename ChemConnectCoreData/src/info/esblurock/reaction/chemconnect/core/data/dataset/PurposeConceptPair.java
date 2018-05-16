@@ -39,13 +39,22 @@ public class PurposeConceptPair extends ChemConnectCompoundDataStructure {
 		return concept;
 	}
 	
+	public void setPurpose(String purpose) {
+		this.purpose = purpose;
+	}
+
+	public void setConcept(String concept) {
+		this.concept = concept;
+	}
+
 	public String toString() {
 		return toString("");
 	}
 	public String toString(String prefix) {
 		StringBuilder build = new StringBuilder();
 		build.append(super.toString(prefix));
-		build.append(prefix + "Concept: " + concept + "Purpose: " + purpose + "\n");
+		build.append(prefix + "Concept: " + concept + "\n");
+		build.append(prefix + "Purpose: " + purpose + "\n");
 		return build.toString();
 	}
 }

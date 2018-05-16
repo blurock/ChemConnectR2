@@ -124,11 +124,12 @@ public class DeviceWithSubystemsDefinition extends Composite implements HasText,
 	public void conceptChosen(String topconcept, String concept) {
 		DeviceHierarchyCallback callback = new DeviceHierarchyCallback(this);
 		ContactDatabaseAccessAsync async = ContactDatabaseAccess.Util.getInstance();
-		async.buildSubSystem(concept,callback);
+		String id = topname.getText();
+		async.buildSubSystem(id,concept,callback);
 	}
 	
 	public void addTopHierarchialModal(DatabaseObject obj,HierarchyNode hierarchy, TotalSubsystemInformation top) {
-		SubsystemsAndDeviceCollapsible devicetop = new SubsystemsAndDeviceCollapsible(hierarchy.getIdentifier(),modalpanel);
+		SubsystemsAndDeviceCollapsible devicetop = new SubsystemsAndDeviceCollapsible(hierarchy.getIdentifier(),obj,modalpanel);
 		contentcollapsible.add(devicetop);
 		addHierarchialModal(obj,hierarchy, top,devicetop);
 	}
@@ -139,6 +140,8 @@ public class DeviceWithSubystemsDefinition extends Composite implements HasText,
 		ChemConnectDataStructure infoStructure = top.getInfoStructure();
 		for(DataElementInformation element : infoStructure.getRecords()) {
 			String subid = obj.getIdentifier() + "-" + element.getSuffix();
+			Window.alert("addHierarchialModal:  " + subid);
+			Window.alert("addHierarchialModal:  " + element.toString());
 			DatabaseObject subobj = new DatabaseObject(obj);
 			subobj.setIdentifier(subid);
 			String type = element.getDataElementName();
@@ -152,12 +155,13 @@ public class DeviceWithSubystemsDefinition extends Composite implements HasText,
 			}
 		}
 		for(HierarchyNode sub: hierarchy.getSubNodes()) {
-			SubsystemsAndDeviceCollapsible subsystem = new SubsystemsAndDeviceCollapsible(sub.getIdentifier(),modalpanel);
-			devicetop.getCollapsible().add(subsystem);
-			String subid = obj.getIdentifier() + "-" + TextUtilities.removeNamespace(sub.getIdentifier());
 			DatabaseObject subobj = new DatabaseObject(obj);
+			String subid = subobj.getIdentifier() + "-" + TextUtilities.removeNamespace(sub.getIdentifier());
 			subobj.setIdentifier(subid);
-			addHierarchialModal(subobj,sub,top,subsystem);
+			SubsystemsAndDeviceCollapsible subsystem = new SubsystemsAndDeviceCollapsible(sub.getIdentifier(),subobj,modalpanel);
+			devicetop.getCollapsible().add(subsystem);
+			DatabaseObject subsubobj = new DatabaseObject(subobj);
+			addHierarchialModal(subsubobj,sub,top,subsystem);
 		}
 	}
 
