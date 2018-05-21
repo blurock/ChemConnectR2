@@ -16,6 +16,7 @@ import info.esblurock.reaction.chemconnect.core.data.query.QueryPropertyValue;
 import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.data.query.SetOfQueryPropertyValues;
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.TransferDatabaseCatalogHierarchy;
 import info.esblurock.reaction.io.db.QueryBase;
@@ -25,6 +26,19 @@ public class ReadWriteDatabaseCatalog {
 	public static String createCatalogName(String base, String suffix ) {
 		return base + "-" + suffix;
 	}
+	
+	public static DatabaseObjectHierarchy getCatalogObject(String id, String type) throws IOException {
+		InterpretData interpret = InterpretData.valueOf(type);
+		DatabaseObject  obj = interpret.readElementFromDatabase(id);
+		DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(obj);
+		
+		//ChemConnectDataStructure structure = DatasetOntologyParsing.getChemConnectDataStructure(type);
+		
+		return hierarchy;
+	}
+	
+	
+	
 	/* This retrieves the DatasetCatalogHierarchy for the user (username) and put them in a tree
 	 * 
 	 * @param username  The user name

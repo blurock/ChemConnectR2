@@ -2,6 +2,7 @@ package info.esblurock.reaction.core.server.db;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
@@ -67,9 +68,10 @@ public class ReadWriteDatabaseObjectsWithSubobjects {
 					String multid = object.getIdentifier() + "-" + subelement.getSuffix();
 					System.out.println("readObjectAndSubObjects multiple ID: " + multid);
 					ArrayList<String> ids = (ArrayList<String>) mapping.get(identifier);
+					HashSet<String> idset = new HashSet<String>(ids);
 					DatabaseObject mobj = new DatabaseObject(object);
 					mobj.setIdentifier(multid);
-					ChemConnectCompoundMultiple multiple = new ChemConnectCompoundMultiple(mobj,ids);
+					ChemConnectCompoundMultiple multiple = new ChemConnectCompoundMultiple(mobj,idset);
 					map.put(multid, multiple);
 					for(String id: ids) {
 						addDatabaseObject(id,subelement.getChemconnectStructure(),subelement.getDataElementName(),map);

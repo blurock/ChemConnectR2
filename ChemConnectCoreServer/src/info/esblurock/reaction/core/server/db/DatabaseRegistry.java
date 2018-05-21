@@ -45,6 +45,7 @@ public class DatabaseRegistry  implements ServletContextListener  {
 		ObjectifyService.register(ChemConnectCompoundMultiple.class);
 		ObjectifyService.register(ChemConnectDataStructure.class);
 		ObjectifyService.register(ChemConnectCompoundDataStructure.class);
+		ObjectifyService.register(ChemConnectCompoundMultiple.class);
 		System.out.println("Classes Registered");
 	}
 

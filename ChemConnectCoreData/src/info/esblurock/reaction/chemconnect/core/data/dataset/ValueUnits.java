@@ -45,5 +45,14 @@ public class ValueUnits extends DatabaseObject {
 		this.unitsOfValue = unitsOfValue;
 	}
 
+	public String toString() {
+		return toString("");
+	}
 	
+	public String toString(String prefix) {
+		StringBuilder build = new StringBuilder();
+		build.append(super.toString(prefix));
+		build.append(prefix + "Units: " + unitsOfValue + " (" + unitClass + ")");
+		return build.toString();
+	}
 }

@@ -16,13 +16,27 @@ public class ParameterValue extends AttributeInDataset {
 	
 	public ParameterValue() {
 	}
+
 	public ParameterValue(AttributeInDataset attribute, String valueAsString, String uncertainty, String parameterSpec) {
 		fill(attribute,valueAsString,uncertainty,parameterSpec);
 	}
+	
+	public ParameterValue(ParameterValue value) {
+		fill(value);
+	}
+
+	public void fill(ParameterValue value) {
+		super.fill(value);
+		this.valueAsString = value.getValueAsString();
+		this.uncertainty = value.getUncertainty();
+		this.parameterSpec = value.getParameterSpec();
+	}
+	
 	public void fill(AttributeInDataset attribute, String valueAsString, String uncertainty, String parameterSpec) {
 		super.fill(attribute);
 		this.valueAsString = valueAsString;
 		this.uncertainty = uncertainty;
+		this.parameterSpec = parameterSpec;
 	}
 	public String getValueAsString() {
 		return valueAsString;

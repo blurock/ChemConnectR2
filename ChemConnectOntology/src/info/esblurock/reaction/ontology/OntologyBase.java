@@ -83,8 +83,6 @@ public class OntologyBase {
 				} catch (Exception ex) {
 					System.out.println("Error in reading Ontology:   " + filename + "\n" + ex.toString());
 				}
-				System.out.println("OntModel getDatabaseOntology() done");
-
 			}
 			return datasetmodel;
 		}

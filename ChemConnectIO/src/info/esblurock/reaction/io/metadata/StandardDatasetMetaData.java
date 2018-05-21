@@ -27,7 +27,9 @@ public class StandardDatasetMetaData {
 	public static String parameterSetDescriptionsS = "rdf:Property";
 	public static String parameterObjectLinkS = "skos:mappingRelation";
 	public static String parameterPurposeConceptPairS = "prov:influenced";
-	
+	public static String measurementValues = "qb:measure";
+	public static String dimensionValues = "qb:dimension";
+	public static String chemConnectCompoundMultipleS = "dataset:ChemConnectCompoundMultiple";
 
 	public static String titleKeyS = "dcterms:title";
 	public static String descriptionKeyS = "dcterms:description";

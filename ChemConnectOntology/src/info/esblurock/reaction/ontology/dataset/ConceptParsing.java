@@ -507,8 +507,10 @@ public class ConceptParsing {
 				+ "                  ?prop owl:annotatedTarget  ?unit .\n"
 				+ "                  ?prop <http://www.w3.org/2004/02/skos/core#example> ?example\n"
 				+ "	            }";
+		
 		List<Map<String, RDFNode>> lst1 = OntologyBase.resultSetToMap(query1);
 		List<Map<String, String>> stringlst1 = OntologyBase.resultmapToStrings(lst1);
+		
 		for (Map<String, String> map : stringlst1) {
 			String example = map.get("example");
 			String unit = map.get("unit");

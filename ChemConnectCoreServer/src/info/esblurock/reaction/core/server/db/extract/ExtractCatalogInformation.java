@@ -1,10 +1,12 @@
 package info.esblurock.reaction.core.server.db.extract;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
@@ -16,10 +18,85 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStruc
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveInterpretedInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.RecordInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.io.dataset.InterpretData;
 import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 
 public class ExtractCatalogInformation {
+	
+	
+	public static DatabaseObjectHierarchy getCatalogObject(String id, String type) {
+		DataElementInformation element = new DataElementInformation(type, 
+				null, true, 0, null, null,null);
+		return getDatabaseObjectAndSubElements(id,element,true);
+	}
+	public static DatabaseObjectHierarchy getDatabaseObjectAndSubElements(String id, 
+			DataElementInformation dataelement, boolean asSinglet) {
+		System.out.println("getCatalogObject: " + id + "   isSinglet: " + asSinglet);
+		
+		ClassificationInformation classify = DatasetOntologyParsing.getIdentificationInformation(null, dataelement);
+		String type = dataelement.getDataElementName();
+		List<DataElementInformation> substructures = DatasetOntologyParsing.subElementsOfStructure(type);
+		System.out.println("getCatalogObject: " + classify.getDataType());
+		DatabaseObjectHierarchy hierarchy = null;
+		try {
+			if(asSinglet) {
+				InterpretData interpret = InterpretData.valueOf(classify.getDataType());
+				System.out.println("getCatalogObject: Simglet:  ");				
+				DatabaseObject obj = interpret.readElementFromDatabase(id);
+				hierarchy = new DatabaseObjectHierarchy(obj);
+				System.out.println(obj.toString());
+				System.out.println("getCatalogObject: Class:  " + interpret.canonicalClassName());
+				System.out.println("getCatalogObject: classify   \n" + classify.toString());
+				System.out.println("Substructures: \n" + substructures.size());
+				Map<String,Object> mapping = interpret.createYamlFromObject(obj);
+				System.out.println("Mapping:\n" + mapping.toString());
+				for(DataElementInformation element : substructures) {
+					System.out.println("Substructures: Element= " + element.toString());
+					String identifier = element.getIdentifier();
+					String newid = (String) mapping.get(identifier);
+					if(newid != null) {
+						DatabaseObjectHierarchy sub = getDatabaseObjectAndSubElements(newid,element,element.isSinglet());
+						if(sub != null) {
+							hierarchy.addSubobject(sub);
+						} else {
+							System.out.println("Subobject null");
+						}
+						
+					} else {
+						System.out.println("Couldn't find Identifier: " + identifier);
+					}
+				}
+			} else {
+				System.out.println("getCatalogObject: Multiple:  " + id);	
+				InterpretData multiinterpret = InterpretData.valueOf("ChemConnectCompoundMultiple");
+				System.out.println("getCatalogObject: Multiple: interpret ");
+				System.out.println(multiinterpret.canonicalClassName());
+				ChemConnectCompoundMultiple multi = (ChemConnectCompoundMultiple) multiinterpret.readElementFromDatabase(id);
+				System.out.println("Multiple: \n" + multi);
+				hierarchy = new DatabaseObjectHierarchy(multi);
+				HashSet<String> ids = multi.getIds();
+				System.out.println("Multiple: ids:  " + ids);
+				for(String objID : ids) {
+					DatabaseObjectHierarchy sub = getDatabaseObjectAndSubElements(objID,dataelement,true);
+					hierarchy.addSubobject(sub);
+				}
+			}
+		} catch(IllegalArgumentException ex) {
+			System.out.println("No interpret: " + classify.getDataType());
+			System.out.println(ex.getClass().getSimpleName());
+		} catch(IOException ex) {
+			System.out.println("IOException: " + classify.getDataType());
+			System.out.println(ex.toString());
+			
+		} catch(Exception ex) {
+			System.out.println("Unknown Exception: \n" + ex.toString());
+		}
+		
+		return hierarchy;
+	}
+
 
 	public static DatasetInformationFromOntology extract(String identifier, String dataElementName) throws IOException {
 		DataElementInformation dataelement = new DataElementInformation(dataElementName, null, true, 0, null, null,

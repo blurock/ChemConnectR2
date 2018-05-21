@@ -54,11 +54,16 @@ public class CreateDefault {
 		String organizationid = "Blurock Consulting AB";
 		DatabaseObjectHierarchy usrcat = CreateDefaultObjectsFactory.fillCataogHierarchyForUser(obj,userid,organizationid);
 		System.out.println(usrcat.toString());
+		
+		
+		DatabaseObjectHierarchy param = CreateDefaultObjectsFactory.fillParameterSpecification(obj,"dataset:ThermocouplePositionInBurner");
+		System.out.println(param.toString());
 	*/	
 		
+		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillSetOfObservations(obj,"dataset:BurnerPlateObservations",
+				"Set of burner plate observations","dataset:HeatFluxBurnerObservation","dataset:LaminarFlame");
+		System.out.println("fillSetOfObservations\n" + hierarchy.toString());
 		
-		DatabaseObjectHierarchy param = CreateDefaultObjectsFactory.fillParameterSpecification(obj,"dataset:BurnerPlateObservations");
-		System.out.println(param.toString());
 		/*
 		NameOfPerson person = new NameOfPerson(obj,"Mr.", "Edward", "Blurock");
 		

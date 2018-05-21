@@ -9,6 +9,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
+import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.cache.AsyncCacheFilter;
@@ -20,7 +22,7 @@ import info.esblurock.reaction.io.rdf.DatabaseWriteBase;
 
 public class WriteRDFTest {
 	protected Closeable session;
-	//private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
+	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 
 	@BeforeClass
 	public static void setUpBeforeClass() {
@@ -39,14 +41,14 @@ public class WriteRDFTest {
 		RegistrerDataset.register();
 		RegisterUserLoginData.register();
 */
-		//helper.setUp();
+		helper.setUp();
 	}
 
 	@After
 	public void tearDown() {
 		AsyncCacheFilter.complete();
 		this.session.close();
-		//this.helper.tearDown();
+		this.helper.tearDown();
 	}
 	@Test
 	public void test() {

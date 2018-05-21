@@ -5,69 +5,67 @@ import java.util.HashSet;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
 
-import info.esblurock.reaction.chemconnect.core.data.dataset.DataObjectLink;
-
 @SuppressWarnings("serial")
 @Entity
 public class ChemConnectDataStructure extends DatabaseObject {
 	@Index
-	HashSet<String> dataSetReference;
+	String dataSetReference;
 	@Index
 	String descriptionDataData;
 	@Index
-	HashSet<String> ChemConnectObjectLink;
+	String chemConnectObjectLink;
 	
 	public ChemConnectDataStructure() {
 		super();
 		this.descriptionDataData = "";
-		this.dataSetReference = new HashSet<String>();
-		this.ChemConnectObjectLink = new HashSet<String>();
+		this.dataSetReference = "";
+		this.chemConnectObjectLink = "";
 	}
 	
 	public ChemConnectDataStructure(ChemConnectDataStructure datastructure) {
 		super(datastructure.getIdentifier(),datastructure.getAccess(),datastructure.getOwner(),datastructure.getSourceID());
 		this.dataSetReference = datastructure.getDataSetReference();
 		this.descriptionDataData = datastructure.getDescriptionDataData();
-		this.ChemConnectObjectLink = datastructure.getChemConnectObjectLink();
+		this.chemConnectObjectLink = datastructure.getChemConnectObjectLink();
 	}
 
 	public ChemConnectDataStructure(DatabaseObject obj) {
 		super(obj);
 		this.descriptionDataData = "";
-		this.dataSetReference = new HashSet<String>();
-		this.ChemConnectObjectLink = new HashSet<String>();
+		this.dataSetReference = "";
+		this.chemConnectObjectLink = "";
 	}
 	
 	public ChemConnectDataStructure(DatabaseObject obj, String descriptionDataDataID) {
 		super(obj);
 		this.descriptionDataData = descriptionDataDataID;
-		this.dataSetReference = new HashSet<String>();
-		this.ChemConnectObjectLink = new HashSet<String>();
+		this.dataSetReference = "";
+		this.chemConnectObjectLink = "";
 	}
 	
 	public ChemConnectDataStructure(String identifier, String sourceID) {
 		super(identifier,sourceID);
 		this.descriptionDataData = "";
-		this.dataSetReference = new HashSet<String>();
-		this.ChemConnectObjectLink = new HashSet<String>();
+		this.dataSetReference = "";
+		this.chemConnectObjectLink = "";
 	}
 
 	public ChemConnectDataStructure(DatabaseObject obj,
-			String descriptionDataData, HashSet<String> dataSetReference, 
-			HashSet<String> ChemConnectObjectLink) {
+			String descriptionDataData, String dataSetReference, 
+			String ChemConnectObjectLink) {
 		super(obj);
 		this.descriptionDataData = descriptionDataData;
 		this.dataSetReference = dataSetReference;
-		this.ChemConnectObjectLink = ChemConnectObjectLink;
+		this.chemConnectObjectLink = ChemConnectObjectLink;
 	}
 	
 	public ChemConnectDataStructure(String identifier, String access, String owner, String sourceID,
-			String descriptionDataData, HashSet<String> dataSetReference, 
-			HashSet<String> ChemConnectObjectLink) {
+			String descriptionDataData, String dataSetReference, 
+			String ChemConnectObjectLink) {
 		super(identifier, access, owner,sourceID);
 		this.descriptionDataData = descriptionDataData;
 		this.dataSetReference = dataSetReference;
-		this.ChemConnectObjectLink = ChemConnectObjectLink;
+		this.chemConnectObjectLink = ChemConnectObjectLink;
 	}
 
 	public void fill(ChemConnectDataStructure datastructure) {
@@ -75,14 +73,11 @@ public class ChemConnectDataStructure extends DatabaseObject {
 				datastructure.getOwner(), datastructure.getSourceID());
 		this.dataSetReference = datastructure.getDataSetReference();
 		this.descriptionDataData = datastructure.getDescriptionDataData();
-		this.ChemConnectObjectLink = datastructure.getChemConnectObjectLink();
+		this.chemConnectObjectLink = datastructure.getChemConnectObjectLink();
 	}
 	
-	public void addObjectDataLink(DataObjectLink link) {
-		ChemConnectObjectLink.add(link.getIdentifier());
-	}
 	
-	public HashSet<String> getDataSetReference() {
+	public String getDataSetReference() {
 		return dataSetReference;
 	}
 
@@ -90,8 +85,8 @@ public class ChemConnectDataStructure extends DatabaseObject {
 		return descriptionDataData;
 	}
 
-	public HashSet<String> getChemConnectObjectLink() {
-		return ChemConnectObjectLink;
+	public String getChemConnectObjectLink() {
+		return chemConnectObjectLink;
 	}
 	@Override
 	public String toString() {
@@ -110,7 +105,7 @@ public class ChemConnectDataStructure extends DatabaseObject {
 		builder.append(dataSetReference);
 		builder.append("\n");
 		builder.append(prefix + "ObjectLink: ");
-		builder.append(ChemConnectObjectLink);
+		builder.append(chemConnectObjectLink);
 		builder.append("\n");
 		return builder.toString();
 	}

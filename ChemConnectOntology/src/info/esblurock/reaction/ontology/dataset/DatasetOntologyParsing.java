@@ -367,13 +367,8 @@ dataset:ChemConnectPrimitiveDataStructure:
 				+ "	" + structure + " rdfs:subClassOf ?super .\n"
 				+ " " + structure + " <http://www.w3.org/2004/02/skos/core#altLabel> ?altl\n"
 				+ "  }";
-		
-		//System.out.println("getSubElementStructureFromIDObject:\n" + query);
-		
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
-		//System.out.println("getSubElementStructureFromIDObject:\n" + stringlst);
-
 		DataElementInformation info = null;
 		if (stringlst.size() > 0) {
 			String idS = stringlst.get(0).get("id");

@@ -33,6 +33,9 @@ public class AttributeInDataset extends DatabaseObject {
 		return parameterLabel;
 	}
 
+	public void setParameterLabel(String parameterLabel) {
+		this.parameterLabel = parameterLabel;
+	}
 	public String toString() {
 		return toString("");
 	}
