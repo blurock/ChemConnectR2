@@ -398,7 +398,7 @@ public class CreateDefaultObjectsFactory {
 		String compid = createSuffix(obj, element);
 		compobj.setIdentifier(compid);
 
-		DatabaseObjectHierarchy descrhier = createDescriptionDataData(compobj);
+		DatabaseObjectHierarchy descrhier = createDescriptionDataData(obj);
 		DescriptionDataData descr = (DescriptionDataData) descrhier.getObject();
 		
 		
@@ -725,13 +725,14 @@ public class CreateDefaultObjectsFactory {
 	}
 
 	public static DatabaseObjectHierarchy createDataSpecification(DatabaseObject obj) {
+		
 		DatabaseObject specobj = new DatabaseObject(obj);
 		DataElementInformation element = DatasetOntologyParsing
 				.getSubElementStructureFromIDObject(OntologyKeys.dataSpecification);
 		String specsid = createSuffix(obj, element);
 		specobj.setIdentifier(specsid);
-
-		DatabaseObjectHierarchy concepthier = createPurposeConceptPair(specobj);
+		 
+		DatabaseObjectHierarchy concepthier = createPurposeConceptPair(obj);
 		PurposeConceptPair concept = (PurposeConceptPair) concepthier.getObject();
 		DataSpecification spec = new DataSpecification(specobj, concept.getIdentifier());
 		DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(spec);

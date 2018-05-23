@@ -58,7 +58,6 @@ public class ParameterSpecification extends DataSpecification {
 		StringBuilder builder = new StringBuilder();
 		builder.append(super.toString(prefix));
 		builder.append(prefix + " +/-: " + DataPointUncertainty + "\n");
-		builder.append(prefix + "Purpose/Concept: " + purposeandconcept + "\n");
 		builder.append(prefix + "Units:   " + Units + "\n");
 		return builder.toString();
 	}	
