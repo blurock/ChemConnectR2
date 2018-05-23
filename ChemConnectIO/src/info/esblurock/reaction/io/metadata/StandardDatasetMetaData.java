@@ -136,9 +136,8 @@ public class StandardDatasetMetaData {
 
 	public static String fileTypeS = "dataset:fileType";
 	public static String delimitorS = "dataset:delimitor";
-	
-	
-	
-	
+	public static String observationSpecs = "dataset:ObservationSpecs";
+	public static String parameterValues = "dataset:ParameterValues";
+	public static String subSystems = "dataset:SubSystems";
 
 }

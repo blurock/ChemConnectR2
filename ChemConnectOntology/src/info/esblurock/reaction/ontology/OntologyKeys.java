@@ -9,6 +9,7 @@ public class OntologyKeys {
 	public static String dataSpecification = "dataset:DataSpecification";
 	public static String attributeInDataset = "dataset:AttributeInDataset";
 	public static String parameterValue = "dataset:ParameterValue";
+	public static String observationSpecs = "dataset:ObservationSpecification";
 	public static String measurementParameterValue = "dataset:MeasurementParameterValue";
 	public static String dimensionParameterValue = "dataset:DimensionParameterValue";
 	public static String valueUnits = "dataset:ValueUnits";

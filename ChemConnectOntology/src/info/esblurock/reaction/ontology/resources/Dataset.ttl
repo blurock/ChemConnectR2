@@ -5867,10 +5867,6 @@ Under the general type of is the actual data object referenced by the ChemConnec
                               ] .
 
 
-###  http://www.esblurock.info/dataset#NumericalValue
-:NumericalValue rdf:type owl:Class .
-
-
 ###  http://www.esblurock.info/dataset#ObjectLinkToDataStructure
 :ObjectLinkToDataStructure rdf:type owl:Class ;
                            rdfs:subClassOf :LinkToDataStructure ;
@@ -5901,11 +5897,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
                           rdfs:subClassOf :ChemConnectCompoundDataStructure ,
                                           [ rdf:type owl:Restriction ;
                                             owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                            owl:someValuesFrom :ObservationParameterType
+                                            owl:someValuesFrom :ParameterSpecification
                                           ] ,
                                           [ rdf:type owl:Restriction ;
                                             owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                            owl:someValuesFrom :ParameterSpecification
+                                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                            owl:onClass :ObservationParameterType
                                           ] ;
                           <http://purl.org/dc/elements/1.1/type> "ObservationSpecification" ;
                           <http://purl.org/dc/terms/identifier> "qb:ComponentSpecification" ;
@@ -5938,7 +5935,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                                     [ rdf:type owl:Restriction ;
                                                       owl:onProperty <http://purl.org/dc/terms/hasPart> ;
                                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                      owl:onClass :SetOfObservationsSpecification
+                                                      owl:onClass :SetOfObservationSpecifications
                                                     ] ;
                                     <http://purl.org/dc/elements/1.1/type> "ObservationValuesWithSpecification" ;
                                     <http://purl.org/dc/terms/identifier> "dataset:ObservationValueWithSpecification" ;
@@ -6675,6 +6672,20 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                     rdfs:isDefinedBy :MatrixOfObservables .
 
 
+###  http://www.esblurock.info/dataset#SetOfObservationSpecifications
+:SetOfObservationSpecifications rdf:type owl:Class ;
+                                rdfs:subClassOf :ChemConnectCompoundDataStructure ,
+                                                [ rdf:type owl:Restriction ;
+                                                  owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                                  owl:someValuesFrom :ObservationSpecification
+                                                ] ;
+                                <http://purl.org/dc/elements/1.1/type> "SetOfObservationsSpecification" ;
+                                <http://purl.org/dc/terms/identifier> "qb:DataStructureDefinition" ;
+                                rdfs:isDefinedBy "SetOfObservationsSpecification" ;
+                                rdfs:label "Set of Observations Specification" ;
+                                <http://www.w3.org/2004/02/skos/core#altLabel> "setspec" .
+
+
 ###  http://www.esblurock.info/dataset#SetOfObservationValues
 :SetOfObservationValues rdf:type owl:Class ;
                         rdfs:subClassOf :ChemConnectDataStructure ,
@@ -6702,20 +6713,6 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :SetOfObservationsLinkToProtocol rdf:type owl:Class ;
                                  rdfs:subClassOf :MethodologyLinkMeasurement ;
                                  <http://purl.org/dc/elements/1.1/type> "SetOfObservationsLinkToProtocol" .
-
-
-###  http://www.esblurock.info/dataset#SetOfObservationsSpecification
-:SetOfObservationsSpecification rdf:type owl:Class ;
-                                rdfs:subClassOf :ChemConnectCompoundDataStructure ,
-                                                [ rdf:type owl:Restriction ;
-                                                  owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                                  owl:someValuesFrom :ObservationSpecification
-                                                ] ;
-                                <http://purl.org/dc/elements/1.1/type> "SetOfObservationsSpecification" ;
-                                <http://purl.org/dc/terms/identifier> "qb:DataStructureDefinition" ;
-                                rdfs:isDefinedBy "SetOfObservationsSpecification" ;
-                                rdfs:label "Set of Observations Specification" ;
-                                <http://www.w3.org/2004/02/skos/core#altLabel> "setspec" .
 
 
 ###  http://www.esblurock.info/dataset#SetOfObservationsStructure
@@ -6967,8 +6964,15 @@ Under the general type of is the actual data object referenced by the ChemConnec
                       rdfs:subClassOf :ChemConnectDataStructure ,
                                       [ rdf:type owl:Restriction ;
                                         owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                        owl:onClass :ParameterDescriptionSet
+                                        owl:someValuesFrom :ObservationSpecification
+                                      ] ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                        owl:someValuesFrom :ParameterValue
+                                      ] ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                        owl:someValuesFrom :SubSystemDescription
                                       ] ;
                       <http://purl.org/dc/elements/1.1/type> "SubSystemDescription"^^xsd:string ;
                       <http://purl.org/dc/terms/identifier> "ssn:hasSubSystem"^^xsd:string ;

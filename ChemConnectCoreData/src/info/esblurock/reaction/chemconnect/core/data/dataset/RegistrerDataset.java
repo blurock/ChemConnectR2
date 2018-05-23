@@ -3,7 +3,7 @@ package info.esblurock.reaction.chemconnect.core.data.dataset;
 import com.googlecode.objectify.ObjectifyService;
 
 import info.esblurock.reaction.chemconnect.core.data.base.ResetDatabaseObjects;
-import info.esblurock.reaction.chemconnect.core.data.dataset.device.DeviceSubsystemElement;
+import info.esblurock.reaction.chemconnect.core.data.dataset.device.SubSystemDescription;
 
 public class RegistrerDataset {
 		public static void register() {
@@ -18,10 +18,9 @@ public class RegistrerDataset {
 			ObjectifyService.register(ParameterDescriptionSet.class);
 			ObjectifyService.register(DataSpecification.class);
 			ObjectifyService.register(DatasetCatalogHierarchy.class);
-			ObjectifyService.register(DeviceSubsystemElement.class);
+			ObjectifyService.register(SubSystemDescription.class);
 			ObjectifyService.register(SetOfKeywords.class);
 			ObjectifyService.register(SetOfObservationValues.class);
-			ObjectifyService.register(SetOfObservationsSpecification.class);
 			ObjectifyService.register(DimensionParameterValue.class);
 			ObjectifyService.register(MeasurementParameterValue.class);
 			ObjectifyService.register(ValueUnits.class);
@@ -40,10 +39,9 @@ public class RegistrerDataset {
 			ResetDatabaseObjects.resetClass(ParameterDescriptionSet.class);
 			ResetDatabaseObjects.resetClass(DataSpecification.class);
 			ResetDatabaseObjects.resetClass(DatasetCatalogHierarchy.class);
-			ResetDatabaseObjects.resetClass(DeviceSubsystemElement.class);
+			ResetDatabaseObjects.resetClass(SubSystemDescription.class);
 			ResetDatabaseObjects.resetClass(SetOfKeywords.class);
 			ResetDatabaseObjects.resetClass(SetOfObservationValues.class);
-			ResetDatabaseObjects.resetClass(SetOfObservationsSpecification.class);
 			ResetDatabaseObjects.resetClass(DimensionParameterValue.class);
 			ResetDatabaseObjects.resetClass(MeasurementParameterValue.class);
 			ResetDatabaseObjects.resetClass(ValueUnits.class);

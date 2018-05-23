@@ -40,7 +40,7 @@ import info.esblurock.reaction.chemconnect.core.data.dataset.ParameterValue;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ParameterSpecification;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ValueUnits;
 import info.esblurock.reaction.chemconnect.core.data.dataset.SetOfObservationValues;
-import info.esblurock.reaction.chemconnect.core.data.dataset.device.DeviceSubsystemElement;
+import info.esblurock.reaction.chemconnect.core.data.dataset.device.SubSystemDescription;
 import info.esblurock.reaction.chemconnect.core.data.dataset.PurposeConceptPair;
 import info.esblurock.reaction.io.spreadsheet.ConvertToMatrixOfObjects;
 import info.esblurock.reaction.io.spreadsheet.ConvertInputDataBase;
@@ -272,18 +272,20 @@ public enum InterpretData {
 			return SetOfObservationValues.class.getCanonicalName();
 		}
 		
-	}
-	, SubSystemDescription {
+	}, SubSystemDescription {
 
 		@Override
 		public info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject fillFromYamlString(
 				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject top, Map<String, Object> yaml,
 				String sourceID) throws IOException {
-			DeviceSubsystemElement datastructure = null;
+			SubSystemDescription datastructure = null;
 			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
 			ChemConnectDataStructure objdata = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);					
+			String observationSpecsS = (String) yaml.get(StandardDatasetMetaData.observationSpecs);			
+			String parameterValuesS = (String) yaml.get(StandardDatasetMetaData.parameterValues);			
+			String subSystemsS = (String) yaml.get(StandardDatasetMetaData.subSystems);			
 			
-			datastructure = new DeviceSubsystemElement(objdata);
+			datastructure = new SubSystemDescription(objdata,observationSpecsS, parameterValuesS, subSystemsS);
 			
 			return datastructure;
 		}
@@ -291,23 +293,25 @@ public enum InterpretData {
 		@Override
 		public Map<String, Object> createYamlFromObject(
 				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject object) throws IOException {
-			DeviceSubsystemElement datastructure = (DeviceSubsystemElement) object;
+			SubSystemDescription datastructure = (SubSystemDescription) object;
 			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
-			
+			map.put(StandardDatasetMetaData.observationSpecs, datastructure.getObservationSpecs());
+			map.put(StandardDatasetMetaData.parameterValues, datastructure.getParameterValues());
+			map.put(StandardDatasetMetaData.subSystems, datastructure.getSubSystems());
 			return map;
 		}
 
 		@Override
 		public info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject readElementFromDatabase(
 				String identifier) throws IOException {
-			return QueryBase.getDatabaseObjectFromIdentifier(DeviceSubsystemElement.class.getCanonicalName(),
+			return QueryBase.getDatabaseObjectFromIdentifier(SubSystemDescription.class.getCanonicalName(),
 					identifier);
 		}
 
 		@Override
 		public String canonicalClassName() {
-			return DeviceSubsystemElement.class.getCanonicalName();
+			return SubSystemDescription.class.getCanonicalName();
 		}
 		
 	}, DatasetCatalogHierarchy {

@@ -57,9 +57,12 @@ public class ConceptParsing {
 		String query = "SELECT ?subsystem ?sub ?pobj\n" + "	WHERE { \n" + "	" + topclassS
 				+ "  rdfs:subClassOf ?pobj .\n"
 				+ "	?pobj owl:onProperty <http://purl.org/linked-data/cube#attribute> .\n"
-				+ "	?pobj owl:onClass ?sub .\n" + "	?subject owl:annotatedSource ?obj .\n"
-				+ "	?subject rdfs:isDefinedBy ?subsystem .\n" + "	?subject owl:annotatedTarget ?obj2 .\n"
-				+ "	?obj2 owl:onClass ?sub\n" + "}";
+				+ "	?pobj owl:onClass ?sub .\n" 
+				+ "	?subject owl:annotatedSource ?obj .\n"
+				+ "	?subject rdfs:isDefinedBy ?subsystem .\n" 
+				+ "	?subject owl:annotatedTarget ?obj2 .\n"
+				+ "	?obj2 owl:onClass ?sub\n" 
+				+ "}";
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
 		AttributesOfObject attributes = new AttributesOfObject(topclassS);
@@ -455,8 +458,10 @@ public class ConceptParsing {
 	}
 	
 	public static void fillInProperties(String parameter, PrimitiveParameterValueInformation info) {
-		String query2 = "SELECT  ?prop ?parameter\n" + "        WHERE {\n" + "	                " + parameter
-				+ " rdfs:subClassOf ?sub .\n" + "                  ?sub owl:onProperty ?prop .\n"
+		String query2 = "SELECT  ?prop ?parameter\n" 
+				+ "        WHERE {\n" 
+				+ "	                " + parameter + " rdfs:subClassOf ?sub .\n" 
+				+ "                  ?sub owl:onProperty ?prop .\n"
 				+ "                  ?sub owl:onClass ?parameter\n" + "              }";
 		List<Map<String, RDFNode>> lst2 = OntologyBase.resultSetToMap(query2);
 		List<Map<String, String>> stringlst2 = OntologyBase.resultmapToStrings(lst2);
@@ -478,11 +483,13 @@ public class ConceptParsing {
 	
 	
 	
-	public static void fillInProperties(String parameter,ValueUnits units, PurposeConceptPair concept, 
-			ParameterSpecification spec, ParameterValue value) {
-		String query2 = "SELECT  ?prop ?parameter\n" + "        WHERE {\n" + "	                " + parameter
-				+ " rdfs:subClassOf ?sub .\n" + "                  ?sub owl:onProperty ?prop .\n"
-				+ "                  ?sub owl:onClass ?parameter\n" + "              }";
+	public static void fillInProperties(String parameter,ValueUnits units, PurposeConceptPair concept) {
+		String query2 = "SELECT  ?prop ?parameter\n" 
+			+ "        WHERE {\n" + "	                " 
+					+ parameter + " rdfs:subClassOf ?sub .\n" 
+					+ "                  ?sub owl:onProperty ?prop .\n"
+					+ "                  ?sub owl:onClass ?parameter\n" 
+					+ "              }";
 		List<Map<String, RDFNode>> lst2 = OntologyBase.resultSetToMap(query2);
 		List<Map<String, String>> stringlst2 = OntologyBase.resultmapToStrings(lst2);
 		for (Map<String, String> map : stringlst2) {

@@ -26,13 +26,14 @@ import info.esblurock.reaction.chemconnect.core.data.dataset.DataSpecification;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHierarchy;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DimensionParameterValue;
 import info.esblurock.reaction.chemconnect.core.data.dataset.MeasurementParameterValue;
+import info.esblurock.reaction.chemconnect.core.data.dataset.ObservationSpecification;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ParameterSpecification;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ParameterValue;
 import info.esblurock.reaction.chemconnect.core.data.dataset.PurposeConceptPair;
 import info.esblurock.reaction.chemconnect.core.data.dataset.SetOfKeywords;
 import info.esblurock.reaction.chemconnect.core.data.dataset.SetOfObservationValues;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ValueUnits;
-import info.esblurock.reaction.chemconnect.core.data.dataset.device.DeviceSubsystemElement;
+import info.esblurock.reaction.chemconnect.core.data.dataset.device.SubSystemDescription;
 import info.esblurock.reaction.chemconnect.core.data.description.DescriptionDataData;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.ontology.OntologyKeys;
@@ -95,8 +96,8 @@ public class CreateDefaultObjectsFactory {
 		String onlinedescription = person.getGivenName() + " " + person.getFamilyName();
 		setOneLineDescription(infohier, onlinedescription);
 
-		String concept = "dataset:ChemConnectContactConcept";
-		String purpose = "dataset:PurposeOrganization";
+		String concept = "dataset:ChemConnectContactUser";
+		String purpose = "dataset:PurposeUser";
 		setPurposeConceptPair(infohier, concept, purpose);
 
 		return infohier;
@@ -143,27 +144,52 @@ public class CreateDefaultObjectsFactory {
 		return orghier;
 	}
 
+	public static DatabaseObjectHierarchy createChemConnectCompoundMultiple(DatabaseObject obj,
+			String type) {
+		DataElementInformation refelement = DatasetOntologyParsing
+				.getSubElementStructureFromIDObject(type);
+		String refid = createSuffix(obj, refelement);
+		DatabaseObject refobj = new DatabaseObject(obj);
+		refobj.setIdentifier(refid);
+		ChemConnectCompoundMultiple refmult = new ChemConnectCompoundMultiple(refobj);
+		DatabaseObjectHierarchy refhier = new DatabaseObjectHierarchy(refmult);
+		return refhier;
+	}
+	
 	public static DatabaseObjectHierarchy createSubSystemDescription(DatabaseObject obj) {
+		/*
 		DatabaseObject subobj = new DatabaseObject(obj);
 		DataElementInformation element = DatasetOntologyParsing
 				.getSubElementStructureFromIDObject(OntologyKeys.subSystemDescription);
 		String subid = createSuffix(obj, element);
 		subobj.setIdentifier(subid);
-
-		DatabaseObjectHierarchy structhier = createChemConnectDataStructure(subobj);
+*/
+		DatabaseObjectHierarchy structhier = createChemConnectDataStructure(obj);
 		ChemConnectDataStructure structure = (ChemConnectDataStructure) structhier.getObject();
-
-		DeviceSubsystemElement device = new DeviceSubsystemElement(structure);
+		
+		DatabaseObjectHierarchy spechier = createChemConnectCompoundMultiple(obj,OntologyKeys.observationSpecs);
+		DatabaseObjectHierarchy paramshier = createChemConnectCompoundMultiple(obj,OntologyKeys.parameterValue);
+		DatabaseObjectHierarchy subshier = createChemConnectCompoundMultiple(obj,OntologyKeys.subSystemDescription);
+		
+		SubSystemDescription device = new SubSystemDescription(structure,
+				spechier.getObject().getIdentifier(),
+				paramshier.getObject().getIdentifier(),
+				subshier.getObject().getIdentifier()
+				);
+		device.setIdentifier(obj.getIdentifier());
 		DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(device);
 		hierarchy.transferSubObjects(structhier);
-
+		hierarchy.addSubobject(spechier);
+		hierarchy.addSubobject(paramshier);
+		hierarchy.addSubobject(subshier);
 		return hierarchy;
 	}
 
 	public static DatabaseObjectHierarchy fillSubSystemDescription(DatabaseObject obj, String devicename,
 			String purpose, String concept) {
 		DatabaseObjectHierarchy hierarchy = createSubSystemDescription(obj);
-		DeviceSubsystemElement device = (DeviceSubsystemElement) hierarchy.getObject();
+		System.out.println("fillSubSystemDescription\n" + hierarchy.toString());
+		SubSystemDescription device = (SubSystemDescription) hierarchy.getObject();
 
 		DatabaseObjectHierarchy descrhier = hierarchy.getSubObject(device.getDescriptionDataData());
 		DescriptionDataData descr = (DescriptionDataData) descrhier.getObject();
@@ -171,10 +197,120 @@ public class CreateDefaultObjectsFactory {
 
 		setOneLineDescription(hierarchy, devicename);
 		setPurposeConceptPair(hierarchy, concept, purpose);
+/*
+		Set<AttributeDescription> attrs = ConceptParsing.attributesInConcept(devicename);
+		String paramid = device.getParameterValues();
+		System.out.println(paramid);
+		DatabaseObjectHierarchy paramsethier = hierarchy.getSubObject(paramid);
+		ChemConnectCompoundMultiple parammulti = (ChemConnectCompoundMultiple) paramsethier.getObject();
+	
+		for (AttributeDescription attr : attrs) {
+			DatabaseObjectHierarchy paramhier = fillParameterValueAndSpecification(parammulti, attr.getAttributeName(),
+					false);
+			parammulti.addID(paramhier.getObject().getIdentifier());
+			paramsethier.addSubobject(paramhier);
+		}
+		*/
+		/*
+		Set<String> subsystems = ConceptParsing.immediateSubSystems(devicename);
+		Set<String> components = ConceptParsing.immediateComponents(devicename);
+		String subsystemid = device.getParameterValues();
+		System.out.println(subsystemid);
+		DatabaseObjectHierarchy subsystemhier = hierarchy.getSubObject(subsystemid);
+		ChemConnectCompoundMultiple subsystemmulti = (ChemConnectCompoundMultiple) subsystemhier.getObject();
+		for(String subsystem : subsystems) {
+			String simple = removeNamespace(subsystem);
+			DatabaseObject subobj = new DatabaseObject(subsystemmulti);
+			String id = subobj.getIdentifier() + "-" + simple;
+			subobj.setIdentifier(id);
+			DatabaseObjectHierarchy subhierarchy = fillSubSystemDescription(subobj,subsystem,concept,purpose);
+			subsystemhier.addSubobject(subhierarchy);
+			subsystemmulti.addID(subhierarchy.getObject().getIdentifier());
+		}
+		for(String component : components) {
+			String simple = removeNamespace(component);
+			DatabaseObject subobj = new DatabaseObject(subsystemmulti);
+			String id = subobj.getIdentifier() + "-" + simple;
+			subobj.setIdentifier(id);
+			DatabaseObjectHierarchy subhierarchy = fillSubSystemDescription(subobj,component,concept,purpose);
+			subsystemhier.addSubobject(subhierarchy);
+			subsystemmulti.addID(subhierarchy.getObject().getIdentifier());			
+		}
+*/
+		String obspecsetID = device.getObservationSpecs();
+		DatabaseObjectHierarchy obspecset = hierarchy.getSubObject(obspecsetID);
+		ChemConnectCompoundMultiple obspecmulti = (ChemConnectCompoundMultiple) obspecset.getObject();
+		
+		Set<String> observations = ConceptParsing.setOfObservationsForSubsystem(devicename);
+		String measure = "<http://purl.org/linked-data/cube#measure>";
 
+		DatabaseObject obsobj = new DatabaseObject(obj);
+		DataElementInformation element = DatasetOntologyParsing
+				.getSubElementStructureFromIDObject(OntologyKeys.observationSpecs);
+		String obsid = createSuffix(obj, element);
+		obsobj.setIdentifier(obsid);
+
+		
+		System.out.println(observations.toString());
+		for(String observation : observations) {
+			System.out.println(observation);
+			
+			DatabaseObject subobsobj =new DatabaseObject(obsobj);
+			String specid = obsobj.getIdentifier() + "-" + removeNamespace(observation);
+			subobsobj.setIdentifier(specid);
+			DatabaseObjectHierarchy obsspechier = createObservationSpecification(subobsobj, device.getIdentifier());
+			ObservationSpecification specification = (ObservationSpecification) obsspechier.getObject();
+			obspecmulti.addID(specification.getIdentifier());
+			obspecset.addSubobject(obsspechier);
+			
+			String paramspecid = specification.getParameterSpecifications();
+			DatabaseObjectHierarchy multihier = obsspechier.getSubObject(paramspecid);
+			ChemConnectCompoundMultiple multi = (ChemConnectCompoundMultiple) multihier.getObject();
+			Set<AttributeDescription> measureset = ConceptParsing.propertyInConcept(measure, observation);
+			for(AttributeDescription attr : measureset) {
+				String id = specid + "-" + removeNamespace(attr.getAttributeName());
+				DatabaseObject paramsub = new DatabaseObject(multi);
+				paramsub.setIdentifier(id);
+				System.out.println("fillSubSystemDescription:  " + id + "\n" + attr.toString());
+				DatabaseObjectHierarchy paramhier = createParameterSpecification(paramsub);
+				ParameterSpecification param = (ParameterSpecification) paramhier.getObject();
+				multihier.addSubobject(paramhier);
+
+				DatabaseObjectHierarchy unithier = paramhier.getSubObject(param.getUnits());
+				DatabaseObjectHierarchy purposehier = paramhier.getSubObject(param.getPurposeandconcept());
+				ValueUnits units = (ValueUnits) unithier.getObject();
+				PurposeConceptPair purposeandconcept = (PurposeConceptPair) purposehier.getObject();
+				ConceptParsing.fillInProperties(attr.getAttributeName(), units, purposeandconcept);
+			}
+
+		}
 		return hierarchy;
 	}
-
+	
+	
+	
+	
+	public static DatabaseObjectHierarchy createObservationSpecification(DatabaseObject obj, String parent) {
+		/*
+		DatabaseObject specobj = new DatabaseObject(obj);
+		DataElementInformation element = DatasetOntologyParsing
+				.getSubElementStructureFromIDObject(OntologyKeys.observationSpecs);
+		String specid = createSuffix(obj, element);
+		specobj.setIdentifier(specid);
+		*/
+		DatabaseObjectHierarchy parameterhier = createChemConnectCompoundMultiple(obj, OntologyKeys.parameterSpecification);
+		DatabaseObjectHierarchy structhier = createChemConnectCompoundDataStructure(obj);
+		ChemConnectCompoundDataStructure structure = (ChemConnectCompoundDataStructure) structhier.getObject();
+		structure.setParentLink(parent);
+		ObservationSpecification specification = new ObservationSpecification(structure,"dataset:VectorOfObservables",
+				parameterhier.getObject().getIdentifier());
+		specification.setIdentifier(obj.getIdentifier());
+		DatabaseObjectHierarchy spechier = new DatabaseObjectHierarchy(specification);
+		spechier.addSubobject(parameterhier);
+		
+		return spechier;
+	}
+	
 	public static void setOneLineDescription(DatabaseObjectHierarchy hierarchy, String oneline) {
 		ChemConnectDataStructure structure = (ChemConnectDataStructure) hierarchy.getObject();
 		DatabaseObjectHierarchy descrhierarchy = hierarchy.getSubObject(structure.getDescriptionDataData());
@@ -712,7 +848,7 @@ public class CreateDefaultObjectsFactory {
 		specobj.setIdentifier(specsid);
 
 		DatabaseObjectHierarchy valuehier = createValueUnits(specobj);
-		DatabaseObjectHierarchy dspechier = createDataSpecification(obj);
+		DatabaseObjectHierarchy dspechier = createDataSpecification(specobj);
 		DataSpecification dspec = (DataSpecification) dspechier.getObject();
 		ValueUnits value = (ValueUnits) valuehier.getObject();
 		ParameterSpecification specs = new ParameterSpecification(dspec, "no uncertainty", value.getIdentifier());
@@ -819,7 +955,7 @@ public class CreateDefaultObjectsFactory {
 		PurposeConceptPair concept = (PurposeConceptPair) concepthier.getObject();
 
 		ConceptParsing.fillAnnotatedExample(parameter, units, concept, parameterspec, value);
-		ConceptParsing.fillInProperties(parameter, units, concept, parameterspec, value);
+		ConceptParsing.fillInProperties(parameter, units, concept);
 		value.setParameterLabel(parameter);
 
 		return valuehier;
@@ -847,6 +983,14 @@ public class CreateDefaultObjectsFactory {
 			elementmap.put(element.getDataElementName(), element);
 		}
 		return elementmap;
+	}
+	public static String removeNamespace(String name) {
+		int pos = name.indexOf(":");
+		String ans = name;
+		if(pos >= 0) {
+			ans = name.substring(pos+1);
+		}
+		return ans;
 	}
 
 }
