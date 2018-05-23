@@ -73,8 +73,9 @@ public class SubSystemDescription extends ChemConnectDataStructure {
 	public String toString(String prefix) {
 		StringBuilder builder = new StringBuilder();
 		builder.append(super.toString(prefix));
-		builder.append(prefix);
-		builder.append("\n");
+		builder.append(prefix + "ObservationSpecs: " + observationSpecs + "\n");
+		builder.append(prefix + "parameterValues:  " + parameterValues + "\n");
+		builder.append(prefix + "subSystems:       " + subSystems + "\n");
 		return builder.toString();		
 	}
 }

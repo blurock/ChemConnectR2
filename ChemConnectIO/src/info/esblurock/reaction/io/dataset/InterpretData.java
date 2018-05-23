@@ -201,8 +201,9 @@ public enum InterpretData {
 			ChemConnectCompoundMultiple multi = null;
 			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
 			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);					
+			String typeS = (String) yaml.get(StandardDatasetMetaData.elementType);
 			HashSet<String> idsS = interpretMultipleYaml(StandardDatasetMetaData.chemConnectCompoundMultipleS,yaml);
-			multi = new ChemConnectCompoundMultiple(objdata, idsS);
+			multi = new ChemConnectCompoundMultiple(objdata, typeS);
 			
 			return multi;
 		}
@@ -213,6 +214,7 @@ public enum InterpretData {
 			ChemConnectCompoundMultiple multi = (ChemConnectCompoundMultiple) object;
 			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
+			map.put(StandardDatasetMetaData.elementType, multi.getType());
 			putMultipleInYaml(StandardDatasetMetaData.chemConnectCompoundMultipleS, map,multi.getIds());
 			return map;
 		}

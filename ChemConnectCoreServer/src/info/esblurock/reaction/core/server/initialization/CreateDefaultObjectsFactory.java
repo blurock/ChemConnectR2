@@ -151,7 +151,7 @@ public class CreateDefaultObjectsFactory {
 		String refid = createSuffix(obj, refelement);
 		DatabaseObject refobj = new DatabaseObject(obj);
 		refobj.setIdentifier(refid);
-		ChemConnectCompoundMultiple refmult = new ChemConnectCompoundMultiple(refobj);
+		ChemConnectCompoundMultiple refmult = new ChemConnectCompoundMultiple(refobj,refelement.getChemconnectStructure());
 		DatabaseObjectHierarchy refhier = new DatabaseObjectHierarchy(refmult);
 		return refhier;
 	}
@@ -188,7 +188,6 @@ public class CreateDefaultObjectsFactory {
 	public static DatabaseObjectHierarchy fillSubSystemDescription(DatabaseObject obj, String devicename,
 			String purpose, String concept) {
 		DatabaseObjectHierarchy hierarchy = createSubSystemDescription(obj);
-		System.out.println("fillSubSystemDescription\n" + hierarchy.toString());
 		SubSystemDescription device = (SubSystemDescription) hierarchy.getObject();
 
 		DatabaseObjectHierarchy descrhier = hierarchy.getSubObject(device.getDescriptionDataData());
@@ -250,15 +249,11 @@ public class CreateDefaultObjectsFactory {
 		String obsid = createSuffix(obj, element);
 		obsobj.setIdentifier(obsid);
 
-		
-		System.out.println(observations.toString());
 		for(String observation : observations) {
-			System.out.println(observation);
-			
 			DatabaseObject subobsobj =new DatabaseObject(obsobj);
 			String specid = obsobj.getIdentifier() + "-" + removeNamespace(observation);
 			subobsobj.setIdentifier(specid);
-			DatabaseObjectHierarchy obsspechier = createObservationSpecification(subobsobj, device.getIdentifier());
+			DatabaseObjectHierarchy obsspechier = createObservationSpecification(subobsobj, obspecmulti.getIdentifier());
 			ObservationSpecification specification = (ObservationSpecification) obsspechier.getObject();
 			obspecmulti.addID(specification.getIdentifier());
 			obspecset.addSubobject(obsspechier);
@@ -271,7 +266,6 @@ public class CreateDefaultObjectsFactory {
 				String id = specid + "-" + removeNamespace(attr.getAttributeName());
 				DatabaseObject paramsub = new DatabaseObject(multi);
 				paramsub.setIdentifier(id);
-				System.out.println("fillSubSystemDescription:  " + id + "\n" + attr.toString());
 				DatabaseObjectHierarchy paramhier = createParameterSpecification(paramsub);
 				ParameterSpecification param = (ParameterSpecification) paramhier.getObject();
 				multihier.addSubobject(paramhier);
@@ -407,15 +401,15 @@ public class CreateDefaultObjectsFactory {
 		String refid = createSuffix(obj, refelement);
 		DatabaseObject refobj = new DatabaseObject(compobj);
 		refobj.setIdentifier(refid);
-		ChemConnectCompoundMultiple refmult = new ChemConnectCompoundMultiple(refobj);
-		DatabaseObjectHierarchy refhier = new DatabaseObjectHierarchy(refmult);
-
 		DataElementInformation lnkelement = DatasetOntologyParsing
 				.getSubElementStructureFromIDObject(OntologyKeys.dataObjectLink);
+		ChemConnectCompoundMultiple refmult = new ChemConnectCompoundMultiple(refobj,refelement.getChemconnectStructure());
+		DatabaseObjectHierarchy refhier = new DatabaseObjectHierarchy(refmult);
+
 		String lnkid = createSuffix(obj, lnkelement);
 		DatabaseObject lnkobj = new DatabaseObject(compobj);
 		lnkobj.setIdentifier(lnkid);
-		ChemConnectCompoundMultiple lnkmult = new ChemConnectCompoundMultiple(lnkobj);
+		ChemConnectCompoundMultiple lnkmult = new ChemConnectCompoundMultiple(lnkobj,lnkelement.getChemconnectStructure());
 		DatabaseObjectHierarchy lnkhier = new DatabaseObjectHierarchy(lnkmult);
 
 		ChemConnectDataStructure compound = new ChemConnectDataStructure(compobj, 
@@ -802,7 +796,7 @@ public class CreateDefaultObjectsFactory {
 		DatabaseObject refobj = new DatabaseObject(obj);
 		String refid = createSuffix(obsobj, refelement);
 		refobj.setIdentifier(refid);
-		ChemConnectCompoundMultiple refmult = new ChemConnectCompoundMultiple(refobj);
+		ChemConnectCompoundMultiple refmult = new ChemConnectCompoundMultiple(refobj,refelement.getChemconnectStructure());
 		DatabaseObjectHierarchy refhier = new DatabaseObjectHierarchy(refmult);
 
 		DataElementInformation lnkelement = DatasetOntologyParsing
@@ -810,7 +804,7 @@ public class CreateDefaultObjectsFactory {
 		DatabaseObject lnkobj = new DatabaseObject(obj);
 		String lnkid = createSuffix(obsobj, lnkelement);
 		lnkobj.setIdentifier(lnkid);
-		ChemConnectCompoundMultiple lnkmult = new ChemConnectCompoundMultiple(lnkobj);
+		ChemConnectCompoundMultiple lnkmult = new ChemConnectCompoundMultiple(lnkobj,lnkelement.getChemconnectStructure());
 		DatabaseObjectHierarchy lnkhier = new DatabaseObjectHierarchy(lnkmult);
 
 		DataElementInformation melement = DatasetOntologyParsing
@@ -818,7 +812,7 @@ public class CreateDefaultObjectsFactory {
 		DatabaseObject measureobj = new DatabaseObject(obsobj);
 		String measureid = createSuffix(obsobj, melement);
 		measureobj.setIdentifier(measureid);
-		ChemConnectCompoundMultiple measremult = new ChemConnectCompoundMultiple(measureobj);
+		ChemConnectCompoundMultiple measremult = new ChemConnectCompoundMultiple(measureobj,melement.getChemconnectStructure());
 		DatabaseObjectHierarchy measurehier = new DatabaseObjectHierarchy(measremult);
 		set.setMeasurementValues(measureid);
 
@@ -827,7 +821,7 @@ public class CreateDefaultObjectsFactory {
 		DatabaseObject dimensionobj = new DatabaseObject(obsobj);
 		String dimensionid = createSuffix(obsobj, delement);
 		dimensionobj.setIdentifier(dimensionid);
-		ChemConnectCompoundMultiple dimensionmult = new ChemConnectCompoundMultiple(dimensionobj);
+		ChemConnectCompoundMultiple dimensionmult = new ChemConnectCompoundMultiple(dimensionobj,delement.getChemconnectStructure());
 		DatabaseObjectHierarchy dimensionhier = new DatabaseObjectHierarchy(dimensionmult);
 		set.setDimensionValues(dimensionid);
 

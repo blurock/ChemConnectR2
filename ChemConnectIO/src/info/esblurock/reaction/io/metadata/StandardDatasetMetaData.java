@@ -30,6 +30,7 @@ public class StandardDatasetMetaData {
 	public static String measurementValues = "qb:measure";
 	public static String dimensionValues = "qb:dimension";
 	public static String chemConnectCompoundMultipleS = "dataset:ChemConnectCompoundMultiple";
+	public static String  elementType = "dataset:elementType";
 
 	public static String titleKeyS = "dcterms:title";
 	public static String descriptionKeyS = "dcterms:description";

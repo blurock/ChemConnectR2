@@ -71,7 +71,7 @@ public class ReadWriteDatabaseObjectsWithSubobjects {
 					HashSet<String> idset = new HashSet<String>(ids);
 					DatabaseObject mobj = new DatabaseObject(object);
 					mobj.setIdentifier(multid);
-					ChemConnectCompoundMultiple multiple = new ChemConnectCompoundMultiple(mobj,idset);
+					ChemConnectCompoundMultiple multiple = new ChemConnectCompoundMultiple(mobj,subelement.getChemconnectStructure(),idset);
 					map.put(multid, multiple);
 					for(String id: ids) {
 						addDatabaseObject(id,subelement.getChemconnectStructure(),subelement.getDataElementName(),map);
