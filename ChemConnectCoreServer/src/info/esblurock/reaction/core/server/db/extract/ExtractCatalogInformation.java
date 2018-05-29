@@ -42,16 +42,11 @@ public class ExtractCatalogInformation {
 		DatabaseObjectHierarchy hierarchy = null;
 		try {
 			if(asSinglet) {
+				System.out.println("getDatabaseObjectAndSubElements: " + classify.getDataType());
 				InterpretData interpret = InterpretData.valueOf(classify.getDataType());
-				System.out.println("getCatalogObject: Simglet:  ");				
 				DatabaseObject obj = interpret.readElementFromDatabase(id);
 				hierarchy = new DatabaseObjectHierarchy(obj);
-				System.out.println(obj.toString());
-				System.out.println("getCatalogObject: Class:  " + interpret.canonicalClassName());
-				System.out.println("getCatalogObject: classify   \n" + classify.toString());
-				System.out.println("Substructures: \n" + substructures.size());
 				Map<String,Object> mapping = interpret.createYamlFromObject(obj);
-				System.out.println("Mapping:\n" + mapping.toString());
 				for(DataElementInformation element : substructures) {
 					System.out.println("Substructures: Element= " + element.toString());
 					String identifier = element.getIdentifier();
@@ -66,6 +61,7 @@ public class ExtractCatalogInformation {
 						
 					} else {
 						System.out.println("Couldn't find Identifier: " + identifier);
+						System.out.println("Couldn't find Identifier: " + mapping.keySet());
 					}
 				}
 			} else {

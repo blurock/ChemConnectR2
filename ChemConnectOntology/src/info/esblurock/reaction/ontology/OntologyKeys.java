@@ -13,7 +13,7 @@ public class OntologyKeys {
 	public static String measurementParameterValue = "dataset:MeasurementParameterValue";
 	public static String dimensionParameterValue = "dataset:DimensionParameterValue";
 	public static String valueUnits = "dataset:ValueUnits";
-	public static String setOfKeywords = "dataset:SetOfKeywords";
+	public static String keyWord = "dataset:DescriptionKeyword";
 	public static String descriptionDataData = "dataset:DescriptionDataData";
 	public static String chemConnectCompoundDataStructure = "dataset:ChemConnectCompoundDataStructure";
 	public static String personalDescription = "dataset:PersonalDescription";
@@ -30,6 +30,8 @@ public class OntologyKeys {
 	public static String nameOfPerson = "dataset:NameOfPerson";
 	public static String subSystemDescription = "dataset:SubSystemDescription";
 	public static String setOfObservationValues = "dataset:SetOfObservationValues";
+	public static String contactHasSite = "dataset:ContactHasSite";
+	public static String contactTopSite = "dataset:ContactSiteOf";
 	
 	public static String hasPurpose = "dataset:hasPurpose";
 	public static String datacubeConcept = "datacube:concept";

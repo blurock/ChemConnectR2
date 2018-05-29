@@ -24,7 +24,7 @@ public class RegistrerDataset {
 			ObjectifyService.register(DimensionParameterValue.class);
 			ObjectifyService.register(MeasurementParameterValue.class);
 			ObjectifyService.register(ValueUnits.class);
-			
+			ObjectifyService.register(ObservationSpecification.class);
 		}
 		
 		public static void reset() {
@@ -45,5 +45,6 @@ public class RegistrerDataset {
 			ResetDatabaseObjects.resetClass(DimensionParameterValue.class);
 			ResetDatabaseObjects.resetClass(MeasurementParameterValue.class);
 			ResetDatabaseObjects.resetClass(ValueUnits.class);
+			ResetDatabaseObjects.resetClass(ObservationSpecification.class);
 		}	
 }

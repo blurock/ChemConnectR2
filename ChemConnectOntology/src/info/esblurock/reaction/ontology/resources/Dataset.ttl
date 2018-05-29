@@ -2200,7 +2200,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :DataTypeConcept rdf:type owl:Class ;
                  rdfs:subClassOf :ConceptKeywords ;
                  <http://purl.org/dc/elements/1.1/type> "Concept" ;
-                 <http://purl.org/dc/terms/identifier> "skos:related"^^xsd:string ;
+                 <http://purl.org/dc/terms/identifier> "skos:Concept"^^xsd:string ;
                  rdfs:comment "The data type concept. This is a concept in the concept hierarchy." ;
                  rdfs:label "Data Concept Type"^^xsd:string ;
                  <http://www.w3.org/2004/02/skos/core#altLabel> "dataconcept"^^xsd:string ;
@@ -2547,8 +2547,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                      rdfs:subClassOf :ChemConnectCompoundDataStructure ,
                                      [ rdf:type owl:Restriction ;
                                        owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                       owl:onClass :DataTypeConcept
+                                       owl:someValuesFrom :DescriptionKeyword
                                      ] ,
                                      [ rdf:type owl:Restriction ;
                                        owl:onProperty <http://purl.org/dc/terms/hasPart> ;
@@ -2569,16 +2568,6 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                        owl:onProperty <http://purl.org/dc/terms/hasPart> ;
                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                        owl:onClass :PurposeConceptPair
-                                     ] ,
-                                     [ rdf:type owl:Restriction ;
-                                       owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                       owl:onClass :SetOfKeywords
-                                     ] ,
-                                     [ rdf:type owl:Restriction ;
-                                       owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                       owl:onClass :SourceKey
                                      ] .
 
 
@@ -4374,21 +4363,25 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :HeatFluxBurnerParabolicParameter rdf:type owl:Class ;
                                   rdfs:subClassOf :CalculatedParameter ,
                                                   [ rdf:type owl:Restriction ;
+                                                    owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
+                                                    owl:someValuesFrom :TemperaturePerAreaUnit
+                                                  ] ,
+                                                  [ rdf:type owl:Restriction ;
                                                     owl:onProperty <http://purl.org/linked-data/cube#concept> ;
                                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                     owl:onClass :ParabolicParameter
                                                   ] ,
                                                   [ rdf:type owl:Restriction ;
-                                                    owl:onProperty :purpose ;
+                                                    owl:onProperty :hasPurpose ;
                                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                     owl:onClass :FlameProperty
                                                   ] ;
-                                  <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/qudt#AreaTemperatureUnit> .
+                                  <http://www.w3.org/2004/02/skos/core#example> :TemperaturePerAreaUnit .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :HeatFluxBurnerParabolicParameter ;
    owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
-   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/qudt#AreaTemperatureUnit> ;
+   owl:annotatedTarget :TemperaturePerAreaUnit ;
    <http://www.w3.org/2004/02/skos/core#example> 0
  ] .
 
@@ -5880,7 +5873,10 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#ObservationParameterType
 :ObservationParameterType rdf:type owl:Class ;
-                          rdfs:subClassOf :Classification .
+                          rdfs:subClassOf :Classification ;
+                          <http://purl.org/dc/terms/identifier> "dataset:parameterType" ;
+                          rdfs:label "Parameter Type" ;
+                          <http://www.w3.org/2004/02/skos/core#altLabel> "ptype" .
 
 
 ###  http://www.esblurock.info/dataset#ObservationParameters
@@ -6112,7 +6108,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#ParentLinkToDataStructure
 :ParentLinkToDataStructure rdf:type owl:Class ;
                            rdfs:subClassOf :LinkToDataStructure ;
-                           <http://purl.org/dc/terms/identifier> "dcam:memberOf" ;
+                           <http://purl.org/dc/terms/identifier> "dcterms:CatalogRecord" ;
                            rdfs:label "Identifier to parent data structure" ;
                            <http://www.w3.org/2004/02/skos/core#altLabel> "parent" .
 

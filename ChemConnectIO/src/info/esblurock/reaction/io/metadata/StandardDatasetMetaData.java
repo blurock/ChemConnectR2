@@ -32,6 +32,9 @@ public class StandardDatasetMetaData {
 	public static String chemConnectCompoundMultipleS = "dataset:ChemConnectCompoundMultiple";
 	public static String  elementType = "dataset:elementType";
 
+	public static String hasSiteS = "foaf:homepage";
+	public static String siteOfS = "foaf:workInfoHomepage";
+	
 	public static String titleKeyS = "dcterms:title";
 	public static String descriptionKeyS = "dcterms:description";
 	public static String datasetKeyS = "dcat:dataset";
@@ -97,12 +100,13 @@ public class StandardDatasetMetaData {
 	
 	public static String parameterValueS = "qb:ComponentProperty";
 	public static String parameterSpecificationS = "qb:ComponentSpecification";
+	public static String subSystems = "ssn:hasSubSystem";
 	public static String valueAsStringS = "dataset:ValueAsString";
 	public static String valueUncertaintyS = "qudt:standardUncertainty";
 	public static String parameterLabelS = "skos:prefLabel";
 	public static String dataPointUncertaintyS = "dataset:uncertainty";
 	public static String unitClassS = "qudt:SystemOfQuantities";
-	public static String unitsS = "qudt:Units";
+	public static String unitsS = "qudt:Unit";
 	public static String unitsOfValueS = "qudt:QuantityKind";
 	public static String purposeConceptPairS = "prov:influenced";
 	public static String dataTypeConceptS = "skos:Concept";
@@ -139,6 +143,7 @@ public class StandardDatasetMetaData {
 	public static String delimitorS = "dataset:delimitor";
 	public static String observationSpecs = "dataset:ObservationSpecs";
 	public static String parameterValues = "dataset:ParameterValues";
-	public static String subSystems = "dataset:SubSystems";
+	public static String observationParameterType = "dataset:parameterType";
+	public static String parameterSpecifications = "qb:ComponentSpecification";
 
 }

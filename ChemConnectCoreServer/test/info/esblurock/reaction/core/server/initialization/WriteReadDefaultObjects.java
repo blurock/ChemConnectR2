@@ -1,9 +1,8 @@
 package info.esblurock.reaction.core.server.initialization;
 
-import static org.junit.Assert.*;
-
 import java.io.IOException;
-import java.util.List;
+
+//import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.Before;
@@ -46,6 +45,7 @@ import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.db.image.BlobKeyCorrespondence;
 import info.esblurock.reaction.io.db.QueryBase;
+import info.esblurock.reaction.chemconnect.core.data.dataset.MeasurementParameterValue;
 
 public class WriteReadDefaultObjects {
 	protected Closeable session;
@@ -88,6 +88,28 @@ public class WriteReadDefaultObjects {
 
 	@Test
 	public void test() {
+		
+		DatabaseObject obj = new DatabaseObject("AdministrationCatalog","Public","Administration","1" );
+		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillParameterValueAndSpecification(obj,
+				"dataset:ThermocouplePositionInBurner",
+				false);
+		System.out.println("fillSetOfObservations\n" + hierarchy.toString());
+		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(hierarchy);	
+		
+		try {
+			DatabaseObject measure = QueryBase.getDatabaseObjectFromIdentifier(MeasurementParameterValue.class.getCanonicalName(),
+					"AdministrationCatalog-ThermocouplePositionInBurner");
+			System.out.println("Read:   \n" + measure.toString());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		DatabaseObjectHierarchy readhierarchy = ExtractCatalogInformation.getCatalogObject("AdministrationCatalog-ThermocouplePositionInBurner", 
+				"dataset:MeasurementParameterValue");
+		System.out.println("fillSetOfObservations   ExtractCatalogInformation.getCatalogObject\n" + 
+				readhierarchy.toString());
 		/*
 		DatabaseObject obj = new DatabaseObject("AdministrationCatalog","Public","Administration","1" );
 		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillSetOfObservations(obj,"dataset:BurnerPlateObservations",
@@ -115,6 +137,7 @@ public class WriteReadDefaultObjects {
 		DatabaseObjectHierarchy readhierarchy = ExtractCatalogInformation.getCatalogObject("AdministrationCatalog-org", "dataset:Organization");
 		System.out.println(readhierarchy.toString());
 */
+/*
 		DatabaseObject obj = new DatabaseObject("AdministrationCatalog","Public","Administration","1" );
 		String devicename = "HeatFluxBurner";
 		String purpose = "dataset:FlameVelocityMeasurements";
@@ -124,7 +147,7 @@ public class WriteReadDefaultObjects {
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(hierarchy);	
 		DatabaseObjectHierarchy readhierarchy = ExtractCatalogInformation.getCatalogObject("AdministrationCatalog-subsys", "dataset:SubSystemDescription");
 		System.out.println(readhierarchy.toString());
-
+*/
 	}
 
 }

@@ -18,6 +18,8 @@ public class DescriptionDataData extends ChemConnectCompoundDataStructure {
 	@Index
 	String sourceConceptID;
 	@Index
+	String sourceKey;
+	@Index
 	Date sourceDate;
 	@Index
 	String dataType;

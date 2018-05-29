@@ -14,28 +14,28 @@ public class ContactInfoData extends ChemConnectCompoundDataStructure {
 
 	   	@Index
 	   	String email;
-	    @Unindex
-	    HashSet<String> topSite;
-	    @Unindex
-	    HashSet<String> hasSite;
+	    @Index
+	    String topSites;
+	    @Index
+	    String hasSites;
 	    
 	    public ContactInfoData() {
 			super();
 			this.email = "";
-			this.topSite = new HashSet<String>();
-			this.hasSite = new HashSet<String>();
+			this.topSites = "";
+			this.hasSites = "";
 		}
 	    public ContactInfoData(String identifier, String sourceID) {
 	    	super(identifier,sourceID);
 			this.email = "";
-			this.topSite = new HashSet<String>();
-			this.hasSite = new HashSet<String>();
+			this.topSites = "";
+			this.hasSites = "";
 		}
 	    public ContactInfoData(ChemConnectCompoundDataStructure obj) {
 	    	super(obj);
 			this.email = "";
-			this.topSite = new HashSet<String>();
-			this.hasSite = new HashSet<String>();
+			this.topSites = "";
+			this.hasSites = "";
 		}
 	    
 	    /**
@@ -46,17 +46,17 @@ public class ContactInfoData extends ChemConnectCompoundDataStructure {
 	     * @param topSite The http address of the encompasing structure of the contact
 	     * @param hasSite The web-site associated with the contact
 	     */
-	    public ContactInfoData(String identifier, String owner, String access, String sourceID,
-	    		String email, HashSet<String> topSite, HashSet<String> hasSite) {
-			fill(identifier,owner,access,sourceID,email,topSite,hasSite);
+	    public ContactInfoData(ChemConnectCompoundDataStructure obj,
+	    		String email, String topSites, String hasSites) {
+			fill(obj,email,topSites,hasSites);
 		}
 
-	    public void fill(String identifier, String owner, String access, String sourceID,
-	    		String email, HashSet<String> topSite, HashSet<String> hasSite) {
-			super.fill(identifier,owner,access,sourceID);
+	    public void fill(ChemConnectCompoundDataStructure obj,
+	    		String email, String topSites, String hasSites) {
+			super.fill(obj);
 			this.email = email;
-			this.topSite = topSite;
-			this.hasSite = hasSite;
+			this.topSites = topSites;
+			this.hasSites = hasSites;
 		}
 	    
 	    
@@ -67,20 +67,20 @@ public class ContactInfoData extends ChemConnectCompoundDataStructure {
 		public void setEmail(String email) {
 			this.email = email;
 		}
-		public HashSet<String> getTopSite() {
-			return topSite;
+		public String getTopSite() {
+			return topSites;
 		}
 
-		public HashSet<String> getHasSite() {
-			return hasSite;
+		public String getHasSite() {
+			return hasSites;
 		}
 
-		public void setTopSite(HashSet<String> topSite) {
-			this.topSite = topSite;
+		public void setTopSite(String topSites) {
+			this.topSites = topSites;
 		}
 
-		public void setHasSite(HashSet<String> hasSite) {
-			this.hasSite = hasSite;
+		public void setHasSite(String hasSites) {
+			this.hasSites = hasSites;
 		}
 		public String toString() {
 			return toString("");
@@ -89,8 +89,8 @@ public class ContactInfoData extends ChemConnectCompoundDataStructure {
 			StringBuilder builder = new StringBuilder();
 			builder.append(super.toString(prefix));
 			builder.append(prefix + "email: " + email + "\n");
-			builder.append(prefix + "topSite: " + topSite + "\n");
-			builder.append(prefix + "hasSite: " + hasSite + "\n");
+			builder.append(prefix + "topSite: " + topSites + "\n");
+			builder.append(prefix + "hasSite: " + hasSites + "\n");
 			return builder.toString();
 		}	
 }

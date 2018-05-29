@@ -13,7 +13,12 @@ public class ObservationSpecification extends ChemConnectCompoundDataStructure {
 	@Index
 	String parameterSpecifications;
 	
-	public ObservationSpecification(ChemConnectCompoundDataStructure structure, 
+	public ObservationSpecification() {
+		this.observationParameterType = "";
+		this.parameterSpecifications = "";
+		
+	}
+		public ObservationSpecification(ChemConnectCompoundDataStructure structure, 
 			String observationParameterType, String parameterSpecifications) {
 		super(structure);
 		this.observationParameterType = observationParameterType;
