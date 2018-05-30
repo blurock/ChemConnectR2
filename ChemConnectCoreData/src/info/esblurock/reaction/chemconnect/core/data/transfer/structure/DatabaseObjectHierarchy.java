@@ -43,6 +43,10 @@ public class DatabaseObjectHierarchy implements Serializable {
 		}
 	}
 	
+	public Set<String> getSubObjectKeys() {
+		return subobjects.keySet();
+	}
+	
 	public ArrayList<DatabaseObjectHierarchy> getSubobjects() {
 		ArrayList<DatabaseObjectHierarchy> array = new ArrayList<DatabaseObjectHierarchy>();
 		Set<String> names = subobjects.keySet();

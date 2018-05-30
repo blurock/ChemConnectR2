@@ -845,8 +845,8 @@ public enum InterpretData {
 			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
 			ChemConnectCompoundDataStructure objdata = (ChemConnectCompoundDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
 
-			String parameterType = (String) yaml.get(StandardDatasetMetaData.emailKeyS);
-			String parameterSpecification = (String) yaml.get(StandardDatasetMetaData.hasSiteS);
+			String parameterType = (String) yaml.get(StandardDatasetMetaData.observationParameterType);
+			String parameterSpecification = (String) yaml.get(StandardDatasetMetaData.parameterSpecifications);
 
 			ObservationSpecification contact = new ObservationSpecification(objdata, parameterType, parameterSpecification);
 			return contact;
@@ -1799,12 +1799,8 @@ public enum InterpretData {
 	@SuppressWarnings("unchecked")
 	public HashSet<String> interpretMultipleYaml(String key, Map<String, Object> yaml) {
 		HashSet<String> answers = new HashSet<String>();
-		System.out.println("interpretMultipleYaml: key=" + key);
 		Object yamlobj = yaml.get(key);
 	if (yamlobj != null) {
-			System.out.println("interpretMultipleYaml: " 
-					+ key + ",  "
-					+ yamlobj.getClass().getCanonicalName());
 			if (yamlobj.getClass().getCanonicalName().compareTo("java.util.ArrayList") == 0) {
 				List<String> lst = (List<String>) yamlobj;
 				for (String answer : lst) {
