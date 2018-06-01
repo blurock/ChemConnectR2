@@ -20,6 +20,8 @@ import info.esblurock.reaction.chemconnect.core.data.contact.OrganizationDescrip
 import info.esblurock.reaction.chemconnect.core.data.contact.PersonalDescription;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
+import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
+import info.esblurock.reaction.io.db.QueryBase;
 import info.esblurock.reaction.chemconnect.core.data.dataset.AttributeInDataset;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataObjectLink;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataSpecification;
@@ -398,6 +400,19 @@ public class CreateDefaultObjectsFactory {
 		return hierarchy;
 	}
 
+	public static String userCatalogHierarchyID(String username) {
+		String uid = DatasetCatalogHierarchy.createFullCatalogName("Catalog", username);
+		DatabaseObject catobj = new DatabaseObject(uid,username,username,"");
+		DataElementInformation usrelement = DatasetOntologyParsing
+				.getSubElementStructureFromIDObject(OntologyKeys.individualInformation);
+		String indid = createSuffix(catobj, usrelement);
+		catobj.setIdentifier(indid);
+		DataElementInformation element = DatasetOntologyParsing
+				.getSubElementStructureFromIDObject(OntologyKeys.datasetCatalogHierarchy);
+		String catid = createSuffix(catobj, element);
+		return catid;
+	}
+	
 	public static DatabaseObjectHierarchy createDatasetCatalogHierarchy(DatabaseObject obj) {
 		DatabaseObject catobj = new DatabaseObject(obj);
 		DataElementInformation element = DatasetOntologyParsing
@@ -418,8 +433,7 @@ public class CreateDefaultObjectsFactory {
 	}
 
 	public static DatabaseObjectHierarchy fillCataogHierarchyForUser(DatabaseObject obj, String userid,
-			String organizationid) {
-
+			String orgcatalog) {
 		String uid = DatasetCatalogHierarchy.createFullCatalogName(obj.getIdentifier(), userid);
 		DatabaseObject dobj = new DatabaseObject(obj);
 		dobj.setIdentifier(uid);
@@ -429,10 +443,26 @@ public class CreateDefaultObjectsFactory {
 		DatasetCatalogHierarchy usercatalog = (DatasetCatalogHierarchy) userhierarchy.getObject();
 		usercatalog.setSimpleCatalogName(userid);
 		setOneLineDescription(userhierarchy, onelinedescription);
+		
+		DatabaseObjectHierarchy multilnkhier = userhierarchy.getSubObject(usercatalog.getChemConnectObjectLink());
+		ChemConnectCompoundMultiple multilnk = (ChemConnectCompoundMultiple) multilnkhier.getObject();
+		DatabaseObjectHierarchy subcatalog = fillDataObjectLink(multilnk, "1", MetaDataKeywords.linkSubCatalog,
+				orgcatalog);
+		DatabaseObjectHierarchy userlink = fillDataObjectLink(multilnk, "2", MetaDataKeywords.linkUser, userid);
+		multilnk.addID(subcatalog.getObject().getIdentifier());
+		multilnk.addID(userlink.getObject().getIdentifier());
+		multilnkhier.addSubobject(subcatalog);
+		multilnkhier.addSubobject(userlink);
 
-		DatabaseObject aobj = new DatabaseObject(dobj);
+		return userhierarchy;
+	}
+	
+	public static DatabaseObjectHierarchy fillCataogHierarchyForOrganization(DatabaseObject obj,
+			String organizationid, String orglinkid) {		
+		
+		DatabaseObject aobj = new DatabaseObject(obj);
 		String orgsuffix = "orglink";
-		String aid = DatasetCatalogHierarchy.createFullCatalogName(dobj.getIdentifier(), orgsuffix);
+		String aid = DatasetCatalogHierarchy.createFullCatalogName(obj.getIdentifier(), orgsuffix);
 		aobj.setIdentifier(aid);
 
 		String orgcatdescription = "Institute's Catalog";
@@ -441,28 +471,43 @@ public class CreateDefaultObjectsFactory {
 		orgcatalog.setSimpleCatalogName(organizationid);
 		setOneLineDescription(orghierarchy, orgcatdescription);
 
-		userhierarchy.addSubobject(orghierarchy);
-
-		DatabaseObjectHierarchy multilnkhier = userhierarchy.getSubObject(usercatalog.getChemConnectObjectLink());
-		ChemConnectCompoundMultiple multilnk = (ChemConnectCompoundMultiple) multilnkhier.getObject();
-		DatabaseObjectHierarchy subcatalog = fillDataObjectLink(multilnk, "1", MetaDataKeywords.linkSubCatalog,
-				orgcatalog.getIdentifier());
-		DatabaseObjectHierarchy userlink = fillDataObjectLink(multilnk, "2", MetaDataKeywords.linkUser, userid);
-		multilnk.addID(subcatalog.getObject().getIdentifier());
-		multilnk.addID(userlink.getObject().getIdentifier());
-		multilnkhier.addSubobject(subcatalog);
-		multilnkhier.addSubobject(userlink);
 		
-		DatabaseObjectHierarchy multiorghier = userhierarchy.getSubObject(orgcatalog.getChemConnectObjectLink());
+		DatabaseObjectHierarchy multiorghier = orghierarchy.getSubObject(orgcatalog.getChemConnectObjectLink());
 		ChemConnectCompoundMultiple multiorg = (ChemConnectCompoundMultiple) multiorghier.getObject();
 		DatabaseObjectHierarchy orglink = fillDataObjectLink(multiorg, "1", MetaDataKeywords.linkOrganization,
-				organizationid);
+				orglinkid);
 		multiorghier.addSubobject(orglink);
 		multiorg.addID(orglink.getObject().getIdentifier());
 
-		return userhierarchy;
+		return orghierarchy;
 	}
+	static public void createAndWriteDefaultUserOrgAndCatagories(	String username, String access, String owner,
+	String orgname, String title, String sourceID) {
+		DatabaseObject obj = new DatabaseObject(username, access, owner, sourceID);
+		NameOfPerson person = new NameOfPerson(obj, "", "", username);
+		DatabaseObjectHierarchy user = CreateDefaultObjectsFactory.fillMinimalPersonDescription(obj, username, person);
+		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(user);
 
+		DatabaseObject orgobj = new DatabaseObject(orgname, access, owner, sourceID);
+		DatabaseObjectHierarchy org = CreateDefaultObjectsFactory.fillOrganization(orgobj, title);
+		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(org);
+
+		DatabaseObject catobj = new DatabaseObject("Catalog", access, owner, sourceID);
+
+		DatabaseObjectHierarchy orgcat = CreateDefaultObjectsFactory.fillCataogHierarchyForOrganization(catobj,
+				"BlurockConsultingAB", org.getObject().getIdentifier());
+
+		DatabaseObjectHierarchy usercat = CreateDefaultObjectsFactory.fillCataogHierarchyForUser(catobj,
+				user.getObject().getIdentifier(), orgcat.getObject().getIdentifier());
+		
+		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(orgcat);
+		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(usercat);
+		
+	}
+	
+	
+	
+	
 	static DatabaseObjectHierarchy fillOrganizationDescription(DatabaseObject obj, String organizationname) {
 
 		DatabaseObjectHierarchy orghier = createOrganizationDescription(obj);

@@ -59,23 +59,13 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 			System.out.println("User: " + person.toString());
 			} catch(IOException ex) {
 				String sourceID = QueryBase.getDataSourceIdentification("Administraction");
-				
-				DatabaseObject obj = new DatabaseObject("Administration", "Administration","Administration",sourceID);
-				NameOfPerson person = new NameOfPerson(obj,"","","Administration");
-				DatabaseObjectHierarchy user = CreateDefaultObjectsFactory.fillMinimalPersonDescription(obj, 
-						"Administraction", person);
-				System.out.println("User information:\n" + user.toString());
-				WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(user);
-
-				DatabaseObject orgobj = new DatabaseObject("BlurockConsultingAB", "Administration","Administration",sourceID);
-				DatabaseObjectHierarchy org = CreateDefaultObjectsFactory.fillOrganization(orgobj, "Blurock Consulting AB");
-				System.out.println("Organization information:\n" + org.toString());
-				WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(org);
-
-				DatabaseObject catobj = new DatabaseObject("Catalog", "Administration","Administration",sourceID);
-				DatabaseObjectHierarchy cat = CreateDefaultObjectsFactory.fillCataogHierarchyForUser(catobj, "Administration", "BlurockConsultingAB");
-				System.out.println("Organization information:\n" + cat.toString());
-				WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(cat);
+				String username = "Administration";
+				String access = "Administration";
+				String owner = "Administration";
+				String orgname = "BlurockConsultingAB";
+				String title = "Blurock Consulting AB";
+				CreateDefaultObjectsFactory.createAndWriteDefaultUserOrgAndCatagories(username, access, owner,
+						orgname, title, sourceID);
 			}
 			
 		} else {

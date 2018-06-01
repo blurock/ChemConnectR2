@@ -3,9 +3,10 @@ package info.esblurock.reaction.chemconnect.core.client.catalog;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.TransferDatabaseCatalogHierarchy;
 
-public class SetUpUserCatalogCallback implements AsyncCallback<TransferDatabaseCatalogHierarchy> {
+public class SetUpUserCatalogCallback implements AsyncCallback<DatabaseObjectHierarchy> {
 
 	
 	ManageCatalogHierarchy top;
@@ -19,9 +20,9 @@ public class SetUpUserCatalogCallback implements AsyncCallback<TransferDatabaseC
 	}
 
 	@Override
-	public void onSuccess(TransferDatabaseCatalogHierarchy transfer) {
+	public void onSuccess(DatabaseObjectHierarchy transfer) {
+		Window.alert("SetUpUserCatalogCallback: \n" + transfer.toString());
 		top.insertCatalog(transfer);
-		
 	}
 
 }

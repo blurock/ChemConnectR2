@@ -2200,7 +2200,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :DataTypeConcept rdf:type owl:Class ;
                  rdfs:subClassOf :ConceptKeywords ;
                  <http://purl.org/dc/elements/1.1/type> "Concept" ;
-                 <http://purl.org/dc/terms/identifier> "skos:Concept"^^xsd:string ;
+                 <http://purl.org/dc/terms/identifier> "skos:related"^^xsd:string ;
                  rdfs:comment "The data type concept. This is a concept in the concept hierarchy." ;
                  rdfs:label "Data Concept Type"^^xsd:string ;
                  <http://www.w3.org/2004/02/skos/core#altLabel> "dataconcept"^^xsd:string ;

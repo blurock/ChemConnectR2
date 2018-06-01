@@ -70,8 +70,8 @@ public class ReadWriteDatabaseCatalog {
 			for(DatabaseObject obj : lst) {
 				DatasetCatalogHierarchy catalog = (DatasetCatalogHierarchy) obj;
 				ans.add(catalog);
-				HashSet<String> links = catalog.getChemConnectObjectLink();
-				totallinks.addAll(links);
+				//HashSet<String> links = catalog.getChemConnectObjectLink();
+				//totallinks.addAll(links);
 			}
 			transfer.setUsername(username);
 			transfer.setCatalogElements(ans);
@@ -147,6 +147,7 @@ public class ReadWriteDatabaseCatalog {
 	static void createHierarchy(DatabaseObjectHierarchy top,
 			Map<String, DatasetCatalogHierarchy> catalogmap, Map<String, DataObjectLink> linkmap) {
 		DatasetCatalogHierarchy obj = (DatasetCatalogHierarchy) top.getObject();
+		/*
 		for(String sub : obj.getChemConnectObjectLink()) {
 			DataObjectLink link = linkmap.get(sub);
 			if(link != null) {
@@ -156,8 +157,9 @@ public class ReadWriteDatabaseCatalog {
 				top.addSubobject(subhierarchy);
 				createHierarchy(subhierarchy,catalogmap,linkmap);
 			}
+			
 		}
-
+*/
 	}
 	static Map<String, DatasetCatalogHierarchy> createCatalogMap(List<DatasetCatalogHierarchy> lst) {
 		Map<String, DatasetCatalogHierarchy> mapping = new HashMap<String, DatasetCatalogHierarchy>();

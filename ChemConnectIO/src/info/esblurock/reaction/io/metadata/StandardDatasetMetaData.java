@@ -95,7 +95,7 @@ public class StandardDatasetMetaData {
 	public static String deviceSensorS = "ssn:Sensor";
 	public static String instrumentS = "ssn:Device";
 	public static String chemConnectActivityS = "prov:Activity";
-	public static String dataPointConceptS = "skos:Concept";
+	public static String dataPointConceptS = "skos:related";
 
 	
 	public static String parameterValueS = "qb:ComponentProperty";

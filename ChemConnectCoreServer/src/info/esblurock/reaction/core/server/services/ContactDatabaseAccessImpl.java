@@ -9,6 +9,7 @@ import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatab
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.concepts.SetOfUnitProperties;
 import info.esblurock.reaction.chemconnect.core.data.contact.GPSLocation;
+import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
 import info.esblurock.reaction.chemconnect.core.data.contact.Organization;
 import info.esblurock.reaction.chemconnect.core.data.login.UserAccount;
 import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
@@ -23,6 +24,7 @@ import info.esblurock.reaction.core.server.db.extract.BuildSetOfObservationsInfo
 import info.esblurock.reaction.core.server.db.extract.BuildSubsystemInformation;
 import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.db.extract.GeocodingLatituteAndLongitude;
+import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFactory;
 import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
 import info.esblurock.reaction.core.server.services.util.DatabaseObjectUtilities;
 import info.esblurock.reaction.io.dataset.InterpretData;
@@ -36,6 +38,7 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.graph.TotalSubsyst
 import info.esblurock.reaction.chemconnect.core.data.transfer.observations.SetOfObservationsTransfer;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 @SuppressWarnings("serial")
 public class ContactDatabaseAccessImpl extends ServerBase implements ContactDatabaseAccess {
@@ -197,6 +200,38 @@ public class ContactDatabaseAccessImpl extends ServerBase implements ContactData
 	public ChemConnectDataStructure getSetOfObservationsStructructure() {
 		return getChemConnectDataStructure("Administration", "dataset:SetOfObservationsStructure");
 	}
+	
+	public DatabaseObjectHierarchy createDefaultSubSystemDescription(DatabaseObject obj, String devicename, String purpose, String concept) {
+		String sourceID = QueryBase.getDataSourceIdentification(obj.getOwner());
+		obj.setSourceID(sourceID);
+		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillSubSystemDescription(obj,
+				devicename,purpose,concept);
+		return hierarchy;
+	}
+	
+	public DatabaseObjectHierarchy createDefaultSetOfObservations(DatabaseObject obj,
+			String observation, String onlinedescription, String purpose, String concept) {
+		String sourceID = QueryBase.getDataSourceIdentification(obj.getOwner());
+		obj.setSourceID(sourceID);
+		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillSetOfObservations(obj,"dataset:BurnerPlateObservations",
+				"Set of burner plate observations","dataset:HeatFluxBurnerObservation","dataset:LaminarFlame");
+		return hierarchy;
+	}
+	
+	public DatabaseObjectHierarchy createDefaultPersonDescription(DatabaseObject obj, String userClassification, NameOfPerson person) {
+		String sourceID = QueryBase.getDataSourceIdentification(obj.getOwner());
+		obj.setSourceID(sourceID);
+		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillMinimalPersonDescription(obj,userClassification,person);
+		return hierarchy;
+	}
+	
+	public DatabaseObjectHierarchy createDefaultOrganization(DatabaseObject obj, String company) {
+		String sourceID = QueryBase.getDataSourceIdentification(obj.getOwner());
+		obj.setSourceID(sourceID);
+		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillOrganization(obj,company);
+		return hierarchy;
+	}
+	
 	
 	public void delete() {
 		

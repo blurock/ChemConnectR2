@@ -11,6 +11,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.concepts.SetOfUnitProperties;
 import info.esblurock.reaction.chemconnect.core.data.contact.GPSLocation;
+import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
 import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.data.rdf.SetOfKeywordRDF;
@@ -23,6 +24,7 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.graph.TotalSubsyst
 import info.esblurock.reaction.chemconnect.core.data.transfer.observations.SetOfObservationsTransfer;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 @RemoteServiceRelativePath("contactservice")
 public interface ContactDatabaseAccess extends RemoteService {
@@ -63,4 +65,10 @@ public interface ContactDatabaseAccess extends RemoteService {
 	GPSLocation getGPSLocation(DatabaseObject obj, String city, String country) throws IOException;
 	ChemConnectDataStructure getChemConnectDataStructure(String identifier, String structureS);
 	Map<String,DatabaseObject> getElementsOfCatalogObject(String identifier, String dataElementName);
+	
+	public DatabaseObjectHierarchy createDefaultSubSystemDescription(DatabaseObject obj, String devicename, String purpose, String concept);
+	public DatabaseObjectHierarchy createDefaultSetOfObservations(DatabaseObject obj,
+			String observation, String onlinedescription, String purpose, String concept);
+	public DatabaseObjectHierarchy createDefaultPersonDescription(DatabaseObject obj, String userClassification, NameOfPerson person);
+	public DatabaseObjectHierarchy createDefaultOrganization(DatabaseObject obj, String company);
 }

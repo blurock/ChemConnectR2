@@ -11,9 +11,6 @@ import info.esblurock.reaction.chemconnect.core.data.image.ImageServiceInformati
 import info.esblurock.reaction.chemconnect.core.data.image.UploadedImage;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
-import info.esblurock.reaction.chemconnect.core.data.transfer.structure.TransferDatabaseCatalogHierarchy;
-
-
 
 public interface UserImageServiceAsync {
 
@@ -52,7 +49,7 @@ public interface UserImageServiceAsync {
 
 	void getFileInterpretionChoices(GCSBlobFileInformation info, AsyncCallback<HierarchyNode> callback);
 
-	void getUserDatasetCatalogHierarchy(String username, AsyncCallback<TransferDatabaseCatalogHierarchy> callback);
+	void getUserDatasetCatalogHierarchy(String username, AsyncCallback<DatabaseObjectHierarchy> callback);
 
 	void getNewCatalogHierarchy(DatabaseObject obj, String id, String onelinedescription, AsyncCallback<DatabaseObjectHierarchy> callback);
 	

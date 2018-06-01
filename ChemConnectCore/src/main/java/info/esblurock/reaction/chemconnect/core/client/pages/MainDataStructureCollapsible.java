@@ -261,9 +261,9 @@ public class MainDataStructureCollapsible extends Composite {
 				MultipleRecordsPrimitive multiple = new MultipleRecordsPrimitive(elementname, create);
 				if(currentobject != null) {
 				ChemConnectCompoundMultiple compound = (ChemConnectCompoundMultiple) currentobject;
-				ArrayList<String> lst = compound.getIds();
-				multiple.setIdentifier(currentobject);
-				multiple.addPrimitive(lst, objectmap);
+				//ArrayList<String> lst = compound.getIds();
+				//multiple.setIdentifier(currentobject);
+				//multiple.addPrimitive(lst, objectmap);
 				} else {
 					Window.alert("Test: " + isParameterDescriptionSet + "    " + elementname);
 					if (isParameterDescriptionSet && elementname.compareTo(parameterValueS) == 0) {

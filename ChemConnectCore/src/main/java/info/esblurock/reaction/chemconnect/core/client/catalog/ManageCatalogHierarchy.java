@@ -23,6 +23,7 @@ import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageSer
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.TransferDatabaseCatalogHierarchy;
 
 public class ManageCatalogHierarchy extends Composite implements ChemConnectDataStructureInterface {
@@ -79,6 +80,7 @@ public class ManageCatalogHierarchy extends Composite implements ChemConnectData
 	 * Callback calls insertCatalog
 	 */
 	public void setUpHierarchyFromDatabase() {
+		Window.alert("setUpHierarchyFromDatabase: " + userName);
 		if(userName != null) {
 			UserImageServiceAsync async = UserImageService.Util.getInstance();
 			SetUpUserCatalogCallback callback = new SetUpUserCatalogCallback(this);
@@ -93,8 +95,8 @@ public class ManageCatalogHierarchy extends Composite implements ChemConnectData
 	 *  CatalogHierarchyNode the tree of nodes
 	 *  Within CatalogHierarchyNode, the underlying information is filled in
 	 */
-	public void insertCatalog(TransferDatabaseCatalogHierarchy transfer) {
-		CatalogHierarchyNode topnode = new CatalogHierarchyNode(transfer.getTop(),modalpanel);
+	public void insertCatalog(DatabaseObjectHierarchy transfer) {
+		CatalogHierarchyNode topnode = new CatalogHierarchyNode(transfer,modalpanel);
 		catalog.add(topnode);
 	}
 	

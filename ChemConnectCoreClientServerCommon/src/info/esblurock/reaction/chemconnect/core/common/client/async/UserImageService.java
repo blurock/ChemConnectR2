@@ -71,7 +71,7 @@ public interface UserImageService  extends RemoteService  {
 	
 	HierarchyNode getFileInterpretionChoices(GCSBlobFileInformation info) throws IOException;
 	
-	TransferDatabaseCatalogHierarchy getUserDatasetCatalogHierarchy(String username) throws IOException;
+	DatabaseObjectHierarchy getUserDatasetCatalogHierarchy(String username) throws IOException;
 	
 	DatabaseObjectHierarchy getNewCatalogHierarchy(DatabaseObject obj, String id, String onelinedescription) throws IOException;
 }
