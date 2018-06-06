@@ -12,6 +12,7 @@ import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
 import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.data.rdf.SetOfKeywordRDF;
+import info.esblurock.reaction.chemconnect.core.data.transfer.ChemConnectRecordInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DatasetInformationFromOntology;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterValueInformation;
@@ -86,6 +87,8 @@ public interface ContactDatabaseAccessAsync {
 			AsyncCallback<DatabaseObjectHierarchy> callback);
 
 	void createDefaultOrganization(DatabaseObject obj, String company, AsyncCallback<DatabaseObjectHierarchy> callback);
+
+	void getChemConnectRecordInformation(DatabaseObject obj, AsyncCallback<ChemConnectRecordInformation> callback);
 
 
 }

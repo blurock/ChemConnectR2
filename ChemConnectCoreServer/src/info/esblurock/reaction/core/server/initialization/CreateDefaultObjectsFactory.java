@@ -742,7 +742,7 @@ public class CreateDefaultObjectsFactory {
 		conceptobj.setIdentifier(conceptid);
 		ChemConnectCompoundDataStructure conceptcompound = new ChemConnectCompoundDataStructure(conceptobj,
 				obj.getIdentifier());
-		PurposeConceptPair pair = new PurposeConceptPair(conceptcompound, "no concept", "no purpose");
+		PurposeConceptPair pair = new PurposeConceptPair(conceptcompound, "no purpose", "no concept");
 		DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(pair);
 		return hierarchy;
 	}

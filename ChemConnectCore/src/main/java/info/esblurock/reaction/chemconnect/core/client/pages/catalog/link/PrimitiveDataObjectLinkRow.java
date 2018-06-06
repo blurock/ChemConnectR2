@@ -1,11 +1,10 @@
-package info.esblurock.reaction.chemconnect.core.client.pages.primitive.link;
+package info.esblurock.reaction.chemconnect.core.client.pages.catalog.link;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -18,7 +17,6 @@ import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataObjectLink;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
-import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveInterpretedInformation;
 
 public class PrimitiveDataObjectLinkRow extends Composite {
 
@@ -53,9 +51,9 @@ public class PrimitiveDataObjectLinkRow extends Composite {
 		
 	}
 
-	public PrimitiveDataObjectLinkRow(PrimitiveDataStructureInformation info) {
+	public PrimitiveDataObjectLinkRow(DatabaseObject cobject) {
 		initWidget(uiBinder.createAndBindUi(this));
-		fill(info);
+		fill(cobject);
 	}
 
 	void init() {
@@ -70,10 +68,7 @@ public class PrimitiveDataObjectLinkRow extends Composite {
 		link.setText("no link");
 	}
 
-	public void fill(PrimitiveDataStructureInformation info) {
-		this.setIdentifier(info);
-		PrimitiveInterpretedInformation interpreted = (PrimitiveInterpretedInformation) info;
-		DatabaseObject cobject = interpreted.getObj();
+	public void fill(DatabaseObject cobject) {
 		DataObjectLink objlink = (DataObjectLink) cobject;
 		concept.setText(TextUtilities.removeNamespace(objlink.getLinkConcept()));
 		link.setText(objlink.getDataStructure());

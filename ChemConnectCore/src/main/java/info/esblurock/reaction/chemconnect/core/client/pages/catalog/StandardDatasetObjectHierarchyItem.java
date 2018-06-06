@@ -1,0 +1,145 @@
+package info.esblurock.reaction.chemconnect.core.client.pages.catalog;
+
+import java.util.ArrayList;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Widget;
+
+import gwt.material.design.client.ui.MaterialCollapsible;
+import gwt.material.design.client.ui.MaterialCollapsibleBody;
+import gwt.material.design.client.ui.MaterialCollapsibleHeader;
+import gwt.material.design.client.ui.MaterialCollapsibleItem;
+import gwt.material.design.client.ui.MaterialLink;
+import gwt.material.design.client.ui.MaterialPanel;
+import gwt.material.design.client.ui.MaterialTooltip;
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
+
+public class StandardDatasetObjectHierarchyItem extends Composite {
+
+	private static StandardDatasetObjectHierarchyItemUiBinder uiBinder = GWT
+			.create(StandardDatasetObjectHierarchyItemUiBinder.class);
+
+	interface StandardDatasetObjectHierarchyItemUiBinder extends UiBinder<Widget, StandardDatasetObjectHierarchyItem> {
+	}
+
+	public StandardDatasetObjectHierarchyItem() {
+		initWidget(uiBinder.createAndBindUi(this));
+	}
+
+	@UiField
+	MaterialCollapsibleBody body;
+	@UiField
+	MaterialCollapsibleItem infoitem;
+	@UiField
+	MaterialCollapsibleHeader header;
+	@UiField
+	MaterialCollapsible subinfo;
+	@UiField
+	MaterialTooltip id;
+	@UiField
+	MaterialLink infotitle;
+	@UiField
+	MaterialCollapsible infocollapsible;
+
+	DatabaseObject object;
+	MaterialPanel modalpanel;
+	ArrayList<StandardDatasetObjectHierarchyItem> subitems;
+
+	public StandardDatasetObjectHierarchyItem(DatabaseObjectHierarchy hierarchy, MaterialPanel modalpanel) {
+		initWidget(uiBinder.createAndBindUi(this));
+		this.object = hierarchy.getObject();
+		this.modalpanel = modalpanel;
+		init();
+		id.setText(object.getIdentifier());
+		SetUpCollapsibleItem setup = getSetup(object);
+		if (setup != null) {
+			setup.addInformation(this);
+			if (setup.addSubitems()) {
+				addSubItems(hierarchy);
+			} else {
+			}
+		} else {
+			StandardDatasetRecord record = new StandardDatasetRecord(hierarchy);
+			infoitem.setVisible(true);
+			infocollapsible.add(record);
+		}
+	}
+
+	public void addSubItems(DatabaseObjectHierarchy hierarchy) {
+		for (DatabaseObjectHierarchy sub : hierarchy.getSubobjects()) {
+			SetUpCollapsibleItem setup = getSetup(sub.getObject());
+			if (setup != null) {
+				StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(sub, modalpanel);
+				if (setup.isInformation()) {
+					addInfoItem(item);
+				} else {
+					addSubItem(item);
+				}
+			} else {
+				StandardDatasetRecord record = new StandardDatasetRecord(sub);
+				infoitem.setVisible(true);
+				infocollapsible.add(record);
+			}
+		}
+	}
+
+	private SetUpCollapsibleItem getSetup(DatabaseObject object) {
+		String structure = object.getClass().getSimpleName();
+		SetUpCollapsibleItem setup = null;
+		try {
+			setup = SetUpCollapsibleItem.valueOf(structure);
+		} catch (Exception ex) {
+			Window.alert(structure + " not found: " + ex.getClass().getSimpleName());
+		}
+		return setup;
+	}
+
+	void init() {
+		infotitle.setText("Info");
+		subitems = new ArrayList<StandardDatasetObjectHierarchyItem>();
+		infoitem.setVisible(false);
+	}
+
+	public void insertInformation() {
+
+	}
+
+	public void addHeader(Composite composite) {
+		header.add(composite);
+	}
+
+	public ArrayList<StandardDatasetObjectHierarchyItem> getSubCatagories() {
+		return subitems;
+	}
+
+	public void addInfoItem(StandardDatasetObjectHierarchyItem item) {
+		infoitem.setVisible(true);
+		infocollapsible.add(item);
+	}
+
+	public void addSubItem(StandardDatasetObjectHierarchyItem item) {
+		subitems.add(item);
+		subinfo.add(item);
+	}
+
+	public DatabaseObject getObject() {
+		return object;
+	}
+
+	public MaterialPanel getModalpanel() {
+		return modalpanel;
+	}
+
+	public ArrayList<StandardDatasetObjectHierarchyItem> getSubitems() {
+		return subitems;
+	}
+
+	public void setBodyVisible(boolean visible) {
+		body.setVisible(visible);
+	}
+}

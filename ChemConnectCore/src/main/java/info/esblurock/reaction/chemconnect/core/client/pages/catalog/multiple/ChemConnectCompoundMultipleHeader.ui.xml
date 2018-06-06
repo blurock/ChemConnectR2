@@ -1,0 +1,17 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:m="urn:import:gwt.material.design.client.ui">
+	<ui:style>
+	.important {
+		font-weight: bold;
+	}
+	</ui:style>
+	<m:MaterialRow>
+		<m:MaterialColumn grid="s6">
+			<m:MaterialLink ui:field="multipletitle" textColor="BLACK"/>
+		</m:MaterialColumn>
+		<m:MaterialColumn grid="s6">
+			<m:MaterialLink ui:field="typename" textColor="BLACK"/>
+		</m:MaterialColumn>
+	</m:MaterialRow>
+</ui:UiBinder> 

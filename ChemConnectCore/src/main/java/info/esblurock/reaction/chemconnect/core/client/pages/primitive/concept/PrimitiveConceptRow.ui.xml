@@ -7,8 +7,8 @@
 		font-weight: bold;
 	}
 	</ui:style>
-	<m:MaterialPanel ui:field="toppanel">
-	<m:MaterialPanel ui:field="modalpanel"/>
+	<m:MaterialPanel ui:field="toppanel" padding="0">
+	<m:MaterialPanel ui:field="modalpanel" padding="0"/>
 		<m:MaterialRow>
 			<m:MaterialColumn grid="s1">
 				<m:MaterialTooltip ui:field="tip">
@@ -16,11 +16,14 @@
 				</m:MaterialTooltip>
 			</m:MaterialColumn>
 			<m:MaterialColumn grid="s3">
+					<m:MaterialLink ui:field="label"/>
+			</m:MaterialColumn>
+			<m:MaterialColumn grid="s4">
 				<m:MaterialTooltip ui:field="purposetip">
 					<m:MaterialLink ui:field="purpose"/>
 					</m:MaterialTooltip>
 			</m:MaterialColumn>
-			<m:MaterialColumn grid="s8">
+			<m:MaterialColumn grid="s4">
 			<m:MaterialTooltip ui:field="concepttip">
 				<m:MaterialLink ui:field="concept" />
 				</m:MaterialTooltip>

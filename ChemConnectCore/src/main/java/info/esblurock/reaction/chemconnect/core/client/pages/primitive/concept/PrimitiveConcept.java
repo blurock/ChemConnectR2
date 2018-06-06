@@ -11,8 +11,10 @@ public class PrimitiveConcept extends PrimitiveDataStructureBase {
 		add(row);
 	}
 	public PrimitiveConcept(PrimitiveDataStructureInformation info) {
+		/*
 		row = new PrimitiveConceptRow(info);
 		add(row);
+		*/
 	}
 
 }

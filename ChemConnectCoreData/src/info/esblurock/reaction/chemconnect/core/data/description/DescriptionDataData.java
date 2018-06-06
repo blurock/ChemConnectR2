@@ -28,6 +28,12 @@ public class DescriptionDataData extends ChemConnectCompoundDataStructure {
 
 	
 	public DescriptionDataData() {
+		this.onlinedescription = "";
+		this.descriptionAbstract = "";
+		this.sourceConceptID = "";
+		this.sourceDate = new Date();
+		this.dataType = "";
+		this.keywords = "";
 	}
 	/**
 	 * @param identifier:

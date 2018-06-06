@@ -15,6 +15,7 @@ import info.esblurock.reaction.chemconnect.core.data.login.UserAccount;
 import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.data.rdf.SetOfKeywordRDF;
+import info.esblurock.reaction.chemconnect.core.data.transfer.ChemConnectRecordInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DatasetInformationFromOntology;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterValueInformation;
@@ -195,6 +196,18 @@ public class ContactDatabaseAccessImpl extends ServerBase implements ContactData
 			structure.setIdentifier(obj);
 		}
 		return structure;
+	}
+	
+	public ChemConnectRecordInformation getChemConnectRecordInformation(DatabaseObject obj) throws IOException {
+		
+		String structureS = DatasetOntologyParsing.dataTypeOfStructure(obj);
+		ChemConnectCompoundDataStructure structure = getChemConnectCompoundDataStructure(structureS);
+		String objecttype = obj.getClass().getSimpleName();
+		InterpretData interpret = InterpretData.valueOf(objecttype);
+		Map<String,Object> mapping = interpret.createYamlFromObject(obj);
+		ChemConnectRecordInformation info = new ChemConnectRecordInformation(obj,structureS,structure,mapping);
+		
+		return info;
 	}
 	
 	public ChemConnectDataStructure getSetOfObservationsStructructure() {

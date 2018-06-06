@@ -21,7 +21,7 @@ public class SetUpUserCatalogCallback implements AsyncCallback<DatabaseObjectHie
 
 	@Override
 	public void onSuccess(DatabaseObjectHierarchy transfer) {
-		Window.alert("SetUpUserCatalogCallback: \n" + transfer.toString());
+		Window.alert("SetUpUserCatalogCallback: ");
 		top.insertCatalog(transfer);
 	}
 

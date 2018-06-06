@@ -1,4 +1,4 @@
-package info.esblurock.reaction.chemconnect.core.client.catalog;
+package info.esblurock.reaction.chemconnect.core.client.pages.catalog.hierarchy;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -20,9 +20,9 @@ public class NewSubCatalogWizard extends CardModalInterface {
 	@UiField
 	MaterialTextBox oneline;
 	
-	CatalogHierarchyNode node;
+	StandardDatasetCatalogHierarchyHeader node;
 
-	public NewSubCatalogWizard(CatalogHierarchyNode node) {
+	public NewSubCatalogWizard(StandardDatasetCatalogHierarchyHeader node) {
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
 		this.node = node;

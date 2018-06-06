@@ -21,10 +21,8 @@ import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConcep
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchyFromDefinition;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
-import info.esblurock.reaction.chemconnect.core.data.dataset.DataObjectLink;
 import info.esblurock.reaction.chemconnect.core.data.dataset.PurposeConceptPair;
-import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
-import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveInterpretedInformation;
+import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 
 public class PrimitiveConceptRow extends Composite implements HasText, ChooseFromConceptHeirarchy {
 
@@ -33,7 +31,8 @@ public class PrimitiveConceptRow extends Composite implements HasText, ChooseFro
 	interface PrimitiveConceptRowUiBinder extends UiBinder<Widget, PrimitiveConceptRow> {
 	}
 
-
+	@UiField
+	MaterialLink label;
 	@UiField
 	MaterialLink purpose;
 	@UiField
@@ -52,6 +51,7 @@ public class PrimitiveConceptRow extends Composite implements HasText, ChooseFro
 	boolean conceptSet;
 	String identifier;
 	String typeWithNamespace;
+	boolean chooseConcept;
 	
 	public PrimitiveConceptRow() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -59,14 +59,12 @@ public class PrimitiveConceptRow extends Composite implements HasText, ChooseFro
 		purpose.setText("choose purpose");
 		concept.setText("choose concept");
 	}
-	public PrimitiveConceptRow(PrimitiveDataStructureInformation info) {
+	public PrimitiveConceptRow(DatabaseObject cobject) {
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
-		PrimitiveInterpretedInformation interpreted = (PrimitiveInterpretedInformation) info;
-		DatabaseObject cobject = interpreted.getObj();
 		PurposeConceptPair conceptobj = (PurposeConceptPair) cobject;
-		typeWithNamespace = info.getType();
-		identifier = info.getIdentifier();
+		typeWithNamespace = conceptobj.getConcept();
+		identifier = conceptobj.getIdentifier();
 		purpose.setText(TextUtilities.removeNamespace(conceptobj.getPurpose()));
 		concept.setText(TextUtilities.removeNamespace(conceptobj.getConcept()));
 		tip.setText(identifier);
@@ -74,6 +72,8 @@ public class PrimitiveConceptRow extends Composite implements HasText, ChooseFro
 	}
 
 	private void init() {
+		label.setText("Pupose");
+		label.setTextColor(Color.BLACK);
 		purposetip.setText("Purpose");
 		concepttip.setText("Concept");
 		purpose.setTextColor(Color.BLACK);
@@ -88,9 +88,19 @@ public class PrimitiveConceptRow extends Composite implements HasText, ChooseFro
 	@UiHandler("concept")
 	void onClick(ClickEvent e) {
 			ArrayList<String> choices = new ArrayList<String>();
-			choices.add(typeWithNamespace);
+			choices.add("dataset:DataTypeConcept");
 			ChooseFromConceptHierarchyFromDefinition choosedevice = new ChooseFromConceptHierarchyFromDefinition(choices,this);
 			modalpanel.add(choosedevice);
+			chooseConcept=true;
+			choosedevice.open();
+	}
+	@UiHandler("purpose")
+	void onClickPurpose(ClickEvent e) {
+			ArrayList<String> choices = new ArrayList<String>();
+			choices.add("dataset:PurposeKeyword");
+			ChooseFromConceptHierarchyFromDefinition choosedevice = new ChooseFromConceptHierarchyFromDefinition(choices,this);
+			modalpanel.add(choosedevice);
+			chooseConcept=false;
 			choosedevice.open();
 	}
 	@UiHandler("info")
@@ -101,7 +111,11 @@ public class PrimitiveConceptRow extends Composite implements HasText, ChooseFro
 	
 	@Override
 	public void conceptChosen(String topconcept, String conceptText) {
-		concept.setText(conceptText);
+		if(chooseConcept) {
+			concept.setText(TextUtilities.removeNamespace(conceptText));
+		} else {
+			purpose.setText(TextUtilities.removeNamespace(conceptText));
+		}
 	}
 
 	public String getTypeWithNamespace() {

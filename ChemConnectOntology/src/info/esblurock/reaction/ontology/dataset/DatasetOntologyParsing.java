@@ -784,4 +784,20 @@ dataset:ChemConnectPrimitiveDataStructure:
 		return typelst;
 	}
 	
+	public static String dataTypeOfStructure(DatabaseObject obj) {
+		String structureType = obj.getClass().getSimpleName();
+		String query = "SELECT ?datatype\n" + 
+				"	WHERE { ?datatype <http://purl.org/dc/elements/1.1/type>  \"" 
+					+ structureType + "\"^^xsd:string  \n" + 
+				"}";
+		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
+		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
+		String datatype = null;
+		if(stringlst.size() > 0) {
+			Map<String, String> map = stringlst.get(0);
+			datatype = map.get("datatype");
+		}
+		return datatype;
+	}
+	
 }

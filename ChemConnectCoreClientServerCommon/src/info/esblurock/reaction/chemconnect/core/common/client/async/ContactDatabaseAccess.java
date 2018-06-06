@@ -15,6 +15,7 @@ import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
 import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.data.rdf.SetOfKeywordRDF;
+import info.esblurock.reaction.chemconnect.core.data.transfer.ChemConnectRecordInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DatasetInformationFromOntology;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterValueInformation;
@@ -71,4 +72,5 @@ public interface ContactDatabaseAccess extends RemoteService {
 			String observation, String onlinedescription, String purpose, String concept);
 	public DatabaseObjectHierarchy createDefaultPersonDescription(DatabaseObject obj, String userClassification, NameOfPerson person);
 	public DatabaseObjectHierarchy createDefaultOrganization(DatabaseObject obj, String company);
+	public ChemConnectRecordInformation getChemConnectRecordInformation(DatabaseObject obj) throws IOException;
 }

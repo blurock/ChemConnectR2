@@ -45,7 +45,7 @@ public enum CreatePrimitiveStructure {
 		public String getStructureName() {
 			return "ParameterValue";
 		}
-		
+
 	}, ParameterSpecification {
 
 		@Override
@@ -65,7 +65,7 @@ public enum CreatePrimitiveStructure {
 		public String getStructureName() {
 			return "ParameterSpecification";
 		}
-		
+
 	}, SetOfObservationsSpecification {
 
 		@Override
@@ -86,7 +86,7 @@ public enum CreatePrimitiveStructure {
 		public String getStructureName() {
 			return "SetOfObservationsSpecification";
 		}
-		
+
 	}, Paragraph {
 
 		@Override
@@ -105,7 +105,7 @@ public enum CreatePrimitiveStructure {
 		public String getStructureName() {
 			return "Paragraph";
 		}
-		
+
 	}, ShortStringLabel {
 
 		@Override
@@ -123,25 +123,6 @@ public enum CreatePrimitiveStructure {
 		@Override
 		public String getStructureName() {
 			return "ShortString";
-		}
-		
-	}, DataObjectLink {
-
-		@Override
-		public PrimitiveDataStructureBase createStructure(PrimitiveDataStructureInformation info) {
-			PrimitiveDataObjectLink link = new PrimitiveDataObjectLink(info);
-			return link;
-		}
-
-		@Override
-		public PrimitiveDataStructureBase createEmptyStructure() {
-			PrimitiveDataObjectLink link = new PrimitiveDataObjectLink();
-			return link;
-		}
-
-		@Override
-		public String getStructureName() {
-			return "DataObjectLink";
 		}
 		
 	}, LinkToDataStructure {

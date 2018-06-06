@@ -15,18 +15,14 @@ import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTitle;
 import gwt.material.design.client.ui.MaterialTooltip;
-import info.esblurock.reaction.chemconnect.core.client.administration.ChemConnectDataStructureInterface;
-import info.esblurock.reaction.chemconnect.core.client.pages.MapOfCatalogObjectsCallback;
-import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
-import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
+import info.esblurock.reaction.chemconnect.core.client.pages.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
-import info.esblurock.reaction.chemconnect.core.data.transfer.structure.TransferDatabaseCatalogHierarchy;
 
-public class ManageCatalogHierarchy extends Composite implements ChemConnectDataStructureInterface {
+public class ManageCatalogHierarchy extends Composite {
 
 	private static ManageCatalogHierarchyUiBinder uiBinder = GWT.create(ManageCatalogHierarchyUiBinder.class);
 
@@ -40,11 +36,11 @@ public class ManageCatalogHierarchy extends Composite implements ChemConnectData
 	@UiField
 	MaterialTitle title;
 	@UiField
-	MaterialCollapsible catalog;
-	@UiField
 	MaterialIcon refresh;
 	@UiField
 	MaterialPanel modalpanel;
+	@UiField
+	MaterialCollapsible panel;
 	
 	String userName;
 	ChemConnectDataStructure infoStructure;
@@ -80,7 +76,6 @@ public class ManageCatalogHierarchy extends Composite implements ChemConnectData
 	 * Callback calls insertCatalog
 	 */
 	public void setUpHierarchyFromDatabase() {
-		Window.alert("setUpHierarchyFromDatabase: " + userName);
 		if(userName != null) {
 			UserImageServiceAsync async = UserImageService.Util.getInstance();
 			SetUpUserCatalogCallback callback = new SetUpUserCatalogCallback(this);
@@ -96,8 +91,9 @@ public class ManageCatalogHierarchy extends Composite implements ChemConnectData
 	 *  Within CatalogHierarchyNode, the underlying information is filled in
 	 */
 	public void insertCatalog(DatabaseObjectHierarchy transfer) {
-		CatalogHierarchyNode topnode = new CatalogHierarchyNode(transfer,modalpanel);
-		catalog.add(topnode);
+		Window.alert("insertCatalog\n" + transfer.getObject().toString());
+		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(transfer,modalpanel);
+		panel.add(item);
 	}
 	
 	@UiHandler("refresh")
@@ -105,18 +101,12 @@ public class ManageCatalogHierarchy extends Composite implements ChemConnectData
 		setUpHierarchyFromDatabase();
 	}
 	
-	@Override
 	public void setIdentifer(DatabaseObject obj) {
 		this.obj = obj;
 	}
 
-	@Override
 	public MaterialPanel getModalPanel() {
 		return modalpanel;
 	}
 
-	@Override
-	public MaterialCollapsible getInfoContentCollapisble() {
-		return catalog;
-	}
 }

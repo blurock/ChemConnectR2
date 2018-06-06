@@ -24,7 +24,6 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConn
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.io.dataset.InterpretData;
 import info.esblurock.reaction.io.metadata.StandardDatasetMetaData;
-import info.esblurock.reaction.ontology.OntologyKeys;
 import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 
 public class ExtractCatalogInformation {
@@ -75,13 +74,14 @@ public class ExtractCatalogInformation {
 				}
 			}
 		} catch(IllegalArgumentException ex) {
-			System.out.println("No interpret: " + classify.getDataType());
-			System.out.println(ex.getClass().getSimpleName());
+			//System.out.println("No interpret: " + classify.getDataType());
+			//System.out.println(ex.getClass().getSimpleName());
 		} catch(IOException ex) {
 			System.out.println("IOException: " + classify.getDataType());
 			System.out.println(ex.toString());
 			
 		} catch(Exception ex) {
+			System.out.println("Unknown Exception: " + classify.getDataType());
 			System.out.println("Unknown Exception: \n" + ex.toString());
 		}
 		
@@ -296,14 +296,11 @@ public class ExtractCatalogInformation {
 	}
 	
 	public static DatabaseObjectHierarchy getDatabaseObjectHierarchy(String catid) throws IOException {
-		System.out.println("getDatabaseObjectHierarchy:  " + catid);
 		DatabaseObjectHierarchy hierarchy = ExtractCatalogInformation.getCatalogObject(catid, "dataset:DatasetCatalogHierarchy");
-		System.out.println("getDatabaseObjectHierarchy:  " + catid);
 		InterpretData interpret = InterpretData.valueOf("DatasetCatalogHierarchy");
 		String classname = interpret.canonicalClassName();
 		System.out.println(classname);
 		Map<String,Object> mapping = interpret.createYamlFromObject(hierarchy.getObject());
-		System.out.println("getDatabaseObjectHierarchy:  \n" + StandardDatasetMetaData.parameterObjectLinkS);
 		Set<String> keys = mapping.keySet();
 		for(String key : keys) {
 			System.out.println(" key: " + key + "\t  " + mapping.get(key));

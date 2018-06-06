@@ -7,8 +7,8 @@
 		font-weight: bold;
 	}
 	</ui:style>
-	<m:MaterialPanel ui:field="toppanel">
-		<m:MaterialRow>
+	<m:MaterialPanel ui:field="toppanel"  padding="0">
+		<m:MaterialRow  backgroundColor="WHITE"  padding="0">
 			<m:MaterialColumn grid="s1">
 				<m:MaterialTooltip ui:field="tip">
 					<m:MaterialIcon ui:field="info" iconType="INFO" iconColor="BLACK"/>
