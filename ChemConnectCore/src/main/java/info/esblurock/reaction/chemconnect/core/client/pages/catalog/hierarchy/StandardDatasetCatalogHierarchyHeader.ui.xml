@@ -7,18 +7,14 @@
 	}
 	</ui:style>
 	<m:MaterialRow>
-		<m:MaterialColumn grid="9">
+		<m:MaterialColumn grid="s10">
 			<m:MaterialLink ui:field="cataloghead" textColor="BLACK" />
 		</m:MaterialColumn>
-		<m:MaterialColumn grid="1">
-			<m:MaterialIcon ui:field="edit" iconType="EDIT"
-				iconColor="BLACK" iconPosition="RIGHT" textColor="BLACK" />
-		</m:MaterialColumn>
-		<m:MaterialColumn grid="1">
+		<m:MaterialColumn grid="s1">
 			<m:MaterialIcon ui:field="delete" iconType="DELETE"
 				iconColor="BLACK" iconPosition="RIGHT" textColor="BLACK" />
 		</m:MaterialColumn>
-		<m:MaterialColumn grid="1">
+		<m:MaterialColumn grid="s1">
 			<m:MaterialIcon ui:field="add" iconType="ADD"
 				iconColor="BLACK" iconPosition="RIGHT" textColor="BLACK" />
 		</m:MaterialColumn>

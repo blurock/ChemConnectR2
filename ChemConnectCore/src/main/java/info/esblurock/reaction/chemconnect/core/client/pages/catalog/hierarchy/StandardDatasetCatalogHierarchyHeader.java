@@ -39,8 +39,6 @@ public class StandardDatasetCatalogHierarchyHeader extends Composite {
 	@UiField
 	MaterialLink cataloghead;
 	@UiField
-	MaterialIcon edit;
-	@UiField
 	MaterialIcon delete;
 	@UiField
 	MaterialIcon add;
@@ -55,11 +53,6 @@ public class StandardDatasetCatalogHierarchyHeader extends Composite {
 		this.modal = item.getModalpanel();
 		DatasetCatalogHierarchy hierarchy = (DatasetCatalogHierarchy) item.getObject();
 		cataloghead.setText(hierarchy.getSimpleCatalogName());
-	}
-
-	@UiHandler("edit")
-	public void onEditClick(ClickEvent event) {
-		editCatagory();
 	}
 
 	private void editCatagory() {

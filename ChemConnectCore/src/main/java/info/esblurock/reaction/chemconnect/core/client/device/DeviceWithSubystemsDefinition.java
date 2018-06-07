@@ -18,6 +18,7 @@ import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.MaterialToast;
+import info.esblurock.reaction.chemconnect.core.client.catalog.SetUpDatabaseObjectHierarchyCallback;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHeirarchy;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchies;
 import info.esblurock.reaction.chemconnect.core.client.modal.InputLineModal;
@@ -26,6 +27,8 @@ import info.esblurock.reaction.chemconnect.core.client.pages.MainDataStructureCo
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
+import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
+import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
@@ -33,8 +36,10 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNod
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.SubsystemInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.TotalSubsystemInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
-public class DeviceWithSubystemsDefinition extends Composite implements HasText, ChooseFromConceptHeirarchy, SetLineContentInterface {
+public class DeviceWithSubystemsDefinition extends Composite implements  
+	ChooseFromConceptHeirarchy, SetLineContentInterface {
 
 	private static DeviceWithSubystemsDefinitionUiBinder uiBinder = GWT
 			.create(DeviceWithSubystemsDefinitionUiBinder.class);
@@ -102,14 +107,6 @@ public class DeviceWithSubystemsDefinition extends Composite implements HasText,
 		choosedevice.open();		
 	}
 	
-	public void setText(String text) {
-		parameter.setText(text);
-	}
-
-	public String getText() {
-		return parameter.getText();
-	}
-
 	public void async(String text) {
 		MaterialToast.fireToast("Selected: " + text);
 	}
@@ -122,10 +119,12 @@ public class DeviceWithSubystemsDefinition extends Composite implements HasText,
 	}
 	@Override
 	public void conceptChosen(String topconcept, String concept) {
-		DeviceHierarchyCallback callback = new DeviceHierarchyCallback(this);
-		ContactDatabaseAccessAsync async = ContactDatabaseAccess.Util.getInstance();
+		SetUpDatabaseObjectHierarchyCallback callback = new SetUpDatabaseObjectHierarchyCallback(contentcollapsible,modalpanel);
+		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		String id = topname.getText();
-		async.buildSubSystem(id,concept,callback);
+		String user = Cookies.getCookie("user");
+		DatabaseObject obj = new DatabaseObject(id,user,user,"");
+		async.getDevice(obj,concept,callback);
 	}
 	
 	public void addTopHierarchialModal(DatabaseObject obj,HierarchyNode hierarchy, TotalSubsystemInformation top) {
@@ -174,5 +173,6 @@ public class DeviceWithSubystemsDefinition extends Composite implements HasText,
 		topname.setText(line);
 		chooseConceptHieararchy();
 	}
+
 
 }

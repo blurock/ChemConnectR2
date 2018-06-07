@@ -59,17 +59,7 @@ public class ManageCatalogHierarchy extends Composite {
 		//String id = "Catalog-Administration";
 		//findHierarchyInformation(userName);
 	}
-/*
-	private void findHierarchyInformation(String id) {
-		ContactDatabaseAccessAsync async = ContactDatabaseAccess.Util.getInstance();
-		MapOfCatalogObjectsCallback callback = new MapOfCatalogObjectsCallback();
-		if(userName != null) {
-			async.getElementsOfCatalogObject(id,catalogS,callback);
-		} else {
-			Window.alert("No User");
-		}
-	}
-	*/
+
 	/*
 	 * Retrieve the tree of CatalogHierarchyNode for the user....
 	 * getUserDatasetCatalogHierarchy just retrieves the nodes (not underlying info)
@@ -78,24 +68,13 @@ public class ManageCatalogHierarchy extends Composite {
 	public void setUpHierarchyFromDatabase() {
 		if(userName != null) {
 			UserImageServiceAsync async = UserImageService.Util.getInstance();
-			SetUpUserCatalogCallback callback = new SetUpUserCatalogCallback(this);
+			SetUpDatabaseObjectHierarchyCallback callback = new SetUpDatabaseObjectHierarchyCallback(panel,modalpanel);
 			async.getUserDatasetCatalogHierarchy(userName,callback);	
 		} else {
 			Window.alert("Not logged in");
 		}
 	}
-	
-	/*
-	 *  The call from SetUpUserCatalogCallback 
-	 *  CatalogHierarchyNode the tree of nodes
-	 *  Within CatalogHierarchyNode, the underlying information is filled in
-	 */
-	public void insertCatalog(DatabaseObjectHierarchy transfer) {
-		Window.alert("insertCatalog\n" + transfer.getObject().toString());
-		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(transfer,modalpanel);
-		panel.add(item);
-	}
-	
+		
 	@UiHandler("refresh")
 	public void onClickRefresh(ClickEvent event) {
 		setUpHierarchyFromDatabase();

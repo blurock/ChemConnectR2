@@ -7,11 +7,15 @@
 	}
 	</ui:style>
 	<m:MaterialRow>
-		<m:MaterialColumn grid="s6">
+		<m:MaterialColumn grid="s5">
 			<m:MaterialLink ui:field="multipletitle" textColor="BLACK"/>
 		</m:MaterialColumn>
 		<m:MaterialColumn grid="s6">
 			<m:MaterialLink ui:field="typename" textColor="BLACK"/>
+		</m:MaterialColumn>
+		<m:MaterialColumn grid="1">
+			<m:MaterialIcon ui:field="add" iconType="ADD"
+				iconColor="BLACK" iconPosition="RIGHT" textColor="BLACK" />
 		</m:MaterialColumn>
 	</m:MaterialRow>
 </ui:UiBinder> 
