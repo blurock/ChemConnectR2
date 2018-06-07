@@ -253,7 +253,7 @@ public class CreateDefaultObjectsFactory {
 			ObservationSpecification specification = (ObservationSpecification) obsspechier.getObject();
 			obspecmulti.addID(specification.getIdentifier());
 			obspecset.addSubobject(obsspechier);
-			
+			specification.setObservationLabel(observation);
 			String paramspecid = specification.getParameterSpecifications();
 			DatabaseObjectHierarchy multihier = obsspechier.getSubObject(paramspecid);
 			ChemConnectCompoundMultiple multi = (ChemConnectCompoundMultiple) multihier.getObject();
@@ -268,6 +268,7 @@ public class CreateDefaultObjectsFactory {
 				multi.addID(param.getIdentifier());
 				DatabaseObjectHierarchy unithier = paramhier.getSubObject(param.getUnits());
 				DatabaseObjectHierarchy purposehier = paramhier.getSubObject(param.getPurposeandconcept());
+				param.setParameterLabel(removeNamespace(attr.getAttributeName()));
 				ValueUnits units = (ValueUnits) unithier.getObject();
 				PurposeConceptPair purposeandconcept = (PurposeConceptPair) purposehier.getObject();
 				ConceptParsing.fillInProperties(attr.getAttributeName(), units, purposeandconcept);
@@ -286,7 +287,9 @@ public class CreateDefaultObjectsFactory {
 		DatabaseObjectHierarchy structhier = createChemConnectCompoundDataStructure(obj);
 		ChemConnectCompoundDataStructure structure = (ChemConnectCompoundDataStructure) structhier.getObject();
 		structure.setParentLink(parent);
-		ObservationSpecification specification = new ObservationSpecification(structure,"dataset:VectorOfObservables",
+		ObservationSpecification specification = new ObservationSpecification(structure,
+				"Label",
+				"dataset:VectorOfObservables",
 				parameterhier.getObject().getIdentifier());
 		specification.setIdentifier(obj.getIdentifier());
 		DatabaseObjectHierarchy spechier = new DatabaseObjectHierarchy(specification);
@@ -880,7 +883,7 @@ public class CreateDefaultObjectsFactory {
 		DatabaseObjectHierarchy dspechier = createDataSpecification(specobj);
 		DataSpecification dspec = (DataSpecification) dspechier.getObject();
 		ValueUnits value = (ValueUnits) valuehier.getObject();
-		ParameterSpecification specs = new ParameterSpecification(dspec, "no uncertainty", value.getIdentifier());
+		ParameterSpecification specs = new ParameterSpecification(dspec, "no label","no uncertainty", value.getIdentifier());
 		specs.setIdentifier(specsid);
 
 		DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(specs);

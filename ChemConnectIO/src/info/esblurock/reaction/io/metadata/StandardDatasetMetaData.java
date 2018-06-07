@@ -145,5 +145,6 @@ public class StandardDatasetMetaData {
 	public static String parameterValues = "dataset:ParameterValues";
 	public static String observationParameterType = "dataset:parameterType";
 	public static String parameterSpecifications = "qb:ComponentSpecification";
+	public static String observationLabel = "dataset:ObservationLabel";
 
 }

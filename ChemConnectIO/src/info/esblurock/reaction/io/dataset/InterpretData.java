@@ -760,10 +760,11 @@ public enum InterpretData {
 			InterpretData interpret = InterpretData.valueOf("DataSpecification");
 			DataSpecification obj = (DataSpecification) interpret.fillFromYamlString(top, yaml, sourceID);
 
+			String parameterLabelS = (String) yaml.get(StandardDatasetMetaData.parameterLabelS);
 			String uncertaintyS = (String) yaml.get(StandardDatasetMetaData.dataPointUncertaintyS);
 			String UnitsS = (String) yaml.get(StandardDatasetMetaData.unitsS);
 
-			spec = new ParameterSpecification(obj,uncertaintyS, UnitsS);
+			spec = new ParameterSpecification(obj,parameterLabelS,uncertaintyS, UnitsS);
 			return spec;
 		}
 
@@ -775,6 +776,7 @@ public enum InterpretData {
 			InterpretData interpret = InterpretData.valueOf("DataSpecification");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
+			map.put(StandardDatasetMetaData.parameterLabelS, spec.getParameterLabel());
 			map.put(StandardDatasetMetaData.dataPointUncertaintyS, spec.getDataPointUncertainty());
 			map.put(StandardDatasetMetaData.unitsS, spec.getUnits());
 
@@ -845,10 +847,11 @@ public enum InterpretData {
 			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
 			ChemConnectCompoundDataStructure objdata = (ChemConnectCompoundDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
 
+			String parameterLabel = (String) yaml.get(StandardDatasetMetaData.observationLabel);
 			String parameterType = (String) yaml.get(StandardDatasetMetaData.observationParameterType);
 			String parameterSpecification = (String) yaml.get(StandardDatasetMetaData.parameterSpecifications);
 
-			ObservationSpecification contact = new ObservationSpecification(objdata, parameterType, parameterSpecification);
+			ObservationSpecification contact = new ObservationSpecification(objdata, parameterLabel, parameterType, parameterSpecification);
 			return contact;
 		}
 
@@ -859,6 +862,7 @@ public enum InterpretData {
 			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
+			map.put(StandardDatasetMetaData.observationLabel, contact.getObservationLabel());
 			map.put(StandardDatasetMetaData.observationParameterType, contact.getObservationParameterType());
 			map.put(StandardDatasetMetaData.parameterSpecifications, contact.getParameterSpecifications());
 

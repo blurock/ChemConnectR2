@@ -9,6 +9,8 @@ import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDat
 @Entity
 public class ObservationSpecification extends ChemConnectCompoundDataStructure {
 	@Index
+	String observationLabel;
+	@Index
 	String observationParameterType;
 	@Index
 	String parameterSpecifications;
@@ -16,13 +18,14 @@ public class ObservationSpecification extends ChemConnectCompoundDataStructure {
 	public ObservationSpecification() {
 		this.observationParameterType = "";
 		this.parameterSpecifications = "";
-		
+		this.observationLabel = observationLabel;
 	}
 		public ObservationSpecification(ChemConnectCompoundDataStructure structure, 
-			String observationParameterType, String parameterSpecifications) {
+			String observationLabel, String observationParameterType, String parameterSpecifications) {
 		super(structure);
 		this.observationParameterType = observationParameterType;
 		this.parameterSpecifications = parameterSpecifications;
+		this.observationLabel = observationLabel;
 	}
 
 	public String getObservationParameterType() {
@@ -45,11 +48,18 @@ public class ObservationSpecification extends ChemConnectCompoundDataStructure {
 		return toString("");
 	}
 	
+	public String getObservationLabel() {
+		return observationLabel;
+	}
+	public void setObservationLabel(String observationLabel) {
+		this.observationLabel = observationLabel;
+	}
 	public String toString(String prefix) {
 		StringBuilder build = new StringBuilder();
 		build.append(super.toString(prefix));
-		build.append(prefix + "Type:          " + observationParameterType + "\n");
-		build.append(prefix + "Specification: " + parameterSpecifications + "\n");
+		build.append(prefix + "Parameter Label:" + observationLabel + "\n");
+		build.append(prefix + "Type:           " + observationParameterType + "\n");
+		build.append(prefix + "Specification:  " + parameterSpecifications + "\n");
 		return build.toString();
 	}
 	

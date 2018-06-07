@@ -19,6 +19,7 @@ import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMul
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.contact.RegisterContactData;
+import info.esblurock.reaction.chemconnect.core.data.dataset.PurposeConceptPair;
 import info.esblurock.reaction.chemconnect.core.data.dataset.RegistrerDataset;
 import info.esblurock.reaction.chemconnect.core.data.description.RegisterDescriptionData;
 import info.esblurock.reaction.chemconnect.core.data.gcs.RegisterGCSClasses;
@@ -32,6 +33,7 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.structure.Database
 import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.db.image.BlobKeyCorrespondence;
+import info.esblurock.reaction.ontology.dataset.ConceptParsing;
 
 public class WriteReadDevices {
 	protected Closeable session;
@@ -76,11 +78,14 @@ public class WriteReadDevices {
 	public void test() {
 		DatabaseObject obj = new DatabaseObject("AdministrationCatalog-HeatFluxBurner",
 				"Public","Administration","1" );
+		
+		PurposeConceptPair pair = new PurposeConceptPair();
 		String devicename = "dataset:HeatFluxBurner";
-		String purpose = "dataset:FlameVelocityMeasurements";
-		String concept = "dataset:FlameStudies";
+		ConceptParsing.fillInPurposeConceptPair(devicename, pair);
+		
 		DatabaseObjectHierarchy devicehier = CreateDefaultObjectsFactory.fillSubSystemDescription(obj,
-				devicename,purpose,concept);
+				devicename,pair.getPurpose(),pair.getConcept());
+
 		System.out.println("fillSubSystemDescription\n" + devicehier.toString());
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(devicehier);	
 		DatabaseObjectHierarchy readhierarchy = ExtractCatalogInformation.getCatalogObject("AdministrationCatalog-HeatFluxBurner", "dataset:SubSystemDescription");

@@ -479,6 +479,25 @@ public class ConceptParsing {
 
 	}
 	
+	public static void fillInPurposeConceptPair(String parameter, PurposeConceptPair pair) {
+		String query2 = "SELECT  ?prop ?parameter\n" 
+				+ "        WHERE {\n" 
+				+ "	                " + parameter + " rdfs:subClassOf ?sub .\n" 
+				+ "                  ?sub owl:onProperty ?prop .\n"
+				+ "                  ?sub owl:onClass ?parameter\n" + "              }";
+		List<Map<String, RDFNode>> lst2 = OntologyBase.resultSetToMap(query2);
+		List<Map<String, String>> stringlst2 = OntologyBase.resultmapToStrings(lst2);
+		for (Map<String, String> map : stringlst2) {
+			String propS = map.get("prop");
+			String parameterS = map.get("parameter");
+			if (propS.compareTo("dataset:hasPurpose") == 0) {
+				pair.setPurpose(parameterS);
+			} else if (propS.compareTo("datacube:concept") == 0) {
+				pair.setConcept(parameterS);
+			} 
+		}
+
+	}
 
 	
 	

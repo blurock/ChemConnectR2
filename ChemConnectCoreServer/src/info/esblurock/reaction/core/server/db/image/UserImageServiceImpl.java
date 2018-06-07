@@ -34,6 +34,7 @@ import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.base.GoogleCloudStorageConstants;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataObjectLink;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHierarchy;
+import info.esblurock.reaction.chemconnect.core.data.dataset.PurposeConceptPair;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.data.gcs.ParsedFilename;
@@ -60,6 +61,7 @@ import info.esblurock.reaction.io.dataset.InterpretData;
 import info.esblurock.reaction.io.dataset.ReadWriteDatabaseCatalog;
 import info.esblurock.reaction.io.db.QueryBase;
 import info.esblurock.reaction.ontology.OntologyKeys;
+import info.esblurock.reaction.ontology.dataset.ConceptParsing;
 
 @SuppressWarnings("serial")
 public class UserImageServiceImpl extends ServerBase implements UserImageService {
@@ -401,6 +403,15 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		return ExtractCatalogInformation.getDatabaseObjectHierarchy(uid);
 	}
 		
+	public DatabaseObjectHierarchy getDevice(DatabaseObject obj, String devicename) {
+		PurposeConceptPair pair = new PurposeConceptPair();
+		ConceptParsing.fillInPurposeConceptPair(devicename, pair);
+		
+		DatabaseObjectHierarchy devicehier = CreateDefaultObjectsFactory.fillSubSystemDescription(obj,
+				devicename,pair.getPurpose(),pair.getConcept());
+		
+		return devicehier;
+	}
 	public DatabaseObjectHierarchy getNewCatalogHierarchy(DatabaseObject obj, String id, String onelinedescription) throws IOException {
 		System.out.println("getNewCatalogHierarchy: " + obj.toString());
 		String classname = DatasetCatalogHierarchy.class.getCanonicalName();

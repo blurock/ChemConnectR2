@@ -8,6 +8,8 @@ import com.googlecode.objectify.annotation.Index;
 public class ParameterSpecification extends DataSpecification {
 	
 	@Index
+	String parameterLabel;
+	@Index
 	String DataPointUncertainty;
 	@Index
 	String Units;
@@ -16,21 +18,22 @@ public class ParameterSpecification extends DataSpecification {
 	public ParameterSpecification() {
 	}
 
-	public ParameterSpecification(DataSpecification spec, String dataPointUncertainty, String units) {
-		fill(spec,dataPointUncertainty,units);
+	public ParameterSpecification(DataSpecification spec, String parameterLabel, String dataPointUncertainty, String units) {
+		fill(spec,parameterLabel, dataPointUncertainty,units);
 	}
 	public ParameterSpecification(ParameterSpecification spec) {
-		fill(spec,spec.getDataPointUncertainty(), spec.getUnits());
+		fill(spec,spec.getParameterLabel(), spec.getDataPointUncertainty(), spec.getUnits());
 	}
 	
 	public void fill(ParameterSpecification spec) {
-		fill(spec,spec.getDataPointUncertainty(), spec.getUnits());
+		fill(spec,spec.getParameterLabel(),spec.getDataPointUncertainty(), spec.getUnits());
 	}
 
-	public void fill(DataSpecification spec, String dataPointUncertainty, String units) {
+	public void fill(DataSpecification spec, String parameterLabel,String dataPointUncertainty, String units) {
 		super.fill(spec);
 		DataPointUncertainty = dataPointUncertainty;
 		Units = units;
+		this.parameterLabel = parameterLabel;
 	}
 
 	public String getDataPointUncertainty() {
@@ -49,6 +52,14 @@ public class ParameterSpecification extends DataSpecification {
 		Units = units;
 	}
 
+	public String getParameterLabel() {
+		return parameterLabel;
+	}
+
+	public void setParameterLabel(String parameterLabel) {
+		this.parameterLabel = parameterLabel;
+	}
+
 	@Override
 	public String toString() {
 		return toString("");
@@ -57,6 +68,7 @@ public class ParameterSpecification extends DataSpecification {
 	public String toString(String prefix) {
 		StringBuilder builder = new StringBuilder();
 		builder.append(super.toString(prefix));
+		builder.append(prefix + "Parameter Label: " + parameterLabel + "\n");
 		builder.append(prefix + " +/-: " + DataPointUncertainty + "\n");
 		builder.append(prefix + "Units:   " + Units + "\n");
 		return builder.toString();
