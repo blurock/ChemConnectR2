@@ -1,4 +1,4 @@
-package info.esblurock.reaction.chemconnect.core.client.pages.primitive.value;
+package info.esblurock.reaction.chemconnect.core.client.pages.catalog.observations;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -10,7 +10,6 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.addins.client.combobox.MaterialComboBox;
@@ -30,10 +29,14 @@ import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatab
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.concepts.SetOfUnitProperties;
 import info.esblurock.reaction.chemconnect.core.data.concepts.UnitProperties;
-import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
+import info.esblurock.reaction.chemconnect.core.data.dataset.ParameterSpecification;
+import info.esblurock.reaction.chemconnect.core.data.dataset.ParameterValue;
+import info.esblurock.reaction.chemconnect.core.data.dataset.PurposeConceptPair;
+import info.esblurock.reaction.chemconnect.core.data.dataset.ValueUnits;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterValueInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
-public class PrimitiveParameterValueRow extends Composite implements HasText,ChooseFromConceptHeirarchy {
+public class PrimitiveParameterValueRow extends Composite implements ChooseFromConceptHeirarchy {
 
 	private static PrimitiveParameterValueRowUiBinder uiBinder = GWT.create(PrimitiveParameterValueRowUiBinder.class);
 
@@ -75,6 +78,8 @@ public class PrimitiveParameterValueRow extends Composite implements HasText,Cho
 	MaterialPanel toppanel;
 	@UiField
 	MaterialTooltip identifiertip;
+	@UiField
+	MaterialTooltip typetip;
 	
 	DatabaseObject obj;
 	String propertyType;
@@ -91,15 +96,13 @@ public class PrimitiveParameterValueRow extends Composite implements HasText,Cho
 	
 	public PrimitiveParameterValueRow() {
 		initWidget(uiBinder.createAndBindUi(this));
-		PrimitiveParameterValueInformation info = new PrimitiveParameterValueInformation();
 		init();
-		fill(info);
 	}
 
-	public PrimitiveParameterValueRow(PrimitiveParameterValueInformation paraminfo) {
+	public PrimitiveParameterValueRow(DatabaseObjectHierarchy paramhier) {
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
-		fill(paraminfo);
+		fill(paramhier);
 	}
 	
 	private void init() {
@@ -110,29 +113,42 @@ public class PrimitiveParameterValueRow extends Composite implements HasText,Cho
 		uncertaintyTextBox.setLabel("Uncertainty");
 	}
 	
-	public void fill(PrimitiveDataStructureInformation info) {
-		PrimitiveParameterValueInformation paraminfo = (PrimitiveParameterValueInformation) info;
-		obj = new DatabaseObject(info);
+	public void fill(DatabaseObjectHierarchy info) {
+		ParameterValue parameter = (ParameterValue) info.getObject();
+		typetip.setText(parameter.getClass().getSimpleName());
+		obj = info.getObject();
 		setFullIdentifier();
-		this.propertyType = paraminfo.getPropertyType();
-		if(paraminfo.getPropertyType() != null) {
-			chosenParameter = paraminfo.getPropertyType();
+		this.propertyType = parameter.getParameterLabel();
+		if(this.propertyType != null) {
+			chosenParameter = this.propertyType;
 			parameterLabel.setText(TextUtilities.removeNamespace(chosenParameter));
 		} else {
 			parameterLabel.setText("Choose Label");
 		}
-		if(paraminfo.getValue() != null) {
-			valueTextBox.setText(paraminfo.getValue());
+		if(parameter.getValueAsString() != null) {
+			valueTextBox.setText(parameter.getValueAsString());
 		} else {
 			valueTextBox.setPlaceholder("Value");
 		}
-		if(paraminfo.getUncertaintyValue() != null) {
-			uncertaintyTextBox.setText(paraminfo.getUncertaintyValue());
+		if(parameter.getUncertainty() != null) {
+			uncertaintyTextBox.setText(parameter.getUncertainty());
 		} else {
 			uncertaintyTextBox.setPlaceholder("0.0");
 		}
-		if(paraminfo.getUnit() != null) {
-			chosenUnit = paraminfo.getUnit();
+		DatabaseObjectHierarchy spechier = info.getSubObject(parameter.getParameterSpec());
+		ParameterSpecification spec = (ParameterSpecification) spechier.getObject();
+
+		if(spec.getDataPointUncertainty() != null) {
+			uncertaintyclass.setText(spec.getDataPointUncertainty());
+		} else {
+			uncertaintyclass.setText("Uncertainty");
+		}
+
+		DatabaseObjectHierarchy unithier = spechier.getSubObject(spec.getUnits());
+		ValueUnits units = (ValueUnits) unithier.getObject();
+		
+		if(units.getUnitsOfValue() != null) {
+			chosenUnit = units.getUnitsOfValue();
 			parameterUnits.setVisible(false);
 			unitsTextBox.setVisible(true);
 			unitsTextBox.setText(TextUtilities.removeNamespace(chosenUnit));
@@ -141,30 +157,30 @@ public class PrimitiveParameterValueRow extends Composite implements HasText,Cho
 			unitsTextBox.setVisible(true);
 			unitsTextBox.setPlaceholder("Units");			
 		}
-		if(paraminfo.getPurpose() != null) {
-			chosenPurpose = paraminfo.getPurpose();
-			purpose.setText(TextUtilities.removeNamespace(chosenPurpose));
-		} else {
-			purpose.setText("Choose Purpose");
-		}
-		if(paraminfo.getConcept() != null) {
-			chosenConcept = paraminfo.getConcept();
-			concept.setText(TextUtilities.removeNamespace(chosenConcept));
-		} else {
-			concept.setText("Choose Concept");
-		}
-		if(paraminfo.getUnitclass() != null) {
-			chosenUnitClass = paraminfo.getUnitclass();
+		if(units.getUnitClass() != null) {
+			chosenUnitClass = units.getUnitClass();
 			setUnits(chosenUnitClass);
 			unitclass.setText(TextUtilities.removeNamespace(chosenUnitClass));
 		} else {
 			unitclass.setText("Choose Units");
 		}
-		if(paraminfo.getUncertaintyType() != null) {
-			uncertaintyclass.setText(paraminfo.getUncertaintyType());
+
+		DatabaseObjectHierarchy purposehier = spechier.getSubObject(spec.getPurposeandconcept());
+		PurposeConceptPair pair = (PurposeConceptPair) purposehier.getObject();
+		
+		if(pair.getPurpose() != null) {
+			chosenPurpose = pair.getPurpose();
+			purpose.setText(TextUtilities.removeNamespace(chosenPurpose));
 		} else {
-			uncertaintyclass.setText("Uncertainty");
+			purpose.setText("Choose Purpose");
 		}
+		if(pair.getConcept() != null) {
+			chosenConcept = pair.getConcept();
+			concept.setText(TextUtilities.removeNamespace(chosenConcept));
+		} else {
+			concept.setText("Choose Concept");
+		}
+		
 		
 		extrainfo.setVisible(false);
 		rowVisible = false;
@@ -220,15 +236,6 @@ public class PrimitiveParameterValueRow extends Composite implements HasText,Cho
 		modalpanel.add(choosedevice);
 		choosedevice.open();
 		
-	}
-	
-	
-	public void setText(String text) {
-		parameterLabel.setText(text);
-	}
-
-	public String getText() {
-		return parameterLabel.getText();
 	}
 	
 	public void setUnits(String unitname) {

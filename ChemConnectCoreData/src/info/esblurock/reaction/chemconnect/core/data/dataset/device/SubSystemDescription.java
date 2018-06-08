@@ -10,6 +10,8 @@ import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructu
 public class SubSystemDescription extends ChemConnectDataStructure {
 	
 	@Index
+	String subSystemType;
+	@Index
 	String observationSpecs;
 	@Index
 	String parameterValues;
@@ -20,18 +22,22 @@ public class SubSystemDescription extends ChemConnectDataStructure {
 	}
 
 	
-	public SubSystemDescription(ChemConnectDataStructure structure, String observationSpecs, String parameterValues, String subSystems) {
+	public SubSystemDescription(ChemConnectDataStructure structure, 
+			String subSystemType,
+			String observationSpecs, String parameterValues, String subSystems) {
 		super(structure);
-		fill(structure,observationSpecs,parameterValues,subSystems);
+		fill(structure,subSystemType,observationSpecs,parameterValues,subSystems);
 	}
 
 
 	public void fill(ChemConnectDataStructure structure,
+			String subSystemType,
 			String observationSpecs, String parameterValues, String subSystems) {
 		super.fill(structure);
 		this.observationSpecs = observationSpecs;
 		this.parameterValues = parameterValues;
 		this.subSystems = subSystems;
+		this.subSystemType = subSystemType;
 	}
 
 	
@@ -66,6 +72,16 @@ public class SubSystemDescription extends ChemConnectDataStructure {
 	}
 
 
+	public String getSubSystemType() {
+		return subSystemType;
+	}
+
+
+	public void setSubSystemType(String subSystemType) {
+		this.subSystemType = subSystemType;
+	}
+
+
 	public String toString() {
 		return toString("");
 	};
@@ -73,8 +89,9 @@ public class SubSystemDescription extends ChemConnectDataStructure {
 	public String toString(String prefix) {
 		StringBuilder builder = new StringBuilder();
 		builder.append(super.toString(prefix));
+		builder.append(prefix + "Device Type     : " + subSystemType + "\n");
 		builder.append(prefix + "ObservationSpecs: " + observationSpecs + "\n");
-		builder.append(prefix + "parameterValues:  " + parameterValues + "\n");
+		builder.append(prefix + "parameterValues : " + parameterValues + "\n");
 		builder.append(prefix + "subSystems:       " + subSystems + "\n");
 		return builder.toString();		
 	}

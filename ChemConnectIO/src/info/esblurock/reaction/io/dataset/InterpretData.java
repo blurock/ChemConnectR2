@@ -239,11 +239,12 @@ public enum InterpretData {
 			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
 			ChemConnectDataStructure objdata = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
 					
+			String parameterTypeS = (String) yaml.get(StandardDatasetMetaData.elementType);			
 			String measurementValuesS = (String) yaml.get(StandardDatasetMetaData.measurementValues);			
 			String dimensionValuesS    = (String) yaml.get(StandardDatasetMetaData.dimensionValues);
 
 			set = new SetOfObservationValues(objdata, 
-					measurementValuesS, dimensionValuesS);
+					parameterTypeS, measurementValuesS, dimensionValuesS);
 			return set;
 		}
 
@@ -254,6 +255,7 @@ public enum InterpretData {
 			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
+			map.put(StandardDatasetMetaData.elementType, datastructure.getParameterType());
 			map.put(StandardDatasetMetaData.measurementValues, datastructure.getMeasurementValues());
 			map.put(StandardDatasetMetaData.dimensionValues, datastructure.getDimensionValues());
 			
@@ -281,11 +283,12 @@ public enum InterpretData {
 			SubSystemDescription datastructure = null;
 			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
 			ChemConnectDataStructure objdata = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);					
+			String deviceTypeS = (String) yaml.get(StandardDatasetMetaData.deviceTypeS);			
 			String observationSpecsS = (String) yaml.get(StandardDatasetMetaData.parameterSpecificationS);			
 			String parameterValuesS = (String) yaml.get(StandardDatasetMetaData.parameterValueS);			
 			String subSystemsS = (String) yaml.get(StandardDatasetMetaData.subSystems);			
 			
-			datastructure = new SubSystemDescription(objdata,observationSpecsS, parameterValuesS, subSystemsS);
+			datastructure = new SubSystemDescription(objdata,deviceTypeS,observationSpecsS, parameterValuesS, subSystemsS);
 			
 			return datastructure;
 		}
@@ -296,6 +299,7 @@ public enum InterpretData {
 			SubSystemDescription datastructure = (SubSystemDescription) object;
 			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
+			map.put(StandardDatasetMetaData.deviceTypeS, datastructure.getSubSystemType());
 			map.put(StandardDatasetMetaData.parameterSpecificationS, datastructure.getObservationSpecs());
 			map.put(StandardDatasetMetaData.parameterValueS, datastructure.getParameterValues());
 			map.put(StandardDatasetMetaData.subSystems, datastructure.getSubSystems());
@@ -1636,7 +1640,9 @@ public enum InterpretData {
 			return PrimitiveDataStructureInformation.class.getCanonicalName();
 		}
 		
-	}, PrimitiveParameterValueInformation {
+	};
+	
+	/*, PrimitiveParameterValueInformation {
 		@Override
 		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
 				throws IOException {
@@ -1681,6 +1687,7 @@ public enum InterpretData {
 		}
 		
 	}
+	*/
 	/*
 	, SetOfKeywords {
 
@@ -1721,7 +1728,7 @@ public enum InterpretData {
 	}
 	*/
 	
-	;
+	
 
 	public abstract DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
 			throws IOException;

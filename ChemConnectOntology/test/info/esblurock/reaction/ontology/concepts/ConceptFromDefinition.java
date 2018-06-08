@@ -16,6 +16,10 @@ public class ConceptFromDefinition {
 		System.out.println("Concept: " + topconcept);
 		HierarchyNode hierarchy = ConceptParsing.conceptHierarchy(topconcept);
 		System.out.println(hierarchy.toString());
+		
+		HierarchyNode hierarchy1 = ConceptParsing.conceptHierarchy("dataset:ChemConnectObservable");
+		System.out.println(hierarchy1.toString());
+		
 	}
 
 }

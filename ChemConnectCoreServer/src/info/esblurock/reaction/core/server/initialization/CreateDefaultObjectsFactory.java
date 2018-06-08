@@ -168,6 +168,7 @@ public class CreateDefaultObjectsFactory {
 		DatabaseObjectHierarchy subshier = createChemConnectCompoundMultiple(obj,OntologyKeys.subSystemDescription);
 		
 		SubSystemDescription device = new SubSystemDescription(structure,
+				"Device Type",
 				spechier.getObject().getIdentifier(),
 				paramshier.getObject().getIdentifier(),
 				subshier.getObject().getIdentifier()
@@ -185,6 +186,8 @@ public class CreateDefaultObjectsFactory {
 			String purpose, String concept) {
 		DatabaseObjectHierarchy hierarchy = createSubSystemDescription(obj);
 		SubSystemDescription device = (SubSystemDescription) hierarchy.getObject();
+		
+		device.setSubSystemType(devicename);
 
 		DatabaseObjectHierarchy descrhier = hierarchy.getSubObject(device.getDescriptionDataData());
 		DescriptionDataData descr = (DescriptionDataData) descrhier.getObject();
@@ -192,7 +195,6 @@ public class CreateDefaultObjectsFactory {
 
 		setOneLineDescription(hierarchy, devicename);
 		setPurposeConceptPair(hierarchy, concept, purpose);
-/*
 		Set<AttributeDescription> attrs = ConceptParsing.attributesInConcept(devicename);
 		String paramid = device.getParameterValues();
 		System.out.println(paramid);
@@ -204,7 +206,6 @@ public class CreateDefaultObjectsFactory {
 			parammulti.addID(paramhier.getObject().getIdentifier());
 			paramsethier.addSubobject(paramhier);
 		}
-		*/
 /*
 		Set<String> subsystems = ConceptParsing.immediateSubSystems(devicename);
 		Set<String> components = ConceptParsing.immediateComponents(devicename);
@@ -777,6 +778,7 @@ public class CreateDefaultObjectsFactory {
 		DatabaseObjectHierarchy sethier = createSetOfObservationValues(obj);
 		SetOfObservationValues set = (SetOfObservationValues) sethier.getObject();
 
+		set.setParameterType(parameter);
 		setPurposeConceptPair(sethier, concept, purpose);
 		setOneLineDescription(sethier, oneline);
 		
@@ -826,6 +828,7 @@ public class CreateDefaultObjectsFactory {
 		DatabaseObjectHierarchy comphier = createChemConnectDataStructure(obsobj);
 		ChemConnectDataStructure structure = (ChemConnectDataStructure) comphier.getObject();
 		SetOfObservationValues set = new SetOfObservationValues(structure,
+				"SetOfObservationValues",
 				measurehier.getObject().getIdentifier(),
 				dimensionhier.getObject().getIdentifier());
 		set.setIdentifier(obsid);

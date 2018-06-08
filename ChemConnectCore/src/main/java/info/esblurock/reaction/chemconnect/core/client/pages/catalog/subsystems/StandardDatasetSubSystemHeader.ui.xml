@@ -8,11 +8,9 @@
 	</ui:style>
 	<m:MaterialRow>
 		<m:MaterialColumn grid="s9">
+			<m:MaterialTooltip ui:field="devicetooltip">
 			<m:MaterialLink ui:field="devicehead" textColor="BLACK" />
-		</m:MaterialColumn>
-		<m:MaterialColumn grid="s1">
-			<m:MaterialIcon ui:field="edit" iconType="EDIT"
-				iconColor="BLACK" iconPosition="RIGHT" textColor="BLACK" />
+			</m:MaterialTooltip>
 		</m:MaterialColumn>
 		<m:MaterialColumn grid="s1">
 			<m:MaterialIcon ui:field="delete" iconType="DELETE"

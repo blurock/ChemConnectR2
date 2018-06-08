@@ -12,7 +12,9 @@ import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialLink;
+import gwt.material.design.client.ui.MaterialTooltip;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.StandardDatasetObjectHierarchyItem;
+import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.data.dataset.device.SubSystemDescription;
 
 public class StandardDatasetSubSystemHeader extends Composite {
@@ -28,14 +30,15 @@ public class StandardDatasetSubSystemHeader extends Composite {
 	}
 
 	@UiField
+	MaterialTooltip devicetooltip;
+	@UiField
 	MaterialLink devicehead;
 
 	public StandardDatasetSubSystemHeader(StandardDatasetObjectHierarchyItem item) {
 		initWidget(uiBinder.createAndBindUi(this));
 		
 		SubSystemDescription descr = (SubSystemDescription) item.getObject();
-		devicehead.setText(descr.getIdentifier());
-		
-		Window.alert("StandardDatasetSubSystemHeader: " + descr.getIdentifier());
+		devicehead.setText(TextUtilities.removeNamespace(descr.getSubSystemType()));
+		devicetooltip.setText(descr.getIdentifier());
 	}
 }

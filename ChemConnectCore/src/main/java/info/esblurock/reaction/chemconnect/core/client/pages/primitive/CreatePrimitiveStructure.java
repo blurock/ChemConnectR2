@@ -17,7 +17,6 @@ import info.esblurock.reaction.chemconnect.core.client.pages.primitive.text.Prim
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.text.PrimitiveParagraph;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.text.PrimitiveSetOfKeys;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.text.PrimitiveShortString;
-import info.esblurock.reaction.chemconnect.core.client.pages.primitive.value.PrimitiveParameterValue;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveInterpretedInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterSpecificationInformation;
@@ -25,7 +24,8 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameter
 import info.esblurock.reaction.chemconnect.core.data.transfer.SetOfObservationsInformation;
 
 public enum CreatePrimitiveStructure {
-	
+
+	/*
 	ParameterValue {
 
 		@Override
@@ -46,7 +46,10 @@ public enum CreatePrimitiveStructure {
 			return "ParameterValue";
 		}
 
-	}, ParameterSpecification {
+	}, 
+	*/
+	
+	ParameterSpecification {
 
 		@Override
 		public PrimitiveDataStructureBase createStructure(PrimitiveDataStructureInformation info) {

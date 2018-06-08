@@ -9,6 +9,8 @@ import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructu
 @Entity
 public class SetOfObservationValues extends ChemConnectDataStructure {
 	@Index
+	String parameterType;
+	@Index
 	String measurementValues;
 	@Index
 	String dimensionValues;
@@ -23,9 +25,10 @@ public class SetOfObservationValues extends ChemConnectDataStructure {
 	}
 	
 	public SetOfObservationValues(ChemConnectDataStructure structure, 
-				String measurementValues, String dimensionValues) {
+			String parameterType, String measurementValues, String dimensionValues) {
 		super(structure);
 		init();
+		this.parameterType = parameterType;
 		this.measurementValues = measurementValues;
 		this.dimensionValues = dimensionValues;
 	}
@@ -33,6 +36,7 @@ public class SetOfObservationValues extends ChemConnectDataStructure {
 	void init() {
 		measurementValues = "";
 		dimensionValues = "";
+		parameterType = "";
 	}
 	
 	public String getMeasurementValues() {
@@ -51,14 +55,23 @@ public class SetOfObservationValues extends ChemConnectDataStructure {
 		this.dimensionValues = dimensionValues;
 	}
 
+	public String getParameterType() {
+		return parameterType;
+	}
+
+	public void setParameterType(String parameterType) {
+		this.parameterType = parameterType;
+	}
+
 	public String toString() {
 		return toString("");
 	}
 	public String toString(String prefix) {
 		StringBuilder build = new StringBuilder();
 		build.append(super.toString(prefix));
-		build.append(prefix + "Measure:   " + measurementValues + "\n");
-		build.append(prefix + "Dimension: " + dimensionValues + "\n");
+		build.append(prefix + "Parameter:   " + parameterType + "\n");
+		build.append(prefix + "Measure:     " + measurementValues + "\n");
+		build.append(prefix + "Dimension:   " + dimensionValues + "\n");
 		return build.toString();
 	}
 	

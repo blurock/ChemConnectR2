@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
@@ -15,6 +16,9 @@ import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialToast;
+import info.esblurock.reaction.chemconnect.core.client.catalog.SetUpDatabaseObjectHierarchyCallback;
+import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHeirarchy;
+import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchies;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.ObservationStructureCallback;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.SetOfObservationsCollapsible;
 import info.esblurock.reaction.chemconnect.core.client.modal.InputLineModal;
@@ -22,12 +26,14 @@ import info.esblurock.reaction.chemconnect.core.client.modal.SetLineContentInter
 import info.esblurock.reaction.chemconnect.core.client.pages.MainDataStructureCollapsible;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
+import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
+import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
 
-public class SetOfObservationsDefinition extends Composite implements  SetLineContentInterface {
+public class SetOfObservationsDefinition extends Composite implements  SetLineContentInterface, ChooseFromConceptHeirarchy {
 
 	private static SetOfObservationsDefinitionUiBinder uiBinder = GWT.create(SetOfObservationsDefinitionUiBinder.class);
 
@@ -85,19 +91,31 @@ public class SetOfObservationsDefinition extends Composite implements  SetLineCo
 			modalpanel.add(line);
 			line.openModal();
 		} else {
-			setUpObservationStructure();
+			chooseConceptHieararchy();
 		}
 	}
+	
 	@Override
 	public void setLineContent(String line) {
 		topname.setText(line);
-		setUpObservationStructure();
 	}
-	
-	public void setUpObservationStructure() {
-		ObservationStructureCallback callback = new ObservationStructureCallback(this);
-		ContactDatabaseAccessAsync async = ContactDatabaseAccess.Util.getInstance();
-		async.getSetOfObservationsStructructure(callback);
+
+	private void chooseConceptHieararchy() {
+		ArrayList<String> choices = new ArrayList<String>();
+		choices.add("dataset:ChemConnectObservable");
+		ChooseFromConceptHierarchies choosedevice = new ChooseFromConceptHierarchies(choices,this);
+		modalpanel.add(choosedevice);
+		choosedevice.open();		
+	}
+	@Override
+	public void conceptChosen(String topconcept, String concept) {
+		SetUpDatabaseObjectHierarchyCallback callback = new SetUpDatabaseObjectHierarchyCallback(contentcollapsible,modalpanel);
+		UserImageServiceAsync async = UserImageService.Util.getInstance();
+		String id = topname.getText();
+		String user = Cookies.getCookie("user");
+		DatabaseObject obj = new DatabaseObject(id,user,user,"");
+		async.getSetOfObservations(obj,concept,topname.getText(),callback);
+		
 	}
 
 	public void addChemConnectDataStructure(ChemConnectDataStructure structure) {
@@ -134,5 +152,6 @@ public class SetOfObservationsDefinition extends Composite implements  SetLineCo
 			observe.setIdentifier(obj);
 		}
 	}
+
 
 }

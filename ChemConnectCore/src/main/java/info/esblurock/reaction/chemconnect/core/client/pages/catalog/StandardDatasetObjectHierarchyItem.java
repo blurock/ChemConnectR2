@@ -47,11 +47,13 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 	MaterialCollapsible infocollapsible;
 
 	DatabaseObject object;
+	DatabaseObjectHierarchy hierarchy;
 	MaterialPanel modalpanel;
 	ArrayList<StandardDatasetObjectHierarchyItem> subitems;
 
 	public StandardDatasetObjectHierarchyItem(DatabaseObjectHierarchy hierarchy, MaterialPanel modalpanel) {
 		initWidget(uiBinder.createAndBindUi(this));
+		this.hierarchy = hierarchy;
 		this.object = hierarchy.getObject();
 		this.modalpanel = modalpanel;
 		init();
@@ -129,6 +131,9 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 
 	public DatabaseObject getObject() {
 		return object;
+	}
+	public DatabaseObjectHierarchy getHierarchy() {
+		return hierarchy;
 	}
 
 	public MaterialPanel getModalpanel() {

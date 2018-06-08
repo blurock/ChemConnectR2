@@ -1154,6 +1154,11 @@ xsd:date rdf:type rdfs:Datatype .
 :BurnerPlateObservations rdf:type owl:Class ;
                          rdfs:subClassOf :HeatFluxBurnerObservations ,
                                          [ rdf:type owl:Restriction ;
+                                           owl:onProperty <http://purl.org/linked-data/cube#concept> ;
+                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                           owl:onClass :HeatFluxBurnerBurnerConcept
+                                         ] ,
+                                         [ rdf:type owl:Restriction ;
                                            owl:onProperty <http://purl.org/linked-data/cube#measure> ;
                                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                            owl:onClass :HeatFluxBurnerThermocoupleTemperature
@@ -1162,6 +1167,11 @@ xsd:date rdf:type rdfs:Datatype .
                                            owl:onProperty <http://purl.org/linked-data/cube#measure> ;
                                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                            owl:onClass :ThermocouplePositionInBurner
+                                         ] ,
+                                         [ rdf:type owl:Restriction ;
+                                           owl:onProperty :hasPurpose ;
+                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                           owl:onClass :FlameVelocityMeasurements
                                          ] ;
                          rdfs:isDefinedBy :MatrixOfObservables .
 
@@ -7009,12 +7019,22 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                       [ rdf:type owl:Restriction ;
                                         owl:onProperty <http://www.w3.org/ns/dcat#record> ;
                                         owl:someValuesFrom :SubSystemDescription
+                                      ] ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                        owl:onClass :SubSystemType
                                       ] ;
                       <http://purl.org/dc/elements/1.1/type> "SubSystemDescription"^^xsd:string ;
                       <http://purl.org/dc/terms/identifier> "ssn:hasSubSystem"^^xsd:string ;
                       rdfs:isDefinedBy <http://www.w3.org/ns/ssn/System> ;
                       rdfs:label "SubSystemDescription"^^xsd:string ;
                       <http://www.w3.org/2004/02/skos/core#altLabel> "subsys"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#SubSystemType
+:SubSystemType rdf:type owl:Class ;
+               rdfs:subClassOf :ConceptKeywords .
 
 
 ###  http://www.esblurock.info/dataset#SubsystemGeometryAndConfiguration

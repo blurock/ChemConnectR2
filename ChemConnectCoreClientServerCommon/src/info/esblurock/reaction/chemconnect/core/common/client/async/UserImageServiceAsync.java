@@ -54,6 +54,9 @@ public interface UserImageServiceAsync {
 	void getNewCatalogHierarchy(DatabaseObject obj, String id, String onelinedescription, AsyncCallback<DatabaseObjectHierarchy> callback);
 
 	void getDevice(DatabaseObject obj, String devicename, AsyncCallback<DatabaseObjectHierarchy> callback);
+
+	void getSetOfObservations(DatabaseObject obj, String observation, String title,
+			AsyncCallback<DatabaseObjectHierarchy> callback);
 	
 
 }

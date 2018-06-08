@@ -1,4 +1,4 @@
-package info.esblurock.reaction.chemconnect.core.client.pages.primitive.value;
+package info.esblurock.reaction.chemconnect.core.client.pages.catalog.observations;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 

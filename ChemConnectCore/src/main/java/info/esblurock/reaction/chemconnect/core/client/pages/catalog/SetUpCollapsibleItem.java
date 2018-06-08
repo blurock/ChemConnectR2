@@ -4,8 +4,10 @@ package info.esblurock.reaction.chemconnect.core.client.pages.catalog;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.hierarchy.StandardDatasetCatalogHierarchyHeader;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.link.PrimitiveDataObjectLinkRow;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.multiple.ChemConnectCompoundMultipleHeader;
+import info.esblurock.reaction.chemconnect.core.client.pages.catalog.observations.PrimitiveParameterValueRow;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.observations.StandardDatasetObservationSpecificationHeader;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.observations.StandardDatasetParameterSpecificationHeader;
+import info.esblurock.reaction.chemconnect.core.client.pages.catalog.observations.StandardDatasetSetOfObservationValuesHeader;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.subsystems.StandardDatasetSubSystemHeader;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.concept.PrimitiveConceptRow;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
@@ -77,6 +79,102 @@ public enum SetUpCollapsibleItem {
 		@Override
 		public boolean addSubitems() {
 			return true;
+		}
+		
+	}, SetOfObservationValues {
+
+		@Override
+		public void addInformation(StandardDatasetObjectHierarchyItem item) {
+			StandardDatasetSetOfObservationValuesHeader header = new StandardDatasetSetOfObservationValuesHeader(item);
+			item.addHeader(header);
+			
+		}
+
+		@Override
+		public int priority() {
+			return 100;
+		}
+
+		@Override
+		public boolean isInformation() {
+			return false;
+		}
+
+		@Override
+		public boolean addSubitems() {
+			return true;
+		}
+		
+	}, ParameterValue {
+
+		@Override
+		public void addInformation(StandardDatasetObjectHierarchyItem item) {
+			PrimitiveParameterValueRow header = new PrimitiveParameterValueRow(item.getHierarchy());
+			item.addHeader(header);
+			
+		}
+
+		@Override
+		public int priority() {
+			return 100;
+		}
+
+		@Override
+		public boolean isInformation() {
+			return false;
+		}
+
+		@Override
+		public boolean addSubitems() {
+			return false;
+		}
+		
+	}, DimensionParameterValue {
+
+		@Override
+		public void addInformation(StandardDatasetObjectHierarchyItem item) {
+			PrimitiveParameterValueRow header = new PrimitiveParameterValueRow(item.getHierarchy());
+			item.addHeader(header);
+			
+		}
+
+		@Override
+		public int priority() {
+			return 100;
+		}
+
+		@Override
+		public boolean isInformation() {
+			return false;
+		}
+
+		@Override
+		public boolean addSubitems() {
+			return false;
+		}
+		
+	}, MeasurementParameterValue {
+
+		@Override
+		public void addInformation(StandardDatasetObjectHierarchyItem item) {
+			PrimitiveParameterValueRow header = new PrimitiveParameterValueRow(item.getHierarchy());
+			item.addHeader(header);
+			
+		}
+
+		@Override
+		public int priority() {
+			return 100;
+		}
+
+		@Override
+		public boolean isInformation() {
+			return false;
+		}
+
+		@Override
+		public boolean addSubitems() {
+			return false;
 		}
 		
 	}, ParameterSpecification {

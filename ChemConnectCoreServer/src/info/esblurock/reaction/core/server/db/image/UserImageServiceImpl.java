@@ -412,6 +412,24 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		
 		return devicehier;
 	}
+	
+	public DatabaseObjectHierarchy getSetOfObservations(DatabaseObject obj, String observation, String title) {
+		String sourceID = QueryBase.getDataSourceIdentification(obj.getOwner());
+		obj.setSourceID(sourceID);
+
+		PurposeConceptPair pair = new PurposeConceptPair();
+		ConceptParsing.fillInPurposeConceptPair(observation, pair);
+
+		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillSetOfObservations(obj,
+				observation, title,
+				//"dataset:BurnerPlateObservations",
+				//"Set of burner plate observations",
+				//"dataset:HeatFluxBurnerObservation","dataset:LaminarFlame"
+				pair.getConcept(),pair.getPurpose()
+				);
+		System.out.println(hierarchy);
+		return hierarchy;
+	}
 	public DatabaseObjectHierarchy getNewCatalogHierarchy(DatabaseObject obj, String id, String onelinedescription) throws IOException {
 		System.out.println("getNewCatalogHierarchy: " + obj.toString());
 		String classname = DatasetCatalogHierarchy.class.getCanonicalName();

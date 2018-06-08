@@ -20,7 +20,9 @@
 				</m:MaterialRow>
 				<m:MaterialRow>
 					<m:MaterialColumn grid="s6">
-						<m:MaterialSwitch ui:field="toggleinfo" />
+						<m:MaterialTooltip ui:field="typetip">
+							<m:MaterialSwitch ui:field="toggleinfo" />
+						</m:MaterialTooltip>
 					</m:MaterialColumn>
 					<m:MaterialColumn grid="s6">
 						<m:MaterialLink ui:field="clear" iconColor="BLACK"

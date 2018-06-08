@@ -34,12 +34,15 @@ public class StandardDatasetObservationSpecificationHeader extends Composite {
 	MaterialLink observationhead;
 	@UiField
 	MaterialTooltip observationtooltip;
+	@UiField
+	MaterialLink observationtype;
 
 	public StandardDatasetObservationSpecificationHeader(StandardDatasetObjectHierarchyItem item) {
 		initWidget(uiBinder.createAndBindUi(this));
 		ObservationSpecification observation = (ObservationSpecification) item.getObject();
 		observationhead.setText(TextUtilities.removeNamespace(observation.getObservationLabel()));
 		observationtooltip.setText(observation.getIdentifier());
+		observationtype.setText(TextUtilities.removeNamespace(observation.getObservationParameterType()));
 	}
 
 }
