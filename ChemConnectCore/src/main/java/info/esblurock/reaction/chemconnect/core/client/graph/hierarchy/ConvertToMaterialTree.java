@@ -1,5 +1,6 @@
 package info.esblurock.reaction.chemconnect.core.client.graph.hierarchy;
 
+
 import gwt.material.design.addins.client.tree.MaterialTree;
 import gwt.material.design.addins.client.tree.MaterialTreeItem;
 import gwt.material.design.client.constants.Color;
@@ -23,11 +24,13 @@ public class ConvertToMaterialTree {
 	}
 		
 	public static void addHierarchy(HierarchyNode hierarchy, MaterialTreeItem item) {
+		MaterialTreeItem next = new MaterialTreeItem(hierarchy.getIdentifier());
+		item.add(next);
 		for(HierarchyNode sub : hierarchy.getSubNodes() ) {
 			MaterialTreeItem subitem = new MaterialTreeItem(sub.getIdentifier());
 			if(sub.getSubNodes().size() > 0) {
 				subitem.setIconType(IconType.FOLDER);
-				subitem.collapse();
+				//subitem.collapse();
 			} else {
 				subitem.setIconType(IconType.BUILD);
 			}

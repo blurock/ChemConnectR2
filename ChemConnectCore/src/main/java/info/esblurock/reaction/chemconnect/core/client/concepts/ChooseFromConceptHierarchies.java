@@ -12,7 +12,6 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.addins.client.tree.MaterialTree;
@@ -28,7 +27,7 @@ import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatab
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 
-public class ChooseFromConceptHierarchies extends Composite implements HasText {
+public class ChooseFromConceptHierarchies extends Composite {
 
 	private static ChooseFromConceptHierarchiesUiBinder uiBinder = GWT
 			.create(ChooseFromConceptHierarchiesUiBinder.class);
@@ -134,14 +133,6 @@ public class ChooseFromConceptHierarchies extends Composite implements HasText {
 		topconcept = hierarchy.getIdentifier();
 		tree.clear();
 		ConvertToMaterialTree.addHierarchyTop(hierarchy, tree);
-	}
-
-	public void setText(String text) {
-		title.setText(text);
-	}
-
-	public String getText() {
-		return title.getText();
 	}
 
 	public void conceptChosen(String concept) {

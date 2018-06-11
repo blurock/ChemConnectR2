@@ -95,6 +95,7 @@ public class WriteReadDefaultObjects {
 				"dataset:ThermocouplePositionInBurner",
 				false);
 		System.out.println("fillSetOfObservations\n" + hierarchy.toString());
+		
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(hierarchy);	
 		
 		try {
@@ -121,7 +122,7 @@ public class WriteReadDefaultObjects {
 		DatabaseObjectHierarchy readhierarchy = ExtractCatalogInformation.getCatalogObject("AdministrationCatalog-setofvalues", "dataset:SetOfObservationValues");
 		System.out.println(readhierarchy.toString());
 		*/
-		
+		/*
 		DatabaseObject obj = new DatabaseObject("AdministrationCatalog","Public","Administration","1" );
 		NameOfPerson person = new NameOfPerson(obj,"Prof.", "Looney","Tunes");
 		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillMinimalPersonDescription(obj,"dataset:",person);
@@ -129,7 +130,7 @@ public class WriteReadDefaultObjects {
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(hierarchy);	
 		DatabaseObjectHierarchy readhierarchy = ExtractCatalogInformation.getCatalogObject("AdministrationCatalog-usrinfo", "dataset:DatabasePerson");
 		System.out.println(readhierarchy.toString());
-
+*/
 		/*
 		DatabaseObject obj = new DatabaseObject("AdministrationCatalog","Public","Administration","1" );
 		String company = "Whatsamadder U";
@@ -139,9 +140,9 @@ public class WriteReadDefaultObjects {
 		DatabaseObjectHierarchy readhierarchy = ExtractCatalogInformation.getCatalogObject("AdministrationCatalog-org", "dataset:Organization");
 		System.out.println(readhierarchy.toString());
 */
-/*
+
 		DatabaseObject obj = new DatabaseObject("AdministrationCatalog","Public","Administration","1" );
-		String devicename = "HeatFluxBurner";
+		String devicename = "dataset:HeatFluxBurner";
 		String purpose = "dataset:FlameVelocityMeasurements";
 		String concept = "dataset:FlameStudies";
 		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillSubSystemDescription(obj, devicename, purpose, concept);
@@ -149,7 +150,7 @@ public class WriteReadDefaultObjects {
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(hierarchy);	
 		DatabaseObjectHierarchy readhierarchy = ExtractCatalogInformation.getCatalogObject("AdministrationCatalog-subsys", "dataset:SubSystemDescription");
 		System.out.println(readhierarchy.toString());
-*/
+
 	}
 
 }

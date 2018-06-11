@@ -1,0 +1,43 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:m="urn:import:gwt.material.design.client.ui"
+	xmlns:ma="urn:import:gwt.material.design.addins.client">
+	<ui:style>
+	.important {
+		font-weight: bold;
+	}
+	</ui:style>
+	<m:MaterialPanel>
+		<m:MaterialRow>
+			<m:MaterialColumn grid="s3">
+				<m:MaterialTooltip ui:field="catalogtypeid">
+					<m:MaterialLink ui:field="catalog" textColor="BLACK" />
+				</m:MaterialTooltip>
+			</m:MaterialColumn>
+			<m:MaterialColumn grid="s3">
+				<m:MaterialTooltip ui:field="objecttypeid">
+					<m:MaterialLink ui:field="objecttype" textColor="BLACK" />
+				</m:MaterialTooltip>
+			</m:MaterialColumn>
+			<m:MaterialColumn grid="s3">
+				<m:MaterialLink ui:field="objectname" textColor="BLACK" />
+			</m:MaterialColumn>
+		</m:MaterialRow>
+		<m:MaterialRow>
+			<m:MaterialColumn grid="s8">
+				<m:MaterialButton ui:field="submit" width="80%"
+					backgroundColor="GREY_LIGHTEN_3" textColor="BLACK" />
+			</m:MaterialColumn>
+			<m:MaterialColumn grid="s4">
+			<m:MaterialTooltip ui:field="accesstitle">
+				<m:MaterialButton ui:field="accessButton" text="Dropdown"
+					iconType="ARROW_DROP_DOWN" backgroundColor="GREY_LIGHTEN_2"
+					iconPosition="RIGHT" textColor="BLACK" activates="dp-2" />
+					</m:MaterialTooltip>
+				<m:MaterialDropDown ui:field="dropdown" activator="dp-2"
+					constrainWidth="true">
+				</m:MaterialDropDown>
+			</m:MaterialColumn>
+		</m:MaterialRow>
+	</m:MaterialPanel>
+</ui:UiBinder> 
