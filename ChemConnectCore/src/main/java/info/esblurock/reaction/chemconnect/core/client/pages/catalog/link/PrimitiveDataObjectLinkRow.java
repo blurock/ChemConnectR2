@@ -44,6 +44,7 @@ public class PrimitiveDataObjectLinkRow extends Composite {
 	String typeWithNamespace;
 	boolean typeSet;
 	DatabaseObject obj;
+	String chosenLinkConcept;
 	
 	public PrimitiveDataObjectLinkRow() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -70,11 +71,20 @@ public class PrimitiveDataObjectLinkRow extends Composite {
 
 	public void fill(DatabaseObject cobject) {
 		DataObjectLink objlink = (DataObjectLink) cobject;
+		chosenLinkConcept = objlink.getLinkConcept();
 		concept.setText(TextUtilities.removeNamespace(objlink.getLinkConcept()));
 		link.setText(objlink.getDataStructure());
 		String parentlink = "Parent: " + objlink.getParentLink();
 		linktip.setText(parentlink);
 	}
+	public boolean updateObject() {
+		DataObjectLink objlink = (DataObjectLink) obj;
+		objlink.setLinkConcept(chosenLinkConcept);
+		objlink.setDataStructure(link.getText());
+		return true;
+	}
+	
+	
 	@UiHandler("info")
 	void onClickInfo(ClickEvent e) {
 		MaterialToast.fireToast(identifier);

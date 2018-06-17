@@ -16,6 +16,8 @@ import gwt.material.design.client.ui.MaterialCollapsibleItem;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTooltip;
+import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
+import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
@@ -50,6 +52,8 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 	DatabaseObjectHierarchy hierarchy;
 	MaterialPanel modalpanel;
 	ArrayList<StandardDatasetObjectHierarchyItem> subitems;
+	ArrayList<StandardDatasetRecord> records;
+	Composite headerObject;
 
 	public StandardDatasetObjectHierarchyItem(DatabaseObjectHierarchy hierarchy, MaterialPanel modalpanel) {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -84,6 +88,7 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 				}
 			} else {
 				StandardDatasetRecord record = new StandardDatasetRecord(sub);
+				records.add(record);
 				infoitem.setVisible(true);
 				infocollapsible.add(record);
 			}
@@ -104,6 +109,7 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 	void init() {
 		infotitle.setText("Info");
 		subitems = new ArrayList<StandardDatasetObjectHierarchyItem>();
+		records = new ArrayList<StandardDatasetRecord>();
 		infoitem.setVisible(false);
 	}
 
@@ -113,8 +119,12 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 
 	public void addHeader(Composite composite) {
 		header.add(composite);
+		headerObject = composite;
 	}
 
+	public Composite getHeader() {
+		return headerObject;
+	}
 	public ArrayList<StandardDatasetObjectHierarchyItem> getSubCatagories() {
 		return subitems;
 	}
@@ -127,6 +137,29 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 	public void addSubItem(StandardDatasetObjectHierarchyItem item) {
 		subitems.add(item);
 		subinfo.add(item);
+	}
+	
+	public void writeDatabaseObjectHierarchy() {
+		updateDatabaseObjectHierarchy();
+		UserImageServiceAsync async = UserImageService.Util.getInstance();
+		WriteDatasetObjectHierarchyCallback callback = new WriteDatasetObjectHierarchyCallback();
+		async.writeDatabaseObjectHierarchy(hierarchy,callback);
+	}
+	
+	public void updateDatabaseObjectHierarchy() {
+		SetUpCollapsibleItem setup = getSetup(object);
+		boolean includesubs = setup.update(this);
+		if(includesubs) {
+			for(StandardDatasetObjectHierarchyItem sub : subitems) {
+				sub.updateDatabaseObjectHierarchy();
+			}
+		}
+		updateRecords();
+	}
+	private void updateRecords() {
+		for(StandardDatasetRecord record: records) {
+			record.updateFromRecords();
+		}
 	}
 
 	public DatabaseObject getObject() {

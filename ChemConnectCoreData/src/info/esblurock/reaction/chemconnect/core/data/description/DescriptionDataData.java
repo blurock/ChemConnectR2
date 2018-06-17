@@ -140,6 +140,10 @@ public class DescriptionDataData extends ChemConnectCompoundDataStructure {
 	public String getDescriptionAbstract() {
 		return descriptionAbstract;
 	}
+	
+	public void setDescriptionAbstract(String descriptionAbstract) {
+		this.descriptionAbstract = descriptionAbstract;
+	}
 	public void setOnlinedescription(String onlinedescription) {
 		this.onlinedescription = onlinedescription;
 	}

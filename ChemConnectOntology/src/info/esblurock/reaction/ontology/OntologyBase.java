@@ -147,6 +147,29 @@ public class OntologyBase {
 	 *            The query beginning with SELECT
 	 * @return The raw ResultSet to the query
 	 */
+	public static boolean datasetASK(String queryS) {
+		OntModel model = OntologyBase.Util.getDatabaseOntology();
+		String fullquery = getStandardPrefixDatabase() + queryS;
+		Query query = QueryFactory.create(fullquery);
+		QueryExecution qe = null;
+		boolean results = false;
+		try {
+		qe = QueryExecutionFactory.create(query, model);
+		results = qe.execAsk();
+		} finally {
+		qe.close();
+		}
+		return results;
+	}
+
+	/**
+	 * The prefix data (standard namespaces) is appended to the SELECT part of the
+	 * query
+	 * 
+	 * @param queryS:
+	 *            The query beginning with SELECT
+	 * @return The raw ResultSet to the query
+	 */
 	public static ResultSet datasetQueryBase(String queryS) {
 		OntModel model = OntologyBase.Util.getDatabaseOntology();
 		String fullquery = getStandardPrefixDatabase() + queryS;

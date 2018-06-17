@@ -43,6 +43,11 @@ import info.esblurock.reaction.ontology.dataset.ConceptParsing;
 import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 
 public class CreateDefaultObjectsFactory {
+	
+	public static String noUnitClassS = "no unit class";
+	public static String noValueUnitsS = "no value units";
+	public static String noPurposeS = "no purpose";
+	public static String noConceptS = "no concept";
 
 	static DatabaseObjectHierarchy fillDescriptionDataData(DatabaseObject obj, String onelinedescription,
 			String concept, String purpose) {
@@ -746,7 +751,7 @@ public class CreateDefaultObjectsFactory {
 		conceptobj.setIdentifier(conceptid);
 		ChemConnectCompoundDataStructure conceptcompound = new ChemConnectCompoundDataStructure(conceptobj,
 				obj.getIdentifier());
-		PurposeConceptPair pair = new PurposeConceptPair(conceptcompound, "no purpose", "no concept");
+		PurposeConceptPair pair = new PurposeConceptPair(conceptcompound, noPurposeS, noConceptS);
 		DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(pair);
 		return hierarchy;
 	}
@@ -904,7 +909,7 @@ public class CreateDefaultObjectsFactory {
 		String unitsid = createSuffix(obj, element);
 		unitsobj.setIdentifier(unitsid);
 
-		ValueUnits units = new ValueUnits(unitsobj, "no unit class", "no value units");
+		ValueUnits units = new ValueUnits(unitsobj, noUnitClassS, noValueUnitsS);
 
 		DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(units);
 

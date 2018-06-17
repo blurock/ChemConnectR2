@@ -4,12 +4,7 @@ package info.esblurock.reaction.chemconnect.core.client.pages.primitive;
 
 import com.google.gwt.user.client.Window;
 
-import info.esblurock.reaction.chemconnect.core.client.pages.primitive.concept.PrimitiveConcept;
-import info.esblurock.reaction.chemconnect.core.client.pages.primitive.gps.PrimitiveGPSLocation;
-import info.esblurock.reaction.chemconnect.core.client.pages.primitive.link.PrimitiveDataObjectLink;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.PrimitiveObservationValuesWithSpecification;
-import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.PrimitiveParameterSpecification;
-import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.SetOfObservationsField;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.reference.PrimitiveDateObject;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.reference.PrimitivePersonName;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.reference.PrimitiveReference;
@@ -17,38 +12,13 @@ import info.esblurock.reaction.chemconnect.core.client.pages.primitive.text.Prim
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.text.PrimitiveParagraph;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.text.PrimitiveSetOfKeys;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.text.PrimitiveShortString;
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveInterpretedInformation;
-import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterSpecificationInformation;
-import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterValueInformation;
-import info.esblurock.reaction.chemconnect.core.data.transfer.SetOfObservationsInformation;
 
 public enum CreatePrimitiveStructure {
 
-	/*
-	ParameterValue {
-
-		@Override
-		public PrimitiveDataStructureBase createStructure(PrimitiveDataStructureInformation info) {
-			PrimitiveParameterValue value = new PrimitiveParameterValue(info);
-			return value;
-		}
-
-		@Override
-		public PrimitiveDataStructureBase createEmptyStructure() {
-			PrimitiveParameterValueInformation info = new PrimitiveParameterValueInformation();
-			PrimitiveParameterValue value = new PrimitiveParameterValue(info);
-			return value;
-		}
-
-		@Override
-		public String getStructureName() {
-			return "ParameterValue";
-		}
-
-	}, 
-	*/
-	
+/*	
 	ParameterSpecification {
 
 		@Override
@@ -68,6 +38,13 @@ public enum CreatePrimitiveStructure {
 		public String getStructureName() {
 			return "ParameterSpecification";
 		}
+
+		@Override
+		public void updateStructure(DatabaseObject object, PrimitiveDataStructureBase base) {
+			// TODO Auto-generated method stub
+			
+		}
+
 
 	}, SetOfObservationsSpecification {
 
@@ -90,7 +67,39 @@ public enum CreatePrimitiveStructure {
 			return "SetOfObservationsSpecification";
 		}
 
-	}, Paragraph {
+		@Override
+		public void updateStructure(DatabaseObject object, PrimitiveDataStructureBase base) {
+			// TODO Auto-generated method stub
+			
+		}
+
+	}, PurposeConceptPair {
+
+		@Override
+		public PrimitiveDataStructureBase createStructure(PrimitiveDataStructureInformation info) {
+			PrimitiveConcept concept = new PrimitiveConcept(info);
+			return concept;
+		}
+
+		@Override
+		public PrimitiveDataStructureBase createEmptyStructure() {
+			PrimitiveConcept concept = new PrimitiveConcept();
+			return concept;
+		}
+
+		@Override
+		public String getStructureName() {
+			return "PurposeConceptPair";
+		}
+
+		@Override
+		public void updateStructure(DatabaseObject object, PrimitiveDataStructureBase base) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}*/
+	Paragraph {
 
 		@Override
 		public PrimitiveDataStructureBase createStructure(PrimitiveDataStructureInformation info) {
@@ -107,6 +116,12 @@ public enum CreatePrimitiveStructure {
 		@Override
 		public String getStructureName() {
 			return "Paragraph";
+		}
+
+		@Override
+		public void updateStructure(DatabaseObject object, PrimitiveDataStructureBase base) {
+			// TODO Auto-generated method stub
+			
 		}
 
 	}, ShortStringLabel {
@@ -127,6 +142,12 @@ public enum CreatePrimitiveStructure {
 		public String getStructureName() {
 			return "ShortString";
 		}
+
+		@Override
+		public void updateStructure(DatabaseObject object, PrimitiveDataStructureBase base) {
+			// TODO Auto-generated method stub
+			
+		}
 		
 	}, LinkToDataStructure {
 
@@ -145,6 +166,12 @@ public enum CreatePrimitiveStructure {
 		@Override
 		public String getStructureName() {
 			return "LinkToDataStructure";
+		}
+
+		@Override
+		public void updateStructure(DatabaseObject object, PrimitiveDataStructureBase base) {
+			// TODO Auto-generated method stub
+			
 		}
 		
 	}, Classification {
@@ -165,6 +192,12 @@ public enum CreatePrimitiveStructure {
 		public String getStructureName() {
 			return "Classification";
 		}
+
+		@Override
+		public void updateStructure(DatabaseObject object, PrimitiveDataStructureBase base) {
+			// TODO Auto-generated method stub
+			
+		}
 		
 	}, OneLine {
 
@@ -184,24 +217,11 @@ public enum CreatePrimitiveStructure {
 		public String getStructureName() {
 			return "Oneline";
 		}
-		
-	}, PurposeConceptPair {
 
 		@Override
-		public PrimitiveDataStructureBase createStructure(PrimitiveDataStructureInformation info) {
-			PrimitiveConcept concept = new PrimitiveConcept(info);
-			return concept;
-		}
-
-		@Override
-		public PrimitiveDataStructureBase createEmptyStructure() {
-			PrimitiveConcept concept = new PrimitiveConcept();
-			return concept;
-		}
-
-		@Override
-		public String getStructureName() {
-			return "PurposeConceptPair";
+		public void updateStructure(DatabaseObject object, PrimitiveDataStructureBase base) {
+			// TODO Auto-generated method stub
+			
 		}
 		
 	}, SetOfKeywords {
@@ -221,6 +241,12 @@ public enum CreatePrimitiveStructure {
 		@Override
 		public String getStructureName() {
 			return "SetOfKeywords";
+		}
+
+		@Override
+		public void updateStructure(DatabaseObject object, PrimitiveDataStructureBase base) {
+			// TODO Auto-generated method stub
+			
 		}
 		
 	}, NameOfPerson {
@@ -242,6 +268,12 @@ public enum CreatePrimitiveStructure {
 		public String getStructureName() {
 			return "NameOfPerson";
 		}
+
+		@Override
+		public void updateStructure(DatabaseObject object, PrimitiveDataStructureBase base) {
+			// TODO Auto-generated method stub
+			
+		}
 		
 	}, DateObject {
 
@@ -260,6 +292,12 @@ public enum CreatePrimitiveStructure {
 		@Override
 		public String getStructureName() {
 			return "Date";
+		}
+
+		@Override
+		public void updateStructure(DatabaseObject object, PrimitiveDataStructureBase base) {
+			// TODO Auto-generated method stub
+			
 		}
 		
 	},DataSetReference {
@@ -281,6 +319,12 @@ public enum CreatePrimitiveStructure {
 		public String getStructureName() {
 			return "DataSetReference";
 		}
+
+		@Override
+		public void updateStructure(DatabaseObject object, PrimitiveDataStructureBase base) {
+			// TODO Auto-generated method stub
+			
+		}
 		
 	}, ObservationValuesWithSpecification {
 
@@ -299,6 +343,12 @@ public enum CreatePrimitiveStructure {
 		@Override
 		public String getStructureName() {
 			return "ObservationVauesWithSpecification";
+		}
+
+		@Override
+		public void updateStructure(DatabaseObject object, PrimitiveDataStructureBase base) {
+			// TODO Auto-generated method stub
+			
 		}
 		
 	}, datasetClassification {
@@ -319,6 +369,12 @@ public enum CreatePrimitiveStructure {
 		public String getStructureName() {
 			return "datasetClassification";
 		}
+
+		@Override
+		public void updateStructure(DatabaseObject object, PrimitiveDataStructureBase base) {
+			// TODO Auto-generated method stub
+			
+		}
 	}, dctermsdescription {
 
 		@Override
@@ -337,8 +393,15 @@ public enum CreatePrimitiveStructure {
 		public String getStructureName() {
 			return "dctermsdescription";
 		}
+
+		@Override
+		public void updateStructure(DatabaseObject object, PrimitiveDataStructureBase base) {
+			// TODO Auto-generated method stub
+			
+		}
 		
-	}, GPSLocation {
+	}
+	/*, GPSLocation {
 
 		@Override
 		public PrimitiveDataStructureBase createStructure(PrimitiveDataStructureInformation info) {
@@ -356,12 +419,21 @@ public enum CreatePrimitiveStructure {
 		public String getStructureName() {
 			return "GPSLocation";
 		}
+
+		@Override
+		public void updateStructure(DatabaseObject object, PrimitiveDataStructureBase base) {
+			// TODO Auto-generated method stub
+			
+		}
 		
-	};
+	}
+	*/
+	;
 	
 	public abstract PrimitiveDataStructureBase createStructure(PrimitiveDataStructureInformation info);
 	public abstract PrimitiveDataStructureBase createEmptyStructure();
 	public abstract String getStructureName();
+	public abstract void updateStructure(DatabaseObject object, PrimitiveDataStructureBase base);
 	
 	public static CreatePrimitiveStructure getStructureType(PrimitiveDataStructureInformation primitive) {
 		CreatePrimitiveStructure create = null;

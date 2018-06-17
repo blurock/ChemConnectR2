@@ -8,7 +8,6 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.constants.Color;
@@ -22,9 +21,8 @@ import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConcep
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.dataset.PurposeConceptPair;
-import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 
-public class PrimitiveConceptRow extends Composite implements HasText, ChooseFromConceptHeirarchy {
+public class PrimitiveConceptRow extends Composite implements ChooseFromConceptHeirarchy {
 
 	private static PrimitiveConceptRowUiBinder uiBinder = GWT.create(PrimitiveConceptRowUiBinder.class);
 
@@ -118,16 +116,16 @@ public class PrimitiveConceptRow extends Composite implements HasText, ChooseFro
 		}
 	}
 
+	public String getPurpose() {
+		return purpose.getText();
+	}
+	public String getConcept() {
+		return concept.getText();
+	}
+	
+	
 	public String getTypeWithNamespace() {
 		return typeWithNamespace;
-	}
-
-	public void setText(String text) {
-		concept.setText(text);
-	}
-
-	public String getText() {
-		return concept.getText();
 	}
 
 }

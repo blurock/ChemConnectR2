@@ -115,14 +115,23 @@ public class OntologyUnits extends OntologyBase {
 
 	public static SetOfUnitProperties getSetOfUnitProperties(String topunit) {
 		SetOfUnitProperties propset = new SetOfUnitProperties(topunit);
-
+		String simpletopunit = removeNamespace(topunit);
+		boolean keywordunit = OntologyUnits.isAKeyWordUnit(topunit);
+		if(keywordunit) {
+			propset.setKeyword(keywordunit);
+		} else {
 		Set<String> classifications = classifications(topunit);
 		if (classifications == null) {
 			ArrayList<Resource> lst = OntologyUnits.getUnitSet(topunit);
 			if (lst != null) {
 				for (Resource resource : lst) {
+					
 					UnitProperties unit = OntologyUnits.UnitInformation(resource.getLocalName());
-					propset.addUnitProperties(unit);
+					if(unit.getUnitName() != null) {
+						if(unit.getUnitName().compareTo(simpletopunit) != 0) {
+							propset.addUnitProperties(unit);
+						}
+					}
 				}
 			} else {
 				System.out.println("Classification null: " + topunit);
@@ -130,10 +139,15 @@ public class OntologyUnits extends OntologyBase {
 		} else {
 			propset.setClassification(true);
 			for (String classification : classifications) {
-				UnitProperties unit = new UnitProperties();
-				unit.fillAsClassification(classification);
-				propset.addUnitProperties(unit);
+				if(classification != null) {
+					if(classification.compareTo(topunit) != 0) {
+						UnitProperties unit = new UnitProperties();
+						unit.fillAsClassification(classification);
+						propset.addUnitProperties(unit);
+					}
+				}
 			}
+		}
 		}
 		return propset;
 	}
@@ -153,6 +167,21 @@ public class OntologyUnits extends OntologyBase {
 			}
 		}
 		return set;
+	}
+	
+	public static boolean isAKeyWordUnit(String unit) {
+		String query = "ASK {" + 
+				"	" + unit + " rdfs:subClassOf dataset:KeywordUnit }";
+		boolean result = OntologyBase.datasetASK(query);
+		return result;
+	}
+	public static String removeNamespace(String name) {
+		int pos = name.indexOf(":");
+		String ans = name;
+		if(pos >= 0) {
+			ans = name.substring(pos+1);
+		}
+		return ans;
 	}
 
 }

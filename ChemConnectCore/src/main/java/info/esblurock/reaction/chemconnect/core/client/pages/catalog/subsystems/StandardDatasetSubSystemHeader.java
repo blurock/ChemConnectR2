@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
+import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialTooltip;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.StandardDatasetObjectHierarchyItem;
@@ -33,12 +34,27 @@ public class StandardDatasetSubSystemHeader extends Composite {
 	MaterialTooltip devicetooltip;
 	@UiField
 	MaterialLink devicehead;
+	@UiField
+	MaterialLink save;
+	@UiField
+	MaterialLink delete;
+	
+	StandardDatasetObjectHierarchyItem item;
 
 	public StandardDatasetSubSystemHeader(StandardDatasetObjectHierarchyItem item) {
 		initWidget(uiBinder.createAndBindUi(this));
-		
+		this.item = item;
 		SubSystemDescription descr = (SubSystemDescription) item.getObject();
 		devicehead.setText(TextUtilities.removeNamespace(descr.getSubSystemType()));
 		devicetooltip.setText(descr.getIdentifier());
+	}
+	@UiHandler("save")
+	void onClickSave(ClickEvent event) {
+		Window.alert("Save Object");
+		item.writeDatabaseObjectHierarchy();
+	}
+	@UiHandler("delete")
+	void onClickDelete(ClickEvent event) {
+		
 	}
 }

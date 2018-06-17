@@ -1,23 +1,19 @@
 package info.esblurock.reaction.chemconnect.core.client.pages.catalog;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialCollapsibleItem;
 import gwt.material.design.client.ui.MaterialColumn;
 import gwt.material.design.client.ui.MaterialIcon;
-import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.CreatePrimitiveStructure;
@@ -57,10 +53,16 @@ public class StandardDatasetRecord extends Composite {
 	MaterialCollapsible collapsible;
 
 	DatabaseObjectHierarchy hierarchy;
-
+	ChemConnectRecordInformation recordInfo;
+	ArrayList<PrimitiveDataStructureBase> records;
+	Map<String, PrimitiveDataStructureBase> primitives;
+	ArrayList<StandardDatasetObjectHierarchyItem> items;
+	
 	public StandardDatasetRecord(DatabaseObjectHierarchy hierarchy) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.hierarchy = hierarchy;
+		records = new ArrayList<PrimitiveDataStructureBase>();
+		items = new ArrayList<StandardDatasetObjectHierarchyItem>();
 		getRecordInformation(hierarchy);
 	}
 
@@ -74,6 +76,7 @@ public class StandardDatasetRecord extends Composite {
 	}
 
 	public void insertRecords(ChemConnectRecordInformation info) {
+		recordInfo = info;
 		ChemConnectCompoundDataStructure structure = info.getStructure();
 		Map<String, Object> mapping = info.getMapping();
 		for (DataElementInformation element : structure) {
@@ -88,18 +91,54 @@ public class StandardDatasetRecord extends Composite {
 					CreatePrimitiveStructure create = CreatePrimitiveStructure.valueOf(structurename);
 					PrimitiveDataStructureBase primitive = create.createStructure(elementinfo);
 					content.add(primitive);
+					records.add(primitive);
 				} catch (IllegalArgumentException ex) {
 					DefaultPrimitiveStructureRow row = new DefaultPrimitiveStructureRow(elementinfo);
 					PrimitiveDataStructureBase base = new PrimitiveDataStructureBase(elementinfo);
 					base.add(row);
 					content.add(base);
+					primitives.put(id,base);
 				}
 			} else {
 				StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(subhierarchy,null);
 				collapsible.add(item);
+				items.add(item);
 			}
 
 		}
 	}
-
+	public void updateFromRecords() {
+		Window.alert("updateFromRecords()");
+		for(StandardDatasetObjectHierarchyItem item : items) {
+			item.updateDatabaseObjectHierarchy();
+		}
+		/*
+		for(PrimitiveDataStructureBase base : records) {
+			PrimitiveDataStructureInformation info = base.getPrimitiveDataStructureInformation();
+			DatabaseObject object = info.get
+			
+		}
+		*/
+		/*
+		ChemConnectCompoundDataStructure structure = recordInfo.getStructure();
+		Map<String, Object> mapping = recordInfo.getMapping();
+		for (DataElementInformation element : structure) {
+			String structurename = element.getChemconnectStructure();
+			String id = element.getIdentifier();
+			String value = (String) mapping.get(id);
+			DatabaseObjectHierarchy subhierarchy = hierarchy.getSubObject(value);
+			if (subhierarchy == null) {
+				try {
+					CreatePrimitiveStructure create = CreatePrimitiveStructure.valueOf(structurename);
+					//create.updateObject(recordInfo.getObject());
+				} catch (IllegalArgumentException ex) {
+					PrimitiveDataStructureBase base = primitives.get(id);
+					PrimitiveDataStructureInformation info = base.getPrimitiveDataStructureInformation();
+					value = info.getValue();
+					mapping.put(id, value);
+				}
+			}
+		}
+		*/
+	}
 }

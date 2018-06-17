@@ -57,21 +57,20 @@ import info.esblurock.reaction.ontology.dataset.ConceptParsing;
 
 @SuppressWarnings("serial")
 public class UserImageServiceImpl extends ServerBase implements UserImageService {
-	
+
 	private static Storage storage = null;
 	static {
-	    storage = StorageOptions.getDefaultInstance().getService();
-	  }
+		storage = StorageOptions.getDefaultInstance().getService();
+	}
 
 	/*
-	private static final GcsService gcsService = GcsServiceFactory.createGcsService(new RetryParams.Builder()
-		      .initialRetryDelayMillis(10)
-		      .retryMaxAttempts(10)
-		      .totalRetryPeriodMillis(15000)
-		      .build());
-		      */
-	//private static final int BUFFER_SIZE = 2 * 1024 * 1024;
-	
+	 * private static final GcsService gcsService =
+	 * GcsServiceFactory.createGcsService(new RetryParams.Builder()
+	 * .initialRetryDelayMillis(10) .retryMaxAttempts(10)
+	 * .totalRetryPeriodMillis(15000) .build());
+	 */
+	// private static final int BUFFER_SIZE = 2 * 1024 * 1024;
+
 	public static String fileCodeParameter = "fileCode";
 	public static String userParameter = "user";
 	public static String keywordParameter = "identifier";
@@ -176,24 +175,21 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	@Override
 	public String deleteFromStorage(String blobkey) throws IOException {
 		String ans = "Successful";
-/*
-		System.out.println("deleteFromStorage: (" + blobkeyParameter + "): " + blobkey);
-		QueryBase.deleteUsingPropertyValue(UploadedImage.class, blobkeyParameter, blobkey);
-		try {
-			String classS = BlobKeyCorrespondence.class.getCanonicalName();
-			BlobKeyCorrespondence corr = (BlobKeyCorrespondence) QueryBase
-					.getFirstDatabaseObjectsFromSingleProperty(classS, keyAsStringParameter, blobkey);
-			BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
-			BlobKey key = corr.getBlobKey();
-			BlobInfoFactory infofactory = new BlobInfoFactory();
-			BlobInfo info = infofactory.loadBlobInfo(key);
-			QueryBase.deleteObject(info);
-			blobstoreService.delete(key);
-			QueryBase.deleteObject(corr);
-		} catch (BlobstoreFailureException ex) {
-			throw new IOException("Error in deleting: " + blobkey);
-		}
-*/
+		/*
+		 * System.out.println("deleteFromStorage: (" + blobkeyParameter + "): " +
+		 * blobkey); QueryBase.deleteUsingPropertyValue(UploadedImage.class,
+		 * blobkeyParameter, blobkey); try { String classS =
+		 * BlobKeyCorrespondence.class.getCanonicalName(); BlobKeyCorrespondence corr =
+		 * (BlobKeyCorrespondence) QueryBase
+		 * .getFirstDatabaseObjectsFromSingleProperty(classS, keyAsStringParameter,
+		 * blobkey); BlobstoreService blobstoreService =
+		 * BlobstoreServiceFactory.getBlobstoreService(); BlobKey key =
+		 * corr.getBlobKey(); BlobInfoFactory infofactory = new BlobInfoFactory();
+		 * BlobInfo info = infofactory.loadBlobInfo(key); QueryBase.deleteObject(info);
+		 * blobstoreService.delete(key); QueryBase.deleteObject(corr); } catch
+		 * (BlobstoreFailureException ex) { throw new IOException("Error in deleting: "
+		 * + blobkey); }
+		 */
 		return ans;
 	}
 
@@ -210,34 +206,32 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		System.out.println("User: " + user);
 
 		String path = createUploadPath(util);
-		
+
 		String id = fileinfo.getIdentifier();
 		String access = user.getName();
 		String owner = user.getName();
 		String sourceID = QueryBase.getDataSourceIdentification(user.getName());
-		DatabaseObject obj = new DatabaseObject(id, access,owner,sourceID);
-		
-		GCSBlobFileInformation source = new GCSBlobFileInformation(obj,
-				GoogleCloudStorageConstants.uploadBucket, path,
+		DatabaseObject obj = new DatabaseObject(id, access, owner, sourceID);
+
+		GCSBlobFileInformation source = new GCSBlobFileInformation(obj, GoogleCloudStorageConstants.uploadBucket, path,
 				fileinfo.getFilename(), fileinfo.getFiletype(), fileinfo.getDescription());
-		
+
 		fileinfo.setSourceID(source.getSourceID());
-		
+
 		System.out.println("moveBlobFromUpload: " + source.toString());
 		System.out.println("moveBlobFromUpload: " + fileinfo.toString());
-		
+
 		return moveBlob(fileinfo, source);
 	}
 
 	public GCSBlobContent moveBlob(GCSBlobFileInformation fileinfo, GCSBlobFileInformation source) {
-        Storage storage = StorageOptions.getDefaultInstance().getService();
-        
-        
+		Storage storage = StorageOptions.getDefaultInstance().getService();
+
 		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
 		UserDTO user = util.getUserInfo();
 		System.out.println("User: " + user);
 
-		String sourcefilename =   source.getGSFilename();
+		String sourcefilename = source.getGSFilename();
 		String sourcebucket = source.getBucket();
 		String targetfilename = fileinfo.getGSFilename();
 		String targetbucket = fileinfo.getBucket();
@@ -246,90 +240,88 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		System.out.println("moveBlob: " + sourcefilename);
 		System.out.println("moveBlob: " + targetbucket);
 		System.out.println("moveBlob: " + targetfilename);
-		
- 		BlobId blobId = BlobId.of(sourcebucket, sourcefilename);
+
+		BlobId blobId = BlobId.of(sourcebucket, sourcefilename);
 		System.out.println("moveBlob: " + blobId);
-		
-		
+
 		Blob blob = storage.get(blobId);
-		
+
 		CopyWriter copyWriter = blob.copyTo(BlobId.of(targetbucket, targetfilename));
-		
-		
+
 		Blob copiedBlob = copyWriter.getResult();
-		GCSBlobContent content = new GCSBlobContent(copiedBlob.getMediaLink(),fileinfo);
+		GCSBlobContent content = new GCSBlobContent(copiedBlob.getMediaLink(), fileinfo);
 		DatabaseWriteBase.writeObjectWithTransaction(fileinfo);
 		return content;
 	}
 
-	
 	public GCSBlobContent getBlobContent(GCSBlobFileInformation gcsinfo) {
 		return getContent(gcsinfo);
 	}
-	
+
 	public ArrayList<String> getBlobAsLines(GCSBlobContent info) {
 		GCSBlobContent gcs = getBlobContent(info.getInfo());
 		String text = gcs.getBytes();
 		ArrayList<String> lines = new ArrayList<String>();
 		Scanner tok = new Scanner(text);
-		while(tok.hasNextLine()) {
+		while (tok.hasNextLine()) {
 			lines.add(tok.nextLine());
 		}
 		tok.close();
 		return lines;
 	}
 
-	public void uploadFileBlob(String id, String filename, String contentType, String description, String contentS) throws IOException {
+	public void uploadFileBlob(String id, String filename, String contentType, String description, String contentS)
+			throws IOException {
 		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
-		GCSBlobFileInformation info = createInitialUploadInfo(filename,contentType,description,util);
+		GCSBlobFileInformation info = createInitialUploadInfo(filename, contentType, description, util);
 		String url = null;
 		GCSBlobContent gcs = new GCSBlobContent(url, info);
 		writeBlobContent(gcs);
 	}
-	
+
 	public void writeBlobContent(GCSBlobContent gcs) throws IOException {
 		GCSBlobFileInformation info = gcs.getInfo();
 		String contentS = gcs.getBytes();
-		 BlobId blobId = BlobId.of(info.getBucket(), info.getGSFilename());
-		 
-		 byte[] content = contentS.getBytes(StandardCharsets.UTF_8);
-		 BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("text/plain").build();
-		 try (WriteChannel writer = storage.writer(blobInfo)) {
-		     writer.write(ByteBuffer.wrap(content, 0, content.length));
-		   } catch (Exception ex) {
-		     throw new IOException("Failure to write blob: " + info.getBucket() + ": " + info.getGSFilename()
-		    		 + " with size " + contentS.length() + "bytes");
-		   }
-			DatabaseWriteBase.writeObjectWithTransaction(gcs.getInfo());
-		 }
+		BlobId blobId = BlobId.of(info.getBucket(), info.getGSFilename());
+
+		byte[] content = contentS.getBytes(StandardCharsets.UTF_8);
+		BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("text/plain").build();
+		try (WriteChannel writer = storage.writer(blobInfo)) {
+			writer.write(ByteBuffer.wrap(content, 0, content.length));
+		} catch (Exception ex) {
+			throw new IOException("Failure to write blob: " + info.getBucket() + ": " + info.getGSFilename()
+					+ " with size " + contentS.length() + "bytes");
+		}
+		DatabaseWriteBase.writeObjectWithTransaction(gcs.getInfo());
+	}
 
 	public void deleteUploadedFile(GCSBlobFileInformation gcsinfo) {
 		deleteBlob(gcsinfo);
 	}
-	
+
 	public void deleteUploadedFiles(ArrayList<GCSBlobFileInformation> fileset) {
-		for(GCSBlobFileInformation info : fileset) {
+		for (GCSBlobFileInformation info : fileset) {
 			deleteUploadedFile(info);
 		}
 	}
-	
+
 	public ArrayList<GCSBlobFileInformation> getUploadedFiles() throws IOException {
 		SingleQueryResult result = null;
 		SetOfQueryPropertyValues values = new SetOfQueryPropertyValues();
 		ContextAndSessionUtilities context = getUtilities();
 		UserDTO user = context.getUserInfo();
 		String username = user.getName();
-		values.add("owner",username);
-		values.add("bucket",GoogleCloudStorageConstants.uploadBucket);
+		values.add("owner", username);
+		values.add("bucket", GoogleCloudStorageConstants.uploadBucket);
 		System.out.println("getUploadedFiles()");
-		QuerySetupBase query = new QuerySetupBase(GCSBlobFileInformation.class.getCanonicalName(),values);
+		QuerySetupBase query = new QuerySetupBase(GCSBlobFileInformation.class.getCanonicalName(), values);
 		try {
 			result = QueryBase.StandardQueryResult(query);
 		} catch (ClassNotFoundException e) {
 			throw new IOException("Class Not found: " + GCSBlobFileInformation.class.getCanonicalName());
 		}
 		ArrayList<GCSBlobFileInformation> fileset = new ArrayList<GCSBlobFileInformation>();
-		for(DatabaseObject obj : result.getResults()) {
+		for (DatabaseObject obj : result.getResults()) {
 			fileset.add((GCSBlobFileInformation) obj);
 		}
 		return fileset;
@@ -339,9 +331,9 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		ContextAndSessionUtilities context = getUtilities();
 		String path = createUploadPath(context);
 		System.out.println("Path: " + path);
-		//Storage storage = StorageOptions.getDefaultInstance().getService();
+		// Storage storage = StorageOptions.getDefaultInstance().getService();
 		String uploadDescriptionText = "Uploaded File from URL";
-		
+
 		URL urlconnect = new URL(requestUrl);
 		URLConnection c = urlconnect.openConnection();
 		String contentType = c.getContentType();
@@ -350,11 +342,9 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		InputStream in = urlstream.openStream();
 		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
 
-		
-		
 		GCSBlobFileInformation source = createInitialUploadInfo(requestUrl, contentType, uploadDescriptionText, util);
-		retrieveContentFromStream(in,source);
-		
+		retrieveContentFromStream(in, source);
+
 		return source;
 	}
 
@@ -363,58 +353,51 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		String uploadDescriptionText = "Uploaded File from text input";
 		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
 		GCSBlobFileInformation source = createInitialUploadInfo(filename, contentType, uploadDescriptionText, util);
-		
+
 		InputStream in = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
-		retrieveContentFromStream(in,source);
+		retrieveContentFromStream(in, source);
 		return source;
 	}
 
-
-	
 	public void deleteTransaction(String sourceID) throws IOException {
 		deleteTransactionFromSourceID(sourceID);
 	}
 
-	
 	private void retrieveContentFromStream(InputStream in, GCSBlobFileInformation source) {
 		BlobInfo info = BlobInfo.newBuilder(source.getBucket(), source.getGSFilename())
 				.setAcl(new ArrayList<>(Arrays.asList(Acl.of(User.ofAllUsers(), Role.READER))))
-				.setContentType(source.getFiletype())
-				.build();
+				.setContentType(source.getFiletype()).build();
 
 		@SuppressWarnings("deprecation")
 		BlobInfo blobInfo = storage.create(info, in);
 		System.out.println("Blob content type:  " + blobInfo.getContentType());
 		DatabaseWriteBase.writeObjectWithTransaction(source);
-		
+
 	}
-	
+
 	public DatabaseObjectHierarchy getUserDatasetCatalogHierarchy(String username) throws IOException {
 		String uid = CreateDefaultObjectsFactory.userCatalogHierarchyID(username);
 		System.out.println("getUserDatasetCatalogHierarchy:  " + uid);
 		return ExtractCatalogInformation.getDatabaseObjectHierarchy(uid);
 	}
-		
+
 	public DatabaseObjectHierarchy getDevice(DatabaseObject obj, String devicename) {
 		System.out.println("getDevice: " + obj.getIdentifier());
 		DatabaseObjectHierarchy devicehier = null;
 		String classname = SubSystemDescription.class.getCanonicalName();
 		try {
-			DatabaseObject device = QueryBase.getDatabaseObjectFromIdentifier(classname, obj.getIdentifier());
-			System.out.println("getDevice: \n"  + device.toString());
-			devicehier = ExtractCatalogInformation.getCatalogObject(obj.getIdentifier(), 
+			QueryBase.getDatabaseObjectFromIdentifier(classname, obj.getIdentifier());
+			devicehier = ExtractCatalogInformation.getCatalogObject(obj.getIdentifier(),
 					"dataset:SubSystemDescription");
 		} catch (IOException e) {
-			System.out.println("getDevice: not found   " + obj.getIdentifier());
 			PurposeConceptPair pair = new PurposeConceptPair();
 			ConceptParsing.fillInPurposeConceptPair(devicename, pair);
-			devicehier = CreateDefaultObjectsFactory.fillSubSystemDescription(obj,
-					devicename,pair.getPurpose(),pair.getConcept());
-			System.out.println("getDevice: " + devicehier.toString());
+			devicehier = CreateDefaultObjectsFactory.fillSubSystemDescription(obj, devicename, pair.getPurpose(),
+					pair.getConcept());
 		}
 		return devicehier;
 	}
-	
+
 	public DatabaseObjectHierarchy getSetOfObservations(DatabaseObject obj, String observation, String title) {
 		String sourceID = QueryBase.getDataSourceIdentification(obj.getOwner());
 		obj.setSourceID(sourceID);
@@ -422,97 +405,104 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		PurposeConceptPair pair = new PurposeConceptPair();
 		ConceptParsing.fillInPurposeConceptPair(observation, pair);
 
-		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillSetOfObservations(obj,
-				observation, title,
-				//"dataset:BurnerPlateObservations",
-				//"Set of burner plate observations",
-				//"dataset:HeatFluxBurnerObservation","dataset:LaminarFlame"
-				pair.getConcept(),pair.getPurpose()
-				);
+		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillSetOfObservations(obj, observation, title,
+				pair.getConcept(), pair.getPurpose());
 		System.out.println(hierarchy);
 		return hierarchy;
 	}
-	public DatabaseObjectHierarchy getNewCatalogHierarchy(DatabaseObject obj, String id, String onelinedescription) throws IOException {
+
+	public DatabaseObjectHierarchy getNewCatalogHierarchy(DatabaseObject obj, String id, String onelinedescription)
+			throws IOException {
 		System.out.println("getNewCatalogHierarchy: " + obj.toString());
 		String classname = DatasetCatalogHierarchy.class.getCanonicalName();
-		DatasetCatalogHierarchy catalog = (DatasetCatalogHierarchy) 
-				QueryBase.getDatabaseObjectFromIdentifier(classname, obj.getIdentifier());
-		DatabaseObjectHierarchy subs = CreateDefaultObjectsFactory.fillDatasetCatalogHierarchy(catalog,obj,id,onelinedescription);
-		System.out.println("getNewCatalogHierarchy:\n" + subs.toString());
-		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(subs);	
+		DatasetCatalogHierarchy catalog = (DatasetCatalogHierarchy) QueryBase.getDatabaseObjectFromIdentifier(classname,
+				obj.getIdentifier());
+		DatabaseObjectHierarchy subs = CreateDefaultObjectsFactory.fillDatasetCatalogHierarchy(catalog, obj, id,
+				onelinedescription);
+		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(subs);
 		DatabaseWriteBase.writeDatabaseObject(catalog);
 		return subs;
 	}
-	
+
+	public void writeDatabaseObjectHierarchy(DatabaseObjectHierarchy hierarchy) throws IOException {
+		try {
+			WriteReadDatabaseObjects.updateSourceID(hierarchy);
+			WriteReadDatabaseObjects.writeDatabaseObjectHierarchyWithTransaction(hierarchy);
+		} catch (Exception ex) {
+			System.out.println("writeDatabaseObjectHierarchy  error in writing");
+			System.out.println(ex.toString());
+			ex.printStackTrace();
+			throw new IOException("Error in writing objects");
+		}
+	}
+
 	public HierarchyNode getFileInterpretionChoices(GCSBlobFileInformation info) throws IOException {
 		ParsedFilename parsed = parseFilename(info);
 		return ParseUtilities.getFileInterpretionChoices(parsed);
 	}
-	
+
 	public static ParsedFilename parseFilename(GCSBlobFileInformation info) throws IOException {
-		ParsedFilename parsed = ParseUtilities.fillFileInformation(info,info.getFilename(),info.getFiletype());
+		ParsedFilename parsed = ParseUtilities.fillFileInformation(info, info.getFilename(), info.getFiletype());
 		return parsed;
 	}
 
 	public static void deleteTransactionFromSourceID(String sourceID) throws IOException {
-		TransactionInfo info = (TransactionInfo) 
-				QueryBase.getFirstDatabaseObjectsFromSingleProperty(TransactionInfo.class.getCanonicalName(), 
-				"sourceID", sourceID);		
+		TransactionInfo info = (TransactionInfo) QueryBase.getFirstDatabaseObjectsFromSingleProperty(
+				TransactionInfo.class.getCanonicalName(), "sourceID", sourceID);
 		DatabaseWriteBase.deleteTransactionInfo(info);
 	}
 
-	
 	public static void deleteBlob(GCSBlobFileInformation gcsinfo) {
 		System.out.println("deleteBlob: " + gcsinfo.toString());
- 		BlobId blobId = BlobId.of(gcsinfo.getBucket(), gcsinfo.getGSFilename()); 		
+		BlobId blobId = BlobId.of(gcsinfo.getBucket(), gcsinfo.getGSFilename());
 		storage.delete(blobId);
 	}
-	
+
 	public static String createUploadPath(ContextAndSessionUtilities util) {
 		String username = util.getUserName();
 		String path = GoogleCloudStorageConstants.uploadPathPrefix + "/" + username;
 		return path;
 	}
-	public static GCSBlobFileInformation createInitialUploadInfo(String filename, String contentType, String uploadDescriptionText, ContextAndSessionUtilities util) {
+
+	public static GCSBlobFileInformation createInitialUploadInfo(String filename, String contentType,
+			String uploadDescriptionText, ContextAndSessionUtilities util) {
 		UserDTO user = util.getUserInfo();
 		System.out.println("User: " + user);
-		
+
 		String path = createUploadPath(util);
 
 		String id = util.getUserInfo().getIP() + ":" + user.getName();
 		String access = user.getName();
 		String owner = user.getName();
 		String sourceID = QueryBase.getDataSourceIdentification(user.getName());
-		DatabaseObject obj = new DatabaseObject(id, access,owner,sourceID);
-		GCSBlobFileInformation source = new GCSBlobFileInformation(obj,
-				GoogleCloudStorageConstants.uploadBucket,path,
-				filename, contentType,
-				uploadDescriptionText);
+		DatabaseObject obj = new DatabaseObject(id, access, owner, sourceID);
+		GCSBlobFileInformation source = new GCSBlobFileInformation(obj, GoogleCloudStorageConstants.uploadBucket, path,
+				filename, contentType, uploadDescriptionText);
 		return source;
 	}
-	
-	
+
 	public static InputStream getInputStream(GCSBlobFileInformation info) {
 		System.out.println("getInputStream from string" + info.getBucket() + ":  " + info.getGSFilename());
 		GCSBlobContent content = getContent(info);
 		String contentstring = content.getBytes();
 		System.out.println("getInputStream: " + contentstring.substring(0, 100));
 		InputStream inputstream = new ByteArrayInputStream(contentstring.getBytes(StandardCharsets.UTF_8));
-/*
-		BlobId id = BlobId.of(info.getBucket(), info.getGSFilename());
-		System.out.println("getInputStream blobId info" + id.toString());
-		GcsFilename fileName = new GcsFilename(id.getBucket(), id.getName());
-		
-		
-		//GcsFilename fileName = new GcsFilename(info.getBucket(), info.getGSFilename());
-	    GcsInputChannel readChannel = gcsService.openPrefetchingReadChannel(fileName, 0, BUFFER_SIZE);
-	    InputStream inputstream = Channels.newInputStream(readChannel);
-	    */
+		/*
+		 * BlobId id = BlobId.of(info.getBucket(), info.getGSFilename());
+		 * System.out.println("getInputStream blobId info" + id.toString()); GcsFilename
+		 * fileName = new GcsFilename(id.getBucket(), id.getName());
+		 * 
+		 * 
+		 * //GcsFilename fileName = new GcsFilename(info.getBucket(),
+		 * info.getGSFilename()); GcsInputChannel readChannel =
+		 * gcsService.openPrefetchingReadChannel(fileName, 0, BUFFER_SIZE); InputStream
+		 * inputstream = Channels.newInputStream(readChannel);
+		 */
 		return inputstream;
 	}
-	
+
 	public static GCSBlobContent getContent(GCSBlobFileInformation gcsinfo) {
- 		BlobId blobId = BlobId.of(gcsinfo.getBucket(), gcsinfo.getGSFilename()); 		
+		BlobId blobId = BlobId.of(gcsinfo.getBucket(), gcsinfo.getGSFilename());
 		Blob blob = storage.get(blobId);
 		byte[] bytes = blob.getContent(BlobSourceOption.generationMatch());
 		String bytesS = new String(bytes);
@@ -520,12 +510,10 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		BlobInfo info = BlobInfo.newBuilder(gcsinfo.getBucket(), gcsinfo.getGSFilename())
 				.setAcl(new ArrayList<>(Arrays.asList(Acl.of(User.ofAllUsers(), Role.READER)))).build();
 		String urlS = info.getMediaLink();
-		//URL url = storage.signUrl(info, 2, TimeUnit.DAYS, SignUrlOption.);
-		GCSBlobContent gcs = new GCSBlobContent(urlS,gcsinfo);
+		// URL url = storage.signUrl(info, 2, TimeUnit.DAYS, SignUrlOption.);
+		GCSBlobContent gcs = new GCSBlobContent(urlS, gcsinfo);
 		gcs.setBytes(bytesS);
 		return gcs;
 	}
-	
 
-	
 }

@@ -45,15 +45,12 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.structure.Database
 public class ContactDatabaseAccessImpl extends ServerBase implements ContactDatabaseAccess {
 
 	public ArrayList<String> getListOfUsers() throws IOException {
-		System.out.println("Users: ");
 		List<DatabaseObject> users = QueryBase.getDatabaseObjects(UserAccount.class.getCanonicalName());
-		System.out.println("Users: " + users.size());
 		return DatabaseObjectUtilities.getListOfIdentifiers(users);
 	}
 
 	public ArrayList<String> getListOfOrganizations() throws IOException {
 		List<DatabaseObject> orgs = QueryBase.getDatabaseObjects(Organization.class.getCanonicalName());
-		System.out.println("Organizations: " + orgs.size());
 		return DatabaseObjectUtilities.getListOfIdentifiers(orgs);
 	}
 
@@ -152,13 +149,17 @@ public class ContactDatabaseAccessImpl extends ServerBase implements ContactData
 	}
 
 	public SetOfUnitProperties unitProperties(String topunit) {
-		return OntologyUnits.getSetOfUnitProperties(topunit);
+		SetOfUnitProperties properties = null;
+		if(topunit.compareTo(CreateDefaultObjectsFactory.noUnitClassS) == 0) {
+			properties = new SetOfUnitProperties();
+		} else {
+			properties = OntologyUnits.getSetOfUnitProperties(topunit);
+		}
+		return properties;
 	}
 
 	public ArrayList<PrimitiveParameterValueInformation> getParameterInfo(ArrayList<String> parameternames) {
-		System.out.println(parameternames);
 		ArrayList<PrimitiveParameterValueInformation> parameters = new ArrayList<PrimitiveParameterValueInformation>();
-		System.out.println("getParameterInfo: \n" + parameternames);
 		for (String name : parameternames) {
 			PrimitiveParameterValueInformation info = ConceptParsing.fillParameterInfo(name);
 			ContextAndSessionUtilities context = getUtilities();

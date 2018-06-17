@@ -56,6 +56,15 @@ public class GPSLocation extends DatabaseObject {
 	public String getGPSLongitude() {
 		return GPSLongitude;
 	}
+	
+	
+	public void setGPSLatitude(String gPSLatitude) {
+		GPSLatitude = gPSLatitude;
+	}
+	public void setGPSLongitude(String gPSLongitude) {
+		GPSLongitude = gPSLongitude;
+	}
+	
 	@Override
 	public String toString() {
 		return toString("");

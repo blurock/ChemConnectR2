@@ -39,9 +39,9 @@ public class StandardDatasetCatalogHierarchyHeader extends Composite {
 	@UiField
 	MaterialLink cataloghead;
 	@UiField
-	MaterialIcon delete;
+	MaterialLink delete;
 	@UiField
-	MaterialIcon add;
+	MaterialLink save;
 
 	StandardDatasetObjectHierarchyItem item;
 	NewSubCatalogWizard wizard;
@@ -68,7 +68,7 @@ public class StandardDatasetCatalogHierarchyHeader extends Composite {
 		
 	}
 
-	@UiHandler("add")
+	@UiHandler("save")
 	public void onAddClick(ClickEvent event) {
 		addCatagory();
 	}

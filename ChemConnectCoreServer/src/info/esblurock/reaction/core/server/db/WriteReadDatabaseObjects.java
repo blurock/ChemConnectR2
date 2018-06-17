@@ -17,6 +17,19 @@ import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 
 public class WriteReadDatabaseObjects {
 
+	public static void updateSourceID(DatabaseObjectHierarchy objecthierarchy) {
+		DatabaseObject object = objecthierarchy.getObject();
+		String sourceID = QueryBase.getDataSourceIdentification(object.getOwner());
+		updateSourceID(sourceID, objecthierarchy);
+	}
+	public static void updateSourceID(String sourceID, DatabaseObjectHierarchy objecthierarchy) {
+		DatabaseObject object = objecthierarchy.getObject();
+		object.setSourceID(sourceID);
+		for(DatabaseObjectHierarchy subs : objecthierarchy.getSubobjects()) {
+			updateSourceID(sourceID,subs);
+		}
+	}
+	
 	public static void writeChemConnectDataStructureObject(ChemConnectDataStructureObject object) {
 		writeDatabaseObjectHierarchy(object.getObjecthierarchy());
 	}

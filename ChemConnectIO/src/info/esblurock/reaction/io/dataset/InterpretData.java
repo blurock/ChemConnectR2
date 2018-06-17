@@ -1069,19 +1069,14 @@ public enum InterpretData {
 		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
 				throws IOException {
 			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
-			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);
+			ChemConnectCompoundDataStructure compound = (ChemConnectCompoundDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
 
 			String referenceDOIS = (String) yaml.get(StandardDatasetMetaData.referenceDOI);
 			String referenceTitleS = (String) yaml.get(StandardDatasetMetaData.referenceTitle);
 			String referenceBibliographicStringS = (String) yaml
 					.get(StandardDatasetMetaData.referenceBibliographicString);
-
-			System.out.println("DataSetReference:  " + yaml.get(StandardDatasetMetaData.referenceAuthors));
-			
-			HashSet<String> authors = interpretMultipleYaml(StandardDatasetMetaData.referenceAuthors,yaml);
-
-			DataSetReference refset = new DataSetReference(objdata.getIdentifier(), objdata.getAccess(),
-					objdata.getOwner(), sourceID, referenceDOIS, referenceTitleS, referenceBibliographicStringS,
+			String authors = (String) yaml.get(StandardDatasetMetaData.referenceAuthors);
+			DataSetReference refset = new DataSetReference(compound, referenceDOIS, referenceTitleS, referenceBibliographicStringS,
 					authors);
 
 			return refset;
@@ -1097,7 +1092,7 @@ public enum InterpretData {
 			map.put(StandardDatasetMetaData.referenceDOI, ref.getDOI());
 			map.put(StandardDatasetMetaData.referenceTitle, ref.getTitle());
 			map.put(StandardDatasetMetaData.referenceBibliographicString, ref.getReferenceString());
-			putMultipleInYaml(StandardDatasetMetaData.referenceAuthors, map,ref.getAuthors());
+			map.put(StandardDatasetMetaData.referenceAuthors,ref.getAuthors());
 
 			return map;
 		}

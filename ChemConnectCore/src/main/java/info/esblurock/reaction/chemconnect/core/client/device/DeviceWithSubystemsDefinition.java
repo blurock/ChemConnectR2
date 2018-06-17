@@ -38,9 +38,6 @@ public class DeviceWithSubystemsDefinition extends Composite
 	@UiField
 	MaterialPanel topPanel;
 
-	//InputLineModal line; 
-	//String access;
-	//String deviceType;
 	ChooseFullNameFromCatagoryRow choose;
 	
 	public DeviceWithSubystemsDefinition() {

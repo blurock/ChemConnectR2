@@ -26,25 +26,21 @@ public class DataSetReference extends ChemConnectCompoundDataStructure {
 	@Unindex
 	String ReferenceString;
 		
-	// The index keys of the authors
-	@Unindex
-	HashSet<String> authors;
+	@Index
+	String authors;
 	
 	public DataSetReference() {
+		init();
+		
+	}
+
+	void init() {
 		DOI = "";
 		Title = "";
 		ReferenceString = "";
-		this.authors = new HashSet<String>();
+		this.authors = "";
 	}
-	public DataSetReference(String identifier, String sourceID) {
-		super(identifier,sourceID);
-		DOI = "";
-		Title = "";
-		ReferenceString = "";
-		this.authors = new HashSet<String>();
-	}
-
-
+	
 	/**
 	 * @param id The identifer of the 
 	 * @param dOI The DOI number
@@ -53,30 +49,16 @@ public class DataSetReference extends ChemConnectCompoundDataStructure {
 	 * @param authors The list of authors
 	 * @param authorLastNames The list of author's last names
 	 */
-	public DataSetReference(String identifier, String access, String owner, String sourceID,
-			String dOI, String title, String referenceString,
-			HashSet<String> authors) {
-		fill(identifier,access,owner,sourceID,dOI,title,referenceString,authors);
-	}
 	public DataSetReference(ChemConnectCompoundDataStructure compound,
 			String dOI, String title, String referenceString,
-			HashSet<String> authors) {
+			String authors) {
 		fill(compound,dOI,title,referenceString,authors);
 	}
 	
 	public void fill(ChemConnectCompoundDataStructure compound,
 			String dOI, String title, String referenceString,
-			HashSet<String> authors) {
+			String authors) {
 		super.fill(compound);
-		this.DOI = dOI;
-		this.Title = title;
-		this.ReferenceString = referenceString;
-		this.authors = authors;
-	}
-	public void fill(String identifier, String access, String owner, String sourceID,
-			String dOI, String title, String referenceString,
-			HashSet<String> authors) {
-		super.fill(identifier,access,owner,sourceID);
 		this.DOI = dOI;
 		this.Title = title;
 		this.ReferenceString = referenceString;
@@ -96,7 +78,23 @@ public class DataSetReference extends ChemConnectCompoundDataStructure {
 		return ReferenceString;
 	}
 
-	public HashSet<String> getAuthors() {
+	public void setDOI(String dOI) {
+		DOI = dOI;
+	}
+
+	public void setTitle(String title) {
+		Title = title;
+	}
+
+	public void setReferenceString(String referenceString) {
+		ReferenceString = referenceString;
+	}
+
+	public void setAuthors(String authors) {
+		this.authors = authors;
+	}
+
+	public String getAuthors() {
 		return authors;
 	}
 	public String toString() {
@@ -114,11 +112,7 @@ public class DataSetReference extends ChemConnectCompoundDataStructure {
 		builder.append(prefix);
 		builder.append("DOI: " + DOI);
 		builder.append("\n");
-		builder.append(prefix + "Authors: ");
-		for(String name : authors) {
-			builder.append(name);
-			builder.append("   ");
-		}
+		builder.append(prefix + "Authors: " + authors);
 		builder.append("\n");
 		return builder.toString();
 	}

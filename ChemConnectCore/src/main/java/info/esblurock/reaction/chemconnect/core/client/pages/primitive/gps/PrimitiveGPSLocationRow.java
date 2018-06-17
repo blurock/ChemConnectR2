@@ -15,7 +15,6 @@ import gwt.material.design.client.ui.MaterialTextBox;
 import info.esblurock.reaction.chemconnect.core.client.cards.CardModal;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.contact.GPSLocation;
-import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveInterpretedInformation;
 
 public class PrimitiveGPSLocationRow extends Composite implements InsertGPSCoordinatesInterface {
@@ -42,21 +41,13 @@ public class PrimitiveGPSLocationRow extends Composite implements InsertGPSCoord
 	GPSLocation location;
 	PrimitiveInterpretedInformation info;
 	
-	public PrimitiveGPSLocationRow(String firstName) {
+	public PrimitiveGPSLocationRow(DatabaseObject object) {
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
-		identifier = null;
+		identifier = object.getIdentifier();
+		fill(object);
 	}
-
-	public PrimitiveGPSLocationRow(PrimitiveDataStructureInformation primitiveinfo) {
-		initWidget(uiBinder.createAndBindUi(this));
-		init();
-		identifier = primitiveinfo.getIdentifier();
-		Window.alert("PrimitiveGPSLocationRow: " + primitiveinfo.toString());
-		PrimitiveInterpretedInformation info = (PrimitiveInterpretedInformation) primitiveinfo;
-		fill(info);
-	}
-
+	
 	private void init() {
 	}
 
@@ -74,9 +65,8 @@ public class PrimitiveGPSLocationRow extends Composite implements InsertGPSCoord
 		return identifier;
 	}
 
-	public void fill(PrimitiveInterpretedInformation info) {
-		this.info = info;
-		location = (GPSLocation) info.getObj();
+	public void fill(DatabaseObject object) {
+		location = (GPSLocation) object;
 		Window.alert("PrimitiveGPSLocationRow: fill");
 		if(location != null) {
 			if(location.getGPSLatitude() != null) {
@@ -89,7 +79,19 @@ public class PrimitiveGPSLocationRow extends Composite implements InsertGPSCoord
 			Window.alert("No location specified");
 		}
 	}
+	
+	public void update() {
+		location.setGPSLatitude(gpslatitude.getText());
+		location.setGPSLongitude(gpslongitude.getText());
+	}
 
+	public String getLatitude() {
+		return gpslatitude.getText();
+	}
+	public String getLongitude() {
+		return gpslongitude.getText();
+	}
+	
 	@Override
 	public void insertGPSCoordinates(GPSLocation location) {
 		gpslatitude.setText(location.getGPSLatitude());

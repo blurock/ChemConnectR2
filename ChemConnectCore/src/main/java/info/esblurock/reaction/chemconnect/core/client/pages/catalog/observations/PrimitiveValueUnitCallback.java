@@ -6,9 +6,9 @@ import info.esblurock.reaction.chemconnect.core.data.concepts.SetOfUnitPropertie
 
 public class PrimitiveValueUnitCallback implements AsyncCallback<SetOfUnitProperties> {
 
-	PrimitiveParameterValueRow top;
+	PrimitiveValueUnitCallInterface top;
 	
-	public PrimitiveValueUnitCallback(PrimitiveParameterValueRow top) {
+	public PrimitiveValueUnitCallback(PrimitiveValueUnitCallInterface top) {
 		this.top = top;
 	}
 	

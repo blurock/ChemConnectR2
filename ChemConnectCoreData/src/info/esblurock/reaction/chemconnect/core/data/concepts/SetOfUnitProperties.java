@@ -38,8 +38,10 @@ public class SetOfUnitProperties implements Serializable {
 		}
 	}
 	
-	public Set<String> getAbbreviations() {
-		return abbreviations.keySet();
+	public ArrayList<String> getAbbreviations() {
+		Set<String> set = abbreviations.keySet();
+		ArrayList<String> names = new ArrayList<String>(set);
+		return names;
 	}
 	public String getAbbreviation(String unit) {
 		UnitProperties prop = units.get(unit);
@@ -86,7 +88,14 @@ public class SetOfUnitProperties implements Serializable {
 	
 	public String toString(String prefix) {
 		StringBuilder build = new StringBuilder();
-		build.append(prefix + "Set of Units: " + topUnitType + "\n");
+		build.append(prefix + "Set of Units: " + topUnitType);
+		if(classification) {
+			build.append(" Classification ");
+		}
+		if(keyword) {
+			build.append(" Keyword ");
+		}
+		build.append("\n");
 		Set<String> names = units.keySet();
 		for(String unitname : names) {
 			UnitProperties unit = units.get(unitname);

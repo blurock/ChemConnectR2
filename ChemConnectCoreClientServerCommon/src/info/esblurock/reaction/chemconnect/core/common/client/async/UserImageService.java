@@ -78,4 +78,6 @@ public interface UserImageService  extends RemoteService  {
 	DatabaseObjectHierarchy getDevice(DatabaseObject obj, String devicename);
 	
 	DatabaseObjectHierarchy getSetOfObservations(DatabaseObject obj, String observation, String title);
+	
+	void writeDatabaseObjectHierarchy(DatabaseObjectHierarchy hierarchy) throws IOException;
 }

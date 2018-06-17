@@ -11,11 +11,11 @@
 			<m:MaterialLink ui:field="cataloghead" textColor="BLACK" />
 		</m:MaterialColumn>
 		<m:MaterialColumn grid="s1">
-			<m:MaterialIcon ui:field="delete" iconType="DELETE"
+			<m:MaterialLink ui:field="delete" iconType="DELETE"
 				iconColor="BLACK" iconPosition="RIGHT" textColor="BLACK" />
 		</m:MaterialColumn>
 		<m:MaterialColumn grid="s1">
-			<m:MaterialIcon ui:field="add" iconType="ADD"
+			<m:MaterialLink ui:field="save" iconType="SAVE"
 				iconColor="BLACK" iconPosition="RIGHT" textColor="BLACK" />
 		</m:MaterialColumn>
 	</m:MaterialRow>

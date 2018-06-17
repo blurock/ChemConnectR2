@@ -69,6 +69,11 @@ public class PrimitiveDataStructureBase extends Composite {
 	public DatabaseObject getDatabaseObject() {
 		return obj;
 	}
+	
+	public PrimitiveDataStructureInformation getPrimitiveDataStructureInformation() {
+		return primitiveinfo;
+	}
+	
 	public void setIdentifier(DatabaseObject obj) {
 		this.obj = new DatabaseObject(obj);
 		if(primitiveinfo != null) {
