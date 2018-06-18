@@ -1,5 +1,6 @@
 package info.esblurock.reaction.core.server.initialization;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +21,7 @@ import info.esblurock.reaction.chemconnect.core.data.contact.OrganizationDescrip
 import info.esblurock.reaction.chemconnect.core.data.contact.PersonalDescription;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
+import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
 import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.io.db.QueryBase;
 import info.esblurock.reaction.chemconnect.core.data.dataset.AttributeInDataset;
@@ -155,7 +157,6 @@ public class CreateDefaultObjectsFactory {
 			String type) {
 		DataElementInformation refelement = DatasetOntologyParsing
 				.getSubElementStructureFromIDObject(type);
-		System.out.println("createChemConnectCompoundMultiple:   " + type);
 		String refid = createSuffix(obj, refelement);
 		DatabaseObject refobj = new DatabaseObject(obj);
 		refobj.setIdentifier(refid);
@@ -322,9 +323,16 @@ public class CreateDefaultObjectsFactory {
 		pair.setConcept(concept);
 		pair.setPurpose(purpose);
 	}
-
+/*
+ *  1. Create link ID (aobj.getIdentifier())
+ *  2. Set up new link   (cathierarchy -> catalog)
+ *  3. Set in one line description (setOneLineDescription)
+ *  4. Read in top catagory link list (toplinkstructure from topcatalog.getChemConnectObjectLink())
+ *  5. Determine number of links already in list (linknum)
+ *  6. Create an object link (linkhier -> lnk)
+ */
 	public static DatabaseObjectHierarchy fillDatasetCatalogHierarchy(DatasetCatalogHierarchy topcatalog,
-			DatabaseObject obj, String id, String onelinedescription) {
+			DatabaseObject obj, String id, String onelinedescription) throws IOException {
 		DataElementInformation linkelement = DatasetOntologyParsing
 				.getSubElementStructureFromIDObject(OntologyKeys.dataObjectLink);
 
@@ -334,23 +342,29 @@ public class CreateDefaultObjectsFactory {
 
 		DatabaseObjectHierarchy cathierarchy = createDatasetCatalogHierarchy(aobj);
 		DatasetCatalogHierarchy catalog = (DatasetCatalogHierarchy) cathierarchy.getObject();
+		catalog.setSimpleCatalogName(id);
 		setOneLineDescription(cathierarchy, onelinedescription);
-		
-		
-		DatabaseObjectHierarchy lstructurehier = cathierarchy.getSubObject(catalog.getChemConnectObjectLink());
-		ChemConnectCompoundMultiple lstructure = (ChemConnectCompoundMultiple) lstructurehier.getObject();
-		int num = lstructure.getIds().size();
+				
+		// Get object link list (multiple) from top catalog
+		String classname = ChemConnectCompoundMultiple.class.getCanonicalName();
+		ChemConnectCompoundMultiple toplinkstructure = (ChemConnectCompoundMultiple) QueryBase.getDatabaseObjectFromIdentifier(classname,
+				topcatalog.getChemConnectObjectLink());
+		int num = toplinkstructure.getIds().size();
 		String linknum = Integer.toString(num + 1);
-		DatabaseObject lobj = new DatabaseObject(obj);
-		String oid = createSuffix(lobj, linkelement);
-		lobj.setIdentifier(oid + linknum);
 		
-		DatabaseObjectHierarchy linkhier = fillDataObjectLink(lstructure,linknum,MetaDataKeywords.linkSubCatalog,
+		
+		DatabaseObjectHierarchy linkhier = fillDataObjectLink(toplinkstructure,linknum,MetaDataKeywords.linkSubCatalog,
 				catalog.getIdentifier());
 		DataObjectLink lnk = (DataObjectLink) linkhier.getObject();
-		lstructure.addID(lnk.getIdentifier());
-		lstructurehier.addSubobject(linkhier);
+		System.out.println("fillDatasetCatalogHierarchy: Link ID\n" + linkhier.getObject().getIdentifier());
+		System.out.println("fillDatasetCatalogHierarchy: Link:\n" + linkhier.toString());
 		
+		toplinkstructure.addID(lnk.getIdentifier());
+		System.out.println("fillDatasetCatalogHierarchy: Multiple:\n" + toplinkstructure.toString());
+		System.out.println("fillDatasetCatalogHierarchy: New Catalog\n" + cathierarchy.toString());
+		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(cathierarchy);
+		DatabaseWriteBase.writeDatabaseObject(toplinkstructure);
+		DatabaseWriteBase.writeDatabaseObject(lnk);
 		return cathierarchy;
 	}
 

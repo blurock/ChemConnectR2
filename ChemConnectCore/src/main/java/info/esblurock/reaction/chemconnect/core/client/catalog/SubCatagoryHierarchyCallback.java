@@ -3,14 +3,14 @@ package info.esblurock.reaction.chemconnect.core.client.catalog;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import info.esblurock.reaction.chemconnect.core.client.catalog.choose.ChooseCatalogHiearchyModal;
+import info.esblurock.reaction.chemconnect.core.client.catalog.choose.SubCatagoryHierarchyCallbackInterface;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 public class SubCatagoryHierarchyCallback implements AsyncCallback<DatabaseObjectHierarchy> {
 
-	ChooseCatalogHiearchyModal top;
+	SubCatagoryHierarchyCallbackInterface top;
 	
-	public SubCatagoryHierarchyCallback(ChooseCatalogHiearchyModal top) {
+	public SubCatagoryHierarchyCallback(SubCatagoryHierarchyCallbackInterface top) {
 		this.top = top;
 	}
 	@Override

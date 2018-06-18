@@ -53,5 +53,8 @@ public class CardModal extends Composite {
 	public void open() {
 		modal.open();
 	}
+	public void close() {
+		modal.close();
+	}
 
 }

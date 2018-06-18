@@ -55,10 +55,7 @@ public class ExtractCatalogInformation {
 						DatabaseObjectHierarchy sub = getDatabaseObjectAndSubElements(newid,element,element.isSinglet());
 						if(sub != null) {
 							hierarchy.addSubobject(sub);
-						} else {
-							System.out.println("Subobject null");
 						}
-						
 					} else {
 						System.out.println("Couldn't find Identifier: " + classify.getDataType());
 						System.out.println("Couldn't find Identifier: " + identifier);
@@ -304,9 +301,6 @@ public class ExtractCatalogInformation {
 		System.out.println(classname);
 		Map<String,Object> mapping = interpret.createYamlFromObject(hierarchy.getObject());
 		Set<String> keys = mapping.keySet();
-		for(String key : keys) {
-			System.out.println(" key: " + key + "\t  " + mapping.get(key));
-		}
 		String objlinkid = (String) mapping.get(StandardDatasetMetaData.parameterObjectLinkS);
 		DatabaseObjectHierarchy multihier = hierarchy.getSubObject(objlinkid);
 		ChemConnectCompoundMultiple multi = (ChemConnectCompoundMultiple) multihier.getObject();

@@ -414,13 +414,13 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	public DatabaseObjectHierarchy getNewCatalogHierarchy(DatabaseObject obj, String id, String onelinedescription)
 			throws IOException {
 		System.out.println("getNewCatalogHierarchy: " + obj.toString());
+		String sourceID = QueryBase.getDataSourceIdentification(obj.getOwner());
+		obj.setSourceID(sourceID);
 		String classname = DatasetCatalogHierarchy.class.getCanonicalName();
 		DatasetCatalogHierarchy catalog = (DatasetCatalogHierarchy) QueryBase.getDatabaseObjectFromIdentifier(classname,
 				obj.getIdentifier());
 		DatabaseObjectHierarchy subs = CreateDefaultObjectsFactory.fillDatasetCatalogHierarchy(catalog, obj, id,
 				onelinedescription);
-		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(subs);
-		DatabaseWriteBase.writeDatabaseObject(catalog);
 		return subs;
 	}
 

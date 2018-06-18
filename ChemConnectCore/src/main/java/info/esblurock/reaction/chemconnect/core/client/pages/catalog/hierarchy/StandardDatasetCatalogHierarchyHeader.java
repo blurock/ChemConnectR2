@@ -9,13 +9,12 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
-import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.chemconnect.core.client.cards.CardModal;
 import info.esblurock.reaction.chemconnect.core.client.catalog.SubCatagoryHierarchyCallback;
-import info.esblurock.reaction.chemconnect.core.client.pages.catalog.SetUpCollapsibleItem;
+import info.esblurock.reaction.chemconnect.core.client.catalog.choose.SubCatagoryHierarchyCallbackInterface;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
@@ -23,7 +22,7 @@ import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHierarchy;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
-public class StandardDatasetCatalogHierarchyHeader extends Composite {
+public class StandardDatasetCatalogHierarchyHeader extends Composite implements SubCatagoryHierarchyCallbackInterface {
 
 	private static StandardDatasetCatalogHierarchyHeaderUiBinder uiBinder = GWT
 			.create(StandardDatasetCatalogHierarchyHeaderUiBinder.class);
@@ -46,6 +45,7 @@ public class StandardDatasetCatalogHierarchyHeader extends Composite {
 	StandardDatasetObjectHierarchyItem item;
 	NewSubCatalogWizard wizard;
 	MaterialPanel modal;
+	CardModal cardmodal;
 	
 	public StandardDatasetCatalogHierarchyHeader(StandardDatasetObjectHierarchyItem item) {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -53,10 +53,7 @@ public class StandardDatasetCatalogHierarchyHeader extends Composite {
 		this.modal = item.getModalpanel();
 		DatasetCatalogHierarchy hierarchy = (DatasetCatalogHierarchy) item.getObject();
 		cataloghead.setText(hierarchy.getSimpleCatalogName());
-	}
-
-	private void editCatagory() {
-
+		cardmodal = new CardModal();
 	}
 
 	@UiHandler("delete")
@@ -75,15 +72,16 @@ public class StandardDatasetCatalogHierarchyHeader extends Composite {
 
 	private void addCatagory() {
 		wizard = new NewSubCatalogWizard(this);
-		CardModal cardmodal = new CardModal();
 		cardmodal.setContent(wizard, true);
 		modal.clear();
 		modal.add(cardmodal);
 		cardmodal.open();
 	}
 	public void insertInitialSubCatagoryInformation() {
+		cardmodal.close();
 		String name = wizard.getSimpleName();
 		String oneline = wizard.getOneLineDescription();
+		Window.alert("insertInitialSubCatagoryInformation: " +  name);
 		addSubCatagory(name,oneline);
 	}
 
@@ -99,22 +97,19 @@ public class StandardDatasetCatalogHierarchyHeader extends Composite {
 		}
 		*/
 		if(addsub) {
-			/*
 			DatabaseObject subobj = new DatabaseObject(item.getObject());
+			Window.alert("addSubCatagory: " + subobj);
 			UserImageServiceAsync async = UserImageService.Util.getInstance();
 			SubCatagoryHierarchyCallback callback = new SubCatagoryHierarchyCallback(this);
 			async.getNewCatalogHierarchy(subobj,id,onelinedescription,callback);	
-			*/
 		} else {
 			MaterialToast.fireToast("Name already being used in another sub-catagory");
 		}
 	}
-	public void insertSubCatalog(DatabaseObjectHierarchy subs) {
-		StandardDatasetObjectHierarchyItem subcat = new StandardDatasetObjectHierarchyItem(subs,modal);
-		SetUpCollapsibleItem setup = SetUpCollapsibleItem.valueOf(DatasetCatalogHierarchy.class.getSimpleName());
-		setup.addInformation(subcat);
-		Window.alert("insertSubCatalog: " );
-		item.addSubItem(subcat);
+	public void setInHierarchy(DatabaseObjectHierarchy subs) {
+		Window.alert("setInHierarchy: \n" + subs.getObject().toString());
+		StandardDatasetObjectHierarchyItem subhiearchy = new StandardDatasetObjectHierarchyItem(subs,modal);
+		item.addSubItem(subhiearchy);
 	}
 
 

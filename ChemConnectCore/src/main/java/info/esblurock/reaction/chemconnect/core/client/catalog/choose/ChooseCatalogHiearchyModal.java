@@ -30,7 +30,7 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInfo
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
-public class ChooseCatalogHiearchyModal extends Composite {
+public class ChooseCatalogHiearchyModal extends Composite implements SubCatagoryHierarchyCallbackInterface {
 
 	private static ChooseCatalogHiearchyModalUiBinder uiBinder = GWT.create(ChooseCatalogHiearchyModalUiBinder.class);
 
