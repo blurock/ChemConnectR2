@@ -2,7 +2,12 @@ package info.esblurock.reaction.core.server.db;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
+
+import com.google.appengine.api.datastore.KeyFactory;
+import com.googlecode.objectify.Key;
+import com.googlecode.objectify.ObjectifyService;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
@@ -34,19 +39,63 @@ public class WriteReadDatabaseObjects {
 		writeDatabaseObjectHierarchy(object.getObjecthierarchy());
 	}
 
-	public static void writeDatabaseObjectHierarchyWithTransaction(DatabaseObjectHierarchy objecthierarchy) {
-		DatabaseWriteBase.writeObjectWithTransaction(objecthierarchy.getObject());
+	public static DatabaseObjectHierarchy writeDatabaseObjectHierarchyWithTransaction(DatabaseObjectHierarchy objecthierarchy) {
+		DatabaseWriteBase. writeTransactionWithoutObjectWrite(objecthierarchy.getObject());
+		return writeDatabaseObjectHierarchy(objecthierarchy);
+	}
+	public static DatabaseObjectHierarchy writeDatabaseObjectHierarchy(DatabaseObjectHierarchy objecthierarchy) {
+		DatabaseObject topobject = objecthierarchy.getObject();
+		try {
+			QueryBase.getDatabaseObjectFromIdentifier(topobject.getClass().getCanonicalName(),topobject.getIdentifier());
+			System.out.println("writeDatabaseObjectHierarchy: update");
+			updateDatabaseObjectHierarchy(objecthierarchy);
+		} catch (IOException e) {
+			System.out.println("writeDatabaseObjectHierarchy: first write");
+			writeDatabaseObjectHierarchyRecursive(objecthierarchy);
+			ArrayList<DatabaseObject> lst = new ArrayList<DatabaseObject>();
+			Map<String,DatabaseObject> map = new HashMap<String,DatabaseObject>();
+			collectDatabaseObjectsInHierarchy(objecthierarchy,lst,map);
+			for(DatabaseObject obj : lst) {
+				System.out.println("first write: " + obj.getKey());
+			}
+		}
+		return objecthierarchy;
+	}
+		
+	public static void writeDatabaseObjectHierarchyRecursive(DatabaseObjectHierarchy objecthierarchy) {
+		DatabaseWriteBase.writeDatabaseObject(objecthierarchy.getObject());
 		for (DatabaseObjectHierarchy subhierarchy : objecthierarchy.getSubobjects()) {
-			writeDatabaseObjectHierarchy(subhierarchy);
+			writeDatabaseObjectHierarchyRecursive(subhierarchy);
 		}
 	}
 
-	public static void writeDatabaseObjectHierarchy(DatabaseObjectHierarchy objecthierarchy) {
-		DatabaseWriteBase.writeDatabaseObject(objecthierarchy.getObject());
+	public static void updateDatabaseObjectHierarchy(DatabaseObjectHierarchy objecthierarchy) {
+		ArrayList<DatabaseObject> lst = new ArrayList<DatabaseObject>();
+		Map<String,DatabaseObject> map = new HashMap<String,DatabaseObject>();
+		collectDatabaseObjectsInHierarchy(objecthierarchy,lst,map);
+		Map<Key<DatabaseObject>,DatabaseObject> result = ObjectifyService.ofy().load().entities(lst);
+		System.out.println(result.keySet());
+		ArrayList<DatabaseObject> newobjs = new ArrayList<DatabaseObject>();
+		for(Key<DatabaseObject> id: result.keySet()) {
+			DatabaseObject dbobj = result.get(id);
+			DatabaseObject update = map.get(dbobj.getIdentifier());
+			dbobj.fill(update);
+			newobjs.add(dbobj);
+		}
+		ObjectifyService.ofy().save().entities(newobjs).now();
+	}
+	
+	public static void collectDatabaseObjectsInHierarchy(DatabaseObjectHierarchy objecthierarchy, ArrayList<DatabaseObject> lst, 
+			Map<String,DatabaseObject> map) {
+		DatabaseObject obj = objecthierarchy.getObject();
+		lst.add(obj);
+		System.out.println(obj.getKey());
+		map.put(obj.getIdentifier(),obj);
 		for (DatabaseObjectHierarchy subhierarchy : objecthierarchy.getSubobjects()) {
-			writeDatabaseObjectHierarchy(subhierarchy);
+			collectDatabaseObjectsInHierarchy(subhierarchy,lst,map);
 		}
 	}
+	
 
 	@SuppressWarnings("unchecked")
 	public static void readChemConnectDataStructureObject(String elementType, String identifier) throws IOException {

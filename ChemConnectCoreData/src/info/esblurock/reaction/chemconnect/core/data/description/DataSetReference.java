@@ -7,6 +7,7 @@ import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Unindex;
 
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 
 @SuppressWarnings("serial")
 @Entity
@@ -52,7 +53,7 @@ public class DataSetReference extends ChemConnectCompoundDataStructure {
 	public DataSetReference(ChemConnectCompoundDataStructure compound,
 			String dOI, String title, String referenceString,
 			String authors) {
-		fill(compound,dOI,title,referenceString,authors);
+		this.fill(compound,dOI,title,referenceString,authors);
 	}
 	
 	public void fill(ChemConnectCompoundDataStructure compound,
@@ -63,6 +64,15 @@ public class DataSetReference extends ChemConnectCompoundDataStructure {
 		this.Title = title;
 		this.ReferenceString = referenceString;
 		this.authors = authors;
+	}
+	@Override
+	public void fill(DatabaseObject object) {
+		super.fill(object);
+		DataSetReference ref = (DataSetReference) object;
+		this.DOI = ref.getDOI();
+		this.Title = ref.getTitle();
+		this.ReferenceString = ref.getReferenceString();
+		this.authors = ref.getAuthors();
 	}
 
 	

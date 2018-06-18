@@ -7,6 +7,7 @@ import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Unindex;
 
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 
 @SuppressWarnings("serial")
 @Entity
@@ -60,14 +61,14 @@ public class DescriptionDataData extends ChemConnectCompoundDataStructure {
 			String onlinedescription, String fulldescription, 
 			String purposeConcept, Date sourceDate, String dataType,
 			String keywords) {
-		fill(compound,onlinedescription, fulldescription, purposeConcept, sourceDate, dataType,
+		this.fill(compound,onlinedescription, fulldescription, purposeConcept, sourceDate, dataType,
 			keywords);
 	}
 	public DescriptionDataData(String identifier, String owner, String access, String sourceID,
 			String onlinedescription, String fulldescription, 
 			String purposeConcept, Date sourceDate, String dataType,
 			String keywords) {
-		fill(identifier,owner,access,sourceID,onlinedescription, fulldescription, 
+		this.fill(identifier,owner,access,sourceID,onlinedescription, fulldescription, 
 				purposeConcept, sourceDate, dataType,
 			keywords);
 	}
@@ -106,6 +107,17 @@ public class DescriptionDataData extends ChemConnectCompoundDataStructure {
 		this.dataType = dataType;
 		this.keywords = keywords;
 	}
+	@Override
+	public void fill(DatabaseObject object) {
+		super.fill(object);
+		DescriptionDataData descr = (DescriptionDataData) object;
+		this.onlinedescription = descr.getOnlinedescription();
+		this.descriptionAbstract = descr.getDescriptionAbstract();
+		this.sourceConceptID = descr.getSourceConcept();
+		this.sourceDate = descr.getSourceDate();
+		this.dataType = descr.getDataType();
+		this.keywords = descr.getKeywords();
+	}
 
 	public String getOnlinedescription() {
 		return onlinedescription;
@@ -129,10 +141,6 @@ public class DescriptionDataData extends ChemConnectCompoundDataStructure {
 
 	public String getKeywords() {
 		return keywords;
-	}
-	
-	public String getSourceConceptID() {
-		return sourceConceptID;
 	}
 	public void setSourceConceptID(String sourceConceptID) {
 		this.sourceConceptID = sourceConceptID;

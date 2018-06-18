@@ -100,6 +100,7 @@ public class StandardDatasetDescriptionDataDataHeader extends Composite implemen
 		description.setOnlinedescription(title.getText());
 		description.setDescriptionAbstract(abstractText.getText());
 		description.setSourceDate(date.getDate());
+		Window.alert("StandardDatasetDescriptionDataDataHeader: \n" + description.toString());
 	}
 
 }

@@ -3,6 +3,8 @@ package info.esblurock.reaction.chemconnect.core.data.dataset;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
 
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+
 @Entity
 @SuppressWarnings("serial")
 public class ParameterSpecification extends DataSpecification {
@@ -19,14 +21,14 @@ public class ParameterSpecification extends DataSpecification {
 	}
 
 	public ParameterSpecification(DataSpecification spec, String parameterLabel, String dataPointUncertainty, String units) {
-		fill(spec,parameterLabel, dataPointUncertainty,units);
+		this.fill(spec,parameterLabel, dataPointUncertainty,units);
 	}
 	public ParameterSpecification(ParameterSpecification spec) {
-		fill(spec,spec.getParameterLabel(), spec.getDataPointUncertainty(), spec.getUnits());
+		this.fill(spec,spec.getParameterLabel(), spec.getDataPointUncertainty(), spec.getUnits());
 	}
 	
 	public void fill(ParameterSpecification spec) {
-		fill(spec,spec.getParameterLabel(),spec.getDataPointUncertainty(), spec.getUnits());
+		this.fill(spec,spec.getParameterLabel(),spec.getDataPointUncertainty(), spec.getUnits());
 	}
 
 	public void fill(DataSpecification spec, String parameterLabel,String dataPointUncertainty, String units) {
@@ -34,6 +36,14 @@ public class ParameterSpecification extends DataSpecification {
 		DataPointUncertainty = dataPointUncertainty;
 		Units = units;
 		this.parameterLabel = parameterLabel;
+	}
+	@Override
+	public void fill(DatabaseObject object) {
+		super.fill(object);
+		ParameterSpecification spec = (ParameterSpecification) object;
+		DataPointUncertainty = spec.getDataPointUncertainty();
+		Units = spec.getUnits();
+		this.parameterLabel = spec.getParameterLabel();
 	}
 
 	public String getDataPointUncertainty() {

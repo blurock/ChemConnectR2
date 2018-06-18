@@ -31,11 +31,11 @@ public class NameOfPerson extends DatabaseObject {
 	
 	public NameOfPerson(String identifier, String access, String owner, String sourceID,
 			String title, String givenName, String familyName) {
-		fill(identifier, access, owner,sourceID,title,givenName,familyName);
+		this.fill(identifier, access, owner,sourceID,title,givenName,familyName);
 	}
 	public NameOfPerson(DatabaseObject obj,
 			String title, String givenName, String familyName) {
-		fill(obj,title,givenName,familyName);
+		this.fill(obj,title,givenName,familyName);
 	}
 
 	public void fill(String identifier, String access, String owner, String sourceID,
@@ -51,6 +51,14 @@ public class NameOfPerson extends DatabaseObject {
 		this.title = title;
 		this.givenName = givenName;
 		this.familyName = familyName;
+	}
+	@Override
+	public void fill(DatabaseObject object) {
+		super.fill(object);
+		NameOfPerson name = (NameOfPerson) object;
+		this.title = name.getTitle();
+		this.givenName = name.getGivenName();
+		this.familyName = name.getFamilyName();
 	}
 	
 	public String getTitle() {

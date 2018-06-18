@@ -18,7 +18,7 @@ public class ObservationSpecification extends ChemConnectCompoundDataStructure {
 	public ObservationSpecification() {
 		this.observationParameterType = "";
 		this.parameterSpecifications = "";
-		this.observationLabel = observationLabel;
+		this.observationLabel = "";
 	}
 		public ObservationSpecification(ChemConnectCompoundDataStructure structure, 
 			String observationLabel, String observationParameterType, String parameterSpecifications) {

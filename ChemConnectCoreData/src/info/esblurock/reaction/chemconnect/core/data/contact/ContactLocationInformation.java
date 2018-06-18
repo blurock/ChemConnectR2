@@ -4,6 +4,7 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
 
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 
 @SuppressWarnings("serial")
 @Entity
@@ -74,6 +75,18 @@ public class ContactLocationInformation extends ChemConnectCompoundDataStructure
 		this.postcode = postcode;
 		this.gpsLocationID = gpsLocationID;
 	}
+	@Override
+	public void fill(DatabaseObject object) {
+		super.fill(object);
+		ContactLocationInformation location = (ContactLocationInformation) object;
+		this.addressAddress = location.getAddressAddress();
+		this.city = location.getCity();
+		this.country = location.getCountry();
+		this.postcode = location.getPostcode();
+		this.gpsLocationID = location.getGpsLocationID();
+	}
+	
+	
 
 	public String getAddressAddress() {
 		return addressAddress;

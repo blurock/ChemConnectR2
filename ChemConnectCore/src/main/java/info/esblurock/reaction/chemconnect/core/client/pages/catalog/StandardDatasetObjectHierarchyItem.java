@@ -52,6 +52,7 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 	DatabaseObjectHierarchy hierarchy;
 	MaterialPanel modalpanel;
 	ArrayList<StandardDatasetObjectHierarchyItem> subitems;
+	ArrayList<StandardDatasetObjectHierarchyItem> infosubitems;
 	ArrayList<StandardDatasetRecord> records;
 	Composite headerObject;
 
@@ -108,6 +109,7 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 
 	void init() {
 		infotitle.setText("Info");
+		infosubitems = new ArrayList<StandardDatasetObjectHierarchyItem>();
 		subitems = new ArrayList<StandardDatasetObjectHierarchyItem>();
 		records = new ArrayList<StandardDatasetRecord>();
 		infoitem.setVisible(false);
@@ -125,12 +127,10 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 	public Composite getHeader() {
 		return headerObject;
 	}
-	public ArrayList<StandardDatasetObjectHierarchyItem> getSubCatagories() {
-		return subitems;
-	}
 
 	public void addInfoItem(StandardDatasetObjectHierarchyItem item) {
 		infoitem.setVisible(true);
+		infosubitems.add(item);
 		infocollapsible.add(item);
 	}
 
@@ -142,7 +142,7 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 	public void writeDatabaseObjectHierarchy() {
 		updateDatabaseObjectHierarchy();
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
-		WriteDatasetObjectHierarchyCallback callback = new WriteDatasetObjectHierarchyCallback();
+		WriteDatasetObjectHierarchyCallback callback = new WriteDatasetObjectHierarchyCallback(this);
 		async.writeDatabaseObjectHierarchy(hierarchy,callback);
 	}
 	
@@ -151,6 +151,9 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 		boolean includesubs = setup.update(this);
 		if(includesubs) {
 			for(StandardDatasetObjectHierarchyItem sub : subitems) {
+				sub.updateDatabaseObjectHierarchy();
+			}
+			for(StandardDatasetObjectHierarchyItem sub : infosubitems) {
 				sub.updateDatabaseObjectHierarchy();
 			}
 		}
@@ -176,8 +179,18 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 	public ArrayList<StandardDatasetObjectHierarchyItem> getSubitems() {
 		return subitems;
 	}
+	public ArrayList<StandardDatasetObjectHierarchyItem> getInfoSubitems() {
+		return infosubitems;
+	}
 
 	public void setBodyVisible(boolean visible) {
 		body.setVisible(visible);
+	}
+
+	public void updateHierarchy(DatabaseObjectHierarchy hierarchy2) {
+		MaterialCollapsible parent = (MaterialCollapsible) this.getParent();
+		this.removeFromParent();
+		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(hierarchy2,modalpanel);
+		parent.add(item);
 	}
 }

@@ -1,12 +1,10 @@
 package info.esblurock.reaction.chemconnect.core.data.contact;
 
-import java.util.HashSet;
-
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
-import com.googlecode.objectify.annotation.Unindex;
 
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 
 @SuppressWarnings("serial")
 @Entity
@@ -58,7 +56,14 @@ public class ContactInfoData extends ChemConnectCompoundDataStructure {
 			this.topSites = topSites;
 			this.hasSites = hasSites;
 		}
-	    
+	    @Override
+	    public void fill(DatabaseObject object) {
+	    		super.fill(object);
+	    		ContactInfoData contact = (ContactInfoData) object;
+				this.email = contact.getEmail();
+				this.topSites = contact.getTopSite();
+				this.hasSites = contact.getHasSite();	    		
+	    }
 	    
 		public String getEmail() {
 			return email;

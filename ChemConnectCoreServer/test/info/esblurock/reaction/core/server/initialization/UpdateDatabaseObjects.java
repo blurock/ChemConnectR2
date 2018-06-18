@@ -1,8 +1,9 @@
 package info.esblurock.reaction.core.server.initialization;
 
-import java.io.IOException;
+import static org.junit.Assert.*;
 
-//import static org.junit.Assert.*;
+import java.io.IOException;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -20,18 +21,9 @@ import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDat
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
-import info.esblurock.reaction.chemconnect.core.data.contact.ContactInfoData;
-import info.esblurock.reaction.chemconnect.core.data.contact.ContactLocationInformation;
-import info.esblurock.reaction.chemconnect.core.data.contact.DatabasePerson;
-import info.esblurock.reaction.chemconnect.core.data.contact.GPSLocation;
-import info.esblurock.reaction.chemconnect.core.data.contact.IndividualInformation;
-import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
-import info.esblurock.reaction.chemconnect.core.data.contact.Organization;
-import info.esblurock.reaction.chemconnect.core.data.contact.OrganizationDescription;
-import info.esblurock.reaction.chemconnect.core.data.contact.PersonalDescription;
 import info.esblurock.reaction.chemconnect.core.data.contact.RegisterContactData;
+import info.esblurock.reaction.chemconnect.core.data.dataset.MeasurementParameterValue;
 import info.esblurock.reaction.chemconnect.core.data.dataset.RegistrerDataset;
-import info.esblurock.reaction.chemconnect.core.data.dataset.SetOfObservationValues;
 import info.esblurock.reaction.chemconnect.core.data.description.RegisterDescriptionData;
 import info.esblurock.reaction.chemconnect.core.data.gcs.RegisterGCSClasses;
 import info.esblurock.reaction.chemconnect.core.data.image.RegisterImageInformation;
@@ -45,9 +37,8 @@ import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.db.image.BlobKeyCorrespondence;
 import info.esblurock.reaction.io.db.QueryBase;
-import info.esblurock.reaction.chemconnect.core.data.dataset.MeasurementParameterValue;
 
-public class WriteReadDefaultObjects {
+public class UpdateDatabaseObjects {
 	protected Closeable session;
 	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 
@@ -88,8 +79,6 @@ public class WriteReadDefaultObjects {
 
 	@Test
 	public void test() {
-		
-		/*
 		DatabaseObject obj = new DatabaseObject("AdministrationCatalog","Public","Administration","1" );
 		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillParameterValueAndSpecification(obj,
 				"dataset:ThermocouplePositionInBurner",
@@ -102,55 +91,33 @@ public class WriteReadDefaultObjects {
 			DatabaseObject measure = QueryBase.getDatabaseObjectFromIdentifier(MeasurementParameterValue.class.getCanonicalName(),
 					"AdministrationCatalog-ThermocouplePositionInBurner");
 			System.out.println("Read:   \n" + measure.toString());
-		} catch (IOException e) {
+			
+			MeasurementParameterValue value = (MeasurementParameterValue) hierarchy.getObject();
+			value.setUncertainty("new uncertainty");
+			value.setValueAsString("20000000");
+
+			measure = QueryBase.getDatabaseObjectFromIdentifier(MeasurementParameterValue.class.getCanonicalName(),
+					"AdministrationCatalog-ThermocouplePositionInBurner");
+			System.out.println("Read:   \n" + measure.toString());
+} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(hierarchy);	
 		
+		List<MeasurementParameterValue> lst = ObjectifyService.ofy().load().type(MeasurementParameterValue.class).list();
+		for(MeasurementParameterValue value : lst) {
+			System.out.println("------------------------------------------------------");
+			System.out.println(value.toString());
+		}
 		
+		/*
 		DatabaseObjectHierarchy readhierarchy = ExtractCatalogInformation.getCatalogObject("AdministrationCatalog-ThermocouplePositionInBurner", 
 				"dataset:MeasurementParameterValue");
+				
 		System.out.println("fillSetOfObservations   ExtractCatalogInformation.getCatalogObject\n" + 
 				readhierarchy.toString());
 				*/
-		/*
-		DatabaseObject obj = new DatabaseObject("AdministrationCatalog","Public","Administration","1" );
-		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillSetOfObservations(obj,"dataset:BurnerPlateObservations",
-				"Set of burner plate observations","dataset:HeatFluxBurnerObservation","dataset:LaminarFlame");
-		System.out.println("fillSetOfObservations\n" + hierarchy.toString());
-		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(hierarchy);	
-		DatabaseObjectHierarchy readhierarchy = ExtractCatalogInformation.getCatalogObject("AdministrationCatalog-setofvalues", "dataset:SetOfObservationValues");
-		System.out.println(readhierarchy.toString());
-		*/
-		
-		DatabaseObject obj = new DatabaseObject("AdministrationCatalog","Public","Administration","1" );
-		NameOfPerson person = new NameOfPerson(obj,"Prof.", "Looney","Tunes");
-		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillMinimalPersonDescription(obj,"dataset:",person);
-		System.out.println("fillMinimalPersonDescription\n" + hierarchy.toString());
-		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(hierarchy);	
-		DatabaseObjectHierarchy readhierarchy = ExtractCatalogInformation.getCatalogObject("AdministrationCatalog-usrinfo", "dataset:DatabasePerson");
-		System.out.println(readhierarchy.toString());
-
-		/*
-		DatabaseObject obj = new DatabaseObject("AdministrationCatalog","Public","Administration","1" );
-		String company = "Whatsamadder U";
-		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillOrganization(obj,company);
-		System.out.println("fillOrganization\n" + hierarchy.toString());
-		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(hierarchy);	
-		DatabaseObjectHierarchy readhierarchy = ExtractCatalogInformation.getCatalogObject("AdministrationCatalog-org", "dataset:Organization");
-		System.out.println(readhierarchy.toString());
-*/
-/*
-		DatabaseObject obj = new DatabaseObject("AdministrationCatalog","Public","Administration","1" );
-		String devicename = "dataset:HeatFluxBurner";
-		String purpose = "dataset:FlameVelocityMeasurements";
-		String concept = "dataset:FlameStudies";
-		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillSubSystemDescription(obj, devicename, purpose, concept);
-		System.out.println("fillSubSystemDescription\n" + hierarchy.toString());
-		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(hierarchy);	
-		DatabaseObjectHierarchy readhierarchy = ExtractCatalogInformation.getCatalogObject("AdministrationCatalog-subsys", "dataset:SubSystemDescription");
-		System.out.println(readhierarchy.toString());
-*/
 	}
 
 }

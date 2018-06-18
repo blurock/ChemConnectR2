@@ -18,7 +18,7 @@ public class AttributeInDataset extends DatabaseObject {
 		fill(attribute);
 	}
 	public AttributeInDataset(DatabaseObject obj, String parameterLabel) {
-		fill(obj,parameterLabel);
+		this.fill(obj,parameterLabel);
 	}
 	
 	public void fill(AttributeInDataset attribute) {
@@ -28,6 +28,12 @@ public class AttributeInDataset extends DatabaseObject {
 	public void fill(DatabaseObject obj, String parameterLabel) {
 		super.fill(obj);
 		this.parameterLabel = parameterLabel;
+	}
+	@Override
+	public void fill(DatabaseObject object) {
+		super.fill(object);
+		AttributeInDataset attr = (AttributeInDataset) object;
+		this.parameterLabel = attr.getParameterLabel();
 	}
 	public String getParameterLabel() {
 		return parameterLabel;

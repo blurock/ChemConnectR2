@@ -5,6 +5,7 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
 
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 
 @SuppressWarnings("serial")
 @Entity
@@ -49,6 +50,14 @@ public class UserAccountInformation  extends ChemConnectCompoundDataStructure {
 		this.email = emailS;
 		this.password = password;
 		this.userrole = userrole;
+	}
+	@Override
+	public void fill(DatabaseObject object) {
+		super.fill(object);
+		UserAccountInformation acc = (UserAccountInformation) object;
+		this.email = acc.getEmail();
+		this.password = acc.getPassword();
+		this.userrole = acc.getUserrole();
 	}
 	
 	public String getPassword() {

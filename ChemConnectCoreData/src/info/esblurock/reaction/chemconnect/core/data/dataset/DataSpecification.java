@@ -16,19 +16,21 @@ public class DataSpecification extends DatabaseObject {
 		this.purposeandconcept = null;;
 	}
 	public DataSpecification(DataSpecification spec) {
-		fill(spec);
+		this.fill(spec);
 	}
 	public DataSpecification(DatabaseObject obj,
 			String purposeandconcept) {
-		fill(obj,purposeandconcept);
+		this.fill(obj,purposeandconcept);
 	}
 	public void fill(DatabaseObject obj,
 			String purposeandconcept) {
 		super.fill(obj);
 		this.purposeandconcept = purposeandconcept;
 	}
-	public void fill(DataSpecification spec) {
-		super.fill(spec);
+	@Override
+	public void fill(DatabaseObject object) {
+		super.fill(object);
+		DataSpecification spec = (DataSpecification)  object;
 		this.purposeandconcept = spec.getPurposeandconcept();
 	}
 	

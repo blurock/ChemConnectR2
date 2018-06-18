@@ -17,10 +17,10 @@ public class ValueUnits extends DatabaseObject {
 	public ValueUnits() {
 	}
 	public ValueUnits(DatabaseObject obj, String unitClass, String unitsOfValue) {
-		fill(obj,unitClass,unitsOfValue);
+		this.fill(obj,unitClass,unitsOfValue);
 	}
 	public ValueUnits(ValueUnits valueunits) {
-		fill(valueunits);
+		this.fill(valueunits);
 	}
 	public void fill(DatabaseObject obj, String unitClass, String unitsOfValue) {
 		super.fill(obj);
@@ -29,6 +29,13 @@ public class ValueUnits extends DatabaseObject {
 	}
 	public void fill(ValueUnits valueunits) {
 		super.fill(valueunits);
+		this.unitClass = valueunits.getUnitClass();
+		this.unitsOfValue = valueunits.getUnitsOfValue();
+	}
+	@Override
+	public void fill(DatabaseObject object) {
+		super.fill(object);
+		ValueUnits valueunits = (ValueUnits) object;
 		this.unitClass = valueunits.getUnitClass();
 		this.unitsOfValue = valueunits.getUnitsOfValue();
 	}

@@ -33,14 +33,14 @@ public class DatabaseObject  implements Serializable {
 	 *  fills with current date and public access and owner
 	 */
 	public DatabaseObject() {
-		fill(null,MetaDataKeywords.publicAccess,MetaDataKeywords.publicOwner,"");
+		this.fill(null,MetaDataKeywords.publicAccess,MetaDataKeywords.publicOwner,"");
 	}
 	
 	/**
 	 * @param id The identifier of the data object
 	 */
 	public DatabaseObject(String id,String sourceID) {
-		fill(id,MetaDataKeywords.publicAccess,MetaDataKeywords.publicOwner,sourceID);
+		this.fill(id,MetaDataKeywords.publicAccess,MetaDataKeywords.publicOwner,sourceID);
 	}
 
 	/** Database object with access and owner
@@ -50,14 +50,17 @@ public class DatabaseObject  implements Serializable {
 	 * Current date (and null for key)
 	 */
 	public DatabaseObject(String id, String access, String owner,String sourceID) {
-		fill(id,access,owner,sourceID);
+		this.fill(id,access,owner,sourceID);
 	}
 	
 	public DatabaseObject(DatabaseObject obj) {
-		fill(obj.getIdentifier(),obj.getAccess(),obj.getOwner(),obj.getSourceID());
+		this.fill(obj.getIdentifier(),obj.getAccess(),obj.getOwner(),obj.getSourceID());
+		key = obj.getKey();
+		System.out.println("DatabaseObject(DatabaseObject obj): " + key);
 	}
 	public void fill(DatabaseObject obj) {
-		fill(obj.getIdentifier(),obj.getAccess(),obj.getOwner(),obj.getSourceID());
+		this.fill(obj.getIdentifier(),obj.getAccess(),obj.getOwner(),obj.getSourceID());
+		key = obj.getKey();
 	}
 	
 	public void fill(String id, String access, String owner,String sourceID) {

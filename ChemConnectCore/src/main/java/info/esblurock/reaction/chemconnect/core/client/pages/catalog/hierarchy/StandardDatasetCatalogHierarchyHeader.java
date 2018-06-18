@@ -59,7 +59,7 @@ public class StandardDatasetCatalogHierarchyHeader extends Composite implements 
 	@UiHandler("delete")
 	public void onDeleteClick(ClickEvent event) {
 		
-		if (item.getSubCatagories().size() > 0) {
+		if (item.getSubitems().size() > 0) {
 			MaterialToast.fireToast("Delete subcatagories first");
 		}
 		

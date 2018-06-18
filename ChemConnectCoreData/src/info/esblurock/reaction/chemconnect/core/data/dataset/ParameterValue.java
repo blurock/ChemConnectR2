@@ -3,6 +3,8 @@ package info.esblurock.reaction.chemconnect.core.data.dataset;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
 
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+
 @SuppressWarnings("serial")
 @Entity
 public class ParameterValue extends AttributeInDataset {
@@ -18,15 +20,23 @@ public class ParameterValue extends AttributeInDataset {
 	}
 
 	public ParameterValue(AttributeInDataset attribute, String valueAsString, String uncertainty, String parameterSpec) {
-		fill(attribute,valueAsString,uncertainty,parameterSpec);
+		this.fill(attribute,valueAsString,uncertainty,parameterSpec);
 	}
 	
 	public ParameterValue(ParameterValue value) {
-		fill(value);
+		this.fill(value);
 	}
 
 	public void fill(ParameterValue value) {
 		super.fill(value);
+		this.valueAsString = value.getValueAsString();
+		this.uncertainty = value.getUncertainty();
+		this.parameterSpec = value.getParameterSpec();
+	}
+	@Override
+	public void fill(DatabaseObject object) {
+		super.fill(object);
+		ParameterValue value = (ParameterValue) object;
 		this.valueAsString = value.getValueAsString();
 		this.uncertainty = value.getUncertainty();
 		this.parameterSpec = value.getParameterSpec();

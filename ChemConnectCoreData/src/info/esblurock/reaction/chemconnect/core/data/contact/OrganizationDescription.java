@@ -4,6 +4,7 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
 
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 
 @SuppressWarnings("serial")
 @Entity
@@ -43,22 +44,30 @@ public class OrganizationDescription extends ChemConnectCompoundDataStructure {
 		this.SubOrganizationOf = subOrganizationOf;
 	}
 	
-	public void fill(String identifier, String access, String owner, String sourceID,
-				String organizationUnit, String organizationClassification, 
-				String organizationName, String subOrganizationOf) {
-			super.fill(identifier,access,owner,sourceID);
-			this.OrganizationUnit = organizationUnit;
-			this.OrganizationClassification = organizationClassification;
-			this.OrganizationName = organizationName;
-			this.SubOrganizationOf = subOrganizationOf;
-	}
 	
 	public OrganizationDescription(String identifier, String access, String owner, String sourceID,
 					String organizationUnit, String organizationClassification, 
 					String organizationName, String subOrganizationOf) {
-		fill(identifier,access,owner,sourceID, organizationUnit, organizationClassification, 
+		this.fill(identifier,access,owner,sourceID, organizationUnit, organizationClassification, 
 						organizationName, subOrganizationOf);
 	}
+	public void fill(String identifier, String access, String owner, String sourceID,
+			String organizationUnit, String organizationClassification, 
+			String organizationName, String subOrganizationOf) {
+		super.fill(identifier,access,owner,sourceID);
+		this.OrganizationUnit = organizationUnit;
+		this.OrganizationClassification = organizationClassification;
+		this.OrganizationName = organizationName;
+		this.SubOrganizationOf = subOrganizationOf;
+}
+	public void fill(DatabaseObject object) {
+		super.fill(object);
+		OrganizationDescription descr = (OrganizationDescription) object;
+		this.OrganizationUnit = descr.getOrganizationUnit();
+		this.OrganizationClassification = descr.getOrganizationClassification();
+		this.OrganizationName = descr.getOrganizationName();
+		this.SubOrganizationOf = descr.getSubOrganizationOf();
+}
 
 	public String getOrganizationUnit() {
 		return OrganizationUnit;

@@ -317,7 +317,7 @@ public class CreateDefaultObjectsFactory {
 		DatabaseObjectHierarchy descrhierarchy = hierarchy.getSubObject(structure.getDescriptionDataData());
 		DescriptionDataData descr = (DescriptionDataData) descrhierarchy.getObject();
 
-		String pairID = descr.getSourceConceptID();
+		String pairID = descr.getSourceConcept();
 		DatabaseObjectHierarchy pairhierarchy = descrhierarchy.getSubObject(pairID);
 		PurposeConceptPair pair = (PurposeConceptPair) pairhierarchy.getObject();
 		pair.setConcept(concept);

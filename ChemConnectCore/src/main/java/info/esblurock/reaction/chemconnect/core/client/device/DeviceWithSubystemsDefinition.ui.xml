@@ -9,25 +9,13 @@
 	<m:MaterialPanel>
 		<m:MaterialPanel ui:field="modalpanel" />
 		<m:MaterialPanel ui:field="topPanel"/>
-		<!--  m:MaterialRow>
-			<m:MaterialColumn grid="s4">
-				<m:MaterialLink ui:field="choose" textColor="BLACK" />
-			</m:MaterialColumn>
-			<m:MaterialColumn grid="s8">
-			<m:MaterialTooltip ui:field="toptooltip">
-				<m:MaterialTextBox ui:field="topname" label="Catagory"
-					textColor="BLACK" />
-					</m:MaterialTooltip>
-			</m:MaterialColumn>
-		</m:MaterialRow    -->
-
-		<m:MaterialCollapsible>
+		<m:MaterialCollapsible  ui:field="contentcollapsible">
 			<m:MaterialCollapsibleItem>
 				<m:MaterialCollapsibleHeader>
 					<m:MaterialLink ui:field="parameter" textColor="BLACK" />
 				</m:MaterialCollapsibleHeader>
 				<m:MaterialCollapsibleBody ui:field="bodycollapsible">
-					<m:MaterialCollapsible ui:field="contentcollapsible">
+					<m:MaterialCollapsible>
 					</m:MaterialCollapsible>
 				</m:MaterialCollapsibleBody>
 			</m:MaterialCollapsibleItem>

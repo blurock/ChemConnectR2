@@ -1536,7 +1536,7 @@ xsd:date rdf:type rdfs:Datatype .
                         rdfs:subClassOf :ComponentOfDataObject ,
                                         [ rdf:type owl:Restriction ;
                                           owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                                          owl:someValuesFrom :ParameterDescriptionSet
+                                          owl:someValuesFrom :ParameterValue
                                         ] ;
                         <http://purl.org/dc/elements/1.1/type> "ChemConnectMethodology" ;
                         <http://purl.org/dc/terms/identifier> "prov:activity"^^xsd:string ;
@@ -1641,7 +1641,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                              ] ,
                                              [ rdf:type owl:Restriction ;
                                                owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                                               owl:someValuesFrom :ParameterDescriptionSet
+                                               owl:someValuesFrom :ParameterValue
                                              ] ,
                                              [ rdf:type owl:Restriction ;
                                                owl:onProperty <http://www.w3.org/ns/dcat#record> ;
@@ -1659,7 +1659,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                                 ] ,
                                                 [ rdf:type owl:Restriction ;
                                                   owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                                                  owl:someValuesFrom :ParameterDescriptionSet
+                                                  owl:someValuesFrom :ParameterValue
                                                 ] .
 
 
@@ -1996,7 +1996,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                             ] ,
                             [ rdf:type owl:Restriction ;
                               owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                              owl:someValuesFrom :ParameterDescriptionSet
+                              owl:someValuesFrom :ParameterValue
                             ] ;
             <http://purl.org/dc/elements/1.1/type> "Consortium"^^xsd:string ;
             <http://purl.org/dc/terms/identifier> "dataset:Consortium"^^xsd:string ;
@@ -4686,11 +4686,6 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                               owl:onClass :ThermocoupleAbsoluteAccuracy
                                             ] ,
                                             [ rdf:type owl:Restriction ;
-                                              owl:onProperty <http://purl.org/linked-data/cube#attribute> ;
-                                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                              owl:onClass :ThermocoupleType
-                                            ] ,
-                                            [ rdf:type owl:Restriction ;
                                               owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                               owl:onClass :HeatFluxBurnerThermocoupleObservations
@@ -6128,20 +6123,6 @@ Under the general type of is the actual data object referenced by the ChemConnec
                             "Larger text"^^xsd:string .
 
 
-###  http://www.esblurock.info/dataset#ParameterDescriptionSet
-:ParameterDescriptionSet rdf:type owl:Class ;
-                         rdfs:subClassOf :ChemConnectCompoundDataStructure ,
-                                         [ rdf:type owl:Restriction ;
-                                           owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                           owl:someValuesFrom :ParameterValue
-                                         ] ;
-                         <http://purl.org/dc/elements/1.1/type> "ParameterDescriptionSet"^^xsd:string ;
-                         <http://purl.org/dc/terms/identifier> "rdf:Property"^^xsd:string ;
-                         rdfs:isDefinedBy "rdf:Property"^^xsd:string ;
-                         rdfs:label "Set of Parameter Descriptions"^^xsd:string ;
-                         <http://www.w3.org/2004/02/skos/core#altLabel> "params"^^xsd:string .
-
-
 ###  http://www.esblurock.info/dataset#ParameterLabel
 :ParameterLabel rdf:type owl:Class ;
                 rdfs:subClassOf :ShortStringLabel ;
@@ -7162,7 +7143,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#Thermocouple
 :Thermocouple rdf:type owl:Class ;
-              rdfs:subClassOf :DataTypeTemperatureSensor .
+              rdfs:subClassOf :DataTypeTemperatureSensor ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty <http://purl.org/linked-data/cube#attribute> ;
+                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                owl:onClass :ThermocoupleType
+                              ] .
 
 
 ###  http://www.esblurock.info/dataset#ThermocoupleAbsoluteAccuracy

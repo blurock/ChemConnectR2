@@ -22,9 +22,15 @@ public class PurposeConceptPair extends ChemConnectCompoundDataStructure {
 	}
 	
 	public PurposeConceptPair(ChemConnectCompoundDataStructure obj, String purpose, String concept) {
-		fill(obj,purpose,concept);
+		this.fill(obj,purpose,concept);
 	}
 	
+	public void fill(DatabaseObject object) {
+		super.fill(object);
+		PurposeConceptPair pair = (PurposeConceptPair) object;
+		this.purpose = pair.getPurpose();
+		this.concept = pair.getConcept();
+	}
 	public void fill(ChemConnectCompoundDataStructure obj, String purpose, String concept) {
 		super.fill(obj);
 		this.purpose = purpose;

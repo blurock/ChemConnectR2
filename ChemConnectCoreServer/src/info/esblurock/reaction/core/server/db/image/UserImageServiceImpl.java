@@ -424,16 +424,18 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		return subs;
 	}
 
-	public void writeDatabaseObjectHierarchy(DatabaseObjectHierarchy hierarchy) throws IOException {
+	public DatabaseObjectHierarchy writeDatabaseObjectHierarchy(DatabaseObjectHierarchy hierarchy) throws IOException {
+		DatabaseObjectHierarchy hier = null;
 		try {
 			WriteReadDatabaseObjects.updateSourceID(hierarchy);
-			WriteReadDatabaseObjects.writeDatabaseObjectHierarchyWithTransaction(hierarchy);
+			hier = WriteReadDatabaseObjects.writeDatabaseObjectHierarchyWithTransaction(hierarchy);
 		} catch (Exception ex) {
 			System.out.println("writeDatabaseObjectHierarchy  error in writing");
 			System.out.println(ex.toString());
 			ex.printStackTrace();
 			throw new IOException("Error in writing objects");
 		}
+		return hier;
 	}
 
 	public HierarchyNode getFileInterpretionChoices(GCSBlobFileInformation info) throws IOException {

@@ -4,6 +4,7 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
 
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 
 @SuppressWarnings("serial")
 @Entity
@@ -39,6 +40,13 @@ public class ChemConnectObjectLink extends ChemConnectCompoundDataStructure {
 		this.dataStructure = dataStructure;
 		this.linkConceptType = linkType;
 		this.dataConceptType = dataType;
+	}
+	public void fill(DatabaseObject object) {
+		super.fill(object);
+		ChemConnectObjectLink link = (ChemConnectObjectLink) object;
+		this.dataStructure = link.getDataStructure();
+		this.linkConceptType = link.getLinkConceptType();
+		this.dataConceptType = link.getDataConceptType();
 	}
 	public String getDataStructure() {
 		return dataStructure;

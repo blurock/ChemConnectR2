@@ -65,10 +65,10 @@ public class ChemConnectDataStructure extends DatabaseObject {
 		this.dataSetReference = dataSetReference;
 		this.chemConnectObjectLink = ChemConnectObjectLink;
 	}
-
-	public void fill(ChemConnectDataStructure datastructure) {
-		super.fill(datastructure.getIdentifier(), datastructure.getAccess(),
-				datastructure.getOwner(), datastructure.getSourceID());
+	@Override
+	public void fill(DatabaseObject object) {
+		super.fill(object);
+		ChemConnectDataStructure datastructure = (ChemConnectDataStructure) object;
 		this.dataSetReference = datastructure.getDataSetReference();
 		this.descriptionDataData = datastructure.getDescriptionDataData();
 		this.chemConnectObjectLink = datastructure.getChemConnectObjectLink();

@@ -5,6 +5,7 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
 
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 
 @SuppressWarnings("serial")
 @Entity
@@ -33,7 +34,7 @@ public class IndividualInformation extends ChemConnectDataStructure {
 	public IndividualInformation(ChemConnectDataStructure datastructure,
 			String contactInfoDataID, String contactLocationInformationID,
 			String personalDescriptionID) {
-		fill(datastructure,
+		this.fill(datastructure,
 				contactInfoDataID,contactLocationInformationID,
 				personalDescriptionID);
 	}
@@ -45,6 +46,14 @@ public class IndividualInformation extends ChemConnectDataStructure {
 		this.contactInfoDataID = contactInfoDataID;
 		this.contactLocationInformationID = contactLocationInformationID;
 		this.personalDescriptionID = personalDescriptionID;
+	}
+	@Override
+	public void fill(DatabaseObject object) {
+		super.fill(object);
+		IndividualInformation ind = (IndividualInformation) object;
+		this.contactInfoDataID = ind.getContactInfoDataID();
+		this.contactLocationInformationID = ind.getContactLocationInformationID();
+		this.personalDescriptionID = ind.getPersonalDescriptionID();
 	}
 	
 	public String getContactInfoDataID() {

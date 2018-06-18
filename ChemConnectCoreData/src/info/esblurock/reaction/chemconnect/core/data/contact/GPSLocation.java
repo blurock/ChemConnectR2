@@ -31,13 +31,19 @@ public class GPSLocation extends DatabaseObject {
 	
 	public GPSLocation(String identifier, String access, String owner, String sourceID,
 			String GPSLatitude, String GPSLongitude) {
-		fill(identifier, access, owner,sourceID,GPSLatitude,GPSLongitude);
+		this.fill(identifier, access, owner,sourceID,GPSLatitude,GPSLongitude);
 	}
 	public GPSLocation(DatabaseObject obj,
 			String GPSLatitude, String GPSLongitude) {
-		fill(obj,GPSLatitude,GPSLongitude);
+		this.fill(obj,GPSLatitude,GPSLongitude);
 	}
 	
+	public void fill(DatabaseObject object) {
+		super.fill(object);
+		GPSLocation gps = (GPSLocation) object;
+		this.GPSLatitude = gps.getGPSLatitude();
+		this.GPSLongitude = gps.getGPSLongitude();		
+	}
 	public void fill(DatabaseObject obj, String GPSLatitude, String GPSLongitude) {
 		super.fill(obj);
 		this.GPSLatitude = GPSLatitude;

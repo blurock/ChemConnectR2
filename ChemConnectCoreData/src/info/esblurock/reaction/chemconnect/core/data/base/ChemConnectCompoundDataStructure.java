@@ -20,15 +20,17 @@ public class ChemConnectCompoundDataStructure extends DatabaseObject {
 	}
 
 	public ChemConnectCompoundDataStructure(DatabaseObject dataobject, String parentLink) {
-		fill(dataobject,parentLink);
+		this.fill(dataobject,parentLink);
 	}
 	
 	public ChemConnectCompoundDataStructure(ChemConnectCompoundDataStructure compound) {
-		fill(compound);
+		super(compound);
+		this.parentLink = compound.getParentLink();
 	}
-
-	public void fill(ChemConnectCompoundDataStructure compound) {
-		super.fill(compound);
+	
+	public void fill(DatabaseObject object) {
+		super.fill(object);
+		ChemConnectCompoundDataStructure compound = (ChemConnectCompoundDataStructure) object;
 		this.parentLink = compound.getParentLink();
 	}
 

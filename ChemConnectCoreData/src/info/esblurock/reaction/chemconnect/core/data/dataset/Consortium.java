@@ -6,6 +6,7 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Unindex;
 
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 
 @Entity
 @SuppressWarnings("serial")
@@ -58,6 +59,15 @@ public class Consortium extends ChemConnectDataStructure {
 		DatabaseUserIDWriteAccess = databaseUserIDWriteAccess;
 		DataSetCatalogID = dataSetCatalogID;
 		OrganizationID = organizationID;
+	}
+	@Override
+	public void fill(DatabaseObject object) {
+		super.fill(object);
+		Consortium con = (Consortium) object;
+		DatabaseUserIDReadAccess = con.getDatabaseUserIDReadAccess();
+		DatabaseUserIDWriteAccess = con.getDatabaseUserIDWriteAccess();
+		DataSetCatalogID = con.getDataSetCatalogID();
+		OrganizationID = con.getOrganizationID();
 	}
 
 	public HashSet<String> getDatabaseUserIDReadAccess() {

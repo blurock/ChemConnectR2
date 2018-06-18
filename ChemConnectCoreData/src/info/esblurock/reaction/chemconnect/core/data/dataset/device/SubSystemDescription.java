@@ -4,6 +4,7 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
 
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 
 @Entity
 @SuppressWarnings("serial")
@@ -26,7 +27,7 @@ public class SubSystemDescription extends ChemConnectDataStructure {
 			String subSystemType,
 			String observationSpecs, String parameterValues, String subSystems) {
 		super(structure);
-		fill(structure,subSystemType,observationSpecs,parameterValues,subSystems);
+		this.fill(structure,subSystemType,observationSpecs,parameterValues,subSystems);
 	}
 
 
@@ -38,6 +39,15 @@ public class SubSystemDescription extends ChemConnectDataStructure {
 		this.parameterValues = parameterValues;
 		this.subSystems = subSystems;
 		this.subSystemType = subSystemType;
+	}
+	@Override
+	public void fill(DatabaseObject object) {
+		super.fill(object);
+		SubSystemDescription sys = (SubSystemDescription) object;
+		this.observationSpecs = sys.getObservationSpecs();
+		this.parameterValues = sys.getParameterValues();
+		this.subSystems = sys.getSubSystems();
+		this.subSystemType = sys.getSubSystemType();
 	}
 
 	
