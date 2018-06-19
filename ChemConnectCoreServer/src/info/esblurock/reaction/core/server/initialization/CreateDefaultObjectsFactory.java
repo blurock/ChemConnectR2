@@ -338,6 +338,7 @@ public class CreateDefaultObjectsFactory {
 		DatabaseObject aobj = new DatabaseObject(obj);
 		String aid = DatasetCatalogHierarchy.createFullCatalogName(obj.getIdentifier(), id);
 		aobj.setIdentifier(aid);
+		aobj.nullKey();
 
 		DatabaseObjectHierarchy cathierarchy = createDatasetCatalogHierarchy(aobj);
 		DatasetCatalogHierarchy catalog = (DatasetCatalogHierarchy) cathierarchy.getObject();
@@ -358,8 +359,11 @@ public class CreateDefaultObjectsFactory {
 		
 		toplinkstructure.addID(lnk.getIdentifier());
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(cathierarchy);
+		System.out.println("fillDatasetCatalogHierarchy: hierarchy\n" + cathierarchy.toString());
 		DatabaseWriteBase.writeDatabaseObject(toplinkstructure);
+		System.out.println("fillDatasetCatalogHierarchy:list of links \n" + toplinkstructure.toString());
 		DatabaseWriteBase.writeDatabaseObject(lnk);
+		System.out.println("fillDatasetCatalogHierarchy:  new lnk\n" + lnk.toString());
 		return cathierarchy;
 	}
 
@@ -395,6 +399,7 @@ public class CreateDefaultObjectsFactory {
 	 */
 	public static DatabaseObjectHierarchy createChemConnectDataStructure(DatabaseObject obj) {
 		DatabaseObject compobj = new DatabaseObject(obj);
+		compobj.nullKey();
 		DataElementInformation element = DatasetOntologyParsing
 				.getSubElementStructureFromIDObject(OntologyKeys.chemConnectDataStructure);
 		String compid = createSuffix(obj, element);
@@ -455,6 +460,7 @@ public class CreateDefaultObjectsFactory {
 		String uid = DatasetCatalogHierarchy.createFullCatalogName(obj.getIdentifier(), userid);
 		DatabaseObject dobj = new DatabaseObject(obj);
 		dobj.setIdentifier(uid);
+		dobj.nullKey();
 
 		String onelinedescription = "User's Catalog";
 		DatabaseObjectHierarchy userhierarchy = createDatasetCatalogHierarchy(dobj);
@@ -482,7 +488,7 @@ public class CreateDefaultObjectsFactory {
 		String orgsuffix = "orglink";
 		String aid = DatasetCatalogHierarchy.createFullCatalogName(obj.getIdentifier(), orgsuffix);
 		aobj.setIdentifier(aid);
-
+		aobj.nullKey();
 		String orgcatdescription = "Institute's Catalog";
 		DatabaseObjectHierarchy orghierarchy = createDatasetCatalogHierarchy(aobj);
 		DatasetCatalogHierarchy orgcatalog = (DatasetCatalogHierarchy) orghierarchy.getObject();

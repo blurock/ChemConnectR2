@@ -106,6 +106,9 @@ public class DatabaseObject  implements Serializable {
 	public void setSourceID(String sourceID) {
 		this.sourceID = sourceID;
 	}
+	public void nullKey() {
+		key = null;
+	}
 	@Override
 	public String toString() {
 		return toString("");

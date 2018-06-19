@@ -307,12 +307,18 @@ public class ExtractCatalogInformation {
 		HashSet<String> ids = multi.getIds();
 		for(String lnkid : ids) {
 			DatabaseObjectHierarchy subhier = multihier.getSubObject(lnkid);
-			DataObjectLink lnk = (DataObjectLink) subhier.getObject();
-			String type = lnk.getLinkConcept();
-			if(type.compareTo(MetaDataKeywords.linkSubCatalog) == 0) {
-				String subid = lnk.getDataStructure();
-				DatabaseObjectHierarchy subhierarchy = getDatabaseObjectHierarchy(subid);
-				hierarchy.addSubobject(subhierarchy);
+			if(subhier != null) {
+				DataObjectLink lnk = (DataObjectLink) subhier.getObject();
+				String type = lnk.getLinkConcept();
+				if(type.compareTo(MetaDataKeywords.linkSubCatalog) == 0) {
+					String subid = lnk.getDataStructure();
+					DatabaseObjectHierarchy subhierarchy = getDatabaseObjectHierarchy(subid);
+					hierarchy.addSubobject(subhierarchy);
+				}
+			} else {
+				System.out.println("getDatabaseObjectHierarchy: id not found " + lnkid);
+				System.out.println("getDatabaseObjectHierarchy: id not found " + ids);
+				System.out.println("getDatabaseObjectHierarchy: catalog " + catid);
 			}
 		}
 		return hierarchy;
