@@ -148,7 +148,10 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 	
 	public void updateDatabaseObjectHierarchy() {
 		SetUpCollapsibleItem setup = getSetup(object);
-		boolean includesubs = setup.update(this);
+		boolean includesubs = true;
+		if(setup != null) {
+			includesubs = setup.update(this);
+		}
 		if(includesubs) {
 			for(StandardDatasetObjectHierarchyItem sub : subitems) {
 				sub.updateDatabaseObjectHierarchy();

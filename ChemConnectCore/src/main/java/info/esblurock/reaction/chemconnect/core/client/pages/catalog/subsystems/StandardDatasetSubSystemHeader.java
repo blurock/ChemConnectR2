@@ -47,14 +47,17 @@ public class StandardDatasetSubSystemHeader extends Composite {
 		SubSystemDescription descr = (SubSystemDescription) item.getObject();
 		devicehead.setText(TextUtilities.removeNamespace(descr.getSubSystemType()));
 		devicetooltip.setText(descr.getIdentifier());
+		save.setEnabled(true);
 	}
 	@UiHandler("save")
 	void onClickSave(ClickEvent event) {
 		Window.alert("Save Object");
 		item.writeDatabaseObjectHierarchy();
+		
+		
 	}
 	@UiHandler("delete")
 	void onClickDelete(ClickEvent event) {
-		
+		Window.alert("Delete Object not implemented");
 	}
 }

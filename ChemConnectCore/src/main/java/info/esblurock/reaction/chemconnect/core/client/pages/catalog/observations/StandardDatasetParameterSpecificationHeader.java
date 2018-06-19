@@ -28,13 +28,16 @@ public class StandardDatasetParameterSpecificationHeader extends Composite {
 	MaterialTooltip parametertooltip;
 	@UiField
 	MaterialLink parameterhead;
-
+	ParameterSpecification specification;
 	public StandardDatasetParameterSpecificationHeader(StandardDatasetObjectHierarchyItem item) {
 		initWidget(uiBinder.createAndBindUi(this));
-		ParameterSpecification specification = (ParameterSpecification) item.getObject();
+		specification = (ParameterSpecification) item.getObject();
 		parameterhead.setText(specification.getParameterLabel());
 		parametertooltip.setText(specification.getIdentifier());
 	}
-
+	public boolean updateObject() {
+		specification.setParameterLabel(parameterhead.getText());
+		return true;
+	}
 
 }

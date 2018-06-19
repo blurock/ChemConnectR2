@@ -29,7 +29,7 @@ public class SetUpParameterValue {
 						abbrev = prop.getAbbreviation();
 					}
 				} else {
-					Window.alert("Unit not listed: " + chosenUnit + "\n" + set.toString());
+					//Window.alert("Unit not listed: " + chosenUnit + "\n" + set.toString());
 				}
 			}
 			int index = 0;
@@ -47,7 +47,6 @@ public class SetUpParameterValue {
 				parameterUnits.addItem(name);
 				index++;
 			}
-			Window.alert("setUpUnitList:" + chosenUnit + "   " + abbrev + "   " + selected + " \n" + names + "\n");
 			parameterUnits.addItem("Other");
 			parameterUnits.setSelectedIndex(selected);
 		}

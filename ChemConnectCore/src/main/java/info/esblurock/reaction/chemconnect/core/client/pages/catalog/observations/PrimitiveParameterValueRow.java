@@ -118,7 +118,6 @@ public class PrimitiveParameterValueRow extends Composite
 	public void fill(DatabaseObjectHierarchy info) {
 		this.info = info;
 		ParameterValue parameter = (ParameterValue) info.getObject();
-		Window.alert("fill(DatabaseObjectHierarchy info): ParameterValue: \n" + parameter.toString());
 		typetip.setText(parameter.getClass().getSimpleName());
 		obj = info.getObject();
 		setFullIdentifier();
@@ -141,8 +140,6 @@ public class PrimitiveParameterValueRow extends Composite
 		}
 		DatabaseObjectHierarchy spechier = info.getSubObject(parameter.getParameterSpec());
 		ParameterSpecification spec = (ParameterSpecification) spechier.getObject();
-		Window.alert("ParameterSpecification: \n" + spec.toString());
-
 		if (spec.getDataPointUncertainty() != null) {
 			uncertaintyclass.setText(spec.getDataPointUncertainty());
 		} else {
@@ -151,8 +148,6 @@ public class PrimitiveParameterValueRow extends Composite
 
 		DatabaseObjectHierarchy unithier = spechier.getSubObject(spec.getUnits());
 		ValueUnits units = (ValueUnits) unithier.getObject();
-		Window.alert("ValueUnits: \n" + units.toString());
-
 		if (units.getUnitsOfValue() != null) {
 			chosenUnit = units.getUnitsOfValue();
 			parameterUnits.setVisible(false);
@@ -245,7 +240,6 @@ public class PrimitiveParameterValueRow extends Composite
 	}
 
 	public void setUnits(String unitname) {
-		Window.alert("setUnits: " + unitname);
 		this.chosenUnitClass = unitname;
 		unitclass.setText(TextUtilities.removeNamespace(unitname));
 

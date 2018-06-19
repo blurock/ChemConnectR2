@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.appengine.api.datastore.KeyFactory;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 
@@ -47,17 +46,9 @@ public class WriteReadDatabaseObjects {
 		DatabaseObject topobject = objecthierarchy.getObject();
 		try {
 			QueryBase.getDatabaseObjectFromIdentifier(topobject.getClass().getCanonicalName(),topobject.getIdentifier());
-			System.out.println("writeDatabaseObjectHierarchy: update");
 			updateDatabaseObjectHierarchy(objecthierarchy);
 		} catch (IOException e) {
-			System.out.println("writeDatabaseObjectHierarchy: first write");
 			writeDatabaseObjectHierarchyRecursive(objecthierarchy);
-			ArrayList<DatabaseObject> lst = new ArrayList<DatabaseObject>();
-			Map<String,DatabaseObject> map = new HashMap<String,DatabaseObject>();
-			collectDatabaseObjectsInHierarchy(objecthierarchy,lst,map);
-			for(DatabaseObject obj : lst) {
-				System.out.println("first write: " + obj.getKey());
-			}
 		}
 		return objecthierarchy;
 	}
@@ -89,7 +80,6 @@ public class WriteReadDatabaseObjects {
 			Map<String,DatabaseObject> map) {
 		DatabaseObject obj = objecthierarchy.getObject();
 		lst.add(obj);
-		System.out.println(obj.getKey());
 		map.put(obj.getIdentifier(),obj);
 		for (DatabaseObjectHierarchy subhierarchy : objecthierarchy.getSubobjects()) {
 			collectDatabaseObjectsInHierarchy(subhierarchy,lst,map);

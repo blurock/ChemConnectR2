@@ -203,7 +203,6 @@ public class CreateDefaultObjectsFactory {
 		setPurposeConceptPair(hierarchy, concept, purpose);
 		Set<AttributeDescription> attrs = ConceptParsing.attributesInConcept(devicename);
 		String paramid = device.getParameterValues();
-		System.out.println(paramid);
 		DatabaseObjectHierarchy paramsethier = hierarchy.getSubObject(paramid);
 		ChemConnectCompoundMultiple parammulti = (ChemConnectCompoundMultiple) paramsethier.getObject();
 	
@@ -212,7 +211,7 @@ public class CreateDefaultObjectsFactory {
 			parammulti.addID(paramhier.getObject().getIdentifier());
 			paramsethier.addSubobject(paramhier);
 		}
-/*
+
 		Set<String> subsystems = ConceptParsing.immediateSubSystems(devicename);
 		Set<String> components = ConceptParsing.immediateComponents(devicename);
 		String subsystemid = device.getSubSystems();
@@ -237,7 +236,7 @@ public class CreateDefaultObjectsFactory {
 			subsystemhier.addSubobject(subhierarchy);
 			subsystemmulti.addID(subhierarchy.getObject().getIdentifier());			
 		}
-*/
+
 
 		String obspecsetID = device.getObservationSpecs();
 		DatabaseObjectHierarchy obspecset = hierarchy.getSubObject(obspecsetID);
@@ -356,12 +355,8 @@ public class CreateDefaultObjectsFactory {
 		DatabaseObjectHierarchy linkhier = fillDataObjectLink(toplinkstructure,linknum,MetaDataKeywords.linkSubCatalog,
 				catalog.getIdentifier());
 		DataObjectLink lnk = (DataObjectLink) linkhier.getObject();
-		System.out.println("fillDatasetCatalogHierarchy: Link ID\n" + linkhier.getObject().getIdentifier());
-		System.out.println("fillDatasetCatalogHierarchy: Link:\n" + linkhier.toString());
 		
 		toplinkstructure.addID(lnk.getIdentifier());
-		System.out.println("fillDatasetCatalogHierarchy: Multiple:\n" + toplinkstructure.toString());
-		System.out.println("fillDatasetCatalogHierarchy: New Catalog\n" + cathierarchy.toString());
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(cathierarchy);
 		DatabaseWriteBase.writeDatabaseObject(toplinkstructure);
 		DatabaseWriteBase.writeDatabaseObject(lnk);
@@ -801,10 +796,7 @@ public class CreateDefaultObjectsFactory {
 		setPurposeConceptPair(sethier, concept, purpose);
 		setOneLineDescription(sethier, oneline);
 		
-		System.out.println(set.toString());
-		
 		String measureid = set.getMeasurementValues();
-		System.out.println(measureid);
 		DatabaseObjectHierarchy measurehier = sethier.getSubObject(measureid);
 		ChemConnectCompoundMultiple measremul = (ChemConnectCompoundMultiple) measurehier.getObject();
 		String dimensionid = set.getDimensionValues();
@@ -1021,7 +1013,6 @@ public class CreateDefaultObjectsFactory {
 		return valuehier;
 	}
 	public static DatabaseObjectHierarchy fillParameterValueAndSpecification(DatabaseObjectHierarchy valuehier, String parameter) {
-		System.out.println("fillInProperties:  " + parameter.toString());
 		ParameterValue value = (ParameterValue) valuehier.getObject();
 		String specID = value.getParameterSpec();
 		DatabaseObjectHierarchy spechier = valuehier.getSubObject(specID);
@@ -1038,9 +1029,6 @@ public class CreateDefaultObjectsFactory {
 
 		ConceptParsing.fillAnnotatedExample(parameter, units, concept, parameterspec, value);
 		ConceptParsing.fillInProperties(parameter, units, concept);
-		
-		System.out.println("fillInProperties:  " + parameter.toString());
-		
 		
 		value.setParameterLabel(parameter);
 
