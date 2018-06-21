@@ -113,7 +113,7 @@ public class WriteReadDefaultObjects {
 		System.out.println("fillSetOfObservations   ExtractCatalogInformation.getCatalogObject\n" + 
 				readhierarchy.toString());
 				*/
-		/*
+		
 		DatabaseObject obj = new DatabaseObject("AdministrationCatalog","Public","Administration","1" );
 		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillSetOfObservations(obj,"dataset:BurnerPlateObservations",
 				"Set of burner plate observations","dataset:HeatFluxBurnerObservation","dataset:LaminarFlame");
@@ -121,8 +121,8 @@ public class WriteReadDefaultObjects {
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(hierarchy);	
 		DatabaseObjectHierarchy readhierarchy = ExtractCatalogInformation.getCatalogObject("AdministrationCatalog-setofvalues", "dataset:SetOfObservationValues");
 		System.out.println(readhierarchy.toString());
-		*/
 		
+		/*
 		DatabaseObject obj = new DatabaseObject("AdministrationCatalog","Public","Administration","1" );
 		NameOfPerson person = new NameOfPerson(obj,"Prof.", "Looney","Tunes");
 		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillMinimalPersonDescription(obj,"dataset:",person);
@@ -130,7 +130,7 @@ public class WriteReadDefaultObjects {
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(hierarchy);	
 		DatabaseObjectHierarchy readhierarchy = ExtractCatalogInformation.getCatalogObject("AdministrationCatalog-usrinfo", "dataset:DatabasePerson");
 		System.out.println(readhierarchy.toString());
-
+*/
 		/*
 		DatabaseObject obj = new DatabaseObject("AdministrationCatalog","Public","Administration","1" );
 		String company = "Whatsamadder U";

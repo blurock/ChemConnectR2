@@ -7,7 +7,10 @@
 	}
 	</ui:style>
 	<m:MaterialRow>
-		<m:MaterialColumn grid="s10">
+		<m:MaterialColumn grid="s4">
+			<m:MaterialLink ui:field="measuredimension" textColor="BLACK" />
+		</m:MaterialColumn>
+		<m:MaterialColumn grid="s6">
 			<m:MaterialTooltip ui:field="parametertooltip">
 				<m:MaterialLink ui:field="parameterhead" textColor="BLACK" />
 			</m:MaterialTooltip>

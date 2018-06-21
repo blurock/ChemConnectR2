@@ -31,9 +31,7 @@ import com.googlecode.objectify.ObjectifyService;
 
 public class DatabaseWriteBase {
 	public static void writeDatabaseObject(DatabaseObject object) {
-		System.out.println("write: " + 
-				ObjectifyService.ofy().save().entity(object).now()
-				);
+				ObjectifyService.ofy().save().entity(object).now();
 	}
 	public static void writeListOfDatabaseObjects(ArrayList<UploadedImage> images) {
 		ObjectifyService.ofy().save().entities(images);

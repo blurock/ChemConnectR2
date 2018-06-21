@@ -13,18 +13,23 @@ public class ObservationSpecification extends ChemConnectCompoundDataStructure {
 	@Index
 	String observationParameterType;
 	@Index
-	String parameterSpecifications;
+	String measureSpecifications;
+	@Index
+	String dimensionSpecifications;
 	
 	public ObservationSpecification() {
 		this.observationParameterType = "";
-		this.parameterSpecifications = "";
+		this.measureSpecifications = "";
+		this.dimensionSpecifications = "";
 		this.observationLabel = "";
 	}
 		public ObservationSpecification(ChemConnectCompoundDataStructure structure, 
-			String observationLabel, String observationParameterType, String parameterSpecifications) {
+			String observationLabel, String observationParameterType, 
+			String dimensionSpecifications, String measureSpecifications) {
 		super(structure);
 		this.observationParameterType = observationParameterType;
-		this.parameterSpecifications = parameterSpecifications;
+		this.measureSpecifications = measureSpecifications;
+		this.dimensionSpecifications = dimensionSpecifications;
 		this.observationLabel = observationLabel;
 	}
 
@@ -36,14 +41,19 @@ public class ObservationSpecification extends ChemConnectCompoundDataStructure {
 		this.observationParameterType = observationParameterType;
 	}
 
-	public String getParameterSpecifications() {
-		return parameterSpecifications;
-	}
-
-	public void setParameterSpecifications(String parameterSpecifications) {
-		this.parameterSpecifications = parameterSpecifications;
-	}
 	
+	public String getMeasureSpecifications() {
+		return measureSpecifications;
+	}
+	public void setMeasureSpecifications(String measureSpecifications) {
+		this.measureSpecifications = measureSpecifications;
+	}
+	public String getDimensionSpecifications() {
+		return dimensionSpecifications;
+	}
+	public void setDimensionSpecifications(String dimensionSpecifications) {
+		this.dimensionSpecifications = dimensionSpecifications;
+	}
 	public String toString() {
 		return toString("");
 	}
@@ -57,9 +67,10 @@ public class ObservationSpecification extends ChemConnectCompoundDataStructure {
 	public String toString(String prefix) {
 		StringBuilder build = new StringBuilder();
 		build.append(super.toString(prefix));
-		build.append(prefix + "Parameter Label:" + observationLabel + "\n");
-		build.append(prefix + "Type:           " + observationParameterType + "\n");
-		build.append(prefix + "Specification:  " + parameterSpecifications + "\n");
+		build.append(prefix + "Parameter Label: " + observationLabel + "\n");
+		build.append(prefix + "Type:            " + observationParameterType + "\n");
+		build.append(prefix + "Measure Spec:    " + measureSpecifications + "\n");
+		build.append(prefix + "Dimension Spec:  " + dimensionSpecifications + "\n");
 		return build.toString();
 	}
 	

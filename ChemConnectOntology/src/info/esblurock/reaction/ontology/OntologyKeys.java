@@ -1,9 +1,10 @@
 package info.esblurock.reaction.ontology;
 
-import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 
 public class OntologyKeys {
 	public static String parameterSpecification = "dataset:ParameterSpecification";
+	public static String measureSpecification = "dataset:MeasureParameterSpecification";
+	public static String dimensionSpecification = "dataset:DimensionParameterSpecification";
 	public static String units = "dataset:Units";
 	public static String purposeConceptPair = "dataset:PurposeConceptPair";
 	public static String dataSpecification = "dataset:DataSpecification";
@@ -32,6 +33,7 @@ public class OntologyKeys {
 	public static String setOfObservationValues = "dataset:SetOfObservationValues";
 	public static String contactHasSite = "dataset:ContactHasSite";
 	public static String contactTopSite = "dataset:ContactSiteOf";
+	public static String methodology = "dataset:ChemConnectMethodology";
 	
 	public static String hasPurpose = "dataset:hasPurpose";
 	public static String datacubeConcept = "datacube:concept";

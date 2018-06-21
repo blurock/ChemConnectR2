@@ -377,12 +377,10 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 
 	public DatabaseObjectHierarchy getUserDatasetCatalogHierarchy(String username) throws IOException {
 		String uid = CreateDefaultObjectsFactory.userCatalogHierarchyID(username);
-		System.out.println("getUserDatasetCatalogHierarchy:  " + uid);
 		return ExtractCatalogInformation.getDatabaseObjectHierarchy(uid);
 	}
 
 	public DatabaseObjectHierarchy getDevice(DatabaseObject obj, String devicename) {
-		System.out.println("getDevice: " + obj.getIdentifier());
 		DatabaseObjectHierarchy devicehier = null;
 		String classname = SubSystemDescription.class.getCanonicalName();
 		try {
@@ -401,19 +399,26 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	public DatabaseObjectHierarchy getSetOfObservations(DatabaseObject obj, String observation, String title) {
 		String sourceID = QueryBase.getDataSourceIdentification(obj.getOwner());
 		obj.setSourceID(sourceID);
-
+		obj.nullKey();
+		
 		PurposeConceptPair pair = new PurposeConceptPair();
 		ConceptParsing.fillInPurposeConceptPair(observation, pair);
 
 		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillSetOfObservations(obj, observation, title,
 				pair.getConcept(), pair.getPurpose());
-		System.out.println(hierarchy);
 		return hierarchy;
 	}
-
+	
+	public DatabaseObjectHierarchy getMethodology(DatabaseObject obj, String methodology, String title) {
+		String sourceID = QueryBase.getDataSourceIdentification(obj.getOwner());
+		obj.setSourceID(sourceID);
+		obj.nullKey();
+		
+		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillMethodologyDefinition(obj, methodology, title);
+		return hierarchy;
+	}
 	public DatabaseObjectHierarchy getNewCatalogHierarchy(DatabaseObject obj, String id, String onelinedescription)
 			throws IOException {
-		System.out.println("getNewCatalogHierarchy: " + obj.toString());
 		String sourceID = QueryBase.getDataSourceIdentification(obj.getOwner());
 		obj.setSourceID(sourceID);
 		String classname = DatasetCatalogHierarchy.class.getCanonicalName();

@@ -178,14 +178,18 @@ public class ChooseFullNameFromCatagoryRow extends Composite
 		nameSelected = true;
 	}
 
+	public String getObjectName() {
+		return objectname.getText();
+	}
+	
 	public String getObjectType() {
 		return objecttypeid.getText();
 	}
 	@UiHandler("submit")
 	public void onSubmit(ClickEvent event) {
 		String name = retrieveCatalogName();
-		Window.alert(name);
 		DatabaseObject obj = new DatabaseObject(name,accessButton.getText(),username,"");
+		obj.nullKey();
 		top.createCatalogObject(obj);
 	}
 

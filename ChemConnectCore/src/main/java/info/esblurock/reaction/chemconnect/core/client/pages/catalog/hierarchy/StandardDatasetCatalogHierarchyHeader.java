@@ -41,6 +41,8 @@ public class StandardDatasetCatalogHierarchyHeader extends Composite implements 
 	MaterialLink delete;
 	@UiField
 	MaterialLink save;
+	@UiField
+	MaterialLink add;
 
 	StandardDatasetObjectHierarchyItem item;
 	NewSubCatalogWizard wizard;
@@ -65,9 +67,14 @@ public class StandardDatasetCatalogHierarchyHeader extends Composite implements 
 		
 	}
 
-	@UiHandler("save")
+	@UiHandler("add")
 	public void onAddClick(ClickEvent event) {
 		addCatagory();
+	}
+
+	@UiHandler("save")
+	public void onSaveClick(ClickEvent event) {
+		item.writeDatabaseObjectHierarchy();
 	}
 
 	private void addCatagory() {

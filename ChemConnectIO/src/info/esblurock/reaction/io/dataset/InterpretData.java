@@ -37,6 +37,8 @@ import info.esblurock.reaction.chemconnect.core.data.dataset.DataObjectLink;
 import info.esblurock.reaction.chemconnect.core.data.dataset.AttributeInDataset;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ParameterValue;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ParameterSpecification;
+import info.esblurock.reaction.chemconnect.core.data.dataset.MeasurementParameterSpecification;
+import info.esblurock.reaction.chemconnect.core.data.dataset.DimensionParameterSpecification;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ValueUnits;
 import info.esblurock.reaction.chemconnect.core.data.dataset.SetOfObservationValues;
 import info.esblurock.reaction.chemconnect.core.data.dataset.device.SubSystemDescription;
@@ -48,6 +50,7 @@ import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHiera
 import info.esblurock.reaction.chemconnect.core.data.dataset.MeasurementParameterValue;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DimensionParameterValue;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ObservationSpecification;
+import info.esblurock.reaction.chemconnect.core.data.methodology.ChemConnectMethodology;
 
 public enum InterpretData {
 
@@ -103,7 +106,7 @@ public enum InterpretData {
 	ChemConnectDataStructure {
 
 		@Override
-		public DatabaseObject fillFromYamlString(info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject top,
+		public DatabaseObject fillFromYamlString(DatabaseObject top,
 				Map<String, Object> yaml, String sourceID) throws IOException {
 			ChemConnectDataStructure datastructure = null;
 			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
@@ -122,8 +125,7 @@ public enum InterpretData {
 		}
 
 		@Override
-		public Map<String, Object> createYamlFromObject(
-				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject object) throws IOException {
+		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
 			ChemConnectDataStructure datastructure = (ChemConnectDataStructure) object;
 			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
@@ -136,7 +138,7 @@ public enum InterpretData {
 		}
 
 		@Override
-		public info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject readElementFromDatabase(
+		public DatabaseObject readElementFromDatabase(
 				String identifier) throws IOException {
 			return QueryBase.getDatabaseObjectFromIdentifier(ChemConnectDataStructure.class.getCanonicalName(),
 					identifier);
@@ -152,7 +154,7 @@ public enum InterpretData {
 
 		@Override
 		public DatabaseObject fillFromYamlString(
-				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject top, Map<String, Object> yaml,
+				DatabaseObject top, Map<String, Object> yaml,
 				String sourceID) throws IOException {
 			ChemConnectCompoundDataStructure datastructure = null;
 			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
@@ -165,8 +167,7 @@ public enum InterpretData {
 		}
 
 		@Override
-		public Map<String, Object> createYamlFromObject(
-				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject object) throws IOException {
+		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
 			ChemConnectCompoundDataStructure datastructure = (ChemConnectCompoundDataStructure) object;
 			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
@@ -177,7 +178,7 @@ public enum InterpretData {
 		}
 
 		@Override
-		public info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject readElementFromDatabase(
+		public DatabaseObject readElementFromDatabase(
 				String identifier) throws IOException {
 			return QueryBase.getDatabaseObjectFromIdentifier(ChemConnectCompoundDataStructure.class.getCanonicalName(),
 					identifier);
@@ -190,8 +191,8 @@ public enum InterpretData {
 	}, ChemConnectCompoundMultiple {
 
 		@Override
-		public info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject fillFromYamlString(
-				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject top, Map<String, Object> yaml,
+		public DatabaseObject fillFromYamlString(
+				DatabaseObject top, Map<String, Object> yaml,
 				String sourceID) throws IOException {
 			ChemConnectCompoundMultiple multi = null;
 			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
@@ -205,7 +206,7 @@ public enum InterpretData {
 
 		@Override
 		public Map<String, Object> createYamlFromObject(
-				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject object) throws IOException {
+				DatabaseObject object) throws IOException {
 			ChemConnectCompoundMultiple multi = (ChemConnectCompoundMultiple) object;
 			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
@@ -215,7 +216,7 @@ public enum InterpretData {
 		}
 
 		@Override
-		public info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject readElementFromDatabase(
+		public DatabaseObject readElementFromDatabase(
 				String identifier) throws IOException {
 			return QueryBase.getDatabaseObjectFromIdentifier(ChemConnectCompoundMultiple.class.getCanonicalName(),
 					identifier);
@@ -229,8 +230,8 @@ public enum InterpretData {
 	}, SetOfObservationValues {
 
 		@Override
-		public info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject fillFromYamlString(
-				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject top, Map<String, Object> yaml,
+		public DatabaseObject fillFromYamlString(
+				DatabaseObject top, Map<String, Object> yaml,
 				String sourceID) throws IOException {
 			SetOfObservationValues set = null;
 			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
@@ -247,7 +248,7 @@ public enum InterpretData {
 
 		@Override
 		public Map<String, Object> createYamlFromObject(
-				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject object) throws IOException {
+				DatabaseObject object) throws IOException {
 			SetOfObservationValues datastructure = (SetOfObservationValues) object;
 			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
@@ -260,7 +261,7 @@ public enum InterpretData {
 		}
 
 		@Override
-		public info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject readElementFromDatabase(
+		public DatabaseObject readElementFromDatabase(
 				String identifier) throws IOException {
 			return QueryBase.getDatabaseObjectFromIdentifier(SetOfObservationValues.class.getCanonicalName(),
 					identifier);
@@ -274,8 +275,8 @@ public enum InterpretData {
 	}, SubSystemDescription {
 
 		@Override
-		public info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject fillFromYamlString(
-				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject top, Map<String, Object> yaml,
+		public DatabaseObject fillFromYamlString(
+				DatabaseObject top, Map<String, Object> yaml,
 				String sourceID) throws IOException {
 			SubSystemDescription datastructure = null;
 			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
@@ -292,7 +293,7 @@ public enum InterpretData {
 
 		@Override
 		public Map<String, Object> createYamlFromObject(
-				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject object) throws IOException {
+				DatabaseObject object) throws IOException {
 			SubSystemDescription datastructure = (SubSystemDescription) object;
 			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
@@ -304,7 +305,7 @@ public enum InterpretData {
 		}
 
 		@Override
-		public info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject readElementFromDatabase(
+		public DatabaseObject readElementFromDatabase(
 				String identifier) throws IOException {
 			return QueryBase.getDatabaseObjectFromIdentifier(SubSystemDescription.class.getCanonicalName(),
 					identifier);
@@ -315,11 +316,48 @@ public enum InterpretData {
 			return SubSystemDescription.class.getCanonicalName();
 		}
 		
+	}, ChemConnectMethodology {
+
+		@Override
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml,String sourceID) throws IOException {
+			ChemConnectMethodology methodology = null;
+			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
+			ChemConnectDataStructure objdata = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);					
+			String methodologyTypeS = (String) yaml.get(StandardDatasetMetaData.methodologyTypeS);			
+			String parameterValuesS = (String) yaml.get(StandardDatasetMetaData.parameterValueS);			
+			String observationSpecS = (String) yaml.get(StandardDatasetMetaData.observationSpecs);			
+			
+			methodology = new ChemConnectMethodology(objdata,methodologyTypeS,
+					observationSpecS, parameterValuesS);
+			return methodology;
+		}
+
+		@Override
+		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
+			ChemConnectMethodology methodology = (ChemConnectMethodology) object;
+			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
+			Map<String, Object> map = interpret.createYamlFromObject(object);
+			map.put(StandardDatasetMetaData.methodologyTypeS, methodology.getMethodologyType());
+			map.put(StandardDatasetMetaData.parameterValueS, methodology.getParameterValues());
+			map.put(StandardDatasetMetaData.observationSpecs, methodology.getObservationSpecs());
+			return map;
+		}
+
+		@Override
+		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(ChemConnectMethodology.class.getCanonicalName(),
+					identifier);
+		}
+
+		@Override
+		public String canonicalClassName() {
+			return ChemConnectMethodology.class.getCanonicalName();
+		}
+		
 	}, DatasetCatalogHierarchy {
 
 		@Override
-		public info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject fillFromYamlString(
-				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject top, Map<String, Object> yaml,
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml,
 				String sourceID) throws IOException {
 			DatasetCatalogHierarchy datastructure = null;
 			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
@@ -756,6 +794,78 @@ public enum InterpretData {
 			return ParameterSpecification.class.getCanonicalName();
 		}
 		
+	}, MeasurementParameterSpecification {
+
+		@Override
+		public info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject fillFromYamlString(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject top, Map<String, Object> yaml,
+				String sourceID) throws IOException {
+			MeasurementParameterSpecification measure = null;
+			InterpretData interpret = InterpretData.valueOf("ParameterSpecification");
+			ParameterSpecification spec = (ParameterSpecification) interpret.fillFromYamlString(top, yaml, sourceID);
+			
+			measure = new MeasurementParameterSpecification(spec);
+			return measure;
+		}
+
+		@Override
+		public Map<String, Object> createYamlFromObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject object) throws IOException {
+			MeasurementParameterSpecification spec = (MeasurementParameterSpecification) object;
+
+			InterpretData interpret = InterpretData.valueOf("ParameterSpecification");
+			Map<String, Object> map = interpret.createYamlFromObject(object);
+			return map;
+		}
+
+		@Override
+		public info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject readElementFromDatabase(
+				String identifier) throws IOException {
+				return QueryBase.getDatabaseObjectFromIdentifier(MeasurementParameterSpecification.class.getCanonicalName(), 
+						identifier);
+		}
+
+		@Override
+		public String canonicalClassName() {
+			return MeasurementParameterSpecification.class.getCanonicalName();
+		}
+		
+	}, DimensionParameterSpecification {
+
+		@Override
+		public info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject fillFromYamlString(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject top, Map<String, Object> yaml,
+				String sourceID) throws IOException {
+			DimensionParameterSpecification measure = null;
+			InterpretData interpret = InterpretData.valueOf("ParameterSpecification");
+			ParameterSpecification spec = (ParameterSpecification) interpret.fillFromYamlString(top, yaml, sourceID);
+			
+			measure = new DimensionParameterSpecification(spec);
+			return measure;
+		}
+
+		@Override
+		public Map<String, Object> createYamlFromObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject object) throws IOException {
+			MeasurementParameterSpecification spec = (MeasurementParameterSpecification) object;
+
+			InterpretData interpret = InterpretData.valueOf("ParameterSpecification");
+			Map<String, Object> map = interpret.createYamlFromObject(object);
+			return map;
+		}
+
+		@Override
+		public info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject readElementFromDatabase(
+				String identifier) throws IOException {
+				return QueryBase.getDatabaseObjectFromIdentifier(DimensionParameterSpecification.class.getCanonicalName(), 
+						identifier);
+		}
+
+		@Override
+		public String canonicalClassName() {
+			return DimensionParameterSpecification.class.getCanonicalName();
+		}
+		
 	}, ValueUnits {
 
 		@Override
@@ -810,9 +920,11 @@ public enum InterpretData {
 
 			String parameterLabel = (String) yaml.get(StandardDatasetMetaData.observationLabel);
 			String parameterType = (String) yaml.get(StandardDatasetMetaData.observationParameterType);
-			String parameterSpecification = (String) yaml.get(StandardDatasetMetaData.parameterSpecifications);
+			String measureSpecification = (String) yaml.get(StandardDatasetMetaData.measureSpec);
+			String dimensionSpecification = (String) yaml.get(StandardDatasetMetaData.dimensionSpec);
 
-			ObservationSpecification contact = new ObservationSpecification(objdata, parameterLabel, parameterType, parameterSpecification);
+			ObservationSpecification contact = new ObservationSpecification(objdata, parameterLabel, parameterType, 
+					measureSpecification, dimensionSpecification);
 			return contact;
 		}
 
@@ -825,7 +937,8 @@ public enum InterpretData {
 
 			map.put(StandardDatasetMetaData.observationLabel, contact.getObservationLabel());
 			map.put(StandardDatasetMetaData.observationParameterType, contact.getObservationParameterType());
-			map.put(StandardDatasetMetaData.parameterSpecifications, contact.getParameterSpecifications());
+			map.put(StandardDatasetMetaData.measureSpec, contact.getMeasureSpecifications());
+			map.put(StandardDatasetMetaData.dimensionSpec, contact.getDimensionSpecifications());
 
 			return map;
 		}

@@ -17,6 +17,8 @@ import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.chemconnect.core.client.catalog.SetUpDatabaseObjectHierarchyCallback;
+import info.esblurock.reaction.chemconnect.core.client.catalog.choose.ChooseFullNameFromCatagoryRow;
+import info.esblurock.reaction.chemconnect.core.client.catalog.choose.ObjectVisualizationInterface;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHeirarchy;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchies;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.SetOfObservationsCollapsible;
@@ -32,7 +34,7 @@ import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
 
-public class SetOfObservationsDefinition extends Composite implements  SetLineContentInterface, ChooseFromConceptHeirarchy {
+public class SetOfObservationsDefinition extends Composite implements ObjectVisualizationInterface {
 
 	private static SetOfObservationsDefinitionUiBinder uiBinder = GWT.create(SetOfObservationsDefinitionUiBinder.class);
 
@@ -43,19 +45,15 @@ public class SetOfObservationsDefinition extends Composite implements  SetLineCo
 	String enterkeyS;
 	String keynameS;
 	@UiField
-	MaterialLink topname;
-	@UiField
 	MaterialCollapsible contentcollapsible;
 	@UiField
-	MaterialLink choose;
-	@UiField
 	MaterialPanel modalpanel;
+	@UiField
+	MaterialPanel topPanel;
+	
+	ChooseFullNameFromCatagoryRow choose;
 	String access;
 
-	InputLineModal line; 
-	ArrayList<SetOfObservationsCollapsible> setofobservables;
-	SetOfObservationsCollapsible observations;
-	DatabaseObject baseobj;
 	
 	public SetOfObservationsDefinition() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -68,44 +66,25 @@ public class SetOfObservationsDefinition extends Composite implements  SetLineCo
 	}
 
 	private void init() {
-		defaultCatagory = "Catagory";
-		baseobj = new DatabaseObject();
-		choose.setText("Create");
-		topname.setText(defaultCatagory);
-		enterkeyS = "Enter Observations Catagory";
-		keynameS = "Catagory";
-		access = MetaDataKeywords.publicAccess;
-		setofobservables = new ArrayList<SetOfObservationsCollapsible>();
+		ArrayList<String> choices = new ArrayList<String>();
+		choices.add("dataset:ChemConnectObservable");
+		String user = Cookies.getCookie("user");
+		String object = "Observations";
+		choose = new ChooseFullNameFromCatagoryRow(this,user,object,choices,modalpanel);
+		topPanel.add(choose);
 	}
 	
-	@UiHandler("topname")
-	public void changeCatagory(ClickEvent event) {
-		MaterialToast.fireToast("Change Catagory");
-	}
-	
-	@UiHandler("choose")
-	public void chooseConcept(ClickEvent event) {
-		if(topname.getText().compareTo(defaultCatagory) == 0 ) {
-			line = new InputLineModal(enterkeyS,keynameS,this);
-			modalpanel.add(line);
-			line.openModal();
-		} else {
-			chooseConceptHieararchy();
-		}
-	}
-	
-	@Override
-	public void setLineContent(String line) {
-		topname.setText(line);
-	}
-
+/*
 	private void chooseConceptHieararchy() {
 		ArrayList<String> choices = new ArrayList<String>();
 		choices.add("dataset:ChemConnectObservable");
+		
 		ChooseFromConceptHierarchies choosedevice = new ChooseFromConceptHierarchies(choices,this);
 		modalpanel.add(choosedevice);
 		choosedevice.open();		
 	}
+	*/
+	/*
 	@Override
 	public void conceptChosen(String topconcept, String concept) {
 		SetUpDatabaseObjectHierarchyCallback callback = new SetUpDatabaseObjectHierarchyCallback(contentcollapsible,modalpanel);
@@ -116,7 +95,8 @@ public class SetOfObservationsDefinition extends Composite implements  SetLineCo
 		async.getSetOfObservations(obj,concept,topname.getText(),callback);
 		
 	}
-
+	*/
+/*
 	public void addChemConnectDataStructure(ChemConnectDataStructure structure) {
 		DatabaseObject topobj = structure.getIdentifier();
 		String id = topname.getText();
@@ -150,6 +130,17 @@ public class SetOfObservationsDefinition extends Composite implements  SetLineCo
 		for(SetOfObservationsCollapsible observe : setofobservables) {
 			observe.setIdentifier(obj);
 		}
+	}
+*/
+	@Override
+	public void createCatalogObject(DatabaseObject obj) {
+		SetUpDatabaseObjectHierarchyCallback callback = new SetUpDatabaseObjectHierarchyCallback(contentcollapsible,modalpanel);
+		UserImageServiceAsync async = UserImageService.Util.getInstance();
+		String observation = choose.getObjectType();
+		String title = choose.getObjectName();
+		async.getSetOfObservations(obj,observation,title,callback);
+	
+		
 	}
 
 

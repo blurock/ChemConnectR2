@@ -7,8 +7,10 @@
 	}
 	</ui:style>
 	<m:MaterialRow>
-		<m:MaterialColumn grid="s10">
-			<m:MaterialLink ui:field="cataloghead" textColor="BLACK" />
+		<m:MaterialColumn grid="s9">
+			<m:MaterialTooltip ui:field="devicetooltip">
+			<m:MaterialLink ui:field="title" textColor="BLACK" />
+			</m:MaterialTooltip>
 		</m:MaterialColumn>
 		<m:MaterialColumn grid="s1">
 			<m:MaterialLink ui:field="delete" iconType="DELETE"
@@ -16,10 +18,6 @@
 		</m:MaterialColumn>
 		<m:MaterialColumn grid="s1">
 			<m:MaterialLink ui:field="save" iconType="SAVE"
-				iconColor="BLACK" iconPosition="RIGHT" textColor="BLACK" />
-		</m:MaterialColumn>
-		<m:MaterialColumn grid="s1">
-			<m:MaterialLink ui:field="add" iconType="ADD"
 				iconColor="BLACK" iconPosition="RIGHT" textColor="BLACK" />
 		</m:MaterialColumn>
 	</m:MaterialRow>

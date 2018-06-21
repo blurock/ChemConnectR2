@@ -1,10 +1,9 @@
 package info.esblurock.reaction.chemconnect.core.client.pages.catalog;
 
 
-import com.google.gwt.user.client.Window;
-
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.hierarchy.StandardDatasetCatalogHierarchyHeader;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.link.PrimitiveDataObjectLinkRow;
+import info.esblurock.reaction.chemconnect.core.client.pages.catalog.methodology.StandardDatasetMethodologyHeader;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.multiple.ChemConnectCompoundMultipleHeader;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.observations.PrimitiveParameterValueRow;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.observations.StandardDatasetObservationSpecificationHeader;
@@ -131,6 +130,35 @@ public enum SetUpCollapsibleItem {
 			return true;
 		}
 		
+	}, ChemConnectMethodology {
+
+		@Override
+		public void addInformation(StandardDatasetObjectHierarchyItem item) {
+			StandardDatasetMethodologyHeader header = new StandardDatasetMethodologyHeader(item);
+			item.addHeader(header);
+		}
+
+		@Override
+		public boolean update(StandardDatasetObjectHierarchyItem item) {
+			StandardDatasetMethodologyHeader header = (StandardDatasetMethodologyHeader) item.getHeader();
+			return header.updateMethodology();
+		}
+
+		@Override
+		public int priority() {
+			return 100;
+		}
+
+		@Override
+		public boolean isInformation() {
+			return false;
+		}
+
+		@Override
+		public boolean addSubitems() {
+			return true;
+		}
+		
 	}, ParameterValue {
 
 		@Override
@@ -224,7 +252,65 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
-			StandardDatasetParameterSpecificationHeader header = new StandardDatasetParameterSpecificationHeader(item);
+			StandardDatasetParameterSpecificationHeader header = new StandardDatasetParameterSpecificationHeader(item, true);
+			item.addHeader(header);
+		}
+
+		@Override
+		public int priority() {
+			return 100;
+		}
+
+		@Override
+		public boolean isInformation() {
+			return false;
+		}
+
+		@Override
+		public boolean addSubitems() {
+			return true;
+		}
+
+		@Override
+		public boolean update(StandardDatasetObjectHierarchyItem item) {
+			StandardDatasetParameterSpecificationHeader header = (StandardDatasetParameterSpecificationHeader) item.getHeader();
+			return header.updateObject();
+		}
+		
+	}, MeasureParameterSpecification {
+
+		@Override
+		public void addInformation(StandardDatasetObjectHierarchyItem item) {
+			StandardDatasetParameterSpecificationHeader header = new StandardDatasetParameterSpecificationHeader(item,true);
+			item.addHeader(header);
+		}
+
+		@Override
+		public int priority() {
+			return 100;
+		}
+
+		@Override
+		public boolean isInformation() {
+			return false;
+		}
+
+		@Override
+		public boolean addSubitems() {
+			return true;
+		}
+
+		@Override
+		public boolean update(StandardDatasetObjectHierarchyItem item) {
+			StandardDatasetParameterSpecificationHeader header = (StandardDatasetParameterSpecificationHeader) item.getHeader();
+			return header.updateObject();
+		}
+		
+	}, DimensionParameterSpecification {
+
+		@Override
+		public void addInformation(StandardDatasetObjectHierarchyItem item) {
+			StandardDatasetParameterSpecificationHeader header = new StandardDatasetParameterSpecificationHeader(item,false);
 			item.addHeader(header);
 		}
 

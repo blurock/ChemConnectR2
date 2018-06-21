@@ -27,8 +27,10 @@ public class StandardDatasetMetaData {
 	public static String parameterSetDescriptionsS = "rdf:Property";
 	public static String parameterObjectLinkS = "skos:mappingRelation";
 	public static String parameterPurposeConceptPairS = "prov:influenced";
-	public static String measurementValues = "qb:measure";
-	public static String dimensionValues = "qb:dimension";
+	public static String measurementValues = "qb:MeasureProperty";
+	public static String dimensionValues = "qb:DimensionProperty";
+	public static String measureSpec = "qb:measure";
+	public static String dimensionSpec = "qb:dimension";
 	public static String chemConnectCompoundMultipleS = "dataset:ChemConnectCompoundMultiple";
 	public static String  elementType = "dataset:elementType";
 
@@ -101,6 +103,7 @@ public class StandardDatasetMetaData {
 	public static String parameterValueS = "qb:ComponentProperty";
 	public static String parameterSpecificationS = "qb:ComponentSpecification";
 	public static String deviceTypeS = "dataset:SubSystemType";
+	public static String methodologyTypeS = "dataset:MethodologyType";
 	public static String subSystems = "ssn:hasSubSystem";
 	public static String valueAsStringS = "dataset:ValueAsString";
 	public static String valueUncertaintyS = "qudt:standardUncertainty";

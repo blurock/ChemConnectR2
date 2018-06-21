@@ -87,6 +87,7 @@ public class MainDataStructureCollapsible extends Composite {
 	public MainDataStructureCollapsible() {
 		initWidget(uiBinder.createAndBindUi(this));
 		findStructures = true;
+		Window.alert("MainDataStructureCollapsible" + "   MainDataStructureCollapsible()");
 	}
 
 	public MainDataStructureCollapsible(ClassificationInformation info) {
@@ -94,6 +95,7 @@ public class MainDataStructureCollapsible extends Composite {
 		findStructures = true;
 		clsinfo = info;
 		datatype.setText(info.getDataType());
+		Window.alert("MainDataStructureCollapsible" + "   MainDataStructureCollapsible(ClassificationInformation info)");
 		init(clsinfo.getIdName());
 	}
 
@@ -102,6 +104,7 @@ public class MainDataStructureCollapsible extends Composite {
 		this.findStructures = findStructures;
 		clsinfo = info;
 		datatype.setText(info.getDataType());
+		Window.alert("MainDataStructureCollapsible" + "   MainDataStructureCollapsible(ClassificationInformation info, boolean findStructures)");
 		init(clsinfo.getIdName());
 	}
 
@@ -287,6 +290,7 @@ public class MainDataStructureCollapsible extends Composite {
 	}
 
 	private void init(String name) {
+		Window.alert("MainDataStructureCollapsible");
 		rootID = TextUtilities.removeNamespace(name);
 		card = new CardModal();
 		body.add(card);

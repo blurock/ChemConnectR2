@@ -85,7 +85,6 @@ public class ChooseFromConceptHierarchies extends Composite {
 			}
 		} else if (choices.size() == 1) {
 			String concept = choices.get(0);
-			Window.alert("ChooseFromConceptHierarchies:  " + concept);
 			treeHierarchyCall(concept);
 		} else {
 			Window.alert("No choices given");

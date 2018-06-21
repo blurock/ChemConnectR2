@@ -16,32 +16,32 @@ import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTextBox;
+import info.esblurock.reaction.chemconnect.core.client.catalog.SetUpDatabaseObjectHierarchyCallback;
+import info.esblurock.reaction.chemconnect.core.client.catalog.choose.ChooseFullNameFromCatagoryRow;
+import info.esblurock.reaction.chemconnect.core.client.catalog.choose.ObjectVisualizationInterface;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHeirarchy;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchies;
 import info.esblurock.reaction.chemconnect.core.client.modal.InputLineModal;
 import info.esblurock.reaction.chemconnect.core.client.modal.SetLineContentInterface;
+import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
+import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 
-public class MethodologyDefinition extends Composite implements ChooseFromConceptHeirarchy, SetLineContentInterface {
+public class MethodologyDefinition extends Composite implements  ObjectVisualizationInterface {
 
 	private static MethodologyDefinitionUiBinder uiBinder = GWT.create(MethodologyDefinitionUiBinder.class);
 
 	interface MethodologyDefinitionUiBinder extends UiBinder<Widget, MethodologyDefinition> {
 	}
 
-	String enterkeyS;
-	String keynameS;
-	@UiField
-	MaterialLink parameter;
-	@UiField
-	MaterialTextBox topname;
 	@UiField
 	MaterialCollapsible contentcollapsible;
 	@UiField
-	MaterialLink choose;
-	@UiField
 	MaterialPanel modalpanel;
-
-	InputLineModal line; 
+	@UiField
+	MaterialPanel topPanel;
+	
+	ChooseFullNameFromCatagoryRow choose;
 
 	public MethodologyDefinition() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -54,45 +54,21 @@ public class MethodologyDefinition extends Composite implements ChooseFromConcep
 	}
 	
 	private void init() {
-		parameter.setText("Methodology");
-		choose.setText("Choose Methodology");
-		topname.setLabel("Catagory Name");
-		topname.setText("");
-		String name = Cookies.getCookie("user");
-		topname.setPlaceholder(name);
-		enterkeyS = "Enter Methodology Catagory";
-		keynameS = "Catagory";
-	}
-	
-	@UiHandler("choose")
-	public void chooseConcept(ClickEvent event) {
-		if(topname.getText().length() == 0 ) {
-			line = new InputLineModal(enterkeyS,keynameS,this);
-			modalpanel.add(line);
-			line.openModal();
-		} else {
-			chooseConceptHieararchy();
-		}
-	}
-
-	private void chooseConceptHieararchy() {
 		ArrayList<String> choices = new ArrayList<String>();
 		choices.add("dataset:DataTypeMethodology");
-		ChooseFromConceptHierarchies choosedevice = new ChooseFromConceptHierarchies(choices,this);
-		modalpanel.add(choosedevice);
-		choosedevice.open();		
+		String user = Cookies.getCookie("user");
+		String object = "Methodology";
+		choose = new ChooseFullNameFromCatagoryRow(this,user,object,choices,modalpanel);
+		topPanel.add(choose);
 	}
 
 	@Override
-	public void setLineContent(String line) {
-		topname.setText(line);
-		chooseConceptHieararchy();
+	public void createCatalogObject(DatabaseObject obj) {
+		SetUpDatabaseObjectHierarchyCallback callback = new SetUpDatabaseObjectHierarchyCallback(contentcollapsible,modalpanel);
+		UserImageServiceAsync async = UserImageService.Util.getInstance();
+		String deviceType = choose.getObjectType();
+		String title = choose.getObjectName();
+		async.getMethodology(obj,deviceType,title, callback);
 	}
-
-	@Override
-	public void conceptChosen(String topconcept, String concept) {
-		Window.alert("Methodology: " + concept);
-	}
-
 
 }

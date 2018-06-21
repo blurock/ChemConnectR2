@@ -8,23 +8,14 @@
 	</ui:style>
 	<m:MaterialPanel>
 		<m:MaterialPanel ui:field="modalpanel" />
-		<m:MaterialRow>
-			<m:MaterialColumn grid="s4">
-				<m:MaterialLink ui:field="choose" textColor="BLACK" />
-			</m:MaterialColumn>
-			<m:MaterialColumn grid="s8">
-				<m:MaterialTextBox ui:field="topname" label="Catagory"
-					textColor="BLACK" />
-			</m:MaterialColumn>
-		</m:MaterialRow>
-
-		<m:MaterialCollapsible>
+		<m:MaterialPanel ui:field="topPanel"/>
+		<m:MaterialCollapsible  ui:field="contentcollapsible">
 			<m:MaterialCollapsibleItem>
 				<m:MaterialCollapsibleHeader>
 					<m:MaterialLink ui:field="parameter" textColor="BLACK" />
 				</m:MaterialCollapsibleHeader>
 				<m:MaterialCollapsibleBody ui:field="bodycollapsible">
-					<m:MaterialCollapsible ui:field="contentcollapsible">
+					<m:MaterialCollapsible>
 					</m:MaterialCollapsible>
 				</m:MaterialCollapsibleBody>
 			</m:MaterialCollapsibleItem>

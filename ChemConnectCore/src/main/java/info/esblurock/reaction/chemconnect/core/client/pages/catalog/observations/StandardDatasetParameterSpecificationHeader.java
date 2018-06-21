@@ -20,20 +20,27 @@ public class StandardDatasetParameterSpecificationHeader extends Composite {
 			extends UiBinder<Widget, StandardDatasetParameterSpecificationHeader> {
 	}
 
-	public StandardDatasetParameterSpecificationHeader() {
-		initWidget(uiBinder.createAndBindUi(this));
-	}
-
+	@UiField
+	MaterialLink measuredimension;
 	@UiField
 	MaterialTooltip parametertooltip;
 	@UiField
 	MaterialLink parameterhead;
 	ParameterSpecification specification;
-	public StandardDatasetParameterSpecificationHeader(StandardDatasetObjectHierarchyItem item) {
+	public StandardDatasetParameterSpecificationHeader() {
+		initWidget(uiBinder.createAndBindUi(this));
+	}
+
+	public StandardDatasetParameterSpecificationHeader(StandardDatasetObjectHierarchyItem item, boolean measure) {
 		initWidget(uiBinder.createAndBindUi(this));
 		specification = (ParameterSpecification) item.getObject();
 		parameterhead.setText(specification.getParameterLabel());
 		parametertooltip.setText(specification.getIdentifier());
+		if(measure) {
+			measuredimension.setText("Measure");
+		} else {
+			measuredimension.setText("Dimension");			
+		}
 	}
 	public boolean updateObject() {
 		specification.setParameterLabel(parameterhead.getText());

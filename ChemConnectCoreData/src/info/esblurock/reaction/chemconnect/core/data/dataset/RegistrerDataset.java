@@ -15,6 +15,8 @@ public class RegistrerDataset {
 			ObjectifyService.register(ChemConnectObjectLink.class);
 			ObjectifyService.register(PurposeConceptPair.class);
 			ObjectifyService.register(ParameterSpecification.class);
+			ObjectifyService.register(MeasurementParameterSpecification.class);
+			ObjectifyService.register(DimensionParameterSpecification.class);
 			ObjectifyService.register(DataSpecification.class);
 			ObjectifyService.register(DatasetCatalogHierarchy.class);
 			ObjectifyService.register(SubSystemDescription.class);
@@ -35,6 +37,8 @@ public class RegistrerDataset {
 			ResetDatabaseObjects.resetClass(ChemConnectObjectLink.class);
 			ResetDatabaseObjects.resetClass(PurposeConceptPair.class);
 			ResetDatabaseObjects.resetClass(ParameterSpecification.class);
+			ResetDatabaseObjects.resetClass(MeasurementParameterSpecification.class);
+			ResetDatabaseObjects.resetClass(DimensionParameterSpecification.class);
 			ResetDatabaseObjects.resetClass(DataSpecification.class);
 			ResetDatabaseObjects.resetClass(DatasetCatalogHierarchy.class);
 			ResetDatabaseObjects.resetClass(SubSystemDescription.class);

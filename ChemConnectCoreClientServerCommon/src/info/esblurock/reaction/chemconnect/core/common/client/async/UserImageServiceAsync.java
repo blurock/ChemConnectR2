@@ -61,4 +61,7 @@ public interface UserImageServiceAsync {
 	void writeDatabaseObjectHierarchy(DatabaseObjectHierarchy hierarchy,
 			AsyncCallback<DatabaseObjectHierarchy> callback);
 
+	void getMethodology(DatabaseObject obj, String methodology, String title,
+			AsyncCallback<DatabaseObjectHierarchy> callback);
+
 }

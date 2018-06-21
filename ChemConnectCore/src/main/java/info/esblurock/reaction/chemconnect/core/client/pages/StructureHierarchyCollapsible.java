@@ -39,6 +39,7 @@ public class StructureHierarchyCollapsible extends Composite implements HasText 
 	}
 
 	public StructureHierarchyCollapsible(HierarchyNode node) {
+		Window.alert("StructureHierarchyCollapsible(HierarchyNode node)");
 		initWidget(uiBinder.createAndBindUi(this));
 		title.setText(node.getIdentifier());
 		if (node.getSubNodes().size() > 0) {

@@ -20,8 +20,7 @@ public class ObservationStructureCallback implements AsyncCallback<ChemConnectDa
 
 	@Override
 	public void onSuccess(ChemConnectDataStructure structure) {
-		top.addChemConnectDataStructure(structure);
-		
+		//top.addChemConnectDataStructure(structure);
 	}
 
 }
