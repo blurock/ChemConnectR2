@@ -141,6 +141,7 @@ public class UploadFileToBlobStorage extends Composite implements DetermineBlobT
 	}
 	
 	private void getUploadedFiles() {
+		Window.alert("getUploadedFiles()");
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		UploadedFilesCallback callback = new UploadedFilesCallback(this,false);
 		async.getUploadedFiles(callback);

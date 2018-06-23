@@ -37,6 +37,29 @@ public class GCSBlobContent implements Serializable {
 		this.bytes = bytes;
 	}
 	
+	public String toString() {
+		return toString("");
+	}
+	public String toString(String prefix) {
+		StringBuilder builder = new StringBuilder();
+		if(info != null) {
+			builder.append(this.info.toString());
+		} else {
+			builder.append("No Blob info");
+		}
+		if(bytes != null) {
+			builder.append("Blob size: " + bytes.length() + "\n");
+		} else {
+			builder.append("No/empty Blob\n");
+		}
+		if(url != null) {
+			builder.append("URL: " + url + "\n");
+		} else {
+			builder.append("No URL defined\n");
+		}
+		
+		return builder.toString();
+	}
 	
 
 }

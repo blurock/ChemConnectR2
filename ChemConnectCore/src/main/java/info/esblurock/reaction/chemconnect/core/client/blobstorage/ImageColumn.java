@@ -5,6 +5,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasText;
@@ -45,11 +46,13 @@ public class ImageColumn extends Composite implements HasText {
 	}
 
 	public ImageColumn(UploadedImage imageinfo) {
+		Window.alert("ImageColumn: " + imageinfo.getImageUrl());
 		initWidget(uiBinder.createAndBindUi(this));
 		this.imageinfo = imageinfo;
 		Image image = new Image();
 		image.setUrl(imageinfo.getImageUrl());
-		this.title.setText(imageinfo.getFilename());
+		//this.title.setText(imageinfo.getFilename());
+		this.title.setText(imageinfo.getImageUrl());
 		imagepanel.add(image);
 		textDescription.setText(imageinfo.getDescription());
 	}

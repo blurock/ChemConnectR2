@@ -56,7 +56,6 @@ public class FileUploadServlet extends HttpServlet {
 				String uploadDescriptionText = "Uploaded File from FileUploadServlet";
 				
 				
-				
 				ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
 				GCSBlobFileInformation source = UserImageServiceImpl.createInitialUploadInfo(fileItem.getName(), 
 						fileItem.getContentType(), 
@@ -73,7 +72,7 @@ public class FileUploadServlet extends HttpServlet {
 				@SuppressWarnings("deprecation")
 				BlobInfo blobInfo = storage.create(info, in);
 				String url = blobInfo.getMediaLink();
-				System.out.println("Blob url:  " + url);
+				System.out.println("URL:  " + url);
 				DatabaseWriteBase.writeObjectWithTransaction(source);
 			}
 		} catch (Exception caught) {

@@ -14,6 +14,8 @@ import java.util.Scanner;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.blobstore.UploadOptions;
+import com.google.appengine.api.images.ImagesService;
+import com.google.appengine.api.images.ImagesServiceFactory;
 import com.google.cloud.WriteChannel;
 import com.google.cloud.storage.Acl;
 import com.google.cloud.storage.Blob;
@@ -513,13 +515,14 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		Blob blob = storage.get(blobId);
 		byte[] bytes = blob.getContent(BlobSourceOption.generationMatch());
 		String bytesS = new String(bytes);
-		System.out.println("getContent : " + bytesS.length());
+		/*
 		BlobInfo info = BlobInfo.newBuilder(gcsinfo.getBucket(), gcsinfo.getGSFilename())
 				.setAcl(new ArrayList<>(Arrays.asList(Acl.of(User.ofAllUsers(), Role.READER)))).build();
-		String urlS = info.getMediaLink();
-		// URL url = storage.signUrl(info, 2, TimeUnit.DAYS, SignUrlOption.);
+		*/
+		String urlS = "https://storage.googleapis.com/" + gcsinfo.getBucket() + "/" + gcsinfo.getGSFilename();
 		GCSBlobContent gcs = new GCSBlobContent(urlS, gcsinfo);
 		gcs.setBytes(bytesS);
+		System.out.println("Blob Content: " + gcs.toString());
 		return gcs;
 	}
 

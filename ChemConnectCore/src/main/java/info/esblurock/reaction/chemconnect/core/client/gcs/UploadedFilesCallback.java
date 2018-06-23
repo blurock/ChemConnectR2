@@ -27,7 +27,8 @@ public class UploadedFilesCallback implements AsyncCallback<ArrayList<GCSBlobFil
 	public void onSuccess(ArrayList<GCSBlobFileInformation> results) {
 		for(GCSBlobFileInformation gcsinfo: results) {
 			if(!rows) {
-				GCSBlobContent content = new GCSBlobContent(null, gcsinfo);
+				String urlS = "https://storage.googleapis.com/" + gcsinfo.getBucket() + "/" + gcsinfo.getGSFilename();				
+				GCSBlobContent content = new GCSBlobContent(urlS, gcsinfo);
 				UploadedElementCollapsible coll = new UploadedElementCollapsible(content,top.getModalPanel());
 				top.addCollapsible(coll);
 			} else {

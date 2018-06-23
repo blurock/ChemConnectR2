@@ -30,7 +30,7 @@ import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInp
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 
-public class UploadedElementCollapsible extends Composite implements VisualizationOfBlobStorage, ChooseFromConceptHeirarchy {
+public class UploadedElementCollapsible extends Composite implements VisualizationOfBlobStorage, ChooseFromConceptHeirarchy, InsertBlobContentInterface {
 
 	private static UploadedElementCollapsibleUiBinder uiBinder = GWT.create(UploadedElementCollapsibleUiBinder.class);
 
@@ -95,12 +95,19 @@ public class UploadedElementCollapsible extends Composite implements Visualizati
 	}
 	
 	void fill(GCSBlobContent content) {
+		Window.alert("fill(GCSBlobContent content):  url" + content.getUrl());
 		this.content = content;
 		info = content.getInfo();
 		linkUrl = content.getUrl();
 		if(linkUrl != null) {
 			urltooltip.setText(linkUrl);
 		} else {
+			UserImageServiceAsync async = UserImageService.Util.getInstance();
+			GCSContentCallback callback = new GCSContentCallback(this);
+			async.getBlobContent(info,callback);
+
+			
+			
 			urltooltip.setText("");
 		}
 		
@@ -244,5 +251,17 @@ public class UploadedElementCollapsible extends Composite implements Visualizati
 				findClassifications(node,interpretmap);
 			}
 		}
+	}
+
+	@Override
+	public void insertBlobInformation(GCSBlobContent content) {
+	if(isImage()) {
+		Window.alert("insertBlobInformation: " + content.getUrl());
+		linkUrl = content.getUrl();
+		imagepanel.clear();
+		MaterialImage image = new MaterialImage(linkUrl);				
+		imagepanel.add(image);
+		
+	}
 	}
 }
