@@ -14,7 +14,6 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.structure.Database
 
 public interface UserImageServiceAsync {
 
-
 	void getUploadedImageSet(ImageServiceInformation serviceInfo, AsyncCallback<ArrayList<UploadedImage>> callback);
 
 	void getBlobstoreUploadUrl(String keywordName, boolean uploadService,
@@ -63,5 +62,7 @@ public interface UserImageServiceAsync {
 
 	void getMethodology(DatabaseObject obj, String methodology, String title,
 			AsyncCallback<DatabaseObjectHierarchy> callback);
+
+	void getUploadedFilesHiearchy(ArrayList<String> fileTypes,AsyncCallback<HierarchyNode> callback);
 
 }

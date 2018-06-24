@@ -82,4 +82,6 @@ public interface UserImageService  extends RemoteService  {
 	DatabaseObjectHierarchy writeDatabaseObjectHierarchy(DatabaseObjectHierarchy hierarchy) throws IOException;
 	
 	public DatabaseObjectHierarchy getMethodology(DatabaseObject obj, String methodology, String title);
+	
+	HierarchyNode getUploadedFilesHiearchy(ArrayList<String> fileTypes) throws IOException;
 }

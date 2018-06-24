@@ -1,6 +1,7 @@
 package info.esblurock.reaction.core.server.db.image;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -327,6 +328,17 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 			fileset.add((GCSBlobFileInformation) obj);
 		}
 		return fileset;
+	}
+
+	public HierarchyNode getUploadedFilesHiearchy(ArrayList<String> fileTypes) throws IOException {
+		ArrayList<GCSBlobFileInformation> lst = getUploadedFiles();
+		return getBlobHierarchy(lst,fileTypes);
+	}
+	public HierarchyNode getBlobHierarchy(ArrayList<GCSBlobFileInformation> lst, ArrayList<String> types)  {
+		DatabaseObject obj = new DatabaseObject();
+		obj.setIdentifier("Blob Files");
+		HierarchyNode hierarchy = ParseUtilities.buildBlobHierarchy(obj,lst,types);
+		return hierarchy;
 	}
 
 	public GCSBlobFileInformation retrieveBlobFromURL(String requestUrl) throws IOException {
