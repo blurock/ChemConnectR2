@@ -19,6 +19,7 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.ChemConnectRecordI
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DatasetInformationFromOntology;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterValueInformation;
+import info.esblurock.reaction.core.server.db.InterpretData;
 import info.esblurock.reaction.core.server.db.ReadWriteDatabaseObjectsWithSubobjects;
 import info.esblurock.reaction.core.server.db.extract.BuildFromCatalogInformation;
 import info.esblurock.reaction.core.server.db.extract.BuildSetOfObservationsInformation;
@@ -28,7 +29,6 @@ import info.esblurock.reaction.core.server.db.extract.GeocodingLatituteAndLongit
 import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFactory;
 import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
 import info.esblurock.reaction.core.server.services.util.DatabaseObjectUtilities;
-import info.esblurock.reaction.io.dataset.InterpretData;
 import info.esblurock.reaction.io.db.QueryBase;
 import info.esblurock.reaction.ontology.dataset.ConceptParsing;
 import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;

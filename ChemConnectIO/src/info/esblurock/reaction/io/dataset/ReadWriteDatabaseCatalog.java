@@ -19,6 +19,7 @@ import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.TransferDatabaseCatalogHierarchy;
+import info.esblurock.reaction.core.server.db.InterpretData;
 import info.esblurock.reaction.io.db.QueryBase;
 
 public class ReadWriteDatabaseCatalog {

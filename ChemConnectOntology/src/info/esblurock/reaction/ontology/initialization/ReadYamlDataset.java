@@ -23,7 +23,7 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConn
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ListOfElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.MapToChemConnectCompoundDataStructure;
-import info.esblurock.reaction.io.dataset.InterpretData;
+import info.esblurock.reaction.core.server.db.InterpretData;
 import info.esblurock.reaction.io.metadata.StandardDatasetMetaData;
 import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 

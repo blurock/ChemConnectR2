@@ -8,7 +8,7 @@ import java.util.Set;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
-import info.esblurock.reaction.io.dataset.InterpretData;
+import info.esblurock.reaction.core.server.db.InterpretData;
 
 public class ReadWriteYamlDatabaseObjectHierarchy {
 

@@ -1,4 +1,4 @@
-package info.esblurock.reaction.io.dataset;
+package info.esblurock.reaction.core.server.db;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -44,8 +44,12 @@ import info.esblurock.reaction.chemconnect.core.data.dataset.SetOfObservationVal
 import info.esblurock.reaction.chemconnect.core.data.dataset.device.SubSystemDescription;
 import info.esblurock.reaction.chemconnect.core.data.dataset.PurposeConceptPair;
 import info.esblurock.reaction.io.spreadsheet.ConvertToMatrixOfObjects;
+import info.esblurock.reaction.ontology.OntologyKeys;
+import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 import info.esblurock.reaction.io.spreadsheet.ConvertInputDataBase;
+import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHierarchy;
 import info.esblurock.reaction.chemconnect.core.data.dataset.MeasurementParameterValue;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DimensionParameterValue;
@@ -102,6 +106,16 @@ public enum InterpretData {
 			return DatabaseObject.class.getCanonicalName();
 		}
 
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+			DatabaseObject objcpy = new DatabaseObject(obj);
+			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(objcpy);
+			return hierarchy;
+		}
+
+
+
 	},
 	ChemConnectDataStructure {
 
@@ -149,6 +163,37 @@ public enum InterpretData {
 			return ChemConnectDataStructure.class.getCanonicalName();
 		}
 
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+			DatabaseObject compobj = new DatabaseObject(obj);
+			compobj.nullKey();
+			DataElementInformation element = DatasetOntologyParsing
+					.getSubElementStructureFromIDObject(OntologyKeys.chemConnectDataStructure);
+			String compid = createSuffix(obj, element);
+			compobj.setIdentifier(compid);
+
+			DatabaseObjectHierarchy descrhier = InterpretData.DescriptionDataData.createEmptyObject(obj);
+			DescriptionDataData descr = (DescriptionDataData) descrhier.getObject();
+			
+			DatabaseObjectHierarchy refhier = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(compobj);
+			setChemConnectCompoundMultipleType(refhier,OntologyKeys.dataSetReference);
+			DatabaseObjectHierarchy lnkhier = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(compobj);
+			setChemConnectCompoundMultipleType(lnkhier,OntologyKeys.dataSetReference);
+			ChemConnectDataStructure compound = new ChemConnectDataStructure(compobj, 
+					descr.getIdentifier(), 
+					refhier.getObject().getIdentifier(),
+					lnkhier.getObject().getIdentifier());
+
+			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(compound);
+			hierarchy.addSubobject(descrhier);
+			hierarchy.addSubobject(refhier);
+			hierarchy.addSubobject(lnkhier);
+
+			return hierarchy;
+		}
+
+
 	},
 	ChemConnectCompoundDataStructure {
 
@@ -188,6 +233,22 @@ public enum InterpretData {
 		public String canonicalClassName() {
 			return ChemConnectCompoundDataStructure.class.getCanonicalName();
 		}
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+			DatabaseObject compobj = new DatabaseObject(obj);
+			DataElementInformation element = DatasetOntologyParsing
+					.getSubElementStructureFromIDObject(OntologyKeys.chemConnectCompoundDataStructure);
+			String compid = createSuffix(obj, element);
+			compobj.setIdentifier(compid);
+
+			ChemConnectCompoundDataStructure compound = new ChemConnectCompoundDataStructure(compobj, "no parent");
+			compound.setParentLink(obj.getIdentifier());
+			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(compound);
+
+			return hierarchy;
+		}
 	}, ChemConnectCompoundMultiple {
 
 		@Override
@@ -198,7 +259,6 @@ public enum InterpretData {
 			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
 			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);					
 			String typeS = (String) yaml.get(StandardDatasetMetaData.elementType);
-			HashSet<String> idsS = interpretMultipleYaml(StandardDatasetMetaData.chemConnectCompoundMultipleS,yaml);
 			multi = new ChemConnectCompoundMultiple(objdata, typeS);
 			
 			return multi;
@@ -226,13 +286,20 @@ public enum InterpretData {
 		public String canonicalClassName() {
 			return ChemConnectCompoundMultiple.class.getCanonicalName();
 		}
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
+			DatabaseObject refobj = new DatabaseObject(obj);
+			String dataType = "noType";
+			ChemConnectCompoundMultiple refmult = new ChemConnectCompoundMultiple(refobj,dataType);
+			DatabaseObjectHierarchy refhier = new DatabaseObjectHierarchy(refmult);
+			return refhier;
+		}
 		
 	}, SetOfObservationValues {
 
 		@Override
-		public DatabaseObject fillFromYamlString(
-				DatabaseObject top, Map<String, Object> yaml,
-				String sourceID) throws IOException {
+		public DatabaseObject fillFromYamlString(DatabaseObject top,Map<String, Object> yaml,String sourceID) throws IOException {
 			SetOfObservationValues set = null;
 			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
 			ChemConnectDataStructure objdata = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
@@ -270,6 +337,33 @@ public enum InterpretData {
 		@Override
 		public String canonicalClassName() {
 			return SetOfObservationValues.class.getCanonicalName();
+		}
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+			DatabaseObject obsobj = new DatabaseObject(obj);
+			DataElementInformation element = DatasetOntologyParsing
+					.getSubElementStructureFromIDObject(OntologyKeys.setOfObservationValues);
+			String obsid = createSuffix(obj, element);
+			obsobj.setIdentifier(obsid);
+
+			DatabaseObjectHierarchy measurehier = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(obsobj);
+			setChemConnectCompoundMultipleType(measurehier,OntologyKeys.measurementParameterValue);
+			DatabaseObjectHierarchy dimensionhier = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(obsobj);
+			setChemConnectCompoundMultipleType(dimensionhier,OntologyKeys.dimensionParameterValue);
+			DatabaseObjectHierarchy comphier = InterpretData.ChemConnectDataStructure.createEmptyObject(obsobj);
+			ChemConnectDataStructure structure = (ChemConnectDataStructure) comphier.getObject();
+			SetOfObservationValues set = new SetOfObservationValues(structure,
+					"SetOfObservationValues",
+					measurehier.getObject().getIdentifier(),
+					dimensionhier.getObject().getIdentifier());
+			set.setIdentifier(obsid);
+			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(set);
+			hierarchy.addSubobject(measurehier);
+			hierarchy.addSubobject(dimensionhier);
+			hierarchy.transferSubObjects(comphier);
+			return hierarchy;
 		}
 		
 	}, SubSystemDescription {
@@ -315,6 +409,35 @@ public enum InterpretData {
 		public String canonicalClassName() {
 			return SubSystemDescription.class.getCanonicalName();
 		}
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+			
+			DatabaseObjectHierarchy structhier = InterpretData.ChemConnectDataStructure.createEmptyObject(obj);
+			ChemConnectDataStructure structure = (ChemConnectDataStructure) structhier.getObject();
+			
+			DatabaseObjectHierarchy spechier = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(obj);
+			setChemConnectCompoundMultipleType(spechier,OntologyKeys.observationSpecs);
+			DatabaseObjectHierarchy paramshier = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(obj);
+			setChemConnectCompoundMultipleType(paramshier,OntologyKeys.parameterValue);
+			DatabaseObjectHierarchy subshier = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(obj);
+			setChemConnectCompoundMultipleType(subshier,OntologyKeys.subSystemDescription);
+			
+			SubSystemDescription device = new SubSystemDescription(structure,
+					"Device Type",
+					spechier.getObject().getIdentifier(),
+					paramshier.getObject().getIdentifier(),
+					subshier.getObject().getIdentifier()
+					);
+			device.setIdentifier(obj.getIdentifier());
+			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(device);
+			hierarchy.transferSubObjects(structhier);
+			hierarchy.addSubobject(spechier);
+			hierarchy.addSubobject(paramshier);
+			hierarchy.addSubobject(subshier);
+			return hierarchy;
+		}
 		
 	}, ChemConnectMethodology {
 
@@ -353,6 +476,28 @@ public enum InterpretData {
 		public String canonicalClassName() {
 			return ChemConnectMethodology.class.getCanonicalName();
 		}
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+			DatabaseObjectHierarchy structhier = InterpretData.ChemConnectDataStructure.createEmptyObject(obj);
+			ChemConnectDataStructure structure = (ChemConnectDataStructure) structhier.getObject();
+
+			DatabaseObjectHierarchy obsspechier = InterpretData.ObservationSpecification.createEmptyObject(obj);
+			DatabaseObjectHierarchy paramhier = InterpretData.ParameterValue.createEmptyObject(obj);
+
+			ChemConnectMethodology methodology = new ChemConnectMethodology(structure,
+					"Methodology Type",
+					obsspechier.getObject().getIdentifier(),
+					paramhier.getObject().getIdentifier()
+					);
+			methodology.setIdentifier(obj.getIdentifier());
+			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(methodology);
+			hierarchy.transferSubObjects(structhier);
+			hierarchy.addSubobject(obsspechier);
+			hierarchy.addSubobject(paramhier);
+			return hierarchy;
+		}
 		
 	}, DatasetCatalogHierarchy {
 
@@ -388,6 +533,27 @@ public enum InterpretData {
 		@Override
 		public String canonicalClassName() {
 			return DatasetCatalogHierarchy.class.getCanonicalName();
+		}
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+			DatabaseObject catobj = new DatabaseObject(obj);
+			DataElementInformation element = DatasetOntologyParsing
+					.getSubElementStructureFromIDObject(OntologyKeys.datasetCatalogHierarchy);
+
+			String catid = createSuffix(obj, element);
+			catobj.setIdentifier(catid);
+
+			DatabaseObjectHierarchy structhier = InterpretData.ChemConnectDataStructure.createEmptyObject(obj);
+			ChemConnectDataStructure structure = (ChemConnectDataStructure) structhier.getObject();
+
+			DatasetCatalogHierarchy catalog = new DatasetCatalogHierarchy(structure);
+			catalog.setIdentifier(catid);
+
+			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(catalog);
+			hierarchy.transferSubObjects(structhier);
+			return hierarchy;
 		}
 		
 	},
@@ -432,6 +598,21 @@ public enum InterpretData {
 		public String canonicalClassName() {
 			return PurposeConceptPair.class.getCanonicalName();
 		}
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+			DataElementInformation element = DatasetOntologyParsing
+					.getSubElementStructureFromIDObject(OntologyKeys.purposeConceptPair);
+			DatabaseObject conceptobj = new DatabaseObject(obj);
+			String conceptid = createSuffix(obj, element);
+			conceptobj.setIdentifier(conceptid);
+			ChemConnectCompoundDataStructure conceptcompound = new ChemConnectCompoundDataStructure(conceptobj,
+					obj.getIdentifier());
+			PurposeConceptPair pair = new PurposeConceptPair(conceptcompound, noPurposeS, noConceptS);
+			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(pair);
+			return hierarchy;
+		}
 		
 	}, AttributeInDataset {
 
@@ -469,38 +650,19 @@ public enum InterpretData {
 		public String canonicalClassName() {
 			return AttributeInDataset.class.getCanonicalName();
 		}
-		
-	},
-	DatasetSpecification {
 
 		@Override
-		public info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject fillFromYamlString(
-				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject top, Map<String, Object> yaml,
-				String sourceID) throws IOException {
-			// TODO Auto-generated method stub
-			return null;
+		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
+			DatabaseObject attrobj = new DatabaseObject(obj);
+			DataElementInformation element = DatasetOntologyParsing
+					.getSubElementStructureFromIDObject(OntologyKeys.attributeInDataset);
+			String attrid = createSuffix(obj, element);
+			attrobj.setIdentifier(attrid);
+			DatabaseObjectHierarchy paramhier = InterpretData.ParameterValue.createEmptyObject(attrobj);
+			AttributeInDataset attr = new AttributeInDataset(obj,paramhier.getObject().getIdentifier());
+			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(attr);
+			return hierarchy;
 		}
-
-		@Override
-		public Map<String, Object> createYamlFromObject(
-				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject object) throws IOException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject readElementFromDatabase(
-				String identifier) throws IOException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public String canonicalClassName() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-		
 	},
 	DescriptionDataData {
 
@@ -562,7 +724,35 @@ public enum InterpretData {
 			return DescriptionDataData.class.getCanonicalName();
 		}
 
-	}, CatalogName {
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+			DatabaseObject descrobj = new DatabaseObject(obj);
+			DataElementInformation element = DatasetOntologyParsing
+					.getSubElementStructureFromIDObject(OntologyKeys.descriptionDataData);
+			String descrid = createSuffix(obj, element);
+			descrobj.setIdentifier(descrid);
+
+			DatabaseObjectHierarchy comphier = InterpretData.ChemConnectCompoundDataStructure.createEmptyObject(descrobj);
+			ChemConnectCompoundDataStructure compound = (ChemConnectCompoundDataStructure) comphier.getObject();
+
+			DatabaseObjectHierarchy pairhier = InterpretData.PurposeConceptPair.createEmptyObject(descrobj);
+			PurposeConceptPair pair = (PurposeConceptPair) pairhier.getObject();
+
+			DatabaseObjectHierarchy keyshier = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(descrobj);
+			ChemConnectCompoundMultiple keywords = (ChemConnectCompoundMultiple) keyshier.getObject();
+
+			DescriptionDataData descr = new DescriptionDataData(compound, "one line", "full description",
+					pair.getIdentifier(), new Date(),OntologyKeys.descriptionDataData , keywords.getIdentifier());
+			descr.setIdentifier(descrid);
+			DatabaseObjectHierarchy descrhier = new DatabaseObjectHierarchy(descr);
+			descrhier.addSubobject(pairhier);
+			descrhier.addSubobject(keyshier);
+
+			return descrhier;
+		}
+
+	}, /*CatalogName {
 
 		@Override
 		public info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject fillFromYamlString(
@@ -596,8 +786,15 @@ public enum InterpretData {
 			// TODO Auto-generated method stub
 			return null;
 		}
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+			// TODO Auto-generated method stub
+			return null;
+		}
 		
-	},
+	}*/
 	DataSpecification {
 
 		@Override
@@ -637,6 +834,15 @@ public enum InterpretData {
 		public String canonicalClassName() {
 			return DataSpecification.class.getCanonicalName();
 		}
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
+			DatabaseObjectHierarchy pairhier = InterpretData.PurposeConceptPair.createEmptyObject(obj);
+			PurposeConceptPair pair = (PurposeConceptPair) pairhier.getObject();
+			DataSpecification spec = new DataSpecification(obj,pair.getIdentifier());
+			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(spec);
+			return hierarchy;
+		}
 		
 	}, DimensionParameterValue {
 
@@ -670,6 +876,15 @@ public enum InterpretData {
 		public String canonicalClassName() {
 			return DimensionParameterValue.class.getCanonicalName();
 		}
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
+			DatabaseObjectHierarchy paramhier = InterpretData.ParameterValue.createEmptyObject(obj);
+			ParameterValue param = (ParameterValue) paramhier.getObject();
+			DimensionParameterValue value = new DimensionParameterValue(param);
+			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(value);
+			return hierarchy;
+		}
 		
 	}, MeasurementParameterValue {
 
@@ -702,6 +917,16 @@ public enum InterpretData {
 		@Override
 		public String canonicalClassName() {
 			return MeasurementParameterValue.class.getCanonicalName();
+		}
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+			DatabaseObjectHierarchy paramhier = InterpretData.ParameterValue.createEmptyObject(obj);
+			ParameterValue param = (ParameterValue) paramhier.getObject();
+			MeasurementParameterValue value = new MeasurementParameterValue(param);
+			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(value);
+			return hierarchy;
 		}
 		
 	}, ParameterValue {
@@ -746,6 +971,23 @@ public enum InterpretData {
 		@Override
 		public String canonicalClassName() {
 			return ParameterValue.class.getCanonicalName();
+		}
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+			DatabaseObjectHierarchy attribute = InterpretData.AttributeInDataset.createEmptyObject(obj);
+			AttributeInDataset attr = (AttributeInDataset) attribute.getObject();
+			DatabaseObjectHierarchy parameterspec = InterpretData.ParameterSpecification.createEmptyObject(obj);
+			ParameterSpecification pspec = (ParameterSpecification) parameterspec.getObject();
+			ParameterValue value = null;
+			value = new ParameterValue(attr, "no value", "no uncertainty", pspec.getIdentifier());
+			value.setIdentifier(obj.getIdentifier());
+
+			DatabaseObjectHierarchy hier = new DatabaseObjectHierarchy(value);
+			hier.addSubobject(parameterspec);
+			hier.transferSubObjects(attribute);
+			return hier;
 		}
 		
 	},
@@ -793,6 +1035,30 @@ public enum InterpretData {
 		public String canonicalClassName() {
 			return ParameterSpecification.class.getCanonicalName();
 		}
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+			DatabaseObject specobj = new DatabaseObject(obj);
+			DataElementInformation element = DatasetOntologyParsing
+					.getSubElementStructureFromIDObject(OntologyKeys.parameterSpecification);
+			String specsid = createSuffix(obj, element);
+			specobj.setIdentifier(specsid);
+
+			DatabaseObjectHierarchy valuehier = InterpretData.ValueUnits.createEmptyObject(specobj);
+			DatabaseObjectHierarchy dspechier = InterpretData.DataSpecification.createEmptyObject(specobj);
+			DataSpecification dspec = (DataSpecification) dspechier.getObject();
+			ValueUnits value = (ValueUnits) valuehier.getObject();
+			ParameterSpecification specs = new ParameterSpecification(dspec, "no label","no uncertainty", value.getIdentifier());
+			specs.setIdentifier(specsid);
+
+			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(specs);
+			hierarchy.addSubobject(valuehier);
+			hierarchy.transferSubObjects(dspechier);
+			hierarchy.transferSubObjects(valuehier);
+
+			return hierarchy;
+		}
 		
 	}, MeasurementParameterSpecification {
 
@@ -829,6 +1095,16 @@ public enum InterpretData {
 		public String canonicalClassName() {
 			return MeasurementParameterSpecification.class.getCanonicalName();
 		}
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+			DatabaseObjectHierarchy spechier = InterpretData.ParameterSpecification.createEmptyObject(obj);
+			ParameterSpecification spec = (ParameterSpecification) spechier.getObject();
+			MeasurementParameterSpecification mspec = new MeasurementParameterSpecification(spec);
+			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(mspec);
+			return hierarchy;
+		}
 		
 	}, DimensionParameterSpecification {
 
@@ -864,6 +1140,16 @@ public enum InterpretData {
 		@Override
 		public String canonicalClassName() {
 			return DimensionParameterSpecification.class.getCanonicalName();
+		}
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+			DatabaseObjectHierarchy spechier = InterpretData.ParameterSpecification.createEmptyObject(obj);
+			ParameterSpecification spec = (ParameterSpecification) spechier.getObject();
+			DimensionParameterSpecification dspec = new DimensionParameterSpecification(spec);
+			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(dspec);
+			return hierarchy;
 		}
 		
 	}, ValueUnits {
@@ -907,6 +1193,22 @@ public enum InterpretData {
 		@Override
 		public String canonicalClassName() {
 			return ValueUnits.class.getCanonicalName();
+		}
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+			DatabaseObject unitsobj = new DatabaseObject(obj);
+			DataElementInformation element = DatasetOntologyParsing
+					.getSubElementStructureFromIDObject(OntologyKeys.valueUnits);
+			String unitsid = createSuffix(obj, element);
+			unitsobj.setIdentifier(unitsid);
+
+			ValueUnits units = new ValueUnits(unitsobj, noUnitClassS, noValueUnitsS);
+
+			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(units);
+
+			return hierarchy;
 		}
 		
 	}, ObservationSpecification {
@@ -952,6 +1254,30 @@ public enum InterpretData {
 		public String canonicalClassName() {
 			return ObservationSpecification.class.getCanonicalName();
 		}
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
+			DatabaseObjectHierarchy measurehier = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(obj);
+			ChemConnectCompoundMultiple measuremult = (ChemConnectCompoundMultiple) measurehier.getObject();
+			measuremult.setType(OntologyKeys.measureSpecification);
+			DatabaseObjectHierarchy dimensionhier = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(obj);
+			ChemConnectCompoundMultiple dimensionmult = (ChemConnectCompoundMultiple) measurehier.getObject();
+			dimensionmult.setType(OntologyKeys.dimensionSpecification);
+			DatabaseObjectHierarchy structhier = InterpretData.ChemConnectCompoundDataStructure.createEmptyObject(obj);
+			ChemConnectCompoundDataStructure structure = (ChemConnectCompoundDataStructure) structhier.getObject();
+			ObservationSpecification specification = new ObservationSpecification(structure,
+					"Label",
+					"dataset:VectorOfObservables",
+					dimensionhier.getObject().getIdentifier(),
+					measurehier.getObject().getIdentifier()
+					);
+			specification.setIdentifier(obj.getIdentifier());
+			DatabaseObjectHierarchy spechier = new DatabaseObjectHierarchy(specification);
+			spechier.addSubobject(dimensionhier);
+			spechier.addSubobject(measurehier);
+			
+			return spechier;
+		}
 		
 	}, ContactInfoData {
 
@@ -992,6 +1318,37 @@ public enum InterpretData {
 		@Override
 		public String canonicalClassName() {
 			return ContactInfoData.class.getCanonicalName();
+		}
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+			DatabaseObject contactobj = new DatabaseObject(obj);
+			DataElementInformation element = DatasetOntologyParsing
+					.getSubElementStructureFromIDObject(OntologyKeys.contactInfoData);
+			String contactid = createSuffix(obj, element);
+			contactobj.setIdentifier(contactid);
+
+			DatabaseObjectHierarchy topsitesmult = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(contactobj);
+			ChemConnectCompoundMultiple topsite = (ChemConnectCompoundMultiple) topsitesmult.getObject();
+			topsite.setType(OntologyKeys.contactTopSite);
+			DatabaseObjectHierarchy hassitesmult = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(contactobj);
+			ChemConnectCompoundMultiple hassites = (ChemConnectCompoundMultiple) topsitesmult.getObject();
+			hassites.setType(OntologyKeys.contactHasSite);
+			DatabaseObjectHierarchy compoundhier = InterpretData.ChemConnectCompoundDataStructure.createEmptyObject(obj);
+			ChemConnectCompoundDataStructure compound = (ChemConnectCompoundDataStructure) compoundhier.getObject();
+
+			ContactInfoData contact = new ContactInfoData(compound,
+					"email",
+					topsitesmult.getObject().getIdentifier(),
+					hassitesmult.getObject().getIdentifier());
+			contact.setIdentifier(contactid);
+			
+			DatabaseObjectHierarchy top = new DatabaseObjectHierarchy(contact);
+			top.addSubobject(topsitesmult);
+			top.addSubobject(hassitesmult);
+			
+			return top;
 		}
 
 	}, ContactLocationInformation {
@@ -1042,6 +1399,29 @@ public enum InterpretData {
 			return ContactLocationInformation.class.getCanonicalName();
 		}
 
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+			DatabaseObject contactobj = new DatabaseObject(obj);
+			DataElementInformation element = DatasetOntologyParsing
+					.getSubElementStructureFromIDObject(OntologyKeys.contactLocationInformation);
+			String contactid = createSuffix(obj, element);
+			contactobj.setIdentifier(contactid);
+
+			DatabaseObjectHierarchy compoundhier = InterpretData.ChemConnectCompoundDataStructure.createEmptyObject(obj);
+			ChemConnectCompoundDataStructure compound = (ChemConnectCompoundDataStructure) compoundhier.getObject();
+
+			DatabaseObjectHierarchy gpshier = InterpretData.GPSLocation.createEmptyObject(contactobj);
+			GPSLocation gps = (GPSLocation) gpshier.getObject();
+
+			ContactLocationInformation location = new ContactLocationInformation(compound, gps.getIdentifier());
+			location.setIdentifier(contactid);
+			DatabaseObjectHierarchy top = new DatabaseObjectHierarchy(location);
+			top.addSubobject(gpshier);
+
+			return top;
+		}
+
 	},
 	GPSLocation {
 
@@ -1080,6 +1460,21 @@ public enum InterpretData {
 		@Override
 		public String canonicalClassName() {
 			return GPSLocation.class.getCanonicalName();
+		}
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+			DatabaseObject gpsobj = new DatabaseObject(obj);
+			DataElementInformation element = DatasetOntologyParsing
+					.getSubElementStructureFromIDObject(OntologyKeys.gPSLocation);
+			String gpsid = createSuffix(obj, element);
+			gpsobj.setIdentifier(gpsid);
+
+			GPSLocation gps = new GPSLocation(gpsobj);
+			DatabaseObjectHierarchy gpshier = new DatabaseObjectHierarchy(gps);
+
+			return gpshier;
 		}
 
 	},
@@ -1132,6 +1527,27 @@ public enum InterpretData {
 			return OrganizationDescription.class.getCanonicalName();
 		}
 
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+			DatabaseObject orgobj = new DatabaseObject(obj);
+			DataElementInformation element = DatasetOntologyParsing
+					.getSubElementStructureFromIDObject(OntologyKeys.organizationDescription);
+			String orgid = createSuffix(obj, element);
+			orgobj.setIdentifier(orgid);
+
+			DatabaseObjectHierarchy compoundhier = InterpretData.ChemConnectCompoundDataStructure.createEmptyObject(obj);
+			ChemConnectCompoundDataStructure compound = (ChemConnectCompoundDataStructure) compoundhier.getObject();
+
+			OrganizationDescription descr = new OrganizationDescription(compound, "organization unit", "organization class",
+					"organization", "suborganization");
+			descr.setIdentifier(orgid);
+
+			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(descr);
+
+			return hierarchy;
+		}
+
 	},
 	DataSetReference {
 
@@ -1177,6 +1593,23 @@ public enum InterpretData {
 			return DataSetReference.class.getCanonicalName();
 		}
 
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+			
+			DatabaseObjectHierarchy compoundhier = InterpretData.ChemConnectCompoundDataStructure.createEmptyObject(obj);
+			ChemConnectCompoundDataStructure compound = (ChemConnectCompoundDataStructure) compoundhier.getObject();
+			
+			DatabaseObjectHierarchy authormult = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(obj);
+			ChemConnectCompoundMultiple mult = (ChemConnectCompoundMultiple) authormult.getObject();
+			mult.setType(OntologyKeys.author);
+			
+			DataSetReference reference = new DataSetReference(compound,
+					"DOI","Article Title","Reference String",mult.getIdentifier());
+			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(reference);
+			return hierarchy;
+		}
+
 	}, DataObjectLink {
 
 		@Override
@@ -1217,6 +1650,24 @@ public enum InterpretData {
 			return DataObjectLink.class.getCanonicalName();
 		}
 
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+			DatabaseObject linkobj = new DatabaseObject(obj);
+			DataElementInformation element = DatasetOntologyParsing
+					.getSubElementStructureFromIDObject(OntologyKeys.dataObjectLink);
+			String linkid = createSuffix(obj, element);
+			linkobj.setIdentifier(linkid);
+
+			DatabaseObjectHierarchy compoundhier = InterpretData.ChemConnectCompoundDataStructure.createEmptyObject(obj);
+			ChemConnectCompoundDataStructure compound = (ChemConnectCompoundDataStructure) compoundhier.getObject();
+
+			DataObjectLink userlink = new DataObjectLink(compound, "link concept", "linked object");
+
+			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(userlink);
+			return hierarchy;
+		}
+
 	},
 	PersonalDescription {
 
@@ -1255,6 +1706,30 @@ public enum InterpretData {
 		@Override
 		public String canonicalClassName() {
 			return PersonalDescription.class.getCanonicalName();
+		}
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+			DatabaseObject personobj = new DatabaseObject(obj);
+			DataElementInformation element = DatasetOntologyParsing
+					.getSubElementStructureFromIDObject(OntologyKeys.personalDescription);
+			String personid = createSuffix(obj, element);
+			personobj.setIdentifier(personid);
+
+			DatabaseObjectHierarchy compoundhier = InterpretData.ChemConnectCompoundDataStructure.createEmptyObject(obj);
+			ChemConnectCompoundDataStructure compound = (ChemConnectCompoundDataStructure) compoundhier.getObject();
+
+			DatabaseObjectHierarchy namehier = InterpretData.NameOfPerson.createEmptyObject(personobj);
+			NameOfPerson person = (NameOfPerson) namehier.getObject();
+
+			PersonalDescription description = new PersonalDescription(compound, "user class", person.getIdentifier());
+			description.setIdentifier(personid);
+
+			DatabaseObjectHierarchy top = new DatabaseObjectHierarchy(description);
+			top.addSubobject(namehier);
+
+			return top;
 		}
 
 	},
@@ -1298,6 +1773,21 @@ public enum InterpretData {
 		@Override
 		public String canonicalClassName() {
 			return NameOfPerson.class.getCanonicalName();
+		}
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+			DatabaseObject personobj = new DatabaseObject(obj);
+			DataElementInformation element = DatasetOntologyParsing
+					.getSubElementStructureFromIDObject(OntologyKeys.nameOfPerson);
+			String personid = createSuffix(obj, element);
+			personobj.setIdentifier(personid);
+
+			NameOfPerson person = new NameOfPerson(personobj, "title", "firstname", "lastname");
+			DatabaseObjectHierarchy personhier = new DatabaseObjectHierarchy(person);
+
+			return personhier;
 		}
 
 	},
@@ -1347,6 +1837,33 @@ public enum InterpretData {
 			return IndividualInformation.class.getCanonicalName();
 		}
 
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+			DatabaseObject indobj = new DatabaseObject(obj);
+			DataElementInformation element = DatasetOntologyParsing
+					.getSubElementStructureFromIDObject(OntologyKeys.individualInformation);
+			String indid = createSuffix(obj, element);
+			indobj.setIdentifier(indid);
+
+			DatabaseObjectHierarchy compoundhier = InterpretData.ChemConnectCompoundDataStructure.createEmptyObject(obj);
+			ChemConnectDataStructure structure = (ChemConnectDataStructure) compoundhier.getObject();
+
+			DatabaseObjectHierarchy contact = InterpretData.ContactInfoData.createEmptyObject(indobj);
+			DatabaseObjectHierarchy location = InterpretData.ContactLocationInformation.createEmptyObject(indobj);
+			DatabaseObjectHierarchy personalhier = InterpretData.PersonalDescription.createEmptyObject(indobj);
+			IndividualInformation info = new IndividualInformation(structure, contact.getObject().getIdentifier(),
+					location.getObject().getIdentifier(), personalhier.getObject().getIdentifier());
+			info.setIdentifier(indid);
+			DatabaseObjectHierarchy top = new DatabaseObjectHierarchy(info);
+			top.addSubobject(contact);
+			top.addSubobject(location);
+			top.addSubobject(personalhier);
+			top.transferSubObjects(compoundhier);
+
+			return top;
+		}
+
 	},
 	Organization {
 
@@ -1391,6 +1908,32 @@ public enum InterpretData {
 		@Override
 		public String canonicalClassName() {
 			return Organization.class.getCanonicalName();
+		}
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+			DatabaseObject compobj = new DatabaseObject(obj);
+			DataElementInformation element = DatasetOntologyParsing
+					.getSubElementStructureFromIDObject(OntologyKeys.organization);
+			String compid = createSuffix(obj, element);
+			compobj.setIdentifier(compid);
+			DatabaseObjectHierarchy contact = InterpretData.ContactInfoData.createEmptyObject(compobj);
+			DatabaseObjectHierarchy location = InterpretData.ContactLocationInformation.createEmptyObject(compobj);
+			DatabaseObjectHierarchy orgdescr = InterpretData.OrganizationDescription.createEmptyObject(compobj);
+
+			DatabaseObjectHierarchy compoundhier = InterpretData.ChemConnectCompoundDataStructure.createEmptyObject(obj);
+			ChemConnectDataStructure structure = (ChemConnectDataStructure) compoundhier.getObject();
+			Organization org = new Organization(structure, contact.getObject().getIdentifier(),
+					location.getObject().getIdentifier(), orgdescr.getObject().getIdentifier());
+			org.setIdentifier(compid);
+			DatabaseObjectHierarchy top = new DatabaseObjectHierarchy(org);
+			top.addSubobject(contact);
+			top.addSubobject(location);
+			top.addSubobject(orgdescr);
+			top.transferSubObjects(compoundhier);
+
+			return top;
 		}
 
 	},
@@ -1438,6 +1981,13 @@ public enum InterpretData {
 			return UserAccountInformation.class.getCanonicalName();
 		}
 
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
 	},
 	UserAccount {
 		@Override
@@ -1479,58 +2029,14 @@ public enum InterpretData {
 			return UserAccount.class.getCanonicalName();
 		}
 
-	}
-	/*, DatabasePerson {
-
 		@Override
-		public DatabaseObject fillFromYamlString(
-				DatabaseObject top, Map<String, Object> yaml,
-				String sourceID) throws IOException {
-			
-			DatabasePerson person = null;
-			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
-			ChemConnectDataStructure datastructure = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml,
-					sourceID);
-
-			String contactInfoDataID = (String) yaml.get(StandardDatasetMetaData.contactKeyS);
-			String contactLocationInformationID = (String) yaml
-					.get(StandardDatasetMetaData.locationKeyS);
-			String personalDescriptionID = (String) yaml
-					.get(StandardDatasetMetaData.personalDescriptionS);
-		
-			person = new DatabasePerson(datastructure, contactInfoDataID,
-					contactLocationInformationID, personalDescriptionID);
-			return person;
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+			// TODO Auto-generated method stub
+			return null;
 		}
 
-		@Override
-		public Map<String, Object> createYamlFromObject(
-				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject object) throws IOException {
-			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
-			Map<String, Object> map = interpret.createYamlFromObject(object);
-
-			DatabasePerson person = (DatabasePerson) object;
-
-			map.put(StandardDatasetMetaData.contactKeyS, person.getContactInfoDataID());
-			map.put(StandardDatasetMetaData.locationKeyS, person.getContactLocationInformationID());
-			map.put(StandardDatasetMetaData.personalDescriptionS, person.getPersonalDescriptionID());
-
-			return map;
-		}
-
-		@Override
-		public info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject readElementFromDatabase(
-				String identifier) throws IOException {
-			return QueryBase.getDatabaseObjectFromIdentifier(DatabasePerson.class.getCanonicalName(), identifier);
-		}
-
-		@Override
-		public String canonicalClassName() {
-			return DatabasePerson.class.getCanonicalName();
-		}
-		
-	}*/
-	,	Consortium {
+	},	Consortium {
 
 		@Override
 		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
@@ -1586,6 +2092,13 @@ public enum InterpretData {
 			return Consortium.class.getCanonicalName();
 		}
 
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
 	}, ConvertInputDataBase {
 		@Override
 		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
@@ -1623,6 +2136,13 @@ public enum InterpretData {
 		@Override
 		public String canonicalClassName() {
 			return ConvertInputDataBase.class.getCanonicalName();
+		}
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+			// TODO Auto-generated method stub
+			return null;
 		}
 		
 	}, ConvertToMatrixOfObjects {
@@ -1663,138 +2183,20 @@ public enum InterpretData {
 		public String canonicalClassName() {
 			return ConvertToMatrixOfObjects.class.getCanonicalName();
 		}
-		
-	}, PrimitiveDataStructureInformation {
-		@Override
-		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
-				throws IOException {
-
-			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
-			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);
-			
-			PrimitiveDataStructureInformation convert = null;
-			String propertyType = (String) yaml.get(StandardDatasetMetaData.propertyTypeS);
-			String valueType = (String) yaml.get(StandardDatasetMetaData.valueTypeS);
-			String value = (String) yaml.get(StandardDatasetMetaData.valueS);
-
-			convert = new PrimitiveDataStructureInformation(objdata,valueType,propertyType,value);
-			return convert;
-		}
 
 		@Override
-		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
-
-			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
-			Map<String, Object> map = interpret.createYamlFromObject(object);
-
-			PrimitiveDataStructureInformation structure = (PrimitiveDataStructureInformation) object;
-			map.put(StandardDatasetMetaData.propertyTypeS, structure.getPropertyType());
-			map.put(StandardDatasetMetaData.valueTypeS, structure.getType());
-			map.put(StandardDatasetMetaData.valueS, structure.getValue());
-
-			return map;
-		}
-
-		@Override
-		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
-			return QueryBase.getDatabaseObjectFromIdentifier(PrimitiveDataStructureInformation.class.getCanonicalName(), identifier);
-		}
-
-		@Override
-		public String canonicalClassName() {
-			return PrimitiveDataStructureInformation.class.getCanonicalName();
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+			// TODO Auto-generated method stub
+			return null;
 		}
 		
 	};
 	
-	/*, PrimitiveParameterValueInformation {
-		@Override
-		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
-				throws IOException {
 
-			InterpretData interpret = InterpretData.valueOf("PrimitiveDataStructureInformation");
-			PrimitiveDataStructureInformation objdata = (PrimitiveDataStructureInformation) interpret.fillFromYamlString(top, yaml, sourceID);
-			
-			PrimitiveParameterValueInformation convert = null;
-			
-			String unit = (String) yaml.get(StandardDatasetMetaData.unitS);
-			String unitclass = (String) yaml.get(StandardDatasetMetaData.unitClassS);
-			String purpose = (String) yaml.get(StandardDatasetMetaData.purposeS);
-			String concept = (String) yaml.get(StandardDatasetMetaData.conceptS);;
-			String uncertaintyValue = (String) yaml.get(StandardDatasetMetaData.uncertaintyValueS);
-			String uncertaintyType = (String) yaml.get(StandardDatasetMetaData.uncertaintyTypeS);
-
-			convert = new PrimitiveParameterValueInformation(objdata,unit,unitclass,purpose,concept,uncertaintyValue,uncertaintyType);
-			return convert;
-		}
-
-		@Override
-		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
-
-			InterpretData interpret = InterpretData.valueOf("PrimitiveDataStructureInformation");
-			Map<String, Object> map = interpret.createYamlFromObject(object);
-
-			PrimitiveDataStructureInformation structure = (PrimitiveDataStructureInformation) object;
-			map.put(StandardDatasetMetaData.propertyTypeS, structure.getPropertyType());
-			map.put(StandardDatasetMetaData.valueS, structure.getValue());
-
-			return map;
-		}
-
-		@Override
-		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
-			return QueryBase.getDatabaseObjectFromIdentifier(PrimitiveParameterValueInformation.class.getCanonicalName(), identifier);
-		}
-
-		@Override
-		public String canonicalClassName() {
-			return PrimitiveParameterValueInformation.class.getCanonicalName();
-		}
-		
-	}
-	*/
-	/*
-	, SetOfKeywords {
-
-		@Override
-		public DatabaseObject fillFromYamlString(
-				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject top, Map<String, Object> yaml,
-				String sourceID) throws IOException {
-			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
-			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);
-			HashSet<String> keys = interpretMultipleYaml(StandardDatasetMetaData.setOfKeywordsS, yaml);
-			
-			SetOfKeywords keyset = new SetOfKeywords(objdata,keys);
-			return keyset;
-		}
-
-		@Override
-		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
-			SetOfKeywords keyset = (SetOfKeywords) object;
-			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
-			Map<String, Object> map = interpret.createYamlFromObject(object);
-			
-			putMultipleInYaml(StandardDatasetMetaData.setOfKeywordsS, map,keyset.getKeywords());
-
-			return map;
-		}
-
-		@Override
-		public info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject readElementFromDatabase(
-				String identifier) throws IOException {
-			return QueryBase.getDatabaseObjectFromIdentifier(SetOfKeywords.class.getCanonicalName(), identifier);
-		}
-
-		@Override
-		public String canonicalClassName() {
-			return SetOfKeywords.class.getCanonicalName();
-		}
-		
-	}
-	*/
 	
+	public abstract DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj);
 	
-
 	public abstract DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
 			throws IOException;
 
@@ -1898,4 +2300,49 @@ public enum InterpretData {
 		}
 		return answers;
 	}
+	String createSuffix(DatabaseObject obj, String elementname, Map<String, DataElementInformation> elementmap) {
+		DataElementInformation element = elementmap.get(elementname);
+		return createSuffix(obj, element);
+	}
+
+	static String createSuffix(DatabaseObject obj, DataElementInformation element) {
+		return obj.getIdentifier() + "-" + element.getSuffix();
+	}
+
+	Map<String, DataElementInformation> createElementMap(String dataelement) {
+		info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure structures = DatasetOntologyParsing
+				.subElementsOfStructure(dataelement);
+		return createElementMap(structures);
+	}
+
+	Map<String, DataElementInformation> createElementMap(
+			info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure structures) {
+		Map<String, DataElementInformation> elementmap = new HashMap<String, DataElementInformation>();
+		for (DataElementInformation element : structures) {
+			elementmap.put(element.getDataElementName(), element);
+		}
+		return elementmap;
+	}
+	public String removeNamespace(String name) {
+		int pos = name.indexOf(":");
+		String ans = name;
+		if(pos >= 0) {
+			ans = name.substring(pos+1);
+		}
+		return ans;
+	}
+	
+	private static void setChemConnectCompoundMultipleType(DatabaseObjectHierarchy hierarchy, String dataType) {
+		ChemConnectCompoundMultiple multiple = (ChemConnectCompoundMultiple) hierarchy.getObject();
+		multiple.setType(dataType);
+		DataElementInformation refelement = DatasetOntologyParsing
+				.getSubElementStructureFromIDObject(dataType);
+		String refid = createSuffix(multiple, refelement);
+		multiple.setIdentifier(refid);
+	}
+	public static String noUnitClassS = "no unit class";
+	public static String noValueUnitsS = "no value units";
+	public static String noPurposeS = "no purpose";
+	public static String noConceptS = "no concept";
+
 }

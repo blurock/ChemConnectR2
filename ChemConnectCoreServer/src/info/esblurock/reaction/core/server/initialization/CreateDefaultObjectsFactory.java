@@ -354,8 +354,9 @@ public class CreateDefaultObjectsFactory {
 			DatabaseObject subobsobj =new DatabaseObject(obspecmulti);
 			String specid = subobsobj.getIdentifier() + "-" + removeNamespace(observation);
 			subobsobj.setIdentifier(specid);
-			DatabaseObjectHierarchy obsspechier = createObservationSpecification(subobsobj, obsspecID);
+			DatabaseObjectHierarchy obsspechier = createObservationSpecification(subobsobj);
 			ObservationSpecification specification = (ObservationSpecification) obsspechier.getObject();
+			specification.setParentLink(obsspecID);
 			obspecmulti.addID(specification.getIdentifier());
 			obspecset.addSubobject(obsspechier);
 			specification.setObservationLabel(observation);
@@ -367,12 +368,11 @@ public class CreateDefaultObjectsFactory {
 	}
 	
 	
-	public static DatabaseObjectHierarchy createObservationSpecification(DatabaseObject obj, String parent) {
+	public static DatabaseObjectHierarchy createObservationSpecification(DatabaseObject obj) {
 		DatabaseObjectHierarchy measurehier = createChemConnectCompoundMultiple(obj, OntologyKeys.measureSpecification);
 		DatabaseObjectHierarchy dimensionhier = createChemConnectCompoundMultiple(obj, OntologyKeys.dimensionSpecification);
 		DatabaseObjectHierarchy structhier = createChemConnectCompoundDataStructure(obj);
 		ChemConnectCompoundDataStructure structure = (ChemConnectCompoundDataStructure) structhier.getObject();
-		structure.setParentLink(parent);
 		ObservationSpecification specification = new ObservationSpecification(structure,
 				"Label",
 				"dataset:VectorOfObservables",

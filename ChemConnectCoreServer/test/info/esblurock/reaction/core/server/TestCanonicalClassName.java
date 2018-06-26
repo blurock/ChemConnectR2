@@ -5,7 +5,7 @@ package info.esblurock.reaction.core.server;
 import org.junit.Test;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
-import info.esblurock.reaction.io.dataset.InterpretData;
+import info.esblurock.reaction.core.server.db.InterpretData;
 public class TestCanonicalClassName {
 
 	@Test

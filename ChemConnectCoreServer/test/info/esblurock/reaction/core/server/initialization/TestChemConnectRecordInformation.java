@@ -10,8 +10,8 @@ import org.junit.Test;
 import info.esblurock.reaction.chemconnect.core.data.description.DescriptionDataData;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ChemConnectRecordInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
+import info.esblurock.reaction.core.server.db.InterpretData;
 import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
-import info.esblurock.reaction.io.dataset.InterpretData;
 
 
 public class TestChemConnectRecordInformation {
