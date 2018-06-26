@@ -26,7 +26,7 @@ import info.esblurock.reaction.chemconnect.core.data.login.RegisterUserLoginData
 import info.esblurock.reaction.chemconnect.core.data.rdf.RegisterRDFData;
 import info.esblurock.reaction.chemconnect.core.data.transaction.RegisterTransactionData;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructureObject;
-import info.esblurock.reaction.ontology.initialization.ReadYamlDataset;
+import info.esblurock.reaction.core.server.initialization.yaml.ReadYamlDataset;
 
 public class ReadRCMDevice {
 	protected Closeable session;

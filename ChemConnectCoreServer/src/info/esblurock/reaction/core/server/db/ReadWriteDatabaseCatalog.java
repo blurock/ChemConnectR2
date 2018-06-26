@@ -1,4 +1,4 @@
-package info.esblurock.reaction.io.dataset;
+package info.esblurock.reaction.core.server.db;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,10 +16,8 @@ import info.esblurock.reaction.chemconnect.core.data.query.QueryPropertyValue;
 import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.data.query.SetOfQueryPropertyValues;
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
-import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.TransferDatabaseCatalogHierarchy;
-import info.esblurock.reaction.core.server.db.InterpretData;
 import info.esblurock.reaction.io.db.QueryBase;
 
 public class ReadWriteDatabaseCatalog {

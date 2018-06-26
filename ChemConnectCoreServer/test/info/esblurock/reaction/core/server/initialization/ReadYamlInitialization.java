@@ -1,4 +1,4 @@
-package info.esblurock.reaction.ontology.intialization;
+package info.esblurock.reaction.core.server.initialization;
 
 import java.io.IOException;
 
@@ -14,7 +14,7 @@ import org.junit.Test;
 import com.esotericsoftware.yamlbeans.YamlException;
 import com.esotericsoftware.yamlbeans.YamlReader;
 
-import info.esblurock.reaction.ontology.initialization.ReadYamlDataset;
+import info.esblurock.reaction.core.server.initialization.yaml.ReadYamlDataset;
 
 
 public class ReadYamlInitialization {

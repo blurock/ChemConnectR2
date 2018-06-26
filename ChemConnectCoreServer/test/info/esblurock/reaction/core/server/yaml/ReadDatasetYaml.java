@@ -12,7 +12,7 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInfo
 import info.esblurock.reaction.chemconnect.core.data.transfer.DatasetInformationFromOntology;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructureObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ListOfElementInformation;
-import info.esblurock.reaction.ontology.initialization.ReadYamlDataset;
+import info.esblurock.reaction.core.server.initialization.yaml.ReadYamlDataset;
 
 public class ReadDatasetYaml {
 

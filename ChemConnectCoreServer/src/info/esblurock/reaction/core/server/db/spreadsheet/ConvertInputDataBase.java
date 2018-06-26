@@ -1,4 +1,4 @@
-package info.esblurock.reaction.io.spreadsheet;
+package info.esblurock.reaction.core.server.db.spreadsheet;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;

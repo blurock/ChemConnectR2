@@ -1,4 +1,4 @@
-package info.esblurock.reaction.ontology.initialization;
+package info.esblurock.reaction.core.server.initialization.yaml;
 
 import java.io.IOException;
 import java.io.InputStream;

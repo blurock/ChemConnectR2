@@ -43,13 +43,12 @@ import info.esblurock.reaction.chemconnect.core.data.dataset.ValueUnits;
 import info.esblurock.reaction.chemconnect.core.data.dataset.SetOfObservationValues;
 import info.esblurock.reaction.chemconnect.core.data.dataset.device.SubSystemDescription;
 import info.esblurock.reaction.chemconnect.core.data.dataset.PurposeConceptPair;
-import info.esblurock.reaction.io.spreadsheet.ConvertToMatrixOfObjects;
 import info.esblurock.reaction.ontology.OntologyKeys;
 import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
-import info.esblurock.reaction.io.spreadsheet.ConvertInputDataBase;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
-import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
+import info.esblurock.reaction.core.server.db.spreadsheet.ConvertInputDataBase;
+import info.esblurock.reaction.core.server.db.spreadsheet.ConvertToMatrixOfObjects;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHierarchy;
 import info.esblurock.reaction.chemconnect.core.data.dataset.MeasurementParameterValue;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DimensionParameterValue;
@@ -298,20 +297,6 @@ public enum InterpretData {
 		
 	}, SetOfObservationValues {
 
-		@Override
-		public DatabaseObject fillFromYamlString(DatabaseObject top,Map<String, Object> yaml,String sourceID) throws IOException {
-			SetOfObservationValues set = null;
-			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
-			ChemConnectDataStructure objdata = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
-					
-			String parameterTypeS = (String) yaml.get(StandardDatasetMetaData.elementType);			
-			String measurementValuesS = (String) yaml.get(StandardDatasetMetaData.measurementValues);			
-			String dimensionValuesS    = (String) yaml.get(StandardDatasetMetaData.dimensionValues);
-
-			set = new SetOfObservationValues(objdata, 
-					parameterTypeS, measurementValuesS, dimensionValuesS);
-			return set;
-		}
 
 		@Override
 		public Map<String, Object> createYamlFromObject(
@@ -364,6 +349,22 @@ public enum InterpretData {
 			hierarchy.addSubobject(dimensionhier);
 			hierarchy.transferSubObjects(comphier);
 			return hierarchy;
+		}
+
+		@Override
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml,
+				String sourceID) throws IOException {
+			SetOfObservationValues set = null;
+			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
+			ChemConnectDataStructure objdata = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
+					
+			String parameterTypeS = (String) yaml.get(StandardDatasetMetaData.elementType);			
+			String measurementValuesS = (String) yaml.get(StandardDatasetMetaData.measurementValues);			
+			String dimensionValuesS    = (String) yaml.get(StandardDatasetMetaData.dimensionValues);
+
+			set = new SetOfObservationValues(objdata, 
+					parameterTypeS, measurementValuesS, dimensionValuesS);
+			return set;
 		}
 		
 	}, SubSystemDescription {
@@ -658,8 +659,8 @@ public enum InterpretData {
 					.getSubElementStructureFromIDObject(OntologyKeys.attributeInDataset);
 			String attrid = createSuffix(obj, element);
 			attrobj.setIdentifier(attrid);
-			DatabaseObjectHierarchy paramhier = InterpretData.ParameterValue.createEmptyObject(attrobj);
-			AttributeInDataset attr = new AttributeInDataset(obj,paramhier.getObject().getIdentifier());
+			String label = "Parameter Label";
+			AttributeInDataset attr = new AttributeInDataset(attrobj,label);
 			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(attr);
 			return hierarchy;
 		}
@@ -841,6 +842,7 @@ public enum InterpretData {
 			PurposeConceptPair pair = (PurposeConceptPair) pairhier.getObject();
 			DataSpecification spec = new DataSpecification(obj,pair.getIdentifier());
 			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(spec);
+			hierarchy.addSubobject(pairhier);
 			return hierarchy;
 		}
 		
@@ -883,6 +885,7 @@ public enum InterpretData {
 			ParameterValue param = (ParameterValue) paramhier.getObject();
 			DimensionParameterValue value = new DimensionParameterValue(param);
 			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(value);
+			hierarchy.transferSubObjects(paramhier);
 			return hierarchy;
 		}
 		
@@ -926,6 +929,7 @@ public enum InterpretData {
 			ParameterValue param = (ParameterValue) paramhier.getObject();
 			MeasurementParameterValue value = new MeasurementParameterValue(param);
 			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(value);
+			hierarchy.transferSubObjects(paramhier);
 			return hierarchy;
 		}
 		
