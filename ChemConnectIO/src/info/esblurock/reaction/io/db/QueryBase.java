@@ -14,8 +14,11 @@ import com.googlecode.objectify.cmd.Query;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
+import info.esblurock.reaction.chemconnect.core.data.query.ListOfQueries;
 import info.esblurock.reaction.chemconnect.core.data.query.QueryPropertyValue;
 import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
+import info.esblurock.reaction.chemconnect.core.data.query.SetOfQueryResults;
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.data.transaction.DataSourceIdentification;
 import info.esblurock.reaction.chemconnect.core.data.transaction.EventCount;
@@ -133,6 +136,15 @@ public class QueryBase {
 		return lst;
 	}
 	
+	public static SetOfQueryResults StandardSetOfQueries(ListOfQueries queries) throws ClassNotFoundException {
+		SetOfQueryResults results = new SetOfQueryResults();
+		for(QuerySetupBase query : queries) {
+			SingleQueryResult result = StandardQueryResult(query);
+			results.merge(result);
+		}
+		return results;
+	}
+	
 	public static SingleQueryResult StandardQueryResult(QuerySetupBase parameters) throws ClassNotFoundException {
 
 		System.out.println("StandardQueryResult: set up query: " + parameters.toString());
@@ -145,6 +157,8 @@ public class QueryBase {
 		
 		
 		//query = query.limit(parameters.getAnswerLimit());
+		
+		query = query.filter(MetaDataKeywords.access,parameters.getAccess());
 		
 		if(parameters.getQueryvalues() != null) {
 			for(QueryPropertyValue pv : parameters.getQueryvalues()) {

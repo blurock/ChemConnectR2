@@ -44,7 +44,36 @@ public enum SetUpCollapsibleItem {
 		public boolean update(StandardDatasetObjectHierarchyItem item) {
 			return true;
 		}
-	}, SubSystemDescription {
+	}, Organization {
+
+		@Override
+		public void addInformation(StandardDatasetObjectHierarchyItem item) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public boolean update(StandardDatasetObjectHierarchyItem item) {
+			return false;
+		}
+
+		@Override
+		public int priority() {
+			return 100;
+		}
+
+		@Override
+		public boolean isInformation() {
+			return false;
+		}
+
+		@Override
+		public boolean addSubitems() {
+			return true;
+		}
+		
+	},
+	SubSystemDescription {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {

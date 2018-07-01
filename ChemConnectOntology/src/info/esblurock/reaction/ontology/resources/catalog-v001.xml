@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <catalog prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+    <uri id="Imports Wizard Entry" name="http://data.qudt.org/qudt/owl/1.0.0/quantity.owl" uri="quantity.owl"/>
+    <uri id="User Entered Import Resolution" name="http://purl.org/dc/elements/1.1/" uri="dcterms.ttl"/>
     <uri id="User Entered Import Resolution" name="http://www.w3.org/ns/dcat" uri="dcat.ttl"/>
     <uri id="User Entered Import Resolution" name="http://xmlns.com/foaf/0.1/" uri="foaf.rdf"/>
     <uri id="User Entered Import Resolution" name="http://www.w3.org/ns/org#" uri="org.ttl"/>

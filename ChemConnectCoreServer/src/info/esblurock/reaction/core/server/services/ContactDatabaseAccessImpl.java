@@ -216,40 +216,10 @@ public class ContactDatabaseAccessImpl extends ServerBase implements ContactData
 		return getChemConnectDataStructure("Administration", "dataset:SetOfObservationsStructure");
 	}
 	
-	public DatabaseObjectHierarchy createDefaultSubSystemDescription(DatabaseObject obj, String devicename, String purpose, String concept) {
-		String sourceID = QueryBase.getDataSourceIdentification(obj.getOwner());
-		obj.setSourceID(sourceID);
-		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillSubSystemDescription(obj,
-				devicename,purpose,concept);
-		return hierarchy;
-	}
-	
-	public DatabaseObjectHierarchy createDefaultSetOfObservations(DatabaseObject obj,
-			String observation, String onlinedescription, String purpose, String concept) {
-		String sourceID = QueryBase.getDataSourceIdentification(obj.getOwner());
-		obj.setSourceID(sourceID);
-		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillSetOfObservations(obj,"dataset:BurnerPlateObservations",
-				"Set of burner plate observations","dataset:HeatFluxBurnerObservation","dataset:LaminarFlame");
-		return hierarchy;
-	}
-	
-	public DatabaseObjectHierarchy createDefaultPersonDescription(DatabaseObject obj, String userClassification, NameOfPerson person) {
-		String sourceID = QueryBase.getDataSourceIdentification(obj.getOwner());
-		obj.setSourceID(sourceID);
-		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillMinimalPersonDescription(obj,userClassification,person);
-		return hierarchy;
-	}
-	
-	public DatabaseObjectHierarchy createDefaultOrganization(DatabaseObject obj, String company) {
-		String sourceID = QueryBase.getDataSourceIdentification(obj.getOwner());
-		obj.setSourceID(sourceID);
-		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillOrganization(obj,company);
-		return hierarchy;
-	}
-	
 	
 	public void delete() {
 		
 	}
+
 	
 }

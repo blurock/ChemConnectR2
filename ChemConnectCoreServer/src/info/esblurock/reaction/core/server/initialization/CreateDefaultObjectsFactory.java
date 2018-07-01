@@ -102,7 +102,7 @@ public class CreateDefaultObjectsFactory {
 	public static DatabaseObjectHierarchy fillMethodologyDefinition(DatabaseObject obj, 
 			String methodologyS, String title) {
 		DatabaseObjectHierarchy methodhier = InterpretData.ChemConnectMethodology.createEmptyObject(obj);
-				//createMethodologyDefinition(obj);
+		System.out.println("fillMethodologyDefinition: \n" + methodhier);
 		ChemConnectMethodology methodology = (ChemConnectMethodology) methodhier.getObject();
 		methodology.setMethodologyType(methodologyS);
 		
@@ -293,7 +293,7 @@ public class CreateDefaultObjectsFactory {
 		DatabaseObject dobj = new DatabaseObject(obj);
 		dobj.setIdentifier(uid);
 		dobj.nullKey();
-
+		System.out.println("User catalog ID:" + dobj.getIdentifier());
 		String onelinedescription = "User's Catalog";
 		DatabaseObjectHierarchy userhierarchy = InterpretData.DatasetCatalogHierarchy.createEmptyObject(dobj);
 		DatasetCatalogHierarchy usercatalog = (DatasetCatalogHierarchy) userhierarchy.getObject();
@@ -348,13 +348,16 @@ public class CreateDefaultObjectsFactory {
 		DatabaseObjectHierarchy org = CreateDefaultObjectsFactory.fillOrganization(orgobj, title);
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(org);
 
-		DatabaseObject catobj = new DatabaseObject("Catalog", access, owner, sourceID);
+		String catname = "Catalog-" + username;
+		DatabaseObject catobj = new DatabaseObject(catname, access, owner, sourceID);
 
 		DatabaseObjectHierarchy orgcat = CreateDefaultObjectsFactory.fillCataogHierarchyForOrganization(catobj,
-				"BlurockConsultingAB", org.getObject().getIdentifier());
+				orgname, org.getObject().getIdentifier());
 
 		DatabaseObjectHierarchy usercat = CreateDefaultObjectsFactory.fillCataogHierarchyForUser(catobj,
 				user.getObject().getIdentifier(), orgcat.getObject().getIdentifier());
+		
+		//System.out.println(orgcat.toString());
 		
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(orgcat);
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(usercat);

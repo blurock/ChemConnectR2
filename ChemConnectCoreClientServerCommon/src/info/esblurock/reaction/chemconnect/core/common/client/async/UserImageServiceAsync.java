@@ -65,4 +65,7 @@ public interface UserImageServiceAsync {
 
 	void getUploadedFilesHiearchy(ArrayList<String> fileTypes,AsyncCallback<HierarchyNode> callback);
 
+	void getSetOfDatabaseObjectHierarchyForUser(String classType,
+			AsyncCallback<ArrayList<DatabaseObjectHierarchy>> callback);
+
 }

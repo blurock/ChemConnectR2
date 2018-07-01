@@ -4,6 +4,7 @@ public class MetaDataKeywords {
 	// Access keywords for DatabaseObject
 	public static String publicAccess = "Public";
 	public static String publicOwner = "Administration";
+	public static String access = "access";
 	
 	//Authorization keywords
 	public static String accessALL = "ALL";

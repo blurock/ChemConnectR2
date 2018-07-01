@@ -3,19 +3,26 @@ package info.esblurock.reaction.core.server.db;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.query.ListOfQueries;
+import info.esblurock.reaction.chemconnect.core.data.query.SetOfQueryResults;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructureObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
+import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.io.db.QueryBase;
+import info.esblurock.reaction.io.db.QueryFactory;
 import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 
 public class WriteReadDatabaseObjects {
@@ -33,6 +40,41 @@ public class WriteReadDatabaseObjects {
 		}
 	}
 	
+	public static Set<String> getIDsOfAllDatabaseObjects(String user, String classType) throws IOException {
+		String name = DatasetOntologyParsing.getChemConnectDirectTypeHierarchy(classType);
+		System.out.println("dataset:Organization    \t" + name);
+		InterpretData interpret = InterpretData.valueOf(name);
+		System.out.println(interpret.canonicalClassName());
+		ListOfQueries queries = QueryFactory.accessQueryForUser(interpret.canonicalClassName(), user, null);
+		SetOfQueryResults results;
+		Set<String> ids = new HashSet<String>();
+		try {
+			results = QueryBase.StandardSetOfQueries(queries);
+			List<DatabaseObject> objs = results.retrieveAndClear();
+			for(DatabaseObject obj : objs) {
+				ids.add(obj.getIdentifier());
+			}
+		} catch (ClassNotFoundException e) {
+			throw new IOException("Class not found: " + classType);
+		}
+		return ids;
+	}
+	public static ArrayList<DatabaseObjectHierarchy> getDatabaseObjectHierarchyFromIDs(String classType, Set<String> ids) {
+		ArrayList<DatabaseObjectHierarchy> objects = new ArrayList<DatabaseObjectHierarchy>();
+		for(String id:ids) {
+			System.out.println("getDatabaseObjectHierarchyFromIDs: " + classType + "   ID=" + id);
+			DatabaseObjectHierarchy readhierarchy = ExtractCatalogInformation.getCatalogObject(id, classType);
+			System.out.println("getDatabaseObjectHierarchyFromIDs: ID= " + id + "\n" + readhierarchy.toString());
+			objects.add(readhierarchy);
+		}
+		return objects;
+	}
+	public static ArrayList<DatabaseObjectHierarchy> getAllDatabaseObjectHierarchyForUser(String user, String classType) throws IOException {
+		Set<String> ids = getIDsOfAllDatabaseObjects(user,classType);
+		System.out.println("getAllDatabaseObjectHierarchyForUser:  " + classType + "with IDs: "+ ids);
+		ArrayList<DatabaseObjectHierarchy> objects = getDatabaseObjectHierarchyFromIDs(classType,ids);
+		return objects;
+	}
 	public static void writeChemConnectDataStructureObject(ChemConnectDataStructureObject object) {
 		writeDatabaseObjectHierarchy(object.getObjecthierarchy());
 	}

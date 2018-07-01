@@ -1,4 +1,4 @@
-package info.esblurock.reaction.chemconnect.core.client.pages.catalog.subsystems;
+package info.esblurock.reaction.chemconnect.core.client.contact;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -15,22 +15,22 @@ import info.esblurock.reaction.chemconnect.core.client.pages.catalog.StandardDat
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.data.dataset.device.SubSystemDescription;
 
-public class StandardDatasetSubSystemHeader extends Composite {
+public class StandardDatasetOrganizationHeader extends Composite {
 
-	private static StandardDatasetSubSystemHeaderUiBinder uiBinder = GWT
-			.create(StandardDatasetSubSystemHeaderUiBinder.class);
+	private static StandardDatasetOrganizationHeaderUiBinder uiBinder = GWT
+			.create(StandardDatasetOrganizationHeaderUiBinder.class);
 
-	interface StandardDatasetSubSystemHeaderUiBinder extends UiBinder<Widget, StandardDatasetSubSystemHeader> {
+	interface StandardDatasetOrganizationHeaderUiBinder extends UiBinder<Widget, StandardDatasetOrganizationHeader> {
 	}
 
-	public StandardDatasetSubSystemHeader() {
+	public StandardDatasetOrganizationHeader() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
 	@UiField
 	MaterialTooltip devicetooltip;
 	@UiField
-	MaterialLink devicehead;
+	MaterialLink orghead;
 	@UiField
 	MaterialLink save;
 	@UiField
@@ -38,11 +38,11 @@ public class StandardDatasetSubSystemHeader extends Composite {
 	
 	StandardDatasetObjectHierarchyItem item;
 
-	public StandardDatasetSubSystemHeader(StandardDatasetObjectHierarchyItem item) {
+	public StandardDatasetOrganizationHeader(StandardDatasetObjectHierarchyItem item) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.item = item;
 		SubSystemDescription descr = (SubSystemDescription) item.getObject();
-		devicehead.setText(TextUtilities.removeNamespace(descr.getSubSystemType()));
+		orghead.setText(TextUtilities.removeNamespace(descr.getSubSystemType()));
 		devicetooltip.setText(descr.getIdentifier());
 		save.setEnabled(true);
 	}
@@ -57,4 +57,5 @@ public class StandardDatasetSubSystemHeader extends Composite {
 	void onClickDelete(ClickEvent event) {
 		Window.alert("Delete Object not implemented");
 	}
+
 }

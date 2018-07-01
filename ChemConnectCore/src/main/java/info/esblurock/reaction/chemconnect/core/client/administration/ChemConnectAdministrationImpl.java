@@ -242,9 +242,8 @@ public class ChemConnectAdministrationImpl extends Composite implements ChemConn
 	}
 	@UiHandler("organizations")
 	public void onOrganizations(ClickEvent event) {
-		title.setTitle(basetext.cleardatabase());
-		title.setDescription(basetext.suretozero());
-		
+		MaterialToast.fireToast("Organization");
+		handleHistoryToken("Organization");
 	}
 	
 	@Override

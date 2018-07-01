@@ -77,17 +77,6 @@ public interface ContactDatabaseAccessAsync {
 	void getElementsOfCatalogObject(String identifier, String dataElementName,
 			AsyncCallback<Map<String, DatabaseObject>> callback);
 
-	void createDefaultSubSystemDescription(DatabaseObject obj, String devicename, String purpose, String concept,
-			AsyncCallback<DatabaseObjectHierarchy> callback);
-
-	void createDefaultSetOfObservations(DatabaseObject obj, String observation, String onlinedescription,
-			String purpose, String concept, AsyncCallback<DatabaseObjectHierarchy> callback);
-
-	void createDefaultPersonDescription(DatabaseObject obj, String userClassification, NameOfPerson person,
-			AsyncCallback<DatabaseObjectHierarchy> callback);
-
-	void createDefaultOrganization(DatabaseObject obj, String company, AsyncCallback<DatabaseObjectHierarchy> callback);
-
 	void getChemConnectRecordInformation(DatabaseObject obj, AsyncCallback<ChemConnectRecordInformation> callback);
 
 

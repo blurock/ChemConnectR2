@@ -11,6 +11,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.Set;
 
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
@@ -389,6 +390,14 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 
 	}
 
+	public ArrayList<DatabaseObjectHierarchy> getSetOfDatabaseObjectHierarchyForUser(String classType) throws IOException {
+		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
+		UserDTO user = util.getUserInfo();
+		System.out.println("User: " + user);
+		ArrayList<DatabaseObjectHierarchy> objects = WriteReadDatabaseObjects.getAllDatabaseObjectHierarchyForUser(user.getName(), classType);
+		return objects;
+	}
+	
 	public DatabaseObjectHierarchy getUserDatasetCatalogHierarchy(String username) throws IOException {
 		String uid = CreateDefaultObjectsFactory.userCatalogHierarchyID(username);
 		return ExtractCatalogInformation.getDatabaseObjectHierarchy(uid);

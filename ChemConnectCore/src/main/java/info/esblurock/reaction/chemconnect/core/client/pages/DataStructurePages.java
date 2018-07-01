@@ -5,6 +5,7 @@ import java.io.Serializable;
 import com.google.gwt.user.client.ui.Widget;
 
 import info.esblurock.reaction.chemconnect.core.client.catalog.ManageCatalogHierarchy;
+import info.esblurock.reaction.chemconnect.core.client.contact.OrganizationDefinition;
 import info.esblurock.reaction.chemconnect.core.client.device.DeviceWithSubystemsDefinition;
 import info.esblurock.reaction.chemconnect.core.client.device.MethodologyDefinition;
 import info.esblurock.reaction.chemconnect.core.client.device.SetOfObservationsDefinition;
@@ -134,6 +135,23 @@ public enum DataStructurePages implements Serializable {
 			return managecatalog;
 		}
 		
+	}, Organization {
+
+		@Override
+		public String getTitle() {
+			return "Organizations";
+		}
+
+		@Override
+		public String getDescription() {
+			return "Manage Organizations";
+		}
+
+		@Override
+		public Widget getContent() {
+			return organizations;
+		}
+		
 	};
 	
 	public abstract String getTitle();
@@ -147,4 +165,5 @@ public enum DataStructurePages implements Serializable {
 	static MethodologyDefinition methodology = new MethodologyDefinition();
 	static UploadFileToBlobStorage blobstorage = new UploadFileToBlobStorage();
 	static ManageCatalogHierarchy managecatalog = new ManageCatalogHierarchy();
+	static OrganizationDefinition organizations = new OrganizationDefinition();
 }

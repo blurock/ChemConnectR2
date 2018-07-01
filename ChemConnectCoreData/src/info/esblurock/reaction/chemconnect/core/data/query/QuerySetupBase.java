@@ -62,7 +62,7 @@ public class QuerySetupBase implements Serializable {
 		this.cursorS = cursorS;
 	}
 	public QuerySetupBase produceWithAccess(String access2) {
-		QuerySetupBase newquery = new QuerySetupBase(access,queryClass,queryvalues);
+		QuerySetupBase newquery = new QuerySetupBase(access2,queryClass,queryvalues);
 		return newquery;
 	}
 	public String toString() {

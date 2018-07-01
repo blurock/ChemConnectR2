@@ -14,7 +14,9 @@ public class SingleQueryResult implements Serializable{
 	QuerySetupBase query;
 	
 	public SingleQueryResult() {
-		
+		results = new ArrayList<DatabaseObject>();
+		cursorS = null;
+		query = null;
 	}
 	public SingleQueryResult(ArrayList<DatabaseObject> results, QuerySetupBase query, String cursorS) {
 		super();
@@ -30,6 +32,9 @@ public class SingleQueryResult implements Serializable{
 	}
 	public QuerySetupBase getQuery() {
 		return query;
+	}
+	public void clearResults() {
+		results = new ArrayList<DatabaseObject>();
 	}
 	
 	

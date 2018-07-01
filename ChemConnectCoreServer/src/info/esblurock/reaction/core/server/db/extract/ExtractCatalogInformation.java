@@ -76,7 +76,7 @@ public class ExtractCatalogInformation {
 			//System.out.println("No interpret: " + classify.getDataType());
 			//System.out.println(ex.getClass().getSimpleName());
 		} catch(IOException ex) {
-			System.out.println("IOException: " + classify.getDataType());
+			System.out.println("IOException: " + classify.getDataType() + " with ID: " + id + "singlet(" + asSinglet + ")");
 			System.out.println(ex.toString());
 			
 		} catch(Exception ex) {
@@ -296,6 +296,7 @@ public class ExtractCatalogInformation {
 	
 	public static DatabaseObjectHierarchy getDatabaseObjectHierarchy(String catid) throws IOException {
 		DatabaseObjectHierarchy hierarchy = ExtractCatalogInformation.getCatalogObject(catid, "dataset:DatasetCatalogHierarchy");
+		if(hierarchy != null) {
 		InterpretData interpret = InterpretData.valueOf("DatasetCatalogHierarchy");
 		String classname = interpret.canonicalClassName();
 		System.out.println(classname);
@@ -320,6 +321,9 @@ public class ExtractCatalogInformation {
 				System.out.println("getDatabaseObjectHierarchy: id not found " + ids);
 				System.out.println("getDatabaseObjectHierarchy: catalog " + catid);
 			}
+		}
+		} else {
+			throw new IOException("DatasetCatalogHierarchy not found: " + catid);
 		}
 		return hierarchy;
 	}

@@ -178,7 +178,7 @@ public enum InterpretData {
 			DatabaseObjectHierarchy refhier = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(compobj);
 			setChemConnectCompoundMultipleType(refhier,OntologyKeys.dataSetReference);
 			DatabaseObjectHierarchy lnkhier = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(compobj);
-			setChemConnectCompoundMultipleType(lnkhier,OntologyKeys.dataSetReference);
+			setChemConnectCompoundMultipleType(lnkhier,OntologyKeys.dataObjectLink);
 			ChemConnectDataStructure compound = new ChemConnectDataStructure(compobj, 
 					descr.getIdentifier(), 
 					refhier.getObject().getIdentifier(),
@@ -484,18 +484,20 @@ public enum InterpretData {
 			DatabaseObjectHierarchy structhier = InterpretData.ChemConnectDataStructure.createEmptyObject(obj);
 			ChemConnectDataStructure structure = (ChemConnectDataStructure) structhier.getObject();
 
-			DatabaseObjectHierarchy obsspechier = InterpretData.ObservationSpecification.createEmptyObject(obj);
-			DatabaseObjectHierarchy paramhier = InterpretData.ParameterValue.createEmptyObject(obj);
-
+			DatabaseObjectHierarchy obshier = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(obj);
+			setChemConnectCompoundMultipleType(obshier,OntologyKeys.observationSpecs);
+			DatabaseObjectHierarchy paramhier = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(obj);
+			setChemConnectCompoundMultipleType(paramhier,OntologyKeys.parameterValue);
+			
 			ChemConnectMethodology methodology = new ChemConnectMethodology(structure,
 					"Methodology Type",
-					obsspechier.getObject().getIdentifier(),
+					obshier.getObject().getIdentifier(),
 					paramhier.getObject().getIdentifier()
 					);
 			methodology.setIdentifier(obj.getIdentifier());
 			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(methodology);
 			hierarchy.transferSubObjects(structhier);
-			hierarchy.addSubobject(obsspechier);
+			hierarchy.addSubobject(obshier);
 			hierarchy.addSubobject(paramhier);
 			return hierarchy;
 		}
@@ -542,7 +544,6 @@ public enum InterpretData {
 			DatabaseObject catobj = new DatabaseObject(obj);
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(OntologyKeys.datasetCatalogHierarchy);
-
 			String catid = createSuffix(obj, element);
 			catobj.setIdentifier(catid);
 
@@ -741,6 +742,7 @@ public enum InterpretData {
 			PurposeConceptPair pair = (PurposeConceptPair) pairhier.getObject();
 
 			DatabaseObjectHierarchy keyshier = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(descrobj);
+			setChemConnectCompoundMultipleType(keyshier,OntologyKeys.keyWord);
 			ChemConnectCompoundMultiple keywords = (ChemConnectCompoundMultiple) keyshier.getObject();
 
 			DescriptionDataData descr = new DescriptionDataData(compound, "one line", "full description",
@@ -1262,11 +1264,13 @@ public enum InterpretData {
 		@Override
 		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
 			DatabaseObjectHierarchy measurehier = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(obj);
-			ChemConnectCompoundMultiple measuremult = (ChemConnectCompoundMultiple) measurehier.getObject();
-			measuremult.setType(OntologyKeys.measureSpecification);
+			setChemConnectCompoundMultipleType(measurehier,OntologyKeys.measureSpecification);
+			//ChemConnectCompoundMultiple measuremult = (ChemConnectCompoundMultiple) measurehier.getObject();
+			//measuremult.setType(OntologyKeys.measureSpecification);
 			DatabaseObjectHierarchy dimensionhier = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(obj);
-			ChemConnectCompoundMultiple dimensionmult = (ChemConnectCompoundMultiple) measurehier.getObject();
-			dimensionmult.setType(OntologyKeys.dimensionSpecification);
+			setChemConnectCompoundMultipleType(dimensionhier,OntologyKeys.dimensionSpecification);
+			//ChemConnectCompoundMultiple dimensionmult = (ChemConnectCompoundMultiple) measurehier.getObject();
+			//dimensionmult.setType(OntologyKeys.dimensionSpecification);
 			DatabaseObjectHierarchy structhier = InterpretData.ChemConnectCompoundDataStructure.createEmptyObject(obj);
 			ChemConnectCompoundDataStructure structure = (ChemConnectCompoundDataStructure) structhier.getObject();
 			ObservationSpecification specification = new ObservationSpecification(structure,
@@ -1334,11 +1338,9 @@ public enum InterpretData {
 			contactobj.setIdentifier(contactid);
 
 			DatabaseObjectHierarchy topsitesmult = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(contactobj);
-			ChemConnectCompoundMultiple topsite = (ChemConnectCompoundMultiple) topsitesmult.getObject();
-			topsite.setType(OntologyKeys.contactTopSite);
+			setChemConnectCompoundMultipleType(topsitesmult,OntologyKeys.contactTopSite);
 			DatabaseObjectHierarchy hassitesmult = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(contactobj);
-			ChemConnectCompoundMultiple hassites = (ChemConnectCompoundMultiple) topsitesmult.getObject();
-			hassites.setType(OntologyKeys.contactHasSite);
+			setChemConnectCompoundMultipleType(hassitesmult,OntologyKeys.contactHasSite);
 			DatabaseObjectHierarchy compoundhier = InterpretData.ChemConnectCompoundDataStructure.createEmptyObject(obj);
 			ChemConnectCompoundDataStructure compound = (ChemConnectCompoundDataStructure) compoundhier.getObject();
 
@@ -1605,11 +1607,10 @@ public enum InterpretData {
 			ChemConnectCompoundDataStructure compound = (ChemConnectCompoundDataStructure) compoundhier.getObject();
 			
 			DatabaseObjectHierarchy authormult = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(obj);
-			ChemConnectCompoundMultiple mult = (ChemConnectCompoundMultiple) authormult.getObject();
-			mult.setType(OntologyKeys.author);
+			setChemConnectCompoundMultipleType(authormult,OntologyKeys.author);
 			
 			DataSetReference reference = new DataSetReference(compound,
-					"DOI","Article Title","Reference String",mult.getIdentifier());
+					"DOI","Article Title","Reference String",authormult.getObject().getIdentifier());
 			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(reference);
 			return hierarchy;
 		}
@@ -1850,7 +1851,7 @@ public enum InterpretData {
 			String indid = createSuffix(obj, element);
 			indobj.setIdentifier(indid);
 
-			DatabaseObjectHierarchy compoundhier = InterpretData.ChemConnectCompoundDataStructure.createEmptyObject(obj);
+			DatabaseObjectHierarchy compoundhier = InterpretData.ChemConnectDataStructure.createEmptyObject(obj);
 			ChemConnectDataStructure structure = (ChemConnectDataStructure) compoundhier.getObject();
 
 			DatabaseObjectHierarchy contact = InterpretData.ContactInfoData.createEmptyObject(indobj);
@@ -1926,7 +1927,7 @@ public enum InterpretData {
 			DatabaseObjectHierarchy location = InterpretData.ContactLocationInformation.createEmptyObject(compobj);
 			DatabaseObjectHierarchy orgdescr = InterpretData.OrganizationDescription.createEmptyObject(compobj);
 
-			DatabaseObjectHierarchy compoundhier = InterpretData.ChemConnectCompoundDataStructure.createEmptyObject(obj);
+			DatabaseObjectHierarchy compoundhier = InterpretData.ChemConnectDataStructure.createEmptyObject(obj);
 			ChemConnectDataStructure structure = (ChemConnectDataStructure) compoundhier.getObject();
 			Organization org = new Organization(structure, contact.getObject().getIdentifier(),
 					location.getObject().getIdentifier(), orgdescr.getObject().getIdentifier());

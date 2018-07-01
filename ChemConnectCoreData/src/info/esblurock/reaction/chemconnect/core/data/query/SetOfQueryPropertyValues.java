@@ -9,6 +9,9 @@ public class SetOfQueryPropertyValues extends ArrayList<QueryPropertyValue> impl
 	
 	public SetOfQueryPropertyValues() {
 	}
+	public SetOfQueryPropertyValues(SetOfQueryPropertyValues values) {
+		super(values);
+	}
 	
 	public void add(String property, String value) {
 		QueryPropertyValue pv = new QueryPropertyValue(property,value);

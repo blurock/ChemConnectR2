@@ -66,11 +66,6 @@ public interface ContactDatabaseAccess extends RemoteService {
 	GPSLocation getGPSLocation(DatabaseObject obj, String city, String country) throws IOException;
 	ChemConnectDataStructure getChemConnectDataStructure(String identifier, String structureS);
 	Map<String,DatabaseObject> getElementsOfCatalogObject(String identifier, String dataElementName);
-	
-	public DatabaseObjectHierarchy createDefaultSubSystemDescription(DatabaseObject obj, String devicename, String purpose, String concept);
-	public DatabaseObjectHierarchy createDefaultSetOfObservations(DatabaseObject obj,
-			String observation, String onlinedescription, String purpose, String concept);
-	public DatabaseObjectHierarchy createDefaultPersonDescription(DatabaseObject obj, String userClassification, NameOfPerson person);
-	public DatabaseObjectHierarchy createDefaultOrganization(DatabaseObject obj, String company);
 	public ChemConnectRecordInformation getChemConnectRecordInformation(DatabaseObject obj) throws IOException;
+	
 }
