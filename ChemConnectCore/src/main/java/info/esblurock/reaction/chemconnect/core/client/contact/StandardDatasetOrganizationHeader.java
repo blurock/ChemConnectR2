@@ -1,5 +1,7 @@
 package info.esblurock.reaction.chemconnect.core.client.contact;
 
+import java.util.ArrayList;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -11,11 +13,13 @@ import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialTooltip;
+import info.esblurock.reaction.chemconnect.core.client.modal.SetLineContentInterface;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.StandardDatasetObjectHierarchyItem;
-import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
-import info.esblurock.reaction.chemconnect.core.data.dataset.device.SubSystemDescription;
+import info.esblurock.reaction.chemconnect.core.data.contact.Organization;
+import info.esblurock.reaction.chemconnect.core.data.contact.OrganizationDescription;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
-public class StandardDatasetOrganizationHeader extends Composite {
+public class StandardDatasetOrganizationHeader extends Composite  implements SetLineContentInterface {
 
 	private static StandardDatasetOrganizationHeaderUiBinder uiBinder = GWT
 			.create(StandardDatasetOrganizationHeaderUiBinder.class);
@@ -36,13 +40,21 @@ public class StandardDatasetOrganizationHeader extends Composite {
 	@UiField
 	MaterialLink delete;
 	
+	String descrclassname;
 	StandardDatasetObjectHierarchyItem item;
-
+	Organization descr;
+	OrganizationDescription orgdescr;
+	
 	public StandardDatasetOrganizationHeader(StandardDatasetObjectHierarchyItem item) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.item = item;
-		SubSystemDescription descr = (SubSystemDescription) item.getObject();
-		orghead.setText(TextUtilities.removeNamespace(descr.getSubSystemType()));
+		descrclassname = StandardDatasetOrganizationDescriptionHeader.class.getCanonicalName();
+		descr = (Organization) item.getObject();
+		String orgdescrID = descr.getOrganizationDescriptionID();
+		DatabaseObjectHierarchy hierarchy = item.getHierarchy();
+		DatabaseObjectHierarchy descrhier = hierarchy.getSubObject(orgdescrID);
+		orgdescr = (OrganizationDescription) descrhier.getObject();
+		orghead.setText(orgdescr.getOrganizationName());
 		devicetooltip.setText(descr.getIdentifier());
 		save.setEnabled(true);
 	}
@@ -58,4 +70,18 @@ public class StandardDatasetOrganizationHeader extends Composite {
 		Window.alert("Delete Object not implemented");
 	}
 
+	public void updateData() {
+	}
+	@Override
+	public void setLineContent(String line) {
+		ArrayList<StandardDatasetObjectHierarchyItem> subitems = item.getSubitems();
+		for(StandardDatasetObjectHierarchyItem sub : subitems) {
+			Composite header = sub.getHeader();
+			String name = header.getClass().getCanonicalName();
+			if(name.compareTo(descrclassname) == 0) {
+				StandardDatasetOrganizationDescriptionHeader subheader = (StandardDatasetOrganizationDescriptionHeader) header;
+				subheader.setOrganizationName(line);
+			}
+		}
+	}
 }

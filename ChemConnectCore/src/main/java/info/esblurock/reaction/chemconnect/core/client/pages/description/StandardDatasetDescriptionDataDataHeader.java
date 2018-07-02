@@ -96,10 +96,11 @@ public class StandardDatasetDescriptionDataDataHeader extends Composite implemen
 		accessibilty.setText(description.getAccess());
 		date.setDate(description.getSourceDate());
 	}
-	public void update() {
+	public boolean updateData() {
 		description.setOnlinedescription(title.getText());
 		description.setDescriptionAbstract(abstractText.getText());
 		description.setSourceDate(date.getDate());
+		return true;
 	}
 
 }

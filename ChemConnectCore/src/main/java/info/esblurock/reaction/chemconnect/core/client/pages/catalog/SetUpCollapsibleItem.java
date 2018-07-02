@@ -1,6 +1,12 @@
 package info.esblurock.reaction.chemconnect.core.client.pages.catalog;
 
 
+import com.google.gwt.user.client.Window;
+
+import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetContactInfoHeader;
+import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetContactLocationInformationHeader;
+import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetOrganizationDescriptionHeader;
+import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetOrganizationHeader;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.hierarchy.StandardDatasetCatalogHierarchyHeader;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.link.PrimitiveDataObjectLinkRow;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.methodology.StandardDatasetMethodologyHeader;
@@ -17,6 +23,7 @@ import info.esblurock.reaction.chemconnect.core.client.pages.primitive.gps.Primi
 import info.esblurock.reaction.chemconnect.core.client.pages.reference.StandardDatasetDataSetReferenceHeader;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.contact.OrganizationDescription;
 import info.esblurock.reaction.chemconnect.core.data.dataset.PurposeConceptPair;
 
 public enum SetUpCollapsibleItem {
@@ -48,8 +55,8 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
-			// TODO Auto-generated method stub
-			
+			StandardDatasetOrganizationHeader header = new StandardDatasetOrganizationHeader(item);
+			item.addHeader(header);
 		}
 
 		@Override
@@ -70,6 +77,36 @@ public enum SetUpCollapsibleItem {
 		@Override
 		public boolean addSubitems() {
 			return true;
+		}
+		
+	}, OrganizationDescription {
+
+		@Override
+		public void addInformation(StandardDatasetObjectHierarchyItem item) {
+			StandardDatasetOrganizationDescriptionHeader header = new StandardDatasetOrganizationDescriptionHeader(item);
+			item.addHeader(header);			
+		}
+
+		@Override
+		public boolean update(StandardDatasetObjectHierarchyItem item) {
+			StandardDatasetOrganizationDescriptionHeader header = (StandardDatasetOrganizationDescriptionHeader)item.getHeader();
+			header.updateInfo();
+			return false;
+		}
+
+		@Override
+		public int priority() {
+			return 100;
+		}
+
+		@Override
+		public boolean isInformation() {
+			return false;
+		}
+
+		@Override
+		public boolean addSubitems() {
+			return false;
 		}
 		
 	},
@@ -460,7 +497,9 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
+			Window.alert("GPSLocation insert");
 			PrimitiveGPSLocationRow row = new PrimitiveGPSLocationRow(item.getObject());
+			Window.alert("GPSLocation: " + item.getObject());
 			item.addHeader(row);
 		}
 
@@ -497,8 +536,7 @@ public enum SetUpCollapsibleItem {
 		@Override
 		public boolean update(StandardDatasetObjectHierarchyItem item) {
 			StandardDatasetDescriptionDataDataHeader header = (StandardDatasetDescriptionDataDataHeader) item.getHeader();
-			header.update();
-			return true;
+			return header.updateData();
 		}
 
 		@Override
@@ -516,7 +554,65 @@ public enum SetUpCollapsibleItem {
 			return true;
 		}
 		
-	}, DataSetReference {
+	}, ContactInfoData {
+
+		@Override
+		public void addInformation(StandardDatasetObjectHierarchyItem item) {
+			StandardDatasetContactInfoHeader header = new StandardDatasetContactInfoHeader(item);
+			item.addHeader(header);
+		}
+
+		@Override
+		public boolean update(StandardDatasetObjectHierarchyItem item) {
+			StandardDatasetContactInfoHeader header = (StandardDatasetContactInfoHeader) item.getHeader();
+			return header.updateData();
+		}
+
+		@Override
+		public int priority() {
+			return 10;
+		}
+
+		@Override
+		public boolean isInformation() {
+			return false;
+		}
+
+		@Override
+		public boolean addSubitems() {
+			return true;
+		}
+	},ContactLocationInformation {
+
+		@Override
+		public void addInformation(StandardDatasetObjectHierarchyItem item) {
+			StandardDatasetContactLocationInformationHeader header = new StandardDatasetContactLocationInformationHeader(item);
+			item.addHeader(header);
+		}
+
+		@Override
+		public boolean update(StandardDatasetObjectHierarchyItem item) {
+			StandardDatasetContactLocationInformationHeader header = (StandardDatasetContactLocationInformationHeader) item.getHeader();
+			return header.updateData();
+		}
+
+		@Override
+		public int priority() {
+			return 100;
+		}
+
+		@Override
+		public boolean isInformation() {
+			return false;
+		}
+
+		@Override
+		public boolean addSubitems() {
+			return true;
+		}
+		
+	},
+	DataSetReference {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {

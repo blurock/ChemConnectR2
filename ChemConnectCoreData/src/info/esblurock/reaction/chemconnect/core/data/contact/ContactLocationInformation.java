@@ -104,6 +104,22 @@ public class ContactLocationInformation extends ChemConnectCompoundDataStructure
 		return postcode;
 	}
 
+	public void setAddressAddress(String addressAddress) {
+		this.addressAddress = addressAddress;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public void setPostcode(String postcode) {
+		this.postcode = postcode;
+	}
+
 	public String getGpsLocationID() {
 		return gpsLocationID;
 	}
