@@ -6,7 +6,7 @@
 	</ui:style>
 	<m:MaterialCollapsibleItem>
 		<m:MaterialCollapsibleHeader ui:field="header" />
-		<m:MaterialCollapsibleBody  backgroundColor="WHITE">
+		<m:MaterialCollapsibleBody  ui:field="topbody" backgroundColor="WHITE">
 			<m:MaterialCollapsible ui:field="subinfo">
 				<m:MaterialCollapsibleItem ui:field="infoitem">
 					<m:MaterialCollapsibleHeader>

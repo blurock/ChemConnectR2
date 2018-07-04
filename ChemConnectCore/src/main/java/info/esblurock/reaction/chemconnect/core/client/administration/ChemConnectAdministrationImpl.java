@@ -66,8 +66,9 @@ public class ChemConnectAdministrationImpl extends Composite implements ChemConn
 	@UiField
 	MaterialLink organizations;
 	@UiField
+	MaterialLink people;
+	@UiField
 	MaterialLink pagetitle;
-	
 	@UiField
 	MaterialTitle title;
 	String modaltask;
@@ -117,6 +118,8 @@ public class ChemConnectAdministrationImpl extends Composite implements ChemConn
 		footer.setTextColor(Color.BLACK);
 		ok.setText("OK");
 		close.setIconType(IconType.CLOSE);
+		people.setText("People");
+		people.setIconType(IconType.BUILD);
 		
 		/*
 		SampleForcedGraph sample = new SampleForcedGraph(this);
@@ -244,6 +247,11 @@ public class ChemConnectAdministrationImpl extends Composite implements ChemConn
 	public void onOrganizations(ClickEvent event) {
 		MaterialToast.fireToast("Organization");
 		handleHistoryToken("Organization");
+	}
+	@UiHandler("people")
+	public void onPeople(ClickEvent event) {
+		MaterialToast.fireToast("People");
+		handleHistoryToken("DatabasePerson");
 	}
 	
 	@Override

@@ -299,7 +299,7 @@ public class ExtractCatalogInformation {
 		if(hierarchy != null) {
 		InterpretData interpret = InterpretData.valueOf("DatasetCatalogHierarchy");
 		String classname = interpret.canonicalClassName();
-		System.out.println(classname);
+		System.out.println("getDatabaseObjectHierarchy: " + classname);
 		Map<String,Object> mapping = interpret.createYamlFromObject(hierarchy.getObject());
 		Set<String> keys = mapping.keySet();
 		String objlinkid = (String) mapping.get(StandardDatasetMetaData.parameterObjectLinkS);

@@ -8,6 +8,7 @@ import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.data.image.ImageServiceInformation;
@@ -86,4 +87,8 @@ public interface UserImageService  extends RemoteService  {
 	HierarchyNode getUploadedFilesHiearchy(ArrayList<String> fileTypes) throws IOException;
 	
 	ArrayList<DatabaseObjectHierarchy> getSetOfDatabaseObjectHierarchyForUser(String classType) throws IOException;
+	
+	DatabaseObjectHierarchy createDatabasePerson(DatabaseObject obj, String userClassification, NameOfPerson name);
+	
+	DatabaseObjectHierarchy createOrganization(DatabaseObject obj, String organizationname);
 }

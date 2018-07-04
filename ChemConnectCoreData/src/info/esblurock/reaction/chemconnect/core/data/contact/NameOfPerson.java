@@ -72,6 +72,27 @@ public class NameOfPerson extends DatabaseObject {
 	public String getFamilyName() {
 		return familyName;
 	}
+	
+	public String nameAsString() {
+		StringBuilder build = new StringBuilder();
+		build.append(fillText(title,"Prof.,Dr.,Mr.,Ms...",""));
+		build.append(fillText(givenName+" ","Name ",""));
+		build.append(fillText(familyName,"Input Family Name ","FamilyName"));
+		return build.toString();
+		
+	}
+	private String fillText(String element, String nullstring, String defaultString) {
+		String text = element;
+		if(element == null) {
+			text = nullstring;
+		} else {
+			if(element.trim().length() == 0) {
+				text = defaultString;
+			}
+		}
+		return text;
+	}
+	
 	@Override
 	public String toString() {
 		return toString("");

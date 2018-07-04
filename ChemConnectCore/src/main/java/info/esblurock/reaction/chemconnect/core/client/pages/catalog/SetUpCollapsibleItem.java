@@ -3,8 +3,11 @@ package info.esblurock.reaction.chemconnect.core.client.pages.catalog;
 
 import com.google.gwt.user.client.Window;
 
+import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatabasePersonalDescriptionHeader;
 import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetContactInfoHeader;
 import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetContactLocationInformationHeader;
+import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetIndividualInformation;
+import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetNameOfPersonHeader;
 import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetOrganizationDescriptionHeader;
 import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetOrganizationHeader;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.hierarchy.StandardDatasetCatalogHierarchyHeader;
@@ -23,7 +26,6 @@ import info.esblurock.reaction.chemconnect.core.client.pages.primitive.gps.Primi
 import info.esblurock.reaction.chemconnect.core.client.pages.reference.StandardDatasetDataSetReferenceHeader;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
-import info.esblurock.reaction.chemconnect.core.data.contact.OrganizationDescription;
 import info.esblurock.reaction.chemconnect.core.data.dataset.PurposeConceptPair;
 
 public enum SetUpCollapsibleItem {
@@ -138,7 +140,66 @@ public enum SetUpCollapsibleItem {
 			return true;
 		}
 		
-	}, ObservationSpecification {
+	}, IndividualInformation {
+
+		@Override
+		public void addInformation(StandardDatasetObjectHierarchyItem item) {
+			StandardDatasetIndividualInformation header = new StandardDatasetIndividualInformation(item);
+			item.addHeader(header);
+			
+		}
+
+		@Override
+		public boolean update(StandardDatasetObjectHierarchyItem item) {
+			return true;
+		}
+
+		@Override
+		public int priority() {
+			return 100;
+		}
+
+		@Override
+		public boolean isInformation() {
+			return false;
+		}
+
+		@Override
+		public boolean addSubitems() {
+			return true;
+		}
+		
+	}, PersonalDescription {
+
+		@Override
+		public void addInformation(StandardDatasetObjectHierarchyItem item) {
+			StandardDatabasePersonalDescriptionHeader header = new StandardDatabasePersonalDescriptionHeader(item);
+			item.addHeader(header);
+		}
+
+		@Override
+		public boolean update(StandardDatasetObjectHierarchyItem item) {
+			StandardDatabasePersonalDescriptionHeader header = (StandardDatabasePersonalDescriptionHeader) item.getHeader();
+			return header.updateData();
+		}
+
+		@Override
+		public int priority() {
+			return 100;
+		}
+
+		@Override
+		public boolean isInformation() {
+			return false;
+		}
+
+		@Override
+		public boolean addSubitems() {
+			return false;
+		}
+	},
+	
+	ObservationSpecification {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
@@ -497,9 +558,7 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
-			Window.alert("GPSLocation insert");
 			PrimitiveGPSLocationRow row = new PrimitiveGPSLocationRow(item.getObject());
-			Window.alert("GPSLocation: " + item.getObject());
 			item.addHeader(row);
 		}
 
@@ -507,6 +566,34 @@ public enum SetUpCollapsibleItem {
 		public boolean update(StandardDatasetObjectHierarchyItem item) {
 			PrimitiveGPSLocationRow header = (PrimitiveGPSLocationRow) item.getHeader();
 			header.update();
+			return false;
+		}
+
+		@Override
+		public int priority() {
+			return 100;
+		}
+
+		@Override
+		public boolean isInformation() {
+			return false;
+		}
+
+		@Override
+		public boolean addSubitems() {
+			return false;
+		}
+		
+	}, NameOfPerson {
+
+		@Override
+		public void addInformation(StandardDatasetObjectHierarchyItem item) {
+			StandardDatasetNameOfPersonHeader header = new StandardDatasetNameOfPersonHeader(item);
+			item.addHeader(header);
+		}
+
+		@Override
+		public boolean update(StandardDatasetObjectHierarchyItem item) {
 			return false;
 		}
 

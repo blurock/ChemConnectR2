@@ -33,6 +33,7 @@ import com.google.cloud.storage.Acl.User;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.base.GoogleCloudStorageConstants;
+import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHierarchy;
 import info.esblurock.reaction.chemconnect.core.data.dataset.PurposeConceptPair;
 import info.esblurock.reaction.chemconnect.core.data.dataset.device.SubSystemDescription;
@@ -419,6 +420,16 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		return devicehier;
 	}
 
+	public DatabaseObjectHierarchy createOrganization(DatabaseObject obj, String organizationname) {
+		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillOrganization(obj, organizationname);
+		return hierarchy;
+	}
+	
+	public DatabaseObjectHierarchy createDatabasePerson(DatabaseObject obj, String userClassification, NameOfPerson name) {
+		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillMinimalPersonDescription(obj, userClassification, name);
+		return hierarchy;
+	}
+	
 	public DatabaseObjectHierarchy getSetOfObservations(DatabaseObject obj, String observation, String title) {
 		String sourceID = QueryBase.getDataSourceIdentification(obj.getOwner());
 		obj.setSourceID(sourceID);

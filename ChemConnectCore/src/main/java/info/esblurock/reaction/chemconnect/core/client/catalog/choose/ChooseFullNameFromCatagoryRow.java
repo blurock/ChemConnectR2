@@ -178,6 +178,10 @@ public class ChooseFullNameFromCatagoryRow extends Composite
 		nameSelected = true;
 	}
 
+	public String getCatagory() {
+		return catalog.getText();
+	}
+	
 	public String getObjectName() {
 		return objectname.getText();
 	}

@@ -60,19 +60,24 @@ public class WriteReadDatabaseObjects {
 		return ids;
 	}
 	public static ArrayList<DatabaseObjectHierarchy> getDatabaseObjectHierarchyFromIDs(String classType, Set<String> ids) {
+		System.out.println("Calling getDatabaseObjectHierarchyFromIDs classtype='" + classType + "'");
 		ArrayList<DatabaseObjectHierarchy> objects = new ArrayList<DatabaseObjectHierarchy>();
 		for(String id:ids) {
-			System.out.println("getDatabaseObjectHierarchyFromIDs: " + classType + "   ID=" + id);
+			System.out.println("getDatabaseObjectHierarchyFromIDs: classtype='" + classType + "'   ID=" + id);
 			DatabaseObjectHierarchy readhierarchy = ExtractCatalogInformation.getCatalogObject(id, classType);
+			System.out.println("getDatabaseObjectHierarchyFromIDs: done fetching  classtype='" + classType + "'   ID=" + id);
 			System.out.println("getDatabaseObjectHierarchyFromIDs: ID= " + id + "\n" + readhierarchy.toString());
 			objects.add(readhierarchy);
 		}
+		System.out.println("getDatabaseObjectHierarchyFromIDs: done" + objects.size());
 		return objects;
 	}
 	public static ArrayList<DatabaseObjectHierarchy> getAllDatabaseObjectHierarchyForUser(String user, String classType) throws IOException {
 		Set<String> ids = getIDsOfAllDatabaseObjects(user,classType);
-		System.out.println("getAllDatabaseObjectHierarchyForUser:  " + classType + "with IDs: "+ ids);
+		System.out.println("getAllDatabaseObjectHierarchyForUser:  '" + classType + "'  with IDs: "+ ids);
 		ArrayList<DatabaseObjectHierarchy> objects = getDatabaseObjectHierarchyFromIDs(classType,ids);
+		System.out.println("getAllDatabaseObjectHierarchyForUser: done: " + objects.size());
+		
 		return objects;
 	}
 	public static void writeChemConnectDataStructureObject(ChemConnectDataStructureObject object) {

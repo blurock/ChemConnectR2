@@ -108,7 +108,6 @@ public class StandardDatasetRecord extends Composite {
 		}
 	}
 	public void updateFromRecords() {
-		Window.alert("updateFromRecords()");
 		for(StandardDatasetObjectHierarchyItem item : items) {
 			item.updateDatabaseObjectHierarchy();
 		}

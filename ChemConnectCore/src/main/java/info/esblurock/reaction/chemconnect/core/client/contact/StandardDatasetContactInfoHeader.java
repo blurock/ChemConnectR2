@@ -6,9 +6,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialLink;
@@ -18,9 +16,6 @@ import info.esblurock.reaction.chemconnect.core.client.modal.SetLineContentInter
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.data.contact.ContactInfoData;
-import info.esblurock.reaction.chemconnect.core.data.contact.OrganizationDescription;
-import info.esblurock.reaction.chemconnect.core.data.dataset.device.SubSystemDescription;
-import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 public class StandardDatasetContactInfoHeader extends Composite implements SetLineContentInterface {
 

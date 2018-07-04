@@ -48,10 +48,6 @@ public class StandardDatasetContactLocationInformationHeader extends Composite i
 	MaterialLink country;
 	@UiField
 	MaterialLink postcode;
-	@UiField
-	MaterialLink save;
-	@UiField
-	MaterialLink delete;
 	
 	StandardDatasetObjectHierarchyItem item;
 	ContactLocationInformation location;
@@ -74,17 +70,6 @@ public class StandardDatasetContactLocationInformationHeader extends Composite i
 		citytooltip.setText("City");
 		countrytooltip.setText("Country");
 		postcodetooltip.setText("Postcode");
-	}
-	@UiHandler("save")
-	void onClickSave(ClickEvent event) {
-		Window.alert("Save Object");
-		item.writeDatabaseObjectHierarchy();
-		
-		
-	}
-	@UiHandler("delete")
-	void onClickDelete(ClickEvent event) {
-		Window.alert("Delete Object not implemented");
 	}
 	@UiHandler("address")
 	void onClickAddress(ClickEvent event) {

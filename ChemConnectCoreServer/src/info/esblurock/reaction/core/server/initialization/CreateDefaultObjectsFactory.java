@@ -289,10 +289,20 @@ public class CreateDefaultObjectsFactory {
 
 	public static DatabaseObjectHierarchy fillCataogHierarchyForUser(DatabaseObject obj, String userid,
 			String orgcatalog) {
-		String uid = DatasetCatalogHierarchy.createFullCatalogName(obj.getIdentifier(), userid);
 		DatabaseObject dobj = new DatabaseObject(obj);
+		DataElementInformation indelement = DatasetOntologyParsing
+				.getSubElementStructureFromIDObject(OntologyKeys.individualInformation);
+		String uid = createSuffix(obj, indelement);
 		dobj.setIdentifier(uid);
 		dobj.nullKey();
+
+		
+		
+		//String suffix = "usrinfo";
+		//String uid = DatasetCatalogHierarchy.createFullCatalogName(obj.getIdentifier(), suffix);
+		//DatabaseObject dobj = new DatabaseObject(obj);
+		//dobj.setIdentifier(uid);
+		//dobj.nullKey();
 		System.out.println("User catalog ID:" + dobj.getIdentifier());
 		String onelinedescription = "User's Catalog";
 		DatabaseObjectHierarchy userhierarchy = InterpretData.DatasetCatalogHierarchy.createEmptyObject(dobj);
@@ -317,9 +327,10 @@ public class CreateDefaultObjectsFactory {
 			String organizationid, String orglinkid) {		
 		
 		DatabaseObject aobj = new DatabaseObject(obj);
-		String orgsuffix = "orglink";
-		String aid = DatasetCatalogHierarchy.createFullCatalogName(obj.getIdentifier(), orgsuffix);
-		aobj.setIdentifier(aid);
+		DataElementInformation orgelement = DatasetOntologyParsing
+				.getSubElementStructureFromIDObject(OntologyKeys.organization);
+		String orgid = createSuffix(obj, orgelement);
+		aobj.setIdentifier(orgid);
 		aobj.nullKey();
 		String orgcatdescription = "Institute's Catalog";
 		DatabaseObjectHierarchy orghierarchy = InterpretData.DatasetCatalogHierarchy.createEmptyObject(aobj);
@@ -351,10 +362,10 @@ public class CreateDefaultObjectsFactory {
 		String catname = "Catalog-" + username;
 		DatabaseObject catobj = new DatabaseObject(catname, access, owner, sourceID);
 
-		DatabaseObjectHierarchy orgcat = CreateDefaultObjectsFactory.fillCataogHierarchyForOrganization(catobj,
+		DatabaseObjectHierarchy orgcat = fillCataogHierarchyForOrganization(catobj,
 				orgname, org.getObject().getIdentifier());
 
-		DatabaseObjectHierarchy usercat = CreateDefaultObjectsFactory.fillCataogHierarchyForUser(catobj,
+		DatabaseObjectHierarchy usercat = fillCataogHierarchyForUser(catobj,
 				user.getObject().getIdentifier(), orgcat.getObject().getIdentifier());
 		
 		//System.out.println(orgcat.toString());

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.data.image.ImageServiceInformation;
@@ -67,5 +68,11 @@ public interface UserImageServiceAsync {
 
 	void getSetOfDatabaseObjectHierarchyForUser(String classType,
 			AsyncCallback<ArrayList<DatabaseObjectHierarchy>> callback);
+
+	void createDatabasePerson(DatabaseObject obj, String userClassification, NameOfPerson name,
+			AsyncCallback<DatabaseObjectHierarchy> callback);
+
+	void createOrganization(DatabaseObject obj, String organizationname,
+			AsyncCallback<DatabaseObjectHierarchy> callback);
 
 }

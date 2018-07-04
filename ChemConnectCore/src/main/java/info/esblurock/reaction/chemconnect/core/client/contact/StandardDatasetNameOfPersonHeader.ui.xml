@@ -1,0 +1,17 @@
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+xmlns:g="urn:import:com.google.gwt.user.client.ui" 
+xmlns:m="urn:import:gwt.material.design.client.ui">
+
+	<ui:style>
+	.important {
+		font-weight: bold;
+	}
+	</ui:style>
+	<m:MaterialRow>
+		<m:MaterialColumn grid="s12">
+			<m:MaterialTooltip ui:field="nametooltip">
+			<m:MaterialLink ui:field="namehead" textColor="BLACK" />
+			</m:MaterialTooltip>
+		</m:MaterialColumn>
+	</m:MaterialRow>
+</ui:UiBinder> 

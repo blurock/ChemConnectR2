@@ -1,0 +1,31 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:m="urn:import:gwt.material.design.client.ui">
+	<ui:style>
+	.important {
+		font-weight: bold;
+	}
+	</ui:style>
+	<m:MaterialPanel>
+		<m:MaterialPanel ui:field="modalpanel" />
+		<m:MaterialPanel ui:field="topPanel" />
+		<m:MaterialCollapsible ui:field="contentcollapsible">
+			<m:MaterialCollapsibleItem>
+				<m:MaterialCollapsibleHeader>
+					<m:MaterialLink ui:field="peopleExisingHeader" />
+				</m:MaterialCollapsibleHeader>
+				<m:MaterialCollapsibleBody>
+					<m:MaterialCollapsible ui:field="existingPeople" />
+				</m:MaterialCollapsibleBody>
+			</m:MaterialCollapsibleItem>
+			<m:MaterialCollapsibleItem>
+				<m:MaterialCollapsibleHeader>
+					<m:MaterialLink ui:field="peopleCreatedHeader" />
+				</m:MaterialCollapsibleHeader>
+				<m:MaterialCollapsibleBody>
+					<m:MaterialCollapsible ui:field="createdPeople" />
+				</m:MaterialCollapsibleBody>
+			</m:MaterialCollapsibleItem>
+		</m:MaterialCollapsible>
+	</m:MaterialPanel>
+</ui:UiBinder> 

@@ -67,7 +67,6 @@ public class PrimitiveGPSLocationRow extends Composite implements InsertGPSCoord
 
 	public void fill(DatabaseObject object) {
 		location = (GPSLocation) object;
-		Window.alert("PrimitiveGPSLocationRow: fill");
 		if(location != null) {
 			if(location.getGPSLatitude() != null) {
 				gpslatitude.setText(location.getGPSLatitude());

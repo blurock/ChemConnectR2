@@ -34,7 +34,7 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 	}
 
 	@UiField
-	MaterialCollapsibleBody body;
+	MaterialCollapsibleBody topbody;
 	@UiField
 	MaterialCollapsibleItem infoitem;
 	@UiField
@@ -47,6 +47,8 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 	MaterialLink infotitle;
 	@UiField
 	MaterialCollapsible infocollapsible;
+	@UiField
+	MaterialCollapsibleBody body;
 
 	DatabaseObject object;
 	DatabaseObjectHierarchy hierarchy;
@@ -64,11 +66,14 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 		init();
 		id.setText(object.getIdentifier());
 		SetUpCollapsibleItem setup = getSetup(object);
+		infoitem.setVisible(false);
+		topbody.setVisible(false);
 		if (setup != null) {
 			setup.addInformation(this);
 			if (setup.addSubitems()) {
 				addSubItems(hierarchy);
 			} else {
+				subinfo.setVisible(false);
 			}
 		} else {
 			StandardDatasetRecord record = new StandardDatasetRecord(hierarchy);
@@ -135,6 +140,7 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 	}
 
 	public void addSubItem(StandardDatasetObjectHierarchyItem item) {
+		topbody.setVisible(false);
 		subitems.add(item);
 		subinfo.add(item);
 	}

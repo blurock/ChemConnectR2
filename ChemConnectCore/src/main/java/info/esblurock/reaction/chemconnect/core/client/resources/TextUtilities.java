@@ -16,7 +16,6 @@ public class TextUtilities {
 	}
 	
 	public static void setText(MaterialLink link, String text,String defaultText) {
-		Window.alert("Text: '" + text + "'   Default: '" + defaultText + "'");
 		if(text != null) {
 			if(text.length() > 0) {
 				link.setText(text);

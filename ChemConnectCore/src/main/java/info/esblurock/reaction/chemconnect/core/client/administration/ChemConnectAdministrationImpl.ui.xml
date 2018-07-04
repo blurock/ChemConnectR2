@@ -8,10 +8,10 @@
 	}
 	</ui:style>
 	<m:MaterialPanel>
-		<m:MaterialModal ui:field="okmodal" type="DEFAULT" 
+		<m:MaterialModal ui:field="okmodal" type="DEFAULT"
 			inDuration="500" outDuration="500">
 			<m:MaterialModalContent>
-				<m:MaterialTitle ui:field="title"/>
+				<m:MaterialTitle ui:field="title" />
 			</m:MaterialModalContent>
 			<m:MaterialModalFooter ui:field="footer">
 				<m:MaterialLink ui:field="close" type="FLAT" />
@@ -26,14 +26,15 @@
 			</m:MaterialNavBar>
 		</m:MaterialHeader>
 
-		<m:MaterialSideNav m:id="sidenavFixed" ui:field="sideNav" closeOnClick="true"
-			width="300">
-			<ma:sideprofile.MaterialSideProfile url="http://esblurock.info/homepage/wp-content/uploads/2014/05/research1.jpg">
-				<m:MaterialImage url="https://i1.rgstatic.net/ii/profile.image/273568223199239-1442235155663_Q512/Edward_Blurock.jpg" />
+		<m:MaterialSideNav m:id="sidenavFixed" ui:field="sideNav"
+			closeOnClick="true" width="300">
+			<ma:sideprofile.MaterialSideProfile
+				url="http://esblurock.info/homepage/wp-content/uploads/2014/05/research1.jpg">
+				<m:MaterialImage
+					url="https://i1.rgstatic.net/ii/profile.image/273568223199239-1442235155663_Q512/Edward_Blurock.jpg" />
 				<m:MaterialLabel text="GWT Material" textColor="WHITE" />
-				<m:MaterialLink ui:field="pagetitle" 
-					activates="dropProfile" iconType="ARROW_DROP_DOWN" iconPosition="RIGHT"
-					textColor="WHITE" />
+				<m:MaterialLink ui:field="pagetitle" activates="dropProfile"
+					iconType="ARROW_DROP_DOWN" iconPosition="RIGHT" textColor="WHITE" />
 			</ma:sideprofile.MaterialSideProfile>
 			<m:MaterialLink ui:field="interconnect" />
 			<m:MaterialLink ui:field="devicedeclaration" />
@@ -41,16 +42,17 @@
 			<m:MaterialLink ui:field="blobstorage" />
 			<m:MaterialLink ui:field="methodologydeclaration" />
 			<m:MaterialLink ui:field="observationsdeclaration" />
+			<m:MaterialLink ui:field="organizations" />
+			<m:MaterialLink ui:field="people" />
+			<m:MaterialLink ui:field="users" />
 			<m:MaterialLink ui:field="explore" />
 			<m:MaterialLink ui:field="cleardb" />
 			<m:MaterialLink ui:field="readinit" />
-			<m:MaterialLink ui:field="users" />
-			<m:MaterialLink ui:field="organizations" />
 		</m:MaterialSideNav>
 
 		<m:MaterialContainer>
 			<m:MaterialRow textAlign="CENTER" paddingTop="120">
-				<m:MaterialPanel ui:field="content"/> 
+				<m:MaterialPanel ui:field="content" />
 				<m:MaterialFAB>
 					<m:MaterialButton type="FLOATING"
 						href="https://github.com/GwtMaterialDesign/gwt-material-patterns/blob/release_2.0/src/main/java/com/github/gwtmaterialdesign/client/application/sidenavfixed/FixedSideNavView.ui.xml"

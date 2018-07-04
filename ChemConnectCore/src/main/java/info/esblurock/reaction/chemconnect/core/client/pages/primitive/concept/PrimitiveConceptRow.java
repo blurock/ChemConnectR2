@@ -29,22 +29,20 @@ public class PrimitiveConceptRow extends Composite implements ChooseFromConceptH
 	interface PrimitiveConceptRowUiBinder extends UiBinder<Widget, PrimitiveConceptRow> {
 	}
 
-	@UiField
-	MaterialLink label;
+	//@UiField
+	//MaterialLink label;
 	@UiField
 	MaterialLink purpose;
 	@UiField
 	MaterialLink concept;
 	@UiField
 	MaterialPanel modalpanel;
-	@UiField
-	MaterialTooltip tip;
+	//@UiField
+	//MaterialTooltip tip;
 	@UiField
 	MaterialTooltip purposetip;
 	@UiField
 	MaterialTooltip concepttip;
-	@UiField
-	MaterialIcon info;
 	
 	boolean conceptSet;
 	String identifier;
@@ -63,15 +61,15 @@ public class PrimitiveConceptRow extends Composite implements ChooseFromConceptH
 		PurposeConceptPair conceptobj = (PurposeConceptPair) cobject;
 		typeWithNamespace = conceptobj.getConcept();
 		identifier = conceptobj.getIdentifier();
-		purpose.setText(TextUtilities.removeNamespace(conceptobj.getPurpose()));
-		concept.setText(TextUtilities.removeNamespace(conceptobj.getConcept()));
-		tip.setText(identifier);
+		TextUtilities.setText(purpose,TextUtilities.removeNamespace(conceptobj.getPurpose()),  "Set purpose");
+		TextUtilities.setText(concept,TextUtilities.removeNamespace(conceptobj.getConcept()),  "Set concept");
+		//tip.setText(identifier);
 		conceptSet = true;
 	}
 
 	private void init() {
-		label.setText("Pupose");
-		label.setTextColor(Color.BLACK);
+		//label.setText("Pupose");
+		//label.setTextColor(Color.BLACK);
 		purposetip.setText("Purpose");
 		concepttip.setText("Concept");
 		purpose.setTextColor(Color.BLACK);
@@ -101,12 +99,6 @@ public class PrimitiveConceptRow extends Composite implements ChooseFromConceptH
 			chooseConcept=false;
 			choosedevice.open();
 	}
-	@UiHandler("info")
-	void onClickType(ClickEvent e) {
-		MaterialToast.fireToast("ID: " + identifier);
-	}
-	
-	
 	@Override
 	public void conceptChosen(String topconcept, String conceptText) {
 		if(chooseConcept) {

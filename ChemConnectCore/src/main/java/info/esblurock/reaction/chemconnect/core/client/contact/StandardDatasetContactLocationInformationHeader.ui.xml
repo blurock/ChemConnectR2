@@ -5,36 +5,28 @@
 		font-weight: bold;
 	}
 	</ui:style>
-	<m:MaterialPanel>
-	<m:MaterialRow>
-		<m:MaterialColumn grid="s10">
+	<m:MaterialPanel  padding="0" paddingTop="0" paddingBottom="0">
+	<m:MaterialRow  padding="0" paddingTop="0" paddingBottom="0">
+		<m:MaterialColumn grid="s12" padding="0" paddingTop="0" paddingBottom="0">
 			<m:MaterialTooltip ui:field="addresstooltip">
-				<m:MaterialLink ui:field="address" textColor="BLACK" />
+				<m:MaterialLink ui:field="address" textColor="BLACK"  padding="0" paddingTop="0" paddingBottom="0"/>
 			</m:MaterialTooltip>
-		</m:MaterialColumn>
-		<m:MaterialColumn grid="s1">
-			<m:MaterialLink ui:field="delete" iconType="DELETE"
-				iconColor="BLACK" iconPosition="RIGHT" textColor="BLACK" />
-		</m:MaterialColumn>
-		<m:MaterialColumn grid="s1">
-			<m:MaterialLink ui:field="save" iconType="SAVE"
-				iconColor="BLACK" iconPosition="RIGHT" textColor="BLACK" />
 		</m:MaterialColumn>
 	</m:MaterialRow>
-	<m:MaterialRow>
+	<m:MaterialRow  padding="0" paddingTop="0" paddingBottom="0">
 		<m:MaterialColumn grid="s4">
 			<m:MaterialTooltip ui:field="citytooltip">
-				<m:MaterialLink ui:field="city" textColor="BLACK" />
+				<m:MaterialLink ui:field="city" textColor="BLACK"  padding="0" paddingTop="0" paddingBottom="0"/>
 			</m:MaterialTooltip>
 		</m:MaterialColumn>
-		<m:MaterialColumn grid="s3">
+		<m:MaterialColumn grid="s4">
 			<m:MaterialTooltip ui:field="countrytooltip">
-				<m:MaterialLink ui:field="country" textColor="BLACK" />
+				<m:MaterialLink ui:field="country" textColor="BLACK"  padding="0" paddingTop="0" paddingBottom="0"/>
 			</m:MaterialTooltip>
 		</m:MaterialColumn>
-		<m:MaterialColumn grid="s3">
+		<m:MaterialColumn grid="s4">
 			<m:MaterialTooltip ui:field="postcodetooltip">
-				<m:MaterialLink ui:field="postcode" textColor="BLACK" />
+				<m:MaterialLink ui:field="postcode" textColor="BLACK"  padding="0" paddingTop="0" paddingBottom="0"/>
 			</m:MaterialTooltip>
 		</m:MaterialColumn>
 	</m:MaterialRow>
