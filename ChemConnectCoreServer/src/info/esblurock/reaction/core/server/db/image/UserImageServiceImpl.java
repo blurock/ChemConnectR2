@@ -1,7 +1,6 @@
 package info.esblurock.reaction.core.server.db.image;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -12,12 +11,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.StringTokenizer;
 
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.blobstore.UploadOptions;
-import com.google.appengine.api.images.ImagesService;
-import com.google.appengine.api.images.ImagesServiceFactory;
 import com.google.cloud.WriteChannel;
 import com.google.cloud.storage.Acl;
 import com.google.cloud.storage.Blob;
@@ -48,9 +46,11 @@ import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.data.query.SetOfQueryPropertyValues;
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.data.transaction.TransactionInfo;
+import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
+import info.esblurock.reaction.core.server.db.InterpretData;
 import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFactory;
@@ -59,6 +59,7 @@ import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilit
 import info.esblurock.reaction.core.server.services.util.ParseUtilities;
 import info.esblurock.reaction.io.db.QueryBase;
 import info.esblurock.reaction.ontology.dataset.ConceptParsing;
+import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 
 @SuppressWarnings("serial")
 public class UserImageServiceImpl extends ServerBase implements UserImageService {
@@ -342,6 +343,26 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		HierarchyNode hierarchy = ParseUtilities.buildBlobHierarchy(obj,lst,types);
 		return hierarchy;
 	}
+	public HierarchyNode getIDsFromConceptLink(String concept) throws IOException {
+		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
+		UserDTO user = util.getUserInfo();
+		String classType = ConceptParsing.findObjectTypeFromLinkConcept(concept);
+		Set<String> ids = WriteReadDatabaseObjects.getIDsOfAllDatabaseObjects(user.getName(),classType);
+		HierarchyNode topnode = new HierarchyNode(concept);
+		for(String id : ids) {
+			System.out.println(id);
+			StringTokenizer tok = new StringTokenizer(id,"-");
+			ArrayList<String> path = new ArrayList<String>();
+			String last = null;
+			while(tok.hasMoreTokens()) {
+				last = tok.nextToken();
+				path.add(last);
+			}
+			ParseUtilities.fillInHierarchy(topnode, path, id);
+		}
+		System.out.println("getIDsFromConceptLink\n" + topnode);
+		return topnode;
+	}
 
 	public GCSBlobFileInformation retrieveBlobFromURL(String requestUrl) throws IOException {
 		ContextAndSessionUtilities context = getUtilities();
@@ -420,6 +441,21 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		return devicehier;
 	}
 
+	public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj, String dataType) {
+		DatabaseObjectHierarchy hierarchy = null;
+		boolean isSimple = ConceptParsing.isAChemConnectPrimitiveDataStructure(dataType);
+		if(isSimple) {
+			
+			hierarchy = new DatabaseObjectHierarchy();
+		} else {
+			ClassificationInformation info = DatasetOntologyParsing.getIdentificationInformation(dataType);
+			String structureName = info.getDataType();
+			InterpretData interpret = InterpretData.valueOf(structureName);
+			hierarchy = interpret.createEmptyObject(obj);
+		}
+		return hierarchy;
+	}
+	
 	public DatabaseObjectHierarchy createOrganization(DatabaseObject obj, String organizationname) {
 		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillOrganization(obj, organizationname);
 		return hierarchy;

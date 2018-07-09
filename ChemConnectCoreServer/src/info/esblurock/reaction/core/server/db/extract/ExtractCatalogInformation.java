@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.StringTokenizer;
 
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
@@ -20,11 +19,9 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.ElementsOfASetOfMa
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveInterpretedInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.RecordInformation;
-import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.db.InterpretData;
-import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFactory;
 import info.esblurock.reaction.io.metadata.StandardDatasetMetaData;
 import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 
@@ -41,6 +38,11 @@ public class ExtractCatalogInformation {
 		ClassificationInformation classify = DatasetOntologyParsing.getIdentificationInformation(null, dataelement);
 		String type = dataelement.getDataElementName();
 		List<DataElementInformation> substructures = DatasetOntologyParsing.subElementsOfStructure(type);
+		
+		//System.out.println("DatasetOntologyParsing.subElementsOfStructure: " + substructures.size());
+		//System.out.println("DatasetOntologyParsing.subElementsOfStructure\n" + substructures);
+		//System.out.println("DatasetOntologyParsing.subElementsOfStructure: end");
+		
 		DatabaseObjectHierarchy hierarchy = null;
 		try {
 			if(asSinglet) {
@@ -76,7 +78,7 @@ public class ExtractCatalogInformation {
 			//System.out.println("No interpret: " + classify.getDataType());
 			//System.out.println(ex.getClass().getSimpleName());
 		} catch(IOException ex) {
-			System.out.println("IOException: " + classify.getDataType() + " with ID: " + id + "singlet(" + asSinglet + ")");
+			System.out.println("IOException: '" + classify.getDataType() + "' with ID: '" + id + "' singlet(" + asSinglet + ")");
 			System.out.println(ex.toString());
 			
 		} catch(Exception ex) {
@@ -298,10 +300,9 @@ public class ExtractCatalogInformation {
 		DatabaseObjectHierarchy hierarchy = ExtractCatalogInformation.getCatalogObject(catid, "dataset:DatasetCatalogHierarchy");
 		if(hierarchy != null) {
 		InterpretData interpret = InterpretData.valueOf("DatasetCatalogHierarchy");
-		String classname = interpret.canonicalClassName();
-		System.out.println("getDatabaseObjectHierarchy: " + classname);
+		//String classname = interpret.canonicalClassName();
 		Map<String,Object> mapping = interpret.createYamlFromObject(hierarchy.getObject());
-		Set<String> keys = mapping.keySet();
+		//Set<String> keys = mapping.keySet();
 		String objlinkid = (String) mapping.get(StandardDatasetMetaData.parameterObjectLinkS);
 		DatabaseObjectHierarchy multihier = hierarchy.getSubObject(objlinkid);
 		ChemConnectCompoundMultiple multi = (ChemConnectCompoundMultiple) multihier.getObject();

@@ -91,4 +91,8 @@ public interface UserImageService  extends RemoteService  {
 	DatabaseObjectHierarchy createDatabasePerson(DatabaseObject obj, String userClassification, NameOfPerson name);
 	
 	DatabaseObjectHierarchy createOrganization(DatabaseObject obj, String organizationname);
+	
+	DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj, String dataType);
+	
+	HierarchyNode getIDsFromConceptLink(String concept) throws IOException;
 }

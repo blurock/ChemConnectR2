@@ -21,6 +21,7 @@ import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.MaterialToast;
+import info.esblurock.reaction.chemconnect.core.client.pages.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.description.DataSetReference;
 
@@ -43,15 +44,17 @@ public class StandardDatasetDataSetReferenceHeader extends Composite {
 	MaterialTextBox referenceText;
 	
 	DataSetReference reference;
-
+	StandardDatasetObjectHierarchyItem item;
+	
 	public StandardDatasetDataSetReferenceHeader() {
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
 	}
 
-	public StandardDatasetDataSetReferenceHeader(DatabaseObject object) {
+	public StandardDatasetDataSetReferenceHeader(StandardDatasetObjectHierarchyItem item) {
 		initWidget(uiBinder.createAndBindUi(this));
-		reference = (DataSetReference) object;
+		this.item = item;
+		reference = (DataSetReference) item.getObject();
 		init();
 		doilookupbutton.setText("DOI");
 		doi.setText(reference.getDOI());

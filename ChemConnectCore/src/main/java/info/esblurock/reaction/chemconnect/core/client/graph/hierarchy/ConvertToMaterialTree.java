@@ -14,8 +14,8 @@ public class ConvertToMaterialTree {
 	public static MaterialTree addHierarchyTop(HierarchyNode hierarchy, MaterialTree tree) {
 		MaterialTreeItem item = new MaterialTreeItem(hierarchy.getIdentifier());
 		item.setTextColor(Color.BLACK);
-		item.setIconType(IconType.FOLDER);
 		item.setTextAlign(TextAlign.LEFT);
+		item.setIconType(IconType.FOLDER);
 		tree.add(item);
 		for(HierarchyNode sub : hierarchy.getSubNodes()) {
 			addHierarchy(sub,item);
@@ -25,19 +25,17 @@ public class ConvertToMaterialTree {
 		
 	public static void addHierarchy(HierarchyNode hierarchy, MaterialTreeItem item) {
 		MaterialTreeItem next = new MaterialTreeItem(hierarchy.getIdentifier());
+		next.setTextColor(Color.BLACK);
+		next.setTextAlign(TextAlign.LEFT);
+		if(hierarchy.getSubNodes().size() > 0) {
+			next.setIconType(IconType.FOLDER);
+			next.collapse();
+		} else {
+			next.setIconType(IconType.BUILD);
+		}
 		item.add(next);
 		for(HierarchyNode sub : hierarchy.getSubNodes() ) {
-			MaterialTreeItem subitem = new MaterialTreeItem(sub.getIdentifier());
-			if(sub.getSubNodes().size() > 0) {
-				subitem.setIconType(IconType.FOLDER);
-				//subitem.collapse();
-			} else {
-				subitem.setIconType(IconType.BUILD);
-			}
-			subitem.setTextAlign(TextAlign.LEFT);
-			subitem.setTextColor(Color.BLACK);
-			item.addItem(subitem);
-			addHierarchy(sub,subitem);
+			addHierarchy(sub,next);
 		}
 	}
 

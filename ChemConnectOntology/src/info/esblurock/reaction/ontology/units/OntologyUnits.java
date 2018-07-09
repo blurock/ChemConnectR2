@@ -175,6 +175,7 @@ public class OntologyUnits extends OntologyBase {
 		boolean result = OntologyBase.datasetASK(query);
 		return result;
 	}
+	
 	public static String removeNamespace(String name) {
 		int pos = name.indexOf(":");
 		String ans = name;

@@ -146,8 +146,6 @@ public class QueryBase {
 	}
 	
 	public static SingleQueryResult StandardQueryResult(QuerySetupBase parameters) throws ClassNotFoundException {
-
-		System.out.println("StandardQueryResult: set up query: " + parameters.toString());
 		Class<?> cls = Class.forName(parameters.getQueryClass());
 		Query<?> query = ofy().load().type(cls);
 		
@@ -173,12 +171,9 @@ public class QueryBase {
 		}
 		
 		ArrayList<DatabaseObject> lst = new ArrayList<DatabaseObject>();
-		System.out.println("Query results with right filter");
 		for(Object obj : query) {
-			System.out.println(obj.toString());
 			lst.add((DatabaseObject) obj);
 		}
-		System.out.println("StandardQueryResult: with property" + parameters.toString());
 		/*
 		@SuppressWarnings("unchecked")
 		QueryResultIterator<DatabaseObject> iterator = (QueryResultIterator<DatabaseObject>) query.iterator();

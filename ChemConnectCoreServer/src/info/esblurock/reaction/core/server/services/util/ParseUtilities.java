@@ -114,7 +114,7 @@ public class ParseUtilities {
 		for (GCSBlobFileInformation info : lst) {
 			ParsedFilename parsed = fillFileInformation(obj, info.getFilename(), info.getFiletype());
 			if (belongsToMIMETypes(info, types)) {
-				fillInBlobHierarchy(top, parsed.getPath(), parsed.getOriginal());
+				fillInHierarchy(top, parsed.getPath(), parsed.getOriginal());
 			}
 		}
 
@@ -150,7 +150,7 @@ public class ParseUtilities {
 		return ans;
 	}
 
-	private static void fillInBlobHierarchy(HierarchyNode top, ArrayList<String> path, String filename) {
+	public static void fillInHierarchy(HierarchyNode top, ArrayList<String> path, String filename) {
 		if (path.size() > 0) {
 			ArrayList<HierarchyNode> subnodes = top.getSubNodes();
 			String topname = path.get(0);
@@ -171,10 +171,10 @@ public class ParseUtilities {
 			if (notfound) {
 				HierarchyNode node = new HierarchyNode(topname);
 				top.addSubNode(node);
-				fillInBlobHierarchy(node, path, filename);
+				fillInHierarchy(node, path, filename);
 			} else {
 				HierarchyNode node = subnodes.get(index);
-				fillInBlobHierarchy(node, path, filename);
+				fillInHierarchy(node, path, filename);
 			}
 		} else {
 			HierarchyNode node = new HierarchyNode(filename);

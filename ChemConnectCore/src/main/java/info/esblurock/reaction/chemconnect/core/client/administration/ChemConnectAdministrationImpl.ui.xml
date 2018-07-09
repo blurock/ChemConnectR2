@@ -45,7 +45,6 @@
 			<m:MaterialLink ui:field="organizations" />
 			<m:MaterialLink ui:field="people" />
 			<m:MaterialLink ui:field="users" />
-			<m:MaterialLink ui:field="explore" />
 			<m:MaterialLink ui:field="cleardb" />
 			<m:MaterialLink ui:field="readinit" />
 		</m:MaterialSideNav>

@@ -184,7 +184,10 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 	public MaterialPanel getModalpanel() {
 		return modalpanel;
 	}
-
+	public MaterialCollapsible getSubElementCollapsible() {
+		return subinfo;
+	}
+	
 	public ArrayList<StandardDatasetObjectHierarchyItem> getSubitems() {
 		return subitems;
 	}

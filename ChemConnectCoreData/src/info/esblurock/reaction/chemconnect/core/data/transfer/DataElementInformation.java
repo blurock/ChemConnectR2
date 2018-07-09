@@ -86,7 +86,7 @@ public class DataElementInformation implements Serializable,Comparable<DataEleme
 			build.append(link);
 			build.append("):  ");
 		} else {
-			build.append(":  ");
+			build.append("(no link):  ");
 		}
 		build.append(identifier);
 		build.append("   ");

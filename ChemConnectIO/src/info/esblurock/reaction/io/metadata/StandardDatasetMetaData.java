@@ -1,5 +1,6 @@
 package info.esblurock.reaction.io.metadata;
 
+import com.googlecode.objectify.annotation.Index;
 
 public class StandardDatasetMetaData {
 	
@@ -33,6 +34,13 @@ public class StandardDatasetMetaData {
 	public static String dimensionSpec = "qb:dimension";
 	public static String chemConnectCompoundMultipleS = "dataset:ChemConnectCompoundMultiple";
 	public static String  elementType = "dataset:elementType";
+	
+	public static String CatalogBaseName = "skos:hasTopConcept";
+	public static String DataCatalog = "skos:inScheme";
+	public static String SimpleCatalogName = "qb:DataSet";
+	public static String CatalogDataID = "qb:ObservationGroup";
+	
+
 
 	public static String hasSiteS = "foaf:homepage";
 	public static String siteOfS = "foaf:workInfoHomepage";

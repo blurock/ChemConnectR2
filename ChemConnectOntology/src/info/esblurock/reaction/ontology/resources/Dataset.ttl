@@ -1391,7 +1391,7 @@ xsd:date rdf:type rdfs:Datatype .
 :CatalogBaseName rdf:type owl:Class ;
                  rdfs:subClassOf :ShortStringLabel ;
                  <http://purl.org/dc/elements/1.1/type> "ShortString" ;
-                 <http://purl.org/dc/terms/identifier> "dataset:catalogbase" ;
+                 <http://purl.org/dc/terms/identifier> "skos:hasTopConcept" ;
                  <http://www.w3.org/2004/02/skos/core#altLabel> "base" .
 
 
@@ -1863,22 +1863,19 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                       rdfs:subClassOf :ConceptLinkDataStructures ,
                                                       [ rdf:type owl:Restriction ;
                                                         owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
-                                                        owl:someValuesFrom :DatasetCatalogHierarchy
+                                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                        owl:onClass :DatasetCatalogHierarchy
                                                       ] .
-
-
-###  http://www.esblurock.info/dataset#ConceptLinkCatalogLinkToUser
-:ConceptLinkCatalogLinkToUser rdf:type owl:Class ;
-                              rdfs:subClassOf :ConceptLinkUserInformation ,
-                                              [ rdf:type owl:Restriction ;
-                                                owl:onProperty <http://www.w3.org/2004/02/skos/core#hasTopConcept> ;
-                                                owl:someValuesFrom :DatasetCatalogHierarchy
-                                              ] .
 
 
 ###  http://www.esblurock.info/dataset#ConceptLinkConsortium
 :ConceptLinkConsortium rdf:type owl:Class ;
-                       rdfs:subClassOf :ConceptLinkDataStructures ;
+                       rdfs:subClassOf :ConceptLinkDataStructures ,
+                                       [ rdf:type owl:Restriction ;
+                                         owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                         owl:onClass :Consortium
+                                       ] ;
                        <http://purl.org/dc/elements/1.1/relation> :DataTypeConsortium ;
                        rdfs:isDefinedBy :Consortium .
 
@@ -1913,7 +1910,8 @@ Under the general type of is the actual data object referenced by the ChemConnec
                         rdfs:subClassOf :ConceptLinkDataStructures ,
                                         [ rdf:type owl:Restriction ;
                                           owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
-                                          owl:someValuesFrom :ChemConnectMethodology
+                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onClass :ChemConnectMethodology
                                         ] ;
                         rdfs:isDefinedBy :ChemConnectMethodology .
 
@@ -1923,7 +1921,8 @@ Under the general type of is the actual data object referenced by the ChemConnec
                          rdfs:subClassOf :ConceptLinkDataStructures ,
                                          [ rdf:type owl:Restriction ;
                                            owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
-                                           owl:someValuesFrom :SetOfObservationValues
+                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                           owl:onClass :SetOfObservationValues
                                          ] ;
                          <http://purl.org/dc/elements/1.1/relation> :DataTypeDataset .
 
@@ -1934,8 +1933,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                                   [ rdf:type owl:Restriction ;
                                                     owl:onProperty <http://www.w3.org/2004/02/skos/core#hasTopConcept> ;
                                                     owl:someValuesFrom :Consortium
-                                                  ] ;
-                                  owl:disjointWith :ConceptLinkUserMemberOfConsortium .
+                                                  ] .
 
 
 ###  http://www.esblurock.info/dataset#ConceptLinkOrganization
@@ -1943,7 +1941,8 @@ Under the general type of is the actual data object referenced by the ChemConnec
                          rdfs:subClassOf :ConceptLinkDataStructures ,
                                          [ rdf:type owl:Restriction ;
                                            owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
-                                           owl:someValuesFrom :Organization
+                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                           owl:onClass :Organization
                                          ] ;
                          <http://purl.org/dc/elements/1.1/relation> :DataTypeOrganization ;
                          <http://purl.org/dc/elements/1.1/type> "OrganizationLink" ;
@@ -1967,7 +1966,8 @@ Under the general type of is the actual data object referenced by the ChemConnec
                        rdfs:subClassOf :ConceptLinkDataStructures ,
                                        [ rdf:type owl:Restriction ;
                                          owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
-                                         owl:someValuesFrom :SubSystemDescription
+                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                         owl:onClass :SubSystemDescription
                                        ] .
 
 
@@ -1976,7 +1976,8 @@ Under the general type of is the actual data object referenced by the ChemConnec
                         rdfs:subClassOf :ConceptLinkDataStructures ,
                                         [ rdf:type owl:Restriction ;
                                           owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
-                                          owl:someValuesFrom :UserAccount
+                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onClass :UserAccount
                                         ] ;
                         <http://purl.org/dc/elements/1.1/relation> :UserAccount ;
                         rdfs:isDefinedBy :UserAccount .
@@ -1997,18 +1998,10 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                             :ConceptLinkUserInformation ,
                                             [ rdf:type owl:Restriction ;
                                               owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
-                                              owl:someValuesFrom :DatabasePerson
+                                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                              owl:onClass :DatabasePerson
                                             ] ;
                             rdfs:isDefinedBy :UserInformation .
-
-
-###  http://www.esblurock.info/dataset#ConceptLinkUserMemberOfConsortium
-:ConceptLinkUserMemberOfConsortium rdf:type owl:Class ;
-                                   rdfs:subClassOf :ConceptLinkUserInformation ,
-                                                   [ rdf:type owl:Restriction ;
-                                                     owl:onProperty <http://www.w3.org/2004/02/skos/core#hasTopConcept> ;
-                                                     owl:someValuesFrom :Consortium
-                                                   ] .
 
 
 ###  http://www.esblurock.info/dataset#ConceptMFCSpeciesFlow
@@ -2162,9 +2155,35 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#DataCatalog
 :DataCatalog rdf:type owl:Class ;
              rdfs:subClassOf :Classification ;
-             <http://purl.org/dc/terms/identifier> <http://www.w3.org/ns/dcat#record> ;
+             <http://purl.org/dc/elements/1.1/type> "Classification" ;
+             <http://purl.org/dc/terms/identifier> "skos:inScheme" ;
              rdfs:comment "This specifies the catalog to which the data belongs"^^xsd:string ;
              <http://www.w3.org/2004/02/skos/core#altLabel> "catalog"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#DataCatalogID
+:DataCatalogID rdf:type owl:Class ;
+               rdfs:subClassOf :ChemConnectCompoundDataStructure ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                 owl:onClass :CatalogBaseName
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                 owl:onClass :DataCatalog
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                 owl:onClass :SimpleCatalogName
+                               ] ;
+               <http://purl.org/dc/elements/1.1/type> "DataCatalogID"^^xsd:string ;
+               <http://purl.org/dc/terms/identifier> "qb:ObservationGroup"^^xsd:string ;
+               rdfs:isDefinedBy <http://purl.org/linked-data/cube#ObservationGroup> ;
+               rdfs:label "Catalog Data ID"^^xsd:string ;
+               <http://www.w3.org/2004/02/skos/core#altLabel> "catid"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#DataCreator
@@ -2507,6 +2526,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                            [ rdf:type owl:Restriction ;
                                              owl:onProperty <http://www.w3.org/ns/dcat#record> ;
                                              owl:someValuesFrom :DataSetReference
+                                           ] ,
+                                           [ rdf:type owl:Restriction ;
+                                             owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                             owl:onClass :DataCatalogID
                                            ] ,
                                            [ rdf:type owl:Restriction ;
                                              owl:onProperty <http://www.w3.org/ns/dcat#record> ;
@@ -6045,16 +6069,6 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                          ] .
 
 
-###  http://www.esblurock.info/dataset#OrganizationLinkToMember
-:OrganizationLinkToMember rdf:type owl:Class ;
-                          rdfs:subClassOf :ConceptLinkUserInformation ,
-                                          [ rdf:type owl:Restriction ;
-                                            owl:onProperty <http://www.w3.org/2004/02/skos/core#hasTopConcept> ;
-                                            owl:someValuesFrom :Organization
-                                          ] ;
-                          <http://purl.org/dc/elements/1.1/type> "OrganizationLinkToMember" .
-
-
 ###  http://www.esblurock.info/dataset#OrganizationMember
 :OrganizationMember rdf:type owl:Class ;
                     rdfs:subClassOf :DataTypeOrganization .
@@ -6751,6 +6765,14 @@ Under the general type of is the actual data object referenced by the ChemConnec
                   <http://purl.org/dc/elements/1.1/type> "ShortStringLabel"^^xsd:string ;
                   rdfs:isDefinedBy <http://purl.org/dc/dcmitype/Text> ,
                                    <http://xmlns.com/foaf/0.1/LabelProperty> .
+
+
+###  http://www.esblurock.info/dataset#SimpleCatalogName
+:SimpleCatalogName rdf:type owl:Class ;
+                   rdfs:subClassOf :ShortStringLabel ;
+                   <http://purl.org/dc/elements/1.1/type> "ShortString" ;
+                   <http://purl.org/dc/terms/identifier> "qb:DataSet" ;
+                   <http://www.w3.org/2004/02/skos/core#altLabel> "simple" .
 
 
 ###  http://www.esblurock.info/dataset#SimpleDatasetObject
@@ -7475,14 +7497,6 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#givenName
 :givenName rdf:type owl:Class ;
            rdfs:subClassOf :ShortStringLabel .
-
-
-###  http://www.esblurock.info/dataset#simpleCatalogName
-:simpleCatalogName rdf:type owl:Class ;
-                   rdfs:subClassOf :ShortStringLabel ;
-                   <http://purl.org/dc/elements/1.1/type> "ShortString" ;
-                   <http://purl.org/dc/terms/identifier> "dataset:catalogsuffix" ;
-                   <http://www.w3.org/2004/02/skos/core#altLabel> "simple" .
 
 
 ###  http://www.esblurock.info/dataset#username
@@ -9100,13 +9114,13 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
 :ContactEmail <http://purl.org/dc/terms/identifier> "vcard:email"^^xsd:string ;
               <http://www.w3.org/2004/02/skos/core#altLabel> "email"^^xsd:string ;
               rdfs:label "Contact email"^^xsd:string ;
-              <http://purl.org/dc/elements/1.1/type> "ContactEmail" .
+              <http://purl.org/dc/elements/1.1/type> "Email" .
 
 
-:ContactHasSite rdfs:label "HTTP site of contact"^^xsd:string ;
+:ContactHasSite <http://purl.org/dc/elements/1.1/type> "HTTPAddress" ;
+                rdfs:label "HTTP site of contact"^^xsd:string ;
                 <http://www.w3.org/2004/02/skos/core#altLabel> "httpcontact"^^xsd:string ;
-                <http://purl.org/dc/terms/identifier> "foaf:homepage"^^xsd:string ;
-                <http://purl.org/dc/elements/1.1/type> "ContactHasSite" .
+                <http://purl.org/dc/terms/identifier> "foaf:homepage"^^xsd:string .
 
 
 :ContactInfoData <http://purl.org/dc/terms/identifier> "vcard:Contact"^^xsd:string ;
@@ -9124,9 +9138,9 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
 
 
 :ContactSiteOf rdfs:label "HTTP site of institution"^^xsd:string ;
+               <http://purl.org/dc/elements/1.1/type> "HTTPAddress" ;
                <http://purl.org/dc/terms/identifier> "foaf:workInfoHomepage"^^xsd:string ;
-               <http://www.w3.org/2004/02/skos/core#altLabel> "httpinst"^^xsd:string ;
-               <http://purl.org/dc/elements/1.1/type> "ContactSiteOf" .
+               <http://www.w3.org/2004/02/skos/core#altLabel> "httpinst"^^xsd:string .
 
 
 :DOI <http://purl.org/dc/elements/1.1/type> "DOI" ;

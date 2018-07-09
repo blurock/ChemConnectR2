@@ -3,6 +3,7 @@ package info.esblurock.reaction.chemconnect.core.client.pages.catalog;
 
 import com.google.gwt.user.client.Window;
 
+import info.esblurock.reaction.chemconnect.core.client.catalog.link.PrimitiveDataObjectLinkRow;
 import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatabasePersonalDescriptionHeader;
 import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetContactInfoHeader;
 import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetContactLocationInformationHeader;
@@ -11,7 +12,6 @@ import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetNa
 import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetOrganizationDescriptionHeader;
 import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetOrganizationHeader;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.hierarchy.StandardDatasetCatalogHierarchyHeader;
-import info.esblurock.reaction.chemconnect.core.client.pages.catalog.link.PrimitiveDataObjectLinkRow;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.methodology.StandardDatasetMethodologyHeader;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.multiple.ChemConnectCompoundMultipleHeader;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.observations.PrimitiveParameterValueRow;
@@ -466,8 +466,7 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
-			ChemConnectCompoundMultiple multiple = (ChemConnectCompoundMultiple) item.getObject();
-			ChemConnectCompoundMultipleHeader header = new ChemConnectCompoundMultipleHeader(multiple.getType());
+			ChemConnectCompoundMultipleHeader header = new ChemConnectCompoundMultipleHeader(item);
 			item.addHeader(header);
 		}
 
@@ -496,7 +495,7 @@ public enum SetUpCollapsibleItem {
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
 			item.setBodyVisible(false);
-			PrimitiveDataObjectLinkRow row = new PrimitiveDataObjectLinkRow(item.getObject());
+			PrimitiveDataObjectLinkRow row = new PrimitiveDataObjectLinkRow(item);
 			item.addHeader(row);
 		}
 
@@ -554,7 +553,42 @@ public enum SetUpCollapsibleItem {
 			return true;
 		}
 
-	}, GPSLocation {
+	}, CatalogDataID {
+
+		@Override
+		public void addInformation(StandardDatasetObjectHierarchyItem item) {
+			DatasetStandardDataCatalogIDHeader header = new DatasetStandardDataCatalogIDHeader(item);
+			item.addHeader(header);
+			
+		}
+
+		@Override
+		public boolean update(StandardDatasetObjectHierarchyItem item) {
+			DatasetStandardDataCatalogIDHeader header = (DatasetStandardDataCatalogIDHeader) item.getHeader();
+			header.updateData();
+			return false;
+		}
+
+		@Override
+		public int priority() {
+			// TODO Auto-generated method stub
+			return 100;
+		}
+
+		@Override
+		public boolean isInformation() {
+			return true;
+		}
+
+		@Override
+		public boolean addSubitems() {
+			return false;
+		}
+		
+	},
+	
+	
+	GPSLocation {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
@@ -703,7 +737,7 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
-			StandardDatasetDataSetReferenceHeader header = new StandardDatasetDataSetReferenceHeader(item.getObject());
+			StandardDatasetDataSetReferenceHeader header = new StandardDatasetDataSetReferenceHeader(item);
 			item.addHeader(header);
 		}
 

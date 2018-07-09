@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
@@ -21,6 +22,7 @@ import info.esblurock.reaction.core.server.db.InterpretData;
 import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.io.db.QueryBase;
 import info.esblurock.reaction.chemconnect.core.data.dataset.AttributeInDataset;
+import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataObjectLink;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHierarchy;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DimensionParameterValue;
@@ -102,7 +104,6 @@ public class CreateDefaultObjectsFactory {
 	public static DatabaseObjectHierarchy fillMethodologyDefinition(DatabaseObject obj, 
 			String methodologyS, String title) {
 		DatabaseObjectHierarchy methodhier = InterpretData.ChemConnectMethodology.createEmptyObject(obj);
-		System.out.println("fillMethodologyDefinition: \n" + methodhier);
 		ChemConnectMethodology methodology = (ChemConnectMethodology) methodhier.getObject();
 		methodology.setMethodologyType(methodologyS);
 		
@@ -241,9 +242,10 @@ public class CreateDefaultObjectsFactory {
  */
 	public static DatabaseObjectHierarchy fillDatasetCatalogHierarchy(DatasetCatalogHierarchy topcatalog,
 			DatabaseObject obj, String id, String onelinedescription) throws IOException {
+		/*
 		DataElementInformation linkelement = DatasetOntologyParsing
 				.getSubElementStructureFromIDObject(OntologyKeys.dataObjectLink);
-
+*/
 		DatabaseObject aobj = new DatabaseObject(obj);
 		String aid = DatasetCatalogHierarchy.createFullCatalogName(obj.getIdentifier(), id);
 		aobj.setIdentifier(aid);
@@ -251,8 +253,14 @@ public class CreateDefaultObjectsFactory {
 
 		DatabaseObjectHierarchy cathierarchy = InterpretData.DatasetCatalogHierarchy.createEmptyObject(aobj);
 		DatasetCatalogHierarchy catalog = (DatasetCatalogHierarchy) cathierarchy.getObject();
-		catalog.setSimpleCatalogName(id);
 		setOneLineDescription(cathierarchy, onelinedescription);
+		
+		DatabaseObjectHierarchy idhier = cathierarchy.getSubObject(catalog.getCatalogDataID());
+		DataCatalogID catid = (DataCatalogID) idhier.getObject();
+		catid.setCatalogBaseName(obj.getIdentifier());
+		catid.setDataCatalog("");
+		catid.setSimpleCatalogName(id);
+
 				
 		// Get object link list (multiple) from top catalog
 		String classname = ChemConnectCompoundMultiple.class.getCanonicalName();
@@ -260,7 +268,6 @@ public class CreateDefaultObjectsFactory {
 				topcatalog.getChemConnectObjectLink());
 		int num = toplinkstructure.getIds().size();
 		String linknum = Integer.toString(num + 1);
-		
 		
 		DatabaseObjectHierarchy linkhier = fillDataObjectLink(toplinkstructure,linknum,MetaDataKeywords.linkSubCatalog,
 				catalog.getIdentifier());
@@ -286,6 +293,14 @@ public class CreateDefaultObjectsFactory {
 		String catid = createSuffix(catobj, element);
 		return catid;
 	}
+	
+	public static DatabaseObjectHierarchy fillDataCatalogID(DatabaseObject obj, String parentLink, String catalogbase, String catalog, String simple) {
+		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,parentLink);
+		
+		DataCatalogID id = new DataCatalogID(structure,catalogbase,catalog,simple);
+		DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(id);
+		return hierarchy;
+	}
 
 	public static DatabaseObjectHierarchy fillCataogHierarchyForUser(DatabaseObject obj, String userid,
 			String orgcatalog) {
@@ -303,12 +318,16 @@ public class CreateDefaultObjectsFactory {
 		//DatabaseObject dobj = new DatabaseObject(obj);
 		//dobj.setIdentifier(uid);
 		//dobj.nullKey();
-		System.out.println("User catalog ID:" + dobj.getIdentifier());
 		String onelinedescription = "User's Catalog";
 		DatabaseObjectHierarchy userhierarchy = InterpretData.DatasetCatalogHierarchy.createEmptyObject(dobj);
 		DatasetCatalogHierarchy usercatalog = (DatasetCatalogHierarchy) userhierarchy.getObject();
-		usercatalog.setSimpleCatalogName(userid);
 		setOneLineDescription(userhierarchy, onelinedescription);
+		
+		DatabaseObjectHierarchy idhier = userhierarchy.getSubObject(usercatalog.getCatalogDataID());
+		DataCatalogID catid = (DataCatalogID) idhier.getObject();
+		catid.setCatalogBaseName(obj.getIdentifier());
+		catid.setDataCatalog("");
+		catid.setSimpleCatalogName(indelement.getSuffix());
 		
 		DatabaseObjectHierarchy multilnkhier = userhierarchy.getSubObject(usercatalog.getChemConnectObjectLink());
 		ChemConnectCompoundMultiple multilnk = (ChemConnectCompoundMultiple) multilnkhier.getObject();
@@ -323,6 +342,8 @@ public class CreateDefaultObjectsFactory {
 		return userhierarchy;
 	}
 	
+	
+	
 	public static DatabaseObjectHierarchy fillCataogHierarchyForOrganization(DatabaseObject obj,
 			String organizationid, String orglinkid) {		
 		
@@ -335,7 +356,13 @@ public class CreateDefaultObjectsFactory {
 		String orgcatdescription = "Institute's Catalog";
 		DatabaseObjectHierarchy orghierarchy = InterpretData.DatasetCatalogHierarchy.createEmptyObject(aobj);
 		DatasetCatalogHierarchy orgcatalog = (DatasetCatalogHierarchy) orghierarchy.getObject();
-		orgcatalog.setSimpleCatalogName(organizationid);
+		
+		DatabaseObjectHierarchy idhier = orghierarchy.getSubObject(orgcatalog.getCatalogDataID());
+		DataCatalogID catid = (DataCatalogID) idhier.getObject();
+		catid.setCatalogBaseName(obj.getIdentifier());
+		catid.setDataCatalog("");
+		catid.setSimpleCatalogName(orgelement.getSuffix());
+
 		setOneLineDescription(orghierarchy, orgcatdescription);
 
 		
@@ -367,6 +394,10 @@ public class CreateDefaultObjectsFactory {
 
 		DatabaseObjectHierarchy usercat = fillCataogHierarchyForUser(catobj,
 				user.getObject().getIdentifier(), orgcat.getObject().getIdentifier());
+		
+		//System.out.println("================================================================");
+		//System.out.println(usercat);
+		//System.out.println("================================================================");
 		
 		//System.out.println(orgcat.toString());
 		
@@ -516,7 +547,6 @@ public class CreateDefaultObjectsFactory {
 		return valuehier;
 	}
 	public static DatabaseObjectHierarchy fillParameterValueAndSpecification(DatabaseObjectHierarchy valuehier, String parameter) {
-		System.out.println("fillParameterValueAndSpecification\n" + valuehier.toString());
 		ParameterValue value = (ParameterValue) valuehier.getObject();
 		String specID = value.getParameterSpec();
 		DatabaseObjectHierarchy spechier = valuehier.getSubObject(specID);

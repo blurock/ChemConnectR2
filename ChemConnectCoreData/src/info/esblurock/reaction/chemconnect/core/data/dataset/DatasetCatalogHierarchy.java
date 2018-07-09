@@ -13,24 +13,24 @@ public class DatasetCatalogHierarchy extends ChemConnectDataStructure {
 	public static String createFullCatalogName(String base, String simpleCatalogName) {
 		return base + "-" + simpleCatalogName;
 	}
-	
+	/*
 	@Index
 	String simpleCatalogName;
-
+*/
 	public DatasetCatalogHierarchy() {
 		super();
-		simpleCatalogName = "";
+		//simpleCatalogName = "";
 	}
 
 	public DatasetCatalogHierarchy(String simpleCatalogName, ChemConnectDataStructure datastructure) {
 		super(datastructure);
-		this.simpleCatalogName = simpleCatalogName;
+		//this.simpleCatalogName = simpleCatalogName;
 	}
 	public DatasetCatalogHierarchy(ChemConnectDataStructure datastructure) {
 		super(datastructure);
-		this.simpleCatalogName = "";
+		//this.simpleCatalogName = "";
 	}
-
+/*
 	public String getSimpleCatalogName() {
 		return simpleCatalogName;
 	}
@@ -38,7 +38,7 @@ public class DatasetCatalogHierarchy extends ChemConnectDataStructure {
 	public void setSimpleCatalogName(String simpleCatalogName) {
 		this.simpleCatalogName = simpleCatalogName;
 	}
-
+*/
 	public String toString() {
 		return toString("");
 	}
@@ -47,7 +47,7 @@ public class DatasetCatalogHierarchy extends ChemConnectDataStructure {
 		StringBuilder build = new StringBuilder();
 		build.append(super.toString(prefix));
 		build.append(prefix);
-		build.append("Catalog name: " + simpleCatalogName);
+		//build.append("Catalog name: " + simpleCatalogName);
 		return build.toString();
 	}	
 	

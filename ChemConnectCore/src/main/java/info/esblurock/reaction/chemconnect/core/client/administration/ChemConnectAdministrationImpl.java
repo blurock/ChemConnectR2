@@ -56,8 +56,6 @@ public class ChemConnectAdministrationImpl extends Composite implements ChemConn
 	@UiField
 	MaterialLink blobstorage;
 	@UiField
-	MaterialLink explore;
-	@UiField
 	MaterialLink cleardb;
 	@UiField
 	MaterialLink readinit;
@@ -101,8 +99,6 @@ public class ChemConnectAdministrationImpl extends Composite implements ChemConn
 		users.setIconType(IconType.PEOPLE);
 		organizations.setText(basetext.Organizations());
 		organizations.setIconType(IconType.PLACE);
-		explore.setText(basetext.explore());
-		explore.setIconType(IconType.EXPLORE);
 		devicedeclaration.setText(basetext.devicedefinition());
 		devicedeclaration.setIconType(IconType.BUILD);
 		observationsdeclaration.setText(basetext.observations());
@@ -160,12 +156,6 @@ public class ChemConnectAdministrationImpl extends Composite implements ChemConn
 	}
 	public void nodeMouseOver(String nodename) {
 		navtitle.setText("Mouseover: " + nodename);
-	}
-	
-	
-	@UiHandler("explore")
-	public void onExplore(ClickEvent event) {
-		handleHistoryToken("DataStructures");
 	}
 	
 	@UiHandler("interconnect")

@@ -4,7 +4,8 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
+import java.util.StringTokenizer;
 
 import org.junit.After;
 import org.junit.Before;
@@ -23,7 +24,6 @@ import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMul
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.contact.RegisterContactData;
-import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHierarchy;
 import info.esblurock.reaction.chemconnect.core.data.dataset.PurposeConceptPair;
 import info.esblurock.reaction.chemconnect.core.data.dataset.RegistrerDataset;
 import info.esblurock.reaction.chemconnect.core.data.description.RegisterDescriptionData;
@@ -34,13 +34,15 @@ import info.esblurock.reaction.chemconnect.core.data.login.RegisterUserLoginData
 import info.esblurock.reaction.chemconnect.core.data.observations.RegisterObservationData;
 import info.esblurock.reaction.chemconnect.core.data.rdf.RegisterRDFData;
 import info.esblurock.reaction.chemconnect.core.data.transaction.RegisterTransactionData;
+import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
-import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.db.image.BlobKeyCorrespondence;
-import info.esblurock.reaction.io.db.QueryBase;
+import info.esblurock.reaction.core.server.services.util.ParseUtilities;
+import info.esblurock.reaction.ontology.dataset.ConceptParsing;
 
-public class ReadDatabaseObjectHierarchy {
+public class ReadFromLinkConcept {
+
 	protected Closeable session;
 	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 
@@ -49,7 +51,7 @@ public class ReadDatabaseObjectHierarchy {
 		// Reset the Factory so that all translators work properly.
 		ObjectifyService.setFactory(new ObjectifyFactory());
 	}
-
+	
 	@Before
 	public void setUp() {
 		this.session = ObjectifyService.begin();
@@ -72,7 +74,6 @@ public class ReadDatabaseObjectHierarchy {
 		System.out.println("Classes Registered");
 		this.helper.setUp();
 	}
-
 	@After
 	public void tearDown() {
 		AsyncCacheFilter.complete();
@@ -82,43 +83,46 @@ public class ReadDatabaseObjectHierarchy {
 
 	@Test
 	public void test() {
-		try {
-			String sourceID = "1";
-			String username = "Administration";
-			String access = "Administration";
-			String owner = "Administration";
-			String orgname = "BlurockConsultingAB";
-			String title = "Blurock Consulting AB";
-			CreateDefaultObjectsFactory.createAndWriteDefaultUserOrgAndCatagories(username, access, owner,
-					orgname, title, sourceID);
-			
-			try {
-				String dataType = "dataset:DataCatalogID";
-				System.out.println("======================================================================");
-				System.out.println(dataType + " ---------------------------------------------------------------------------");
-				ArrayList<DatabaseObjectHierarchy> objects = WriteReadDatabaseObjects.getAllDatabaseObjectHierarchyForUser(owner,dataType);
-				for(DatabaseObjectHierarchy hierarchy : objects) {
-					System.out.println(hierarchy.toString());
-				}
-				System.out.println(dataType + " ---------------------------------------------------------------------------");
-				System.out.println("======================================================================");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		DatabaseObject obj = new DatabaseObject("AdministrationCatalog-HeatFluxBurner",
+				"Public","Administration","1" );
+		
+		PurposeConceptPair pair = new PurposeConceptPair();
+		String devicename = "dataset:HeatFluxBurner";
+		ConceptParsing.fillInPurposeConceptPair(devicename, pair);
+		
+		DatabaseObjectHierarchy devicehier = CreateDefaultObjectsFactory.fillSubSystemDescription(obj,
+				devicename,pair.getPurpose(),pair.getConcept());
 
-			
-			
-			System.out.println("----------------------------------------------------------------");
-			//String uid = DatasetCatalogHierarchy.createFullCatalogName("Catalog", username);
-			String uid = "Catalog-Administration-usrinfo-sethier";
-			DatabaseObjectHierarchy hierarchy = ExtractCatalogInformation.getDatabaseObjectHierarchy(uid);
-			System.out.println("----------------------------------------------------------------");
-			System.out.println(hierarchy.toString());
-			
+		System.out.println("fillSubSystemDescription\n" + devicehier.toString());
+		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(devicehier);	
+	
+		String concept1 = "dataset:ConceptLinkSubsystems";
+		String classType = ConceptParsing.findObjectTypeFromLinkConcept(concept1);
+		System.out.println(classType);
+		
+		try {
+			Set<String> ids = WriteReadDatabaseObjects.getIDsOfAllDatabaseObjects("Administration",classType);
+			System.out.println("The IDs with concept: ");
+			HierarchyNode topnode = new HierarchyNode(concept1);
+			for(String id : ids) {
+				System.out.println(id);
+				StringTokenizer tok = new StringTokenizer(id,"-");
+				ArrayList<String> path = new ArrayList<String>();
+				String last = null;
+				while(tok.hasMoreTokens()) {
+					last = tok.nextToken();
+					path.add(last);
+				}
+				ParseUtilities.fillInHierarchy(topnode, path, id);
+			}
+			System.out.println(topnode.toString());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		
+	
+	
 	}
 
 }

@@ -9,7 +9,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialLink;
-import info.esblurock.reaction.chemconnect.core.client.administration.CatalogClassificationInformationCallback;
+import info.esblurock.reaction.chemconnect.core.client.catalog.HierarchyNodeCallback;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;

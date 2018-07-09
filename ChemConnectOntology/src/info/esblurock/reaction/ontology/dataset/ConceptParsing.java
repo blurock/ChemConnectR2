@@ -9,6 +9,7 @@ import java.util.Set;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.vocabulary.ReasonerVocabulary;
 
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectPrimitiveDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.concepts.AttributeDescription;
 import info.esblurock.reaction.chemconnect.core.data.concepts.AttributesOfObject;
@@ -544,6 +545,50 @@ public class ConceptParsing {
 			value.setValueAsString(example);
 		}
 
+	}
+
+	public static String findObjectTypeFromLinkConcept(String linkconcept) {
+		String query = "SELECT ?objecttype \n" + 
+				"	WHERE { " + linkconcept + " rdfs:subClassOf ?object .\n" + 
+				"		?object owl:onProperty <http://www.w3.org/2004/02/skos/core#related> .\n" + 
+				"		?object owl:onClass ?objecttype }";
+		
+		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
+		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
+		String structuretype = null;
+		if(stringlst.size() > 0) {
+			Map<String, String> result = stringlst.get(0);
+			structuretype = result.get("objecttype");
+		}
+		return structuretype;
+	}
+	
+	public static ChemConnectPrimitiveDataStructure createChemConnectPrimitiveDataStructure(DatabaseObject object, String unit) {
+		String query = "SELECT ?objecttype ?datatype \n"
+				+ "     WHERE {\n"
+				+ "	    " + unit + " rdfs:subClassOf ?objectype .\n"
+				+ "	    " + unit + " <http://purl.org/dc/elements/1.1/type> ?datatype\n"
+				+ "      }";
+		System.out.println(query);
+		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
+		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
+		String objecttype = null;
+		String structuretype = null;
+		if(stringlst.size() > 0) {
+			Map<String, String> result = stringlst.get(0);
+			structuretype = result.get("datatype");
+			objecttype = result.get("objecttype");
+		}
+		ChemConnectPrimitiveDataStructure structure = new ChemConnectPrimitiveDataStructure(object,objecttype,structuretype);
+		return structure;
+	}
+
+	public static boolean isAChemConnectPrimitiveDataStructure(String unit) {
+		String query = "ASK {" + 
+				"	" + unit + " rdfs:subClassOf dataset:ChemConnectPrimitiveDataStructure }";
+		System.out.println(query);
+		boolean result = OntologyBase.datasetASK(query);
+		return result;
 	}
 
 

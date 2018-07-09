@@ -129,6 +129,12 @@ public class ContactDatabaseAccessImpl extends ServerBase implements ContactData
 		System.out.println("hierarchyOfConceptsWithLevelLimit" + hierarchy);
 		return hierarchy;
 	}
+	public String getObjectIDFromLinkConcept(String concept) {
+		
+		
+		return null;
+	}
+	
 	
 	public GPSLocation getGPSLocation(DatabaseObject obj, String city, String country) throws IOException {
 		GeocodingLatituteAndLongitude geo = new GeocodingLatituteAndLongitude();

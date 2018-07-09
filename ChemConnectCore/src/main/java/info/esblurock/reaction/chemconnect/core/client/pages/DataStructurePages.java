@@ -11,7 +11,6 @@ import info.esblurock.reaction.chemconnect.core.client.device.DeviceWithSubystem
 import info.esblurock.reaction.chemconnect.core.client.device.MethodologyDefinition;
 import info.esblurock.reaction.chemconnect.core.client.device.SetOfObservationsDefinition;
 import info.esblurock.reaction.chemconnect.core.client.gcs.UploadFileToBlobStorage;
-import info.esblurock.reaction.chemconnect.core.client.graph.pages.VisualizeGraphicalObjects;
 
 public enum DataStructurePages implements Serializable {
 	
@@ -32,23 +31,6 @@ public enum DataStructurePages implements Serializable {
 		public Widget getContent() {
 			return dataStructures;
 		}
-	}, GraphicalStructures {
-
-		@Override
-		public String getTitle() {
-			return "Graphical Structures";
-		}
-
-		@Override
-		public String getDescription() {
-			return "The concepts represented as graph";
-		}
-
-		@Override
-		public Widget getContent() {
-			return graphicalObjects;
-		}
-		
 	}, DeviceDefinition {
 
 		@Override
@@ -177,7 +159,6 @@ public enum DataStructurePages implements Serializable {
 	public abstract Widget getContent();
 	
 	static MainDataStructureVisualization dataStructures = new MainDataStructureVisualization();
-	static VisualizeGraphicalObjects graphicalObjects = new VisualizeGraphicalObjects();
 	static DeviceWithSubystemsDefinition subsystems = new DeviceWithSubystemsDefinition();
 	static SetOfObservationsDefinition setofobservations = new SetOfObservationsDefinition();
 	static MethodologyDefinition methodology = new MethodologyDefinition();

@@ -75,4 +75,8 @@ public interface UserImageServiceAsync {
 	void createOrganization(DatabaseObject obj, String organizationname,
 			AsyncCallback<DatabaseObjectHierarchy> callback);
 
+	void createEmptyObject(DatabaseObject obj, String dataType, AsyncCallback<DatabaseObjectHierarchy> callback);
+
+	void getIDsFromConceptLink(String concept, AsyncCallback<HierarchyNode> callback);
+
 }

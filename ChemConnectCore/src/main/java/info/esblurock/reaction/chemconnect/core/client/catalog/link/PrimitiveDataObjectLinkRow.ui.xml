@@ -9,13 +9,7 @@
 	</ui:style>
 			<m:MaterialPanel ui:field="toppanel">
 				<m:MaterialRow>
-					<m:MaterialColumn grid="s1">
-						<m:MaterialTooltip ui:field="tip">
-							<m:MaterialIcon ui:field="info" iconType="INFO"
-								iconColor="BLACK" />
-						</m:MaterialTooltip>
-					</m:MaterialColumn>
-					<m:MaterialColumn grid="s5">
+					<m:MaterialColumn grid="s6">
 						<m:MaterialTooltip ui:field="concepttip">
 							<m:MaterialLink ui:field="concept" textColor="BLACK" />
 						</m:MaterialTooltip>

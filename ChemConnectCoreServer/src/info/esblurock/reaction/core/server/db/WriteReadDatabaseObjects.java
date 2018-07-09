@@ -42,9 +42,7 @@ public class WriteReadDatabaseObjects {
 	
 	public static Set<String> getIDsOfAllDatabaseObjects(String user, String classType) throws IOException {
 		String name = DatasetOntologyParsing.getChemConnectDirectTypeHierarchy(classType);
-		System.out.println("dataset:Organization    \t" + name);
 		InterpretData interpret = InterpretData.valueOf(name);
-		System.out.println(interpret.canonicalClassName());
 		ListOfQueries queries = QueryFactory.accessQueryForUser(interpret.canonicalClassName(), user, null);
 		SetOfQueryResults results;
 		Set<String> ids = new HashSet<String>();
@@ -60,24 +58,16 @@ public class WriteReadDatabaseObjects {
 		return ids;
 	}
 	public static ArrayList<DatabaseObjectHierarchy> getDatabaseObjectHierarchyFromIDs(String classType, Set<String> ids) {
-		System.out.println("Calling getDatabaseObjectHierarchyFromIDs classtype='" + classType + "'");
 		ArrayList<DatabaseObjectHierarchy> objects = new ArrayList<DatabaseObjectHierarchy>();
 		for(String id:ids) {
-			System.out.println("getDatabaseObjectHierarchyFromIDs: classtype='" + classType + "'   ID=" + id);
 			DatabaseObjectHierarchy readhierarchy = ExtractCatalogInformation.getCatalogObject(id, classType);
-			System.out.println("getDatabaseObjectHierarchyFromIDs: done fetching  classtype='" + classType + "'   ID=" + id);
-			System.out.println("getDatabaseObjectHierarchyFromIDs: ID= " + id + "\n" + readhierarchy.toString());
 			objects.add(readhierarchy);
 		}
-		System.out.println("getDatabaseObjectHierarchyFromIDs: done" + objects.size());
 		return objects;
 	}
 	public static ArrayList<DatabaseObjectHierarchy> getAllDatabaseObjectHierarchyForUser(String user, String classType) throws IOException {
 		Set<String> ids = getIDsOfAllDatabaseObjects(user,classType);
-		System.out.println("getAllDatabaseObjectHierarchyForUser:  '" + classType + "'  with IDs: "+ ids);
 		ArrayList<DatabaseObjectHierarchy> objects = getDatabaseObjectHierarchyFromIDs(classType,ids);
-		System.out.println("getAllDatabaseObjectHierarchyForUser: done: " + objects.size());
-		
 		return objects;
 	}
 	public static void writeChemConnectDataStructureObject(ChemConnectDataStructureObject object) {
@@ -100,7 +90,8 @@ public class WriteReadDatabaseObjects {
 	}
 		
 	public static void writeDatabaseObjectHierarchyRecursive(DatabaseObjectHierarchy objecthierarchy) {
-		DatabaseWriteBase.writeDatabaseObject(objecthierarchy.getObject());
+		DatabaseObject topobject = objecthierarchy.getObject();
+		DatabaseWriteBase.writeDatabaseObject(topobject);
 		for (DatabaseObjectHierarchy subhierarchy : objecthierarchy.getSubobjects()) {
 			writeDatabaseObjectHierarchyRecursive(subhierarchy);
 		}
@@ -110,6 +101,9 @@ public class WriteReadDatabaseObjects {
 		ArrayList<DatabaseObject> lst = new ArrayList<DatabaseObject>();
 		Map<String,DatabaseObject> map = new HashMap<String,DatabaseObject>();
 		collectDatabaseObjectsInHierarchy(objecthierarchy,lst,map);
+		System.out.println("--------------------------------");
+		System.out.println(lst);
+		System.out.println("--------------------------------");
 		Map<Key<DatabaseObject>,DatabaseObject> result = ObjectifyService.ofy().load().entities(lst);
 		System.out.println(result.keySet());
 		ArrayList<DatabaseObject> newobjs = new ArrayList<DatabaseObject>();

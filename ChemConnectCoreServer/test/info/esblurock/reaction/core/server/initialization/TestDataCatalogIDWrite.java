@@ -1,10 +1,9 @@
 package info.esblurock.reaction.core.server.initialization;
 
-import static org.junit.Assert.*;
+//import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -23,8 +22,6 @@ import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMul
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.contact.RegisterContactData;
-import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHierarchy;
-import info.esblurock.reaction.chemconnect.core.data.dataset.PurposeConceptPair;
 import info.esblurock.reaction.chemconnect.core.data.dataset.RegistrerDataset;
 import info.esblurock.reaction.chemconnect.core.data.description.RegisterDescriptionData;
 import info.esblurock.reaction.chemconnect.core.data.gcs.RegisterGCSClasses;
@@ -36,11 +33,10 @@ import info.esblurock.reaction.chemconnect.core.data.rdf.RegisterRDFData;
 import info.esblurock.reaction.chemconnect.core.data.transaction.RegisterTransactionData;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
-import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.db.image.BlobKeyCorrespondence;
-import info.esblurock.reaction.io.db.QueryBase;
 
-public class ReadDatabaseObjectHierarchy {
+public class TestDataCatalogIDWrite {
+
 	protected Closeable session;
 	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 
@@ -80,45 +76,40 @@ public class ReadDatabaseObjectHierarchy {
 		this.helper.tearDown();
 	}
 
+
 	@Test
 	public void test() {
-		try {
-			String sourceID = "1";
-			String username = "Administration";
-			String access = "Administration";
-			String owner = "Administration";
-			String orgname = "BlurockConsultingAB";
-			String title = "Blurock Consulting AB";
-			CreateDefaultObjectsFactory.createAndWriteDefaultUserOrgAndCatagories(username, access, owner,
-					orgname, title, sourceID);
-			
-			try {
-				String dataType = "dataset:DataCatalogID";
-				System.out.println("======================================================================");
-				System.out.println(dataType + " ---------------------------------------------------------------------------");
-				ArrayList<DatabaseObjectHierarchy> objects = WriteReadDatabaseObjects.getAllDatabaseObjectHierarchyForUser(owner,dataType);
-				for(DatabaseObjectHierarchy hierarchy : objects) {
-					System.out.println(hierarchy.toString());
-				}
-				System.out.println(dataType + " ---------------------------------------------------------------------------");
-				System.out.println("======================================================================");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		String catalogbase = "CatalogBase";
+		String catalog = "Catalog";
+		String simple = "Simple";
+		
+		String id = "Catalog-Administration-ID";
+		String sourceID = "1";
+		String access = "Administration";
+		String owner = "Administration";
+		DatabaseObject obj = new DatabaseObject(id,access,owner,sourceID);
 
-			
-			
-			System.out.println("----------------------------------------------------------------");
-			//String uid = DatasetCatalogHierarchy.createFullCatalogName("Catalog", username);
-			String uid = "Catalog-Administration-usrinfo-sethier";
-			DatabaseObjectHierarchy hierarchy = ExtractCatalogInformation.getDatabaseObjectHierarchy(uid);
-			System.out.println("----------------------------------------------------------------");
-			System.out.println(hierarchy.toString());
-			
+		String parentLink = "Catalog-Administration";
+		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillDataCatalogID(obj, parentLink, catalogbase, catalog, simple);
+		System.out.println("Create\n" + hierarchy.toString());
+		
+		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(hierarchy);
+		
+		try {
+			String dataType = "dataset:DataCatalogID";
+			System.out.println("======================================================================");
+			System.out.println(dataType + " ---------------------------------------------------------------------------");
+			ArrayList<DatabaseObjectHierarchy> objects = WriteReadDatabaseObjects.getAllDatabaseObjectHierarchyForUser(owner,dataType);
+			for(DatabaseObjectHierarchy h : objects) {
+				System.out.println(h.toString());
+			}
+			System.out.println(dataType + " ---------------------------------------------------------------------------");
+			System.out.println("======================================================================");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		
 	}
 
 }
