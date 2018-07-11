@@ -26,6 +26,7 @@ import info.esblurock.reaction.chemconnect.core.client.modal.SetLineContentInter
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 
 public class MethodologyDefinition extends Composite implements  ObjectVisualizationInterface {
 
@@ -63,12 +64,12 @@ public class MethodologyDefinition extends Composite implements  ObjectVisualiza
 	}
 
 	@Override
-	public void createCatalogObject(DatabaseObject obj) {
+	public void createCatalogObject(DatabaseObject obj,DataCatalogID datid) {
 		SetUpDatabaseObjectHierarchyCallback callback = new SetUpDatabaseObjectHierarchyCallback(contentcollapsible,modalpanel);
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		String deviceType = choose.getObjectType();
 		String title = choose.getObjectName();
-		async.getMethodology(obj,deviceType,title, callback);
+		async.getMethodology(obj,deviceType,title, datid, callback);
 	}
 
 }

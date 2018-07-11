@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialLink;
+import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 
 public class DatasetStandardDataCatalogIDHeader extends Composite {
@@ -32,16 +33,44 @@ public class DatasetStandardDataCatalogIDHeader extends Composite {
 	
 	StandardDatasetObjectHierarchyItem item;
 	DataCatalogID object;
+	String defaultSimpleName;
+	String defaultcatalogName;
+	String defaultBaseName;
 
 	public DatasetStandardDataCatalogIDHeader(StandardDatasetObjectHierarchyItem item) {
 		this.item = item;
 		this.object = (DataCatalogID) item.getObject();
 		initWidget(uiBinder.createAndBindUi(this));
+		init();
+		TextUtilities.setText(catalogBase, object.getCatalogBaseName(), defaultBaseName);
+		TextUtilities.setText(catalog, object.getDataCatalog(), defaultcatalogName);
+		TextUtilities.setText(simpleName, object.getSimpleCatalogName(), defaultSimpleName);
+	}
+	
+	public void init() {
+		defaultSimpleName = "no simple name";
+		defaultBaseName = "set catalog base name";
+		defaultcatalogName = "no catalog name";
 	}
 
 	public void updateData() {
-		object.setCatalogBaseName(catalogBase.getText());
-		object.setDataCatalog(catalog.getText());
-		object.setSimpleCatalogName(simpleName.getText());
+		if(catalogBase.getText().compareTo(defaultBaseName) == 0) {
+			object.setCatalogBaseName("");
+		} else {
+			object.setCatalogBaseName(catalogBase.getText());
+		}
+		if(catalog.getText().compareTo(defaultcatalogName) == 0) {
+			object.setCatalogBaseName("");
+		} else {
+			object.setDataCatalog(catalog.getText());
+		}
+		if(simpleName.getText().compareTo(defaultSimpleName) == 0) {
+			object.setCatalogBaseName("");
+		} else {
+			object.setSimpleCatalogName(simpleName.getText());
+		}
+		
+		
+		
 	}
 }

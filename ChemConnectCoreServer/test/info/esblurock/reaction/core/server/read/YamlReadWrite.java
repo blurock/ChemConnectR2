@@ -12,7 +12,9 @@ import org.junit.Test;
 
 import com.esotericsoftware.yamlbeans.YamlReader;
 
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFactory;
 
@@ -27,8 +29,11 @@ public class YamlReadWrite {
 		String devicename = "dataset:HeatFluxBurner";
 		String purpose = "dataset:FlameVelocityMeasurements";
 		String concept = "dataset:FlameStudies";
+		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,"");
+		DataCatalogID name = new DataCatalogID(structure,"Catalog-Base","Catalog","Simple");
+		
 		DatabaseObjectHierarchy devicehier = CreateDefaultObjectsFactory.fillSubSystemDescription(obj,
-				devicename,purpose,concept);
+				devicename,purpose,concept,name);
 		System.out.println("fillSubSystemDescription\n" + devicehier.toString());
 		
 		try {

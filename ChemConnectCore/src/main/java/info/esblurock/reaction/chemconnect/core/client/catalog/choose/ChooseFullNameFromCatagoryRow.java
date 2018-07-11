@@ -23,7 +23,9 @@ import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConcep
 import info.esblurock.reaction.chemconnect.core.client.modal.InputLineModal;
 import info.esblurock.reaction.chemconnect.core.client.modal.SetLineContentInterface;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 
 public class ChooseFullNameFromCatagoryRow extends Composite 
@@ -117,7 +119,8 @@ public class ChooseFullNameFromCatagoryRow extends Composite
 	@UiHandler("dropdown")
 	void onDropdown(SelectionEvent<Widget> callback) {
 		MaterialLink chosen = (MaterialLink)callback.getSelectedItem();
-		accessButton.setText(chosen.getText());
+		access = chosen.getText();
+		accessButton.setText(access);
 		accessSelected = true;
 	 }
 	
@@ -188,15 +191,15 @@ public class ChooseFullNameFromCatagoryRow extends Composite
 	}
 	@UiHandler("submit")
 	public void onSubmit(ClickEvent event) {
-		String name = retrieveCatalogName();
-		DatabaseObject obj = new DatabaseObject(name,accessButton.getText(),username,"");
+		DataCatalogID name = retrieveCatalogName();
+		DatabaseObject obj = new DatabaseObject(name.getFullName(),accessButton.getText(),username,"");
 		obj.nullKey();
-		top.createCatalogObject(obj);
+		top.createCatalogObject(obj,name);
 	}
 
 	
-	public String retrieveCatalogName() {
-		String name = null;
+	public DataCatalogID retrieveCatalogName() {
+		DataCatalogID name = null;
 		if(!catalogSelected) {
 			MaterialToast.fireToast("Select Catagory first");
 		} else if(!typeSelected){
@@ -206,13 +209,16 @@ public class ChooseFullNameFromCatagoryRow extends Composite
 		} else if(!accessSelected) {
 			MaterialToast.fireToast("Choose access");
 		} else {
-			StringBuilder build = new StringBuilder();
-			build.append(catalogtypeid.getText());
-			build.append("-");
-			build.append(TextUtilities.removeNamespace(objecttype.getText()));
-			build.append("-");
-			build.append(objectname.getText().trim());
-			name = build.toString();
+			String sourceID = "";
+			String basecatalog = catalogtypeid.getText();
+			String catalogname = ChemConnectCompoundDataStructure.removeNamespace(objecttype.getText());
+			String simple = objectname.getText().trim();
+			DatabaseObject obj = new DatabaseObject("",access,username,sourceID);
+			ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,"");
+			name = new DataCatalogID(structure,basecatalog,catalogname,simple);
+			String id = name.getFullName();
+			name.setIdentifier(id);
+			name.setParentLink(id);
 		}
 		
 		return name;

@@ -7,7 +7,7 @@
 	}
 	</ui:style>
 	<m:MaterialRow>
-		<m:MaterialColumn grid="s10">
+		<m:MaterialColumn grid="s9">
 			<m:MaterialLink ui:field="cataloghead" textColor="BLACK" />
 		</m:MaterialColumn>
 		<m:MaterialColumn grid="s1">

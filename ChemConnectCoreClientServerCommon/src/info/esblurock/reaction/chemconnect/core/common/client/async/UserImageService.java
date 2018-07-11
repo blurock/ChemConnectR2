@@ -9,6 +9,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
+import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.data.image.ImageServiceInformation;
@@ -76,21 +77,21 @@ public interface UserImageService  extends RemoteService  {
 	
 	DatabaseObjectHierarchy getNewCatalogHierarchy(DatabaseObject obj, String id, String onelinedescription) throws IOException;
 
-	DatabaseObjectHierarchy getDevice(DatabaseObject obj, String devicename);
+	DatabaseObjectHierarchy getDevice(DatabaseObject obj, String devicename, DataCatalogID catid);
 	
-	DatabaseObjectHierarchy getSetOfObservations(DatabaseObject obj, String observation, String title);
+	DatabaseObjectHierarchy getSetOfObservations(DatabaseObject obj, String observation, String title, DataCatalogID catid);
 	
 	DatabaseObjectHierarchy writeDatabaseObjectHierarchy(DatabaseObjectHierarchy hierarchy) throws IOException;
 	
-	public DatabaseObjectHierarchy getMethodology(DatabaseObject obj, String methodology, String title);
+	public DatabaseObjectHierarchy getMethodology(DatabaseObject obj, String methodology, String title, DataCatalogID catid);
 	
 	HierarchyNode getUploadedFilesHiearchy(ArrayList<String> fileTypes) throws IOException;
 	
 	ArrayList<DatabaseObjectHierarchy> getSetOfDatabaseObjectHierarchyForUser(String classType) throws IOException;
 	
-	DatabaseObjectHierarchy createDatabasePerson(DatabaseObject obj, String userClassification, NameOfPerson name);
+	DatabaseObjectHierarchy createDatabasePerson(DatabaseObject obj, String userClassification, NameOfPerson name, DataCatalogID catid);
 	
-	DatabaseObjectHierarchy createOrganization(DatabaseObject obj, String organizationname);
+	DatabaseObjectHierarchy createOrganization(DatabaseObject obj, String organizationname, DataCatalogID catid);
 	
 	DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj, String dataType);
 	

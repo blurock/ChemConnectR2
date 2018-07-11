@@ -153,7 +153,6 @@ public class QueryBase {
 			query = query.startAt(Cursor.fromWebSafeString(parameters.getCursorS()));
 		}
 		
-		
 		//query = query.limit(parameters.getAnswerLimit());
 		
 		query = query.filter(MetaDataKeywords.access,parameters.getAccess());
@@ -169,7 +168,6 @@ public class QueryBase {
 				}
 			}
 		}
-		
 		ArrayList<DatabaseObject> lst = new ArrayList<DatabaseObject>();
 		for(Object obj : query) {
 			lst.add((DatabaseObject) obj);

@@ -45,6 +45,15 @@ public class ChemConnectCompoundDataStructure extends DatabaseObject {
 	public void setParentLink(String parentLink) {
 		this.parentLink = parentLink;
 	}
+	
+	public static String removeNamespace(String name) {
+		int pos = name.indexOf(":");
+		String ans = name;
+		if(pos >= 0) {
+			ans = name.substring(pos+1);
+		}
+		return ans;
+	}
 
 	public String toString() {
 		return toString("");

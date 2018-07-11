@@ -60,6 +60,7 @@ public class SpreadSheetRow extends DatabaseObject {
 
 	public String toString(String prefix) {
 		StringBuilder build = new StringBuilder();
+		build.append(super.toString(prefix));
 		build.append(prefix + rowNumber + ": ");
 		if (row != null) {
 			for (String cell : row) {

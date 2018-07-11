@@ -100,7 +100,7 @@ public class ChemConnectDataStructure extends DatabaseObject {
 	public String getCatalogDataID() {
 		return catalogDataID;
 	}
-
+	
 	@Override
 	public String toString() {
 		return toString("");

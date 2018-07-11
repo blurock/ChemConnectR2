@@ -2,6 +2,8 @@ package info.esblurock.reaction.chemconnect.core.data.query;
 
 import java.io.Serializable;
 
+import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
+
 public class QuerySetupBase implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -18,7 +20,7 @@ public class QuerySetupBase implements Serializable {
 	public QuerySetupBase(String queryClass, SetOfQueryPropertyValues queryvalues) {
 		this.queryClass = queryClass;
 		this.queryvalues = queryvalues;
-		this.access = null;
+		this.access = MetaDataKeywords.publicAccess;
 		answerLimit = standardLimit;
 		cursorS = null;
 	}

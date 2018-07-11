@@ -2399,8 +2399,7 @@ public enum InterpretData {
 		return createElementMap(structures);
 	}
 
-	Map<String, DataElementInformation> createElementMap(
-			info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure structures) {
+	Map<String, DataElementInformation> createElementMap(info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure structures) {
 		Map<String, DataElementInformation> elementmap = new HashMap<String, DataElementInformation>();
 		for (DataElementInformation element : structures) {
 			elementmap.put(element.getDataElementName(), element);

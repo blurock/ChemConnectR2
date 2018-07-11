@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServices;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
+import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetRow;
@@ -16,12 +17,17 @@ import info.esblurock.reaction.chemconnect.core.data.query.SetOfQueryPropertyVal
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.core.server.db.image.UserImageServiceImpl;
 import info.esblurock.reaction.core.server.read.InterpretSpreadSheet;
+import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
 import info.esblurock.reaction.io.db.QueryBase;
 
 @SuppressWarnings("serial")
 public class SpreadSheetServicesImpl extends ServerBase implements SpreadSheetServices {
 
 	public ArrayList<SpreadSheetRow> getSpreadSheetRows(String parent, int start, int limit) throws IOException {
+		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
+		UserDTO user = util.getUserInfo();
+		System.out.println("User: " + user);
+
 		System.out.println("SpreadSheetServicesImpl: getSpreadSheetRows " + parent + "  "  + start + "  " + limit);
 		ArrayList<SpreadSheetRow> lst = new ArrayList<SpreadSheetRow>();
 		SetOfQueryPropertyValues queryvalues = new SetOfQueryPropertyValues();
@@ -31,7 +37,7 @@ public class SpreadSheetServicesImpl extends ServerBase implements SpreadSheetSe
 		QueryPropertyValue endquery = new QueryPropertyValue("rowNumber <", endI);
 		queryvalues.add(startquery);
 		queryvalues.add(endquery);
-		QuerySetupBase query = new QuerySetupBase(SpreadSheetRow.class.getCanonicalName(), queryvalues);
+		QuerySetupBase query = new QuerySetupBase(user.getName(),SpreadSheetRow.class.getCanonicalName(), queryvalues);
 		try {
 			SingleQueryResult result = QueryBase.StandardQueryResult(query);
 			for (DatabaseObject obj : result.getResults()) {
@@ -63,10 +69,15 @@ public class SpreadSheetServicesImpl extends ServerBase implements SpreadSheetSe
 
 	public VisualizeObservationBase interpretSpreadSheetGCS(GCSBlobFileInformation gcsinfo, SpreadSheetInputInformation input,
 			boolean writeObjects) throws IOException {
+
+		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
+		UserDTO user = util.getUserInfo();
+		System.out.println("User: " + user);
+
 		SetOfQueryPropertyValues queryvalues = new SetOfQueryPropertyValues();
 		QueryPropertyValue filequery = new QueryPropertyValue("source", gcsinfo.getGSFilename());
 		queryvalues.add(filequery);
-		QuerySetupBase query = new QuerySetupBase(SpreadSheetInputInformation.class.getCanonicalName(), queryvalues);
+		QuerySetupBase query = new QuerySetupBase(user.getName(),SpreadSheetInputInformation.class.getCanonicalName(), queryvalues);
 		String sourceID = QueryBase.getDataSourceIdentification(input.getOwner());
 		input.setSourceID(sourceID);
 		ObservationsFromSpreadSheet obs = null;

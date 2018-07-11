@@ -32,6 +32,7 @@ import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageSer
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.base.GoogleCloudStorageConstants;
 import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
+import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHierarchy;
 import info.esblurock.reaction.chemconnect.core.data.dataset.PurposeConceptPair;
 import info.esblurock.reaction.chemconnect.core.data.dataset.device.SubSystemDescription;
@@ -127,7 +128,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		values.add(fileCodeParameter, keyword);
 		values.add(userParameter, user);
 		String classname = UploadedImage.class.getName();
-		QuerySetupBase querybase = new QuerySetupBase(classname, values);
+		QuerySetupBase querybase = new QuerySetupBase(user,classname, values);
 		SingleQueryResult result;
 		try {
 			result = QueryBase.StandardQueryResult(querybase);
@@ -319,15 +320,22 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		String username = user.getName();
 		values.add("owner", username);
 		values.add("bucket", GoogleCloudStorageConstants.uploadBucket);
+		
+		System.out.println("getUploadedFiles()\n" + values.toString());
+		
 		System.out.println("getUploadedFiles()");
 		QuerySetupBase query = new QuerySetupBase(GCSBlobFileInformation.class.getCanonicalName(), values);
+		query.setAccess(username);
 		try {
 			result = QueryBase.StandardQueryResult(query);
 		} catch (ClassNotFoundException e) {
 			throw new IOException("Class Not found: " + GCSBlobFileInformation.class.getCanonicalName());
 		}
 		ArrayList<GCSBlobFileInformation> fileset = new ArrayList<GCSBlobFileInformation>();
+		System.out.println("getUploadedFiles()\n" + result.getResults());
 		for (DatabaseObject obj : result.getResults()) {
+			System.out.println("getUploadedFiles()\n" + obj.getClass().getCanonicalName());
+			System.out.println("getUploadedFiles()\n" + obj.toString());
 			fileset.add((GCSBlobFileInformation) obj);
 		}
 		return fileset;
@@ -425,7 +433,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		return ExtractCatalogInformation.getDatabaseObjectHierarchy(uid);
 	}
 
-	public DatabaseObjectHierarchy getDevice(DatabaseObject obj, String devicename) {
+	public DatabaseObjectHierarchy getDevice(DatabaseObject obj, String devicename,DataCatalogID datid) {
 		DatabaseObjectHierarchy devicehier = null;
 		String classname = SubSystemDescription.class.getCanonicalName();
 		try {
@@ -436,7 +444,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 			PurposeConceptPair pair = new PurposeConceptPair();
 			ConceptParsing.fillInPurposeConceptPair(devicename, pair);
 			devicehier = CreateDefaultObjectsFactory.fillSubSystemDescription(obj, devicename, pair.getPurpose(),
-					pair.getConcept());
+					pair.getConcept(),datid);
 		}
 		return devicehier;
 	}
@@ -456,17 +464,17 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		return hierarchy;
 	}
 	
-	public DatabaseObjectHierarchy createOrganization(DatabaseObject obj, String organizationname) {
-		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillOrganization(obj, organizationname);
+	public DatabaseObjectHierarchy createOrganization(DatabaseObject obj, String organizationname, DataCatalogID catid) {
+		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillOrganization(obj, organizationname,catid);
 		return hierarchy;
 	}
 	
-	public DatabaseObjectHierarchy createDatabasePerson(DatabaseObject obj, String userClassification, NameOfPerson name) {
-		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillMinimalPersonDescription(obj, userClassification, name);
+	public DatabaseObjectHierarchy createDatabasePerson(DatabaseObject obj, String userClassification, NameOfPerson name, DataCatalogID catid) {
+		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillMinimalPersonDescription(obj, userClassification, name,catid);
 		return hierarchy;
 	}
 	
-	public DatabaseObjectHierarchy getSetOfObservations(DatabaseObject obj, String observation, String title) {
+	public DatabaseObjectHierarchy getSetOfObservations(DatabaseObject obj, String observation, String title,DataCatalogID datid) {
 		String sourceID = QueryBase.getDataSourceIdentification(obj.getOwner());
 		obj.setSourceID(sourceID);
 		obj.nullKey();
@@ -475,16 +483,16 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		ConceptParsing.fillInPurposeConceptPair(observation, pair);
 
 		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillSetOfObservations(obj, observation, title,
-				pair.getConcept(), pair.getPurpose());
+				pair.getConcept(), pair.getPurpose(),datid);
 		return hierarchy;
 	}
 	
-	public DatabaseObjectHierarchy getMethodology(DatabaseObject obj, String methodology, String title) {
+	public DatabaseObjectHierarchy getMethodology(DatabaseObject obj, String methodology, String title, DataCatalogID catid) {
 		String sourceID = QueryBase.getDataSourceIdentification(obj.getOwner());
 		obj.setSourceID(sourceID);
 		obj.nullKey();
 		
-		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillMethodologyDefinition(obj, methodology, title);
+		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillMethodologyDefinition(obj, methodology, title, catid);
 		return hierarchy;
 	}
 	public DatabaseObjectHierarchy getNewCatalogHierarchy(DatabaseObject obj, String id, String onelinedescription)
@@ -583,14 +591,9 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		Blob blob = storage.get(blobId);
 		byte[] bytes = blob.getContent(BlobSourceOption.generationMatch());
 		String bytesS = new String(bytes);
-		/*
-		BlobInfo info = BlobInfo.newBuilder(gcsinfo.getBucket(), gcsinfo.getGSFilename())
-				.setAcl(new ArrayList<>(Arrays.asList(Acl.of(User.ofAllUsers(), Role.READER)))).build();
-		*/
 		String urlS = "https://storage.googleapis.com/" + gcsinfo.getBucket() + "/" + gcsinfo.getGSFilename();
 		GCSBlobContent gcs = new GCSBlobContent(urlS, gcsinfo);
 		gcs.setBytes(bytesS);
-		System.out.println("Blob Content: " + gcs.toString());
 		return gcs;
 	}
 

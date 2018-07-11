@@ -19,6 +19,7 @@ import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMul
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.contact.RegisterContactData;
+import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.dataset.PurposeConceptPair;
 import info.esblurock.reaction.chemconnect.core.data.dataset.RegistrerDataset;
 import info.esblurock.reaction.chemconnect.core.data.description.RegisterDescriptionData;
@@ -82,9 +83,11 @@ public class WriteReadDevices {
 		PurposeConceptPair pair = new PurposeConceptPair();
 		String devicename = "dataset:HeatFluxBurner";
 		ConceptParsing.fillInPurposeConceptPair(devicename, pair);
+		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,"");
+		DataCatalogID name = new DataCatalogID(structure,"Catalog-Base","Catalog","Simple");
 		
 		DatabaseObjectHierarchy devicehier = CreateDefaultObjectsFactory.fillSubSystemDescription(obj,
-				devicename,pair.getPurpose(),pair.getConcept());
+				devicename,pair.getPurpose(),pair.getConcept(),name);
 
 		System.out.println("fillSubSystemDescription\n" + devicehier.toString());
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(devicehier);	

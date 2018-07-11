@@ -4,8 +4,10 @@ package info.esblurock.reaction.core.server.initialization;
 
 import org.junit.Test;
 
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
+import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 public class CreateDefault {
@@ -13,6 +15,9 @@ public class CreateDefault {
 	@Test
 	public void test() {
 		DatabaseObject obj = new DatabaseObject("AdministrationCatalog","Public","Administration","1" );
+		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,"");
+		DataCatalogID name = new DataCatalogID(structure,"Catalog-Base","Catalog","Simple");
+		
 		/*
 		System.out.println("--------------------------------------------------------------------\n");
 		System.out.println("createDatasetCatalogHierarchy\n");
@@ -61,7 +66,7 @@ public class CreateDefault {
 	*/	
 		
 		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillSetOfObservations(obj,"dataset:BurnerPlateObservations",
-				"Set of burner plate observations","dataset:HeatFluxBurnerObservation","dataset:LaminarFlame");
+				"Set of burner plate observations","dataset:HeatFluxBurnerObservation","dataset:LaminarFlame",name);
 		System.out.println("fillSetOfObservations\n" + hierarchy.toString());
 		
 		/*

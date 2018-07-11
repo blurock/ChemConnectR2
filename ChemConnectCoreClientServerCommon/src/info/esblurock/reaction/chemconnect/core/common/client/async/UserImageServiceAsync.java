@@ -6,6 +6,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
+import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.data.image.ImageServiceInformation;
@@ -53,15 +54,16 @@ public interface UserImageServiceAsync {
 
 	void getNewCatalogHierarchy(DatabaseObject obj, String id, String onelinedescription, AsyncCallback<DatabaseObjectHierarchy> callback);
 
-	void getDevice(DatabaseObject obj, String devicename, AsyncCallback<DatabaseObjectHierarchy> callback);
+	void getDevice(DatabaseObject obj, String devicename, DataCatalogID catid,
+			AsyncCallback<DatabaseObjectHierarchy> callback);
 
-	void getSetOfObservations(DatabaseObject obj, String observation, String title,
+	void getSetOfObservations(DatabaseObject obj, String observation, String title, DataCatalogID catid,
 			AsyncCallback<DatabaseObjectHierarchy> callback);
 
 	void writeDatabaseObjectHierarchy(DatabaseObjectHierarchy hierarchy,
 			AsyncCallback<DatabaseObjectHierarchy> callback);
 
-	void getMethodology(DatabaseObject obj, String methodology, String title,
+	void getMethodology(DatabaseObject obj, String methodology, String title, DataCatalogID catid,
 			AsyncCallback<DatabaseObjectHierarchy> callback);
 
 	void getUploadedFilesHiearchy(ArrayList<String> fileTypes,AsyncCallback<HierarchyNode> callback);
@@ -69,10 +71,10 @@ public interface UserImageServiceAsync {
 	void getSetOfDatabaseObjectHierarchyForUser(String classType,
 			AsyncCallback<ArrayList<DatabaseObjectHierarchy>> callback);
 
-	void createDatabasePerson(DatabaseObject obj, String userClassification, NameOfPerson name,
+	void createDatabasePerson(DatabaseObject obj, String userClassification, NameOfPerson name, DataCatalogID catid,
 			AsyncCallback<DatabaseObjectHierarchy> callback);
 
-	void createOrganization(DatabaseObject obj, String organizationname,
+	void createOrganization(DatabaseObject obj, String organizationname, DataCatalogID catid,
 			AsyncCallback<DatabaseObjectHierarchy> callback);
 
 	void createEmptyObject(DatabaseObject obj, String dataType, AsyncCallback<DatabaseObjectHierarchy> callback);

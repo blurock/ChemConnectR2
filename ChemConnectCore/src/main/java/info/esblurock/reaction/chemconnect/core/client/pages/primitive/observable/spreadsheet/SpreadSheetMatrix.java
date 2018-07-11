@@ -91,7 +91,7 @@ public class SpreadSheetMatrix extends Composite {
 
 	private void init() {
 		startcount.setText("0");
-		showing.setText("50");
+		showing.setText("300");
 		totalcount.setText("0");
 		startcountlabel.setText("Start");
 		showinglabel.setText("Show");

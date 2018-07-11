@@ -61,13 +61,15 @@ public class CreateDefaultObjectsFactory {
 	}
 
 	public static DatabaseObjectHierarchy fillMinimalPersonDescription(DatabaseObject obj, String userClassification,
-			NameOfPerson person) {
+			NameOfPerson person, DataCatalogID datid) {
 		DatabaseObjectHierarchy infohier = InterpretData.IndividualInformation.createEmptyObject(obj);
 		IndividualInformation info = (IndividualInformation) infohier.getObject();
 
 		DatabaseObjectHierarchy personalhier = infohier.getSubObject(info.getPersonalDescriptionID());
 		PersonalDescription personal = (PersonalDescription) personalhier.getObject();
 		personal.setUserClassification(userClassification);
+		
+		insertDataCatalogID(infohier,datid);
 
 		String nameID = personal.getNameOfPersonIdentifier();
 		DatabaseObjectHierarchy namehier = personalhier.getSubObject(nameID);
@@ -84,7 +86,16 @@ public class CreateDefaultObjectsFactory {
 		return infohier;
 	}
 
-	public static DatabaseObjectHierarchy fillOrganization(DatabaseObject obj, String organizationname) {
+	public static void insertDataCatalogID(DatabaseObjectHierarchy hierarchy, DataCatalogID datid) {
+		ChemConnectDataStructure info = (ChemConnectDataStructure) hierarchy.getObject();
+		DatabaseObjectHierarchy catidhier = hierarchy.getSubObject(info.getCatalogDataID());
+		DataCatalogID catid = (DataCatalogID) catidhier.getObject();
+		catid.setCatalogBaseName(datid.getCatalogBaseName());
+		catid.setDataCatalog(datid.getDataCatalog());
+		catid.setSimpleCatalogName(datid.getSimpleCatalogName());
+	}
+	
+	public static DatabaseObjectHierarchy fillOrganization(DatabaseObject obj, String organizationname, DataCatalogID datid) {
 		String concept = MetaDataKeywords.conceptContact;
 		String purpose = MetaDataKeywords.purposeOrganization;
 
@@ -94,6 +105,8 @@ public class CreateDefaultObjectsFactory {
 		DatabaseObjectHierarchy orgdescrhier = orghier.getSubObject(org.getOrganizationDescriptionID());
 		OrganizationDescription orgdescr = (OrganizationDescription) orgdescrhier.getObject();
 		orgdescr.setOrganizationName(organizationname);
+		
+		insertDataCatalogID(orghier,datid);
 
 		setOneLineDescription(orghier, organizationname);
 		setPurposeConceptPair(orghier, concept, purpose);
@@ -102,11 +115,13 @@ public class CreateDefaultObjectsFactory {
 	}
 
 	public static DatabaseObjectHierarchy fillMethodologyDefinition(DatabaseObject obj, 
-			String methodologyS, String title) {
+			String methodologyS, String title, DataCatalogID datid) {
 		DatabaseObjectHierarchy methodhier = InterpretData.ChemConnectMethodology.createEmptyObject(obj);
 		ChemConnectMethodology methodology = (ChemConnectMethodology) methodhier.getObject();
 		methodology.setMethodologyType(methodologyS);
 		
+		insertDataCatalogID(methodhier,datid);
+				
 		String obssetid = methodology.getObservationSpecs();
 		DatabaseObjectHierarchy obssethier = methodhier.getSubObject(obssetid);
 		fillObservationSpecification(methodologyS,obssethier);
@@ -129,7 +144,7 @@ public class CreateDefaultObjectsFactory {
 		return methodhier;
 	}
 	public static DatabaseObjectHierarchy fillSubSystemDescription(DatabaseObject obj, String devicename,
-			String purpose, String concept) {
+			String purpose, String concept,DataCatalogID datid) {
 		DatabaseObjectHierarchy hierarchy = InterpretData.SubSystemDescription.createEmptyObject(obj);
 		SubSystemDescription device = (SubSystemDescription) hierarchy.getObject();
 		
@@ -139,6 +154,14 @@ public class CreateDefaultObjectsFactory {
 		DescriptionDataData descr = (DescriptionDataData) descrhier.getObject();
 		descr.setOnlinedescription(devicename);
 
+		insertDataCatalogID(hierarchy,datid);
+		
+		DatabaseObjectHierarchy catidhier = hierarchy.getSubObject(device.getCatalogDataID());
+		DataCatalogID catid = (DataCatalogID) catidhier.getObject();
+		catid.setCatalogBaseName(datid.getCatalogBaseName());
+		catid.setDataCatalog(datid.getDataCatalog());
+		catid.setSimpleCatalogName(datid.getSimpleCatalogName());
+		
 		setOneLineDescription(hierarchy, devicename);
 		setPurposeConceptPair(hierarchy, concept, purpose);
 		Set<AttributeDescription> attrs = ConceptParsing.attributesInConcept(devicename);
@@ -158,20 +181,20 @@ public class CreateDefaultObjectsFactory {
 		DatabaseObjectHierarchy subsystemhier = hierarchy.getSubObject(subsystemid);
 		ChemConnectCompoundMultiple subsystemmulti = (ChemConnectCompoundMultiple) subsystemhier.getObject();
 		for(String subsystem : subsystems) {
-			String simple = removeNamespace(subsystem);
+			String simple = ChemConnectCompoundDataStructure.removeNamespace(subsystem);
 			DatabaseObject subobj = new DatabaseObject(subsystemmulti);
 			String id = subobj.getIdentifier() + "-" + simple;
 			subobj.setIdentifier(id);
-			DatabaseObjectHierarchy subhierarchy = fillSubSystemDescription(subobj,subsystem,concept,purpose);
+			DatabaseObjectHierarchy subhierarchy = fillSubSystemDescription(subobj,subsystem,concept,purpose,datid);
 			subsystemhier.addSubobject(subhierarchy);
 			subsystemmulti.addID(subhierarchy.getObject().getIdentifier());
 		}
 		for(String component : components) {
-			String simple = removeNamespace(component);
+			String simple = ChemConnectCompoundDataStructure.removeNamespace(component);
 			DatabaseObject subobj = new DatabaseObject(subsystemmulti);
 			String id = subobj.getIdentifier() + "-" + simple;
 			subobj.setIdentifier(id);
-			DatabaseObjectHierarchy subhierarchy = fillSubSystemDescription(subobj,component,concept,purpose);
+			DatabaseObjectHierarchy subhierarchy = fillSubSystemDescription(subobj,component,concept,purpose,datid);
 			subsystemhier.addSubobject(subhierarchy);
 			subsystemmulti.addID(subhierarchy.getObject().getIdentifier());			
 		}
@@ -199,7 +222,7 @@ public class CreateDefaultObjectsFactory {
 		Set<String> observations = ConceptParsing.setOfObservationsForSubsystem(setofobservationsS);
 		for(String observation : observations) {
 			DatabaseObject subobsobj =new DatabaseObject(obspecmulti);
-			String specid = subobsobj.getIdentifier() + "-" + removeNamespace(observation);
+			String specid = subobsobj.getIdentifier() + "-" + ChemConnectCompoundDataStructure.removeNamespace(observation);
 			subobsobj.setIdentifier(specid);
 			DatabaseObjectHierarchy obsspechier = InterpretData.ObservationSpecification.createEmptyObject(subobsobj);
 			ObservationSpecification specification = (ObservationSpecification) obsspechier.getObject();
@@ -379,14 +402,30 @@ public class CreateDefaultObjectsFactory {
 			String orgname, String title, String sourceID) {
 		DatabaseObject obj = new DatabaseObject(username, access, owner, sourceID);
 		NameOfPerson person = new NameOfPerson(obj, "", "", username);
-		DatabaseObjectHierarchy user = CreateDefaultObjectsFactory.fillMinimalPersonDescription(obj, username, person);
+
+		String catname = "Catalog-" + username;
+		
+		DatabaseObject usrcatobj = new DatabaseObject(catname,access,username,sourceID);
+		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(usrcatobj,"");
+		DataCatalogID namecatid = new DataCatalogID(structure,"Catalog","",username);
+		String id = namecatid.getFullName();
+		namecatid.setIdentifier(id);
+		namecatid.setParentLink(id);
+
+		DatabaseObjectHierarchy user = CreateDefaultObjectsFactory.fillMinimalPersonDescription(obj, username, person,namecatid);
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(user);
 
 		DatabaseObject orgobj = new DatabaseObject(orgname, access, owner, sourceID);
-		DatabaseObjectHierarchy org = CreateDefaultObjectsFactory.fillOrganization(orgobj, title);
+		
+		ChemConnectCompoundDataStructure orgstructure = new ChemConnectCompoundDataStructure(orgobj,"");
+		DataCatalogID orgnamecatid = new DataCatalogID(orgstructure,catname,"",orgname);
+		String orgid = namecatid.getFullName();
+		namecatid.setIdentifier(orgid);
+		namecatid.setParentLink(orgid);
+		
+		DatabaseObjectHierarchy org = CreateDefaultObjectsFactory.fillOrganization(orgobj, title,orgnamecatid);
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(org);
 
-		String catname = "Catalog-" + username;
 		DatabaseObject catobj = new DatabaseObject(catname, access, owner, sourceID);
 
 		DatabaseObjectHierarchy orgcat = fillCataogHierarchyForOrganization(catobj,
@@ -448,7 +487,7 @@ public class CreateDefaultObjectsFactory {
 	}
 
 	public static DatabaseObjectHierarchy fillSetOfObservations(DatabaseObject obj, String parameter, String oneline,
-			String concept, String purpose) {
+			String concept, String purpose, DataCatalogID datid) {
 		/*
 		String measure = "<http://purl.org/linked-data/cube#measure>";
 		String dimension = "<http://purl.org/linked-data/cube#dimension>";
@@ -457,6 +496,8 @@ public class CreateDefaultObjectsFactory {
         */
 		DatabaseObjectHierarchy sethier = InterpretData.SetOfObservationValues.createEmptyObject(obj);
 		SetOfObservationValues set = (SetOfObservationValues) sethier.getObject();
+		
+		insertDataCatalogID(sethier, datid);
 
 		set.setParameterType(parameter);
 		setPurposeConceptPair(sethier, concept, purpose);
@@ -591,14 +632,6 @@ public class CreateDefaultObjectsFactory {
 			elementmap.put(element.getDataElementName(), element);
 		}
 		return elementmap;
-	}
-	public static String removeNamespace(String name) {
-		int pos = name.indexOf(":");
-		String ans = name;
-		if(pos >= 0) {
-			ans = name.substring(pos+1);
-		}
-		return ans;
 	}
 
 }

@@ -30,6 +30,7 @@ import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatab
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
@@ -133,12 +134,12 @@ public class SetOfObservationsDefinition extends Composite implements ObjectVisu
 	}
 */
 	@Override
-	public void createCatalogObject(DatabaseObject obj) {
+	public void createCatalogObject(DatabaseObject obj,DataCatalogID datid) {
 		SetUpDatabaseObjectHierarchyCallback callback = new SetUpDatabaseObjectHierarchyCallback(contentcollapsible,modalpanel);
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		String observation = choose.getObjectType();
 		String title = choose.getObjectName();
-		async.getSetOfObservations(obj,observation,title,callback);
+		async.getSetOfObservations(obj,observation,title,datid,callback);
 	
 		
 	}

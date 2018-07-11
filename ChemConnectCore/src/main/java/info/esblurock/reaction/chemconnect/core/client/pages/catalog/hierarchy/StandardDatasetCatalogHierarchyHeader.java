@@ -1,5 +1,7 @@
 package info.esblurock.reaction.chemconnect.core.client.pages.catalog.hierarchy;
 
+import java.util.ArrayList;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -19,6 +21,7 @@ import info.esblurock.reaction.chemconnect.core.client.pages.catalog.StandardDat
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHierarchy;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
@@ -48,13 +51,19 @@ public class StandardDatasetCatalogHierarchyHeader extends Composite implements 
 	NewSubCatalogWizard wizard;
 	MaterialPanel modal;
 	CardModal cardmodal;
+	DataCatalogID dataid;
+	String newSimpleName;
 	
 	public StandardDatasetCatalogHierarchyHeader(StandardDatasetObjectHierarchyItem item) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.item = item;
 		this.modal = item.getModalpanel();
 		DatasetCatalogHierarchy hierarchy = (DatasetCatalogHierarchy) item.getObject();
-		cataloghead.setText(hierarchy.getSimpleCatalogName());
+		DatabaseObjectHierarchy hier = item.getHierarchy();
+		String id = hierarchy.getCatalogDataID();
+		DatabaseObjectHierarchy cathier = hier.getSubObject(id);
+		dataid = (DataCatalogID) cathier.getObject();
+		cataloghead.setText(dataid.getSimpleCatalogName());
 		cardmodal = new CardModal();
 	}
 
@@ -86,10 +95,10 @@ public class StandardDatasetCatalogHierarchyHeader extends Composite implements 
 	}
 	public void insertInitialSubCatagoryInformation() {
 		cardmodal.close();
-		String name = wizard.getSimpleName();
+		newSimpleName = wizard.getSimpleName();
 		String oneline = wizard.getOneLineDescription();
-		Window.alert("insertInitialSubCatagoryInformation: " +  name);
-		addSubCatagory(name,oneline);
+		Window.alert("insertInitialSubCatagoryInformation: " +  newSimpleName);
+		addSubCatagory(newSimpleName,oneline);
 	}
 
 	private void addSubCatagory(String id, String onelinedescription) {
@@ -114,7 +123,16 @@ public class StandardDatasetCatalogHierarchyHeader extends Composite implements 
 		}
 	}
 	public void setInHierarchy(DatabaseObjectHierarchy subs) {
+		DatasetCatalogHierarchy subcat = (DatasetCatalogHierarchy) subs.getObject();
+		String id = subcat.getCatalogDataID();
+		DatabaseObjectHierarchy cathier = subs.getSubObject(id);
+		DataCatalogID catid = (DataCatalogID) cathier.getObject();
+		catid.setCatalogBaseName(dataid.getCatalogBaseName());
+		catid.setDataCatalog(dataid.getDataCatalog());
+		catid.setSimpleCatalogName(newSimpleName);
+		
 		Window.alert("setInHierarchy: \n" + subs.getObject().toString());
+		Window.alert("setInHierarchy: DataCatalogID\n" + catid.toString());
 		StandardDatasetObjectHierarchyItem subhiearchy = new StandardDatasetObjectHierarchyItem(subs,modal);
 		item.addSubItem(subhiearchy);
 	}

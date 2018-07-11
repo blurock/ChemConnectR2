@@ -16,6 +16,9 @@ public class DataCatalogID extends ChemConnectCompoundDataStructure {
 	@Index
 	String SimpleCatalogName;
 	
+	public DataCatalogID() {
+	}
+	
 	public DataCatalogID(ChemConnectCompoundDataStructure object, 
 			String catalogBaseName, String dataCatalog, String simpleCatalogName) {
 		super(object);
@@ -40,6 +43,20 @@ public class DataCatalogID extends ChemConnectCompoundDataStructure {
 	}
 	public void setSimpleCatalogName(String simpleCatalogName) {
 		SimpleCatalogName = simpleCatalogName;
+	}
+	
+	public String getFullName() {
+		StringBuilder build = new StringBuilder();
+		build.append(CatalogBaseName);
+		build.append("-");
+		if(DataCatalog != null) {
+			if(DataCatalog.length() > 0) {
+				build.append(ChemConnectCompoundDataStructure.removeNamespace(DataCatalog));
+				build.append("-");				
+			}
+		}
+		build.append(SimpleCatalogName);
+		return build.toString();
 	}
 	
 	public String toString() {

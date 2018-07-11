@@ -21,6 +21,7 @@ import info.esblurock.reaction.chemconnect.core.client.pages.catalog.StandardDat
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 public class OrganizationDefinition extends Composite implements ObjectVisualizationInterface, SetOfObjectsCallbackInterface {
@@ -77,12 +78,12 @@ public class OrganizationDefinition extends Composite implements ObjectVisualiza
 		
 	}
 	@Override
-	public void createCatalogObject(DatabaseObject obj) {
+	public void createCatalogObject(DatabaseObject obj,DataCatalogID datid) {
 		SetUpDatabaseObjectHierarchyCallback callback = new SetUpDatabaseObjectHierarchyCallback(createdOrgs,modalpanel);
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		String observation = choose.getObjectType();
 		String title = choose.getObjectName();
-		async.createOrganization(obj,title,callback);
+		async.createOrganization(obj,title,datid,callback);
 	}
 
 	@Override

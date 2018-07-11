@@ -37,7 +37,7 @@ public class DatabaseWriteBase {
 		ObjectifyService.ofy().save().entities(images);
 	}
 	public static void writeListOfDatabaseObjects(List<DatabaseObject> lst) {
-		ObjectifyService.ofy().save().entities(lst);
+		ObjectifyService.ofy().save().entities(lst).now();
 	}
 	public static void writeEntity(Object entity) {
 		ObjectifyService.ofy().save().entity(entity).now();

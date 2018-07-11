@@ -43,9 +43,6 @@ public class InterpretSpreadSheet {
 		InputStream is = null;
 		System.out.println(input.getSource());
 
-		System.out.println(SpreadSheetInputInformation.STRINGSOURCE);
-		System.out.println(input.getSourceType());
-		System.out.println(input.isSourceType(SpreadSheetInputInformation.STRINGSOURCE));
 		if (input.isSourceType(SpreadSheetInputInformation.URL)) {
 			URL oracle;
 			oracle = new URL(input.getSource());
@@ -69,9 +66,8 @@ public class InterpretSpreadSheet {
 		System.out.println(input.toString());
 		ArrayList<DatabaseObject> set = new ArrayList<DatabaseObject>();
 		DatabaseObject obj = new DatabaseObject(input);
+		obj.nullKey();
 		int numberOfColumns = 0;
-		System.out.println("streamReadSpreadSheet: " + input.toString());
-		System.out.println("streamReadSpreadSheet: " + input.getType());
 		if (input.isType(SpreadSheetInputInformation.XLS)) {
 			numberOfColumns = readXLSFile(is, obj, set);
 		} else if (input.isType(SpreadSheetInputInformation.CSV)) {
@@ -86,8 +82,6 @@ public class InterpretSpreadSheet {
 			System.out.println("streamReadSpreadSheet: TabDelimited");
 			numberOfColumns = readDelimitedFile(is, "\t", obj, set);
 		}
-		System.out.println("streamReadSpreadSheet:  " + numberOfColumns);
-		System.out.println("streamReadSpreadSheet:  " + set.size());
 		obs.setNumberOfColumns(numberOfColumns);
 		obs.setSizeOfMatrix(set.size());
 		writeSpreadSheetRows(writeObjects, input, set);
@@ -122,10 +116,17 @@ public class InterpretSpreadSheet {
 			String line = r.readLine();
 			ArrayList<String> lst = new ArrayList<String>();
 			if (line != null) {
-				StringTokenizer tok = new StringTokenizer(line, delimiter);
+				StringTokenizer tok = new StringTokenizer(line, delimiter,true);
 				while (tok.hasMoreTokens()) {
 					String cell = tok.nextToken();
-					lst.add(cell);
+					if(cell.compareTo("\t") == 0) {
+						lst.add(" ");
+					} else {
+						lst.add(cell);
+						if(tok.hasMoreTokens()) {
+							tok.nextToken();
+						}
+					}
 				}
 				if (lst.size() > numberOfColumns) {
 					numberOfColumns = lst.size();

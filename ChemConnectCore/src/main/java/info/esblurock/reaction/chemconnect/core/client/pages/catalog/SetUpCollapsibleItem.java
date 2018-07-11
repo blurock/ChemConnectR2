@@ -553,7 +553,7 @@ public enum SetUpCollapsibleItem {
 			return true;
 		}
 
-	}, CatalogDataID {
+	}, DataCatalogID {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
@@ -571,7 +571,6 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public int priority() {
-			// TODO Auto-generated method stub
 			return 100;
 		}
 

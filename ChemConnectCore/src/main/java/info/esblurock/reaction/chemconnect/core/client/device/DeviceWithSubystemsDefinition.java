@@ -17,6 +17,7 @@ import info.esblurock.reaction.chemconnect.core.client.catalog.choose.ObjectVisu
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 
 public class DeviceWithSubystemsDefinition extends Composite 
 	implements  ObjectVisualizationInterface
@@ -54,11 +55,11 @@ public class DeviceWithSubystemsDefinition extends Composite
 		choose = new ChooseFullNameFromCatagoryRow(this,user,object,choices,modalpanel);
 		topPanel.add(choose);
 	}
-	public void createCatalogObject(DatabaseObject obj) {
+	public void createCatalogObject(DatabaseObject obj,DataCatalogID datid) {
 		SetUpDatabaseObjectHierarchyCallback callback = new SetUpDatabaseObjectHierarchyCallback(contentcollapsible,modalpanel);
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		String deviceType = choose.getObjectType();
-		async.getDevice(obj,deviceType,callback);
+		async.getDevice(obj,deviceType,datid,callback);
 	}
 
 
