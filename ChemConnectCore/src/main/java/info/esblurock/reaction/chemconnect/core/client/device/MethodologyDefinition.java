@@ -23,10 +23,12 @@ import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConcep
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchies;
 import info.esblurock.reaction.chemconnect.core.client.modal.InputLineModal;
 import info.esblurock.reaction.chemconnect.core.client.modal.SetLineContentInterface;
+import info.esblurock.reaction.chemconnect.core.client.pages.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 public class MethodologyDefinition extends Composite implements  ObjectVisualizationInterface {
 
@@ -58,7 +60,7 @@ public class MethodologyDefinition extends Composite implements  ObjectVisualiza
 		ArrayList<String> choices = new ArrayList<String>();
 		choices.add("dataset:DataTypeMethodology");
 		String user = Cookies.getCookie("user");
-		String object = "Methodology";
+		String object = "dataset:Methodology";
 		choose = new ChooseFullNameFromCatagoryRow(this,user,object,choices,modalpanel);
 		topPanel.add(choose);
 	}
@@ -70,6 +72,12 @@ public class MethodologyDefinition extends Composite implements  ObjectVisualiza
 		String deviceType = choose.getObjectType();
 		String title = choose.getObjectName();
 		async.getMethodology(obj,deviceType,title, datid, callback);
+	}
+
+	@Override
+	public void insertCatalogObject(DatabaseObjectHierarchy subs) {
+		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(subs,modalpanel);
+		contentcollapsible.add(item);
 	}
 
 }

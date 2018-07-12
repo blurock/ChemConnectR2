@@ -14,11 +14,14 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import info.esblurock.reaction.chemconnect.core.client.activity.ClientFactory;
 import info.esblurock.reaction.chemconnect.core.client.mvp.AppActivityMapper;
 import info.esblurock.reaction.chemconnect.core.client.mvp.AppPlaceHistoryMapper;
+import info.esblurock.reaction.chemconnect.core.client.observations.ChemConnectObservationImpl;
 import info.esblurock.reaction.chemconnect.core.client.place.ChemConnectAdministrationPlace;
+import info.esblurock.reaction.chemconnect.core.client.place.ChemConnectObservationPlace;
 import info.esblurock.reaction.chemconnect.core.common.client.async.LoginService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.LoginServiceAsync;
 
 public class ChemConnectCore implements EntryPoint {
+	//private Place defaultPlace = new ChemConnectObservationPlace("Top");
 	private Place defaultPlace = new ChemConnectAdministrationPlace("Top");
 	private SimplePanel appWidget = new SimplePanel();
 
@@ -42,7 +45,8 @@ public class ChemConnectCore implements EntryPoint {
 		LoginServiceAsync async = LoginService.Util.getInstance();
 		SimpleLoginCallback callback = new SimpleLoginCallback();
 		async.loginServer("Administration", "laguna", callback);
-		
+		//ChemConnectObservationImpl obs = new ChemConnectObservationImpl();
+		//RootPanel.get().add(obs);
 		RootPanel.get().add(appWidget);
 		historyHandler.handleCurrentHistory();
 	}

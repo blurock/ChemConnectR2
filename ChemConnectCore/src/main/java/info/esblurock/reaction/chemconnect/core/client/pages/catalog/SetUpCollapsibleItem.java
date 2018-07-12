@@ -11,6 +11,7 @@ import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetIn
 import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetNameOfPersonHeader;
 import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetOrganizationDescriptionHeader;
 import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetOrganizationHeader;
+import info.esblurock.reaction.chemconnect.core.client.device.StandardDatasetSubSystemHeader;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.hierarchy.StandardDatasetCatalogHierarchyHeader;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.methodology.StandardDatasetMethodologyHeader;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.multiple.ChemConnectCompoundMultipleHeader;
@@ -19,7 +20,6 @@ import info.esblurock.reaction.chemconnect.core.client.pages.catalog.observation
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.observations.StandardDatasetParameterSpecificationHeader;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.observations.StandardDatasetSetOfObservationValuesHeader;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.observations.StandardDatasetValueUnitsHeader;
-import info.esblurock.reaction.chemconnect.core.client.pages.catalog.subsystems.StandardDatasetSubSystemHeader;
 import info.esblurock.reaction.chemconnect.core.client.pages.description.StandardDatasetDescriptionDataDataHeader;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.concept.PrimitiveConceptRow;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.gps.PrimitiveGPSLocationRow;

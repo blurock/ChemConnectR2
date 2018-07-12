@@ -67,7 +67,7 @@ public class OrganizationDefinition extends Composite implements ObjectVisualiza
 		ArrayList<String> choices = new ArrayList<String>();
 		choices.add(orgType);
 		String user = Cookies.getCookie("user");
-		String object = "Organizations";
+		String object = "dataset:Organization";
 		choose = new ChooseFullNameFromCatagoryRow(this,user,object,choices,modalpanel);
 		topPanel.add(choose);
 		
@@ -93,6 +93,12 @@ public class OrganizationDefinition extends Composite implements ObjectVisualiza
 			existingOrgs.add(item);
 		}
 		
+	}
+
+	@Override
+	public void insertCatalogObject(DatabaseObjectHierarchy subs) {
+		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(subs,modalpanel);
+		contentcollapsible.add(item);
 	}
 
 

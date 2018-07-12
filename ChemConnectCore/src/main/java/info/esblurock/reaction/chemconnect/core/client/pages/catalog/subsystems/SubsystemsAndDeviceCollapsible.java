@@ -1,4 +1,4 @@
-package info.esblurock.reaction.chemconnect.core.client.device;
+package info.esblurock.reaction.chemconnect.core.client.pages.catalog.subsystems;
 
 import java.util.ArrayList;
 

@@ -12,15 +12,24 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
+import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
 import info.esblurock.reaction.chemconnect.core.data.query.ListOfQueries;
+import info.esblurock.reaction.chemconnect.core.data.query.QueryPropertyValue;
+import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
+import info.esblurock.reaction.chemconnect.core.data.query.SetOfQueryPropertyValues;
 import info.esblurock.reaction.chemconnect.core.data.query.SetOfQueryResults;
+import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructureObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
+import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
+import info.esblurock.reaction.core.server.services.util.ParseUtilities;
 import info.esblurock.reaction.io.db.QueryBase;
 import info.esblurock.reaction.io.db.QueryFactory;
 import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
@@ -126,6 +135,33 @@ public class WriteReadDatabaseObjects {
 		}
 	}
 	
+	public static HierarchyNode getIDHierarchyFromDataCatalogID(String user,
+			String basecatalog, String catalog) throws IOException {
+		String classname = DataCatalogID.class.getCanonicalName();
+		SetOfQueryPropertyValues values = new SetOfQueryPropertyValues();
+
+		QueryPropertyValue value1 = new QueryPropertyValue("CatalogBaseName",basecatalog);
+		QueryPropertyValue value2 = new QueryPropertyValue("DataCatalog",catalog);
+		values.add(value1);
+		values.add(value2);
+		ListOfQueries queries = QueryFactory.accessQueryForUser(classname, user, values);
+		SetOfQueryResults results;
+		Set<String> ids = new HashSet<String>();
+		HierarchyNode topnode = null;
+		try {
+			results = QueryBase.StandardSetOfQueries(queries);
+			List<DatabaseObject> objs = results.retrieveAndClear();
+			for(DatabaseObject obj : objs) {
+				DataCatalogID datid = (DataCatalogID) obj;
+				ids.add(datid.getParentLink());
+			}
+			topnode = ParseUtilities.parseIDsToHierarchyNode("Objects",ids,true);
+		} catch (ClassNotFoundException e) {
+			throw new IOException("Class not found: " + classname);
+		}
+		return topnode;
+		
+	}
 
 	@SuppressWarnings("unchecked")
 	public static void readChemConnectDataStructureObject(String elementType, String identifier) throws IOException {

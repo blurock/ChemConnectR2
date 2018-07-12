@@ -96,4 +96,8 @@ public interface UserImageService  extends RemoteService  {
 	DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj, String dataType);
 	
 	HierarchyNode getIDsFromConceptLink(String concept) throws IOException;
+	
+	HierarchyNode getIDHierarchyFromDataCatalogID(String basecatalog, String catalog) throws IOException;
+	
+	DatabaseObjectHierarchy getCatalogObject(String id, String dataType);
 }

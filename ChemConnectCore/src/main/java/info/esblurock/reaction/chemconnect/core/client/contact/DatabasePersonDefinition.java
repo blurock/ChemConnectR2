@@ -75,7 +75,7 @@ public class DatabasePersonDefinition extends Composite  implements ObjectVisual
 		ArrayList<String> choices = new ArrayList<String>();
 		choices.add(peopleType);
 		String user = Cookies.getCookie("user");
-		String object = "Role in catagory";
+		String object = "dataset:DatabasePerson";
 		choose = new ChooseFullNameFromCatagoryRow(this,user,object,choices,modalpanel);
 		topPanel.add(choose);
 
@@ -108,5 +108,11 @@ public class DatabasePersonDefinition extends Composite  implements ObjectVisual
 		SetUpDatabaseObjectHierarchyCallback callback = new SetUpDatabaseObjectHierarchyCallback(createdPeople,modalpanel);
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		async.createDatabasePerson(person, catagory, person, datid, callback);
+	}
+
+	@Override
+	public void insertCatalogObject(DatabaseObjectHierarchy subs) {
+		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(subs,modalpanel);
+		existingPeople.add(item);
 	}
 }

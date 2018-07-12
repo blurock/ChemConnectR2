@@ -90,7 +90,6 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 
 		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
 		UserDTO user = util.getUserInfo();
-		System.out.println("User: " + user);
 
 		String outputSourceCode = null;
 		if (uploadService) {
@@ -99,12 +98,9 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		UploadOptions options = UploadOptions.Builder.withGoogleStorageBucketName(bucketName);
 		String baseurl = uploadRoot + "?" + sourceFileParameter + "=" + outputSourceCode + "&" + keywordNameParameter
 				+ "=" + keywordName;
-		System.out.println("BaseURL: " + baseurl);
 		String uploadUrl = blobstoreService.createUploadUrl(baseurl, options);
-		System.out.println("uploadURL" + uploadUrl);
 
 		if (uploadService) {
-			System.out.println("uploadService: write");
 			ImageUploadTransaction imageinfo = new ImageUploadTransaction(user.getName(), outputSourceCode, keywordName,
 					bucketName, uploadUrl);
 			DatabaseWriteBase.writeObjectWithTransaction(imageinfo);
@@ -140,7 +136,6 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		} catch (ClassNotFoundException e) {
 			throw new IOException("Class not found: " + classname);
 		}
-		System.out.println("getUploadedImageSet 2 size: " + imagelst.size());
 		return imagelst;
 	}
 
@@ -150,7 +145,6 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 
 		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
 		UserDTO user = util.getUserInfo();
-		System.out.println("User: " + user.getName());
 
 		SetOfQueryPropertyValues values = new SetOfQueryPropertyValues();
 		values.add(keywordParameter, keyword);
@@ -165,7 +159,6 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 				if (obj instanceof UploadedImage) {
 					UploadedImage uploaded = (UploadedImage) obj;
 					imagelst.add(uploaded);
-					System.out.println(imagelst);
 				} else {
 					System.out.println("getUploadedImageSetFromKeywordAndUser: not a UploadedImage: "
 							+ obj.getClass().getCanonicalName());
@@ -174,8 +167,6 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		} catch (ClassNotFoundException e) {
 			throw new IOException("Class not found: " + classname);
 		}
-
-		System.out.println("getUploadedImageSet Keyword: " + keyword + " size: " + imagelst.size());
 		return imagelst;
 	}
 
@@ -210,7 +201,6 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	public GCSBlobContent moveBlobFromUpload(GCSBlobFileInformation fileinfo) {
 		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
 		UserDTO user = util.getUserInfo();
-		System.out.println("User: " + user);
 
 		String path = createUploadPath(util);
 
@@ -225,9 +215,6 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 
 		fileinfo.setSourceID(source.getSourceID());
 
-		System.out.println("moveBlobFromUpload: " + source.toString());
-		System.out.println("moveBlobFromUpload: " + fileinfo.toString());
-
 		return moveBlob(fileinfo, source);
 	}
 
@@ -236,7 +223,6 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 
 		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
 		UserDTO user = util.getUserInfo();
-		System.out.println("User: " + user);
 
 		String sourcefilename = source.getGSFilename();
 		String sourcebucket = source.getBucket();
@@ -321,8 +307,6 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		values.add("owner", username);
 		values.add("bucket", GoogleCloudStorageConstants.uploadBucket);
 		
-		System.out.println("getUploadedFiles()\n" + values.toString());
-		
 		System.out.println("getUploadedFiles()");
 		QuerySetupBase query = new QuerySetupBase(GCSBlobFileInformation.class.getCanonicalName(), values);
 		query.setAccess(username);
@@ -334,8 +318,6 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		ArrayList<GCSBlobFileInformation> fileset = new ArrayList<GCSBlobFileInformation>();
 		System.out.println("getUploadedFiles()\n" + result.getResults());
 		for (DatabaseObject obj : result.getResults()) {
-			System.out.println("getUploadedFiles()\n" + obj.getClass().getCanonicalName());
-			System.out.println("getUploadedFiles()\n" + obj.toString());
 			fileset.add((GCSBlobFileInformation) obj);
 		}
 		return fileset;
@@ -356,27 +338,20 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		UserDTO user = util.getUserInfo();
 		String classType = ConceptParsing.findObjectTypeFromLinkConcept(concept);
 		Set<String> ids = WriteReadDatabaseObjects.getIDsOfAllDatabaseObjects(user.getName(),classType);
-		HierarchyNode topnode = new HierarchyNode(concept);
-		for(String id : ids) {
-			System.out.println(id);
-			StringTokenizer tok = new StringTokenizer(id,"-");
-			ArrayList<String> path = new ArrayList<String>();
-			String last = null;
-			while(tok.hasMoreTokens()) {
-				last = tok.nextToken();
-				path.add(last);
-			}
-			ParseUtilities.fillInHierarchy(topnode, path, id);
-		}
-		System.out.println("getIDsFromConceptLink\n" + topnode);
+		HierarchyNode topnode = ParseUtilities.parseIDsToHierarchyNode(concept,ids,false);
 		return topnode;
+	}
+	
+	public HierarchyNode getIDHierarchyFromDataCatalogID(String basecatalog, String catalog) throws IOException {
+		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
+		UserDTO user = util.getUserInfo();
+		return WriteReadDatabaseObjects.getIDHierarchyFromDataCatalogID(user.getName(), basecatalog, catalog);
+		
 	}
 
 	public GCSBlobFileInformation retrieveBlobFromURL(String requestUrl) throws IOException {
 		ContextAndSessionUtilities context = getUtilities();
 		String path = createUploadPath(context);
-		System.out.println("Path: " + path);
-		// Storage storage = StorageOptions.getDefaultInstance().getService();
 		String uploadDescriptionText = "Uploaded File from URL";
 
 		URL urlconnect = new URL(requestUrl);
@@ -415,7 +390,6 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 
 		@SuppressWarnings("deprecation")
 		BlobInfo blobInfo = storage.create(info, in);
-		System.out.println("Blob content type:  " + blobInfo.getContentType());
 		DatabaseWriteBase.writeObjectWithTransaction(source);
 
 	}
@@ -423,7 +397,6 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	public ArrayList<DatabaseObjectHierarchy> getSetOfDatabaseObjectHierarchyForUser(String classType) throws IOException {
 		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
 		UserDTO user = util.getUserInfo();
-		System.out.println("User: " + user);
 		ArrayList<DatabaseObjectHierarchy> objects = WriteReadDatabaseObjects.getAllDatabaseObjectHierarchyForUser(user.getName(), classType);
 		return objects;
 	}
@@ -486,7 +459,11 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 				pair.getConcept(), pair.getPurpose(),datid);
 		return hierarchy;
 	}
-	
+	public DatabaseObjectHierarchy getCatalogObject(String id, String dataType) {
+		DatabaseObjectHierarchy readhierarchy = ExtractCatalogInformation.getCatalogObject(id,dataType);
+		return readhierarchy;
+	}
+
 	public DatabaseObjectHierarchy getMethodology(DatabaseObject obj, String methodology, String title, DataCatalogID catid) {
 		String sourceID = QueryBase.getDataSourceIdentification(obj.getOwner());
 		obj.setSourceID(sourceID);
@@ -538,7 +515,6 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	}
 
 	public static void deleteBlob(GCSBlobFileInformation gcsinfo) {
-		System.out.println("deleteBlob: " + gcsinfo.toString());
 		BlobId blobId = BlobId.of(gcsinfo.getBucket(), gcsinfo.getGSFilename());
 		storage.delete(blobId);
 	}
@@ -552,7 +528,6 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	public static GCSBlobFileInformation createInitialUploadInfo(String filename, String contentType,
 			String uploadDescriptionText, ContextAndSessionUtilities util) {
 		UserDTO user = util.getUserInfo();
-		System.out.println("User: " + user);
 
 		String path = createUploadPath(util);
 
@@ -567,10 +542,8 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	}
 
 	public static InputStream getInputStream(GCSBlobFileInformation info) {
-		System.out.println("getInputStream from string" + info.getBucket() + ":  " + info.getGSFilename());
 		GCSBlobContent content = getContent(info);
 		String contentstring = content.getBytes();
-		System.out.println("getInputStream: " + contentstring.substring(0, 100));
 		InputStream inputstream = new ByteArrayInputStream(contentstring.getBytes(StandardCharsets.UTF_8));
 		/*
 		 * BlobId id = BlobId.of(info.getBucket(), info.getGSFilename());

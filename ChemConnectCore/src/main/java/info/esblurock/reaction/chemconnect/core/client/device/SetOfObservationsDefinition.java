@@ -25,6 +25,7 @@ import info.esblurock.reaction.chemconnect.core.client.device.observations.SetOf
 import info.esblurock.reaction.chemconnect.core.client.modal.InputLineModal;
 import info.esblurock.reaction.chemconnect.core.client.modal.SetLineContentInterface;
 import info.esblurock.reaction.chemconnect.core.client.pages.MainDataStructureCollapsible;
+import info.esblurock.reaction.chemconnect.core.client.pages.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
@@ -34,6 +35,7 @@ import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 public class SetOfObservationsDefinition extends Composite implements ObjectVisualizationInterface {
 
@@ -70,7 +72,7 @@ public class SetOfObservationsDefinition extends Composite implements ObjectVisu
 		ArrayList<String> choices = new ArrayList<String>();
 		choices.add("dataset:ChemConnectObservable");
 		String user = Cookies.getCookie("user");
-		String object = "Observations";
+		String object = "dataset:SetOfObservationValues";
 		choose = new ChooseFullNameFromCatagoryRow(this,user,object,choices,modalpanel);
 		topPanel.add(choose);
 	}
@@ -142,6 +144,12 @@ public class SetOfObservationsDefinition extends Composite implements ObjectVisu
 		async.getSetOfObservations(obj,observation,title,datid,callback);
 	
 		
+	}
+
+	@Override
+	public void insertCatalogObject(DatabaseObjectHierarchy subs) {
+		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(subs,modalpanel);
+		contentcollapsible.add(item);
 	}
 
 

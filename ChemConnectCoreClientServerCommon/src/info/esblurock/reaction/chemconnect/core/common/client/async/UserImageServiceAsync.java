@@ -81,4 +81,8 @@ public interface UserImageServiceAsync {
 
 	void getIDsFromConceptLink(String concept, AsyncCallback<HierarchyNode> callback);
 
+	void getIDHierarchyFromDataCatalogID(String basecatalog, String catalog, AsyncCallback<HierarchyNode> callback);
+
+	void getCatalogObject(String id, String dataType, AsyncCallback<DatabaseObjectHierarchy> callback);
+
 }

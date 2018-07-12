@@ -19,6 +19,7 @@ public class HierarchyNodeCallback implements AsyncCallback<HierarchyNode>{
 
 	@Override
 	public void onSuccess(HierarchyNode topnode) {
+		Window.alert("HierarchyNodeCallback: " + topnode);
 		top.insertTree(topnode);
 	}
 }

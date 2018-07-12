@@ -7,6 +7,7 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
@@ -182,5 +183,24 @@ public class ParseUtilities {
 		}
 
 	}
-
+	public static HierarchyNode parseIDsToHierarchyNode(String topnodeS, Set<String> ids,boolean simplify) {
+		HierarchyNode topnode = new HierarchyNode(topnodeS);
+		for(String id : ids) {
+			System.out.println(id);
+			StringTokenizer tok = new StringTokenizer(id,"-");
+			ArrayList<String> path = new ArrayList<String>();
+			String last = null;
+			while(tok.hasMoreTokens()) {
+				last = tok.nextToken();
+				path.add(last);
+			}
+			ParseUtilities.fillInHierarchy(topnode, path, id);
+		}
+		if(simplify) {
+			while(topnode.getSubNodes().size() == 1) {
+				topnode = topnode.getSubNodes().get(0);
+				}
+		}
+		return topnode;
+	}
 }

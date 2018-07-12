@@ -9,6 +9,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -18,18 +19,26 @@ import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.MaterialTooltip;
+import info.esblurock.reaction.chemconnect.core.client.catalog.HierarchyNodeCallback;
+import info.esblurock.reaction.chemconnect.core.client.catalog.HierarchyNodeCallbackInterface;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHeirarchy;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchies;
 import info.esblurock.reaction.chemconnect.core.client.modal.InputLineModal;
 import info.esblurock.reaction.chemconnect.core.client.modal.SetLineContentInterface;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
+import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
+import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
+import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
+import info.esblurock.reaction.chemconnect.core.client.catalog.SubCatagoryHierarchyCallback;
 
 public class ChooseFullNameFromCatagoryRow extends Composite 
-		implements ChooseCatagoryHierarchyInterface,  ChooseFromConceptHeirarchy, SetLineContentInterface {
+		implements ChooseCatagoryHierarchyInterface,  ChooseFromConceptHeirarchy, 
+		SetLineContentInterface, ChooseSimpleNameInterface, SubCatagoryHierarchyCallbackInterface {
 
 	private static ChooseFullNameFromCatagoryRowUiBinder uiBinder = GWT
 			.create(ChooseFullNameFromCatagoryRowUiBinder.class);
@@ -73,6 +82,7 @@ public class ChooseFullNameFromCatagoryRow extends Composite
 	String enterkeyS;
 	String keynameS;
 	String username;
+	
 	ObjectVisualizationInterface top;
 	/**
 	 * @param object The name of the type of object 
@@ -169,8 +179,14 @@ public class ChooseFullNameFromCatagoryRow extends Composite
 	 */
 	@UiHandler("objectname")
 	public void objectNameKey(ClickEvent event) {
-		modalpanel.add(line);
-		line.openModal();		
+		String sourceID = "";
+		String basecatalog = catalogtypeid.getText();
+		String catalogname = ChemConnectCompoundDataStructure.removeNamespace(objecttype.getText());
+		DatabaseObject obj = new DatabaseObject("",access,username,sourceID);
+		Window.alert("objectNameKey: base='" + basecatalog +"'  catalog='" + catalogname + "'");
+		ChooseSimpleNameModal simplename = new ChooseSimpleNameModal(this,obj,basecatalog,catalogname);
+		modalpanel.add(simplename);
+		simplename.openModal();		
 	}
 	@Override
 	public void setLineContent(String line) {
@@ -222,6 +238,24 @@ public class ChooseFullNameFromCatagoryRow extends Composite
 		}
 		
 		return name;
+	}
+
+	@Override
+	public void newNameChosen(String newsimplename) {
+		objectname.setText(newsimplename);
+		nameSelected = true;		
+	}
+
+	@Override
+	public void objectChosen(String id) {
+		UserImageServiceAsync async = UserImageService.Util.getInstance();
+		SubCatagoryHierarchyCallback callback = new SubCatagoryHierarchyCallback(this);
+		async.getCatalogObject(id, objectS,callback);
+	}
+
+	@Override
+	public void setInHierarchy(DatabaseObjectHierarchy subs) {
+		top.insertCatalogObject(subs);
 	}
 
 

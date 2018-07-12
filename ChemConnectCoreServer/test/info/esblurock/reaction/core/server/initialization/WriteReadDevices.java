@@ -1,5 +1,9 @@
 package info.esblurock.reaction.core.server.initialization;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Set;
+
 //import static org.junit.Assert.*;
 
 import org.junit.After;
@@ -22,6 +26,7 @@ import info.esblurock.reaction.chemconnect.core.data.contact.RegisterContactData
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.dataset.PurposeConceptPair;
 import info.esblurock.reaction.chemconnect.core.data.dataset.RegistrerDataset;
+import info.esblurock.reaction.chemconnect.core.data.dataset.device.SubSystemDescription;
 import info.esblurock.reaction.chemconnect.core.data.description.RegisterDescriptionData;
 import info.esblurock.reaction.chemconnect.core.data.gcs.RegisterGCSClasses;
 import info.esblurock.reaction.chemconnect.core.data.image.RegisterImageInformation;
@@ -30,6 +35,7 @@ import info.esblurock.reaction.chemconnect.core.data.login.RegisterUserLoginData
 import info.esblurock.reaction.chemconnect.core.data.observations.RegisterObservationData;
 import info.esblurock.reaction.chemconnect.core.data.rdf.RegisterRDFData;
 import info.esblurock.reaction.chemconnect.core.data.transaction.RegisterTransactionData;
+import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
@@ -77,8 +83,13 @@ public class WriteReadDevices {
 
 	@Test
 	public void test() {
+		String user = "Administration";
+		String classname = SubSystemDescription.class.getCanonicalName();
+		String basecatalog = "Catalog-Base";
+		String catalog = "Catalog";
+		
 		DatabaseObject obj = new DatabaseObject("AdministrationCatalog-HeatFluxBurner",
-				"Public","Administration","1" );
+				user,user,"1" );
 		
 		PurposeConceptPair pair = new PurposeConceptPair();
 		String devicename = "dataset:HeatFluxBurner";
@@ -93,6 +104,22 @@ public class WriteReadDevices {
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(devicehier);	
 		DatabaseObjectHierarchy readhierarchy = ExtractCatalogInformation.getCatalogObject("AdministrationCatalog-HeatFluxBurner", "dataset:SubSystemDescription");
 		System.out.println("fillSubSystemDescription\n" + readhierarchy.toString());
+		
+		
+		System.out.println("WriteReadDatabaseObjects.getIDsFromDatabaseObjectHierarchy:");
+		try {
+			ArrayList<DatabaseObjectHierarchy> hiers = WriteReadDatabaseObjects.getAllDatabaseObjectHierarchyForUser(user, 
+					"dataset:DataCatalogID");
+			for(DatabaseObjectHierarchy hier : hiers) {
+				System.out.println(hier.toString());
+			}
+			
+			HierarchyNode node = WriteReadDatabaseObjects.getIDHierarchyFromDataCatalogID(user,basecatalog,catalog);
+			System.out.println("WriteReadDatabaseObjects.getIDsFromDatabaseObjectHierarchy:\n " + node.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 }
