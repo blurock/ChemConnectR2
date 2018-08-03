@@ -2714,7 +2714,8 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#DistanceBurnerToProbeOffset
 :DistanceBurnerToProbeOffset rdf:type owl:Class ;
-                             rdfs:subClassOf :FlameProbe .
+                             rdfs:subClassOf :FlameProbeDistance ;
+                             rdfs:comment "Distance burner/probe tip at the zero position (offset)" .
 
 
 ###  http://www.esblurock.info/dataset#DistanceParameter
@@ -2729,22 +2730,24 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#DistanceProbeToIionization
 :DistanceProbeToIionization rdf:type owl:Class ;
-                            rdfs:subClassOf :FlameProbe ,
+                            rdfs:subClassOf :FlameProbeDistance ,
                                             [ rdf:type owl:Restriction ;
                                               owl:onProperty <http://purl.org/linked-data/cube#attribute> ;
                                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                               owl:onClass :ProbeWallThickness
-                                            ] .
+                                            ] ;
+                            rdfs:comment "Distance probe/ionization" .
 
 
 ###  http://www.esblurock.info/dataset#DistanceProbeToSkimmer
 :DistanceProbeToSkimmer rdf:type owl:Class ;
-                        rdfs:subClassOf :FlameProbe ,
+                        rdfs:subClassOf :FlameProbeDistance ,
                                         [ rdf:type owl:Restriction ;
                                           owl:onProperty <http://purl.org/linked-data/cube#attribute> ;
                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                           owl:onClass :DistanceBurnerToProbeOffset
-                                        ] .
+                                        ] ;
+                        rdfs:comment "Distance probe/skimmer" .
 
 
 ###  http://www.esblurock.info/dataset#Email
@@ -3215,7 +3218,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#FirstStageExpansionWithSkimmer
 :FirstStageExpansionWithSkimmer rdf:type owl:Class ;
-                                rdfs:subClassOf :FlameProbes .
+                                rdfs:subClassOf :MSMBFlameProbeSubsystem .
 
 
 ###  http://www.esblurock.info/dataset#FlameBoundaryEffects
@@ -3248,11 +3251,6 @@ Under the general type of is the actual data object referenced by the ChemConnec
                           rdfs:subClassOf :PremixedFlameMcKennaBurner .
 
 
-###  http://www.esblurock.info/dataset#FlameProbe
-:FlameProbe rdf:type owl:Class ;
-            rdfs:subClassOf :DistanceParameter .
-
-
 ###  http://www.esblurock.info/dataset#FlameProbeComponent
 :FlameProbeComponent rdf:type owl:Class ;
                      rdfs:subClassOf :DataTypeComponent ,
@@ -3283,9 +3281,9 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                      ] .
 
 
-###  http://www.esblurock.info/dataset#FlameProbes
-:FlameProbes rdf:type owl:Class ;
-             rdfs:subClassOf :FlameSubsystems .
+###  http://www.esblurock.info/dataset#FlameProbeDistance
+:FlameProbeDistance rdf:type owl:Class ;
+                    rdfs:subClassOf :DistanceParameter .
 
 
 ###  http://www.esblurock.info/dataset#FlameProperty
@@ -5254,7 +5252,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#MSMBFlameProbeSubsystem
 :MSMBFlameProbeSubsystem rdf:type owl:Class ;
-                         rdfs:subClassOf :FlameSpeciesDetection ,
+                         rdfs:subClassOf :SamplingProbe ,
                                          [ rdf:type owl:Restriction ;
                                            owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
@@ -5836,7 +5834,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#MolecularBeamSamplingProbe
 :MolecularBeamSamplingProbe rdf:type owl:Class ;
-                            rdfs:subClassOf :FlameProbes ,
+                            rdfs:subClassOf :MSMBFlameProbeSubsystem ,
                                             [ rdf:type owl:Restriction ;
                                               owl:onProperty <http://purl.org/linked-data/cube#attribute> ;
                                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
@@ -5912,6 +5910,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                 owl:onClass :givenName
                               ] .
+
+
+###  http://www.esblurock.info/dataset#NickelSkimmer
+:NickelSkimmer rdf:type owl:Class ;
+               rdfs:subClassOf :FirstStageExpansionWithSkimmer .
 
 
 ###  http://www.esblurock.info/dataset#NumberOfThermocouplesInBurner
@@ -6407,22 +6410,42 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#ProbeAngleBase
 :ProbeAngleBase rdf:type owl:Class ;
-                rdfs:subClassOf :AngleParameters .
+                rdfs:subClassOf :ProbeAngleParameters .
+
+
+###  http://www.esblurock.info/dataset#ProbeAngleParameters
+:ProbeAngleParameters rdf:type owl:Class ;
+                      rdfs:subClassOf :AngleParameters .
 
 
 ###  http://www.esblurock.info/dataset#ProbeAngleTip
 :ProbeAngleTip rdf:type owl:Class ;
-               rdfs:subClassOf :AngleParameters .
+               rdfs:subClassOf :ProbeAngleParameters .
+
+
+###  http://www.esblurock.info/dataset#ProbeKeywordParameters
+:ProbeKeywordParameters rdf:type owl:Class ;
+                        rdfs:subClassOf :KeywordParameter .
 
 
 ###  http://www.esblurock.info/dataset#ProbeMaterial
 :ProbeMaterial rdf:type owl:Class ;
-               rdfs:subClassOf :KeywordParameter .
+               rdfs:subClassOf :ProbeKeywordParameters ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
+                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                 owl:onClass :ProbeMaterialType
+                               ] .
+
+
+###  http://www.esblurock.info/dataset#ProbeMaterialType
+:ProbeMaterialType rdf:type owl:Class ;
+                   rdfs:subClassOf :ClassificationUnit .
 
 
 ###  http://www.esblurock.info/dataset#ProbeOrificeDiameter
 :ProbeOrificeDiameter rdf:type owl:Class ;
-                      rdfs:subClassOf :FlameProbe ,
+                      rdfs:subClassOf :FlameProbeDistance ,
                                       [ rdf:type owl:Restriction ;
                                         owl:onProperty <http://purl.org/linked-data/cube#attribute> ;
                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
@@ -6430,9 +6453,30 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                       ] .
 
 
+###  http://www.esblurock.info/dataset#ProbeShape
+:ProbeShape rdf:type owl:Class ;
+            rdfs:subClassOf :ProbeKeywordParameters ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
+                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                              owl:onClass :ProbeShapeType
+                            ] .
+
+
+###  http://www.esblurock.info/dataset#ProbeShapeType
+:ProbeShapeType rdf:type owl:Class ;
+                rdfs:subClassOf :ClassificationUnit .
+
+
+###  http://www.esblurock.info/dataset#ProbeStraightCone
+:ProbeStraightCone rdf:type owl:Class ;
+                   rdfs:subClassOf :ProbeShapeType .
+
+
 ###  http://www.esblurock.info/dataset#ProbeWallThickness
 :ProbeWallThickness rdf:type owl:Class ;
-                    rdfs:subClassOf :FlameProbe .
+                    rdfs:subClassOf :FlameProbeDistance ;
+                    rdfs:comment "Orifice diameter" .
 
 
 ###  http://www.esblurock.info/dataset#PropagatedAbsoluteUncertainty
@@ -6492,6 +6536,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#PurposeUser
 :PurposeUser rdf:type owl:Class ;
              rdfs:subClassOf :ChemConnectContact .
+
+
+###  http://www.esblurock.info/dataset#QuartzMaterialProbe
+:QuartzMaterialProbe rdf:type owl:Class ;
+                     rdfs:subClassOf :ProbeMaterialType .
 
 
 ###  http://www.esblurock.info/dataset#REACTIONMolecularInformationSet
@@ -6634,9 +6683,44 @@ Under the general type of is the actual data object referenced by the ChemConnec
                     rdfs:subClassOf :Flames .
 
 
+###  http://www.esblurock.info/dataset#SamplingCone
+:SamplingCone rdf:type owl:Class ;
+              rdfs:subClassOf :FirstStageExpansionWithSkimmer ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty <http://purl.org/linked-data/cube#attribute> ;
+                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                owl:onClass :ProbeAngleTip
+                              ] ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty <http://purl.org/linked-data/cube#attribute> ;
+                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                owl:onClass :ProbeMaterial
+                              ] ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty <http://purl.org/linked-data/cube#attribute> ;
+                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                owl:onClass :ProbeShape
+                              ] ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty <http://purl.org/linked-data/cube#attribute> ;
+                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                owl:onClass :TaperedProbeAngleMax
+                              ] ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty <http://purl.org/linked-data/cube#attribute> ;
+                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                owl:onClass :TaperedProbeAngleMin
+                              ] .
+
+
+###  http://www.esblurock.info/dataset#SamplingProbe
+:SamplingProbe rdf:type owl:Class ;
+               rdfs:subClassOf :DataTypeSubSystem .
+
+
 ###  http://www.esblurock.info/dataset#SecondStageExpansion
 :SecondStageExpansion rdf:type owl:Class ;
-                      rdfs:subClassOf :FlameProbes .
+                      rdfs:subClassOf :MSMBFlameProbeSubsystem .
 
 
 ###  http://www.esblurock.info/dataset#SensorCharacteristic
@@ -7030,6 +7114,21 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#SubsystemGeometryAndConfiguration
 :SubsystemGeometryAndConfiguration rdf:type owl:Class ;
                                    rdfs:subClassOf :ChemConnectPurposeSubsystem .
+
+
+###  http://www.esblurock.info/dataset#TaperedProbe
+:TaperedProbe rdf:type owl:Class ;
+              rdfs:subClassOf :ProbeShapeType .
+
+
+###  http://www.esblurock.info/dataset#TaperedProbeAngleMax
+:TaperedProbeAngleMax rdf:type owl:Class ;
+                      rdfs:subClassOf :ProbeAngleTip .
+
+
+###  http://www.esblurock.info/dataset#TaperedProbeAngleMin
+:TaperedProbeAngleMin rdf:type owl:Class ;
+                      rdfs:subClassOf :ProbeAngleTip .
 
 
 ###  http://www.esblurock.info/dataset#TemperatureBathStability
@@ -9025,8 +9124,8 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
                                     <http://purl.org/dc/terms/issued> "2000-07-11"^^xsd:date .
 
 
-<http://purl.org/dc/terms/rights> <http://purl.org/dc/terms/issued> "2008-01-14"^^xsd:date ;
-                                  rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
+<http://purl.org/dc/terms/rights> rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
+                                  <http://purl.org/dc/terms/issued> "2008-01-14"^^xsd:date ;
                                   rdfs:label "Rights"@en ;
                                   rdfs:comment "Information about rights held in and over the resource."@en ;
                                   <http://purl.org/dc/terms/modified> "2008-01-14"^^xsd:date ;
@@ -9034,8 +9133,8 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
                                   <http://purl.org/dc/terms/description> "Typically, rights information includes a statement about various property rights associated with the resource, including intellectual property rights."@en .
 
 
-<http://purl.org/dc/terms/rightsHolder> rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
-                                        <http://purl.org/dc/terms/hasVersion> <http://dublincore.org/usage/terms/history/#rightsHolder-002> ;
+<http://purl.org/dc/terms/rightsHolder> <http://purl.org/dc/terms/hasVersion> <http://dublincore.org/usage/terms/history/#rightsHolder-002> ;
+                                        rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
                                         <http://purl.org/dc/terms/modified> "2008-01-14"^^xsd:date ;
                                         rdfs:comment "A person or organization owning or managing rights over the resource."@en ;
                                         <http://purl.org/dc/terms/issued> "2004-06-14"^^xsd:date ;

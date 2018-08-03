@@ -65,7 +65,7 @@ import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 @SuppressWarnings("serial")
 public class UserImageServiceImpl extends ServerBase implements UserImageService {
 
-	private static Storage storage = null;
+	public static Storage storage = null;
 	static {
 		storage = StorageOptions.getDefaultInstance().getService();
 	}

@@ -13,22 +13,14 @@ import com.googlecode.objectify.ObjectifyService;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
-import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
 import info.esblurock.reaction.chemconnect.core.data.query.ListOfQueries;
 import info.esblurock.reaction.chemconnect.core.data.query.QueryPropertyValue;
-import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.data.query.SetOfQueryPropertyValues;
 import info.esblurock.reaction.chemconnect.core.data.query.SetOfQueryResults;
-import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
-import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
-import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
-import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
-import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructureObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
-import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
 import info.esblurock.reaction.core.server.services.util.ParseUtilities;
 import info.esblurock.reaction.io.db.QueryBase;
 import info.esblurock.reaction.io.db.QueryFactory;
@@ -66,6 +58,7 @@ public class WriteReadDatabaseObjects {
 		}
 		return ids;
 	}
+	
 	public static ArrayList<DatabaseObjectHierarchy> getDatabaseObjectHierarchyFromIDs(String classType, Set<String> ids) {
 		ArrayList<DatabaseObjectHierarchy> objects = new ArrayList<DatabaseObjectHierarchy>();
 		for(String id:ids) {
@@ -162,7 +155,7 @@ public class WriteReadDatabaseObjects {
 		return topnode;
 		
 	}
-
+/*
 	@SuppressWarnings("unchecked")
 	public static void readChemConnectDataStructureObject(String elementType, String identifier) throws IOException {
 		System.out.println("------------------------------------------");
@@ -269,5 +262,5 @@ public class WriteReadDatabaseObjects {
 
 		}
 	}
-
+*/
 }

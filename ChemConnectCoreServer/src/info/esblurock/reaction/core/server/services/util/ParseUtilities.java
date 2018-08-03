@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import com.google.cloud.storage.BlobInfo;
+
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.data.gcs.ParsedFilename;
@@ -203,4 +205,23 @@ public class ParseUtilities {
 		}
 		return topnode;
 	}
+	
+	public static GCSBlobFileInformation blobInfoToGCSBlobFileInformation(DatabaseObject object, BlobInfo info) {
+		String filetype = info.getContentType();
+		String description = "";
+		String name = info.getName();
+		String path = "";
+		String filename = name;
+		int pos = name.lastIndexOf("/");
+		if(pos >= 0) {
+			path = name.substring(1, pos);
+			if(pos+1 < name.length()) {
+				filename = name.substring(pos+1);
+			}
+		}
+		GCSBlobFileInformation gcsinfo = new GCSBlobFileInformation(object, 
+				info.getBucket(), path, filename, filetype, description);
+		return gcsinfo;
+	}
+	
 }

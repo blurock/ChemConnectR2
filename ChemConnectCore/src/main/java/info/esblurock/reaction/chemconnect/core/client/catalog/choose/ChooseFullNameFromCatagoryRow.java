@@ -9,7 +9,6 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Cookies;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -19,8 +18,6 @@ import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.MaterialTooltip;
-import info.esblurock.reaction.chemconnect.core.client.catalog.HierarchyNodeCallback;
-import info.esblurock.reaction.chemconnect.core.client.catalog.HierarchyNodeCallbackInterface;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHeirarchy;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchies;
 import info.esblurock.reaction.chemconnect.core.client.modal.InputLineModal;
@@ -32,7 +29,6 @@ import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDat
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
-import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.chemconnect.core.client.catalog.SubCatagoryHierarchyCallback;
 
@@ -183,7 +179,6 @@ public class ChooseFullNameFromCatagoryRow extends Composite
 		String basecatalog = catalogtypeid.getText();
 		String catalogname = ChemConnectCompoundDataStructure.removeNamespace(objecttype.getText());
 		DatabaseObject obj = new DatabaseObject("",access,username,sourceID);
-		Window.alert("objectNameKey: base='" + basecatalog +"'  catalog='" + catalogname + "'");
 		ChooseSimpleNameModal simplename = new ChooseSimpleNameModal(this,obj,basecatalog,catalogname);
 		modalpanel.add(simplename);
 		simplename.openModal();		

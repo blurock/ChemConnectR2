@@ -85,9 +85,10 @@ public class ReadAndWriteFromDatabase {
 					ClassificationInformation classification = datastructure.getClassification();
 					DatabaseObject obj = structure.getObjecthierarchy().getObject();
 					System.out.println(classification.toString());
+					/*
 					WriteReadDatabaseObjects.readChemConnectDataStructureObject(classification.getIdName(),
 							obj.getIdentifier());
-						
+						*/
 				}
 			} catch (YamlException e) {
 				// TODO Auto-generated catch block

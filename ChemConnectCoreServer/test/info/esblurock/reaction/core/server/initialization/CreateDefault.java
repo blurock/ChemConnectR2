@@ -4,6 +4,12 @@ package info.esblurock.reaction.core.server.initialization;
 
 import org.junit.Test;
 
+import com.google.cloud.storage.Blob;
+import com.google.cloud.storage.Bucket;
+import com.google.cloud.storage.BucketInfo;
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
+
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
@@ -14,6 +20,17 @@ public class CreateDefault {
 
 	@Test
 	public void test() {
+		
+		Storage storage = StorageOptions.getDefaultInstance().getService();
+	    String bucketName = "chemconnect"; // Change this to something unique
+	    Bucket bucket = storage.create(BucketInfo.of(bucketName));
+	    // List the blobs in a particular bucket
+	    System.out.println("My blobs:");
+	    for (Blob currentBlob : bucket.list().iterateAll()) {
+	    	System.out.println(currentBlob);
+	    }
+
+		
 		DatabaseObject obj = new DatabaseObject("AdministrationCatalog","Public","Administration","1" );
 		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,"");
 		DataCatalogID name = new DataCatalogID(structure,"Catalog-Base","Catalog","Simple");

@@ -9,18 +9,13 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
-import gwt.material.design.client.constants.IconType;
-import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialNavBrand;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialToast;
-import info.esblurock.reaction.chemconnect.core.client.catalog.SetUpDatabaseObjectHierarchyCallback;
 import info.esblurock.reaction.chemconnect.core.client.catalog.choose.ChooseFullNameFromCatagoryRow;
 import info.esblurock.reaction.chemconnect.core.client.catalog.choose.ObjectVisualizationInterface;
 import info.esblurock.reaction.chemconnect.core.client.pages.DataStructurePages;
@@ -29,9 +24,6 @@ import info.esblurock.reaction.chemconnect.core.client.ui.view.ChemConnectObserv
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
-import info.esblurock.reaction.chemconnect.core.client.ui.view.ChemConnectAdministrationView.Presenter;
-import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
-import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 
 public class ChemConnectObservationImpl extends Composite implements ChemConnectObservationView, ObjectVisualizationInterface {
 
