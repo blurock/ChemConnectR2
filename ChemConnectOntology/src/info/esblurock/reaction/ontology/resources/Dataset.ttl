@@ -1775,7 +1775,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#ClassificationUnit
 :ClassificationUnit rdf:type owl:Class ;
-                    rdfs:subClassOf :DescriptionUnit .
+                    rdfs:subClassOf <http://data.nasa.gov/qudt/owl/qudt#Unit> .
+
+
+###  http://www.esblurock.info/dataset#ClassificationUnitKeyword
+:ClassificationUnitKeyword rdf:type owl:Class ;
+                           rdfs:subClassOf :ChemConnectDomainConcept .
 
 
 ###  http://www.esblurock.info/dataset#CombustionFeature
@@ -2111,7 +2116,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#ControlledEvaporationMixing
 :ControlledEvaporationMixing rdf:type owl:Class ;
-                             rdfs:subClassOf :EvaporationSystemClass .
+                             rdfs:subClassOf :EvaporationSystemKeyword .
 
 
 ###  http://www.esblurock.info/dataset#CoolingDownGases
@@ -2126,7 +2131,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#Cori-FlowMassController
 :Cori-FlowMassController rdf:type owl:Class ;
-                         rdfs:subClassOf :LiquidMFCClass .
+                         rdfs:subClassOf :LiquidMFCKeyword .
 
 
 ###  http://www.esblurock.info/dataset#CountParameter
@@ -2859,9 +2864,15 @@ Under the general type of is the actual data object referenced by the ChemConnec
  ] .
 
 
-###  http://www.esblurock.info/dataset#EvaporationSystemClass
-:EvaporationSystemClass rdf:type owl:Class ;
-                        rdfs:subClassOf :ClassificationUnit .
+###  http://www.esblurock.info/dataset#EvaporationSystemClassification
+:EvaporationSystemClassification rdf:type owl:Class ;
+                                 rdfs:subClassOf :ClassificationUnit ;
+                                 <http://www.w3.org/ns/prov#definition> :EvaporationSystemKeyword .
+
+
+###  http://www.esblurock.info/dataset#EvaporationSystemKeyword
+:EvaporationSystemKeyword rdf:type owl:Class ;
+                          rdfs:subClassOf :ClassificationUnitKeyword .
 
 
 ###  http://www.esblurock.info/dataset#EvaporationSystemType
@@ -3218,7 +3229,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#FirstStageExpansionWithSkimmer
 :FirstStageExpansionWithSkimmer rdf:type owl:Class ;
-                                rdfs:subClassOf :MSMBFlameProbeSubsystem .
+                                rdfs:subClassOf :SamplingProbe ,
+                                                [ rdf:type owl:Restriction ;
+                                                  owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                                                  owl:someValuesFrom :MolecularBeamSamplingProbe
+                                                ] .
 
 
 ###  http://www.esblurock.info/dataset#FlameBoundaryEffects
@@ -3565,7 +3580,8 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#GasCoriolisFlowController
 :GasCoriolisFlowController rdf:type owl:Class ;
-                           rdfs:subClassOf :MassFlowControllerClassification .
+                           rdfs:subClassOf :GasMFCKeyword ,
+                                           :MassFlowControllerKeyword .
 
 
 ###  http://www.esblurock.info/dataset#GasFlowRegulation
@@ -3594,9 +3610,15 @@ Under the general type of is the actual data object referenced by the ChemConnec
  ] .
 
 
-###  http://www.esblurock.info/dataset#GasMFCClass
-:GasMFCClass rdf:type owl:Class ;
-             rdfs:subClassOf :ClassificationUnit .
+###  http://www.esblurock.info/dataset#GasMFCClassification
+:GasMFCClassification rdf:type owl:Class ;
+                      rdfs:subClassOf :ClassificationUnit ;
+                      <http://www.w3.org/ns/prov#definition> :GasMFCKeyword .
+
+
+###  http://www.esblurock.info/dataset#GasMFCKeyword
+:GasMFCKeyword rdf:type owl:Class ;
+               rdfs:subClassOf :ClassificationUnitKeyword .
 
 
 ###  http://www.esblurock.info/dataset#GasMFCType
@@ -3604,7 +3626,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
             rdfs:subClassOf :MassFlowControllerKeywordParameter ,
                             [ rdf:type owl:Restriction ;
                               owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
-                              owl:someValuesFrom :GasMFCClass
+                              owl:someValuesFrom :GasMFCKeyword
                             ] ,
                             [ rdf:type owl:Restriction ;
                               owl:onProperty <http://purl.org/linked-data/cube#concept> ;
@@ -4837,9 +4859,34 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                    <http://www.w3.org/2004/02/skos/core#altLabel> "interpretation" .
 
 
+###  http://www.esblurock.info/dataset#IonSourceEI
+:IonSourceEI rdf:type owl:Class ;
+             rdfs:subClassOf :IonizationSourceKeyword .
+
+
+###  http://www.esblurock.info/dataset#IonSourcePI
+:IonSourcePI rdf:type owl:Class ;
+             rdfs:subClassOf :IonizationSourceKeyword .
+
+
 ###  http://www.esblurock.info/dataset#IonizationSource
 :IonizationSource rdf:type owl:Class ;
-                  rdfs:subClassOf :MoleculeBeamKeywords .
+                  rdfs:subClassOf :MoleculeBeamKeywords ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
+                                    owl:someValuesFrom :IonizationSourceKeyword
+                                  ] .
+
+
+###  http://www.esblurock.info/dataset#IonizationSourceClassification
+:IonizationSourceClassification rdf:type owl:Class ;
+                                rdfs:subClassOf :ClassificationUnit ;
+                                <http://www.w3.org/ns/prov#definition> :IonizationSourceKeyword .
+
+
+###  http://www.esblurock.info/dataset#IonizationSourceKeyword
+:IonizationSourceKeyword rdf:type owl:Class ;
+                         rdfs:subClassOf :ClassificationUnitKeyword .
 
 
 ###  http://www.esblurock.info/dataset#Keyword
@@ -4883,7 +4930,8 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#LiquidCoriolisFlowController
 :LiquidCoriolisFlowController rdf:type owl:Class ;
-                              rdfs:subClassOf :MassFlowControllerClassification .
+                              rdfs:subClassOf :LiquidMFCKeyword ,
+                                              :MassFlowControllerKeyword .
 
 
 ###  http://www.esblurock.info/dataset#LiquidFlowRegulation
@@ -4896,9 +4944,15 @@ Under the general type of is the actual data object referenced by the ChemConnec
                  rdfs:subClassOf :FuelSubsystem .
 
 
-###  http://www.esblurock.info/dataset#LiquidMFCClass
-:LiquidMFCClass rdf:type owl:Class ;
-                rdfs:subClassOf :ClassificationUnit .
+###  http://www.esblurock.info/dataset#LiquidMFCClassification
+:LiquidMFCClassification rdf:type owl:Class ;
+                         rdfs:subClassOf :ClassificationUnit ;
+                         <http://www.w3.org/ns/prov#definition> :LiquidMFCKeyword .
+
+
+###  http://www.esblurock.info/dataset#LiquidMFCKeyword
+:LiquidMFCKeyword rdf:type owl:Class ;
+                  rdfs:subClassOf :ClassificationUnitKeyword .
 
 
 ###  http://www.esblurock.info/dataset#LiquidMFCType
@@ -4926,7 +4980,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#LiquidMassFlowController
 :LiquidMassFlowController rdf:type owl:Class ;
-                          rdfs:subClassOf :MassFlowControllerClassification ,
+                          rdfs:subClassOf :MassFlowControllerKeyword ,
                                           :MassFlowSubsystems ,
                                           [ rdf:type owl:Restriction ;
                                             owl:onProperty :hasComponent ;
@@ -5261,11 +5315,6 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                          [ rdf:type owl:Restriction ;
                                            owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                           owl:onClass :MolecularBeamSamplingProbe
-                                         ] ,
-                                         [ rdf:type owl:Restriction ;
-                                           owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
-                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                            owl:onClass :SecondStageExpansion
                                          ] .
 
@@ -5276,17 +5325,6 @@ Under the general type of is the actual data object referenced by the ChemConnec
                          owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                          owl:onClass :FirstStageExpansionWithSkimmer
-                       ] ;
-   <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
- ] .
-
-[ rdf:type owl:Axiom ;
-   owl:annotatedSource :MSMBFlameProbeSubsystem ;
-   owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget [ rdf:type owl:Restriction ;
-                         owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
-                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                         owl:onClass :MolecularBeamSamplingProbe
                        ] ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
@@ -5333,6 +5371,10 @@ Under the general type of is the actual data object referenced by the ChemConnec
                          rdfs:subClassOf :FlameBurner ,
                                          [ rdf:type owl:Restriction ;
                                            owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                                           owl:someValuesFrom :MassSpectrometryMolecularBeam
+                                         ] ,
+                                         [ rdf:type owl:Restriction ;
+                                           owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                            owl:onClass :MSMBFlameProbeSubsystem
                                          ] ,
@@ -5341,6 +5383,16 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                            owl:onClass :PremixedFlameFuelPreparation
                                          ] .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :MSMBPremixedFlameBurner ;
+   owl:annotatedProperty rdfs:subClassOf ;
+   owl:annotatedTarget [ rdf:type owl:Restriction ;
+                         owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                         owl:someValuesFrom :MassSpectrometryMolecularBeam
+                       ] ;
+   <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
+ ] .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :MSMBPremixedFlameBurner ;
@@ -5418,7 +5470,8 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#MassFlowControllerClassification
 :MassFlowControllerClassification rdf:type owl:Class ;
-                                  rdfs:subClassOf :ClassificationUnit .
+                                  rdfs:subClassOf :ClassificationUnit ;
+                                  <http://www.w3.org/ns/prov#definition> :MassFlowControllerKeyword .
 
 
 ###  http://www.esblurock.info/dataset#MassFlowControllerControlRange
@@ -5455,6 +5508,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
    owl:annotatedTarget :KeywordUnit ;
    <http://www.w3.org/2004/02/skos/core#example> "MFC01"
  ] .
+
+
+###  http://www.esblurock.info/dataset#MassFlowControllerKeyword
+:MassFlowControllerKeyword rdf:type owl:Class ;
+                           rdfs:subClassOf :ClassificationUnitKeyword .
 
 
 ###  http://www.esblurock.info/dataset#MassFlowControllerKeywordParameter
@@ -5834,7 +5892,15 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#MolecularBeamSamplingProbe
 :MolecularBeamSamplingProbe rdf:type owl:Class ;
-                            rdfs:subClassOf :MSMBFlameProbeSubsystem ,
+                            rdfs:subClassOf :SamplingProbe ,
+                                            [ rdf:type owl:Restriction ;
+                                              owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                                              owl:someValuesFrom :NickelSkimmer
+                                            ] ,
+                                            [ rdf:type owl:Restriction ;
+                                              owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                                              owl:someValuesFrom :SamplingCone
+                                            ] ,
                                             [ rdf:type owl:Restriction ;
                                               owl:onProperty <http://purl.org/linked-data/cube#attribute> ;
                                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
@@ -5849,12 +5915,27 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                               owl:onProperty <http://purl.org/linked-data/cube#attribute> ;
                                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                               owl:onClass :DistanceProbeToSkimmer
-                                            ] ,
-                                            [ rdf:type owl:Restriction ;
-                                              owl:onProperty <http://purl.org/linked-data/cube#component> ;
-                                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                              owl:onClass :FlameProbeComponent
                                             ] .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :MolecularBeamSamplingProbe ;
+   owl:annotatedProperty rdfs:subClassOf ;
+   owl:annotatedTarget [ rdf:type owl:Restriction ;
+                         owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                         owl:someValuesFrom :NickelSkimmer
+                       ] ;
+   <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
+ ] .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :MolecularBeamSamplingProbe ;
+   owl:annotatedProperty rdfs:subClassOf ;
+   owl:annotatedTarget [ rdf:type owl:Restriction ;
+                         owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                         owl:someValuesFrom :SamplingCone
+                       ] ;
+   <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
+ ] .
 
 
 ###  http://www.esblurock.info/dataset#MoleculeBeamDevice
@@ -5914,7 +5995,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#NickelSkimmer
 :NickelSkimmer rdf:type owl:Class ;
-               rdfs:subClassOf :FirstStageExpansionWithSkimmer .
+               rdfs:subClassOf :SamplingProbe .
 
 
 ###  http://www.esblurock.info/dataset#NumberOfThermocouplesInBurner
@@ -6423,6 +6504,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                rdfs:subClassOf :ProbeAngleParameters .
 
 
+###  http://www.esblurock.info/dataset#ProbeConfiguration
+:ProbeConfiguration rdf:type owl:Class ;
+                    rdfs:subClassOf :DevicePhysicalDimension .
+
+
 ###  http://www.esblurock.info/dataset#ProbeKeywordParameters
 :ProbeKeywordParameters rdf:type owl:Class ;
                         rdfs:subClassOf :KeywordParameter .
@@ -6432,15 +6518,25 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :ProbeMaterial rdf:type owl:Class ;
                rdfs:subClassOf :ProbeKeywordParameters ,
                                [ rdf:type owl:Restriction ;
+                                 owl:onProperty <http://purl.org/linked-data/cube#concept> ;
+                                 owl:someValuesFrom :ProbeConfiguration
+                               ] ,
+                               [ rdf:type owl:Restriction ;
                                  owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                 owl:onClass :ProbeMaterialType
+                                 owl:onClass :ProbeMaterialKeyword
                                ] .
 
 
-###  http://www.esblurock.info/dataset#ProbeMaterialType
-:ProbeMaterialType rdf:type owl:Class ;
-                   rdfs:subClassOf :ClassificationUnit .
+###  http://www.esblurock.info/dataset#ProbeMaterialClassification
+:ProbeMaterialClassification rdf:type owl:Class ;
+                             rdfs:subClassOf :ClassificationUnit ;
+                             <http://www.w3.org/ns/prov#definition> :ProbeMaterialKeyword .
+
+
+###  http://www.esblurock.info/dataset#ProbeMaterialKeyword
+:ProbeMaterialKeyword rdf:type owl:Class ;
+                      rdfs:subClassOf :ClassificationUnitKeyword .
 
 
 ###  http://www.esblurock.info/dataset#ProbeOrificeDiameter
@@ -6457,20 +6553,30 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :ProbeShape rdf:type owl:Class ;
             rdfs:subClassOf :ProbeKeywordParameters ,
                             [ rdf:type owl:Restriction ;
+                              owl:onProperty <http://purl.org/linked-data/cube#concept> ;
+                              owl:someValuesFrom :ProbeConfiguration
+                            ] ,
+                            [ rdf:type owl:Restriction ;
                               owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                              owl:onClass :ProbeShapeType
+                              owl:onClass :ProbeShapeKeyword
                             ] .
 
 
-###  http://www.esblurock.info/dataset#ProbeShapeType
-:ProbeShapeType rdf:type owl:Class ;
-                rdfs:subClassOf :ClassificationUnit .
+###  http://www.esblurock.info/dataset#ProbeShapeClassication
+:ProbeShapeClassication rdf:type owl:Class ;
+                        rdfs:subClassOf :ClassificationUnit ;
+                        <http://www.w3.org/ns/prov#definition> :ProbeShapeKeyword .
+
+
+###  http://www.esblurock.info/dataset#ProbeShapeKeyword
+:ProbeShapeKeyword rdf:type owl:Class ;
+                   rdfs:subClassOf :ClassificationUnitKeyword .
 
 
 ###  http://www.esblurock.info/dataset#ProbeStraightCone
 :ProbeStraightCone rdf:type owl:Class ;
-                   rdfs:subClassOf :ProbeShapeType .
+                   rdfs:subClassOf :ProbeShapeKeyword .
 
 
 ###  http://www.esblurock.info/dataset#ProbeWallThickness
@@ -6540,7 +6646,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#QuartzMaterialProbe
 :QuartzMaterialProbe rdf:type owl:Class ;
-                     rdfs:subClassOf :ProbeMaterialType .
+                     rdfs:subClassOf :ProbeMaterialKeyword .
 
 
 ###  http://www.esblurock.info/dataset#REACTIONMolecularInformationSet
@@ -6561,6 +6667,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#REACTIONSubsubstructureSet
 :REACTIONSubsubstructureSet rdf:type owl:Class ;
                             rdfs:subClassOf :REACTIONMolecularInformationSet .
+
+
+###  http://www.esblurock.info/dataset#REMPI
+:REMPI rdf:type owl:Class ;
+       rdfs:subClassOf :IonizationSourceKeyword .
 
 
 ###  http://www.esblurock.info/dataset#RadialDistributionOfThermocouples
@@ -6685,7 +6796,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#SamplingCone
 :SamplingCone rdf:type owl:Class ;
-              rdfs:subClassOf :FirstStageExpansionWithSkimmer ,
+              rdfs:subClassOf :SamplingProbe ,
                               [ rdf:type owl:Restriction ;
                                 owl:onProperty <http://purl.org/linked-data/cube#attribute> ;
                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
@@ -6720,7 +6831,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#SecondStageExpansion
 :SecondStageExpansion rdf:type owl:Class ;
-                      rdfs:subClassOf :MSMBFlameProbeSubsystem .
+                      rdfs:subClassOf :SamplingProbe .
 
 
 ###  http://www.esblurock.info/dataset#SensorCharacteristic
@@ -7118,7 +7229,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#TaperedProbe
 :TaperedProbe rdf:type owl:Class ;
-              rdfs:subClassOf :ProbeShapeType .
+              rdfs:subClassOf :ProbeShapeKeyword .
 
 
 ###  http://www.esblurock.info/dataset#TaperedProbeAngleMax
@@ -7186,9 +7297,15 @@ Under the general type of is the actual data object referenced by the ChemConnec
                        rdfs:subClassOf :ChemConnectPurposeSubsystem .
 
 
-###  http://www.esblurock.info/dataset#TemperatureRegulationClass
-:TemperatureRegulationClass rdf:type owl:Class ;
-                            rdfs:subClassOf :ClassificationUnit .
+###  http://www.esblurock.info/dataset#TemperatureRegulationClassification
+:TemperatureRegulationClassification rdf:type owl:Class ;
+                                     rdfs:subClassOf :ClassificationUnit ;
+                                     <http://www.w3.org/ns/prov#definition> :TemperatureRegulationKeyword .
+
+
+###  http://www.esblurock.info/dataset#TemperatureRegulationKeyword
+:TemperatureRegulationKeyword rdf:type owl:Class ;
+                              rdfs:subClassOf :ClassificationUnitKeyword .
 
 
 ###  http://www.esblurock.info/dataset#TemperatureSensor
@@ -7249,9 +7366,9 @@ Under the general type of is the actual data object referenced by the ChemConnec
                             rdfs:subClassOf :TemperatureSensor .
 
 
-###  http://www.esblurock.info/dataset#ThermocoupleClassification
-:ThermocoupleClassification rdf:type owl:Class ;
-                            rdfs:subClassOf :ClassificationUnit .
+###  http://www.esblurock.info/dataset#ThermocoupleKeyword
+:ThermocoupleKeyword rdf:type owl:Class ;
+                     rdfs:subClassOf :ClassificationUnitKeyword .
 
 
 ###  http://www.esblurock.info/dataset#ThermocouplePositionInBurner
@@ -7307,42 +7424,48 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#ThermocoupleTypeB
 :ThermocoupleTypeB rdf:type owl:Class ;
-                   rdfs:subClassOf :ThermocoupleClassification .
+                   rdfs:subClassOf :ThermocoupleKeyword .
+
+
+###  http://www.esblurock.info/dataset#ThermocoupleTypeClassification
+:ThermocoupleTypeClassification rdf:type owl:Class ;
+                                rdfs:subClassOf :ClassificationUnit ;
+                                <http://www.w3.org/ns/prov#definition> :ThermocoupleKeyword .
 
 
 ###  http://www.esblurock.info/dataset#ThermocoupleTypeE
 :ThermocoupleTypeE rdf:type owl:Class ;
-                   rdfs:subClassOf :ThermocoupleClassification .
+                   rdfs:subClassOf :ThermocoupleKeyword .
 
 
 ###  http://www.esblurock.info/dataset#ThermocoupleTypeJ
 :ThermocoupleTypeJ rdf:type owl:Class ;
-                   rdfs:subClassOf :ThermocoupleClassification .
+                   rdfs:subClassOf :ThermocoupleKeyword .
 
 
 ###  http://www.esblurock.info/dataset#ThermocoupleTypeK
 :ThermocoupleTypeK rdf:type owl:Class ;
-                   rdfs:subClassOf :ThermocoupleClassification .
+                   rdfs:subClassOf :ThermocoupleKeyword .
 
 
 ###  http://www.esblurock.info/dataset#ThermocoupleTypeN
 :ThermocoupleTypeN rdf:type owl:Class ;
-                   rdfs:subClassOf :ThermocoupleClassification .
+                   rdfs:subClassOf :ThermocoupleKeyword .
 
 
 ###  http://www.esblurock.info/dataset#ThermocoupleTypeR
 :ThermocoupleTypeR rdf:type owl:Class ;
-                   rdfs:subClassOf :ThermocoupleClassification .
+                   rdfs:subClassOf :ThermocoupleKeyword .
 
 
 ###  http://www.esblurock.info/dataset#ThermocoupleTypeS
 :ThermocoupleTypeS rdf:type owl:Class ;
-                   rdfs:subClassOf :ThermocoupleClassification .
+                   rdfs:subClassOf :ThermocoupleKeyword .
 
 
 ###  http://www.esblurock.info/dataset#ThermocoupleTypeT
 :ThermocoupleTypeT rdf:type owl:Class ;
-                   rdfs:subClassOf :ThermocoupleClassification .
+                   rdfs:subClassOf :ThermocoupleKeyword .
 
 
 ###  http://www.esblurock.info/dataset#ThermodynamicProperties
@@ -7523,12 +7646,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#VaporCoriolisFlowController
 :VaporCoriolisFlowController rdf:type owl:Class ;
-                             rdfs:subClassOf :MassFlowControllerClassification .
+                             rdfs:subClassOf :MassFlowControllerKeyword .
 
 
 ###  http://www.esblurock.info/dataset#VaporMassFlowController
 :VaporMassFlowController rdf:type owl:Class ;
-                         rdfs:subClassOf :MassFlowControllerClassification .
+                         rdfs:subClassOf :MassFlowControllerKeyword .
 
 
 ###  http://www.esblurock.info/dataset#VectorAsString
@@ -7575,7 +7698,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#WaterBath
 :WaterBath rdf:type owl:Class ;
-           rdfs:subClassOf :TemperatureRegulationClass .
+           rdfs:subClassOf :TemperatureRegulationKeyword .
 
 
 ###  http://www.esblurock.info/dataset#WaterBathComponent
@@ -9124,8 +9247,8 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
                                     <http://purl.org/dc/terms/issued> "2000-07-11"^^xsd:date .
 
 
-<http://purl.org/dc/terms/rights> rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
-                                  <http://purl.org/dc/terms/issued> "2008-01-14"^^xsd:date ;
+<http://purl.org/dc/terms/rights> <http://purl.org/dc/terms/issued> "2008-01-14"^^xsd:date ;
+                                  rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
                                   rdfs:label "Rights"@en ;
                                   rdfs:comment "Information about rights held in and over the resource."@en ;
                                   <http://purl.org/dc/terms/modified> "2008-01-14"^^xsd:date ;
@@ -9133,8 +9256,8 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
                                   <http://purl.org/dc/terms/description> "Typically, rights information includes a statement about various property rights associated with the resource, including intellectual property rights."@en .
 
 
-<http://purl.org/dc/terms/rightsHolder> <http://purl.org/dc/terms/hasVersion> <http://dublincore.org/usage/terms/history/#rightsHolder-002> ;
-                                        rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
+<http://purl.org/dc/terms/rightsHolder> rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
+                                        <http://purl.org/dc/terms/hasVersion> <http://dublincore.org/usage/terms/history/#rightsHolder-002> ;
                                         <http://purl.org/dc/terms/modified> "2008-01-14"^^xsd:date ;
                                         rdfs:comment "A person or organization owning or managing rights over the resource."@en ;
                                         <http://purl.org/dc/terms/issued> "2004-06-14"^^xsd:date ;
@@ -9642,6 +9765,19 @@ basic geo vocab
   owl:members ( :DataTypeHierarchyDataset
                 :DataTypeHierarchyOrganization
                 :DataTypeHierarchyOwner
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :EvaporationSystemClassification
+                :GasMFCClassification
+                :IonizationSourceClassification
+                :LiquidMFCClassification
+                :ProbeMaterialClassification
+                :ProbeShapeClassication
+                :TemperatureRegulationClassification
+                :ThermocoupleType
               )
 ] .
 

@@ -121,6 +121,7 @@ public class OntologyBase {
 				+ "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>" + "\n"
 				+ "PREFIX unit: <http://data.nasa.gov/qudt/owl/unit#>" + "\n"
 				+ "PREFIX quant: <http://data.nasa.gov/qudt/owl/quantity#>" + "\n"
+				+ "PREFIX prov: <http://www.w3.org/ns/prov#>\n"
 				+ "PREFIX dataset: <http://www.esblurock.info/dataset#>\n"
 				+ "PREFIX qudt: <http://data.nasa.gov/qudt/owl/qudt#>" + "\n";
 		return queryPrefix;
@@ -135,6 +136,7 @@ public class OntologyBase {
 				+ "PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>\n"
 				+ "PREFIX dataset: <http://www.esblurock.info/dataset#>\n"
                 + "PREFIX ssn: <http://www.w3.org/ns/ssn#>" + "\n"
+				+ "PREFIX prov: <http://www.w3.org/ns/prov#>\n"
                 + "PREFIX skos: <http://www.w3.org/2004/02/skos/core#>" + "\n"
                  + "PREFIX qudt: <http://data.nasa.gov/qudt/owl/qudt#>" + "\n";
 		return databasePrefix;

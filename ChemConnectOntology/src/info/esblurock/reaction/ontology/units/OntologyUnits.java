@@ -153,16 +153,24 @@ public class OntologyUnits extends OntologyBase {
 	}
 
 	public static Set<String> classifications(String classification) {
+		String query = "SELECT ?object ?keyword\n" + 
+				"	WHERE { " + classification + " prov:definition ?object  .\n" + 
+				"                      ?object rdfs:subClassOf dataset:ClassificationUnitKeyword .\n" + 
+				"                      ?keyword rdfs:subClassOf ?object}";
+		
+		
+		/*
 		String query = "SELECT  ?prop\n" + "        WHERE {\n" + "	" + classification + "  <"
 				+ ReasonerVocabulary.directSubClassOf + ">  dataset:ClassificationUnit .\n" + "  ?prop rdfs:subClassOf "
 				+ classification + "\n" + "                    }";
+		*/
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
 		Set<String> set = null;
 		if (stringlst.size() > 0) {
 			set = new HashSet<String>();
 			for (Map<String, String> map : stringlst) {
-				String propS = map.get("prop");
+				String propS = map.get("keyword");
 				set.add(propS);
 			}
 		}
