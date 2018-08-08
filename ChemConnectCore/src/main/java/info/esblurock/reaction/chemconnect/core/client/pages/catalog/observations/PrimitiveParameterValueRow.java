@@ -110,6 +110,7 @@ public class PrimitiveParameterValueRow extends Composite
 	boolean valueinput;
 	boolean uncertaintyinput;
 	boolean unitchoice;
+	boolean otherchoice;
 
 	SetOfUnitProperties setOfUnitProperties;
 	UnitProperties unitproperties;
@@ -409,11 +410,18 @@ public class PrimitiveParameterValueRow extends Composite
 			uncertaintyinput = false;
 			uncertaintyTextBox.setText(line);
 		} else if (unitchoice) {
-			Window.alert("setLineContent: '" + line + "'");
 			unitchoice = false;
 			if (setOfUnitProperties.isClassification()) {
+				if(line.compareTo("Other") == 0) {
+					InputLineModal linemodal = new InputLineModal("Input Alternative Classification", "type value here: ", this);
+					modalpanel.clear();
+					modalpanel.add(linemodal);
+					linemodal.openModal();
+					otherchoice = true;
+				} else {
 				valueTextBox.setText(TextUtilities.removeNamespace(line));
 				chosenUnit = line;
+				}
 			} else {
 				unitproperties = setOfUnitProperties.getUnitPropertyFromAbbreviation(line);
 				if (unitproperties != null) {
@@ -424,6 +432,9 @@ public class PrimitiveParameterValueRow extends Composite
 					Window.alert("Units for '" + line + "' are null");
 				}
 			}
+		} else if(otherchoice) {
+			otherchoice = false;
+			valueTextBox.setText(line);
 		}
 
 	}
