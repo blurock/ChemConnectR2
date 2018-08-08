@@ -69,7 +69,6 @@ public class ChooseSimpleNameModal extends Composite implements HierarchyNodeCal
 	
 	
 	private void findSimpleNameFromHierarchy() {
-		Window.alert("findSimpleNameFromHierarchy()");
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		HierarchyNodeCallback callback = new HierarchyNodeCallback(this);
 		async.getIDHierarchyFromDataCatalogID(basecatalog,catalog,callback);

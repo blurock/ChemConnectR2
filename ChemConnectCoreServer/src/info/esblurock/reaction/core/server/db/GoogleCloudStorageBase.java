@@ -22,34 +22,39 @@ public class GoogleCloudStorageBase {
 		storage = StorageOptions.getDefaultInstance().getService();
 	}
 
+	public static HierarchyNode getBlobsInDirectory(DatabaseObject obj, String bucketName, String directory) {
+		HierarchyNode topnode = new HierarchyNode(directory);
+		insertBlobHiearchyLevel(obj, topnode, bucketName, directory,0);
+		return topnode;		
+	}
 	public static HierarchyNode getBlobHierarchy(DatabaseObject obj, String bucketName, String directory) {
 		HierarchyNode topnode = new HierarchyNode(directory);
 
-		insertBlobHiearchyLevel(obj, topnode, bucketName, directory);
+		insertBlobHiearchyLevel(obj, topnode, bucketName, directory,-1);
 		
 		return topnode;
 	}
-	public static void insertBlobHiearchyLevel(DatabaseObject obj, HierarchyNode node, String bucketName, String directory) {
-		System.out.println("insertBlobHiearchyLevel: " + directory);
+	public static void insertBlobHiearchyLevel(DatabaseObject obj, HierarchyNode node, 
+			String bucketName, String directory, int level) {
 		PageImpl<Blob> blobs = (PageImpl<Blob>) UserImageServiceImpl.storage.list(bucketName,
 				BlobListOption.currentDirectory(), BlobListOption.prefix(directory));
 		Iterator<Blob> iter = blobs.iterateAll().iterator();
 		while (iter.hasNext()) {
 			Blob blob = iter.next();
 			if(blob.getSize() > 0) {
-				System.out.println("insertBlobHiearchyLevel: sub=" + blob.getName() + " with size=" + blob.getSize());
 				GCSBlobFileInformation gcsinfo = ParseUtilities.blobInfoToGCSBlobFileInformation(obj, blob);
 				DatabaseObjectHierarchyNode subnode = new DatabaseObjectHierarchyNode(gcsinfo,gcsinfo.getFilename());
 				node.addSubNode(subnode);
 			} else {
-				System.out.println("insertBlobHiearchyLevel: sub=" + blob.getName() + " with size=" + blob.getSize());
 				String subdir = directory;
 				if(blob.getName().length() > directory.length()) {
 					subdir = blob.getName().substring(directory.length());
 				}
 				DatabaseObjectHierarchyNode subnode = new DatabaseObjectHierarchyNode(null,subdir);				
 				node.addSubNode(subnode);
-				insertBlobHiearchyLevel(obj,subnode,bucketName,blob.getName());
+				if(level != 0) {
+					insertBlobHiearchyLevel(obj,subnode,bucketName,blob.getName(),--level);
+				}
 			}
 			
 		}

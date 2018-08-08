@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.constants.Color;
+import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialModal;
 import gwt.material.design.client.ui.MaterialTextBox;
 
@@ -27,7 +28,10 @@ public class InputLineModal extends Composite  {
 	MaterialTextBox textbox;
 	@UiField
 	MaterialModal modal;
-	
+	@UiField
+	MaterialLink close;
+	@UiField
+	MaterialLink done;
 	
 	SetLineContentInterface setline;
 	
@@ -49,15 +53,9 @@ public class InputLineModal extends Composite  {
 		modal.close();
 	}
 
-	public String getLabel() {
-		return textbox.getLabel().toString();
-	}
 	
 	public void openModal() {
 		modal.open();
-	}
-	public String getText() {
-		return textbox.getText();
 	}
 
 }

@@ -1,7 +1,6 @@
 package info.esblurock.reaction.chemconnect.core.client.pages.catalog;
 
 
-import com.google.gwt.user.client.Window;
 
 import info.esblurock.reaction.chemconnect.core.client.catalog.link.PrimitiveDataObjectLinkRow;
 import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatabasePersonalDescriptionHeader;
@@ -292,7 +291,6 @@ public enum SetUpCollapsibleItem {
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
 			PrimitiveParameterValueRow header = new PrimitiveParameterValueRow(item.getHierarchy());
 			item.addHeader(header);
-			
 		}
 
 		@Override
@@ -302,7 +300,7 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public boolean isInformation() {
-			return false;
+			return true;
 		}
 
 		@Override

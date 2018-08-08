@@ -6,59 +6,76 @@
 	.important {
 		font-weight: bold;
 	}
+	.thinline {
+		font-weight: bold;
+		color: red;
+		text-color: red;
+		text-align: left;
+		height: 10px;
+		background-color: red;
+	}
 	</ui:style>
-	<m:MaterialPanel ui:field="toppanel">
+	<m:MaterialPanel ui:field="toppanel" paddingBottom="0"
+		paddingTop="0">
 		<m:MaterialPanel ui:field="modalpanel" />
-		<m:MaterialRow>
+		<m:MaterialRow paddingBottom="0" paddingTop="0">
 			<m:MaterialColumn grid="s3">
-				<m:MaterialRow>
-					<m:MaterialColumn grid="s12">
-						<m:MaterialTooltip ui:field="identifiertip">
-							<m:MaterialLink ui:field="parameterLabel" textColor="BLACK" />
-						</m:MaterialTooltip>
-					</m:MaterialColumn>
-				</m:MaterialRow>
-				<m:MaterialRow>
-					<m:MaterialColumn grid="s6">
-						<m:MaterialTooltip ui:field="typetip">
-							<m:MaterialSwitch ui:field="toggleinfo" />
-						</m:MaterialTooltip>
-					</m:MaterialColumn>
-					<m:MaterialColumn grid="s6">
-						<m:MaterialLink ui:field="clear" iconColor="BLACK"
-							iconType="CLEAR" />
-					</m:MaterialColumn>
-				</m:MaterialRow>
+				<m:MaterialTooltip ui:field="identifiertip">
+					<m:MaterialLink ui:field="parameterLabel" textColor="BLACK"
+						height="10px" textAlign="LEFT"/>
+				</m:MaterialTooltip>
 			</m:MaterialColumn>
 			<m:MaterialColumn grid="s3">
-				<m:MaterialTextBox ui:field="valueTextBox"
-					textColor="BLACK" />
+				<m:MaterialTooltip ui:field="valuetip">
+				<m:MaterialLink ui:field="valueTextBox" class="thinline" />
+				</m:MaterialTooltip>
 			</m:MaterialColumn>
 			<m:MaterialColumn grid="s3">
-				<m:MaterialTextBox ui:field="uncertaintyTextBox"
-					textColor="BLACK" />
+							<m:MaterialTooltip ui:field="uncertaintytip">
+				<m:MaterialLink ui:field="uncertaintyTextBox" height="10px"  textColor="BLACK"/>
+				</m:MaterialTooltip>
 			</m:MaterialColumn>
-			<m:MaterialColumn grid="s3">
-				<m:MaterialTextBox ui:field="unitsTextBox"
-					textColor="BLACK" />
-				<c:MaterialComboBox ui:field="parameterUnits" />
+			<m:MaterialColumn grid="s2">
+			<m:MaterialTooltip ui:field="unitstip">
+				<m:MaterialLink ui:field="parameterUnits" height="10px"  textColor="BLACK"/>
+				</m:MaterialTooltip>
+			</m:MaterialColumn>
+			<m:MaterialColumn grid="s1">
+			<m:MaterialLink ui:field="more" height="10px" iconType="EXPAND_MORE"/>
+			<m:MaterialLink ui:field="less" height="10px" iconType="EXPAND_LESS"/>
 			</m:MaterialColumn>
 		</m:MaterialRow>
-		<m:MaterialRow ui:field="extrainfo">
+		<m:MaterialRow ui:field="extrainfo" paddingBottom="0"
+			paddingTop="0">
 			<m:MaterialColumn grid="s3">
-				<m:MaterialLink ui:field="purpose" textColor="BLACK" />
+			<m:MaterialTooltip ui:field="purposetip">
+				<m:MaterialLink ui:field="purpose"  textColor="BLACK"
+					height="10px" />
+					</m:MaterialTooltip>
 			</m:MaterialColumn>
 			<m:MaterialColumn grid="s3">
-				<m:MaterialLink ui:field="concept" textColor="BLACK" />
+			<m:MaterialTooltip ui:field="concepttip">
+				<m:MaterialLink ui:field="concept" textColor="BLACK"
+					height="10px" />
+					</m:MaterialTooltip>
 			</m:MaterialColumn>
 			<m:MaterialColumn grid="s3">
-				<m:MaterialLink ui:field="unitclass" textColor="BLACK" />
-			</m:MaterialColumn>
-			<m:MaterialColumn grid="s3">
+			<m:MaterialTooltip ui:field="uncertaintyclasstip">
 				<m:MaterialLink ui:field="uncertaintyclass"
-					textColor="BLACK" />
+					textColor="BLACK" height="10px" />
+					</m:MaterialTooltip>
+			</m:MaterialColumn>
+			<m:MaterialColumn grid="s2">
+			<m:MaterialTooltip ui:field="unitsclasstip">
+				<m:MaterialLink ui:field="unitclass" textColor="BLACK"
+					height="10px" />
+					</m:MaterialTooltip>
+			</m:MaterialColumn>
+			<m:MaterialColumn grid="s1">
+			<m:MaterialTooltip ui:field="deletetip">
+			<m:MaterialLink ui:field="delete" height="10px" iconType="CLEAR"/>
+			</m:MaterialTooltip>
 			</m:MaterialColumn>
 		</m:MaterialRow>
-		<m:MaterialDivider />
 	</m:MaterialPanel>
 </ui:UiBinder> 

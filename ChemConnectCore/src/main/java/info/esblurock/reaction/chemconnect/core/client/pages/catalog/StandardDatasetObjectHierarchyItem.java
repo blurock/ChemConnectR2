@@ -7,12 +7,14 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialCollapsibleBody;
 import gwt.material.design.client.ui.MaterialCollapsibleHeader;
 import gwt.material.design.client.ui.MaterialCollapsibleItem;
+import gwt.material.design.client.ui.MaterialDivider;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTooltip;
@@ -46,9 +48,12 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 	@UiField
 	MaterialLink infotitle;
 	@UiField
-	MaterialCollapsible infocollapsible;
+	MaterialCollapsibleHeader infoheader;
+	//MaterialCollapsible infocollapsible;
 	@UiField
 	MaterialCollapsibleBody body;
+	@UiField
+	MaterialPanel infopanel;
 
 	DatabaseObject object;
 	DatabaseObjectHierarchy hierarchy;
@@ -78,15 +83,16 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 		} else {
 			StandardDatasetRecord record = new StandardDatasetRecord(hierarchy);
 			infoitem.setVisible(true);
-			infocollapsible.add(record);
+			infopanel.add(record);
+			//infocollapsible.add(record);
 		}
 	}
 
 	public void addSubItems(DatabaseObjectHierarchy hierarchy) {
 		for (DatabaseObjectHierarchy sub : hierarchy.getSubobjects()) {
 			SetUpCollapsibleItem setup = getSetup(sub.getObject());
+			StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(sub, modalpanel);
 			if (setup != null) {
-				StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(sub, modalpanel);
 				if (setup.isInformation()) {
 					addInfoItem(item);
 				} else {
@@ -96,7 +102,8 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 				StandardDatasetRecord record = new StandardDatasetRecord(sub);
 				records.add(record);
 				infoitem.setVisible(true);
-				infocollapsible.add(record);
+				infopanel.add(record);
+				//infocollapsible.add(record);
 			}
 		}
 	}
@@ -135,8 +142,16 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 
 	public void addInfoItem(StandardDatasetObjectHierarchyItem item) {
 		infoitem.setVisible(true);
-		infosubitems.add(item);
-		infocollapsible.add(item);
+		body.setVisible(true);
+		//infosubitems.add(item);
+		//infocollapsible.add(item);
+		//MaterialDivider divider = new MaterialDivider();
+		//infopanel.add(divider);
+		infopanel.add(item.getHeader());
+		//infopanel.add(new MaterialDivider());
+		//header.add(item);
+		//body.add(item);
+		//infoheader.add(item);
 	}
 
 	public void addSubItem(StandardDatasetObjectHierarchyItem item) {
