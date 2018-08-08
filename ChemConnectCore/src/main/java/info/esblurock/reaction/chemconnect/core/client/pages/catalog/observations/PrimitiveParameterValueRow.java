@@ -96,7 +96,6 @@ public class PrimitiveParameterValueRow extends Composite
 	MaterialColumn unitscolumn;
 	@UiField
 	MaterialColumn unitsclasscolumn;
-	
 
 	DatabaseObject obj;
 	String propertyType;
@@ -138,7 +137,7 @@ public class PrimitiveParameterValueRow extends Composite
 		more.setVisible(true);
 		less.setVisible(false);
 		rowVisible = false;
-		
+
 		valuetip.setText("Value");
 		uncertaintytip.setText("Uncertainty");
 		unitstip.setText("Units");
@@ -147,7 +146,7 @@ public class PrimitiveParameterValueRow extends Composite
 		uncertaintyclasstip.setText("Uncertainty Type");
 		unitsclasstip.setText("Units Class");
 		deletetip.setText("Delete Parameter from list");
-		
+
 		valueinput = false;
 		uncertaintyinput = false;
 	}
@@ -172,7 +171,7 @@ public class PrimitiveParameterValueRow extends Composite
 		if (parameter.getUncertainty() != null) {
 			uncertaintyTextBox.setText(parameter.getUncertainty());
 		} else {
-			//uncertaintyTextBox.setPlaceholder("0.0");
+			// uncertaintyTextBox.setPlaceholder("0.0");
 			uncertaintyTextBox.setText("0.0");
 		}
 		DatabaseObjectHierarchy spechier = info.getSubObject(parameter.getParameterSpec());
@@ -261,6 +260,7 @@ public class PrimitiveParameterValueRow extends Composite
 	public void onClickUncertaintyclass(ClickEvent event) {
 		findConcept(uncertaintyConcept);
 	}
+
 	@UiHandler("delete")
 	public void onClickClear(ClickEvent event) {
 		MaterialToast.fireToast("Delete");
@@ -274,13 +274,18 @@ public class PrimitiveParameterValueRow extends Composite
 		line.openModal();
 		uncertaintyinput = true;
 	}
+
 	@UiHandler("valueTextBox")
 	public void onClickInputValue(ClickEvent event) {
-		InputLineModal line = new InputLineModal("Parameter Value", "type value here: ", this);
-		modalpanel.clear();
-		modalpanel.add(line);
-		line.openModal();
-		valueinput = true;
+		if (!setOfUnitProperties.isClassification()) {
+			InputLineModal line = new InputLineModal("Parameter Value", "type value here: ", this);
+			modalpanel.clear();
+			modalpanel.add(line);
+			line.openModal();
+			valueinput = true;
+		} else {
+			MaterialToast.fireToast("Choose from units");
+		}
 	}
 
 	@UiHandler("parameterLabel")
@@ -305,7 +310,8 @@ public class PrimitiveParameterValueRow extends Composite
 	public void setVisibility(SetOfUnitProperties set) {
 		if (set.isKeyword()) {
 			parameterUnits.setVisible(false);
-		} if(set.isClassification()) {
+		}
+		if (set.isClassification()) {
 			uncertaintyclass.setVisible(false);
 			uncertaintyTextBox.setVisible(false);
 			parameterUnits.setVisible(true);
@@ -315,25 +321,25 @@ public class PrimitiveParameterValueRow extends Composite
 			parameterUnits.setVisible(true);
 		}
 	}
-	
+
 	public void setUpUnitList(SetOfUnitProperties set) {
 		this.setOfUnitProperties = set;
 		setVisibility(set);
-		if(set.isClassification()) {
+		if (set.isClassification()) {
 			parameterUnits.setText("Choose Keyword");
 		} else {
 			parameterUnits.setText(TextUtilities.removeNamespace(chosenUnit));
 		}
 	}
-	
+
 	@UiHandler("parameterUnits")
 	void onDropdown(ClickEvent event) {
 		unitchoice = true;
-		AskForUnitsModal ask = new AskForUnitsModal(chosenUnit,setOfUnitProperties,this);
+		AskForUnitsModal ask = new AskForUnitsModal(chosenUnit, setOfUnitProperties, this);
 		modalpanel.clear();
 		modalpanel.add(ask);
 		ask.openModal();
-	 }
+	}
 
 	@Override
 	public void conceptChosen(String topconcept, String chosenConcept) {
@@ -396,24 +402,29 @@ public class PrimitiveParameterValueRow extends Composite
 
 	@Override
 	public void setLineContent(String line) {
-		if(valueinput) {
+		if (valueinput) {
 			valueinput = false;
 			valueTextBox.setText(line);
-		} else if(uncertaintyinput) {
+		} else if (uncertaintyinput) {
 			uncertaintyinput = false;
 			uncertaintyTextBox.setText(line);
-		} else if(unitchoice) {
-			unitproperties = setOfUnitProperties.getUnitPropertyFromAbbreviation(line);
-			if(unitproperties != null) {
-				if(setOfUnitProperties.isClassification()) {
-					valueTextBox.setText(line);
-					chosenUnit = line;
+		} else if (unitchoice) {
+			Window.alert("setLineContent: '" + line + "'");
+			unitchoice = false;
+			if (setOfUnitProperties.isClassification()) {
+				valueTextBox.setText(TextUtilities.removeNamespace(line));
+				chosenUnit = line;
+			} else {
+				unitproperties = setOfUnitProperties.getUnitPropertyFromAbbreviation(line);
+				if (unitproperties != null) {
+					Window.alert("setLineContent: " + setOfUnitProperties);
+					chosenUnit = unitproperties.getUnitName();
+					parameterUnits.setText(TextUtilities.removeNamespace(chosenUnit));
 				} else {
-					chosenUnit = unitproperties.getUnitName();			
+					Window.alert("Units for '" + line + "' are null");
 				}
-				parameterUnits.setText(TextUtilities.removeNamespace(chosenUnit));
 			}
 		}
-		
+
 	}
 }

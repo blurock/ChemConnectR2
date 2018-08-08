@@ -14,11 +14,11 @@ public class ParameterProperties {
 
 	@Test
 	public void test() {
-		/*
+	
 		String parameter = "dataset:UnburntGasTemperature";
 		PrimitiveParameterValueInformation info = ConceptParsing.fillParameterInfo(parameter);
 		System.out.println(info.toString());
-		*/
+	
 		String parameter1 = "dataset:ThermocoupleType";
 		PrimitiveParameterValueInformation info1 = ConceptParsing.fillParameterInfo(parameter1);
 		System.out.println(info1.toString());
@@ -27,7 +27,7 @@ public class ParameterProperties {
 		PrimitiveParameterValueInformation info2 = ConceptParsing.fillParameterInfo(parameter2);
 		System.out.println(info2.toString());
 		
-		/*
+	
 		AttributesOfObject attributes = ConceptParsing.parseAttributes("dataset:HeatFluxBurner");
 		System.out.println("Attributes            -------------------------------------------------------------");
 		System.out.println(attributes.toString());
@@ -37,7 +37,7 @@ public class ParameterProperties {
 			System.out.println(attrinfo.toString());
 			
 		}
-		*/
+	
 	}
 
 }
