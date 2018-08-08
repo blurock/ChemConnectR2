@@ -35,7 +35,7 @@
 				<m:MaterialLink ui:field="uncertaintyTextBox" height="10px"  textColor="BLACK"/>
 				</m:MaterialTooltip>
 			</m:MaterialColumn>
-			<m:MaterialColumn grid="s2">
+			<m:MaterialColumn ui:field="unitscolumn"  grid="s2">
 			<m:MaterialTooltip ui:field="unitstip">
 				<m:MaterialLink ui:field="parameterUnits" height="10px"  textColor="BLACK"/>
 				</m:MaterialTooltip>
@@ -65,7 +65,7 @@
 					textColor="BLACK" height="10px" />
 					</m:MaterialTooltip>
 			</m:MaterialColumn>
-			<m:MaterialColumn grid="s2">
+			<m:MaterialColumn ui:field="unitsclasscolumn" grid="s2">
 			<m:MaterialTooltip ui:field="unitsclasstip">
 				<m:MaterialLink ui:field="unitclass" textColor="BLACK"
 					height="10px" />

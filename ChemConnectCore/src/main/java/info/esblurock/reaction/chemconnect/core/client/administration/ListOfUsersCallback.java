@@ -15,7 +15,7 @@ public class ListOfUsersCallback implements AsyncCallback<ArrayList<String>> {
 
 	@Override
 	public void onSuccess(ArrayList<String> users) {
-		Window.alert(users.toString());
+		Window.alert("ListOfUsersCallback: " + users.toString());
 	}
 
 }

@@ -464,8 +464,10 @@ public class ConceptParsing {
 				+ "	                " + parameter + " rdfs:subClassOf ?sub .\n" 
 				+ "                  ?sub owl:onProperty ?prop .\n"
 				+ "                  ?sub owl:onClass ?parameter\n" + "              }";
+		
 		List<Map<String, RDFNode>> lst2 = OntologyBase.resultSetToMap(query2);
 		List<Map<String, String>> stringlst2 = OntologyBase.resultmapToStrings(lst2);
+		
 		for (Map<String, String> map : stringlst2) {
 			String propS = map.get("prop");
 			String parameterS = map.get("parameter");

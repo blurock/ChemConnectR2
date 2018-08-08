@@ -168,7 +168,6 @@ public class UploadFileToBlobStorage extends Composite implements DetermineBlobT
 
 	@Override
 	public void handleTargetBlob(GCSBlobFileInformation fileinfo) {
-		Window.alert(fileinfo.toString());
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		GCSContentCallback callback = new GCSContentCallback(this);
 		async.moveBlobFromUpload(fileinfo,callback);

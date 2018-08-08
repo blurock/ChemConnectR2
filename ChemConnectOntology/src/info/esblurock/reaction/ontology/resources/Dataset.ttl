@@ -2879,6 +2879,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :EvaporationSystemType rdf:type owl:Class ;
                        rdfs:subClassOf :FuelEvaporatorKeywordParameter ,
                                        [ rdf:type owl:Restriction ;
+                                         owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
+                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                         owl:onClass :EvaporationSystemClassification
+                                       ] ,
+                                       [ rdf:type owl:Restriction ;
                                          owl:onProperty <http://purl.org/linked-data/cube#concept> ;
                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                          owl:onClass :LiquidFuelToGas
@@ -2888,12 +2893,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                          owl:onClass :DeviceComponentSpecification
                                        ] ;
-                       <http://www.w3.org/2004/02/skos/core#example> :EvaporationSystemClass .
+                       <http://www.w3.org/2004/02/skos/core#example> :EvaporationSystemClassification .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :EvaporationSystemType ;
    owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
-   owl:annotatedTarget :EvaporationSystemClass ;
+   owl:annotatedTarget :EvaporationSystemClassification ;
    <http://www.w3.org/2004/02/skos/core#example> "ControlledEvaporationMixing"
  ] .
 
@@ -3626,13 +3631,15 @@ Under the general type of is the actual data object referenced by the ChemConnec
             rdfs:subClassOf :MassFlowControllerKeywordParameter ,
                             [ rdf:type owl:Restriction ;
                               owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
-                              owl:someValuesFrom :GasMFCKeyword
+                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                              owl:onClass :GasMFCClassification
                             ] ,
                             [ rdf:type owl:Restriction ;
                               owl:onProperty <http://purl.org/linked-data/cube#concept> ;
                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                               owl:onClass :ConceptMassFlowControllerConfiguration
-                            ] .
+                            ] ;
+            <http://www.w3.org/2004/02/skos/core#example> :GasMFCClassification .
 
 
 ###  http://www.esblurock.info/dataset#GasMassFlowController
@@ -4874,8 +4881,17 @@ Under the general type of is the actual data object referenced by the ChemConnec
                   rdfs:subClassOf :MoleculeBeamKeywords ,
                                   [ rdf:type owl:Restriction ;
                                     owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
-                                    owl:someValuesFrom :IonizationSourceKeyword
-                                  ] .
+                                    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                    owl:onClass :IonizationSourceClassification
+                                  ] ;
+                  <http://www.w3.org/2004/02/skos/core#example> :IonizationSourceClassification .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :IonizationSource ;
+   owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
+   owl:annotatedTarget :IonizationSourceClassification ;
+   <http://www.w3.org/2004/02/skos/core#example> :IonSourceEI
+ ] .
 
 
 ###  http://www.esblurock.info/dataset#IonizationSourceClassification
@@ -4959,6 +4975,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :LiquidMFCType rdf:type owl:Class ;
                rdfs:subClassOf :MassFlowControllerKeywordParameter ,
                                [ rdf:type owl:Restriction ;
+                                 owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
+                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                 owl:onClass :LiquidMFCClassification
+                               ] ,
+                               [ rdf:type owl:Restriction ;
                                  owl:onProperty <http://purl.org/linked-data/cube#concept> ;
                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                  owl:onClass :LiquidFlowRegulation
@@ -4968,12 +4989,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                  owl:onClass :DeviceComponentSpecification
                                ] ;
-               <http://www.w3.org/2004/02/skos/core#example> :LiquidMFCClass .
+               <http://www.w3.org/2004/02/skos/core#example> :LiquidMFCClassification .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :LiquidMFCType ;
    owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
-   owl:annotatedTarget :LiquidMFCClass ;
+   owl:annotatedTarget :LiquidMFCClassification ;
    <http://www.w3.org/2004/02/skos/core#example> "Cori-FlowMassController"
  ] .
 
@@ -6524,8 +6545,16 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                 owl:onClass :ProbeMaterialKeyword
-                               ] .
+                                 owl:onClass :ProbeMaterialClassification
+                               ] ;
+               <http://www.w3.org/2004/02/skos/core#example> :ProbeMaterialClassification .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :ProbeMaterial ;
+   owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
+   owl:annotatedTarget :ProbeMaterialClassification ;
+   <http://www.w3.org/2004/02/skos/core#example> :QuartzMaterialProbe
+ ] .
 
 
 ###  http://www.esblurock.info/dataset#ProbeMaterialClassification
@@ -6559,8 +6588,16 @@ Under the general type of is the actual data object referenced by the ChemConnec
                             [ rdf:type owl:Restriction ;
                               owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                              owl:onClass :ProbeShapeKeyword
-                            ] .
+                              owl:onClass :ProbeShapeClassication
+                            ] ;
+            <http://www.w3.org/2004/02/skos/core#example> :ProbeShapeClassication .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :ProbeShape ;
+   owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
+   owl:annotatedTarget :ProbeShapeClassication ;
+   <http://www.w3.org/2004/02/skos/core#example> :ProbeStraightCone
+ ] .
 
 
 ###  http://www.esblurock.info/dataset#ProbeShapeClassication
@@ -7403,6 +7440,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :ThermocoupleType rdf:type owl:Class ;
                   rdfs:subClassOf :KeywordParameter ,
                                   [ rdf:type owl:Restriction ;
+                                    owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
+                                    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                    owl:onClass :ThermocoupleTypeClassification
+                                  ] ,
+                                  [ rdf:type owl:Restriction ;
                                     owl:onProperty <http://purl.org/linked-data/cube#concept> ;
                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                     owl:onClass :TemperatureSensor
@@ -7412,12 +7454,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                     owl:onClass :DeviceComponentSpecification
                                   ] ;
-                  <http://www.w3.org/2004/02/skos/core#example> :ThermocoupleClassification .
+                  <http://www.w3.org/2004/02/skos/core#example> :ThermocoupleTypeClassification .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :ThermocoupleType ;
    owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
-   owl:annotatedTarget :ThermocoupleClassification ;
+   owl:annotatedTarget :ThermocoupleTypeClassification ;
    <http://www.w3.org/2004/02/skos/core#example> :ThermocoupleTypeT
  ] .
 

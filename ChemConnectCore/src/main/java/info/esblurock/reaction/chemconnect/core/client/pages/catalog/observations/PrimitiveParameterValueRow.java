@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.TextAlign;
+import gwt.material.design.client.ui.MaterialColumn;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialRow;
@@ -91,6 +92,10 @@ public class PrimitiveParameterValueRow extends Composite
 	MaterialTooltip unitsclasstip;
 	@UiField
 	MaterialTooltip deletetip;
+	@UiField
+	MaterialColumn unitscolumn;
+	@UiField
+	MaterialColumn unitsclasscolumn;
 	
 
 	DatabaseObject obj;
@@ -160,9 +165,8 @@ public class PrimitiveParameterValueRow extends Composite
 			parameterLabel.setText("Choose Label");
 		}
 		if (parameter.getValueAsString() != null) {
-			valueTextBox.setText(parameter.getValueAsString());
+			valueTextBox.setText(TextUtilities.removeNamespace(parameter.getValueAsString()));
 		} else {
-			//valueTextBox.setPlaceholder("Value");
 			valueTextBox.setText("Value");
 		}
 		if (parameter.getUncertainty() != null) {
@@ -183,12 +187,8 @@ public class PrimitiveParameterValueRow extends Composite
 		if (units.getUnitsOfValue() != null) {
 			chosenUnit = units.getUnitsOfValue();
 			parameterUnits.setVisible(false);
-			//unitsTextBox.setVisible(true);
-			//unitsTextBox.setText(TextUtilities.removeNamespace(chosenUnit));
 		} else {
 			parameterUnits.setVisible(false);
-			//unitsTextBox.setVisible(true);
-			//unitsTextBox.setPlaceholder("Units");
 		}
 		if (units.getUnitClass() != null) {
 			chosenUnitClass = units.getUnitClass();
@@ -309,6 +309,8 @@ public class PrimitiveParameterValueRow extends Composite
 			uncertaintyclass.setVisible(false);
 			uncertaintyTextBox.setVisible(false);
 			parameterUnits.setVisible(true);
+			unitsclasscolumn.setGrid("s5");
+			unitscolumn.setGrid("s5");
 		} else {
 			parameterUnits.setVisible(true);
 		}
@@ -317,7 +319,11 @@ public class PrimitiveParameterValueRow extends Composite
 	public void setUpUnitList(SetOfUnitProperties set) {
 		this.setOfUnitProperties = set;
 		setVisibility(set);
-		parameterUnits.setText(TextUtilities.removeNamespace(chosenUnit));
+		if(set.isClassification()) {
+			parameterUnits.setText("Choose Keyword");
+		} else {
+			parameterUnits.setText(TextUtilities.removeNamespace(chosenUnit));
+		}
 	}
 	
 	@UiHandler("parameterUnits")
