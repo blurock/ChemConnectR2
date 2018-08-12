@@ -20,7 +20,7 @@ public class CreateDefault {
 
 	@Test
 	public void test() {
-		
+		/*
 		Storage storage = StorageOptions.getDefaultInstance().getService();
 	    String bucketName = "chemconnect"; // Change this to something unique
 	    Bucket bucket = storage.create(BucketInfo.of(bucketName));
@@ -29,7 +29,7 @@ public class CreateDefault {
 	    for (Blob currentBlob : bucket.list().iterateAll()) {
 	    	System.out.println(currentBlob);
 	    }
-
+*/
 		
 		DatabaseObject obj = new DatabaseObject("AdministrationCatalog","Public","Administration","1" );
 		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,"");

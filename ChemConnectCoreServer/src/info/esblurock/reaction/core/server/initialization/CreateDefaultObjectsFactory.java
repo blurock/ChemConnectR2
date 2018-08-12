@@ -21,7 +21,6 @@ import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
 import info.esblurock.reaction.core.server.db.InterpretData;
 import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.io.db.QueryBase;
-import info.esblurock.reaction.chemconnect.core.data.dataset.AttributeInDataset;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataObjectLink;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHierarchy;
@@ -124,7 +123,7 @@ public class CreateDefaultObjectsFactory {
 				
 		String obssetid = methodology.getObservationSpecs();
 		DatabaseObjectHierarchy obssethier = methodhier.getSubObject(obssetid);
-		fillObservationSpecification(methodologyS,obssethier);
+		fillInputOutputObservationSpecifications(methodologyS,obssethier);
 		
 		String paramid = methodology.getParameterValues();
 		DatabaseObjectHierarchy paramsethier = methodhier.getSubObject(paramid);
@@ -209,11 +208,11 @@ public class CreateDefaultObjectsFactory {
 				.getSubElementStructureFromIDObject(OntologyKeys.observationSpecs);
 		String obsid = createSuffix(obj, element);
 		obsobj.setIdentifier(obsid);
-		fillObservationSpecification(devicename,obspecset);
+		fillInputOutputObservationSpecifications(devicename,obspecset);
 		return hierarchy;
 	}
 	
-	public static void fillObservationSpecification(String setofobservationsS,
+	public static void fillInputOutputObservationSpecifications(String setofobservationsS,
 			DatabaseObjectHierarchy obspecset) {
 		ChemConnectCompoundMultiple obspecmulti = (ChemConnectCompoundMultiple) obspecset.getObject();
 		String obsspecID = obspecmulti.getIdentifier();
@@ -221,22 +220,26 @@ public class CreateDefaultObjectsFactory {
 		
 		Set<String> observations = ConceptParsing.setOfObservationsForSubsystem(setofobservationsS);
 		for(String observation : observations) {
-			DatabaseObject subobsobj =new DatabaseObject(obspecmulti);
+			DatabaseObject subobsobj = new DatabaseObject(obspecmulti);
 			String specid = subobsobj.getIdentifier() + "-" + ChemConnectCompoundDataStructure.removeNamespace(observation);
 			subobsobj.setIdentifier(specid);
 			DatabaseObjectHierarchy obsspechier = InterpretData.ObservationSpecification.createEmptyObject(subobsobj);
-			ObservationSpecification specification = (ObservationSpecification) obsspechier.getObject();
-			specification.setParentLink(obsspecID);
-			obspecmulti.addID(specification.getIdentifier());
+			fillObservationSpecification(obsspechier,observation,obsspecID);
+			obspecmulti.addID(obsspechier.getObject().getIdentifier());
 			obspecset.addSubobject(obsspechier);
-			specification.setObservationLabel(observation);
-			String measurespecid = specification.getMeasureSpecifications();
-			fillMeasurementValues(observation, obsspechier, measurespecid);
-			String dimensionspecid = specification.getDimensionSpecifications();
-			fillDimensionValues(observation, obsspechier, dimensionspecid);
 		}
 	}
 
+	public static void fillObservationSpecification(DatabaseObjectHierarchy obsspechier, String observation, String parentID) {
+		ObservationSpecification specification = (ObservationSpecification) obsspechier.getObject();
+		specification.setParentLink(parentID);
+		specification.setObservationLabel(observation);
+		String measurespecid = specification.getMeasureSpecifications();
+		fillMeasurementValues(observation, obsspechier, measurespecid,false,true);
+		String dimensionspecid = specification.getDimensionSpecifications();
+		fillMeasurementValues(observation, obsspechier, dimensionspecid,true,true);
+	}
+	
 	public static void setOneLineDescription(DatabaseObjectHierarchy hierarchy, String oneline) {
 		ChemConnectDataStructure structure = (ChemConnectDataStructure) hierarchy.getObject();
 		DatabaseObjectHierarchy descrhierarchy = hierarchy.getSubObject(structure.getDescriptionDataData());
@@ -398,6 +401,7 @@ public class CreateDefaultObjectsFactory {
 
 		return orghierarchy;
 	}
+	
 	static public void createAndWriteDefaultUserOrgAndCatagories(	String username, String access, String owner,
 			String orgname, String title, String sourceID) {
 		DatabaseObject obj = new DatabaseObject(username, access, owner, sourceID);
@@ -434,15 +438,8 @@ public class CreateDefaultObjectsFactory {
 		DatabaseObjectHierarchy usercat = fillCataogHierarchyForUser(catobj,
 				user.getObject().getIdentifier(), orgcat.getObject().getIdentifier());
 		
-		//System.out.println("================================================================");
-		//System.out.println(usercat);
-		//System.out.println("================================================================");
-		
-		//System.out.println(orgcat.toString());
-		
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(orgcat);
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(usercat);
-		
 	}
 
 	static DatabaseObjectHierarchy fillOrganizationDescription(DatabaseObject obj, String organizationname) {
@@ -504,47 +501,33 @@ public class CreateDefaultObjectsFactory {
 		setOneLineDescription(sethier, oneline);
 		
 		String measureid = set.getMeasurementValues();
-		fillMeasurementValues(parameter, sethier,measureid);
+		fillMeasurementValues(parameter, sethier,measureid,false,false);
 		String dimensionid = set.getDimensionValues();
-		fillDimensionValues(parameter, sethier,dimensionid);
+		fillMeasurementValues(parameter, sethier,dimensionid,true,false);
 		
 		return sethier;
 	}
-	
-	public static DatabaseObjectHierarchy fillMeasurementValues(String parameter, DatabaseObjectHierarchy set, String measureid) {
-		String measure = "<http://purl.org/linked-data/cube#measure>";
-		Set<AttributeDescription> measureset = ConceptParsing.propertyInConcept(measure, parameter);
+	public static DatabaseObjectHierarchy fillMeasurementValues(String parameter, DatabaseObjectHierarchy set, String measureid, boolean dimension, boolean specification) {
+		String type = "<http://purl.org/linked-data/cube#measure>";
+		if(dimension) {
+			type = "<http://purl.org/linked-data/cube#dimension>";
+		}
+		Set<AttributeDescription> measureset = ConceptParsing.propertyInConcept(type, parameter);
 
 		DatabaseObjectHierarchy measurehier = set.getSubObject(measureid);
 		ChemConnectCompoundMultiple measremul = (ChemConnectCompoundMultiple) measurehier.getObject();
 		for (AttributeDescription attr : measureset) {
 			DatabaseObjectHierarchy paramhier = fillParameterValueAndSpecification(measremul, attr.getAttributeName(),
-					false);
+					dimension,specification);
 			measremul.addID(paramhier.getObject().getIdentifier());
 			measurehier.addSubobject(paramhier);
 		}
 		set.addSubobject(measurehier);
 		return measurehier;
 	}
-	
-	public static DatabaseObjectHierarchy fillDimensionValues(String parameter, DatabaseObjectHierarchy set, String dimensionid) {
-		String dimension = "<http://purl.org/linked-data/cube#dimension>";
-		Set<AttributeDescription> dimensionset = ConceptParsing.propertyInConcept(dimension, parameter);
-		DatabaseObjectHierarchy dimensionhier = set.getSubObject(dimensionid);
-		ChemConnectCompoundMultiple dimensionmult = (ChemConnectCompoundMultiple) dimensionhier.getObject();
-		for (AttributeDescription attr : dimensionset) {
-			DatabaseObjectHierarchy paramhier = fillParameterValueAndSpecification(dimensionmult,
-					attr.getAttributeName(), true);
-			dimensionmult.addID(paramhier.getObject().getIdentifier());
-			dimensionhier.addSubobject(paramhier);
-		}
-		set.addSubobject(dimensionhier);
-		return dimensionhier;
-	}
-
 	public static DatabaseObjectHierarchy fillParameterValue(DatabaseObject valueobj, boolean dimension) {
-		DatabaseObjectHierarchy attribute = InterpretData.AttributeInDataset.createEmptyObject(valueobj);
-		AttributeInDataset attr = (AttributeInDataset) attribute.getObject();
+		DatabaseObjectHierarchy attribute = InterpretData.DatabaseObject.createEmptyObject(valueobj);
+		DatabaseObject attr = (DatabaseObject) attribute.getObject();
 		DatabaseObjectHierarchy parameterspec = InterpretData.ParameterSpecification.createEmptyObject(valueobj);
 		ParameterSpecification pspec = (ParameterSpecification) parameterspec.getObject();
 		ParameterValue value = null;
@@ -571,8 +554,9 @@ public class CreateDefaultObjectsFactory {
 		DatabaseObjectHierarchy valuehier = InterpretData.ParameterValue.createEmptyObject(subobj);
 		return fillParameterValueAndSpecification(valuehier,parameter);
 	}
+	
 	public static DatabaseObjectHierarchy fillParameterValueAndSpecification(DatabaseObject obj, String parameter,
-			boolean dimension) {
+			boolean dimension, boolean specification) {
 		DatabaseObject subobj = new DatabaseObject(obj);
 		int pos = parameter.indexOf(":");
 		String id = obj.getIdentifier() + "-" + parameter.substring(pos+1);
@@ -580,13 +564,48 @@ public class CreateDefaultObjectsFactory {
 
 		DatabaseObjectHierarchy valuehier = null;
 		if (dimension) {
-			valuehier = InterpretData.DimensionParameterValue.createEmptyObject(subobj);
+			if(specification) {
+				valuehier = InterpretData.DimensionParameterSpecification.createEmptyObject(subobj);
+			} else {
+				valuehier = InterpretData.DimensionParameterValue.createEmptyObject(subobj);
+			}
 		} else {
-			valuehier = InterpretData.MeasurementParameterValue.createEmptyObject(subobj);
+			if(specification) {
+				valuehier = InterpretData.MeasurementParameterSpecification.createEmptyObject(subobj);
+			} else {
+				valuehier = InterpretData.MeasurementParameterValue.createEmptyObject(subobj);
+			}
 		}
-		fillParameterValueAndSpecification(valuehier,parameter);
+		if(specification) {
+			fillParameterSpecification(valuehier,parameter);
+		} else {
+			fillParameterValueAndSpecification(valuehier,parameter);			
+		}
 		return valuehier;
 	}
+
+	public static DatabaseObjectHierarchy fillParameterSpecification(DatabaseObjectHierarchy spechier, String parameter) {
+		ParameterSpecification parameterspec = (ParameterSpecification) spechier.getObject();
+
+		String unitsID = parameterspec.getUnits();
+		
+		DatabaseObjectHierarchy unitshier = spechier.getSubObject(unitsID);
+		ValueUnits units = (ValueUnits) unitshier.getObject();
+
+		String conceptID = parameterspec.getPurposeandconcept();
+
+		DatabaseObjectHierarchy concepthier = spechier.getSubObject(conceptID);
+		PurposeConceptPair concept = (PurposeConceptPair) concepthier.getObject();
+
+		ConceptParsing.fillAnnotatedExample(parameter, units, concept, parameterspec, null);
+		ConceptParsing.fillInProperties(parameter, units, concept);
+		
+		parameterspec.setParameterLabel(parameter);
+
+		return spechier;
+	}
+
+	
 	public static DatabaseObjectHierarchy fillParameterValueAndSpecification(DatabaseObjectHierarchy valuehier, String parameter) {
 		ParameterValue value = (ParameterValue) valuehier.getObject();
 		String specID = value.getParameterSpec();
@@ -605,7 +624,7 @@ public class CreateDefaultObjectsFactory {
 		ConceptParsing.fillAnnotatedExample(parameter, units, concept, parameterspec, value);
 		ConceptParsing.fillInProperties(parameter, units, concept);
 		
-		value.setParameterLabel(parameter);
+		parameterspec.setParameterLabel(parameter);
 
 		return valuehier;
 	}
@@ -634,4 +653,77 @@ public class CreateDefaultObjectsFactory {
 		return elementmap;
 	}
 
+	
+	/*
+	public static DatabaseObjectHierarchy fillMeasurementSpecification(String parameter, DatabaseObjectHierarchy set, String measureid, boolean dimension) {
+		String type = "<http://purl.org/linked-data/cube#measure>";
+		if(dimension) {
+			type = "<http://purl.org/linked-data/cube#dimension>";
+		}
+		Set<AttributeDescription> measureset = ConceptParsing.propertyInConcept(type, parameter);
+
+		DatabaseObjectHierarchy measurehier = set.getSubObject(measureid);
+		ChemConnectCompoundMultiple measremul = (ChemConnectCompoundMultiple) measurehier.getObject();
+		for (AttributeDescription attr : measureset) {
+			DatabaseObjectHierarchy paramhier = fillParameterSpecification(measremul, attr.getAttributeName(),
+					dimension);
+			measremul.addID(paramhier.getObject().getIdentifier());
+			measurehier.addSubobject(paramhier);
+		}
+		set.addSubobject(measurehier);
+		return measurehier;
+	}
+	*/
+	/*
+	public static DatabaseObjectHierarchy fillMeasurementValues(String parameter, DatabaseObjectHierarchy set, String measureid) {
+		String measure = "<http://purl.org/linked-data/cube#measure>";
+		Set<AttributeDescription> measureset = ConceptParsing.propertyInConcept(measure, parameter);
+
+		DatabaseObjectHierarchy measurehier = set.getSubObject(measureid);
+		ChemConnectCompoundMultiple measremul = (ChemConnectCompoundMultiple) measurehier.getObject();
+		for (AttributeDescription attr : measureset) {
+			DatabaseObjectHierarchy paramhier = fillParameterValueAndSpecification(measremul, attr.getAttributeName(),
+					false);
+			measremul.addID(paramhier.getObject().getIdentifier());
+			measurehier.addSubobject(paramhier);
+		}
+		set.addSubobject(measurehier);
+		return measurehier;
+	}
+	public static DatabaseObjectHierarchy fillDimensionValues(String parameter, DatabaseObjectHierarchy set, String dimensionid) {
+		String dimension = "<http://purl.org/linked-data/cube#dimension>";
+		Set<AttributeDescription> dimensionset = ConceptParsing.propertyInConcept(dimension, parameter);
+		DatabaseObjectHierarchy dimensionhier = set.getSubObject(dimensionid);
+		ChemConnectCompoundMultiple dimensionmult = (ChemConnectCompoundMultiple) dimensionhier.getObject();
+		for (AttributeDescription attr : dimensionset) {
+			DatabaseObjectHierarchy paramhier = fillParameterValueAndSpecification(dimensionmult,
+					attr.getAttributeName(), true);
+			dimensionmult.addID(paramhier.getObject().getIdentifier());
+			dimensionhier.addSubobject(paramhier);
+		}
+		set.addSubobject(dimensionhier);
+		return dimensionhier;
+	}
+*/
+/*
+	public static DatabaseObjectHierarchy fillParameterSpecification(DatabaseObject obj, String parameter,
+			boolean dimension) {
+		DatabaseObject subobj = new DatabaseObject(obj);
+		int pos = parameter.indexOf(":");
+		String id = obj.getIdentifier() + "-" + parameter.substring(pos+1);
+		subobj.setIdentifier(id);
+
+		DatabaseObjectHierarchy valuehier = null;
+		if (dimension) {
+			valuehier = InterpretData.DimensionParameterSpecification.createEmptyObject(subobj);
+		} else {
+			valuehier = InterpretData.MeasurementParameterSpecification.createEmptyObject(subobj);
+		}
+		fillParameterValueAndSpecification(valuehier,parameter);
+		return valuehier;
+	}
+*/
+	
+
+	
 }

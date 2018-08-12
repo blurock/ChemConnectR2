@@ -34,7 +34,6 @@ import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMul
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataSpecification;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataObjectLink;
-import info.esblurock.reaction.chemconnect.core.data.dataset.AttributeInDataset;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ParameterValue;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ParameterSpecification;
 import info.esblurock.reaction.chemconnect.core.data.dataset.MeasurementParameterSpecification;
@@ -407,8 +406,7 @@ public enum InterpretData {
 		}
 
 		@Override
-		public DatabaseObjectHierarchy createEmptyObject(
-				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
 			DatabaseObject obsobj = new DatabaseObject(obj);
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(OntologyKeys.setOfObservationValues);
@@ -696,55 +694,6 @@ public enum InterpretData {
 			return hierarchy;
 		}
 		
-	}, AttributeInDataset {
-
-		@Override
-		public info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject fillFromYamlString(
-				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject top, Map<String, Object> yaml,
-				String sourceID) throws IOException {
-			AttributeInDataset datastructure = null;
-			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
-			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);					
-			
-			String labelS = (String) yaml.get(StandardDatasetMetaData.parameterLabelS);
-			datastructure = new AttributeInDataset(objdata, labelS);
-			
-			return datastructure;
-		}
-
-		@Override
-		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
-			AttributeInDataset datastructure = (AttributeInDataset) object;
-			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
-			Map<String, Object> map = interpret.createYamlFromObject(object);
-
-			map.put(StandardDatasetMetaData.parameterLabelS, datastructure.getParameterLabel());
-			return map;
-		}
-
-		@Override
-		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
-			return QueryBase.getDatabaseObjectFromIdentifier(AttributeInDataset.class.getCanonicalName(),
-					identifier);
-		}
-
-		@Override
-		public String canonicalClassName() {
-			return AttributeInDataset.class.getCanonicalName();
-		}
-
-		@Override
-		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
-			DatabaseObject attrobj = new DatabaseObject(obj);
-			DataElementInformation element = DatasetOntologyParsing
-					.getSubElementStructureFromIDObject(OntologyKeys.attributeInDataset);
-			String attrid = createSuffix(obj, element);
-			attrobj.setIdentifier(attrid);
-			String label = "Parameter Label";
-			AttributeInDataset attr = new AttributeInDataset(attrobj,label);
-			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(attr);
-			return hierarchy;
-		}
 	},
 	DescriptionDataData {
 
@@ -1018,12 +967,12 @@ public enum InterpretData {
 	}, ParameterValue {
 
 		@Override
-		public info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject fillFromYamlString(
+		public DatabaseObject fillFromYamlString(
 				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject top, Map<String, Object> yaml,
 				String sourceID) throws IOException {
 			ParameterValue spec = null;
-			InterpretData interpret = InterpretData.valueOf("AttributeInDataset");
-			AttributeInDataset obj = (AttributeInDataset) interpret.fillFromYamlString(top, yaml, sourceID);
+			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
+			DatabaseObject obj = (DatabaseObject) interpret.fillFromYamlString(top, yaml, sourceID);
 
 			String valueAsStringS = (String) yaml.get(StandardDatasetMetaData.valueAsStringS);
 			String uncertaintyS = (String) yaml.get(StandardDatasetMetaData.valueUncertaintyS);
@@ -1034,10 +983,9 @@ public enum InterpretData {
 		}
 
 		@Override
-		public Map<String, Object> createYamlFromObject(
-				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject object) throws IOException {
+		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
 			ParameterValue spec = (ParameterValue) object;
-			InterpretData interpret = InterpretData.valueOf("AttributeInDataset");
+			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
 			map.put(StandardDatasetMetaData.valueAsStringS, spec.getValueAsString());
@@ -1048,7 +996,7 @@ public enum InterpretData {
 		}
 
 		@Override
-		public info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject readElementFromDatabase(
+		public DatabaseObject readElementFromDatabase(
 				String identifier) throws IOException {
 			return QueryBase.getDatabaseObjectFromIdentifier(ParameterValue.class.getCanonicalName(), 
 					identifier);
@@ -1062,8 +1010,8 @@ public enum InterpretData {
 		@Override
 		public DatabaseObjectHierarchy createEmptyObject(
 				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
-			DatabaseObjectHierarchy attribute = InterpretData.AttributeInDataset.createEmptyObject(obj);
-			AttributeInDataset attr = (AttributeInDataset) attribute.getObject();
+			DatabaseObjectHierarchy attribute = InterpretData.DatabaseObject.createEmptyObject(obj);
+			DatabaseObject attr = (DatabaseObject) attribute.getObject();
 			DatabaseObjectHierarchy parameterspec = InterpretData.ParameterSpecification.createEmptyObject(obj);
 			ParameterSpecification pspec = (ParameterSpecification) parameterspec.getObject();
 			ParameterValue value = null;
@@ -1073,6 +1021,10 @@ public enum InterpretData {
 			DatabaseObjectHierarchy hier = new DatabaseObjectHierarchy(value);
 			hier.addSubobject(parameterspec);
 			hier.transferSubObjects(attribute);
+			
+			System.out.println("ParameterValue: \n" + hier.toString());
+
+			
 			return hier;
 		}
 		
@@ -1123,8 +1075,7 @@ public enum InterpretData {
 		}
 
 		@Override
-		public DatabaseObjectHierarchy createEmptyObject(
-				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
 			DatabaseObject specobj = new DatabaseObject(obj);
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(OntologyKeys.parameterSpecification);
@@ -1149,8 +1100,7 @@ public enum InterpretData {
 	}, MeasurementParameterSpecification {
 
 		@Override
-		public info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject fillFromYamlString(
-				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject top, Map<String, Object> yaml,
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml,
 				String sourceID) throws IOException {
 			MeasurementParameterSpecification measure = null;
 			InterpretData interpret = InterpretData.valueOf("ParameterSpecification");
@@ -1161,8 +1111,7 @@ public enum InterpretData {
 		}
 
 		@Override
-		public Map<String, Object> createYamlFromObject(
-				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject object) throws IOException {
+		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
 			//MeasurementParameterSpecification spec = (MeasurementParameterSpecification) object;
 
 			InterpretData interpret = InterpretData.valueOf("ParameterSpecification");
@@ -1171,7 +1120,7 @@ public enum InterpretData {
 		}
 
 		@Override
-		public info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject readElementFromDatabase(
+		public DatabaseObject readElementFromDatabase(
 				String identifier) throws IOException {
 				return QueryBase.getDatabaseObjectFromIdentifier(MeasurementParameterSpecification.class.getCanonicalName(), 
 						identifier);
@@ -1183,20 +1132,19 @@ public enum InterpretData {
 		}
 
 		@Override
-		public DatabaseObjectHierarchy createEmptyObject(
-				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
 			DatabaseObjectHierarchy spechier = InterpretData.ParameterSpecification.createEmptyObject(obj);
+						
 			ParameterSpecification spec = (ParameterSpecification) spechier.getObject();
 			MeasurementParameterSpecification mspec = new MeasurementParameterSpecification(spec);
-			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(mspec);
-			return hierarchy;
+			spechier.setObject(mspec);
+			return spechier;
 		}
 		
 	}, DimensionParameterSpecification {
 
 		@Override
-		public info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject fillFromYamlString(
-				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject top, Map<String, Object> yaml,
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml,
 				String sourceID) throws IOException {
 			DimensionParameterSpecification measure = null;
 			InterpretData interpret = InterpretData.valueOf("ParameterSpecification");
@@ -1217,8 +1165,7 @@ public enum InterpretData {
 		}
 
 		@Override
-		public info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject readElementFromDatabase(
-				String identifier) throws IOException {
+		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
 				return QueryBase.getDatabaseObjectFromIdentifier(DimensionParameterSpecification.class.getCanonicalName(), 
 						identifier);
 		}
@@ -1229,13 +1176,13 @@ public enum InterpretData {
 		}
 
 		@Override
-		public DatabaseObjectHierarchy createEmptyObject(
-				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
 			DatabaseObjectHierarchy spechier = InterpretData.ParameterSpecification.createEmptyObject(obj);
+			System.out.println("DimensionParameterSpecification: " + spechier.toString());
 			ParameterSpecification spec = (ParameterSpecification) spechier.getObject();
 			DimensionParameterSpecification dspec = new DimensionParameterSpecification(spec);
-			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(dspec);
-			return hierarchy;
+			spechier.setObject(dspec);
+			return spechier;
 		}
 		
 	}, ValueUnits {

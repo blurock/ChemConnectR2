@@ -1,6 +1,6 @@
 package info.esblurock.reaction.core.server.initialization;
 
-import static org.junit.Assert.*;
+//import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -22,6 +22,7 @@ import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMul
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.contact.RegisterContactData;
+import info.esblurock.reaction.chemconnect.core.data.dataset.MeasurementParameterSpecification;
 import info.esblurock.reaction.chemconnect.core.data.dataset.MeasurementParameterValue;
 import info.esblurock.reaction.chemconnect.core.data.dataset.RegistrerDataset;
 import info.esblurock.reaction.chemconnect.core.data.description.RegisterDescriptionData;
@@ -34,7 +35,6 @@ import info.esblurock.reaction.chemconnect.core.data.rdf.RegisterRDFData;
 import info.esblurock.reaction.chemconnect.core.data.transaction.RegisterTransactionData;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
-import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.db.image.BlobKeyCorrespondence;
 import info.esblurock.reaction.io.db.QueryBase;
 
@@ -47,7 +47,7 @@ public class UpdateDatabaseObjects {
 		// Reset the Factory so that all translators work properly.
 		ObjectifyService.setFactory(new ObjectifyFactory());
 	}
-	
+
 	@Before
 	public void setUp() {
 		this.session = ObjectifyService.begin();
@@ -70,6 +70,7 @@ public class UpdateDatabaseObjects {
 		System.out.println("Classes Registered");
 		this.helper.setUp();
 	}
+
 	@After
 	public void tearDown() {
 		AsyncCacheFilter.complete();
@@ -79,45 +80,48 @@ public class UpdateDatabaseObjects {
 
 	@Test
 	public void test() {
-		DatabaseObject obj = new DatabaseObject("AdministrationCatalog","Public","Administration","1" );
+		DatabaseObject obj = new DatabaseObject("AdministrationCatalog", "Public", "Administration", "1");
 		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillParameterValueAndSpecification(obj,
-				"dataset:ThermocouplePositionInBurner",
-				false);
+				"dataset:ThermocouplePositionInBurner", false, true);
 		System.out.println("fillSetOfObservations\n" + hierarchy.toString());
-		
-		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(hierarchy);	
-		
-		try {
-			DatabaseObject measure = QueryBase.getDatabaseObjectFromIdentifier(MeasurementParameterValue.class.getCanonicalName(),
-					"AdministrationCatalog-ThermocouplePositionInBurner");
-			System.out.println("Read:   \n" + measure.toString());
-			
-			MeasurementParameterValue value = (MeasurementParameterValue) hierarchy.getObject();
-			value.setUncertainty("new uncertainty");
-			value.setValueAsString("20000000");
 
-			measure = QueryBase.getDatabaseObjectFromIdentifier(MeasurementParameterValue.class.getCanonicalName(),
-					"AdministrationCatalog-ThermocouplePositionInBurner");
+		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(hierarchy);
+
+		try {
+			DatabaseObject measure = QueryBase.getDatabaseObjectFromIdentifier(
+					MeasurementParameterSpecification.class.getCanonicalName(),
+					"AdministrationCatalog-ThermocouplePositionInBurner-spec");
 			System.out.println("Read:   \n" + measure.toString());
-} catch (IOException e) {
+
+			MeasurementParameterSpecification value = (MeasurementParameterSpecification) hierarchy.getObject();
+			value.setDataPointUncertainty("NewDataPointUncertainty");
+
+			measure = QueryBase.getDatabaseObjectFromIdentifier(MeasurementParameterSpecification.class.getCanonicalName(),
+					"AdministrationCatalog-ThermocouplePositionInBurner-spec");
+			System.out.println("Read:   \n" + measure.toString());
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(hierarchy);	
-		
-		List<MeasurementParameterValue> lst = ObjectifyService.ofy().load().type(MeasurementParameterValue.class).list();
-		for(MeasurementParameterValue value : lst) {
+		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(hierarchy);
+
+		List<MeasurementParameterValue> lst = ObjectifyService.ofy().load().type(MeasurementParameterValue.class)
+				.list();
+		for (MeasurementParameterValue value : lst) {
 			System.out.println("------------------------------------------------------");
 			System.out.println(value.toString());
 		}
-		
+
 		/*
-		DatabaseObjectHierarchy readhierarchy = ExtractCatalogInformation.getCatalogObject("AdministrationCatalog-ThermocouplePositionInBurner", 
-				"dataset:MeasurementParameterValue");
-				
-		System.out.println("fillSetOfObservations   ExtractCatalogInformation.getCatalogObject\n" + 
-				readhierarchy.toString());
-				*/
+		 * DatabaseObjectHierarchy readhierarchy =
+		 * ExtractCatalogInformation.getCatalogObject(
+		 * "AdministrationCatalog-ThermocouplePositionInBurner",
+		 * "dataset:MeasurementParameterValue");
+		 * 
+		 * System.out.
+		 * println("fillSetOfObservations   ExtractCatalogInformation.getCatalogObject\n"
+		 * + readhierarchy.toString());
+		 */
 	}
 
 }

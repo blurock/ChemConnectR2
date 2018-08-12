@@ -254,17 +254,31 @@ public class ConceptParsing {
  *  that is why the test: if (!attributes.contains(attribute))
  */
 	public static Set<AttributeDescription> propertyInConcept(String property, String concept) {
-		String query = "SELECT ?propertyname\n" + " WHERE { " + concept + " <" + ReasonerVocabulary.directSubClassOf
-				+ ">  ?obj .\n" + "              ?obj  owl:onProperty " + property + " .\n"
-				+ "              ?obj owl:onClass ?propertyname\n" + "         }";
-
+		HashSet<AttributeDescription> set = new HashSet<AttributeDescription>();
+		String query = "SELECT ?propertyname\n" 
+				+ " WHERE { " + concept + " <" + ReasonerVocabulary.directSubClassOf + ">  ?obj .\n" 
+				+ "              ?obj  owl:onProperty " + property + " .\n"
+				+ "              ?obj owl:onClass ?propertyname\n" 
+				+ "         }";
+		propertyInConceptQuery(set,query,concept,false);
+		
+		String querysome = "SELECT ?propertyname\n" 
+				+ " WHERE { " + concept + " <" + ReasonerVocabulary.directSubClassOf + ">  ?obj .\n" 
+				+ "              ?obj  owl:onProperty " + property + " .\n"
+				+ "              ?obj owl:onClass ?propertyname\n" 
+				+ "         }";
+		propertyInConceptQuery(set,querysome,concept,false);
+		
+		return set;
+	}
+		
+		public static void propertyInConceptQuery(Set<AttributeDescription> set, String query, String concept, boolean some) {
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
 		AttributesOfObject attset = parseAttributes(concept);
 		Map<String, Set<String>> subsystemsOfAttributes = attset.getSubsystemsOfAttributes();
 		HashSet<String> attributes = new HashSet<String>();
 
-		HashSet<AttributeDescription> set = new HashSet<AttributeDescription>();
 		for (Map<String, String> map : stringlst) {
 			String attribute = map.get("propertyname");
 			if (!attributes.contains(attribute)) {
@@ -278,10 +292,10 @@ public class ConceptParsing {
 					}
 				}
 				AttributeDescription descr = new AttributeDescription(attribute, subsystem);
+				descr.setDynamic(some);
 				set.add(descr);
 			}
 		}
-		return set;
 	}
 
 	/**
@@ -544,7 +558,9 @@ public class ConceptParsing {
 			String example = map.get("example");
 			String unit = map.get("unit");
 			units.setUnitsOfValue(unit);
-			value.setValueAsString(example);
+			if(value != null) {
+				value.setValueAsString(example);
+			}
 		}
 
 	}

@@ -7,6 +7,7 @@ import java.util.Set;
 public class AttributeDescription implements Serializable {
 	private static final long serialVersionUID = 1L;
 	String attributeName;
+	boolean dynamic;
 	Set<String> subsystems;
 	
 	public AttributeDescription() {
@@ -15,6 +16,7 @@ public class AttributeDescription implements Serializable {
 	public AttributeDescription(String attributeName, Set<String> subsystems) {
 		this.attributeName = attributeName;
 		this.subsystems = subsystems;
+		this.dynamic = false;
 	}
 
 	public String getAttributeName() {
@@ -25,6 +27,14 @@ public class AttributeDescription implements Serializable {
 		return subsystems;
 	}
 	
+	public boolean isDynamic() {
+		return dynamic;
+	}
+
+	public void setDynamic(boolean dynamic) {
+		this.dynamic = dynamic;
+	}
+
 	public String toString() {
 		return toString("");
 	}

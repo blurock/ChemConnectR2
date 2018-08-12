@@ -5,6 +5,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialPanel;
+import info.esblurock.reaction.chemconnect.core.client.pages.catalog.SetUpCollapsibleItem;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
@@ -23,7 +24,7 @@ public class SetUpDatabaseObjectHierarchyCallback implements AsyncCallback<Datab
 
 	@Override
 	public void onSuccess(DatabaseObjectHierarchy transfer) {
-		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(transfer,modalpanel);
+		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(transfer,modalpanel);		
 		panel.add(item);
 	}
 

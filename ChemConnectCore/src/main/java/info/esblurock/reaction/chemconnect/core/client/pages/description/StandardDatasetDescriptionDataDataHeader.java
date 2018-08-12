@@ -42,8 +42,8 @@ public class StandardDatasetDescriptionDataDataHeader extends Composite implemen
 	MaterialTooltip titletooltip;
 	@UiField
 	MaterialLink title;
-	@UiField
-	MaterialLink save;
+	//@UiField
+	//MaterialLink save;
 	@UiField
 	MaterialTextArea abstractText;
 	@UiField
@@ -91,6 +91,7 @@ public class StandardDatasetDescriptionDataDataHeader extends Composite implemen
 	public void fill(DescriptionDataData description) {
 		titletooltip.setText(description.getIdentifier());
 		title.setText(description.getOnlinedescription());
+		abstractText.setLabel("Abstract");
 		abstractText.setText(description.getDescriptionAbstract());
 		owner.setText(description.getOwner());
 		accessibilty.setText(description.getAccess());

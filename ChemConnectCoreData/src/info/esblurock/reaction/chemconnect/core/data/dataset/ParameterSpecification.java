@@ -12,6 +12,8 @@ public class ParameterSpecification extends DataSpecification {
 	@Index
 	String parameterLabel;
 	@Index
+	Boolean dynamic;
+	@Index
 	String DataPointUncertainty;
 	@Index
 	String Units;

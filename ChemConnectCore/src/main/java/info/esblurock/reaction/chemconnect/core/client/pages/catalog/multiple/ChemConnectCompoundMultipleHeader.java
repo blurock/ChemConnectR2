@@ -13,12 +13,14 @@ import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import info.esblurock.reaction.chemconnect.core.client.catalog.SetUpDatabaseObjectHierarchyCallback;
+import info.esblurock.reaction.chemconnect.core.client.pages.catalog.SetUpCollapsibleItem;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 public class ChemConnectCompoundMultipleHeader extends Composite {
 
@@ -63,11 +65,29 @@ public class ChemConnectCompoundMultipleHeader extends Composite {
 	@UiHandler("add")
 	public void onAddClick(ClickEvent event) {
 		Window.alert("Add item: " + dataType);
-		MaterialPanel modalpanel = item.getModalpanel();
-		MaterialCollapsible contentcollapsible = item.getSubElementCollapsible();
-		SetUpDatabaseObjectHierarchyCallback callback = new SetUpDatabaseObjectHierarchyCallback(contentcollapsible,modalpanel);
+		ChemConnectCompoundMultipleCallback callback = new ChemConnectCompoundMultipleCallback(this);
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		DatabaseObject obj = determineSubObjectID();
 		async.createEmptyObject(obj,dataType,callback);
 	}
+	public void addMultipleObject(DatabaseObjectHierarchy obj) {
+		String type = obj.getObject().getClass().getSimpleName();
+		Window.alert("addMultipleObject:  " + type);
+		SetUpCollapsibleItem setup = SetUpCollapsibleItem.valueOf(type);
+		if(setup != null) {
+			MaterialPanel modalpanel = item.getModalpanel();
+			Window.alert("addMultipleObject:  " + obj.toString());
+			StandardDatasetObjectHierarchyItem itemobj = new StandardDatasetObjectHierarchyItem(obj,modalpanel);		
+			if(setup.isInformation()) {
+				Window.alert("addMultipleObject:  information" );
+				item.addInfoItem(itemobj);
+			} else {
+				Window.alert("addMultipleObject:  subitem" );
+				item.addSubItem(itemobj);
+			}
+		} else {
+			Window.alert("addMultipleObject:  not setup found");
+		}
+	}
+	
 }

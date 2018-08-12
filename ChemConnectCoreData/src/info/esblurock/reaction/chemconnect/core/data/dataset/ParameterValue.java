@@ -7,7 +7,7 @@ import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 
 @SuppressWarnings("serial")
 @Entity
-public class ParameterValue extends AttributeInDataset {
+public class ParameterValue extends DatabaseObject {
 	
 	@Index
 	String valueAsString;
@@ -19,7 +19,7 @@ public class ParameterValue extends AttributeInDataset {
 	public ParameterValue() {
 	}
 
-	public ParameterValue(AttributeInDataset attribute, String valueAsString, String uncertainty, String parameterSpec) {
+	public ParameterValue(DatabaseObject attribute, String valueAsString, String uncertainty, String parameterSpec) {
 		this.fill(attribute,valueAsString,uncertainty,parameterSpec);
 	}
 	
@@ -42,7 +42,7 @@ public class ParameterValue extends AttributeInDataset {
 		this.parameterSpec = value.getParameterSpec();
 	}
 	
-	public void fill(AttributeInDataset attribute, String valueAsString, String uncertainty, String parameterSpec) {
+	public void fill(DatabaseObject attribute, String valueAsString, String uncertainty, String parameterSpec) {
 		super.fill(attribute);
 		this.valueAsString = valueAsString;
 		this.uncertainty = uncertainty;

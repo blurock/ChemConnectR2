@@ -2,6 +2,8 @@ package info.esblurock.reaction.chemconnect.core.data.dataset;
 
 import com.googlecode.objectify.annotation.Entity;
 
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+
 @SuppressWarnings("serial")
 @Entity
 public class DimensionParameterValue extends ParameterValue {
@@ -13,7 +15,7 @@ public class DimensionParameterValue extends ParameterValue {
 	public DimensionParameterValue(ParameterValue value) {
 		super(value);
 	}
-	public DimensionParameterValue(AttributeInDataset attribute, String valueAsString, String uncertainty,
+	public DimensionParameterValue(DatabaseObject attribute, String valueAsString, String uncertainty,
 			String parameterSpec) {
 		super(attribute, valueAsString, uncertainty, parameterSpec);
 	}

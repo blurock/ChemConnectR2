@@ -14,6 +14,7 @@ import info.esblurock.reaction.chemconnect.core.client.device.StandardDatasetSub
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.hierarchy.StandardDatasetCatalogHierarchyHeader;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.methodology.StandardDatasetMethodologyHeader;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.multiple.ChemConnectCompoundMultipleHeader;
+import info.esblurock.reaction.chemconnect.core.client.pages.catalog.observations.ParameterValueHeader;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.observations.PrimitiveParameterValueRow;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.observations.StandardDatasetObservationSpecificationHeader;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.observations.StandardDatasetParameterSpecificationHeader;
@@ -289,7 +290,8 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
-			PrimitiveParameterValueRow header = new PrimitiveParameterValueRow(item.getHierarchy());
+			ParameterValueHeader header = new ParameterValueHeader(item.getHierarchy());
+			//PrimitiveParameterValueRow header = new PrimitiveParameterValueRow(item.getHierarchy());
 			item.addHeader(header);
 		}
 
@@ -318,7 +320,8 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
-			PrimitiveParameterValueRow header = new PrimitiveParameterValueRow(item.getHierarchy());
+			ParameterValueHeader header = new ParameterValueHeader(item.getHierarchy());
+			//PrimitiveParameterValueRow header = new PrimitiveParameterValueRow(item.getHierarchy());
 			item.addHeader(header);
 			
 		}
@@ -347,7 +350,8 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
-			PrimitiveParameterValueRow header = new PrimitiveParameterValueRow(item.getHierarchy());
+			ParameterValueHeader header = new ParameterValueHeader(item.getHierarchy());
+			//PrimitiveParameterValueRow header = new PrimitiveParameterValueRow(item.getHierarchy());
 			item.addHeader(header);
 			
 		}
@@ -504,7 +508,7 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public boolean isInformation() {
-			return false;
+			return true;
 		}
 
 		@Override

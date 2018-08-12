@@ -7,12 +7,10 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.constants.Color;
-import gwt.material.design.client.constants.TextAlign;
 import gwt.material.design.client.ui.MaterialColumn;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
@@ -30,7 +28,6 @@ import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.concepts.SetOfUnitProperties;
 import info.esblurock.reaction.chemconnect.core.data.concepts.UnitProperties;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ParameterSpecification;
-import info.esblurock.reaction.chemconnect.core.data.dataset.ParameterValue;
 import info.esblurock.reaction.chemconnect.core.data.dataset.PurposeConceptPair;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ValueUnits;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
@@ -48,14 +45,22 @@ public class PrimitiveParameterValueRow extends Composite
 	String conceptConcept = "dataset:ChemConnectConceptProperties";
 	String parameterNames = "dataset:ChemConnectParameter";
 	String uncertaintyConcept = "dataset:ChemConnectUncertaintyTypes";
+	
 	@UiField
-	MaterialPanel modalpanel;
+	MaterialColumn uncertaintycolumn;
 	@UiField
-	MaterialLink parameterLabel;
+	MaterialColumn valuecolumn;
+	@UiField
+	MaterialColumn labelcolumn;
+	
 	@UiField
 	MaterialLink valueTextBox;
 	@UiField
 	MaterialLink uncertaintyTextBox;
+	@UiField
+	MaterialPanel modalpanel;
+	@UiField
+	MaterialLink parameterLabel;
 	@UiField
 	MaterialLink parameterUnits;
 	@UiField
@@ -97,7 +102,6 @@ public class PrimitiveParameterValueRow extends Composite
 	@UiField
 	MaterialColumn unitsclasscolumn;
 
-	DatabaseObject obj;
 	String propertyType;
 	boolean rowVisible;
 	String chosenConcept;
@@ -107,14 +111,16 @@ public class PrimitiveParameterValueRow extends Composite
 	String chosenParameter;
 	String chosenUncertainty;
 	DatabaseObjectHierarchy info;
-	boolean valueinput;
-	boolean uncertaintyinput;
 	boolean unitchoice;
 	boolean otherchoice;
 
 	SetOfUnitProperties setOfUnitProperties;
 	UnitProperties unitproperties;
-
+	DatabaseObjectHierarchy spechierarchy;
+	ParameterSpecification specification;
+	ValueUnits units;
+	PurposeConceptPair pair;
+	
 	public PrimitiveParameterValueRow() {
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
@@ -126,64 +132,45 @@ public class PrimitiveParameterValueRow extends Composite
 		fill(paramhier);
 	}
 
-	private void init() {
+	protected void init() {
+		labelcolumn.setGrid("s5");
+		valuecolumn.setVisible(false);
+		uncertaintycolumn.setVisible(false);
+		
+		
 		delete.setIconColor(Color.BLACK);
+		deletetip.setText("Delete Parameter from list");
+
 		more.setIconColor(Color.BLACK);
 		less.setIconColor(Color.BLACK);
-		valueTextBox.setTextColor(Color.BLACK);
-		valueTextBox.setTextAlign(TextAlign.LEFT);
-		uncertaintyTextBox.setTextColor(Color.BLACK);
-		valueTextBox.setText("Value");
-		uncertaintyTextBox.setText("Uncertainty");
 		more.setVisible(true);
 		less.setVisible(false);
 		rowVisible = false;
 
-		valuetip.setText("Value");
-		uncertaintytip.setText("Uncertainty");
-		unitstip.setText("Units");
 		purposetip.setText("Purpose");
 		concepttip.setText("Concept");
-		uncertaintyclasstip.setText("Uncertainty Type");
 		unitsclasstip.setText("Units Class");
-		deletetip.setText("Delete Parameter from list");
-
-		valueinput = false;
-		uncertaintyinput = false;
 	}
 
-	public void fill(DatabaseObjectHierarchy info) {
-		this.info = info;
-		ParameterValue parameter = (ParameterValue) info.getObject();
-		obj = info.getObject();
+	public void fill(DatabaseObjectHierarchy spechierarchy) {
+		this.spechierarchy = spechierarchy;
+		specification = (ParameterSpecification) spechierarchy.getObject();
 		setFullIdentifier();
-		this.propertyType = parameter.getParameterLabel();
+		
+		this.propertyType = specification.getParameterLabel();
 		if (this.propertyType != null) {
 			chosenParameter = this.propertyType;
 			parameterLabel.setText(TextUtilities.removeNamespace(chosenParameter));
 		} else {
 			parameterLabel.setText("Choose Label");
 		}
-		if (parameter.getValueAsString() != null) {
-			valueTextBox.setText(TextUtilities.removeNamespace(parameter.getValueAsString()));
-		} else {
-			valueTextBox.setText("Value");
-		}
-		if (parameter.getUncertainty() != null) {
-			uncertaintyTextBox.setText(parameter.getUncertainty());
-		} else {
-			// uncertaintyTextBox.setPlaceholder("0.0");
-			uncertaintyTextBox.setText("0.0");
-		}
-		DatabaseObjectHierarchy spechier = info.getSubObject(parameter.getParameterSpec());
-		ParameterSpecification spec = (ParameterSpecification) spechier.getObject();
-		if (spec.getDataPointUncertainty() != null) {
-			uncertaintyclass.setText(spec.getDataPointUncertainty());
+		if (specification.getDataPointUncertainty() != null) {
+			uncertaintyclass.setText(specification.getDataPointUncertainty());
 		} else {
 			uncertaintyclass.setText("Uncertainty");
 		}
-		DatabaseObjectHierarchy unithier = spechier.getSubObject(spec.getUnits());
-		ValueUnits units = (ValueUnits) unithier.getObject();
+		DatabaseObjectHierarchy unithier = spechierarchy.getSubObject(specification.getUnits());
+		units = (ValueUnits) unithier.getObject();
 		if (units.getUnitsOfValue() != null) {
 			chosenUnit = units.getUnitsOfValue();
 			parameterUnits.setVisible(false);
@@ -195,11 +182,11 @@ public class PrimitiveParameterValueRow extends Composite
 			setUnits(chosenUnitClass);
 			unitclass.setText(TextUtilities.removeNamespace(chosenUnitClass));
 		} else {
+			chosenUnitClass = null;
 			unitclass.setText("Choose Units");
 		}
-
-		DatabaseObjectHierarchy purposehier = spechier.getSubObject(spec.getPurposeandconcept());
-		PurposeConceptPair pair = (PurposeConceptPair) purposehier.getObject();
+		DatabaseObjectHierarchy purposehier = spechierarchy.getSubObject(specification.getPurposeandconcept());
+		pair = (PurposeConceptPair) purposehier.getObject();
 
 		if (pair.getPurpose() != null) {
 			chosenPurpose = pair.getPurpose();
@@ -213,7 +200,6 @@ public class PrimitiveParameterValueRow extends Composite
 		} else {
 			concept.setText("Choose Concept");
 		}
-
 		rowVisible = false;
 		extrainfo.setVisible(false);
 		more.setVisible(true);
@@ -267,28 +253,6 @@ public class PrimitiveParameterValueRow extends Composite
 		MaterialToast.fireToast("Delete");
 	}
 
-	@UiHandler("uncertaintyTextBox")
-	public void onClickUncertainty(ClickEvent event) {
-		InputLineModal line = new InputLineModal("Uncertainty Value", "type uncertainty here: ", this);
-		modalpanel.clear();
-		modalpanel.add(line);
-		line.openModal();
-		uncertaintyinput = true;
-	}
-
-	@UiHandler("valueTextBox")
-	public void onClickInputValue(ClickEvent event) {
-		if (!setOfUnitProperties.isClassification()) {
-			InputLineModal line = new InputLineModal("Parameter Value", "type value here: ", this);
-			modalpanel.clear();
-			modalpanel.add(line);
-			line.openModal();
-			valueinput = true;
-		} else {
-			MaterialToast.fireToast("Choose from units");
-		}
-	}
-
 	@UiHandler("parameterLabel")
 	public void onClickLabel(ClickEvent event) {
 		ArrayList<String> choices = new ArrayList<String>();
@@ -296,7 +260,6 @@ public class PrimitiveParameterValueRow extends Composite
 		ChooseFromConceptHierarchies choosedevice = new ChooseFromConceptHierarchies(choices, this);
 		modalpanel.add(choosedevice);
 		choosedevice.open();
-
 	}
 
 	public void setUnits(String unitname) {
@@ -314,7 +277,6 @@ public class PrimitiveParameterValueRow extends Composite
 		}
 		if (set.isClassification()) {
 			uncertaintyclass.setVisible(false);
-			uncertaintyTextBox.setVisible(false);
 			parameterUnits.setVisible(true);
 			unitsclasscolumn.setGrid("s5");
 			unitscolumn.setGrid("s5");
@@ -327,7 +289,7 @@ public class PrimitiveParameterValueRow extends Composite
 		this.setOfUnitProperties = set;
 		setVisibility(set);
 		if (set.isClassification()) {
-			parameterUnits.setText("Choose Keyword");
+			parameterUnits.setText("Choose " + TextUtilities.removeNamespace(set.getTopUnitType()));
 		} else {
 			parameterUnits.setText(TextUtilities.removeNamespace(chosenUnit));
 		}
@@ -363,39 +325,29 @@ public class PrimitiveParameterValueRow extends Composite
 	}
 
 	public boolean updateObject() {
-		ParameterValue value = (ParameterValue) info.getObject();
-		DatabaseObjectHierarchy spechier = info.getSubObject(value.getParameterSpec());
-		ParameterSpecification spec = (ParameterSpecification) spechier.getObject();
-		DatabaseObjectHierarchy purposehier = spechier.getSubObject(spec.getPurposeandconcept());
-		PurposeConceptPair p = (PurposeConceptPair) purposehier.getObject();
-		DatabaseObjectHierarchy unitshier = spechier.getSubObject(spec.getUnits());
-		ValueUnits units = (ValueUnits) unitshier.getObject();
-
-		value.setValueAsString(valueTextBox.getText());
-		value.setUncertainty(uncertaintyTextBox.getText());
-		value.setParameterLabel(chosenParameter);
-		spec.setDataPointUncertainty(chosenUncertainty);
+		specification.setParameterLabel(chosenParameter);
+		specification.setDataPointUncertainty(chosenUncertainty);
 		units.setUnitClass(chosenUnitClass);
 		units.setUnitsOfValue(chosenUnit);
-		p.setConcept(chosenConcept);
-		p.setPurpose(chosenPurpose);
+		pair.setConcept(chosenConcept);
+		pair.setPurpose(chosenPurpose);
 
 		return false;
 	}
 
 	public String getIdentifier() {
-		return obj.getIdentifier();
+		return specification.getIdentifier();
 	}
 
 	public void setIdentifier(DatabaseObject obj) {
-		this.obj = obj;
-		identifiertip.setText(this.obj.getIdentifier());
+		specification.setIdentifier(obj.getIdentifier());
+		identifiertip.setText(obj.getIdentifier());
 	}
 
 	public String setFullIdentifier() {
-		String id = obj.getIdentifier();
+		String id = specification.getIdentifier();
 		if (chosenParameter != null) {
-			id = obj.getIdentifier() + "-" + TextUtilities.removeNamespace(chosenParameter);
+			id = specification.getIdentifier() + "-" + TextUtilities.removeNamespace(chosenParameter);
 		}
 		identifiertip.setText(id);
 		return id;
@@ -403,13 +355,7 @@ public class PrimitiveParameterValueRow extends Composite
 
 	@Override
 	public void setLineContent(String line) {
-		if (valueinput) {
-			valueinput = false;
-			valueTextBox.setText(line);
-		} else if (uncertaintyinput) {
-			uncertaintyinput = false;
-			uncertaintyTextBox.setText(line);
-		} else if (unitchoice) {
+		if (unitchoice) {
 			unitchoice = false;
 			if (setOfUnitProperties.isClassification()) {
 				if(line.compareTo("Other") == 0) {
@@ -419,22 +365,20 @@ public class PrimitiveParameterValueRow extends Composite
 					linemodal.openModal();
 					otherchoice = true;
 				} else {
-				valueTextBox.setText(TextUtilities.removeNamespace(line));
 				chosenUnit = line;
 				}
 			} else {
 				unitproperties = setOfUnitProperties.getUnitPropertyFromAbbreviation(line);
 				if (unitproperties != null) {
-					Window.alert("setLineContent: " + setOfUnitProperties);
 					chosenUnit = unitproperties.getUnitName();
 					parameterUnits.setText(TextUtilities.removeNamespace(chosenUnit));
 				} else {
-					Window.alert("Units for '" + line + "' are null");
+					MaterialToast.fireToast("Units for '" + line + "' are null");
 				}
 			}
 		} else if(otherchoice) {
 			otherchoice = false;
-			valueTextBox.setText(line);
+			chosenUnit = line;
 		}
 
 	}

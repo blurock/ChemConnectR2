@@ -59,7 +59,7 @@ public class ValueUnits extends DatabaseObject {
 	public String toString(String prefix) {
 		StringBuilder build = new StringBuilder();
 		build.append(super.toString(prefix));
-		build.append(prefix + "Units: " + unitsOfValue + " (" + unitClass + ")");
+		build.append(prefix + "Units: " + unitsOfValue + " (" + unitClass + ")\n");
 		return build.toString();
 	}
 }

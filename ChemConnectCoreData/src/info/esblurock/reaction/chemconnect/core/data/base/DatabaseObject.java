@@ -69,8 +69,7 @@ public class DatabaseObject  implements Serializable {
 		this.owner = owner;
 		creationDate = new Date();
 		key = null;
-	}
-	
+	}	
 	public void setIdentifier(String identifier) {
 		this.identifier = identifier;
 	}

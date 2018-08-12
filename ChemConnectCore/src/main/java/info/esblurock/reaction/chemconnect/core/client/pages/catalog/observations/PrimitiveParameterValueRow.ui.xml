@@ -16,21 +16,21 @@
 	}
 	</ui:style>
 	<m:MaterialPanel ui:field="toppanel" paddingBottom="0"
-		paddingTop="0">
+		paddingTop="0" border="3px solid #e9e9e9">
 		<m:MaterialPanel ui:field="modalpanel" />
 		<m:MaterialRow paddingBottom="0" paddingTop="0">
-			<m:MaterialColumn grid="s3">
+			<m:MaterialColumn ui:field="labelcolumn" grid="s3">
 				<m:MaterialTooltip ui:field="identifiertip">
 					<m:MaterialLink ui:field="parameterLabel" textColor="BLACK"
 						height="10px" textAlign="LEFT"/>
 				</m:MaterialTooltip>
 			</m:MaterialColumn>
-			<m:MaterialColumn grid="s3">
+			<m:MaterialColumn ui:field="valuecolumn" grid="s3">
 				<m:MaterialTooltip ui:field="valuetip">
 				<m:MaterialLink ui:field="valueTextBox" class="thinline" />
 				</m:MaterialTooltip>
 			</m:MaterialColumn>
-			<m:MaterialColumn grid="s3">
+			<m:MaterialColumn ui:field="uncertaintycolumn" grid="s3">
 							<m:MaterialTooltip ui:field="uncertaintytip">
 				<m:MaterialLink ui:field="uncertaintyTextBox" height="10px"  textColor="BLACK"/>
 				</m:MaterialTooltip>

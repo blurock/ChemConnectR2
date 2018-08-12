@@ -6,6 +6,8 @@
 		font-weight: bold;
 	}
 	</ui:style>
+	<m:MaterialPanel>
+	<m:MaterialDivider/>
 	<m:MaterialRow>
 		<m:MaterialColumn grid="s4">
 			<m:MaterialLink ui:field="catalogBase" textColor="BLACK" />
@@ -17,4 +19,6 @@
 			<m:MaterialLink ui:field="simpleName" textColor="BLACK" />
 		</m:MaterialColumn>
 	</m:MaterialRow>
+	<m:MaterialDivider/>
+	</m:MaterialPanel>
 </ui:UiBinder> 
