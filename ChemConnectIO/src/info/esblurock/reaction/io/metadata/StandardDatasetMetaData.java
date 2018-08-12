@@ -123,6 +123,8 @@ public class StandardDatasetMetaData {
 	public static String purposeConceptPairS = "prov:influenced";
 	public static String dataTypeConceptS = "skos:Concept";
 	public static String purposeS = "dataset:purpose";
+	public static String dynamicTypeS = "dataset:dynamicType";
+	
 	/*
 	public static String contactInfoDataID = "dataset:ContactInfoDataID";
 	public static String organizationID = "dataset:OrganizationID";

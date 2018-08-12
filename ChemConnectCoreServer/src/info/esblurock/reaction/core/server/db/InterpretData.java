@@ -1039,11 +1039,12 @@ public enum InterpretData {
 			InterpretData interpret = InterpretData.valueOf("DataSpecification");
 			DataSpecification obj = (DataSpecification) interpret.fillFromYamlString(top, yaml, sourceID);
 
+			String dynamicTypeS = (String) yaml.get(StandardDatasetMetaData.dynamicTypeS);
 			String parameterLabelS = (String) yaml.get(StandardDatasetMetaData.parameterLabelS);
 			String uncertaintyS = (String) yaml.get(StandardDatasetMetaData.dataPointUncertaintyS);
 			String UnitsS = (String) yaml.get(StandardDatasetMetaData.unitsS);
 
-			spec = new ParameterSpecification(obj,parameterLabelS,uncertaintyS, UnitsS);
+			spec = new ParameterSpecification(obj,parameterLabelS,uncertaintyS, UnitsS,dynamicTypeS);
 			return spec;
 		}
 
@@ -1055,6 +1056,7 @@ public enum InterpretData {
 			InterpretData interpret = InterpretData.valueOf("DataSpecification");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
+			map.put(StandardDatasetMetaData.dynamicTypeS, spec.getObservationParameterType());
 			map.put(StandardDatasetMetaData.parameterLabelS, spec.getParameterLabel());
 			map.put(StandardDatasetMetaData.dataPointUncertaintyS, spec.getDataPointUncertainty());
 			map.put(StandardDatasetMetaData.unitsS, spec.getUnits());
@@ -1082,11 +1084,13 @@ public enum InterpretData {
 			String specsid = createSuffix(obj, element);
 			specobj.setIdentifier(specsid);
 
+			String dynamicType = "dataset:FixedParameter";
 			DatabaseObjectHierarchy valuehier = InterpretData.ValueUnits.createEmptyObject(specobj);
 			DatabaseObjectHierarchy dspechier = InterpretData.DataSpecification.createEmptyObject(specobj);
 			DataSpecification dspec = (DataSpecification) dspechier.getObject();
 			ValueUnits value = (ValueUnits) valuehier.getObject();
-			ParameterSpecification specs = new ParameterSpecification(dspec, "no label","no uncertainty", value.getIdentifier());
+			ParameterSpecification specs = new ParameterSpecification(dspec, "no label",
+					"no uncertainty", value.getIdentifier(), dynamicType);
 			specs.setIdentifier(specsid);
 
 			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(specs);

@@ -11,8 +11,8 @@ public class MeasurementParameterSpecification extends ParameterSpecification {
 	}
 
 	public MeasurementParameterSpecification(DataSpecification spec, String parameterLabel, String dataPointUncertainty,
-			String units) {
-		super(spec, parameterLabel, dataPointUncertainty, units);
+			String units, String parameterType) {
+		super(spec, parameterLabel, dataPointUncertainty, units,parameterType);
 	}
 
 	public MeasurementParameterSpecification(ParameterSpecification spec) {

@@ -11,8 +11,8 @@ public class DimensionParameterSpecification extends ParameterSpecification {
 	}
 
 	public DimensionParameterSpecification(DataSpecification spec, String parameterLabel, String dataPointUncertainty,
-			String units) {
-		super(spec, parameterLabel, dataPointUncertainty, units);
+			String units, String parameterType) {
+		super(spec, parameterLabel, dataPointUncertainty, units,parameterType);
 	}
 	public DimensionParameterSpecification(ParameterSpecification spec) {
 		super(spec);
