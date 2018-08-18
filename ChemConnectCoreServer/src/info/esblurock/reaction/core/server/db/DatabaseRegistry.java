@@ -16,6 +16,7 @@ import info.esblurock.reaction.chemconnect.core.data.image.RegisterImageInformat
 import info.esblurock.reaction.chemconnect.core.data.initialization.RegisterInitializationData;
 import info.esblurock.reaction.chemconnect.core.data.login.RegisterUserLoginData;
 import info.esblurock.reaction.chemconnect.core.data.observations.RegisterObservationData;
+import info.esblurock.reaction.chemconnect.core.data.observations.matrix.RegisterObservationMatrixData;
 import info.esblurock.reaction.chemconnect.core.data.rdf.RegisterRDFData;
 import info.esblurock.reaction.chemconnect.core.data.transaction.RegisterTransactionData;
 import info.esblurock.reaction.core.server.db.image.BlobKeyCorrespondence;
@@ -40,12 +41,14 @@ public class DatabaseRegistry  implements ServletContextListener  {
 		RegisterImageInformation.register();
 		RegisterGCSClasses.register();
 		RegisterObservationData.register();
+		RegisterObservationMatrixData.register();
 		ObjectifyService.register(BlobKeyCorrespondence.class);
 		ObjectifyService.register(DatabaseObject.class);
 		ObjectifyService.register(ChemConnectCompoundMultiple.class);
 		ObjectifyService.register(ChemConnectDataStructure.class);
 		ObjectifyService.register(ChemConnectCompoundDataStructure.class);
 		ObjectifyService.register(ChemConnectCompoundMultiple.class);
+		
 		System.out.println("Classes Registered");
 	}
 

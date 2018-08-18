@@ -4,9 +4,10 @@ import java.util.ArrayList;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetRow;
 
-public class SpreadSheetSectionCallback implements AsyncCallback<ArrayList<SpreadSheetRow>>{
+import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
+
+public class SpreadSheetSectionCallback implements AsyncCallback<ArrayList<ObservationValueRow>>{
 
 	SpreadSheetMatrix top;	
 	public SpreadSheetSectionCallback(SpreadSheetMatrix top) {
@@ -18,7 +19,7 @@ public class SpreadSheetSectionCallback implements AsyncCallback<ArrayList<Sprea
 	}
 
 	@Override
-	public void onSuccess(ArrayList<SpreadSheetRow> results) {
+	public void onSuccess(ArrayList<ObservationValueRow> results) {
 		Window.alert("SpreadSheetSectionCallback: Number of Section:  " + results.size());
 		top.setUpResultMatrix(results);
 	}

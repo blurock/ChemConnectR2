@@ -2,6 +2,7 @@ package info.esblurock.reaction.core.server.initialization;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -36,6 +37,9 @@ import info.esblurock.reaction.chemconnect.core.data.dataset.device.SubSystemDes
 import info.esblurock.reaction.chemconnect.core.data.description.DescriptionDataData;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.methodology.ChemConnectMethodology;
+import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationMatrixValues;
+import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
+import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRowTitle;
 import info.esblurock.reaction.ontology.OntologyKeys;
 import info.esblurock.reaction.ontology.dataset.ConceptParsing;
 import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
@@ -232,8 +236,10 @@ public class CreateDefaultObjectsFactory {
 
 	public static void fillObservationSpecification(DatabaseObjectHierarchy obsspechier, String observation, String parentID) {
 		ObservationSpecification specification = (ObservationSpecification) obsspechier.getObject();
+		String observationParameterType = ConceptParsing.getStructureType(observation);
+		specification.setObservationParameterType(observationParameterType);
 		specification.setParentLink(parentID);
-		specification.setObservationLabel(observation);
+		specification.setSpecificationLabel(observation);
 		String measurespecid = specification.getMeasureSpecifications();
 		fillMeasurementValues(observation, obsspechier, measurespecid,false,true);
 		String dimensionspecid = specification.getDimensionSpecifications();
@@ -496,17 +502,54 @@ public class CreateDefaultObjectsFactory {
 		
 		insertDataCatalogID(sethier, datid);
 
-		set.setParameterType(parameter);
 		setPurposeConceptPair(sethier, concept, purpose);
 		setOneLineDescription(sethier, oneline);
 		
-		String measureid = set.getMeasurementValues();
-		fillMeasurementValues(parameter, sethier,measureid,false,false);
-		String dimensionid = set.getDimensionValues();
-		fillMeasurementValues(parameter, sethier,dimensionid,true,false);
+		System.out.println("fillSetOfObservations: \n" + set.toString());
+		System.out.println("fillSetOfObservations: \n" + set.getObservationSpecification());
 		
+		DatabaseObjectHierarchy obsspechier = sethier.getSubObject(set.getObservationSpecification());
+		System.out.println("fillSetOfObservations: \n" + sethier.getObject());
+		
+		ObservationSpecification spec = (ObservationSpecification) obsspechier.getObject();
+		System.out.println("fillSetOfObservations\n" + obsspechier);
+		fillObservationSpecification(obsspechier, parameter, set.getIdentifier());
+		DatabaseObjectHierarchy matrixvalueshier = sethier.getSubObject(set.getObservationMatrixValues());
+		DatabaseObjectHierarchy measure = obsspechier.getSubObject(spec.getMeasureSpecifications());
+		DatabaseObjectHierarchy dimension = obsspechier.getSubObject(spec.getMeasureSpecifications());
+		fillObservationMatrixValues(matrixvalueshier,measure,dimension);
 		return sethier;
 	}
+	
+	public static void fillObservationMatrixValues(DatabaseObjectHierarchy matrixvalues,
+			DatabaseObjectHierarchy measure,
+			DatabaseObjectHierarchy dimension) {
+		ObservationMatrixValues values = (ObservationMatrixValues) matrixvalues.getObject();
+		DatabaseObjectHierarchy titleshier = matrixvalues.getSubObject(values.getObservationRowValueTitles());
+		ObservationValueRowTitle titles = (ObservationValueRowTitle) titleshier.getObject();
+		DatabaseObjectHierarchy valueshier = matrixvalues.getSubObject(values.getObservationRowValue());
+		ChemConnectCompoundMultiple valuemultiple = (ChemConnectCompoundMultiple) valueshier.getObject();
+		DatabaseObjectHierarchy rowvalueshier = InterpretData.ObservationValueRow.createEmptyObject(valuemultiple);
+		ObservationValueRow rowvalues = (ObservationValueRow) rowvalueshier.getObject();
+		valuemultiple.addID(rowvalues.getIdentifier());
+		valueshier.addSubobject(rowvalueshier);
+		addTitlesAndSampleValues(titles,rowvalues,measure);
+		addTitlesAndSampleValues(titles,rowvalues,dimension);
+		
+	}
+	
+	public static void addTitlesAndSampleValues(ObservationValueRowTitle titles, ObservationValueRow rowvalues, DatabaseObjectHierarchy multhier) {
+		ChemConnectCompoundMultiple multiple = (ChemConnectCompoundMultiple) multhier.getObject();
+		HashSet<String> ids = multiple.getIds();
+		for(String id: ids) {
+			DatabaseObjectHierarchy hier = multhier.getSubObject(id);
+			ParameterSpecification spec = (ParameterSpecification) hier.getObject();
+			String name = spec.getParameterLabel();
+			titles.addParameterTitle(name);
+			rowvalues.add("0.0");
+		}
+	}
+	
 	public static DatabaseObjectHierarchy fillMeasurementValues(String parameter, DatabaseObjectHierarchy set, String measureid, boolean dimension, boolean specification) {
 		String type = "<http://purl.org/linked-data/cube#measure>";
 		if(dimension) {

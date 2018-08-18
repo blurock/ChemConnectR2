@@ -9,8 +9,8 @@ import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
-import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetRow;
 import info.esblurock.reaction.chemconnect.core.data.observations.VisualizeObservationBase;
+import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
 import info.esblurock.reaction.chemconnect.core.data.query.QueryPropertyValue;
 import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.data.query.SetOfQueryPropertyValues;
@@ -23,13 +23,13 @@ import info.esblurock.reaction.io.db.QueryBase;
 @SuppressWarnings("serial")
 public class SpreadSheetServicesImpl extends ServerBase implements SpreadSheetServices {
 
-	public ArrayList<SpreadSheetRow> getSpreadSheetRows(String parent, int start, int limit) throws IOException {
+	public ArrayList<ObservationValueRow> getSpreadSheetRows(String parent, int start, int limit) throws IOException {
 		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
 		UserDTO user = util.getUserInfo();
 		System.out.println("User: " + user);
 
 		System.out.println("SpreadSheetServicesImpl: getSpreadSheetRows " + parent + "  "  + start + "  " + limit);
-		ArrayList<SpreadSheetRow> lst = new ArrayList<SpreadSheetRow>();
+		ArrayList<ObservationValueRow> lst = new ArrayList<ObservationValueRow>();
 		SetOfQueryPropertyValues queryvalues = new SetOfQueryPropertyValues();
 		int startI = start;
 		int endI = start + limit;
@@ -37,11 +37,11 @@ public class SpreadSheetServicesImpl extends ServerBase implements SpreadSheetSe
 		QueryPropertyValue endquery = new QueryPropertyValue("rowNumber <", endI);
 		queryvalues.add(startquery);
 		queryvalues.add(endquery);
-		QuerySetupBase query = new QuerySetupBase(user.getName(),SpreadSheetRow.class.getCanonicalName(), queryvalues);
+		QuerySetupBase query = new QuerySetupBase(user.getName(),ObservationValueRow.class.getCanonicalName(), queryvalues);
 		try {
 			SingleQueryResult result = QueryBase.StandardQueryResult(query);
 			for (DatabaseObject obj : result.getResults()) {
-				SpreadSheetRow row = (SpreadSheetRow) obj;
+				ObservationValueRow row = (ObservationValueRow) obj;
 				lst.add(row);
 			}
 		} catch (Exception e) {

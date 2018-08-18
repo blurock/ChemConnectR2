@@ -10,8 +10,8 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
-import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetRow;
 import info.esblurock.reaction.chemconnect.core.data.observations.VisualizeObservationBase;
+import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
 
 @RemoteServiceRelativePath("spreadsheet")
 public interface SpreadSheetServices extends RemoteService {
@@ -26,7 +26,7 @@ public interface SpreadSheetServices extends RemoteService {
 		}
 	}
 
-	ArrayList<SpreadSheetRow> getSpreadSheetRows(String parent, int start, int limit) throws IOException;
+	ArrayList<ObservationValueRow> getSpreadSheetRows(String parent, int start, int limit) throws IOException;
 
 	ObservationsFromSpreadSheet interpretSpreadSheet(SpreadSheetInputInformation input, boolean writeObjects)
 			throws IOException;

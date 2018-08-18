@@ -9,11 +9,11 @@ import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructu
 @Entity
 public class SetOfObservationValues extends ChemConnectDataStructure {
 	@Index
-	String parameterType;
+	String observationSpecification;
 	@Index
-	String measurementValues;
+	String observationMatrixValues;
 	@Index
-	String dimensionValues;
+	String matrixSpecificationCorrespondenceSet;
 
 	public SetOfObservationValues() {
 		init();
@@ -25,42 +25,42 @@ public class SetOfObservationValues extends ChemConnectDataStructure {
 	}
 	
 	public SetOfObservationValues(ChemConnectDataStructure structure, 
-			String parameterType, String measurementValues, String dimensionValues) {
+			String observationSpecification, String observationMatrixValues, String matrixSpecificationCorrespondenceSet) {
 		super(structure);
 		init();
-		this.parameterType = parameterType;
-		this.measurementValues = measurementValues;
-		this.dimensionValues = dimensionValues;
+		this.observationSpecification = observationSpecification;
+		this.observationMatrixValues = observationMatrixValues;
+		this.matrixSpecificationCorrespondenceSet = matrixSpecificationCorrespondenceSet;
 	}
 	
 	void init() {
-		measurementValues = "";
-		dimensionValues = "";
-		parameterType = "";
+		observationMatrixValues = "";
+		matrixSpecificationCorrespondenceSet = "";
+		observationSpecification = "";
 	}
 	
-	public String getMeasurementValues() {
-		return measurementValues;
+	public String getObservationMatrixValues() {
+		return observationMatrixValues;
 	}
 
-	public String getDimensionValues() {
-		return dimensionValues;
+	public String getMatrixSpecificationCorrespondenceSet() {
+		return matrixSpecificationCorrespondenceSet;
 	}
 
-	public void setMeasurementValues(String measurementValues) {
-		this.measurementValues = measurementValues;
+	public void setObservationMatrixValues(String observationMatrixValues) {
+		this.observationMatrixValues = observationMatrixValues;
 	}
 
-	public void setDimensionValues(String dimensionValues) {
-		this.dimensionValues = dimensionValues;
+	public void setMatrixSpecificationCorrespondenceSet(String matrixSpecificationCorrespondenceSet) {
+		this.matrixSpecificationCorrespondenceSet = matrixSpecificationCorrespondenceSet;
 	}
 
-	public String getParameterType() {
-		return parameterType;
+	public String getObservationSpecification() {
+		return observationSpecification;
 	}
 
-	public void setParameterType(String parameterType) {
-		this.parameterType = parameterType;
+	public void setObservationSpecification(String observationSpecification) {
+		this.observationSpecification = observationSpecification;
 	}
 
 	public String toString() {
@@ -69,9 +69,9 @@ public class SetOfObservationValues extends ChemConnectDataStructure {
 	public String toString(String prefix) {
 		StringBuilder build = new StringBuilder();
 		build.append(super.toString(prefix));
-		build.append(prefix + "Parameter:   " + parameterType + "\n");
-		build.append(prefix + "Measure:     " + measurementValues + "\n");
-		build.append(prefix + "Dimension:   " + dimensionValues + "\n");
+		build.append(prefix + "Specification:              " + observationSpecification + "\n");
+		build.append(prefix + "MatrixValues:               " + observationMatrixValues + "\n");
+		build.append(prefix + "SpecificationCorrSet:       " + matrixSpecificationCorrespondenceSet + "\n");
 		return build.toString();
 	}
 	

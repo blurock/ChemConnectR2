@@ -20,7 +20,8 @@ import gwt.material.design.client.ui.table.cell.TextColumn;
 import gwt.material.design.client.data.infinite.InfiniteDataView;
 import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServices;
 import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServicesAsync;
-import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetRow;
+import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
+
 import javax.inject.Inject;
 
 public class SpreadSheetMatrix extends Composite {
@@ -49,15 +50,15 @@ public class SpreadSheetMatrix extends Composite {
 	@UiField
 	MaterialLink delete;
 
-	MaterialInfiniteDataTable<SpreadSheetRow> inftable;
-	MaterialDataTable<SpreadSheetRow> table;
-	ArrayList<SpreadSheetRow> matrix;
+	MaterialInfiniteDataTable<ObservationValueRow> inftable;
+	MaterialDataTable<ObservationValueRow> table;
+	ArrayList<ObservationValueRow> matrix;
 	String obstitle;
 	String parent;
 	int numbercolumns;
 	boolean infinitetable = false;
 
-	ListDataSource<SpreadSheetRow> dataSource;
+	ListDataSource<ObservationValueRow> dataSource;
 
 	public SpreadSheetMatrix() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -81,7 +82,7 @@ public class SpreadSheetMatrix extends Composite {
 			table.setUseCategories(false);
 			tablepanel.add(table);
 		} else {
-			table = new MaterialDataTable<SpreadSheetRow>();
+			table = new MaterialDataTable<ObservationValueRow>();
 			table.setTitle(obstitle);
 			panel.add(table);
 			getSectionOfData();
@@ -120,8 +121,8 @@ public class SpreadSheetMatrix extends Composite {
 		async.getSpreadSheetRows(parent, startI, numberI, asyncallback);
 	}
 
-	public void setUpResultMatrix(ArrayList<SpreadSheetRow> origmatrix) {
-		matrix = new ArrayList<SpreadSheetRow>(origmatrix);
+	public void setUpResultMatrix(ArrayList<ObservationValueRow> origmatrix) {
+		matrix = new ArrayList<ObservationValueRow>(origmatrix);
 		if (table.getTableTitle() != null) {
 			table.getTableTitle().setText(obstitle);
 		} else {
@@ -131,7 +132,7 @@ public class SpreadSheetMatrix extends Composite {
 		setUpGenericColumns(table);
 		try {
 			table.setVisibleRange(0, 500);
-			dataSource = new ListDataSource<SpreadSheetRow>(matrix);
+			dataSource = new ListDataSource<ObservationValueRow>(matrix);
 			table.setRowData(0, matrix);
 		} catch(Exception e) {
 			Window.alert("setUpResultMatrix    " + e.toString());
@@ -140,7 +141,7 @@ public class SpreadSheetMatrix extends Composite {
 
 	void setNumberOfColumns() {
 		numbercolumns = 0;
-		for(SpreadSheetRow row : matrix) {
+		for(ObservationValueRow row : matrix) {
 			if(row.getRow().size() > numbercolumns) {
 				numbercolumns = row.getRow().size();
 			}
@@ -148,7 +149,7 @@ public class SpreadSheetMatrix extends Composite {
 		Window.alert("setNumberOfColumns: " + numbercolumns);
 	}
 	
-	void setUpGenericColumns(MaterialDataTable<SpreadSheetRow> datatable) {
+	void setUpGenericColumns(MaterialDataTable<ObservationValueRow> datatable) {
 		for (int i = 0; i < numbercolumns; i++) {
 			String name = "Col:" + i;
 			addColumn(i, name, datatable);
@@ -156,11 +157,11 @@ public class SpreadSheetMatrix extends Composite {
 
 	}
 
-	void addColumn(int columnnumber, String columnname, MaterialDataTable<SpreadSheetRow> datatable) {
+	void addColumn(int columnnumber, String columnname, MaterialDataTable<ObservationValueRow> datatable) {
 		int number = columnnumber;
-		TextColumn<SpreadSheetRow> cell = new TextColumn<SpreadSheetRow>() {
+		TextColumn<ObservationValueRow> cell = new TextColumn<ObservationValueRow>() {
 			@Override
-			public String getValue(SpreadSheetRow object) {
+			public String getValue(ObservationValueRow object) {
 				String ans = "---";
 				ArrayList<String> lst = object.getRow();
 				if (lst.size() > number) {

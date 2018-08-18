@@ -2,12 +2,14 @@ package info.esblurock.reaction.chemconnect.core.data.observations;
 
 import java.util.ArrayList;
 
+import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
+
 public class ObservationsFromSpreadSheet extends VisualizeObservationBase {
 
 	private static final long serialVersionUID = 1L;
 	
 	
-	ArrayList<SpreadSheetRow> matrix;
+	ArrayList<ObservationValueRow> matrix;
 	ArrayList<SpreadSheetBlockInformation> blocks;
 	SpreadSheetInputInformation input;
 	int sizeOfMatrix;
@@ -30,7 +32,7 @@ public class ObservationsFromSpreadSheet extends VisualizeObservationBase {
 	}
 
 	public ObservationsFromSpreadSheet(SpreadSheetInputInformation input, 
-			ArrayList<SpreadSheetRow> matrix) {
+			ArrayList<ObservationValueRow> matrix) {
 		super(input);
 		this.input = input;
 		this.matrix = matrix;
@@ -78,7 +80,7 @@ public class ObservationsFromSpreadSheet extends VisualizeObservationBase {
 		build.append("\n");
 		//int count = 0;
 		if(matrix != null) {
-		for(SpreadSheetRow row : matrix) {
+		for(ObservationValueRow row : matrix) {
 			build.append(row.toString());
 		}
 		} else {

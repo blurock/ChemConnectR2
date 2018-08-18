@@ -36,6 +36,9 @@ public class OntologyKeys {
 	public static String contactTopSite = "dataset:ContactSiteOf";
 	public static String methodology = "dataset:ChemConnectMethodology";
 	public static String datacatalogid = "dataset:DataCatalogID";
+	public static String useraccountid = "dataset:UserAccountID";
+	public static String useraccount = "prov:SoftwareAgent";
+	public static String databaseperson = "vcard:Individual";
 	
 	public static String hasPurpose = "dataset:hasPurpose";
 	public static String datacubeConcept = "datacube:concept";

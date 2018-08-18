@@ -9,7 +9,7 @@ import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDat
 @Entity
 public class ObservationSpecification extends ChemConnectCompoundDataStructure {
 	@Index
-	String observationLabel;
+	String specificationLabel;
 	@Index
 	String observationParameterType;
 	@Index
@@ -21,16 +21,16 @@ public class ObservationSpecification extends ChemConnectCompoundDataStructure {
 		this.observationParameterType = "";
 		this.measureSpecifications = "";
 		this.dimensionSpecifications = "";
-		this.observationLabel = "";
+		this.specificationLabel = "";
 	}
 		public ObservationSpecification(ChemConnectCompoundDataStructure structure, 
-			String observationLabel, String observationParameterType, 
+			String specificationLabel, String observationParameterType, 
 			String dimensionSpecifications, String measureSpecifications) {
 		super(structure);
 		this.observationParameterType = observationParameterType;
 		this.measureSpecifications = measureSpecifications;
 		this.dimensionSpecifications = dimensionSpecifications;
-		this.observationLabel = observationLabel;
+		this.specificationLabel = specificationLabel;
 	}
 
 	public String getObservationParameterType() {
@@ -58,19 +58,19 @@ public class ObservationSpecification extends ChemConnectCompoundDataStructure {
 		return toString("");
 	}
 	
-	public String getObservationLabel() {
-		return observationLabel;
+	public String getSpecificationLabel() {
+		return specificationLabel;
 	}
-	public void setObservationLabel(String observationLabel) {
-		this.observationLabel = observationLabel;
+	public void setSpecificationLabel(String specificationLabel) {
+		this.specificationLabel = specificationLabel;
 	}
 	public String toString(String prefix) {
 		StringBuilder build = new StringBuilder();
 		build.append(super.toString(prefix));
-		build.append(prefix + "Parameter Label: " + observationLabel + "\n");
-		build.append(prefix + "Type:            " + observationParameterType + "\n");
-		build.append(prefix + "Measure Spec:    " + measureSpecifications + "\n");
-		build.append(prefix + "Dimension Spec:  " + dimensionSpecifications + "\n");
+		build.append(prefix + "Specification Label: " + specificationLabel + "\n");
+		build.append(prefix + "Type:                " + observationParameterType + "\n");
+		build.append(prefix + "Measure Spec:        " + measureSpecifications + "\n");
+		build.append(prefix + "Dimension Spec:      " + dimensionSpecifications + "\n");
 		return build.toString();
 	}
 	

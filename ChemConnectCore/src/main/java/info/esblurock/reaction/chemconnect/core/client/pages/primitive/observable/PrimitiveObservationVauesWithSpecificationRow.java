@@ -23,8 +23,8 @@ import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observabl
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInterpretation;
-import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetRow;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetTitleRowCorrespondence;
+import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterSpecificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.SetOfObservationsInformation;
 
@@ -194,7 +194,7 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite
 	}
 
 	@Override
-	public void setIsolatedMatrix(ArrayList<SpreadSheetRow> matrix) {
+	public void setIsolatedMatrix(ArrayList<ObservationValueRow> matrix) {
 		//String title = obj.getIdentifier() + "-read";
 		Window.alert("PrimitiveObservationVauesWithSpecificationRow   setIsolatedMatrix: not implemented");
 		//SpreadSheetMatrix spread = new SpreadSheetMatrix(title, matrix);

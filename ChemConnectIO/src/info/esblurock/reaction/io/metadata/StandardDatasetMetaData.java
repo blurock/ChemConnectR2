@@ -33,12 +33,30 @@ public class StandardDatasetMetaData {
 	public static String measureSpec = "qb:measure";
 	public static String dimensionSpec = "qb:dimension";
 	public static String chemConnectCompoundMultipleS = "dataset:ChemConnectCompoundMultiple";
-	public static String  elementType = "dataset:elementType";
+	public static String elementType = "dataset:elementType";
 	
 	public static String CatalogBaseName = "skos:hasTopConcept";
 	public static String DataCatalog = "skos:inScheme";
 	public static String SimpleCatalogName = "qb:DataSet";
-	public static String CatalogDataID = "qb:ObservationGroup";
+	public static String matrixSpecificationCorrespondenceSetID = "dataset:matrixcorr";
+	public static String matrixSpecificationCorrespondenceSet = "dataset:MatrixSpecificationCorrespondenceSet";
+	public static String observationMatrixValues = "dataset:ObservationMatrixValues";
+	public static String observationSpecification = "qb:ComponentSpecification";
+	public static String matrixBlockDefinitionID = "qb:ObservationGroup";
+	public static String matrixSpecificationCorrespondenceID = "qb:ObservationGroup";
+	public static String matrixBlockDefinition = "dataset:MatrixBlockDefinition";
+	public static String matrixSpecificationCorrespondence = "dataset:MatrixSpecificationCorrespondence";
+	
+	public static String lastColumnInMatrix = "dataset:lastColumnInMatrix";
+	public static String startColumnInMatrix = "dataset:tartColumnInMatrix";
+	public static String lastRowInMatrix = "dataset:lastRowInMatrix";
+	public static String startRowInMatrix = "dataset:startRowInMatrix";
+	public static String matrixColumn = "dataset:matrixColumn";
+	public static String observationValueRowTitleID = "qb:SliceKey";
+	public static String observationValueRowID = "qb:Slice";
+	public static String observationValueRowTitle = "dataset:ObservationValueRowTitles";
+	public static String observationValueRow = "dataset:ObservationValueRow";
+	public static String position = "qb:order";
 	
 
 
@@ -157,8 +175,8 @@ public class StandardDatasetMetaData {
 	public static String delimitorS = "dataset:delimitor";
 	public static String observationSpecs = "dataset:ObservationSpecs";
 	public static String parameterValues = "dataset:ParameterValues";
-	public static String observationParameterType = "dataset:parameterType";
+	public static String observationParameterType = "dataset:observationParameterType";
 	public static String parameterSpecifications = "qb:ComponentSpecification";
-	public static String observationLabel = "dataset:ObservationLabel";
+	public static String specificationLabel = "dataset:specificationLabel";
 
 }

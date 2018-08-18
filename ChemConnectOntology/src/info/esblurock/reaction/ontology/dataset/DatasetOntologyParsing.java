@@ -367,6 +367,9 @@ dataset:ChemConnectPrimitiveDataStructure:
 				+ "	" + structure + " rdfs:subClassOf ?super .\n"
 				+ " " + structure + " <http://www.w3.org/2004/02/skos/core#altLabel> ?altl\n"
 				+ "  }";
+		
+		
+		
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
 		DataElementInformation info = null;

@@ -1,45 +1,46 @@
-package info.esblurock.reaction.chemconnect.core.data.observations;
+package info.esblurock.reaction.chemconnect.core.data.observations.matrix;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Unindex;
 
-import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 
 @Entity
 @SuppressWarnings("serial")
-public class SpreadSheetRow extends DatabaseObject {
+public class ObservationValueRow extends ChemConnectCompoundDataStructure {
 
 	@Index
-	int rowNumber;
-	@Index
-	String parent;
+	String rowNumber;
 	@Unindex
 	ArrayList<String> row;
 
-	public SpreadSheetRow() {
+	public ObservationValueRow() {
 		row = new ArrayList<String>();
 	}
 
-	public SpreadSheetRow(DatabaseObject obj, int rowNumber, String parent, ArrayList<String> row) {
+	public ObservationValueRow(ChemConnectCompoundDataStructure obj, String rowNumber, ArrayList<String> row) {
 		super(obj);
 		this.rowNumber = rowNumber;
-		this.parent = parent;
 		this.row = row;
 	}
 
-	public int getRowNumber() {
+	public String getRowNumber() {
 		return rowNumber;
-	}
-
-	public String getParent() {
-		return parent;
 	}
 
 	public ArrayList<String> getRow() {
 		return row;
+	}
+	
+	public void addValue(String value) {
+		row.add(value);
+	}
+	public String get(int count) {
+		return row.get(count);
 	}
 
 	public void add(String column) {
@@ -50,8 +51,8 @@ public class SpreadSheetRow extends DatabaseObject {
 		return row.size();
 	}
 
-	public String get(int number) {
-		return row.get(number);
+	public 	ArrayList<String> get() {
+		return row;
 	}
 
 	public String toString() {

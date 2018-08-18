@@ -34,7 +34,7 @@ import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInterpretation;
-import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetRow;
+import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
 
 public class ReadInSpreadSheetInformation extends Composite implements ObservationsFromSpreadSheetInterface {
 
@@ -115,9 +115,9 @@ public class ReadInSpreadSheetInformation extends Composite implements Observati
 	int numberOfVisibleRows;
 	int beginningRow;
 	int endingRow;
-	ArrayList<SpreadSheetRow> origmatrix;
-	ArrayList<SpreadSheetRow> matrix;
-	ArrayList<SpreadSheetRow> visiblematrix;
+	ArrayList<ObservationValueRow> origmatrix;
+	ArrayList<ObservationValueRow> matrix;
+	ArrayList<ObservationValueRow> visiblematrix;
 	SpreadSheetInterpretation interpretation;
 	String obstitle;
 	int maxcount;
@@ -206,7 +206,7 @@ public class ReadInSpreadSheetInformation extends Composite implements Observati
 		columnpanel.clear();
 		columnpanel.setVerticalAlign(VerticalAlign.TOP);
 		boolean error = true;
-		SpreadSheetRow spreadrow = matrix.get(beginningRow);
+		ObservationValueRow spreadrow = matrix.get(beginningRow);
 		if(title.getValue().booleanValue()) {
 			ArrayList<String> columns = spreadrow.getRow();
 			assign = new AssignParameterToColumnPanel(parameterNames,error,columns);
@@ -244,7 +244,7 @@ public class ReadInSpreadSheetInformation extends Composite implements Observati
 		MaterialToast.fireToast("All done.");
 		top.setCorrespondences(assign.getCorrespondences(obj, parent));
 		
-		ArrayList<SpreadSheetRow> visible = new ArrayList<SpreadSheetRow>();
+		ArrayList<ObservationValueRow> visible = new ArrayList<ObservationValueRow>();
 		for(int i=beginningRow; i<endingRow;i++) {
 			visible.add(matrix.get(i));
 		}
@@ -269,7 +269,7 @@ public class ReadInSpreadSheetInformation extends Composite implements Observati
 			boolean found = false;
 			while (notdone) {
 				if (i++ < matrix.size()) {
-					SpreadSheetRow spreadrow = matrix.get(i);
+					ObservationValueRow spreadrow = matrix.get(i);
 					ArrayList<String> row = spreadrow.getRow();
 					if (row.size() > 0) {
 						String first = row.get(0).trim();
@@ -330,9 +330,9 @@ public class ReadInSpreadSheetInformation extends Composite implements Observati
 	@UiHandler("nonblank")
 	void nonBlankClick(ClickEvent event) {
 		if(nonblank.getValue().booleanValue()) {
-			matrix.removeIf(new Predicate<SpreadSheetRow>() {
+			matrix.removeIf(new Predicate<ObservationValueRow>() {
 				@Override
-				public boolean test(SpreadSheetRow t) {
+				public boolean test(ObservationValueRow t) {
 					ArrayList<String> lst = t.getRow();
 					return lst.size() == 0;
 				}
@@ -383,7 +383,7 @@ public class ReadInSpreadSheetInformation extends Composite implements Observati
 			numberOfVisibleRows = number;
 		}
 		fieldUpdate();
-		ArrayList<SpreadSheetRow> visible = new ArrayList<SpreadSheetRow>();
+		ArrayList<ObservationValueRow> visible = new ArrayList<ObservationValueRow>();
 		int top = numberOfVisibleRows+beginningRow;
 		for(int i=beginningRow; i<top;i++) {
 			visible.add(matrix.get(i));

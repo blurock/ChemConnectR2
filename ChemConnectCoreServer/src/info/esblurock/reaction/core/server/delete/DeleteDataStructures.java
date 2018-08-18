@@ -7,7 +7,7 @@ import java.util.StringTokenizer;
 import com.googlecode.objectify.ObjectifyService;
 
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
-import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetRow;
+import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
 import info.esblurock.reaction.core.server.db.image.UserImageServiceImpl;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
@@ -21,7 +21,7 @@ public enum DeleteDataStructures {
 			SpreadSheetInputInformation spread = (SpreadSheetInputInformation) info;
 			String sourceID = spread.getSourceID();
 
-			List<SpreadSheetRow> entities = ObjectifyService.ofy().load().type(SpreadSheetRow.class).filter("sourceID",sourceID).list();
+			List<ObservationValueRow> entities = ObjectifyService.ofy().load().type(ObservationValueRow.class).filter("sourceID",sourceID).list();
 			
 			ObjectifyService.ofy().delete().entities(entities);
 			return null;

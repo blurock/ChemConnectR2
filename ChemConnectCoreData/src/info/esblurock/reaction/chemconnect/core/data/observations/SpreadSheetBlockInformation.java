@@ -3,6 +3,8 @@ package info.esblurock.reaction.chemconnect.core.data.observations;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
+
 public class SpreadSheetBlockInformation implements Serializable {
 	private static final long serialVersionUID = 1L;
 	int numberOfLines;
@@ -18,7 +20,7 @@ public class SpreadSheetBlockInformation implements Serializable {
 	
 	String title;
 	ArrayList<String> comments;
-	ArrayList<SpreadSheetRow> rows;
+	ArrayList<ObservationValueRow> rows;
 	
 	public SpreadSheetBlockInformation() {
 		
@@ -34,7 +36,7 @@ public class SpreadSheetBlockInformation implements Serializable {
 		justTitle = false;
 		title = "";
 		comments = new ArrayList<String>();
-		rows = new ArrayList<SpreadSheetRow>();
+		rows = new ArrayList<ObservationValueRow>();
 		currentLineCount = linecount;
 	}
 	public int getNumberOfLines() {
@@ -107,13 +109,13 @@ public class SpreadSheetBlockInformation implements Serializable {
 	public ArrayList<String> getComments() {
 		return comments;
 	}
-	public ArrayList<SpreadSheetRow> getRows() {
+	public ArrayList<ObservationValueRow> getRows() {
 		return rows;
 	}
 	public void addComment(String comment) {
 		comments.add(comment);
 	}
-	public void addRow(SpreadSheetRow row) {
+	public void addRow(ObservationValueRow row) {
 		rows.add(row);
 	}
 	public void incrementLineCount() {

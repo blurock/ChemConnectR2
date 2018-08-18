@@ -6,15 +6,15 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import gwt.material.design.client.data.loader.LoadCallback;
 import gwt.material.design.client.data.loader.LoadResult;
-import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetRow;
+import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
 
-public class SpreadSheetRowsCallback implements AsyncCallback<ArrayList<SpreadSheetRow>>{
+public class SpreadSheetRowsCallback implements AsyncCallback<ArrayList<ObservationValueRow>>{
 
-	LoadCallback<SpreadSheetRow> callback;
+	LoadCallback<ObservationValueRow> callback;
 	int start;
 	int total;
 	
-	public SpreadSheetRowsCallback(LoadCallback<SpreadSheetRow> callback, int start, int total) {
+	public SpreadSheetRowsCallback(LoadCallback<ObservationValueRow> callback, int start, int total) {
 		this.callback = callback;
 	}
 	@Override
@@ -24,8 +24,8 @@ public class SpreadSheetRowsCallback implements AsyncCallback<ArrayList<SpreadSh
 	}
 
 	@Override
-	public void onSuccess(ArrayList<SpreadSheetRow> result) {
-		callback.onSuccess(new LoadResult<SpreadSheetRow>(result, start, total));
+	public void onSuccess(ArrayList<ObservationValueRow> result) {
+		callback.onSuccess(new LoadResult<ObservationValueRow>(result, start, total));
 		
 	}
 

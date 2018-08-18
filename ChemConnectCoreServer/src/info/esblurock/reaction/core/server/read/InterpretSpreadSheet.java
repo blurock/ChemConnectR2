@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -21,12 +22,13 @@ import org.apache.poi.ss.usermodel.Row;
 
 import com.ibm.icu.util.StringTokenizer;
 
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetBlockInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
-import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetRow;
+import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
 import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
 import info.esblurock.reaction.core.server.db.image.UserImageServiceImpl;
 
@@ -97,11 +99,14 @@ public class InterpretSpreadSheet {
 
 	}
 
-	private static SpreadSheetRow createSpreadSheetRow(DatabaseObject obj, int count, ArrayList<String> lst) {
+	private static ObservationValueRow createSpreadSheetRow(DatabaseObject obj, int count, ArrayList<String> lst) {
 		DatabaseObject rowobj = new DatabaseObject(obj);
 		String id = obj.getIdentifier() + "-R" + count;
 		rowobj.setIdentifier(id);
-		SpreadSheetRow row = new SpreadSheetRow(rowobj, count, obj.getIdentifier(), lst);
+		
+		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(rowobj,obj.getIdentifier());
+		String countS = String.valueOf(count);
+		ObservationValueRow row = new ObservationValueRow(structure, countS, lst);
 		return row;
 	}
 
@@ -131,7 +136,7 @@ public class InterpretSpreadSheet {
 				if (lst.size() > numberOfColumns) {
 					numberOfColumns = lst.size();
 				}
-				SpreadSheetRow row = createSpreadSheetRow(obj, count++, lst);
+				ObservationValueRow row = createSpreadSheetRow(obj, count++, lst);
 				rowset.add(row);
 			} else {
 				notdone = false;
@@ -172,18 +177,18 @@ public class InterpretSpreadSheet {
 			if (array.size() > numberOfColumns) {
 				numberOfColumns = array.size();
 			}
-			SpreadSheetRow arrayrow = createSpreadSheetRow(obj, count++, array);
+			ObservationValueRow arrayrow = createSpreadSheetRow(obj, count++, array);
 			rowset.add(arrayrow);
 		}
 		wb.close();
 		return numberOfColumns;
 	}
 
-	public static void findBlocks(ObservationsFromSpreadSheet obs, ArrayList<SpreadSheetRow> rows) {
-		Iterator<SpreadSheetRow> iter = rows.iterator();
+	public static void findBlocks(ObservationsFromSpreadSheet obs, ArrayList<ObservationValueRow> rows) {
+		Iterator<ObservationValueRow> iter = rows.iterator();
 		int linecount = 0;
 		boolean morerows = iter.hasNext();
-		SpreadSheetRow row = iter.next();
+		ObservationValueRow row = iter.next();
 		while (morerows) {
 			SpreadSheetBlockInformation block = new SpreadSheetBlockInformation(linecount);
 			block.setFirstLine(linecount);
@@ -211,7 +216,7 @@ public class InterpretSpreadSheet {
 		}
 	}
 
-	public static SpreadSheetRow isolateTitleAndComments(SpreadSheetRow row, Iterator<SpreadSheetRow> iter,
+	public static ObservationValueRow isolateTitleAndComments(ObservationValueRow row, Iterator<ObservationValueRow> iter,
 			SpreadSheetBlockInformation block) {
 		if (row.size() == 1) {
 			block.setTitle(row.get(0));
@@ -239,7 +244,7 @@ public class InterpretSpreadSheet {
 		return row;
 	}
 
-	public static SpreadSheetRow isolateBlockElements(SpreadSheetRow row, Iterator<SpreadSheetRow> iter,
+	public static ObservationValueRow isolateBlockElements(ObservationValueRow row, Iterator<ObservationValueRow> iter,
 			SpreadSheetBlockInformation block) {
 		block.setMinNumberOfColumns(1000000);
 		while (row.size() > 1) {
@@ -257,8 +262,8 @@ public class InterpretSpreadSheet {
 		return row;
 	}
 
-	public static SpreadSheetRow nextRow(Iterator<SpreadSheetRow> iter, SpreadSheetBlockInformation block) {
-		SpreadSheetRow row = iter.next();
+	public static ObservationValueRow nextRow(Iterator<ObservationValueRow> iter, SpreadSheetBlockInformation block) {
+		ObservationValueRow row = iter.next();
 		block.incrementTotalLineCount();
 		return row;
 	}

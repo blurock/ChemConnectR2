@@ -8,9 +8,9 @@ import gwt.material.design.client.data.loader.LoadConfig;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.SpreadSheetRowsCallback;
 import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServices;
 import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServicesAsync;
-import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetRow;
+import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
 
-public class SpreadSheetDataSource implements DataSource<SpreadSheetRow> {
+public class SpreadSheetDataSource implements DataSource<ObservationValueRow> {
 
 	SpreadSheetServicesAsync async;
 	String parent;
@@ -23,7 +23,7 @@ public class SpreadSheetDataSource implements DataSource<SpreadSheetRow> {
 	}
 	
 	@Override
-	public void load(LoadConfig<SpreadSheetRow> loadConfig, LoadCallback<SpreadSheetRow> callback) {
+	public void load(LoadConfig<ObservationValueRow> loadConfig, LoadCallback<ObservationValueRow> callback) {
 		Window.alert("SpreadSheetDataSource:  load");
 		SpreadSheetServicesAsync async = SpreadSheetServices.Util.getInstance();
 		SpreadSheetRowsCallback asyncallback = new SpreadSheetRowsCallback(callback,loadConfig.getOffset(),total);
