@@ -40,6 +40,9 @@ public class ConceptParsing {
 
 	}
 
+	public static String measure = "<http://purl.org/linked-data/cube#measure>";
+	public static String dimension = "<http://purl.org/linked-data/cube#dimension>";
+
 	/**
 	 * 
 	 * This finds the annotation associated with the parameter [ rdf:type owl:Axiom
@@ -253,13 +256,13 @@ public class ConceptParsing {
 	 */
 	public static Set<AttributeDescription> propertyInConcept(String property, String concept) {
 		HashSet<AttributeDescription> set = new HashSet<AttributeDescription>();
-		String query = "SELECT ?propertyname\n" + " WHERE { " + concept + " <" + ReasonerVocabulary.directSubClassOf
-				+ ">  ?obj .\n" + "              ?obj  owl:onProperty " + property + " .\n"
+		String query = "SELECT ?propertyname\n" + " WHERE { " + concept + " rdfs:subClassOf ?obj .\n" 
+				+ "              ?obj  owl:onProperty " + property + " .\n"
 				+ "              ?obj owl:onClass ?propertyname\n" + "         }";
 		propertyInConceptQuery(set, query, concept, false);
 
-		String querysome = "SELECT ?propertyname\n" + " WHERE { " + concept + " <" + ReasonerVocabulary.directSubClassOf
-				+ ">  ?obj .\n" + "              ?obj  owl:onProperty " + property + " .\n"
+		String querysome = "SELECT ?propertyname\n" + " WHERE { " + concept + " rdfs:subClassOf  ?obj .\n"
+		+ "              ?obj  owl:onProperty " + property + " .\n"
 				+ "              ?obj owl:onClass ?propertyname\n" + "         }";
 		propertyInConceptQuery(set, querysome, concept, false);
 
@@ -328,8 +331,6 @@ public class ConceptParsing {
 	}
 
 	public static SetOfObservationsInformation fillSetOfObservations(String parameter) {
-		String measure = "<http://purl.org/linked-data/cube#measure>";
-		String dimension = "<http://purl.org/linked-data/cube#dimension>";
 
 		SetOfObservationsInformation obsset = new SetOfObservationsInformation();
 
@@ -388,11 +389,17 @@ public class ConceptParsing {
 		return info;
 	}
 
-	public static Set<String> setOfObservationsForSubsystem(String subsystem) {
+	public static Set<String> setOfObservationsForSubsystem(String subsystem, boolean measure) {
 		String query = "SELECT ?object ?sub2 ?sub1\n" + "	WHERE {\n" + " ?sub1 owl:annotatedTarget ?sub2 . \n"
 				+ " ?sub2 owl:onClass ?object . \n"
-				+ "	?sub1 <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasOutput> .\n"
+				+ "	?sub1 <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasInput> .\n"
 				+ "	?sub1 owl:annotatedSource " + subsystem + "\n" + "	}";
+		if(measure) {
+			query = "SELECT ?object ?sub2 ?sub1\n" + "	WHERE {\n" + " ?sub1 owl:annotatedTarget ?sub2 . \n"
+					+ " ?sub2 owl:onClass ?object . \n"
+					+ "	?sub1 <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasOutput> .\n"
+					+ "	?sub1 owl:annotatedSource " + subsystem + "\n" + "	}";
+		}
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
 		Set<String> obsset = new HashSet<String>();
@@ -521,6 +528,25 @@ public class ConceptParsing {
 			structure = map.get("propertyname");
 		}
 		return structure;
+	}
+	public static String qualifyStructureType(String structure, boolean measure) {
+		String query = "SELECT ?type\n" + 
+				"	WHERE { ?type rdfs:subClassOf* " +   structure + "  .\n" + 
+				"		?type  <http://purl.org/dc/elements/1.1/type> <http://purl.org/linked-data/cube#dimension>}";
+		if(measure) {
+			query = "SELECT ?type\n" + 
+					"	WHERE { ?type rdfs:subClassOf*  " +   structure + "  .\n" + 
+					"		?type  <http://purl.org/dc/elements/1.1/type> <http://purl.org/linked-data/cube#measure>}";
+		}
+		
+		List<Map<String, RDFNode>> lst2 = OntologyBase.resultSetToMap(query);
+		List<Map<String, String>> stringlst2 = OntologyBase.resultmapToStrings(lst2);
+		String type = null;
+		if (stringlst2.size() > 0) {
+			Map<String, String> map = stringlst2.get(0);
+			type = map.get("type");
+		}
+		return type;		
 	}
 
 	public static void fillInProperties(String parameter, ValueUnits units, PurposeConceptPair concept) {

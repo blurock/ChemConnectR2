@@ -500,15 +500,14 @@ public enum InterpretData {
 		}
 
 		@Override
-		public DatabaseObjectHierarchy createEmptyObject(
-				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
 			DatabaseObject subsysobj = new DatabaseObject(obj);
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(OntologyKeys.subSystemDescription);
 			String subsysid = createSuffix(obj, element);
 			subsysobj.setIdentifier(subsysid);
 			
-			DatabaseObjectHierarchy structhier = InterpretData.ChemConnectDataStructure.createEmptyObject(subsysobj);
+			DatabaseObjectHierarchy structhier = InterpretData.ChemConnectDataStructure.createEmptyObject(obj);
 			ChemConnectDataStructure structure = (ChemConnectDataStructure) structhier.getObject();
 			
 			DatabaseObjectHierarchy spechier = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(subsysobj);
@@ -2892,7 +2891,7 @@ public enum InterpretData {
 		return ans;
 	}
 	
-	private static void setChemConnectCompoundMultipleType(DatabaseObjectHierarchy hierarchy, String dataType) {
+	public static void setChemConnectCompoundMultipleType(DatabaseObjectHierarchy hierarchy, String dataType) {
 		ChemConnectCompoundMultiple multiple = (ChemConnectCompoundMultiple) hierarchy.getObject();
 		multiple.setType(dataType);
 		DataElementInformation refelement = DatasetOntologyParsing

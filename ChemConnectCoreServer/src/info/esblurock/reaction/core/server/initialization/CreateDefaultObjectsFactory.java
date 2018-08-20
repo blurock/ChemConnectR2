@@ -219,31 +219,49 @@ public class CreateDefaultObjectsFactory {
 	public static void fillInputOutputObservationSpecifications(String setofobservationsS,
 			DatabaseObjectHierarchy obspecset) {
 		ChemConnectCompoundMultiple obspecmulti = (ChemConnectCompoundMultiple) obspecset.getObject();
-		String obsspecID = obspecmulti.getIdentifier();
-		
-		
-		Set<String> observations = ConceptParsing.setOfObservationsForSubsystem(setofobservationsS);
-		for(String observation : observations) {
+		boolean measure = true;
+		Set<String> measureobs = ConceptParsing.setOfObservationsForSubsystem(setofobservationsS,measure);
+		for(String observation : measureobs) {
+			fillObservationSpecification(observation, measure, obspecmulti,obspecset);
+		}
+		measure = false;
+		Set<String> dimensionobs = ConceptParsing.setOfObservationsForSubsystem(setofobservationsS,measure);
+		for(String observation : dimensionobs) {
+			fillObservationSpecification(observation, measure, obspecmulti,obspecset);
+		}
+	}
+	
+	public static void fillObservationSpecification(String observation, 
+			boolean measure,
+			ChemConnectCompoundMultiple obspecmulti,
+			DatabaseObjectHierarchy obspecset) {
+			String obsspecID = obspecmulti.getIdentifier();
 			DatabaseObject subobsobj = new DatabaseObject(obspecmulti);
 			String specid = subobsobj.getIdentifier() + "-" + ChemConnectCompoundDataStructure.removeNamespace(observation);
 			subobsobj.setIdentifier(specid);
 			DatabaseObjectHierarchy obsspechier = InterpretData.ObservationSpecification.createEmptyObject(subobsobj);
-			fillObservationSpecification(obsspechier,observation,obsspecID);
+			fillObservationSpecification(obsspechier,observation,obsspecID,measure);
 			obspecmulti.addID(obsspechier.getObject().getIdentifier());
 			obspecset.addSubobject(obsspechier);
-		}
 	}
-
-	public static void fillObservationSpecification(DatabaseObjectHierarchy obsspechier, String observation, String parentID) {
+	public static void fillObservationSpecification(DatabaseObjectHierarchy obsspechier, String observation, String parentID, boolean measure) {
+		fillObservationSpecification(obsspechier,observation,parentID);
 		ObservationSpecification specification = (ObservationSpecification) obsspechier.getObject();
 		String observationParameterType = ConceptParsing.getStructureType(observation);
-		specification.setObservationParameterType(observationParameterType);
+		String qualified = ConceptParsing.qualifyStructureType(observationParameterType, measure);
+		specification.setObservationParameterType(qualified);
+		
+	}
+	public static void fillObservationSpecification(DatabaseObjectHierarchy obsspechier, String observation, String parentID) {
+		ObservationSpecification specification = (ObservationSpecification) obsspechier.getObject();
 		specification.setParentLink(parentID);
 		specification.setSpecificationLabel(observation);
 		String measurespecid = specification.getMeasureSpecifications();
 		fillMeasurementValues(observation, obsspechier, measurespecid,false,true);
 		String dimensionspecid = specification.getDimensionSpecifications();
 		fillMeasurementValues(observation, obsspechier, dimensionspecid,true,true);
+		String observationParameterType = ConceptParsing.getStructureType(observation);
+		specification.setObservationParameterType(observationParameterType);
 	}
 	
 	public static void setOneLineDescription(DatabaseObjectHierarchy hierarchy, String oneline) {
@@ -550,7 +568,6 @@ public class CreateDefaultObjectsFactory {
 			type = "<http://purl.org/linked-data/cube#dimension>";
 		}
 		Set<AttributeDescription> measureset = ConceptParsing.propertyInConcept(type, parameter);
-
 		DatabaseObjectHierarchy measurehier = set.getSubObject(measureid);
 		ChemConnectCompoundMultiple measremul = (ChemConnectCompoundMultiple) measurehier.getObject();
 		for (AttributeDescription attr : measureset) {

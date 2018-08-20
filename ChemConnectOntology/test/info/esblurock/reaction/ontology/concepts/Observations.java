@@ -14,10 +14,12 @@ public class Observations {
 
 	@Test
 	public void test() {
-		Set<String> set1 = ConceptParsing.setOfObservationsForSubsystem("dataset:HeatFluxBurner");
-		System.out.println(set1);
+		Set<String> measure = ConceptParsing.setOfObservationsForSubsystem("dataset:HeatFluxBurner",true);
+		System.out.println("Measure Observations\n" + measure);
+		Set<String> dimension = ConceptParsing.setOfObservationsForSubsystem("dataset:HeatFluxBurner",false);
+		System.out.println("Dimension Observations\n" + dimension);
 		
-		for(String parameter : set1) {
+		for(String parameter : dimension) {
 			Set<AttributeDescription> set = ConceptParsing.totalSetOfAttributesInConcept(parameter);
 			System.out.println(set);
 			for(AttributeDescription descr : set) {
