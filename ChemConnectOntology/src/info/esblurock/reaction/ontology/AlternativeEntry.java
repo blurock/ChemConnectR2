@@ -2,6 +2,9 @@ package info.esblurock.reaction.ontology;
 
 public abstract class AlternativeEntry {
 	
+	public String getDataCubeURL() {
+		return "http://purl.org/linked-data/cube";
+	}
 	public String getVcardURL() {
 		return "http://www.w3.org/2006/vcard/ns";
 	}

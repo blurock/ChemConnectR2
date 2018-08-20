@@ -505,14 +505,8 @@ public class CreateDefaultObjectsFactory {
 		setPurposeConceptPair(sethier, concept, purpose);
 		setOneLineDescription(sethier, oneline);
 		
-		System.out.println("fillSetOfObservations: \n" + set.toString());
-		System.out.println("fillSetOfObservations: \n" + set.getObservationSpecification());
-		
 		DatabaseObjectHierarchy obsspechier = sethier.getSubObject(set.getObservationSpecification());
-		System.out.println("fillSetOfObservations: \n" + sethier.getObject());
-		
 		ObservationSpecification spec = (ObservationSpecification) obsspechier.getObject();
-		System.out.println("fillSetOfObservations\n" + obsspechier);
 		fillObservationSpecification(obsspechier, parameter, set.getIdentifier());
 		DatabaseObjectHierarchy matrixvalueshier = sethier.getSubObject(set.getObservationMatrixValues());
 		DatabaseObjectHierarchy measure = obsspechier.getSubObject(spec.getMeasureSpecifications());

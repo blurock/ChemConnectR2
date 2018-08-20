@@ -4,6 +4,9 @@ import java.net.URL;
 
 public class AlternativeEntryWithAppFiles extends AlternativeEntry {
 
+	public String getDataCubleLocal() {
+		return "classpath:info/esblurock/reaction/ontology/resources/cube.ttl";
+	}
 	public String getVcardLocal() {
 		return "classpath:info/esblurock/reaction/ontology/resources/vcard.ttl";
 	}

@@ -66,6 +66,7 @@ public class OntologyBase {
 				AlternativeEntryWithAppFiles alt = new AlternativeEntryWithAppFiles();
 				datasetmodel = ModelFactory.createOntologyModel();
 				
+				datasetmodel.getDocumentManager().addAltEntry(alt.getDataCubeURL(), alt.getDataCubleLocal());
 				datasetmodel.getDocumentManager().addAltEntry(alt.getVcardURL(), alt.getVcardLocal());
 				datasetmodel.getDocumentManager().addAltEntry(alt.getDCatURL(), alt.getDCatLocal());
 				datasetmodel.getDocumentManager().addAltEntry(alt.getDctermsURL(), alt.getDcTermsLocal());
