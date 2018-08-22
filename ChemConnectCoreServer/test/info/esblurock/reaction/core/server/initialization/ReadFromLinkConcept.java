@@ -87,14 +87,12 @@ public class ReadFromLinkConcept {
 		DatabaseObject obj = new DatabaseObject("AdministrationCatalog-HeatFluxBurner",
 				"Public","Administration","1" );
 		
-		PurposeConceptPair pair = new PurposeConceptPair();
 		String devicename = "dataset:HeatFluxBurner";
-		ConceptParsing.fillInPurposeConceptPair(devicename, pair);
 		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,"");
 		DataCatalogID name = new DataCatalogID(structure,"Catalog-Base","Catalog","Simple");
 
 		DatabaseObjectHierarchy devicehier = CreateDefaultObjectsFactory.fillSubSystemDescription(obj,
-				devicename,pair.getPurpose(),pair.getConcept(),name);
+				devicename,name);
 
 		System.out.println("fillSubSystemDescription\n" + devicehier.toString());
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(devicehier);	

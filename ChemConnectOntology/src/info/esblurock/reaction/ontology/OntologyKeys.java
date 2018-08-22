@@ -41,6 +41,6 @@ public class OntologyKeys {
 	public static String databaseperson = "vcard:Individual";
 	
 	public static String hasPurpose = "dataset:hasPurpose";
-	public static String datacubeConcept = "datacube:concept";
+	public static String datacubeConcept = "qb:concept";
 	public static String qudtUnitSystem = "qudt:unitSystem";
 }

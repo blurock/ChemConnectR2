@@ -4,18 +4,18 @@ import com.googlecode.objectify.annotation.Entity;
 
 @Entity
 @SuppressWarnings("serial")
-public class MeasurementParameterSpecification extends ParameterSpecification {
+public class MeasureParameterSpecification extends ParameterSpecification {
 
-	public MeasurementParameterSpecification() {
+	public MeasureParameterSpecification() {
 		super();
 	}
 
-	public MeasurementParameterSpecification(DataSpecification spec, String parameterLabel, String dataPointUncertainty,
+	public MeasureParameterSpecification(DataSpecification spec, String parameterLabel, String dataPointUncertainty,
 			String units, String parameterType) {
 		super(spec, parameterLabel, dataPointUncertainty, units,parameterType);
 	}
 
-	public MeasurementParameterSpecification(ParameterSpecification spec) {
+	public MeasureParameterSpecification(ParameterSpecification spec) {
 		super(spec);
 	}
 

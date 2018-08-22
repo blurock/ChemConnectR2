@@ -27,13 +27,11 @@ public class YamlReadWrite {
 				"Public","Administration","1" );
 	
 		String devicename = "dataset:HeatFluxBurner";
-		String purpose = "dataset:FlameVelocityMeasurements";
-		String concept = "dataset:FlameStudies";
 		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,"");
 		DataCatalogID name = new DataCatalogID(structure,"Catalog-Base","Catalog","Simple");
 		
 		DatabaseObjectHierarchy devicehier = CreateDefaultObjectsFactory.fillSubSystemDescription(obj,
-				devicename,purpose,concept,name);
+				devicename,name);
 		System.out.println("fillSubSystemDescription\n" + devicehier.toString());
 		
 		try {

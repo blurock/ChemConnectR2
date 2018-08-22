@@ -3,11 +3,12 @@ package info.esblurock.reaction.chemconnect.core.data.dataset;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
 
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 
 @SuppressWarnings("serial")
 @Entity
-public class ParameterValue extends DatabaseObject {
+public class ParameterValue extends ChemConnectCompoundDataStructure {
 	
 	@Index
 	String valueAsString;
@@ -19,7 +20,7 @@ public class ParameterValue extends DatabaseObject {
 	public ParameterValue() {
 	}
 
-	public ParameterValue(DatabaseObject attribute, String valueAsString, String uncertainty, String parameterSpec) {
+	public ParameterValue(ChemConnectCompoundDataStructure attribute, String valueAsString, String uncertainty, String parameterSpec) {
 		this.fill(attribute,valueAsString,uncertainty,parameterSpec);
 	}
 	
@@ -42,7 +43,7 @@ public class ParameterValue extends DatabaseObject {
 		this.parameterSpec = value.getParameterSpec();
 	}
 	
-	public void fill(DatabaseObject attribute, String valueAsString, String uncertainty, String parameterSpec) {
+	public void fill(ChemConnectCompoundDataStructure attribute, String valueAsString, String uncertainty, String parameterSpec) {
 		super.fill(attribute);
 		this.valueAsString = valueAsString;
 		this.uncertainty = uncertainty;

@@ -36,6 +36,7 @@ public class StandardDatasetMetaData {
 	public static String elementType = "dataset:elementType";
 	
 	public static String CatalogBaseName = "skos:hasTopConcept";
+	public static String DataCatalogIDID = "qb:ObservationGroup";
 	public static String DataCatalog = "skos:inScheme";
 	public static String SimpleCatalogName = "qb:DataSet";
 	public static String matrixSpecificationCorrespondenceSetID = "dataset:matrixcorr";
@@ -76,7 +77,7 @@ public class StandardDatasetMetaData {
 	
 	public static String dataStructureIdentifierS = "qb:structure";
 	public static String linkConceptTypeS = "skos:related";
-	public static String dataConceptTypeS = "skos:Concept";
+	//public static String dataConceptTypeS = "skos:Concept";
 	
 	public static String orginfoKeyS = "org:Organization";
 	public static String contactKeyS = "vcard:Contact";
@@ -139,7 +140,7 @@ public class StandardDatasetMetaData {
 	public static String unitsS = "qudt:Unit";
 	public static String unitsOfValueS = "qudt:QuantityKind";
 	public static String purposeConceptPairS = "prov:influenced";
-	public static String dataTypeConceptS = "skos:Concept";
+	//public static String dataTypeConceptS = "skos:Concept";
 	public static String purposeS = "dataset:purpose";
 	public static String dynamicTypeS = "dataset:dynamicType";
 	

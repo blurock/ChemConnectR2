@@ -2,7 +2,7 @@ package info.esblurock.reaction.chemconnect.core.data.dataset;
 
 import com.googlecode.objectify.annotation.Entity;
 
-import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 
 @SuppressWarnings("serial")
 @Entity
@@ -14,7 +14,7 @@ public class MeasurementParameterValue extends ParameterValue {
 	public MeasurementParameterValue(ParameterValue value) {
 		super(value);
 	}
-	public MeasurementParameterValue(DatabaseObject attribute, String valueAsString, String uncertainty,
+	public MeasurementParameterValue(ChemConnectCompoundDataStructure attribute, String valueAsString, String uncertainty,
 			String parameterSpec) {
 		super(attribute, valueAsString, uncertainty, parameterSpec);
 	}

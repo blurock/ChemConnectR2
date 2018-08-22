@@ -147,7 +147,7 @@ public class CreateDefaultObjectsFactory {
 		return methodhier;
 	}
 	public static DatabaseObjectHierarchy fillSubSystemDescription(DatabaseObject obj, String devicename,
-			String purpose, String concept,DataCatalogID datid) {
+			DataCatalogID datid) {
 		DatabaseObjectHierarchy hierarchy = InterpretData.SubSystemDescription.createEmptyObject(obj);
 		SubSystemDescription device = (SubSystemDescription) hierarchy.getObject();
 		
@@ -166,7 +166,12 @@ public class CreateDefaultObjectsFactory {
 		catid.setSimpleCatalogName(datid.getSimpleCatalogName());
 		
 		setOneLineDescription(hierarchy, devicename);
-		setPurposeConceptPair(hierarchy, concept, purpose);
+		
+		DatabaseObjectHierarchy pcHier = InterpretData.PurposeConceptPair.createEmptyObject(descr);
+		PurposeConceptPair pair = (PurposeConceptPair) pcHier.getObject();
+		ConceptParsing.fillInPurposeConceptPair(devicename, pair);
+		
+		setPurposeConceptPair(hierarchy, pair.getConcept(), pair.getPurpose());
 		Set<AttributeDescription> attrs = ConceptParsing.attributesInConcept(devicename);
 		String paramid = device.getParameterValues();
 		DatabaseObjectHierarchy paramsethier = hierarchy.getSubObject(paramid);
@@ -188,7 +193,7 @@ public class CreateDefaultObjectsFactory {
 			DatabaseObject subobj = new DatabaseObject(subsystemmulti);
 			String id = subobj.getIdentifier() + "-" + simple;
 			subobj.setIdentifier(id);
-			DatabaseObjectHierarchy subhierarchy = fillSubSystemDescription(subobj,subsystem,concept,purpose,datid);
+			DatabaseObjectHierarchy subhierarchy = fillSubSystemDescription(subobj,subsystem,datid);
 			subsystemhier.addSubobject(subhierarchy);
 			subsystemmulti.addID(subhierarchy.getObject().getIdentifier());
 		}
@@ -197,7 +202,7 @@ public class CreateDefaultObjectsFactory {
 			DatabaseObject subobj = new DatabaseObject(subsystemmulti);
 			String id = subobj.getIdentifier() + "-" + simple;
 			subobj.setIdentifier(id);
-			DatabaseObjectHierarchy subhierarchy = fillSubSystemDescription(subobj,component,concept,purpose,datid);
+			DatabaseObjectHierarchy subhierarchy = fillSubSystemDescription(subobj,component,datid);
 			subsystemhier.addSubobject(subhierarchy);
 			subsystemmulti.addID(subhierarchy.getObject().getIdentifier());			
 		}
@@ -580,8 +585,8 @@ public class CreateDefaultObjectsFactory {
 		return measurehier;
 	}
 	public static DatabaseObjectHierarchy fillParameterValue(DatabaseObject valueobj, boolean dimension) {
-		DatabaseObjectHierarchy attribute = InterpretData.DatabaseObject.createEmptyObject(valueobj);
-		DatabaseObject attr = (DatabaseObject) attribute.getObject();
+		DatabaseObjectHierarchy attribute = InterpretData.ChemConnectCompoundDataStructure.createEmptyObject(valueobj);
+		ChemConnectCompoundDataStructure attr = (ChemConnectCompoundDataStructure) attribute.getObject();
 		DatabaseObjectHierarchy parameterspec = InterpretData.ParameterSpecification.createEmptyObject(valueobj);
 		ParameterSpecification pspec = (ParameterSpecification) parameterspec.getObject();
 		ParameterValue value = null;
@@ -625,7 +630,7 @@ public class CreateDefaultObjectsFactory {
 			}
 		} else {
 			if(specification) {
-				valuehier = InterpretData.MeasurementParameterSpecification.createEmptyObject(subobj);
+				valuehier = InterpretData.MeasureParameterSpecification.createEmptyObject(subobj);
 			} else {
 				valuehier = InterpretData.MeasurementParameterValue.createEmptyObject(subobj);
 			}
@@ -771,7 +776,7 @@ public class CreateDefaultObjectsFactory {
 		if (dimension) {
 			valuehier = InterpretData.DimensionParameterSpecification.createEmptyObject(subobj);
 		} else {
-			valuehier = InterpretData.MeasurementParameterSpecification.createEmptyObject(subobj);
+			valuehier = InterpretData.MeasureParameterSpecification.createEmptyObject(subobj);
 		}
 		fillParameterValueAndSpecification(valuehier,parameter);
 		return valuehier;

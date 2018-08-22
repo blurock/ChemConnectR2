@@ -414,10 +414,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 			devicehier = ExtractCatalogInformation.getCatalogObject(obj.getIdentifier(),
 					"dataset:SubSystemDescription");
 		} catch (IOException e) {
-			PurposeConceptPair pair = new PurposeConceptPair();
-			ConceptParsing.fillInPurposeConceptPair(devicename, pair);
-			devicehier = CreateDefaultObjectsFactory.fillSubSystemDescription(obj, devicename, pair.getPurpose(),
-					pair.getConcept(),datid);
+			devicehier = CreateDefaultObjectsFactory.fillSubSystemDescription(obj, devicename, datid);
 		}
 		return devicehier;
 	}

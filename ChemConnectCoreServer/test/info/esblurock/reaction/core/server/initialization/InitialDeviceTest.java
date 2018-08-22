@@ -1,13 +1,18 @@
 package info.esblurock.reaction.core.server.initialization;
 
+//import static org.junit.Assert.*;
+
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.StringWriter;
+import java.util.Map;
+import java.util.Set;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.esotericsoftware.yamlbeans.YamlWriter;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.googlecode.objectify.ObjectifyFactory;
@@ -21,25 +26,27 @@ import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructu
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.contact.RegisterContactData;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
-import info.esblurock.reaction.chemconnect.core.data.dataset.PurposeConceptPair;
 import info.esblurock.reaction.chemconnect.core.data.dataset.RegistrerDataset;
 import info.esblurock.reaction.chemconnect.core.data.dataset.device.SubSystemDescription;
+import info.esblurock.reaction.chemconnect.core.data.description.DescriptionDataData;
 import info.esblurock.reaction.chemconnect.core.data.description.RegisterDescriptionData;
 import info.esblurock.reaction.chemconnect.core.data.gcs.RegisterGCSClasses;
 import info.esblurock.reaction.chemconnect.core.data.image.RegisterImageInformation;
 import info.esblurock.reaction.chemconnect.core.data.initialization.RegisterInitializationData;
 import info.esblurock.reaction.chemconnect.core.data.login.RegisterUserLoginData;
+import info.esblurock.reaction.chemconnect.core.data.methodology.ChemConnectMethodology;
+import info.esblurock.reaction.chemconnect.core.data.methodology.RegisterMethodology;
 import info.esblurock.reaction.chemconnect.core.data.observations.RegisterObservationData;
 import info.esblurock.reaction.chemconnect.core.data.rdf.RegisterRDFData;
 import info.esblurock.reaction.chemconnect.core.data.transaction.RegisterTransactionData;
-import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.db.image.BlobKeyCorrespondence;
-import info.esblurock.reaction.ontology.dataset.ConceptParsing;
+import info.esblurock.reaction.core.server.read.ReadWriteYamlDatabaseObjectHierarchy;
 
-public class WriteReadDevices {
+public class InitialDeviceTest {
+
 	protected Closeable session;
 	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 
@@ -48,7 +55,7 @@ public class WriteReadDevices {
 		// Reset the Factory so that all translators work properly.
 		ObjectifyService.setFactory(new ObjectifyFactory());
 	}
-	
+
 	@Before
 	public void setUp() {
 		this.session = ObjectifyService.begin();
@@ -62,6 +69,7 @@ public class WriteReadDevices {
 		RegisterImageInformation.register();
 		RegisterGCSClasses.register();
 		RegisterObservationData.register();
+		RegisterMethodology.register();
 		ObjectifyService.register(BlobKeyCorrespondence.class);
 		ObjectifyService.register(DatabaseObject.class);
 		ObjectifyService.register(ChemConnectCompoundMultiple.class);
@@ -71,6 +79,7 @@ public class WriteReadDevices {
 		System.out.println("Classes Registered");
 		this.helper.setUp();
 	}
+
 	@After
 	public void tearDown() {
 		AsyncCacheFilter.complete();
@@ -78,43 +87,66 @@ public class WriteReadDevices {
 		this.helper.tearDown();
 	}
 
+	
+
 	@Test
 	public void test() {
-		String user = "Administration";
-		//String classname = SubSystemDescription.class.getCanonicalName();
-		String basecatalog = "Catalog-Base";
-		String catalog = "Catalog";
-		
-		DatabaseObject obj = new DatabaseObject("AdministrationCatalog-HeatFluxBurner",
-				user,user,"1" );
-		
-		String devicename = "dataset:HeatFluxBurner";
+		DatabaseObject obj = new DatabaseObject("AdministrationCatalog","Public","Administration","1" );
+		String devicename = "dataset:HeatFluxBurnerBurnerPlate";
 		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,"");
-		DataCatalogID name = new DataCatalogID(structure,"Catalog-Base","Catalog","Simple");
+		DataCatalogID datid = new DataCatalogID(structure,"Catalog-Base","Catalog","Simple");
+		DatabaseObjectHierarchy hierarchy1 = CreateDefaultObjectsFactory.fillSubSystemDescription(obj, 
+				devicename, datid);
 		
-		DatabaseObjectHierarchy devicehier = CreateDefaultObjectsFactory.fillSubSystemDescription(obj,
-				devicename,name);
-
-		System.out.println("fillSubSystemDescription\n" + devicehier.toString());
-		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(devicehier);	
-		DatabaseObjectHierarchy readhierarchy = ExtractCatalogInformation.getCatalogObject("AdministrationCatalog-HeatFluxBurner", "dataset:SubSystemDescription");
-		System.out.println("fillSubSystemDescription\n" + readhierarchy.toString());
-		
-		
-		System.out.println("WriteReadDatabaseObjects.getIDsFromDatabaseObjectHierarchy:");
+		String descr = "The Heat Flux method is one of the most recent "
+				+ "experimental methods, which allow measuring laminar burning "
+				+ "velocity. In order to improve the accuracy of the measurements "
+				+ "and to determine possible systematic uncertainties, "
+				+ "several sets of experiments have been carried out and their "
+				+ "results have been compared.\n In this study the Heat Flux "
+				+ "method has been applied to measure laminar burning velocities "
+				+ "of methane, methanol and ethanol mixtures with air. "
+				+ "The measurements have been performed by four different "
+				+ "laboratories from Eindhoven University of Technology, "
+				+ "Lund University, OWI Oel-Waerme Institut GmbH and "
+				+ "TU Bergakademie Freiberg.";
+		SubSystemDescription m = (SubSystemDescription) hierarchy1.getObject();
+		DatabaseObjectHierarchy dhier = hierarchy1.getSubObject(m.getDescriptionDataData());
+		DescriptionDataData dstruct = (DescriptionDataData) dhier.getObject();
+		dstruct.setDescriptionAbstract(descr);
+		System.out.println(hierarchy1.toString());
+/*		
 		try {
-			ArrayList<DatabaseObjectHierarchy> hiers = WriteReadDatabaseObjects.getAllDatabaseObjectHierarchyForUser(user, 
-					"dataset:DataCatalogID");
-			for(DatabaseObjectHierarchy hier : hiers) {
-				System.out.println(hier.toString());
-			}
+			Map<String,Object> map1 = ReadWriteYamlDatabaseObjectHierarchy.yamlDatabaseObjectHierarchy(hierarchy1);
+			StringWriter wS = new StringWriter(1000000);
+			YamlWriter writer = new YamlWriter(wS);
+			writer.write(map1);
+			writer.close();
+			System.out.println("--------------------------------------------");
+			System.out.println(wS.toString());
+			System.out.println("--------------------------------------------");
+			DatabaseObjectHierarchy hierarchy2 = ReadWriteYamlDatabaseObjectHierarchy.readYamlDatabaseObjectHierarchy(obj, map1, "100");
+			System.out.println("--------------------------------------------");
+			System.out.println(hierarchy2.toString());
+			System.out.println("--------------------------------------------");
 			
-			HierarchyNode node = WriteReadDatabaseObjects.getIDHierarchyFromDataCatalogID(user,basecatalog,catalog);
-			System.out.println("WriteReadDatabaseObjects.getIDsFromDatabaseObjectHierarchy:\n " + node.toString());
+			WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(hierarchy1);	
+			System.out.println("Hierarchy written");
+			Set<String> ids = WriteReadDatabaseObjects.getIDsOfAllDatabaseObjects("Administration",
+					"dataset:SubSystemDescription");
+			System.out.println("IDs: " + ids);
+			System.out.println("----------------------------------------------------------------");
+			//String uid = DatasetCatalogHierarchy.createFullCatalogName("Catalog", username);
+			String uid = "AdministrationCatalog";
+			DatabaseObjectHierarchy methhier = ExtractCatalogInformation.getCatalogObject(uid, "dataset:SubSystemDescription");
+			System.out.println("----------------------------------------------------------------");
+			System.out.println(methhier.toString());
+
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		*/
 	}
 
 }

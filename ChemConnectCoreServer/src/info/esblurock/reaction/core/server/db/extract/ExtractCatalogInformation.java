@@ -59,9 +59,13 @@ public class ExtractCatalogInformation {
 							hierarchy.addSubobject(sub);
 						}
 					} else {
+						System.out.println("--------------------------------------");
+						System.out.println("Couldn't find Identifier: \n" + element.toString());
 						System.out.println("Couldn't find Identifier: " + classify.getDataType());
+						System.out.println("Couldn't find Identifier: " + type);
 						System.out.println("Couldn't find Identifier: " + identifier);
 						System.out.println("Couldn't find Identifier: " + mapping.keySet());
+						System.out.println("--------------------------------------");
 					}
 				}
 			} else {

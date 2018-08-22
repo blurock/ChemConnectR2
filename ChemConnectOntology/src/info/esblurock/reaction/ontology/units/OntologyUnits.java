@@ -155,7 +155,7 @@ public class OntologyUnits extends OntologyBase {
 	public static Set<String> classifications(String classification) {
 	String query = "SELECT ?propertyname ?keyword\n" + 
 			" WHERE {" + classification + " rdfs:subClassOf  ?obj .\n" + 
-			"              ?obj  owl:onProperty datacube:concept .\n" + 
+			"              ?obj  owl:onProperty skos:concept .\n" + 
 			"              ?obj owl:onClass ?propertyname .\n" + 
 			"              ?keyword rdfs:subClassOf ?propertyname\n" + 
 			"         }";

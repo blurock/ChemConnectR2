@@ -22,7 +22,7 @@ import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMul
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.contact.RegisterContactData;
-import info.esblurock.reaction.chemconnect.core.data.dataset.MeasurementParameterSpecification;
+import info.esblurock.reaction.chemconnect.core.data.dataset.MeasureParameterSpecification;
 import info.esblurock.reaction.chemconnect.core.data.dataset.MeasurementParameterValue;
 import info.esblurock.reaction.chemconnect.core.data.dataset.RegistrerDataset;
 import info.esblurock.reaction.chemconnect.core.data.description.RegisterDescriptionData;
@@ -89,14 +89,14 @@ public class UpdateDatabaseObjects {
 
 		try {
 			DatabaseObject measure = QueryBase.getDatabaseObjectFromIdentifier(
-					MeasurementParameterSpecification.class.getCanonicalName(),
+					MeasureParameterSpecification.class.getCanonicalName(),
 					"AdministrationCatalog-ThermocouplePositionInBurner-spec");
 			System.out.println("Read:   \n" + measure.toString());
 
-			MeasurementParameterSpecification value = (MeasurementParameterSpecification) hierarchy.getObject();
+			MeasureParameterSpecification value = (MeasureParameterSpecification) hierarchy.getObject();
 			value.setDataPointUncertainty("NewDataPointUncertainty");
 
-			measure = QueryBase.getDatabaseObjectFromIdentifier(MeasurementParameterSpecification.class.getCanonicalName(),
+			measure = QueryBase.getDatabaseObjectFromIdentifier(MeasureParameterSpecification.class.getCanonicalName(),
 					"AdministrationCatalog-ThermocouplePositionInBurner-spec");
 			System.out.println("Read:   \n" + measure.toString());
 		} catch (IOException e) {

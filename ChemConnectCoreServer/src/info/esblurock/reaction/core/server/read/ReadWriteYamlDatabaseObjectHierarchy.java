@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.db.InterpretData;
@@ -24,30 +25,37 @@ public class ReadWriteYamlDatabaseObjectHierarchy {
 		Set<String> subnames = objmapping.keySet();
 		for (String subname : subnames) {
 			Object obj = objmapping.get(subname);
-			if (subname.compareTo("dataset:ChemConnectCompoundMultiple") == 0) {
-				ArrayList<String> lst = (ArrayList<String>) obj;
-				Map<String, Object> multobj = new HashMap<String, Object>();
-				mapping.put("dataset:ChemConnectCompoundMultiple", multobj);
-				for (String subobjname : lst) {
-					DatabaseObjectHierarchy submulthier = objecthierarchy.getSubObject(subobjname);
-					Map<String, Object> submultobj = yamlDatabaseObjectHierarchy(submulthier);
-					multobj.put(subobjname, submultobj);
+			if(subname.compareTo("dataset:ChemConnectCompoundMultiple") == 0) {
+				String identifier = object.getIdentifier();
+				ArrayList<String> subobjectIDs = (ArrayList<String>) obj;
+				Map<String,Object> submap = new HashMap<String,Object>();
+				for(String id : subobjectIDs) {
+					DatabaseObjectHierarchy objhier = objecthierarchy.getSubObject(id);
+					Map<String, Object> multmap = yamlDatabaseObjectHierarchy(objhier);
+					submap.put(id, multmap);
 				}
+				mapping.put("dataset:ChemConnectCompoundMultiple", submap);
+			} else if(obj.getClass().getCanonicalName().compareTo(ArrayList.class.getCanonicalName()) == 0) {
+				mapping.put(subname, obj);
 			} else {
-				String objname = (String) obj;
-				DatabaseObjectHierarchy objhier = objecthierarchy.getSubObject(objname);
+				String value = (String) obj;
+				DatabaseObjectHierarchy objhier = objecthierarchy.getSubObject(value);
 				if (objhier != null) {
 					Map<String, Object> subobjmapping = yamlDatabaseObjectHierarchy(objhier);
-					mapping.put(subname, subobjmapping);
+					DatabaseObject dataobj = objhier.getObject();
+					String id = dataobj.getIdentifier();
+					mapping.put(subname, id);
+					mapping.put(id, subobjmapping);
 				} else {
 					String n = (String) objmapping.get(subname);
 					mapping.put(subname, n);
-				}
+				}					
+
 			}
 		}
 		return mapping;
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	public static DatabaseObjectHierarchy readYamlDatabaseObjectHierarchy(DatabaseObject top,
 			Map<String, Object> mapping, String sourceID) throws IOException {
@@ -55,18 +63,18 @@ public class ReadWriteYamlDatabaseObjectHierarchy {
 		DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy();
 		InterpretData interpret = InterpretData.valueOf(structurename);
 		if (structurename.compareTo("ChemConnectCompoundMultiple") == 0) {
+			ChemConnectCompoundMultiple mult = (ChemConnectCompoundMultiple) interpret.fillFromYamlString(top, mapping, sourceID);
 			Map<String, Object> submap = (Map<String, Object>) mapping.get("dataset:ChemConnectCompoundMultiple");
 			if (submap != null) {
 				Set<String> keys = submap.keySet();
 				for (String key : keys) {
+					mult.addID(key);
 					Map<String, Object> multimap = (Map<String, Object>) submap.get(key);
 					DatabaseObjectHierarchy subhier = readYamlDatabaseObjectHierarchy(top, multimap, sourceID);
 					hierarchy.addSubobject(subhier);
 				}
 			}
-			DatabaseObject obj = interpret.fillFromYamlString(top, mapping, sourceID);
-			hierarchy.setObject(obj);
-
+			hierarchy.setObject(mult);
 		} else {
 			Set<String> keys = mapping.keySet();
 			for (String name : keys) {
@@ -79,9 +87,9 @@ public class ReadWriteYamlDatabaseObjectHierarchy {
 					hierarchy.addSubobject(subhier);
 				}
 			}
+			DatabaseObject obj = interpret.fillFromYamlString(top, mapping, sourceID);
+			hierarchy.setObject(obj);
 		}
-		DatabaseObject obj = interpret.fillFromYamlString(top, mapping, sourceID);
-		hierarchy.setObject(obj);
 		return hierarchy;
 	}
 
