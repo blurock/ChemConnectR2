@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.text.Utilities;
+
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
@@ -22,6 +24,7 @@ import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
 import info.esblurock.reaction.core.server.db.InterpretData;
 import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.io.db.QueryBase;
+import info.esblurock.reaction.io.metadata.StandardDatasetMetaData;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataObjectLink;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHierarchy;
@@ -37,6 +40,8 @@ import info.esblurock.reaction.chemconnect.core.data.dataset.device.SubSystemDes
 import info.esblurock.reaction.chemconnect.core.data.description.DescriptionDataData;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.methodology.ChemConnectMethodology;
+import info.esblurock.reaction.chemconnect.core.data.observations.matrix.MatrixSpecificationCorrespondence;
+import info.esblurock.reaction.chemconnect.core.data.observations.matrix.MatrixSpecificationCorrespondenceSet;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationMatrixValues;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRowTitle;
@@ -515,12 +520,6 @@ public class CreateDefaultObjectsFactory {
 	public static DatabaseObjectHierarchy fillSetOfObservations(DatabaseObject obj, String parameter, 
 			String oneline,
 			DataCatalogID datid) {
-		/*
-		String measure = "<http://purl.org/linked-data/cube#measure>";
-		String dimension = "<http://purl.org/linked-data/cube#dimension>";
-		Set<AttributeDescription> measureset = ConceptParsing.propertyInConcept(measure, parameter);
-		Set<AttributeDescription> dimensionset = ConceptParsing.propertyInConcept(dimension, parameter);
-        */
 		DatabaseObjectHierarchy sethier = InterpretData.SetOfObservationValues.createEmptyObject(obj);
 		SetOfObservationValues set = (SetOfObservationValues) sethier.getObject();
 		
@@ -538,9 +537,52 @@ public class CreateDefaultObjectsFactory {
 		fillObservationSpecification(obsspechier, parameter, set.getIdentifier());
 		DatabaseObjectHierarchy matrixvalueshier = sethier.getSubObject(set.getObservationMatrixValues());
 		DatabaseObjectHierarchy measure = obsspechier.getSubObject(spec.getMeasureSpecifications());
-		DatabaseObjectHierarchy dimension = obsspechier.getSubObject(spec.getMeasureSpecifications());
+		DatabaseObjectHierarchy dimension = obsspechier.getSubObject(spec.getDimensionSpecifications());
 		fillObservationMatrixValues(matrixvalueshier,measure,dimension);
+		
+		DatabaseObjectHierarchy corrspechier = sethier.getSubObject(set.getMatrixSpecificationCorrespondenceSet());
+		MatrixSpecificationCorrespondenceSet corrspec = (MatrixSpecificationCorrespondenceSet) corrspechier.getObject();
+		DatabaseObjectHierarchy colcorrhier = corrspechier.getSubObject(corrspec.getMatrixSpecificationCorrespondence());
+		fillMatrixSpecificationCorrespondence(colcorrhier,measure,dimension);
+		
+		
+		
 		return sethier;
+	}
+	
+	public static void fillMatrixSpecificationCorrespondence(DatabaseObjectHierarchy colcorrhier,
+			DatabaseObjectHierarchy measure,
+			DatabaseObjectHierarchy dimension) {
+		int count = addMatrixSpecificationCorrespondence(0,colcorrhier,dimension);
+		addMatrixSpecificationCorrespondence(count,colcorrhier,measure);
+	}
+	
+	public static int addMatrixSpecificationCorrespondence(int count,
+			DatabaseObjectHierarchy colcorrhier,
+			DatabaseObjectHierarchy spec) {
+		ChemConnectCompoundMultiple colcorrset = (ChemConnectCompoundMultiple) colcorrhier.getObject();
+		ChemConnectCompoundMultiple multiple = (ChemConnectCompoundMultiple) spec.getObject();
+		HashSet<String> ids = multiple.getIds();
+		for(String id: ids) {
+			DatabaseObjectHierarchy hier = spec.getSubObject(id);
+			ParameterSpecification pspec = (ParameterSpecification) hier.getObject();
+			String name = pspec.getParameterLabel();
+			
+			DatabaseObject corrobj = new DatabaseObject(multiple);
+			int pos = name.indexOf(":");
+			String corrid = multiple.getIdentifier() + "-" + name.substring(pos+1);
+			corrobj.setIdentifier(corrid);
+
+			
+			DatabaseObjectHierarchy corrhier = InterpretData.MatrixSpecificationCorrespondence.createEmptyObject(corrobj);
+			MatrixSpecificationCorrespondence corr = (MatrixSpecificationCorrespondence) corrhier.getObject();
+			corr.setMatrixColumn(String.valueOf(count));
+			corr.setSpecificationLabel(name);
+			colcorrset.addID(corr.getIdentifier());
+			colcorrhier.addSubobject(corrhier);
+			count++;
+		}
+		return count;
 	}
 	
 	public static void fillObservationMatrixValues(DatabaseObjectHierarchy matrixvalues,
@@ -555,8 +597,8 @@ public class CreateDefaultObjectsFactory {
 		ObservationValueRow rowvalues = (ObservationValueRow) rowvalueshier.getObject();
 		valuemultiple.addID(rowvalues.getIdentifier());
 		valueshier.addSubobject(rowvalueshier);
-		addTitlesAndSampleValues(titles,rowvalues,measure);
 		addTitlesAndSampleValues(titles,rowvalues,dimension);
+		addTitlesAndSampleValues(titles,rowvalues,measure);
 		
 	}
 	

@@ -1477,12 +1477,12 @@ public enum InterpretData {
 		@Override
 		public info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject readElementFromDatabase(
 				String identifier) throws IOException {
-			return QueryBase.getDatabaseObjectFromIdentifier(MatrixSpecificationCorrespondenceSet.class.getCanonicalName(), identifier);
+			return QueryBase.getDatabaseObjectFromIdentifier(MatrixSpecificationCorrespondence.class.getCanonicalName(), identifier);
 		}
 
 		@Override
 		public String canonicalClassName() {
-			return MatrixSpecificationCorrespondenceSet.class.getCanonicalName();
+			return MatrixSpecificationCorrespondence.class.getCanonicalName();
 		}
 		
 	}, ObservationMatrixValues {

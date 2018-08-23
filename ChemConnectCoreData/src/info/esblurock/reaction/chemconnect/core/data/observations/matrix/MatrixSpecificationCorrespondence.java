@@ -49,7 +49,7 @@ public class MatrixSpecificationCorrespondence extends ChemConnectCompoundDataSt
 		build.append(matrixColumn);
 		build.append(", ");
 		build.append(specificationLabel);
-		build.append(")");
+		build.append(")\n");
 		return build.toString();
 	}
 	
