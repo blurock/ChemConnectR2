@@ -52,11 +52,17 @@ public class ExtractCatalogInformation {
 				Map<String,Object> mapping = interpret.createYamlFromObject(obj);
 				for(DataElementInformation element : substructures) {
 					String identifier = element.getIdentifier();
-					String newid = (String) mapping.get(identifier);
-					if(newid != null) {
-						DatabaseObjectHierarchy sub = getDatabaseObjectAndSubElements(newid,element,element.isSinglet());
-						if(sub != null) {
-							hierarchy.addSubobject(sub);
+					Object elementobj = mapping.get(identifier);
+					if(elementobj != null) {
+						if(elementobj.getClass().getCanonicalName().compareTo(String.class.getCanonicalName()) == 0) {
+							String newid = (String) elementobj;
+							DatabaseObjectHierarchy sub = getDatabaseObjectAndSubElements(newid,element,element.isSinglet());
+							if(sub != null) {
+								hierarchy.addSubobject(sub);
+							}
+						} else {
+							System.out.println("getDatabaseObjectAndSubElements: \n" + element.toString());
+							System.out.println("getDatabaseObjectAndSubElements: \n" + elementobj.toString());
 						}
 					} else {
 						System.out.println("--------------------------------------");

@@ -1,7 +1,5 @@
 package info.esblurock.reaction.io.metadata;
 
-import com.googlecode.objectify.annotation.Index;
-
 public class StandardDatasetMetaData {
 	
 	
@@ -42,20 +40,21 @@ public class StandardDatasetMetaData {
 	public static String matrixSpecificationCorrespondenceSetID = "dataset:matrixcorr";
 	public static String matrixSpecificationCorrespondenceSet = "dataset:MatrixSpecificationCorrespondenceSet";
 	public static String observationMatrixValues = "dataset:ObservationMatrixValues";
-	public static String observationSpecification = "qb:ComponentSpecification";
-	public static String matrixBlockDefinitionID = "qb:ObservationGroup";
+	public static String observationMatrixValuesID = "dataset:matrix";
+	public static String observationSpecificationID = "dataset:ObservationSpecs";
+	public static String matrixBlockDefinitionID = "qb:sliceStructure";
 	public static String matrixSpecificationCorrespondenceID = "qb:ObservationGroup";
 	public static String matrixBlockDefinition = "dataset:MatrixBlockDefinition";
 	public static String matrixSpecificationCorrespondence = "dataset:MatrixSpecificationCorrespondence";
 	
 	public static String lastColumnInMatrix = "dataset:lastColumnInMatrix";
-	public static String startColumnInMatrix = "dataset:tartColumnInMatrix";
+	public static String startColumnInMatrix = "dataset:startColumnInMatrix";
 	public static String lastRowInMatrix = "dataset:lastRowInMatrix";
 	public static String startRowInMatrix = "dataset:startRowInMatrix";
 	public static String matrixColumn = "dataset:matrixColumn";
 	public static String observationValueRowTitleID = "qb:SliceKey";
 	public static String observationValueRowID = "qb:Slice";
-	public static String observationValueRowTitle = "dataset:ObservationValueRowTitles";
+	public static String observationValueRowTitle = "dataset:ObservationValueRowTitle";
 	public static String observationValueRow = "dataset:ObservationValueRow";
 	public static String position = "qb:order";
 	
@@ -124,7 +123,7 @@ public class StandardDatasetMetaData {
 	public static String deviceSensorS = "ssn:Sensor";
 	public static String instrumentS = "ssn:Device";
 	public static String chemConnectActivityS = "prov:Activity";
-	public static String dataPointConceptS = "skos:related";
+	//public static String dataPointConceptS = "skos:related";
 
 	
 	public static String parameterValueS = "qb:ComponentProperty";

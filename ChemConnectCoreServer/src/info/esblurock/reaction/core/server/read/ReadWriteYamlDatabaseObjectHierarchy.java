@@ -26,7 +26,6 @@ public class ReadWriteYamlDatabaseObjectHierarchy {
 		for (String subname : subnames) {
 			Object obj = objmapping.get(subname);
 			if(subname.compareTo("dataset:ChemConnectCompoundMultiple") == 0) {
-				String identifier = object.getIdentifier();
 				ArrayList<String> subobjectIDs = (ArrayList<String>) obj;
 				Map<String,Object> submap = new HashMap<String,Object>();
 				for(String id : subobjectIDs) {
@@ -80,6 +79,11 @@ public class ReadWriteYamlDatabaseObjectHierarchy {
 			for (String name : keys) {
 				Object obj = mapping.get(name);
 				if (!String.class.isInstance(obj)) {
+					if(obj.getClass().getCanonicalName().compareTo(ArrayList.class.getCanonicalName()) == 0) {
+						System.out.println("readYamlDatabaseObjectHierarchy: " + name);
+						System.out.println("readYamlDatabaseObjectHierarchy: \n" + obj.toString());
+						mapping.put(name, obj);
+					} else {
 					Map<String, Object> submap = (Map<String, Object>) obj;
 					DatabaseObjectHierarchy subhier = readYamlDatabaseObjectHierarchy(top, submap, sourceID);
 					DatabaseObject subobj = subhier.getObject();
@@ -87,8 +91,9 @@ public class ReadWriteYamlDatabaseObjectHierarchy {
 					hierarchy.addSubobject(subhier);
 				}
 			}
-			DatabaseObject obj = interpret.fillFromYamlString(top, mapping, sourceID);
-			hierarchy.setObject(obj);
+			}
+			DatabaseObject newobj = interpret.fillFromYamlString(top, mapping, sourceID);
+			hierarchy.setObject(newobj);
 		}
 		return hierarchy;
 	}

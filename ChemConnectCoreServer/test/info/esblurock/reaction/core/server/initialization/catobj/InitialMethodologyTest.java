@@ -1,4 +1,4 @@
-package info.esblurock.reaction.core.server.initialization;
+package info.esblurock.reaction.core.server.initialization.catobj;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -43,6 +43,7 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.structure.Database
 import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.db.image.BlobKeyCorrespondence;
+import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFactory;
 import info.esblurock.reaction.core.server.read.ReadWriteYamlDatabaseObjectHierarchy;
 
 public class InitialMethodologyTest {

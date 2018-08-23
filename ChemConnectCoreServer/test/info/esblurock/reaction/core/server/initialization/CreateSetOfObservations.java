@@ -1,6 +1,6 @@
 package info.esblurock.reaction.core.server.initialization;
 
-import static org.junit.Assert.*;
+//import static org.junit.Assert.*;
 
 import org.junit.Test;
 
@@ -17,7 +17,7 @@ public class CreateSetOfObservations {
 		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,"");
 		DataCatalogID name = new DataCatalogID(structure,"Catalog-Base","Catalog","Simple");
 		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillSetOfObservations(obj,"dataset:BurnerPlateObservations",
-				"Set of burner plate observations","dataset:HeatFluxBurnerObservation","dataset:LaminarFlame",name);
+				"Set of burner plate observations",name);
 		System.out.println("fillSetOfObservations\n" + hierarchy.toString());
 	}
 

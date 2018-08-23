@@ -2353,7 +2353,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :DataTypeConcept rdf:type owl:Class ;
                  rdfs:subClassOf :ConceptKeywords ;
                  <http://purl.org/dc/elements/1.1/type> "Concept" ;
-                 <http://purl.org/dc/terms/identifier> "skos:related"^^xsd:string ;
+                 <http://purl.org/dc/terms/identifier> "qb:concept"^^xsd:string ;
                  rdfs:comment "The data type concept. This is a concept in the concept hierarchy." ;
                  rdfs:label "Data Concept Type"^^xsd:string ;
                  <http://www.w3.org/2004/02/skos/core#altLabel> "dataconcept"^^xsd:string ;
@@ -4249,7 +4249,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                          owl:onClass :HeatFluxBurnerThermocouple
                        ] ;
-   <http://purl.org/dc/elements/1.1/type> :hasComponent
+   <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
 
 
@@ -5812,10 +5812,6 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :MatrixBlockDefinition rdf:type owl:Class ;
                        rdfs:subClassOf :ChemConnectCompoundDataStructure ,
                                        [ rdf:type owl:Restriction ;
-                                         owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                                         owl:someValuesFrom :MatrixBlockDefinition
-                                       ] ,
-                                       [ rdf:type owl:Restriction ;
                                          owl:onProperty <http://purl.org/dc/terms/hasPart> ;
                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                          owl:onClass :LastColumnInMatrix
@@ -5836,7 +5832,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                          owl:onClass :StartRowInMatrix
                                        ] ;
                        <http://purl.org/dc/elements/1.1/type> "MatrixBlockDefinition"^^xsd:string ;
-                       <http://purl.org/dc/terms/identifier> "qb:slice"^^xsd:string ;
+                       <http://purl.org/dc/terms/identifier> "qb:sliceStructure"^^xsd:string ;
                        rdfs:label "Matrix Block Definition"^^xsd:string ;
                        <http://www.w3.org/2004/02/skos/core#altLabel> "matblock"^^xsd:string .
 
@@ -6290,7 +6286,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                          [ rdf:type owl:Restriction ;
                                            owl:onProperty <http://www.w3.org/ns/dcat#record> ;
                                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                           owl:onClass :ObservationValueRowTitles
+                                           owl:onClass :ObservationValueRowTitle
                                          ] ;
                          <http://purl.org/dc/elements/1.1/type> "ObservationMatrixValues"^^xsd:string ;
                          <http://purl.org/dc/terms/identifier> "dataset:matrix"^^xsd:string ;
@@ -6360,17 +6356,17 @@ Under the general type of is the actual data object referenced by the ChemConnec
                      <http://www.w3.org/2004/02/skos/core#altLabel> "row"^^xsd:string .
 
 
-###  http://www.esblurock.info/dataset#ObservationValueRowTitles
-:ObservationValueRowTitles rdf:type owl:Class ;
-                           rdfs:subClassOf :ChemConnectCompoundDataStructure ,
-                                           [ rdf:type owl:Restriction ;
-                                             owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                             owl:someValuesFrom :ParameterLabel
-                                           ] ;
-                           <http://purl.org/dc/elements/1.1/type> "SpreadSheetRowTitles"^^xsd:string ;
-                           <http://purl.org/dc/terms/identifier> "qb:SliceKey"^^xsd:string ;
-                           rdfs:label "Spread Sheet Row Titles"^^xsd:string ;
-                           <http://www.w3.org/2004/02/skos/core#altLabel> "titles"^^xsd:string .
+###  http://www.esblurock.info/dataset#ObservationValueRowTitle
+:ObservationValueRowTitle rdf:type owl:Class ;
+                          rdfs:subClassOf :ChemConnectCompoundDataStructure ,
+                                          [ rdf:type owl:Restriction ;
+                                            owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                            owl:someValuesFrom :ParameterLabel
+                                          ] ;
+                          <http://purl.org/dc/elements/1.1/type> "ObservationValueRowTitle"^^xsd:string ;
+                          <http://purl.org/dc/terms/identifier> "qb:SliceKey"^^xsd:string ;
+                          rdfs:label "Spread Sheet Row Titles"^^xsd:string ;
+                          <http://www.w3.org/2004/02/skos/core#altLabel> "titles"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#OneLine

@@ -4,15 +4,9 @@ package info.esblurock.reaction.core.server.initialization;
 
 import org.junit.Test;
 
-import com.google.cloud.storage.Blob;
-import com.google.cloud.storage.Bucket;
-import com.google.cloud.storage.BucketInfo;
-import com.google.cloud.storage.Storage;
-import com.google.cloud.storage.StorageOptions;
 
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
-import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
@@ -83,7 +77,7 @@ public class CreateDefault {
 	*/	
 		
 		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillSetOfObservations(obj,"dataset:BurnerPlateObservations",
-				"Set of burner plate observations","dataset:HeatFluxBurnerObservation","dataset:LaminarFlame",name);
+				"Set of burner plate observations",name);
 		System.out.println("fillSetOfObservations\n" + hierarchy.toString());
 		
 		/*

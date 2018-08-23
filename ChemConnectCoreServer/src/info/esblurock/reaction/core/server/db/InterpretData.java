@@ -394,9 +394,9 @@ public enum InterpretData {
 			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
-			map.put(StandardDatasetMetaData.matrixSpecificationCorrespondenceSet, datastructure.getMatrixSpecificationCorrespondenceSet());
-			map.put(StandardDatasetMetaData.observationSpecification, datastructure.getObservationSpecification());
-			map.put(StandardDatasetMetaData.observationMatrixValues, datastructure.getObservationMatrixValues());
+			map.put(StandardDatasetMetaData.matrixSpecificationCorrespondenceSetID, datastructure.getMatrixSpecificationCorrespondenceSet());
+			map.put(StandardDatasetMetaData.observationSpecificationID, datastructure.getObservationSpecification());
+			map.put(StandardDatasetMetaData.observationMatrixValuesID, datastructure.getObservationMatrixValues());
 			
 			return map;
 		}
@@ -446,9 +446,9 @@ public enum InterpretData {
 			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
 			ChemConnectDataStructure objdata = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
 					
-			String parameterTypeS = (String) yaml.get(StandardDatasetMetaData.matrixSpecificationCorrespondenceSet);			
-			String measurementValuesS = (String) yaml.get(StandardDatasetMetaData.observationSpecification);			
-			String dimensionValuesS    = (String) yaml.get(StandardDatasetMetaData.observationMatrixValues);
+			String parameterTypeS = (String) yaml.get(StandardDatasetMetaData.matrixSpecificationCorrespondenceSetID);			
+			String measurementValuesS = (String) yaml.get(StandardDatasetMetaData.observationSpecificationID);			
+			String dimensionValuesS    = (String) yaml.get(StandardDatasetMetaData.observationMatrixValuesID);
 
 			set = new SetOfObservationValues(objdata, 
 					parameterTypeS, measurementValuesS, dimensionValuesS);
@@ -1395,11 +1395,11 @@ public enum InterpretData {
 			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
 			ChemConnectCompoundDataStructure objdata = (ChemConnectCompoundDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
 
-			String matrixspec = (String) yaml.get(StandardDatasetMetaData.matrixSpecificationCorrespondence);
-			String matrixblock = (String) yaml.get(StandardDatasetMetaData.matrixBlockDefinition);
+			String matrixspec = (String) yaml.get(StandardDatasetMetaData.matrixSpecificationCorrespondenceID);
+			String matrixblock = (String) yaml.get(StandardDatasetMetaData.matrixBlockDefinitionID);
 
 			MatrixSpecificationCorrespondenceSet corr = new MatrixSpecificationCorrespondenceSet(objdata, 
-					matrixspec, matrixblock);
+					matrixblock, matrixspec);
 			
 			return corr;
 			
@@ -1413,8 +1413,8 @@ public enum InterpretData {
 			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
-			map.put(StandardDatasetMetaData.matrixBlockDefinition, matspec.getMatrixBlockDefinition());
-			map.put(StandardDatasetMetaData.matrixSpecificationCorrespondence, matspec.getMatrixSpecificationCorrespondence());
+			map.put(StandardDatasetMetaData.matrixBlockDefinitionID, matspec.getMatrixBlockDefinition());
+			map.put(StandardDatasetMetaData.matrixSpecificationCorrespondenceID, matspec.getMatrixSpecificationCorrespondence());
 
 			return map;
 		}
@@ -1519,8 +1519,8 @@ public enum InterpretData {
 				String sourceID) throws IOException {
 			ChemConnectCompoundDataStructure structure = (ChemConnectCompoundDataStructure) 
 					InterpretData.ChemConnectCompoundDataStructure.fillFromYamlString(top, yaml, sourceID);
-			String titles = (String) yaml.get(StandardDatasetMetaData.observationValueRowTitle);
-			String values = (String) yaml.get(StandardDatasetMetaData.observationValueRow);
+			String titles = (String) yaml.get(StandardDatasetMetaData.observationValueRowTitleID);
+			String values = (String) yaml.get(StandardDatasetMetaData.observationValueRowID);
 			ObservationMatrixValues corr = new ObservationMatrixValues(structure,titles,values);
 			return corr;
 		}
@@ -1533,8 +1533,8 @@ public enum InterpretData {
 			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
-			map.put(StandardDatasetMetaData.observationValueRowTitle, values.getObservationRowValueTitles());
-			map.put(StandardDatasetMetaData.observationValueRow, values.getObservationRowValue());
+			map.put(StandardDatasetMetaData.observationValueRowTitleID, values.getObservationRowValueTitles());
+			map.put(StandardDatasetMetaData.observationValueRowID, values.getObservationRowValue());
 
 			return map;
 		}
@@ -1694,7 +1694,7 @@ public enum InterpretData {
 				String sourceID) throws IOException {
 			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
 			ChemConnectCompoundDataStructure objdata = (ChemConnectCompoundDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
-			ArrayList<String> titles = interpretMultipleYamlList(StandardDatasetMetaData.observationValueRowTitle,yaml);
+			ArrayList<String> titles = interpretMultipleYamlList(StandardDatasetMetaData.parameterLabelS,yaml);
 			ObservationValueRowTitle row = new ObservationValueRowTitle(objdata, titles);
 			return row;
 		}
@@ -2824,8 +2824,12 @@ public enum InterpretData {
 	}
 	
 	public ArrayList<String> interpretMultipleYamlList(String key, Map<String, Object> yaml) {
+		System.out.println("interpretMultipleYamlList: \n" + yaml.toString());
 		ArrayList<String> answers = new ArrayList<String>();
 		Object yamlobj = yaml.get(key);
+		System.out.println("interpretMultipleYamlList: " + key);
+		System.out.println("interpretMultipleYamlList: \n" + yamlobj);
+		System.out.println("interpretMultipleYamlList: \n" + yaml.toString());
 		@SuppressWarnings("unchecked")
 		List<String> lst = (List<String>) yamlobj;
 		for (String answer : lst) {

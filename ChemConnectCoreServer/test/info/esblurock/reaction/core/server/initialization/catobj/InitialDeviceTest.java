@@ -1,4 +1,4 @@
-package info.esblurock.reaction.core.server.initialization;
+package info.esblurock.reaction.core.server.initialization.catobj;
 
 //import static org.junit.Assert.*;
 
@@ -43,6 +43,7 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.structure.Database
 import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.db.image.BlobKeyCorrespondence;
+import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFactory;
 import info.esblurock.reaction.core.server.read.ReadWriteYamlDatabaseObjectHierarchy;
 
 public class InitialDeviceTest {
@@ -115,7 +116,7 @@ public class InitialDeviceTest {
 		DescriptionDataData dstruct = (DescriptionDataData) dhier.getObject();
 		dstruct.setDescriptionAbstract(descr);
 		System.out.println(hierarchy1.toString());
-/*		
+	
 		try {
 			Map<String,Object> map1 = ReadWriteYamlDatabaseObjectHierarchy.yamlDatabaseObjectHierarchy(hierarchy1);
 			StringWriter wS = new StringWriter(1000000);
@@ -125,6 +126,7 @@ public class InitialDeviceTest {
 			System.out.println("--------------------------------------------");
 			System.out.println(wS.toString());
 			System.out.println("--------------------------------------------");
+			
 			DatabaseObjectHierarchy hierarchy2 = ReadWriteYamlDatabaseObjectHierarchy.readYamlDatabaseObjectHierarchy(obj, map1, "100");
 			System.out.println("--------------------------------------------");
 			System.out.println(hierarchy2.toString());
@@ -141,12 +143,11 @@ public class InitialDeviceTest {
 			DatabaseObjectHierarchy methhier = ExtractCatalogInformation.getCatalogObject(uid, "dataset:SubSystemDescription");
 			System.out.println("----------------------------------------------------------------");
 			System.out.println(methhier.toString());
-
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		*/
+		
 	}
 
 }

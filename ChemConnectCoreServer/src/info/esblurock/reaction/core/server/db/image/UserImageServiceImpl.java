@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.StringTokenizer;
 
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
@@ -34,7 +33,6 @@ import info.esblurock.reaction.chemconnect.core.data.base.GoogleCloudStorageCons
 import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHierarchy;
-import info.esblurock.reaction.chemconnect.core.data.dataset.PurposeConceptPair;
 import info.esblurock.reaction.chemconnect.core.data.dataset.device.SubSystemDescription;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
@@ -221,8 +219,8 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	public GCSBlobContent moveBlob(GCSBlobFileInformation fileinfo, GCSBlobFileInformation source) {
 		Storage storage = StorageOptions.getDefaultInstance().getService();
 
-		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
-		UserDTO user = util.getUserInfo();
+		//ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
+		//UserDTO user = util.getUserInfo();
 
 		String sourcefilename = source.getGSFilename();
 		String sourcebucket = source.getBucket();
@@ -350,8 +348,8 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	}
 
 	public GCSBlobFileInformation retrieveBlobFromURL(String requestUrl) throws IOException {
-		ContextAndSessionUtilities context = getUtilities();
-		String path = createUploadPath(context);
+		//ContextAndSessionUtilities context = getUtilities();
+		//String path = createUploadPath(context);
 		String uploadDescriptionText = "Uploaded File from URL";
 
 		URL urlconnect = new URL(requestUrl);
@@ -388,7 +386,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 				.setAcl(new ArrayList<>(Arrays.asList(Acl.of(User.ofAllUsers(), Role.READER))))
 				.setContentType(source.getFiletype()).build();
 
-		@SuppressWarnings("deprecation")
+		@SuppressWarnings({ "deprecation", "unused" })
 		BlobInfo blobInfo = storage.create(info, in);
 		DatabaseWriteBase.writeObjectWithTransaction(source);
 
@@ -449,11 +447,8 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		obj.setSourceID(sourceID);
 		obj.nullKey();
 		
-		PurposeConceptPair pair = new PurposeConceptPair();
-		ConceptParsing.fillInPurposeConceptPair(observation, pair);
 
-		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillSetOfObservations(obj, observation, title,
-				pair.getConcept(), pair.getPurpose(),datid);
+		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillSetOfObservations(obj, observation, title,datid);
 		return hierarchy;
 	}
 	public DatabaseObjectHierarchy getCatalogObject(String id, String dataType) {

@@ -512,8 +512,9 @@ public class CreateDefaultObjectsFactory {
 		return descrhier;
 	}
 
-	public static DatabaseObjectHierarchy fillSetOfObservations(DatabaseObject obj, String parameter, String oneline,
-			String concept, String purpose, DataCatalogID datid) {
+	public static DatabaseObjectHierarchy fillSetOfObservations(DatabaseObject obj, String parameter, 
+			String oneline,
+			DataCatalogID datid) {
 		/*
 		String measure = "<http://purl.org/linked-data/cube#measure>";
 		String dimension = "<http://purl.org/linked-data/cube#dimension>";
@@ -525,7 +526,11 @@ public class CreateDefaultObjectsFactory {
 		
 		insertDataCatalogID(sethier, datid);
 
-		setPurposeConceptPair(sethier, concept, purpose);
+		DatabaseObjectHierarchy pairhier = InterpretData.PurposeConceptPair.createEmptyObject(obj);
+		PurposeConceptPair pair =(PurposeConceptPair) pairhier.getObject();
+		ConceptParsing.fillInPurposeConceptPair(parameter, pair);
+
+		setPurposeConceptPair(sethier, pair.getConcept(), pair.getPurpose());
 		setOneLineDescription(sethier, oneline);
 		
 		DatabaseObjectHierarchy obsspechier = sethier.getSubObject(set.getObservationSpecification());
