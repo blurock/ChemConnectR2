@@ -22,7 +22,6 @@ import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructu
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.contact.ContactInfoData;
 import info.esblurock.reaction.chemconnect.core.data.contact.ContactLocationInformation;
-import info.esblurock.reaction.chemconnect.core.data.contact.DatabasePerson;
 import info.esblurock.reaction.chemconnect.core.data.contact.GPSLocation;
 import info.esblurock.reaction.chemconnect.core.data.contact.IndividualInformation;
 import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;

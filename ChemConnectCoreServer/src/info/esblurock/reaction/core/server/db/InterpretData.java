@@ -55,7 +55,6 @@ import info.esblurock.reaction.chemconnect.core.data.dataset.DimensionParameterV
 import info.esblurock.reaction.chemconnect.core.data.dataset.ObservationSpecification;
 import info.esblurock.reaction.chemconnect.core.data.methodology.ChemConnectMethodology;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
-import info.esblurock.reaction.chemconnect.core.data.contact.DatabasePerson;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.MatrixBlockDefinition;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.MatrixSpecificationCorrespondenceSet;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.MatrixSpecificationCorrespondence;
@@ -1798,18 +1797,17 @@ public enum InterpretData {
 				throws IOException {
 
 			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
-			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);
+			ChemConnectCompoundDataStructure compound = (ChemConnectCompoundDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
 
 			String streetaddress = (String) yaml.get(StandardDatasetMetaData.streetaddressKeyS);
 			String locality = (String) yaml.get(StandardDatasetMetaData.localityKeyS);
 			String postalcode = (String) yaml.get(StandardDatasetMetaData.postalcodeKeyS);
 			String country = (String) yaml.get(StandardDatasetMetaData.countryKeyS);
-			//Object gps = yaml.get(StandardDatasetMetaData.gpsCoordinatesID);
 			String gspLocationID = (String) yaml.get(StandardDatasetMetaData.gpsCoordinatesID);
 
-			ContactLocationInformation location = new ContactLocationInformation(objdata.getIdentifier(),
-					objdata.getAccess(), objdata.getOwner(), sourceID, streetaddress, locality, country, postalcode,
-					gspLocationID);
+			ContactLocationInformation location = new ContactLocationInformation(compound, 
+					streetaddress, locality, country, postalcode,gspLocationID);
+			
 			return location;
 		}
 
@@ -1926,15 +1924,15 @@ public enum InterpretData {
 
 			OrganizationDescription descdata = null;
 			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
-			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);
-
+			ChemConnectCompoundDataStructure compound = (ChemConnectCompoundDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
+			
 			String organizationalUnitS = (String) yaml.get(StandardDatasetMetaData.organizationUnit);
 			String organizationClassificationS = (String) yaml.get(StandardDatasetMetaData.organizationClassification);
 			String organizationNameS = (String) yaml.get(StandardDatasetMetaData.organizationName);
 			String subOrganizationOfS = (String) yaml.get(StandardDatasetMetaData.subOrganizationOf);
 
-			descdata = new OrganizationDescription(objdata.getIdentifier(), objdata.getAccess(), objdata.getOwner(),
-					sourceID, organizationalUnitS, organizationClassificationS, organizationNameS, subOrganizationOfS);
+			descdata = new OrganizationDescription(compound,
+					organizationalUnitS, organizationClassificationS, organizationNameS, subOrganizationOfS);
 			return descdata;
 		}
 
@@ -2492,89 +2490,19 @@ public enum InterpretData {
 			userobj.setIdentifier(userid);
 			
 			DatabaseObjectHierarchy usraccid = InterpretData.UserAccountInformation.createEmptyObject(userobj);
-			DatabaseObjectHierarchy personid = InterpretData.DatabasePerson.createEmptyObject(userobj);
+			//DatabaseObjectHierarchy personid = InterpretData.DatabasePerson.createEmptyObject(userobj);
 			
 			DatabaseObjectHierarchy compoundhier = InterpretData.ChemConnectDataStructure.createEmptyObject(userobj);
 			ChemConnectDataStructure structure = (ChemConnectDataStructure) compoundhier.getObject();
 			UserAccount useraccount = new UserAccount(structure,
-					personid.getObject().getIdentifier(),
+					"",
 					usraccid.getObject().getIdentifier());
 			DatabaseObjectHierarchy userhier = new DatabaseObjectHierarchy(useraccount);
-			userhier.addSubobject(personid);
 			userhier.addSubobject(usraccid);
 			userhier.transferSubObjects(compoundhier);
 			return userhier;
 		}
 
-	},	DatabasePerson {
-
-		@Override
-		public DatabaseObjectHierarchy createEmptyObject(
-				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
-			DatabaseObject userobj = new DatabaseObject(obj);
-			DataElementInformation element = DatasetOntologyParsing
-					.getSubElementStructureFromIDObject(StandardDatasetMetaData.databaseUserS);
-			String userid = createSuffix(obj, element);
-			userobj.setIdentifier(userid);
-			
-			DatabaseObjectHierarchy contacthier = InterpretData.ContactInfoData.createEmptyObject(userobj);
-			DatabaseObjectHierarchy locationhier = InterpretData.ContactLocationInformation.createEmptyObject(userobj);
-			DatabaseObjectHierarchy personhier = InterpretData.PersonalDescription.createEmptyObject(userobj);
-			DatabaseObjectHierarchy compoundhier = InterpretData.ChemConnectDataStructure.createEmptyObject(userobj);
-			ChemConnectDataStructure structure = (ChemConnectDataStructure) compoundhier.getObject();
-			
-			DatabasePerson person = new DatabasePerson(structure,
-					contacthier.getObject().getIdentifier(),
-					locationhier.getObject().getIdentifier(),
-					personhier.getObject().getIdentifier());
-			
-			DatabaseObjectHierarchy hier = new DatabaseObjectHierarchy(person);
-			hier.addSubobject(contacthier);
-			hier.addSubobject(locationhier);
-			hier.addSubobject(personhier);
-			hier.transferSubObjects(compoundhier);
-			return hier;
-		}
-
-		@Override
-		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml,
-				String sourceID) throws IOException {
-			DatabasePerson person = null;
-			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
-			ChemConnectDataStructure datastructure = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml,
-					sourceID);
-
-			String persondescr = (String) yaml.get(StandardDatasetMetaData.personalDescriptionS);
-			String contact = (String) yaml.get(OntologyKeys.contactInfoData);
-			String location = (String) yaml.get(OntologyKeys.contactLocationInformation);
-
-			person = new DatabasePerson(datastructure,contact,location,persondescr);
-			return person;
-		}
-
-		@Override
-		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
-			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
-			Map<String, Object> map = interpret.createYamlFromObject(object);
-
-			DatabasePerson person = (DatabasePerson) object;
-
-			map.put(StandardDatasetMetaData.personalDescriptionS, person.getPersonalDescriptionID());
-			map.put(OntologyKeys.contactInfoData, person.getContactInfoDataID());
-			map.put(OntologyKeys.contactLocationInformation, person.getContactLocationInformationID());
-			return map;
-		}
-
-		@Override
-		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
-			return QueryBase.getDatabaseObjectFromIdentifier(DatabasePerson.class.getCanonicalName(), identifier);
-		}
-
-		@Override
-		public String canonicalClassName() {
-			return DatabasePerson.class.getCanonicalName();
-		}
-		
 	},
 	
 	Consortium {
