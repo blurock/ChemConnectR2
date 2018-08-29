@@ -396,6 +396,8 @@ public class CreateDefaultObjectsFactory {
 		multilnkhier.addSubobject(subcatalog);
 		multilnkhier.addSubobject(userlink);
 
+		System.out.println("fillCataogHierarchyForUser\n" + multilnkhier.toString());
+		
 		return userhierarchy;
 	}
 	

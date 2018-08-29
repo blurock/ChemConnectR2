@@ -56,8 +56,6 @@ public class ManageCatalogHierarchy extends Composite {
 		identifiertip.setText(userName);
 		title.setTitle("Manage User Catalog Hierarchy");
 		setUpHierarchyFromDatabase();
-		//String id = "Catalog-Administration";
-		//findHierarchyInformation(userName);
 	}
 
 	/*
@@ -77,6 +75,7 @@ public class ManageCatalogHierarchy extends Composite {
 		
 	@UiHandler("refresh")
 	public void onClickRefresh(ClickEvent event) {
+		panel.clear();
 		setUpHierarchyFromDatabase();
 	}
 	

@@ -38,6 +38,7 @@ import info.esblurock.reaction.chemconnect.core.data.rdf.RegisterRDFData;
 import info.esblurock.reaction.chemconnect.core.data.transaction.RegisterTransactionData;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
+import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.db.image.BlobKeyCorrespondence;
 import info.esblurock.reaction.io.db.QueryBase;
 
@@ -110,6 +111,17 @@ public class LoginSetupTest {
 				System.out.println(object.toString());
 			}
 			System.out.println("---------------------------------------------------------------");
+			String catid = "Catalog-Administration-usrinfo-sethier";
+			DatabaseObjectHierarchy ucathier = ExtractCatalogInformation.getCatalogObject(catid, "dataset:DatasetCatalogHierarchy");
+			System.out.println(ucathier.toString());
+			System.out.println("---------------------------------------------------------------");
+			String orgid = "Catalog-Administration-org-sethier";
+			DatabaseObjectHierarchy ocathier = ExtractCatalogInformation.getCatalogObject(orgid, "dataset:DatasetCatalogHierarchy");
+			System.out.println(ocathier.toString());
+			
+			
+			/*
+			System.out.println("---------------------------------------------------------------");
 			List<DatabaseObject> lstlnk = QueryBase.getDatabaseObjects(DataObjectLink.class.getCanonicalName());
 			for (DatabaseObject object : lstlnk) {
 				System.out.println(object.toString());
@@ -124,6 +136,7 @@ public class LoginSetupTest {
 			for (DatabaseObject object : lstuser) {
 				System.out.println(object.toString());
 			}
+			*/
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

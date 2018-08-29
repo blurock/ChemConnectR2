@@ -80,8 +80,6 @@ public class ReadWriteYamlDatabaseObjectHierarchy {
 				Object obj = mapping.get(name);
 				if (!String.class.isInstance(obj)) {
 					if(obj.getClass().getCanonicalName().compareTo(ArrayList.class.getCanonicalName()) == 0) {
-						System.out.println("readYamlDatabaseObjectHierarchy: " + name);
-						System.out.println("readYamlDatabaseObjectHierarchy: \n" + obj.toString());
 						mapping.put(name, obj);
 					} else {
 					Map<String, Object> submap = (Map<String, Object>) obj;

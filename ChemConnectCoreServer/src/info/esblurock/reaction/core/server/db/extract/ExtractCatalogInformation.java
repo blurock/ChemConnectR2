@@ -45,8 +45,8 @@ public class ExtractCatalogInformation {
 		
 		DatabaseObjectHierarchy hierarchy = null;
 		try {
+			InterpretData interpret = InterpretData.valueOf(classify.getDataType());
 			if(asSinglet) {
-				InterpretData interpret = InterpretData.valueOf(classify.getDataType());
 				DatabaseObject obj = interpret.readElementFromDatabase(id);
 				hierarchy = new DatabaseObjectHierarchy(obj);
 				Map<String,Object> mapping = interpret.createYamlFromObject(obj);

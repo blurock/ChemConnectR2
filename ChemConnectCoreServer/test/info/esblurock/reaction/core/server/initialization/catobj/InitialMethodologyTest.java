@@ -1,5 +1,6 @@
 package info.esblurock.reaction.core.server.initialization.catobj;
 
+
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Map;
@@ -23,6 +24,7 @@ import com.googlecode.objectify.util.Closeable;
 
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultipleInfo;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.contact.RegisterContactData;
@@ -77,6 +79,7 @@ public class InitialMethodologyTest {
 		ObjectifyService.register(ChemConnectDataStructure.class);
 		ObjectifyService.register(ChemConnectCompoundDataStructure.class);
 		ObjectifyService.register(ChemConnectCompoundMultiple.class);
+		ObjectifyService.register(ChemConnectCompoundMultipleInfo.class);
 		System.out.println("Classes Registered");
 		this.helper.setUp();
 	}
@@ -114,9 +117,9 @@ public class InitialMethodologyTest {
 		DatabaseObjectHierarchy dhier = hierarchy1.getSubObject(m.getDescriptionDataData());
 		DescriptionDataData dstruct = (DescriptionDataData) dhier.getObject();
 		dstruct.setDescriptionAbstract(descr);
-		
+		System.out.println(hierarchy1.toString());
 		try {
-			System.out.println(hierarchy1.toString());
+		/*
 			Map<String,Object> map1 = ReadWriteYamlDatabaseObjectHierarchy.yamlDatabaseObjectHierarchy(hierarchy1);
 			StringWriter wS = new StringWriter(1000000);
 			YamlWriter writer = new YamlWriter(wS);
@@ -129,7 +132,7 @@ public class InitialMethodologyTest {
 			System.out.println("--------------------------------------------");
 			System.out.println(hierarchy2.toString());
 			System.out.println("--------------------------------------------");
-			
+			*/
 			WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(hierarchy1);	
 			System.out.println("Hierarchy written");
 			Set<String> ids = WriteReadDatabaseObjects.getIDsOfAllDatabaseObjects("Administration",
@@ -146,6 +149,7 @@ public class InitialMethodologyTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 	}
 
 }

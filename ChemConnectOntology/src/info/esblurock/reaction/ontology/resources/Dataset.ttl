@@ -1085,6 +1085,11 @@ xsd:date rdf:type rdfs:Datatype .
                      owl:disjointWith :RelativeUncertainty .
 
 
+###  http://www.esblurock.info/dataset#Administrator
+:Administrator rdf:type owl:Class ;
+               rdfs:subClassOf :UserRoleChoices .
+
+
 ###  http://www.esblurock.info/dataset#AmountOfSpecifiedSpecies
 :AmountOfSpecifiedSpecies rdf:type owl:Class ;
                           rdfs:subClassOf :ChemicalConcept .
@@ -2252,7 +2257,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :DataLinkType rdf:type owl:Class ;
               rdfs:subClassOf :ConceptKeywords ;
               <http://purl.org/dc/elements/1.1/type> "Concept" ;
-              <http://purl.org/dc/terms/identifier> "skos:related" ;
+              <http://purl.org/dc/terms/identifier> "skos:related"^^xsd:string ;
               rdfs:label "Data Link Concept Type" ;
               <http://www.w3.org/2004/02/skos/core#altLabel> "datalnk" ;
               <http://www.w3.org/2004/02/skos/core#definition> :ChemConnectLinkType .
@@ -2508,6 +2513,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                          rdfs:isDefinedBy :DatabaseUser ,
                                           :UserInformation ;
                          rdfs:label "User Information" .
+
+
+###  http://www.esblurock.info/dataset#DataUser
+:DataUser rdf:type owl:Class ;
+          rdfs:subClassOf :UserRoleChoices .
 
 
 ###  http://www.esblurock.info/dataset#DatabaseID
@@ -6975,6 +6985,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                      rdfs:subClassOf :ProbeMaterialTypeChoice .
 
 
+###  http://www.esblurock.info/dataset#Query
+:Query rdf:type owl:Class ;
+       rdfs:subClassOf :UserRoleChoices .
+
+
 ###  http://www.esblurock.info/dataset#REACTIONMolecularInformationSet
 :REACTIONMolecularInformationSet rdf:type owl:Class ;
                                  rdfs:subClassOf :SpeciesProperties .
@@ -7514,6 +7529,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                          <http://www.w3.org/2004/02/skos/core#altLabel> "stdin"^^xsd:string .
 
 
+###  http://www.esblurock.info/dataset#StandardUser
+:StandardUser rdf:type owl:Class ;
+              rdfs:subClassOf :UserRoleChoices .
+
+
 ###  http://www.esblurock.info/dataset#StartColumnInMatrix
 :StartColumnInMatrix rdf:type owl:Class ;
                      rdfs:subClassOf :ShortStringLabel ;
@@ -7571,6 +7591,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#SubsystemGeometryAndConfiguration
 :SubsystemGeometryAndConfiguration rdf:type owl:Class ;
                                    rdfs:subClassOf :ChemConnectPurposeSubsystem .
+
+
+###  http://www.esblurock.info/dataset#SuperUser
+:SuperUser rdf:type owl:Class ;
+           rdfs:subClassOf :UserRoleChoices .
 
 
 ###  http://www.esblurock.info/dataset#TaperedProbe
@@ -7963,6 +7988,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                  rdfs:isDefinedBy <http://www.w3.org/ns/prov#Agent> ;
                  rdfs:label "User information"^^xsd:string ;
                  <http://www.w3.org/2004/02/skos/core#altLabel> "user"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#UserRoleChoices
+:UserRoleChoices rdf:type owl:Class ;
+                 rdfs:subClassOf :ChemConnectClassifications .
 
 
 ###  http://www.esblurock.info/dataset#UserTitle

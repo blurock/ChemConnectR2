@@ -2,13 +2,21 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:m="urn:import:gwt.material.design.client.ui">
 	<ui:style>
-	.important {
-		font-weight: bold;
+	.headertext {
+		color: black;
+		font-style: bold;
+		font-size: "300%";
+	}
+	
+	.box {
+		background-color: #bdbdbd;
+		border: 3px solid #607d8b;
+		margin: 0px;
 	}
 	</ui:style>
-	<m:MaterialRow>
+	<m:MaterialRow  styleName="{style.box}">
 		<m:MaterialColumn grid="s9">
-			<m:MaterialLink ui:field="cataloghead" textColor="BLACK" />
+			<m:MaterialLink ui:field="cataloghead" styleName="{style.headertext}" />
 		</m:MaterialColumn>
 		<m:MaterialColumn grid="s1">
 			<m:MaterialLink ui:field="delete" iconType="DELETE"

@@ -1,7 +1,5 @@
 package info.esblurock.reaction.chemconnect.core.client.pages.catalog;
 
-
-
 import info.esblurock.reaction.chemconnect.core.client.catalog.link.PrimitiveDataObjectLinkRow;
 import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatabasePersonalDescriptionHeader;
 import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetContactInfoHeader;
@@ -24,7 +22,6 @@ import info.esblurock.reaction.chemconnect.core.client.pages.description.Standar
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.concept.PrimitiveConceptRow;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.gps.PrimitiveGPSLocationRow;
 import info.esblurock.reaction.chemconnect.core.client.pages.reference.StandardDatasetDataSetReferenceHeader;
-import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.dataset.PurposeConceptPair;
 
@@ -39,7 +36,7 @@ public enum SetUpCollapsibleItem {
 		}
 		@Override
 		public int priority() {
-			return 500;
+			return 100;
 		}
 		@Override
 		public boolean isInformation() {
@@ -68,7 +65,7 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public int priority() {
-			return 100;
+			return 610;
 		}
 
 		@Override
@@ -98,7 +95,7 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public int priority() {
-			return 100;
+			return 609;
 		}
 
 		@Override
@@ -156,7 +153,7 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public int priority() {
-			return 100;
+			return 610;
 		}
 
 		@Override
@@ -185,7 +182,7 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public int priority() {
-			return 100;
+			return 609;
 		}
 
 		@Override
@@ -474,7 +471,7 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public int priority() {
-			return 50;
+			return 1;
 		}
 
 		@Override
@@ -496,14 +493,13 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
-			item.setBodyVisible(false);
 			PrimitiveDataObjectLinkRow row = new PrimitiveDataObjectLinkRow(item);
 			item.addHeader(row);
 		}
 
 		@Override
 		public int priority() {
-			return 10;
+			return 100;
 		}
 
 		@Override
@@ -526,14 +522,14 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
-			item.setBodyVisible(false);
+			//item.setBodyVisible(false);
 			PrimitiveConceptRow concept = new PrimitiveConceptRow(item.getObject());
 			item.addHeader(concept);
 		}
 
 		@Override
 		public int priority() {
-			return 1;
+			return 90;
 		}
 
 		@Override
@@ -573,7 +569,7 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public int priority() {
-			return 100;
+			return 1000;
 		}
 
 		@Override
@@ -634,7 +630,7 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public int priority() {
-			return 100;
+			return 400;
 		}
 
 		@Override
@@ -663,7 +659,7 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public int priority() {
-			return 10;
+			return 900;
 		}
 
 		@Override
@@ -720,7 +716,7 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public int priority() {
-			return 100;
+			return 500;
 		}
 
 		@Override
@@ -756,7 +752,7 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public boolean isInformation() {
-			return false;
+			return true;
 		}
 
 		@Override

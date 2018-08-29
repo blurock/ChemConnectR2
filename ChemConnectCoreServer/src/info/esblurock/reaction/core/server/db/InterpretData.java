@@ -333,10 +333,7 @@ public enum InterpretData {
 			return DataCatalogID.class.getCanonicalName();
 		}
 		
-	},
-	
-	
-	ChemConnectCompoundMultiple {
+	}, ChemConnectCompoundMultiple {
 
 		@Override
 		public DatabaseObject fillFromYamlString(
@@ -383,7 +380,7 @@ public enum InterpretData {
 			return refhier;
 		}
 		
-	}, SetOfObservationValues {
+	},	SetOfObservationValues {
 
 
 		@Override
@@ -2062,7 +2059,7 @@ public enum InterpretData {
 
 
 			String dataStructureIdentifierS = (String) yaml.get(StandardDatasetMetaData.dataStructureIdentifierS);
-			String linkConceptTypeS = (String) yaml.get(StandardDatasetMetaData.linkConceptTypeS);
+			String linkConceptTypeS = (String) yaml.get(OntologyKeys.datacubeConcept);
 			DataObjectLink refset = new DataObjectLink(compound, 
 					linkConceptTypeS,dataStructureIdentifierS);
 
@@ -2077,7 +2074,7 @@ public enum InterpretData {
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
 			map.put(StandardDatasetMetaData.dataStructureIdentifierS, ref.getDataStructure());
-			map.put(StandardDatasetMetaData.linkConceptTypeS, ref.getLinkConcept());
+			map.put(OntologyKeys.datacubeConcept, ref.getLinkConcept());
 
 			return map;
 		}

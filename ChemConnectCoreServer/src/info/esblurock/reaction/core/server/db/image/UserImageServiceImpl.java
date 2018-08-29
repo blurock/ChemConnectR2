@@ -401,7 +401,9 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	
 	public DatabaseObjectHierarchy getUserDatasetCatalogHierarchy(String username) throws IOException {
 		String uid = CreateDefaultObjectsFactory.userCatalogHierarchyID(username);
-		return ExtractCatalogInformation.getDatabaseObjectHierarchy(uid);
+		DatabaseObjectHierarchy hierarchy = ExtractCatalogInformation.getDatabaseObjectHierarchy(uid);
+		System.out.println("getUserDatasetCatalogHierarchy\n" + hierarchy.toString());
+		return hierarchy;
 	}
 
 	public DatabaseObjectHierarchy getDevice(DatabaseObject obj, String devicename,DataCatalogID datid) {

@@ -36,6 +36,8 @@ public class ChemConnectCompoundMultipleHeader extends Composite {
 	MaterialLink multipletitle;
 	@UiField
 	MaterialLink add;
+	@UiField
+	MaterialPanel multiobjects;
 	
 	StandardDatasetObjectHierarchyItem item;
 	ChemConnectCompoundMultiple multiple;
@@ -64,7 +66,6 @@ public class ChemConnectCompoundMultipleHeader extends Composite {
 	
 	@UiHandler("add")
 	public void onAddClick(ClickEvent event) {
-		Window.alert("Add item: " + dataType);
 		ChemConnectCompoundMultipleCallback callback = new ChemConnectCompoundMultipleCallback(this);
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		DatabaseObject obj = determineSubObjectID();
@@ -72,17 +73,14 @@ public class ChemConnectCompoundMultipleHeader extends Composite {
 	}
 	public void addMultipleObject(DatabaseObjectHierarchy obj) {
 		String type = obj.getObject().getClass().getSimpleName();
-		Window.alert("addMultipleObject:  " + type);
 		SetUpCollapsibleItem setup = SetUpCollapsibleItem.valueOf(type);
 		if(setup != null) {
 			MaterialPanel modalpanel = item.getModalpanel();
-			Window.alert("addMultipleObject:  " + obj.toString());
 			StandardDatasetObjectHierarchyItem itemobj = new StandardDatasetObjectHierarchyItem(obj,modalpanel);		
 			if(setup.isInformation()) {
-				Window.alert("addMultipleObject:  information" );
-				item.addInfoItem(itemobj);
+				//item.addInfoItem(itemobj);
+				multiobjects.add(itemobj.getHeader());
 			} else {
-				Window.alert("addMultipleObject:  subitem" );
 				item.addSubItem(itemobj);
 			}
 		} else {

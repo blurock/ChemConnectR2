@@ -630,7 +630,6 @@ public class ConceptParsing {
 
 	public static boolean isAChemConnectPrimitiveDataStructure(String unit) {
 		String query = "ASK {" + "	" + unit + " rdfs:subClassOf dataset:ChemConnectPrimitiveDataStructure }";
-		System.out.println(query);
 		boolean result = OntologyBase.datasetASK(query);
 		return result;
 	}

@@ -2,13 +2,15 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:m="urn:import:gwt.material.design.client.ui">
 	<ui:style>
-	.important {
-		font-weight: bold;
+	.panelbox {
+		background-color: #e0e0e0;
+		border: 2px solid #607d8b;
+		margin: 0px;
 	}
 	</ui:style>
 	<m:MaterialPanel>
 		<m:MaterialPanel ui:field="modalpanel" />
-		<m:MaterialPanel>
+		<m:MaterialPanel margin="0">
 			<m:MaterialRow>
 				<m:MaterialColumn grid="s11">
 					<m:MaterialTooltip ui:field="identifiertip">
@@ -21,6 +23,6 @@
 				</m:MaterialColumn>
 			</m:MaterialRow>
 		</m:MaterialPanel>
-		<m:MaterialCollapsible ui:field="panel" />
+		<m:MaterialCollapsible ui:field="panel" styleName="{style.panelbox}"/>
 	</m:MaterialPanel>
 </ui:UiBinder> 
