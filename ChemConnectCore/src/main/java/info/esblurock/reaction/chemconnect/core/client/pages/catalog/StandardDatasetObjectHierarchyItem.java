@@ -86,7 +86,7 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 	}
 
 	private void addSubObjects(DatabaseObject object) {
-		SetUpCollapsibleItem setup = getSetup(object);
+		SetUpCollapsibleItem setup = DatasetHierarchyStaging.getSetup(object);
 		if (setup != null) {
 			setup.addInformation(this);
 			if (setup.addSubitems()) {
@@ -110,12 +110,13 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 			SetUpCollapsibleItem setup = SetUpCollapsibleItem.valueOf(subtype);
 			multinfoB = multipleB & setup.isInformation();
 		}
-
-		for (DatabaseObjectHierarchy sub : hierarchy.getSubobjects()) {
+		ArrayList<DatasetHierarchyStaging> staginglist = DatasetHierarchyStaging.computeStaging(hierarchy);
+		for (DatasetHierarchyStaging substage : staginglist) {
+			DatabaseObjectHierarchy sub = substage.getHierarchy();
 			if (multinfoB) {
 				addMultipleInfoItem(sub);
 			} else {
-				SetUpCollapsibleItem setup = getSetup(sub.getObject());
+				SetUpCollapsibleItem setup = substage.getSetup();
 				StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(sub, modalpanel);
 				if (setup != null) {
 					if (setup.isInformation()) {
@@ -143,17 +144,6 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 				}
 			}
 		}
-	}
-
-	private SetUpCollapsibleItem getSetup(DatabaseObject object) {
-		String structure = object.getClass().getSimpleName();
-		SetUpCollapsibleItem setup = null;
-		try {
-			setup = SetUpCollapsibleItem.valueOf(structure);
-		} catch (Exception ex) {
-			Window.alert(structure + " not found: " + ex.getClass().getSimpleName());
-		}
-		return setup;
 	}
 
 	public void addHeader(Composite composite) {
@@ -188,7 +178,7 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 	}
 
 	public void updateDatabaseObjectHierarchy() {
-		SetUpCollapsibleItem setup = getSetup(object);
+		SetUpCollapsibleItem setup = DatasetHierarchyStaging.getSetup(object);
 		boolean includesubs = true;
 		if (setup != null) {
 			includesubs = setup.update(this);
