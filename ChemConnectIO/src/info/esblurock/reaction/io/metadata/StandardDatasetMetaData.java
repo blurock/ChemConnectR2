@@ -182,4 +182,5 @@ public class StandardDatasetMetaData {
 	public static String purposeDefineSubCatagory = "dataset:ChemConnectDefineSubCatagory";
 	public static String conceptUserDataCatagory = "dataset:UserDataCatagory";
 	public static String conceptOrgDataCatagory = "dataset:OrganizationDataCatagory";
+	public static String conceptPublishedResultsCatagory = "dataset:PublishedResultsCatagory";
 }

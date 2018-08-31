@@ -34,6 +34,7 @@ import info.esblurock.reaction.chemconnect.core.data.transaction.RegisterTransac
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.db.image.BlobKeyCorrespondence;
+import info.esblurock.reaction.io.metadata.StandardDatasetMetaData;
 
 public class AddExtraCatagoryTest {
 	protected Closeable session;
@@ -88,26 +89,28 @@ public class AddExtraCatagoryTest {
 				orgname, title, sourceID);
 		
 		
-		String uid = "Catalog-Administration-usrinfo-sethier";
+		String uid = "Catalog-Administration-sethier";
 		try {
 			DatabaseObjectHierarchy cathier = ExtractCatalogInformation.getDatabaseObjectHierarchy(uid);
 			System.out.println("----------------------------------------------------------------");
 			System.out.println(cathier.toString());
 			System.out.println("----------------------------------------------------------------");
-			/*
-			String id = "NewCatagory";
-			String onelinedescription = "This is a new catagory";
+			
+			String id = "NewPublishedCatagory";
+			String onelinedescription = "This is a new catagory for published results";
 			String newsourceID = "100";
-			DatabaseObjectHierarchy newhier = ExtractCatalogInformation.getNewCatalogHierarchy(cathier.getObject(), id, onelinedescription, newsourceID);
+			String catagorytype = StandardDatasetMetaData.conceptPublishedResultsCatagory;
+			DatabaseObjectHierarchy newhier = ExtractCatalogInformation.createNewCatalogHierarchy(cathier.getObject(), 
+					id, onelinedescription, newsourceID,catagorytype);
 			System.out.println("----------------------------------------------------------------");
 			System.out.println(newhier.toString());
 			System.out.println("----------------------------------------------------------------");
-			
+
 			DatabaseObjectHierarchy cathier2 = ExtractCatalogInformation.getDatabaseObjectHierarchy(uid);
 			System.out.println("----------------------------------------------------------------");
 			System.out.println(cathier2.toString());
 			System.out.println("----------------------------------------------------------------");
-			*/
+			
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

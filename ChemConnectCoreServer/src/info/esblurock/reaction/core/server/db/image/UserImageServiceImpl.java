@@ -476,7 +476,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		DatasetCatalogHierarchy catalog = (DatasetCatalogHierarchy) QueryBase.getDatabaseObjectFromIdentifier(classname,
 				obj.getIdentifier());
 		DatabaseObjectHierarchy subs = CreateDefaultObjectsFactory.fillDatasetCatalogHierarchy(catalog, obj, id,
-				onelinedescription);
+				onelinedescription,"");
 		return subs;
 	}
 

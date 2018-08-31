@@ -24,6 +24,8 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.structure.Database
 import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
 import info.esblurock.reaction.core.server.db.InterpretData;
 import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
+import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
+import info.esblurock.reaction.core.server.yaml.ReadAndWriteFromDatabase;
 import info.esblurock.reaction.io.db.QueryBase;
 import info.esblurock.reaction.io.metadata.StandardDatasetMetaData;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
@@ -307,11 +309,8 @@ public class CreateDefaultObjectsFactory {
  *  6. Create an object link (linkhier -> lnk)
  */
 	public static DatabaseObjectHierarchy fillDatasetCatalogHierarchy(DatasetCatalogHierarchy topcatalog,
-			DatabaseObject obj, String id, String onelinedescription) throws IOException {
-		/*
-		DataElementInformation linkelement = DatasetOntologyParsing
-				.getSubElementStructureFromIDObject(OntologyKeys.dataObjectLink);
-*/
+			DatabaseObject obj, String id, String onelinedescription, String catagorytype) throws IOException {
+
 		DatabaseObject aobj = new DatabaseObject(obj);
 		String aid = DatasetCatalogHierarchy.createFullCatalogName(obj.getIdentifier(), id);
 		aobj.setIdentifier(aid);
@@ -324,25 +323,14 @@ public class CreateDefaultObjectsFactory {
 		DatabaseObjectHierarchy idhier = cathierarchy.getSubObject(catalog.getCatalogDataID());
 		DataCatalogID catid = (DataCatalogID) idhier.getObject();
 		catid.setCatalogBaseName(obj.getIdentifier());
-		catid.setDataCatalog("");
+		catid.setDataCatalog(catagorytype);
 		catid.setSimpleCatalogName(id);
 
+		setPurposeConceptPair(cathierarchy, catagorytype, StandardDatasetMetaData.purposeDefineSubCatagory);
+		
+		connectInCatalogHierarchy(topcatalog, catalog);
 				
-		// Get object link list (multiple) from top catalog
-		String classname = ChemConnectCompoundMultiple.class.getCanonicalName();
-		ChemConnectCompoundMultiple toplinkstructure = (ChemConnectCompoundMultiple) QueryBase.getDatabaseObjectFromIdentifier(classname,
-				topcatalog.getChemConnectObjectLink());
-		int num = toplinkstructure.getIds().size();
-		String linknum = Integer.toString(num + 1);
-		
-		DatabaseObjectHierarchy linkhier = fillDataObjectLink(toplinkstructure,linknum,MetaDataKeywords.linkSubCatalog,
-				catalog.getIdentifier());
-		DataObjectLink lnk = (DataObjectLink) linkhier.getObject();
-		
-		toplinkstructure.addID(lnk.getIdentifier());
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(cathierarchy);
-		DatabaseWriteBase.writeDatabaseObject(toplinkstructure);
-		DatabaseWriteBase.writeDatabaseObject(lnk);
 		return cathierarchy;
 	}
 
@@ -368,20 +356,35 @@ public class CreateDefaultObjectsFactory {
 		return hierarchy;
 	}
 	
+	public static void connectInCatalogHierarchy(DatasetCatalogHierarchy parentcatalog, DatasetCatalogHierarchy childcatalog) throws IOException {
+		String linkid = parentcatalog.getChemConnectObjectLink();
+		InterpretData multiinterpret = InterpretData.valueOf("ChemConnectCompoundMultiple");
+		ChemConnectCompoundMultiple multi = (ChemConnectCompoundMultiple) multiinterpret.readElementFromDatabase(linkid);
+		DatabaseObjectHierarchy subcatalog = addConnectionToMultiple(multi, childcatalog.getIdentifier());
+		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(subcatalog);
+	}
+	
+	
 	public static void connectInCatalogHierarchy(DatabaseObjectHierarchy parent, DatabaseObjectHierarchy child) {
 		DatasetCatalogHierarchy parentcatalog = (DatasetCatalogHierarchy) parent.getObject();
 		DatasetCatalogHierarchy childcatalog = (DatasetCatalogHierarchy) child.getObject();
 
 		DatabaseObjectHierarchy multilnkhier = parent.getSubObject(parentcatalog.getChemConnectObjectLink());
 		ChemConnectCompoundMultiple multilnk = (ChemConnectCompoundMultiple) multilnkhier.getObject();
+		DatabaseObjectHierarchy subcatalog = addConnectionToMultiple(multilnk, childcatalog.getIdentifier());
+		multilnkhier.addSubobject(subcatalog);
+	}
+	
+	public static DatabaseObjectHierarchy addConnectionToMultiple(ChemConnectCompoundMultiple multilnk,
+			String childid) {
 		int numlinks = multilnk.getIds().size();
 		String numlinkS = Integer.toString(numlinks);
 
 		DatabaseObjectHierarchy subcatalog = fillDataObjectLink(multilnk, numlinkS, MetaDataKeywords.linkSubCatalog,
-				childcatalog.getIdentifier());
+				childid);
 
 		multilnk.addID(subcatalog.getObject().getIdentifier());
-		multilnkhier.addSubobject(subcatalog);
+		return subcatalog;
 	}
 
 	public static DatabaseObjectHierarchy fillCataogHierarchyForUser(DatabaseObject obj, String username, String userid) {

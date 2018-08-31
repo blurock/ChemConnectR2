@@ -341,15 +341,16 @@ public class ExtractCatalogInformation {
 		}
 		return hierarchy;
 	}
-	public static DatabaseObjectHierarchy getNewCatalogHierarchy(DatabaseObject obj, String id, String onelinedescription,String sourceID)
+	public static DatabaseObjectHierarchy createNewCatalogHierarchy(DatabaseObject obj, 
+			String id, String onelinedescription,String sourceID, String catagorytype)
 			throws IOException {
 		DatabaseObject newobj = new DatabaseObject(obj);
 		newobj.setSourceID(sourceID);
 		String classname = DatasetCatalogHierarchy.class.getCanonicalName();
 		DatasetCatalogHierarchy catalog = (DatasetCatalogHierarchy) QueryBase.getDatabaseObjectFromIdentifier(classname,
-				newobj.getIdentifier());
+				obj.getIdentifier());
 		DatabaseObjectHierarchy subs = CreateDefaultObjectsFactory.fillDatasetCatalogHierarchy(catalog, newobj, id,
-				onelinedescription);
+				onelinedescription,catagorytype);
 		return subs;
 	}
 
