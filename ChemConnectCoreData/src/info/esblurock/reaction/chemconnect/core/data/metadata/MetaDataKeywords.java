@@ -17,11 +17,11 @@ public class MetaDataKeywords {
 	public static String accessDataInput = "DataInput";
 	public static String accessDataDelete = "DataDelete";
 	
-	public static String accessTypeQuery = "Query";
-	public static String accessTypeStandardUser = "StandardUser";
-	public static String accessTypeDataUser = "DataUser";
-	public static String accessTypeAdministrator = "Administrator";
-	public static String accessTypeSuperUser = "SuperUser";
+	public static String accessTypeQuery = "dataset:Query";
+	public static String accessTypeStandardUser = "dataset:StandardUser";
+	public static String accessTypeDataUser = "dataset:DataUser";
+	public static String accessTypeAdministrator = "dataset:Administrator";
+	public static String accessTypeSuperUser = "dataset:SuperUser";
 	
 	public static String linkSubCatalog = "dataset:ChemConnectConceptSubCatalog";
 	public static String linkUser = "dataset:ChemConnectConceptUser";

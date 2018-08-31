@@ -19,10 +19,10 @@ public class MatrixBlockDefinition  extends ChemConnectCompoundDataStructure {
 	String lastColumnInMatrix;
 	
 	public MatrixBlockDefinition() {
-		this.startRowInMatrix = "";
-		this.startColumnInMatrix = "";
-		this.lastRowInMatrix = "";
-		this.lastColumnInMatrix = "";
+		this.startRowInMatrix = "0";
+		this.startColumnInMatrix = "0";
+		this.lastRowInMatrix = "0";
+		this.lastColumnInMatrix = "0";
 	}
 	
 	public MatrixBlockDefinition(ChemConnectCompoundDataStructure structure,

@@ -178,5 +178,8 @@ public class StandardDatasetMetaData {
 	public static String observationParameterType = "dataset:observationParameterType";
 	public static String parameterSpecifications = "qb:ComponentSpecification";
 	public static String specificationLabel = "dataset:specificationLabel";
-
+	
+	public static String purposeDefineSubCatagory = "dataset:ChemConnectDefineSubCatagory";
+	public static String conceptUserDataCatagory = "dataset:UserDataCatagory";
+	public static String conceptOrgDataCatagory = "dataset:OrganizationDataCatagory";
 }

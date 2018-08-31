@@ -41,6 +41,7 @@ import info.esblurock.reaction.chemconnect.core.data.image.ImageServiceInformati
 import info.esblurock.reaction.chemconnect.core.data.image.ImageUploadTransaction;
 import info.esblurock.reaction.chemconnect.core.data.image.UploadedImage;
 import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
+import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.data.query.SetOfQueryPropertyValues;
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
@@ -440,7 +441,8 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	}
 	
 	public DatabaseObjectHierarchy createDatabasePerson(DatabaseObject obj, String userClassification, NameOfPerson name, DataCatalogID catid) {
-		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillMinimalPersonDescription(obj, userClassification, name,catid);
+		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillMinimalPersonDescription(obj, 
+				MetaDataKeywords.accessTypeStandardUser, userClassification, name,catid);
 		return hierarchy;
 	}
 	

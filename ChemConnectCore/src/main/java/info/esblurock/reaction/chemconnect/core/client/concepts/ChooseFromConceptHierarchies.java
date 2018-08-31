@@ -134,7 +134,5 @@ public class ChooseFromConceptHierarchies extends Composite {
 		ConvertToMaterialTree.addHierarchyTop(hierarchy, tree);
 	}
 
-	public void conceptChosen(String concept) {
-		MaterialToast.fireToast("conceptChosen: " + concept);
-	}
+
 }

@@ -16,7 +16,10 @@ import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.chemconnect.core.client.cards.CardModal;
 import info.esblurock.reaction.chemconnect.core.client.catalog.SubCatagoryHierarchyCallback;
+import info.esblurock.reaction.chemconnect.core.client.catalog.choose.ChooseFullNameFromCatagoryRow;
 import info.esblurock.reaction.chemconnect.core.client.catalog.choose.SubCatagoryHierarchyCallbackInterface;
+import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHeirarchy;
+import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchies;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
@@ -25,7 +28,8 @@ import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHierarchy;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
-public class StandardDatasetCatalogHierarchyHeader extends Composite implements SubCatagoryHierarchyCallbackInterface {
+public class StandardDatasetCatalogHierarchyHeader extends Composite 
+	implements SubCatagoryHierarchyCallbackInterface, ChooseFromConceptHeirarchy {
 
 	private static StandardDatasetCatalogHierarchyHeaderUiBinder uiBinder = GWT
 			.create(StandardDatasetCatalogHierarchyHeaderUiBinder.class);
@@ -37,6 +41,8 @@ public class StandardDatasetCatalogHierarchyHeader extends Composite implements 
 	public StandardDatasetCatalogHierarchyHeader() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
+	
+	String catagorychoice = "dataset:CatagoryTypeChoices";
 
 	@UiField
 	MaterialLink cataloghead;
@@ -54,6 +60,10 @@ public class StandardDatasetCatalogHierarchyHeader extends Composite implements 
 	DataCatalogID dataid;
 	String newSimpleName;
 	
+	ChooseFullNameFromCatagoryRow catagory;
+	ArrayList<String> choices;
+	String newChosenCatalogConcept;
+	
 	public StandardDatasetCatalogHierarchyHeader(StandardDatasetObjectHierarchyItem item) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.item = item;
@@ -64,9 +74,14 @@ public class StandardDatasetCatalogHierarchyHeader extends Composite implements 
 		DatabaseObjectHierarchy cathier = hier.getSubObject(id);
 		dataid = (DataCatalogID) cathier.getObject();
 		cataloghead.setText(dataid.getSimpleCatalogName());
-		cardmodal = new CardModal();
+		init();
 	}
 
+	void init() {
+		cardmodal = new CardModal();
+		choices = new ArrayList<String>();
+		choices.add(catagorychoice);
+	}
 	@UiHandler("delete")
 	public void onDeleteClick(ClickEvent event) {
 		
@@ -95,13 +110,20 @@ public class StandardDatasetCatalogHierarchyHeader extends Composite implements 
 	}
 	public void insertInitialSubCatagoryInformation() {
 		cardmodal.close();
-		newSimpleName = wizard.getSimpleName();
-		String oneline = wizard.getOneLineDescription();
 		Window.alert("insertInitialSubCatagoryInformation: " +  newSimpleName);
-		addSubCatagory(newSimpleName,oneline);
+		setUpConceptChoices();
+	}
+	private void  setUpConceptChoices() {
+		ChooseFromConceptHierarchies choosedevice = new ChooseFromConceptHierarchies(choices,this);
+		modal.clear();
+		modal.add(choosedevice);
+		choosedevice.open();				
 	}
 
-	private void addSubCatagory(String id, String onelinedescription) {
+	private void addSubCatagory() {
+		newSimpleName = wizard.getSimpleName();
+		String oneline = wizard.getOneLineDescription();
+		
 		boolean addsub = true;
 		/*
 		for(CatalogHierarchyNode cat : subcatagories) {
@@ -117,7 +139,7 @@ public class StandardDatasetCatalogHierarchyHeader extends Composite implements 
 			Window.alert("addSubCatagory: " + subobj);
 			UserImageServiceAsync async = UserImageService.Util.getInstance();
 			SubCatagoryHierarchyCallback callback = new SubCatagoryHierarchyCallback(this);
-			async.getNewCatalogHierarchy(subobj,id,onelinedescription,callback);	
+			async.getNewCatalogHierarchy(subobj,newSimpleName,oneline,callback);	
 		} else {
 			MaterialToast.fireToast("Name already being used in another sub-catagory");
 		}
@@ -127,14 +149,22 @@ public class StandardDatasetCatalogHierarchyHeader extends Composite implements 
 		String id = subcat.getCatalogDataID();
 		DatabaseObjectHierarchy cathier = subs.getSubObject(id);
 		DataCatalogID catid = (DataCatalogID) cathier.getObject();
+		catid.setDataCatalog(newChosenCatalogConcept);
+		catid.setSimpleCatalogName(newSimpleName);
 		catid.setCatalogBaseName(dataid.getCatalogBaseName());
-		catid.setDataCatalog(dataid.getDataCatalog());
+		catid.setDataCatalog(newChosenCatalogConcept);
 		catid.setSimpleCatalogName(newSimpleName);
 		
 		Window.alert("setInHierarchy: \n" + subs.getObject().toString());
 		Window.alert("setInHierarchy: DataCatalogID\n" + catid.toString());
 		StandardDatasetObjectHierarchyItem subhiearchy = new StandardDatasetObjectHierarchyItem(subs,modal);
 		item.addSubItem(subhiearchy);
+	}
+
+	@Override
+	public void conceptChosen(String topconcept, String concept) {
+		newChosenCatalogConcept = concept;
+		addSubCatagory();
 	}
 
 

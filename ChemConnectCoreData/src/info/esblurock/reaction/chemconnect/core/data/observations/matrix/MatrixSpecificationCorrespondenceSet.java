@@ -14,6 +14,11 @@ public class MatrixSpecificationCorrespondenceSet extends ChemConnectCompoundDat
 	@Index
 	String matrixSpecificationCorrespondence;
 	
+	public MatrixSpecificationCorrespondenceSet() {
+		super();
+		this.matrixBlockDefinition = null;
+		this.matrixSpecificationCorrespondence = null;
+	}
 	public MatrixSpecificationCorrespondenceSet(ChemConnectCompoundDataStructure structure, 
 			String matrixBlockDefinition, String matrixSpecificationCorrespondence) {
 		super(structure);

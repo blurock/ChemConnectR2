@@ -33,6 +33,7 @@ import info.esblurock.reaction.chemconnect.core.data.gcs.RegisterGCSClasses;
 import info.esblurock.reaction.chemconnect.core.data.image.RegisterImageInformation;
 import info.esblurock.reaction.chemconnect.core.data.initialization.RegisterInitializationData;
 import info.esblurock.reaction.chemconnect.core.data.login.RegisterUserLoginData;
+import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.observations.RegisterObservationData;
 import info.esblurock.reaction.chemconnect.core.data.rdf.RegisterRDFData;
 import info.esblurock.reaction.chemconnect.core.data.transaction.RegisterTransactionData;
@@ -85,22 +86,14 @@ public class LoginSetupTest {
 	@Test
 	public void test() {
 		String sourceID = "1";
-		// String sourceID = QueryBase.getDataSourceIdentification("Administraction");
-		/*
-		 * String orgid =
-		 * CreateDefaultObjectsFactory.createAndWriteDefaultUserAndOrg("Administration",
-		 * "Administration", "BlurockConsultingAB", "Blurock Consulting AB");
-		 * CreateDefaultObjectsFactory.createAndWriteDefaultUserCatalog(
-		 * "Administration", "Administration", "BlurockConsultingAB",
-		 * "Blurock Consulting AB", orgid, sourceID);
-		 */
 
 		String username = "Administration";
 		String access = "Administration";
 		String owner = "Administration";
 		String orgname = "BlurockConsultingAB";
 		String title = "Blurock Consulting AB";
-		CreateDefaultObjectsFactory.createAndWriteDefaultUserOrgAndCatagories(username, access, owner,
+		String userrole = MetaDataKeywords.accessTypeStandardUser;
+		CreateDefaultObjectsFactory.createAndWriteDefaultUserOrgAndCatagories(username, userrole, access, owner,
 				orgname, title, sourceID);
 
 		System.out.println("---------------------------------------------------------------");
@@ -111,13 +104,13 @@ public class LoginSetupTest {
 				System.out.println(object.toString());
 			}
 			System.out.println("---------------------------------------------------------------");
-			String catid = "Catalog-Administration-usrinfo-sethier";
+			String catid = "Catalog-Administration-sethier";
 			DatabaseObjectHierarchy ucathier = ExtractCatalogInformation.getCatalogObject(catid, "dataset:DatasetCatalogHierarchy");
 			System.out.println(ucathier.toString());
-			System.out.println("---------------------------------------------------------------");
-			String orgid = "Catalog-Administration-org-sethier";
-			DatabaseObjectHierarchy ocathier = ExtractCatalogInformation.getCatalogObject(orgid, "dataset:DatasetCatalogHierarchy");
-			System.out.println(ocathier.toString());
+			//System.out.println("---------------------------------------------------------------");
+			//String orgid = "Catalog-Administration-org-sethier";
+			//DatabaseObjectHierarchy ocathier = ExtractCatalogInformation.getCatalogObject(orgid, "dataset:DatasetCatalogHierarchy");
+			//System.out.println(ocathier.toString());
 			
 			
 			/*

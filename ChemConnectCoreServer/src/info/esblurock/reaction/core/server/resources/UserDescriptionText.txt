@@ -1,0 +1,3 @@
+This is the data created or accumulated by the user '#####'.
+The sub-catagories, in one sense, represent a file structure create by the user. 
+The sub-catagories give an indication of the source of the data. 

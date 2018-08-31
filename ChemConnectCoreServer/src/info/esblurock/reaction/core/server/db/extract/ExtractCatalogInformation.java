@@ -9,6 +9,7 @@ import java.util.StringTokenizer;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataObjectLink;
+import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHierarchy;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
@@ -22,6 +23,8 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.RecordInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.db.InterpretData;
+import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFactory;
+import info.esblurock.reaction.io.db.QueryBase;
 import info.esblurock.reaction.io.metadata.StandardDatasetMetaData;
 import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 
@@ -338,5 +341,16 @@ public class ExtractCatalogInformation {
 		}
 		return hierarchy;
 	}
-	
+	public static DatabaseObjectHierarchy getNewCatalogHierarchy(DatabaseObject obj, String id, String onelinedescription,String sourceID)
+			throws IOException {
+		DatabaseObject newobj = new DatabaseObject(obj);
+		newobj.setSourceID(sourceID);
+		String classname = DatasetCatalogHierarchy.class.getCanonicalName();
+		DatasetCatalogHierarchy catalog = (DatasetCatalogHierarchy) QueryBase.getDatabaseObjectFromIdentifier(classname,
+				newobj.getIdentifier());
+		DatabaseObjectHierarchy subs = CreateDefaultObjectsFactory.fillDatasetCatalogHierarchy(catalog, newobj, id,
+				onelinedescription);
+		return subs;
+	}
+
 }

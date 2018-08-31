@@ -20,6 +20,7 @@ public class ObservationValueRow extends ChemConnectCompoundDataStructure {
 
 	public ObservationValueRow() {
 		row = new ArrayList<String>();
+		rowNumber = "0";
 	}
 
 	public ObservationValueRow(ChemConnectCompoundDataStructure obj, String rowNumber, ArrayList<String> row) {

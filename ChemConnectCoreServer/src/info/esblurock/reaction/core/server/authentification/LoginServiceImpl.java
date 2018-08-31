@@ -24,6 +24,7 @@ import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHiera
 import info.esblurock.reaction.chemconnect.core.data.login.UnverifiedUserAccount;
 import info.esblurock.reaction.chemconnect.core.data.login.UserAccountInformation;
 import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
+import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.rdf.KeywordRDF;
 import info.esblurock.reaction.chemconnect.core.data.transaction.EventCount;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
@@ -76,7 +77,8 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 				String owner = "Administration";
 				String orgname = "BlurockConsultingAB";
 				String title = "Blurock Consulting AB";
-				CreateDefaultObjectsFactory.createAndWriteDefaultUserOrgAndCatagories(username, access, owner, orgname,
+				String userrole = MetaDataKeywords.accessTypeAdministrator;
+				CreateDefaultObjectsFactory.createAndWriteDefaultUserOrgAndCatagories(username, userrole, access, owner, orgname,
 						title, sourceID);
 			}
 
@@ -161,7 +163,7 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 		if (unverified.getUsername().equals(username)) {
 			String password = unverified.getPassword();
 			// Date creation = unverified.getCreationDate();
-			String userrole = "StandardUser";
+			String userrole = MetaDataKeywords.accessTypeStandardUser;
 			DatabaseWriteBase.initializeIndividualInformation(username, password, email, userrole);
 			String subject = "Welcome to MolConnect";
 			String msg = "Your account has been verified<br>" + "This account is under a limited usage agreement <br>"

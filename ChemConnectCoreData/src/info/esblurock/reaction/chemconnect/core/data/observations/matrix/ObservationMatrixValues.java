@@ -14,8 +14,10 @@ public class ObservationMatrixValues extends ChemConnectCompoundDataStructure {
 	String observationRowValue;
 	
 	public ObservationMatrixValues() {
+		super();
+		this.observationRowValueTitles = null;
+		this.observationRowValue = null;
 	}
-
 	public ObservationMatrixValues(ChemConnectCompoundDataStructure structure, 
 			String observationRowValueTitles, String observationRowValue) {
 		super(structure);

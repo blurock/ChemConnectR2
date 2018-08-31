@@ -28,6 +28,7 @@ import info.esblurock.reaction.chemconnect.core.data.gcs.RegisterGCSClasses;
 import info.esblurock.reaction.chemconnect.core.data.image.RegisterImageInformation;
 import info.esblurock.reaction.chemconnect.core.data.initialization.RegisterInitializationData;
 import info.esblurock.reaction.chemconnect.core.data.login.RegisterUserLoginData;
+import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.observations.RegisterObservationData;
 import info.esblurock.reaction.chemconnect.core.data.rdf.RegisterRDFData;
 import info.esblurock.reaction.chemconnect.core.data.transaction.RegisterTransactionData;
@@ -85,7 +86,8 @@ public class ReadDatabaseObjectHierarchy {
 			String owner = "Administration";
 			String orgname = "BlurockConsultingAB";
 			String title = "Blurock Consulting AB";
-			CreateDefaultObjectsFactory.createAndWriteDefaultUserOrgAndCatagories(username, access, owner,
+			String userrole = MetaDataKeywords.accessTypeStandardUser;;
+			CreateDefaultObjectsFactory.createAndWriteDefaultUserOrgAndCatagories(username, userrole, access, owner,
 					orgname, title, sourceID);
 			
 			try {

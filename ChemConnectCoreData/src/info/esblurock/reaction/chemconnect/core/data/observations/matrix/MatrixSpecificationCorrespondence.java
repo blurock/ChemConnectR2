@@ -15,8 +15,8 @@ public class MatrixSpecificationCorrespondence extends ChemConnectCompoundDataSt
 	String specificationLabel;
 	
 	public MatrixSpecificationCorrespondence() {
-		this.matrixColumn = "";
-		this.specificationLabel = "";		
+		this.matrixColumn = "0";
+		this.specificationLabel = "label";		
 	}
 	public MatrixSpecificationCorrespondence(ChemConnectCompoundDataStructure structure,
 			String matrixColumn, String specificationLabel) {

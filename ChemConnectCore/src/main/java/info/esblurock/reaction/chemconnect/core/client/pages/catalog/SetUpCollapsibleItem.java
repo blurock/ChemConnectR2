@@ -100,7 +100,7 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public boolean isInformation() {
-			return false;
+			return true;
 		}
 
 		@Override
@@ -187,7 +187,7 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public boolean isInformation() {
-			return false;
+			return true;
 		}
 
 		@Override
@@ -330,7 +330,7 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public boolean isInformation() {
-			return false;
+			return true;
 		}
 
 		@Override
@@ -360,7 +360,7 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public boolean isInformation() {
-			return false;
+			return true;
 		}
 
 		@Override
@@ -534,7 +534,7 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public boolean isInformation() {
-			return false;
+			return true;
 		}
 
 		@Override
@@ -607,7 +607,7 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public boolean isInformation() {
-			return false;
+			return true;
 		}
 
 		@Override
@@ -783,7 +783,7 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public boolean isInformation() {
-			return false;
+			return true;
 		}
 
 		@Override

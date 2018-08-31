@@ -1483,6 +1483,11 @@ xsd:date rdf:type rdfs:Datatype .
                rdfs:subClassOf :ReactionMechanism .
 
 
+###  http://www.esblurock.info/dataset#CatagoryTypeChoices
+:CatagoryTypeChoices rdf:type owl:Class ;
+                     rdfs:subClassOf :ChemConnectClassifications .
+
+
 ###  http://www.esblurock.info/dataset#CatalogBaseName
 :CatalogBaseName rdf:type owl:Class ;
                  rdfs:subClassOf :ShortStringLabel ;
@@ -2283,6 +2288,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                 <http://www.w3.org/2004/02/skos/core#altLabel> "link" .
 
 
+###  http://www.esblurock.info/dataset#DataOriginCatagory
+:DataOriginCatagory rdf:type owl:Class ;
+                    rdfs:subClassOf :CatagoryTypeChoices .
+
+
 ###  http://www.esblurock.info/dataset#DataOwner
 :DataOwner rdf:type owl:Class ;
            rdfs:subClassOf :Classification ;
@@ -2687,6 +2697,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                       <http://purl.org/dc/terms/identifier> "dataset:DeviceCalibrationActivity" ;
                                       rdfs:label "calibration activity" ;
                                       <http://www.w3.org/2004/02/skos/core#altLabel> "calibration" .
+
+
+###  http://www.esblurock.info/dataset#DeviceCatagory
+:DeviceCatagory rdf:type owl:Class ;
+                rdfs:subClassOf :CatagoryTypeChoices .
 
 
 ###  http://www.esblurock.info/dataset#DeviceComponentModel
@@ -3123,6 +3138,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                     rdfs:subClassOf :ChemConnectPurposeSubsystem .
 
 
+###  http://www.esblurock.info/dataset#ExperimentalSetDataCatagory
+:ExperimentalSetDataCatagory rdf:type owl:Class ;
+                             rdfs:subClassOf :CatagoryTypeChoices .
+
+
 ###  http://www.esblurock.info/dataset#ExperimentalTemperature
 :ExperimentalTemperature rdf:type owl:Class ;
                          rdfs:subClassOf :TemperatureParameter ,
@@ -3144,6 +3164,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
    owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#Kelvin> ;
    <http://www.w3.org/2004/02/skos/core#example> 1000
  ] .
+
+
+###  http://www.esblurock.info/dataset#ExperimentalTypeCatagory
+:ExperimentalTypeCatagory rdf:type owl:Class ;
+                          rdfs:subClassOf :CatagoryTypeChoices .
 
 
 ###  http://www.esblurock.info/dataset#ExtractionMethodology
@@ -6411,6 +6436,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                             rdfs:subClassOf :Classification .
 
 
+###  http://www.esblurock.info/dataset#OrganizationDataCatagory
+:OrganizationDataCatagory rdf:type owl:Class ;
+                          rdfs:subClassOf :CatagoryTypeChoices .
+
+
 ###  http://www.esblurock.info/dataset#OrganizationDescription
 :OrganizationDescription rdf:type owl:Class ;
                          rdfs:subClassOf :ChemConnectCompoundDataStructure ,
@@ -6926,6 +6956,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                rdfs:subClassOf :AbsoluteUncertainty .
 
 
+###  http://www.esblurock.info/dataset#PublishedResultsCatagory
+:PublishedResultsCatagory rdf:type owl:Class ;
+                          rdfs:subClassOf :CatagoryTypeChoices .
+
+
 ###  http://www.esblurock.info/dataset#PublishedValue
 :PublishedValue rdf:type owl:Class ;
                 rdfs:subClassOf :ReportedValue .
@@ -7308,6 +7343,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#SimpleDatasetObject
 :SimpleDatasetObject rdf:type owl:Class ;
                      rdfs:subClassOf <http://www.w3.org/ns/dcat#Catalog> .
+
+
+###  http://www.esblurock.info/dataset#SingleExperimentDataCatagory
+:SingleExperimentDataCatagory rdf:type owl:Class ;
+                              rdfs:subClassOf :CatagoryTypeChoices .
 
 
 ###  http://www.esblurock.info/dataset#SingleMassFlowControllerObservable
@@ -7979,6 +8019,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#UserClassification
 :UserClassification rdf:type owl:Class ;
                     rdfs:subClassOf :Classification .
+
+
+###  http://www.esblurock.info/dataset#UserDataCatagory
+:UserDataCatagory rdf:type owl:Class ;
+                  rdfs:subClassOf :CatagoryTypeChoices .
 
 
 ###  http://www.esblurock.info/dataset#UserInformation

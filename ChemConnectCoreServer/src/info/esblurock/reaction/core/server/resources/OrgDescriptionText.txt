@@ -1,0 +1,3 @@
+This is a description of the data accumulated or created by the organization #####. This is the main organization of the user.
+If the user is associated with other organizations, or if the data is created by the same use in conjunction with another organization,
+then another (parallel) catagory should be made. 

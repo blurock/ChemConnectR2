@@ -57,12 +57,16 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 	boolean infovisible;
 
 	public StandardDatasetObjectHierarchyItem(DatabaseObjectHierarchy hierarchy, MaterialPanel modalpanel) {
+		Window.alert("StandardDatasetObjectHierarchyItem:  Start: " + hierarchy.getObject().getClass().getSimpleName() + ") " + hierarchy.getObject().getIdentifier());
 		initWidget(uiBinder.createAndBindUi(this));
 		this.hierarchy = hierarchy;
 		this.object = hierarchy.getObject();
 		this.modalpanel = modalpanel;
 		init();
 		addSubObjects(this.object);
+		Window.alert("StandardDatasetObjectHierarchyItem:  End    :" 
+				+ hierarchy.getObject().getIdentifier()
+				+ ":  " + topbody.getChildrenList().size());
 	}
 
 	void init() {
@@ -122,6 +126,8 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 					if (setup.isInformation()) {
 						addInfoItem(item);
 					} else {
+						
+						
 						boolean submultipleB = sub.getObject().getClass().getCanonicalName()
 								.compareTo(ChemConnectCompoundMultiple.class.getCanonicalName()) == 0;
 						if(submultipleB) {

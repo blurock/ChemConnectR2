@@ -1,0 +1,3 @@
+This is the personal profile information for user '#####'. This information should be considered public, i.e. 
+information that would normally be found in contact information of the person's profile information 
+at the respective organization. Information that is not considered public should not be found here.

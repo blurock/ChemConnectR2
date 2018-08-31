@@ -1,18 +1,14 @@
-package info.esblurock.reaction.core.server.initialization.catobj;
+package info.esblurock.reaction.core.server.initialization;
 
 import static org.junit.Assert.*;
 
 import java.io.IOException;
-import java.io.StringWriter;
-import java.util.Map;
-import java.util.Set;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.esotericsoftware.yamlbeans.YamlWriter;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.googlecode.objectify.ObjectifyFactory;
@@ -24,9 +20,7 @@ import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDat
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
-import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
 import info.esblurock.reaction.chemconnect.core.data.contact.RegisterContactData;
-import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.dataset.RegistrerDataset;
 import info.esblurock.reaction.chemconnect.core.data.description.RegisterDescriptionData;
 import info.esblurock.reaction.chemconnect.core.data.gcs.RegisterGCSClasses;
@@ -34,19 +28,14 @@ import info.esblurock.reaction.chemconnect.core.data.image.RegisterImageInformat
 import info.esblurock.reaction.chemconnect.core.data.initialization.RegisterInitializationData;
 import info.esblurock.reaction.chemconnect.core.data.login.RegisterUserLoginData;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
-import info.esblurock.reaction.chemconnect.core.data.methodology.RegisterMethodology;
 import info.esblurock.reaction.chemconnect.core.data.observations.RegisterObservationData;
-import info.esblurock.reaction.chemconnect.core.data.observations.matrix.RegisterObservationMatrixData;
 import info.esblurock.reaction.chemconnect.core.data.rdf.RegisterRDFData;
 import info.esblurock.reaction.chemconnect.core.data.transaction.RegisterTransactionData;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
-import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.db.image.BlobKeyCorrespondence;
-import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFactory;
-import info.esblurock.reaction.core.server.read.ReadWriteYamlDatabaseObjectHierarchy;
 
-public class InitialDatabasePersonTest {
+public class AddExtraCatagoryTest {
 	protected Closeable session;
 	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 
@@ -69,8 +58,6 @@ public class InitialDatabasePersonTest {
 		RegisterImageInformation.register();
 		RegisterGCSClasses.register();
 		RegisterObservationData.register();
-		RegisterMethodology.register();
-		RegisterObservationMatrixData.register();
 		ObjectifyService.register(BlobKeyCorrespondence.class);
 		ObjectifyService.register(DatabaseObject.class);
 		ObjectifyService.register(ChemConnectCompoundMultiple.class);
@@ -88,53 +75,47 @@ public class InitialDatabasePersonTest {
 		this.helper.tearDown();
 	}
 
-
 	@Test
 	public void test() {
-		DatabaseObject obj = new DatabaseObject("AdministrationCatalog","Public","Administration","1" );
-		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,"");
-		DataCatalogID datid = new DataCatalogID(structure,"Catalog-Base","Catalog","Simple");
-		String userClassification = MetaDataKeywords.accessTypeStandardUser;
-		String title = "Dr.";
-		String givenName = "Homer";
-		String familyName = "Simpson";
-		String username = "simpson";
-		NameOfPerson person = new NameOfPerson(obj, title, givenName, familyName);
-		DatabaseObjectHierarchy hierarchy1 = 
-				CreateDefaultObjectsFactory.fillMinimalPersonDescription(obj, username,userClassification, person, datid);
+		String sourceID   = "1";
+		String username   = "Administration";
+		String access     = "Administration";
+		String owner      = "Administration";
+		String orgname    = "BlurockConsultingAB";
+		String title      = "Blurock Consulting AB";
+		String userrole   = MetaDataKeywords.accessTypeStandardUser;
+		CreateDefaultObjectsFactory.createAndWriteDefaultUserOrgAndCatagories(username, userrole, access, owner,
+				orgname, title, sourceID);
+		
+		
+		String uid = "Catalog-Administration-usrinfo-sethier";
 		try {
-			System.out.println(hierarchy1.toString());
-			
-			Map<String,Object> map1 = ReadWriteYamlDatabaseObjectHierarchy.yamlDatabaseObjectHierarchy(hierarchy1);
-			StringWriter wS = new StringWriter(1000000);
-			YamlWriter writer = new YamlWriter(wS);
-			writer.write(map1);
-			writer.close();
-			System.out.println("--------------------------------------------");
-			System.out.println(wS.toString());
-			System.out.println("--------------------------------------------");
-			DatabaseObjectHierarchy hierarchy2 = ReadWriteYamlDatabaseObjectHierarchy.readYamlDatabaseObjectHierarchy(obj, map1, "100");
-			System.out.println("--------------------------------------------");
-			System.out.println(hierarchy2.toString());
-			System.out.println("--------------------------------------------");
-			
-			WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(hierarchy1);	
-			System.out.println("Hierarchy written");
-			Set<String> ids = WriteReadDatabaseObjects.getIDsOfAllDatabaseObjects("Administration",
-					"dataset:DatabasePerson");
-			System.out.println("IDs: " + ids);
-			
+			DatabaseObjectHierarchy cathier = ExtractCatalogInformation.getDatabaseObjectHierarchy(uid);
 			System.out.println("----------------------------------------------------------------");
-			//String uid = DatasetCatalogHierarchy.createFullCatalogName("Catalog", username);
-			String uid = "AdministrationCatalog-usrinfo";
-			DatabaseObjectHierarchy methhier = ExtractCatalogInformation.getCatalogObject(uid, "dataset:DatabasePerson");
+			System.out.println(cathier.toString());
 			System.out.println("----------------------------------------------------------------");
-			System.out.println(methhier.toString());
-
+			/*
+			String id = "NewCatagory";
+			String onelinedescription = "This is a new catagory";
+			String newsourceID = "100";
+			DatabaseObjectHierarchy newhier = ExtractCatalogInformation.getNewCatalogHierarchy(cathier.getObject(), id, onelinedescription, newsourceID);
+			System.out.println("----------------------------------------------------------------");
+			System.out.println(newhier.toString());
+			System.out.println("----------------------------------------------------------------");
+			
+			DatabaseObjectHierarchy cathier2 = ExtractCatalogInformation.getDatabaseObjectHierarchy(uid);
+			System.out.println("----------------------------------------------------------------");
+			System.out.println(cathier2.toString());
+			System.out.println("----------------------------------------------------------------");
+			*/
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		
+
 	}
 
 }

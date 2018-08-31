@@ -28,6 +28,7 @@ import info.esblurock.reaction.chemconnect.core.data.gcs.RegisterGCSClasses;
 import info.esblurock.reaction.chemconnect.core.data.image.RegisterImageInformation;
 import info.esblurock.reaction.chemconnect.core.data.initialization.RegisterInitializationData;
 import info.esblurock.reaction.chemconnect.core.data.login.RegisterUserLoginData;
+import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.observations.RegisterObservationData;
 import info.esblurock.reaction.chemconnect.core.data.rdf.RegisterRDFData;
 import info.esblurock.reaction.chemconnect.core.data.transaction.RegisterTransactionData;
@@ -91,11 +92,12 @@ public class FindDatabaseElements {
 		String owner = "Administration";
 		String orgname = "BlurockConsultingAB";
 		String title = "Blurock Consulting AB";
-		CreateDefaultObjectsFactory.createAndWriteDefaultUserOrgAndCatagories(username, username, owner,
+		String userrole = MetaDataKeywords.accessTypeAdministrator;
+		CreateDefaultObjectsFactory.createAndWriteDefaultUserOrgAndCatagories(username, userrole, username, owner,
 				"BlurockConsultingAB-admin", title, sourceID);
-		CreateDefaultObjectsFactory.createAndWriteDefaultUserOrgAndCatagories("SecondUser", "OtherUser", "OtherUser",
+		CreateDefaultObjectsFactory.createAndWriteDefaultUserOrgAndCatagories("SecondUser", MetaDataKeywords.accessTypeStandardUser, "OtherUser", "OtherUser",
 				"BlurockConsultingAB-other", title, sourceID);
-		CreateDefaultObjectsFactory.createAndWriteDefaultUserOrgAndCatagories("ThirdUser", "Public", "OtherUser",
+		CreateDefaultObjectsFactory.createAndWriteDefaultUserOrgAndCatagories("ThirdUser", MetaDataKeywords.accessTypeQuery, "Public", "OtherUser",
 				"BlurockConsultingAB-public", title, sourceID);
 		
 		
