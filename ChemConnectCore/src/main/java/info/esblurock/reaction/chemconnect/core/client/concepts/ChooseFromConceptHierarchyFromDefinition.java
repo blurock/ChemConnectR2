@@ -14,7 +14,6 @@ public class ChooseFromConceptHierarchyFromDefinition extends ChooseFromConceptH
 	}
 	@Override
 	public void treeHierarchyCall(String topconcept) {
-		Window.alert("ChooseFromConceptHierarchyFromDefinition: " + topconcept);
 		ContactDatabaseAccessAsync async = ContactDatabaseAccess.Util.getInstance();
 		ConceptHierarchyCallback callback = new ConceptHierarchyCallback(this);
 		async.hierarchyFromPrimitiveStructure(topconcept,callback);

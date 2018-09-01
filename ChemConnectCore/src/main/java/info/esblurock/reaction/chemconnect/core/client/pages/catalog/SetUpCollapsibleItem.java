@@ -1,5 +1,7 @@
 package info.esblurock.reaction.chemconnect.core.client.pages.catalog;
 
+import com.google.gwt.user.client.Window;
+
 import info.esblurock.reaction.chemconnect.core.client.catalog.link.PrimitiveDataObjectLinkRow;
 import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatabasePersonalDescriptionHeader;
 import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetContactInfoHeader;
@@ -24,6 +26,8 @@ import info.esblurock.reaction.chemconnect.core.client.pages.primitive.gps.Primi
 import info.esblurock.reaction.chemconnect.core.client.pages.reference.StandardDatasetDataSetReferenceHeader;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.dataset.PurposeConceptPair;
+import info.esblurock.reaction.chemconnect.core.data.description.DescriptionDataData;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 public enum SetUpCollapsibleItem {
 	
@@ -522,7 +526,6 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
-			//item.setBodyVisible(false);
 			PrimitiveConceptRow concept = new PrimitiveConceptRow(item.getObject());
 			item.addHeader(concept);
 		}
@@ -647,7 +650,15 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
-			StandardDatasetDescriptionDataDataHeader header = new StandardDatasetDescriptionDataDataHeader(item.getObject());
+			DescriptionDataData description = (DescriptionDataData) item.getObject();
+			String purposeconceptID = description.getSourceConcept();
+			DatabaseObjectHierarchy hierarchy = item.getHierarchy();
+			DatabaseObjectHierarchy phierarchy = hierarchy.getSubObject(purposeconceptID);
+			StandardDatasetObjectHierarchyItem subitem = new StandardDatasetObjectHierarchyItem(phierarchy,item.getModalpanel());
+			SetUpCollapsibleItem setup = SetUpCollapsibleItem.valueOf("PurposeConceptPair");
+			setup.addInformation(subitem);
+			StandardDatasetDescriptionDataDataHeader header 
+				= new StandardDatasetDescriptionDataDataHeader(description,subitem.getHeader());
 			item.addHeader(header);
 		}
 
@@ -669,7 +680,7 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public boolean addSubitems() {
-			return true;
+			return false;
 		}
 		
 	}, ContactInfoData {

@@ -110,7 +110,6 @@ public class PrimitiveDataObjectLinkRow extends Composite implements ChooseFromC
 
 	@Override
 	public void insertTree(HierarchyNode topnode) {
-		Window.alert(topnode.toString());
 		chooseConcept = false;
 		ChooseFromConceptHierarchies chooseconcept = new ChooseFromConceptHierarchies(this);
 		chooseconcept.setupTree(topnode);

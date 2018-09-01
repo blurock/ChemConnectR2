@@ -3,19 +3,32 @@
 	xmlns:ma="urn:import:gwt.material.design.addins.client"
 	xmlns:c="urn:import:gwt.material.design.addins.client.combobox">
 	<ui:style>
-	.important {
-		font-weight: bold;
+	.box {
+		background-color: #bdbdbd;
+		border: 3px solid #607d8b;
+		margin: 0px;
+	}
+	.panelbox {
+		background-color: #e0e0e0;
+		border: 3px solid #607d8b;
+		margin: 0px;
+	}
+	.rowbox {
+		background-color: #cfd8dc;
+		border: 1px solid #607d8b;
+		margin: 0px;
+		width: 100%;
 	}
 	</ui:style>
-	<m:MaterialPanel ui:field="toppanel" padding="0">
+	<m:MaterialPanel ui:field="toppanel" margin="0">
 	<m:MaterialPanel ui:field="modalpanel" padding="0"/>
-		<m:MaterialRow>
-			<m:MaterialColumn grid="s6">
+		<m:MaterialRow styleName="{style.panelbox}">
+			<m:MaterialColumn grid="s6" styleName="{style.rowbox}">
 				<m:MaterialTooltip ui:field="purposetip">
 					<m:MaterialLink ui:field="purpose"/>
 					</m:MaterialTooltip>
 			</m:MaterialColumn>
-			<m:MaterialColumn grid="s6">
+			<m:MaterialColumn grid="s6" styleName="{style.rowbox}">
 			<m:MaterialTooltip ui:field="concepttip">
 				<m:MaterialLink ui:field="concept" />
 				</m:MaterialTooltip>

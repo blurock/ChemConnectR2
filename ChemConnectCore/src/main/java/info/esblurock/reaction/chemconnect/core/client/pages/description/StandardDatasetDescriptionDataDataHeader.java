@@ -14,11 +14,13 @@ import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.ui.MaterialDatePicker;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
+import gwt.material.design.client.ui.MaterialRow;
 import gwt.material.design.client.ui.MaterialTextArea;
 import gwt.material.design.client.ui.MaterialTooltip;
 import info.esblurock.reaction.chemconnect.core.client.modal.InputLineModal;
 import info.esblurock.reaction.chemconnect.core.client.modal.SetLineContentInterface;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.dataset.PurposeConceptPair;
 import info.esblurock.reaction.chemconnect.core.data.description.DescriptionDataData;
 
 public class StandardDatasetDescriptionDataDataHeader extends Composite implements SetLineContentInterface {
@@ -58,14 +60,17 @@ public class StandardDatasetDescriptionDataDataHeader extends Composite implemen
 	MaterialTooltip datetooltip;
 	@UiField
 	MaterialDatePicker date;
+	@UiField
+	MaterialRow purposeconceptrow;
 	
 	DescriptionDataData description;
 
-	public StandardDatasetDescriptionDataDataHeader(DatabaseObject object) {
+	public StandardDatasetDescriptionDataDataHeader(DescriptionDataData description, Composite conceptP) {
 		initWidget(uiBinder.createAndBindUi(this));
-		description = (DescriptionDataData) object;
+		this.description = description;
 		init();
 		fill(description);
+		purposeconceptrow.add(conceptP);
 	}
 
 	@UiHandler("title")

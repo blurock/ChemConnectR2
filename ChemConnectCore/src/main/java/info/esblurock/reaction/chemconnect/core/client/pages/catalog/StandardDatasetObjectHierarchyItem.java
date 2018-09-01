@@ -46,6 +46,9 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 	MaterialPanel infopanel;
 	@UiField
 	MaterialLink seeinfo;
+	@UiField
+	MaterialCollapsible topbodypanel;
+
 
 	DatabaseObject object;
 	DatabaseObjectHierarchy hierarchy;
@@ -57,16 +60,12 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 	boolean infovisible;
 
 	public StandardDatasetObjectHierarchyItem(DatabaseObjectHierarchy hierarchy, MaterialPanel modalpanel) {
-		Window.alert("StandardDatasetObjectHierarchyItem:  Start: " + hierarchy.getObject().getClass().getSimpleName() + ") " + hierarchy.getObject().getIdentifier());
 		initWidget(uiBinder.createAndBindUi(this));
 		this.hierarchy = hierarchy;
 		this.object = hierarchy.getObject();
 		this.modalpanel = modalpanel;
 		init();
 		addSubObjects(this.object);
-		Window.alert("StandardDatasetObjectHierarchyItem:  End    :" 
-				+ hierarchy.getObject().getIdentifier()
-				+ ":  " + topbody.getChildrenList().size());
 	}
 
 	void init() {
@@ -126,8 +125,6 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 					if (setup.isInformation()) {
 						addInfoItem(item);
 					} else {
-						
-						
 						boolean submultipleB = sub.getObject().getClass().getCanonicalName()
 								.compareTo(ChemConnectCompoundMultiple.class.getCanonicalName()) == 0;
 						if(submultipleB) {
@@ -172,7 +169,7 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 
 	public void addSubItem(StandardDatasetObjectHierarchyItem item) {
 		topbody.setVisible(true);
-		topbody.add(item);
+		topbodypanel.add(item);
 		subitems.add(item);
 	}
 
@@ -224,6 +221,10 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 
 	public ArrayList<StandardDatasetObjectHierarchyItem> getInfoSubitems() {
 		return infosubitems;
+	}
+	
+	public MaterialPanel getInfoPanel() {
+		return infopanel;
 	}
 
 	public void updateHierarchy(DatabaseObjectHierarchy hierarchy2) {

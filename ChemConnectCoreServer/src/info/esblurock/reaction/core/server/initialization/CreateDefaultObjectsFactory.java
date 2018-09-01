@@ -338,10 +338,6 @@ public class CreateDefaultObjectsFactory {
 	public static String userCatalogHierarchyID(String username) {
 		String uid = DatasetCatalogHierarchy.createFullCatalogName("Catalog", username);
 		DatabaseObject catobj = new DatabaseObject(uid,username,username,"");
-		DataElementInformation usrelement = DatasetOntologyParsing
-				.getSubElementStructureFromIDObject(OntologyKeys.individualInformation);
-		String indid = createSuffix(catobj, usrelement);
-		catobj.setIdentifier(indid);
 		DataElementInformation element = DatasetOntologyParsing
 				.getSubElementStructureFromIDObject(OntologyKeys.datasetCatalogHierarchy);
 		String catid = createSuffix(catobj, element);
@@ -362,6 +358,7 @@ public class CreateDefaultObjectsFactory {
 		ChemConnectCompoundMultiple multi = (ChemConnectCompoundMultiple) multiinterpret.readElementFromDatabase(linkid);
 		DatabaseObjectHierarchy subcatalog = addConnectionToMultiple(multi, childcatalog.getIdentifier());
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(subcatalog);
+		DatabaseWriteBase.writeDatabaseObject(multi);
 	}
 	
 	
@@ -462,7 +459,7 @@ public class CreateDefaultObjectsFactory {
 		
 		DatabaseObjectHierarchy multiorghier = orghierarchy.getSubObject(orgcatalog.getChemConnectObjectLink());
 		ChemConnectCompoundMultiple multiorg = (ChemConnectCompoundMultiple) multiorghier.getObject();
-		DatabaseObjectHierarchy orglink = fillDataObjectLink(multiorg, "1", MetaDataKeywords.linkOrganization,
+		DatabaseObjectHierarchy orglink = fillDataObjectLink(multiorg, "0", MetaDataKeywords.linkOrganization,
 				orglinkid);
 		multiorghier.addSubobject(orglink);
 		multiorg.addID(orglink.getObject().getIdentifier());

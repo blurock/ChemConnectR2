@@ -468,15 +468,17 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillMethodologyDefinition(obj, methodology, title, catid);
 		return hierarchy;
 	}
-	public DatabaseObjectHierarchy getNewCatalogHierarchy(DatabaseObject obj, String id, String onelinedescription)
+	public DatabaseObjectHierarchy createNewCatalogHierarchy(DatabaseObject obj, String id, 
+			String onelinedescription, String catagorytype)
 			throws IOException {
+		
+		System.out.println("createNewCatalogHierarchy: ID=     " + id);
+		System.out.println("createNewCatalogHierarchy: oneline=" + onelinedescription);
+		System.out.println("createNewCatalogHierarchy: type=   " + catagorytype);
+		System.out.println("createNewCatalogHierarchy: obj=   \n" + obj.toString());
+		
 		String sourceID = QueryBase.getDataSourceIdentification(obj.getOwner());
-		obj.setSourceID(sourceID);
-		String classname = DatasetCatalogHierarchy.class.getCanonicalName();
-		DatasetCatalogHierarchy catalog = (DatasetCatalogHierarchy) QueryBase.getDatabaseObjectFromIdentifier(classname,
-				obj.getIdentifier());
-		DatabaseObjectHierarchy subs = CreateDefaultObjectsFactory.fillDatasetCatalogHierarchy(catalog, obj, id,
-				onelinedescription,"");
+		DatabaseObjectHierarchy subs = ExtractCatalogInformation.createNewCatalogHierarchy(obj, id, onelinedescription, sourceID, catagorytype);
 		return subs;
 	}
 

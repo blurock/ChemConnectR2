@@ -19,7 +19,7 @@
 		width: 100%;
 	}
 	</ui:style>
-			<m:MaterialPanel ui:field="toppanel" styleName="{style.panelbox}">
+			<m:MaterialPanel ui:field="toppanel" margin="0">
 				<m:MaterialRow  margin="0">
 					<m:MaterialColumn grid="s5" styleName="{style.rowbox}">
 						<m:MaterialTooltip ui:field="concepttip">

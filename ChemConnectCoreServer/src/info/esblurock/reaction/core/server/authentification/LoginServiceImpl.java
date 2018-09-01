@@ -50,7 +50,7 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 
 	String admin = "Administration";
 	String adminpass = "laguna";
-	String level = "SuperUser";
+	String level = "dataset:SuperUser";
 
 	@Override
 	public UserDTO loginServer(String name, String password) throws IOException {

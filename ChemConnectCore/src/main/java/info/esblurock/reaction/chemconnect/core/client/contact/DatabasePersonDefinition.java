@@ -3,15 +3,10 @@ package info.esblurock.reaction.chemconnect.core.client.contact;
 import java.util.ArrayList;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Cookies;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialCollapsible;
@@ -25,7 +20,6 @@ import info.esblurock.reaction.chemconnect.core.client.catalog.choose.ObjectVisu
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
-import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
@@ -71,7 +65,7 @@ public class DatabasePersonDefinition extends Composite  implements ObjectVisual
 		
 		person = new NameOfPerson();
 		
-		String peopleType = "dataset:PeopleTypes";
+		String peopleType = "dataset:UserRoleChoices";
 		ArrayList<String> choices = new ArrayList<String>();
 		choices.add(peopleType);
 		String user = Cookies.getCookie("user");

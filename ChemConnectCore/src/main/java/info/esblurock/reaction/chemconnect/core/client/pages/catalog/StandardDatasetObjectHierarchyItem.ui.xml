@@ -29,6 +29,8 @@
 				<m:MaterialPanel ui:field="infopanel" margin="0"/>
 			</m:MaterialRow>
 		</m:MaterialCollapsibleHeader>
-		<m:MaterialCollapsibleBody ui:field="topbody" styleName="{style.panelbox}"/>
+		<m:MaterialCollapsibleBody ui:field="topbody" styleName="{style.panelbox}">
+		<m:MaterialCollapsible ui:field="topbodypanel"/>
+		</m:MaterialCollapsibleBody>
 	</m:MaterialCollapsibleItem>
 </ui:UiBinder> 

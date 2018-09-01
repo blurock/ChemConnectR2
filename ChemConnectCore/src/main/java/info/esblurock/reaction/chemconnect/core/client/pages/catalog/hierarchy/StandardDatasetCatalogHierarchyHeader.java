@@ -11,6 +11,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
+import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialToast;
@@ -110,7 +111,6 @@ public class StandardDatasetCatalogHierarchyHeader extends Composite
 	}
 	public void insertInitialSubCatagoryInformation() {
 		cardmodal.close();
-		Window.alert("insertInitialSubCatagoryInformation: " +  newSimpleName);
 		setUpConceptChoices();
 	}
 	private void  setUpConceptChoices() {
@@ -136,15 +136,15 @@ public class StandardDatasetCatalogHierarchyHeader extends Composite
 		*/
 		if(addsub) {
 			DatabaseObject subobj = new DatabaseObject(item.getObject());
-			Window.alert("addSubCatagory: " + subobj);
 			UserImageServiceAsync async = UserImageService.Util.getInstance();
 			SubCatagoryHierarchyCallback callback = new SubCatagoryHierarchyCallback(this);
-			async.getNewCatalogHierarchy(subobj,newSimpleName,oneline,callback);	
+			async.createNewCatalogHierarchy(subobj,newSimpleName,oneline,newChosenCatalogConcept,callback);	
 		} else {
 			MaterialToast.fireToast("Name already being used in another sub-catagory");
 		}
 	}
 	public void setInHierarchy(DatabaseObjectHierarchy subs) {
+		/*
 		DatasetCatalogHierarchy subcat = (DatasetCatalogHierarchy) subs.getObject();
 		String id = subcat.getCatalogDataID();
 		DatabaseObjectHierarchy cathier = subs.getSubObject(id);
@@ -154,15 +154,14 @@ public class StandardDatasetCatalogHierarchyHeader extends Composite
 		catid.setCatalogBaseName(dataid.getCatalogBaseName());
 		catid.setDataCatalog(newChosenCatalogConcept);
 		catid.setSimpleCatalogName(newSimpleName);
-		
-		Window.alert("setInHierarchy: \n" + subs.getObject().toString());
-		Window.alert("setInHierarchy: DataCatalogID\n" + catid.toString());
+		*/
 		StandardDatasetObjectHierarchyItem subhiearchy = new StandardDatasetObjectHierarchyItem(subs,modal);
 		item.addSubItem(subhiearchy);
 	}
 
 	@Override
 	public void conceptChosen(String topconcept, String concept) {
+		Window.alert("Concept Chosen: " + concept);
 		newChosenCatalogConcept = concept;
 		addSubCatagory();
 	}

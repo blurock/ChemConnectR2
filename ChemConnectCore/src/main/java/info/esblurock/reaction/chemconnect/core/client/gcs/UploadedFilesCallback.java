@@ -25,7 +25,6 @@ public class UploadedFilesCallback implements AsyncCallback<ArrayList<GCSBlobFil
 
 	@Override
 	public void onSuccess(ArrayList<GCSBlobFileInformation> results) {
-		Window.alert(results.toString());
 		for(GCSBlobFileInformation gcsinfo: results) {
 			if(!rows) {
 				String urlS = "https://storage.googleapis.com/" + gcsinfo.getBucket() + "/" + gcsinfo.getGSFilename();				
