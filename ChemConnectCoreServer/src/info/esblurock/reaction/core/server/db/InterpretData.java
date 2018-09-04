@@ -288,8 +288,9 @@ public enum InterpretData {
 			String parentLink = obj.getIdentifier();
 			
 			ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(refobj,parentLink);
+			ArrayList<String> path = new ArrayList<String>();
 			DataCatalogID id = new DataCatalogID(structure,
-					CatalogBaseName,DataCatalog,SimpleCatalogName);
+					CatalogBaseName,DataCatalog,SimpleCatalogName,path);
 			DatabaseObjectHierarchy refhier = new DatabaseObjectHierarchy(id);
 			return refhier;
 		}
@@ -304,7 +305,8 @@ public enum InterpretData {
 			String CatalogBaseNameS = (String) yaml.get(StandardDatasetMetaData.CatalogBaseName);
 			String DataCatalogS = (String) yaml.get(StandardDatasetMetaData.DataCatalog);
 			String SimpleCatalogNameS = (String) yaml.get(StandardDatasetMetaData.SimpleCatalogName);
-			datastructure = new DataCatalogID(objdata, CatalogBaseNameS, DataCatalogS, SimpleCatalogNameS);
+			ArrayList<String> path = interpretMultipleYamlList(StandardDatasetMetaData.catalogPath,yaml);
+			datastructure = new DataCatalogID(objdata, CatalogBaseNameS, DataCatalogS, SimpleCatalogNameS,path);
 			return datastructure;
 		}
 		
@@ -317,7 +319,7 @@ public enum InterpretData {
 			map.put(StandardDatasetMetaData.CatalogBaseName, datastructure.getCatalogBaseName());
 			map.put(StandardDatasetMetaData.DataCatalog, datastructure.getDataCatalog());
 			map.put(StandardDatasetMetaData.SimpleCatalogName, datastructure.getSimpleCatalogName());
-			
+			putMultipleInYamlList(StandardDatasetMetaData.catalogPath,map,datastructure.getPath());
 			return map;
 		}
 

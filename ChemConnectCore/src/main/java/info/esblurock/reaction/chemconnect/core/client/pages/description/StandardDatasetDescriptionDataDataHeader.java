@@ -19,6 +19,7 @@ import gwt.material.design.client.ui.MaterialTextArea;
 import gwt.material.design.client.ui.MaterialTooltip;
 import info.esblurock.reaction.chemconnect.core.client.modal.InputLineModal;
 import info.esblurock.reaction.chemconnect.core.client.modal.SetLineContentInterface;
+import info.esblurock.reaction.chemconnect.core.client.pages.primitive.concept.PrimitiveConceptRow;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.dataset.PurposeConceptPair;
 import info.esblurock.reaction.chemconnect.core.data.description.DescriptionDataData;
@@ -64,13 +65,15 @@ public class StandardDatasetDescriptionDataDataHeader extends Composite implemen
 	MaterialRow purposeconceptrow;
 	
 	DescriptionDataData description;
+	PrimitiveConceptRow conceptrow;
 
-	public StandardDatasetDescriptionDataDataHeader(DescriptionDataData description, Composite conceptP) {
+	public StandardDatasetDescriptionDataDataHeader(DescriptionDataData description, PrimitiveConceptRow conceptrow) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.description = description;
 		init();
 		fill(description);
-		purposeconceptrow.add(conceptP);
+		this.conceptrow = conceptrow;
+		purposeconceptrow.add(conceptrow);
 	}
 
 	@UiHandler("title")
@@ -103,6 +106,7 @@ public class StandardDatasetDescriptionDataDataHeader extends Composite implemen
 		date.setDate(description.getSourceDate());
 	}
 	public boolean updateData() {
+		conceptrow.updateData();
 		description.setOnlinedescription(title.getText());
 		description.setDescriptionAbstract(abstractText.getText());
 		description.setSourceDate(date.getDate());

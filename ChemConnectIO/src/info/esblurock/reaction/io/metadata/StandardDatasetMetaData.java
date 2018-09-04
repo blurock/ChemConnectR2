@@ -37,6 +37,7 @@ public class StandardDatasetMetaData {
 	public static String DataCatalogIDID = "qb:ObservationGroup";
 	public static String DataCatalog = "skos:inScheme";
 	public static String SimpleCatalogName = "qb:DataSet";
+	public static String catalogPath = "dataset:CatalogPath";
 	public static String matrixSpecificationCorrespondenceSetID = "dataset:matrixcorr";
 	public static String matrixSpecificationCorrespondenceSet = "dataset:MatrixSpecificationCorrespondenceSet";
 	public static String observationMatrixValues = "dataset:ObservationMatrixValues";
@@ -171,6 +172,7 @@ public class StandardDatasetMetaData {
 	public static String inputTypeS = "dataset:inputType";
 	public static String outputTypeS = "dataset:outputType";
 
+	public static String yamlFileType = "dataset:FileTypeYaml";
 	public static String fileTypeS = "dataset:fileType";
 	public static String delimitorS = "dataset:delimitor";
 	public static String observationSpecs = "dataset:ObservationSpecs";

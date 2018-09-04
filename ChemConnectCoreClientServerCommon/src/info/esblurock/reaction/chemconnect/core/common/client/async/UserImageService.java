@@ -16,7 +16,6 @@ import info.esblurock.reaction.chemconnect.core.data.image.ImageServiceInformati
 import info.esblurock.reaction.chemconnect.core.data.image.UploadedImage;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
-import info.esblurock.reaction.chemconnect.core.data.transfer.structure.TransferDatabaseCatalogHierarchy;
 
 
 
@@ -101,4 +100,6 @@ public interface UserImageService  extends RemoteService  {
 	HierarchyNode getIDHierarchyFromDataCatalogID(String basecatalog, String catalog) throws IOException;
 	
 	DatabaseObjectHierarchy getCatalogObject(String id, String dataType);
+	
+	void writeYamlObjectHierarchy(DatabaseObjectHierarchy hierarchy) throws IOException;
 }

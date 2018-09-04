@@ -12,10 +12,14 @@
 		<m:MaterialPanel ui:field="modalpanel" />
 		<m:MaterialPanel margin="0">
 			<m:MaterialRow>
-				<m:MaterialColumn grid="s11">
+				<m:MaterialColumn grid="s10">
 					<m:MaterialTooltip ui:field="identifiertip">
 						<m:MaterialTitle ui:field="title" textColor="BLACK" />
 					</m:MaterialTooltip>
+				</m:MaterialColumn>
+				<m:MaterialColumn grid="s1">
+					<m:MaterialIcon ui:field="save" iconColor="BLACK"
+						iconType="SAVE" />
 				</m:MaterialColumn>
 				<m:MaterialColumn grid="s1">
 					<m:MaterialIcon ui:field="refresh" iconColor="BLACK"

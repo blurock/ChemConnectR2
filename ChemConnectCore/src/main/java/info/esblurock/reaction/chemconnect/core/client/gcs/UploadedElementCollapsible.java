@@ -1,5 +1,6 @@
 package info.esblurock.reaction.chemconnect.core.client.gcs;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -217,7 +218,7 @@ public class UploadedElementCollapsible extends Composite implements Visualizati
 	}
 
 	@Override
-	public void conceptChosen(String topconcept, String concept) {
+	public void conceptChosen(String topconcept, String concept, ArrayList<String> path) {
 		visualType = concept;
 		interpretinfo = interpretmap.get(concept);
 		filetype.setText(concept);

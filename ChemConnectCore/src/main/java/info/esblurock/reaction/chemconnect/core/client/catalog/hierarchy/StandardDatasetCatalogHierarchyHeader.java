@@ -1,4 +1,4 @@
-package info.esblurock.reaction.chemconnect.core.client.pages.catalog.hierarchy;
+package info.esblurock.reaction.chemconnect.core.client.catalog.hierarchy;
 
 import java.util.ArrayList;
 
@@ -16,12 +16,12 @@ import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.chemconnect.core.client.cards.CardModal;
+import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.client.catalog.SubCatagoryHierarchyCallback;
 import info.esblurock.reaction.chemconnect.core.client.catalog.choose.ChooseFullNameFromCatagoryRow;
 import info.esblurock.reaction.chemconnect.core.client.catalog.choose.SubCatagoryHierarchyCallbackInterface;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHeirarchy;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchies;
-import info.esblurock.reaction.chemconnect.core.client.pages.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
@@ -64,6 +64,7 @@ public class StandardDatasetCatalogHierarchyHeader extends Composite
 	ChooseFullNameFromCatagoryRow catagory;
 	ArrayList<String> choices;
 	String newChosenCatalogConcept;
+	ArrayList<String> newChosenPath;
 	
 	public StandardDatasetCatalogHierarchyHeader(StandardDatasetObjectHierarchyItem item) {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -160,9 +161,10 @@ public class StandardDatasetCatalogHierarchyHeader extends Composite
 	}
 
 	@Override
-	public void conceptChosen(String topconcept, String concept) {
+	public void conceptChosen(String topconcept, String concept, ArrayList<String> path) {
 		Window.alert("Concept Chosen: " + concept);
 		newChosenCatalogConcept = concept;
+		newChosenPath = path;
 		addSubCatagory();
 	}
 

@@ -181,7 +181,7 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite
 	}
 
 	@Override
-	public void conceptChosen(String topconcept, String concept) {
+	public void conceptChosen(String topconcept, String concept, ArrayList<String> path) {
 		valuetype.setText(concept);
 	}
 

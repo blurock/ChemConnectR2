@@ -1,5 +1,7 @@
 package info.esblurock.reaction.chemconnect.core.client.catalog.choose;
 
+import java.util.ArrayList;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.logical.shared.SelectionEvent;
@@ -111,6 +113,8 @@ public class ChooseSimpleNameModal extends Composite implements HierarchyNodeCal
 	@Override
 	public void insertTree(HierarchyNode topnode) {
 		tree.clear();
+		ArrayList<String> path = new ArrayList<String>();
+		path.add("First");
 		ConvertToMaterialTree.addHierarchyTop(topnode, tree);
 	}
 

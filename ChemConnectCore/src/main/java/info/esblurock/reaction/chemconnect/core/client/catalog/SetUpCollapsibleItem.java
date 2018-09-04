@@ -1,8 +1,10 @@
-package info.esblurock.reaction.chemconnect.core.client.pages.catalog;
+package info.esblurock.reaction.chemconnect.core.client.catalog;
 
 import com.google.gwt.user.client.Window;
 
+import info.esblurock.reaction.chemconnect.core.client.catalog.hierarchy.StandardDatasetCatalogHierarchyHeader;
 import info.esblurock.reaction.chemconnect.core.client.catalog.link.PrimitiveDataObjectLinkRow;
+import info.esblurock.reaction.chemconnect.core.client.catalog.multiple.ChemConnectCompoundMultipleHeader;
 import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatabasePersonalDescriptionHeader;
 import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetContactInfoHeader;
 import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetContactLocationInformationHeader;
@@ -11,9 +13,7 @@ import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetNa
 import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetOrganizationDescriptionHeader;
 import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetOrganizationHeader;
 import info.esblurock.reaction.chemconnect.core.client.device.StandardDatasetSubSystemHeader;
-import info.esblurock.reaction.chemconnect.core.client.pages.catalog.hierarchy.StandardDatasetCatalogHierarchyHeader;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.methodology.StandardDatasetMethodologyHeader;
-import info.esblurock.reaction.chemconnect.core.client.pages.catalog.multiple.ChemConnectCompoundMultipleHeader;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.observations.ParameterValueHeader;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.observations.PrimitiveParameterValueRow;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.observations.StandardDatasetObservationSpecificationHeader;
@@ -657,8 +657,9 @@ public enum SetUpCollapsibleItem {
 			StandardDatasetObjectHierarchyItem subitem = new StandardDatasetObjectHierarchyItem(phierarchy,item.getModalpanel());
 			SetUpCollapsibleItem setup = SetUpCollapsibleItem.valueOf("PurposeConceptPair");
 			setup.addInformation(subitem);
+			PrimitiveConceptRow conceptrow = (PrimitiveConceptRow) subitem.getHeader();
 			StandardDatasetDescriptionDataDataHeader header 
-				= new StandardDatasetDescriptionDataDataHeader(description,subitem.getHeader());
+				= new StandardDatasetDescriptionDataDataHeader(description,conceptrow);
 			item.addHeader(header);
 		}
 

@@ -54,7 +54,8 @@ public class StandardDatasetValueUnitsHeader extends Composite
 	String chosenUnitClass;
 	SetOfUnitProperties setOfUnitProperties;
 	ValueUnits units;
-
+	ArrayList<String> chosenPath;
+	
 	public StandardDatasetValueUnitsHeader(DatabaseObject object) {
 		initWidget(uiBinder.createAndBindUi(this));
 		units = (ValueUnits) object;
@@ -117,9 +118,10 @@ public class StandardDatasetValueUnitsHeader extends Composite
 	}
 
 	@Override
-	public void conceptChosen(String topconcept, String chosenConcept) {
+	public void conceptChosen(String topconcept, String chosenConcept, ArrayList<String> path) {
 		setUnits(chosenConcept);
 		this.chosenUnit = chosenConcept;
+		this.chosenPath = path;
 	}
 
 	@UiHandler("parameterUnits")

@@ -634,4 +634,18 @@ public class ConceptParsing {
 		return result;
 	}
 
+	public static String getContentType(String yamlFileType) {
+		String query = "SELECT ?type\n" + 
+				"	WHERE {\n" + 
+				"   dataset:FileTypeYaml <http://purl.org/dc/elements/1.1/type> ?type }";
+		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
+		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
+		String type = null;
+		if (stringlst.size() > 0) {
+			Map<String, String> result = stringlst.get(0);
+			type = result.get("type");
+		}
+		return type;
+	}
+
 }

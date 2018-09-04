@@ -16,7 +16,7 @@ import gwt.material.design.client.ui.MaterialPanel;
 import info.esblurock.reaction.chemconnect.core.client.administration.ChemConnectDataStructureInterface;
 import info.esblurock.reaction.chemconnect.core.client.administration.CompoundDataStructureCallback;
 import info.esblurock.reaction.chemconnect.core.client.cards.CardModal;
-import info.esblurock.reaction.chemconnect.core.client.pages.catalog.SetUpCollapsibleItem;
+import info.esblurock.reaction.chemconnect.core.client.catalog.SetUpCollapsibleItem;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.CreatePrimitiveStructure;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;

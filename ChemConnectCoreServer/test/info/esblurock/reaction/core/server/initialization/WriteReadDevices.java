@@ -90,7 +90,9 @@ public class WriteReadDevices {
 		
 		String devicename = "dataset:HeatFluxBurner";
 		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,"");
-		DataCatalogID name = new DataCatalogID(structure,"Catalog-Base","Catalog","Simple");
+		ArrayList<String> path = new ArrayList<String>();
+		path.add("First");
+		DataCatalogID name = new DataCatalogID(structure,"Catalog-Base","Catalog","Simple",path);
 		
 		DatabaseObjectHierarchy devicehier = CreateDefaultObjectsFactory.fillSubSystemDescription(obj,
 				devicename,name);

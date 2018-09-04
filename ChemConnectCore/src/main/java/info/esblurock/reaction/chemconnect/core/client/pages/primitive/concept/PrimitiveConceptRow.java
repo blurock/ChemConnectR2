@@ -49,6 +49,8 @@ public class PrimitiveConceptRow extends Composite implements ChooseFromConceptH
 	String typeWithNamespace;
 	boolean chooseConcept;
 	
+	PurposeConceptPair conceptobj;
+	
 	public PrimitiveConceptRow() {
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
@@ -58,7 +60,7 @@ public class PrimitiveConceptRow extends Composite implements ChooseFromConceptH
 	public PrimitiveConceptRow(DatabaseObject cobject) {
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
-		PurposeConceptPair conceptobj = (PurposeConceptPair) cobject;
+		conceptobj = (PurposeConceptPair) cobject;
 		typeWithNamespace = conceptobj.getConcept();
 		identifier = conceptobj.getIdentifier();
 		TextUtilities.setText(purpose,TextUtilities.removeNamespace(conceptobj.getPurpose()),  "Set purpose");
@@ -100,7 +102,7 @@ public class PrimitiveConceptRow extends Composite implements ChooseFromConceptH
 			choosedevice.open();
 	}
 	@Override
-	public void conceptChosen(String topconcept, String conceptText) {
+	public void conceptChosen(String topconcept, String conceptText, ArrayList<String> path) {
 		if(chooseConcept) {
 			concept.setText(TextUtilities.removeNamespace(conceptText));
 		} else {
@@ -118,6 +120,11 @@ public class PrimitiveConceptRow extends Composite implements ChooseFromConceptH
 	
 	public String getTypeWithNamespace() {
 		return typeWithNamespace;
+	}
+	public boolean updateData() {
+		conceptobj.setConcept(concept.getText());
+		conceptobj.setPurpose(purpose.getText());
+		return true;
 	}
 
 }

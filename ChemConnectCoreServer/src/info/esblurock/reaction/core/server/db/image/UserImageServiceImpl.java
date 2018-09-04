@@ -3,15 +3,18 @@ package info.esblurock.reaction.core.server.db.image;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+import com.esotericsoftware.yamlbeans.YamlWriter;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.blobstore.UploadOptions;
@@ -28,11 +31,11 @@ import com.google.cloud.storage.Acl.Role;
 import com.google.cloud.storage.Acl.User;
 
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.base.GoogleCloudStorageConstants;
 import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
-import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHierarchy;
 import info.esblurock.reaction.chemconnect.core.data.dataset.device.SubSystemDescription;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
@@ -54,10 +57,12 @@ import info.esblurock.reaction.core.server.db.InterpretData;
 import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFactory;
+import info.esblurock.reaction.core.server.read.ReadWriteYamlDatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.services.ServerBase;
 import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
 import info.esblurock.reaction.core.server.services.util.ParseUtilities;
 import info.esblurock.reaction.io.db.QueryBase;
+import info.esblurock.reaction.io.metadata.StandardDatasetMetaData;
 import info.esblurock.reaction.ontology.dataset.ConceptParsing;
 import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 
@@ -262,10 +267,13 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		return lines;
 	}
 
-	public void uploadFileBlob(String id, String filename, String contentType, String description, String contentS)
+	public void uploadFileBlob(String id, String bucket, String filename, String contentType, String description, String contentS)
 			throws IOException {
 		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
-		GCSBlobFileInformation info = createInitialUploadInfo(filename, contentType, description, util);
+		GCSBlobFileInformation info = createInitialUploadInfo(
+				bucket,
+				filename, contentType, description, util);
+		System.out.println("uploadFileBlob: " + info.toString());
 		String url = null;
 		GCSBlobContent gcs = new GCSBlobContent(url, info);
 		writeBlobContent(gcs);
@@ -277,7 +285,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		BlobId blobId = BlobId.of(info.getBucket(), info.getGSFilename());
 
 		byte[] content = contentS.getBytes(StandardCharsets.UTF_8);
-		BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("text/plain").build();
+		BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(info.getFiletype()).build();
 		try (WriteChannel writer = storage.writer(blobInfo)) {
 			writer.write(ByteBuffer.wrap(content, 0, content.length));
 		} catch (Exception ex) {
@@ -371,7 +379,8 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		String contentType = "text/plain";
 		String uploadDescriptionText = "Uploaded File from text input";
 		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
-		GCSBlobFileInformation source = createInitialUploadInfo(filename, contentType, uploadDescriptionText, util);
+		GCSBlobFileInformation source = createInitialUploadInfo(
+				GoogleCloudStorageConstants.uploadBucket, filename, contentType, uploadDescriptionText, util);
 
 		InputStream in = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
 		retrieveContentFromStream(in, source);
@@ -495,6 +504,33 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		}
 		return hier;
 	}
+	
+	public void writeYamlObjectHierarchy(DatabaseObjectHierarchy hierarchy) throws IOException {
+		try {
+			WriteReadDatabaseObjects.updateSourceID(hierarchy);
+			Map<String,Object> map1 = ReadWriteYamlDatabaseObjectHierarchy.yamlDatabaseObjectHierarchy(hierarchy);
+			StringWriter wS = new StringWriter(1000000);
+			YamlWriter writer = new YamlWriter(wS);
+			writer.write(map1);
+			writer.close();
+
+			ChemConnectDataStructure structure = (ChemConnectDataStructure) hierarchy.getObject();
+			String idS = structure.getCatalogDataID();
+			DatabaseObjectHierarchy catalogHier = hierarchy.getSubObject(idS);
+			DataCatalogID catalogID = (DataCatalogID) catalogHier.getObject();
+			String filename = catalogID.blobFilenameFromCatalogID();
+			String contentType = ConceptParsing.getContentType(StandardDatasetMetaData.yamlFileType);
+			String title = structure.getClass().getSimpleName() + ": " + structure.getIdentifier();
+			uploadFileBlob(hierarchy.getObject().getIdentifier(),
+					GoogleCloudStorageConstants.storageBucket, filename,contentType,title,wS.toString());
+		} catch (Exception ex) {
+			System.out.println("writeYamlObjectHierarchy  error in writing");
+			System.out.println(ex.toString());
+			ex.printStackTrace();
+			throw new IOException("Error in writing objects");
+		}
+
+	}
 
 	public HierarchyNode getFileInterpretionChoices(GCSBlobFileInformation info) throws IOException {
 		ParsedFilename parsed = parseFilename(info);
@@ -523,7 +559,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		return path;
 	}
 
-	public static GCSBlobFileInformation createInitialUploadInfo(String filename, String contentType,
+	public static GCSBlobFileInformation createInitialUploadInfo(String bucket, String filename, String contentType,
 			String uploadDescriptionText, ContextAndSessionUtilities util) {
 		UserDTO user = util.getUserInfo();
 
@@ -534,7 +570,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		String owner = user.getName();
 		String sourceID = QueryBase.getDataSourceIdentification(user.getName());
 		DatabaseObject obj = new DatabaseObject(id, access, owner, sourceID);
-		GCSBlobFileInformation source = new GCSBlobFileInformation(obj, GoogleCloudStorageConstants.uploadBucket, path,
+		GCSBlobFileInformation source = new GCSBlobFileInformation(obj, bucket, path,
 				filename, contentType, uploadDescriptionText);
 		return source;
 	}

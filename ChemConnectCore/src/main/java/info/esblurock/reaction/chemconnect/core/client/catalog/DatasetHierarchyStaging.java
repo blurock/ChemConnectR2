@@ -1,4 +1,4 @@
-package info.esblurock.reaction.chemconnect.core.client.pages.catalog;
+package info.esblurock.reaction.chemconnect.core.client.catalog;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,7 +18,11 @@ public class DatasetHierarchyStaging implements Comparator<DatasetHierarchyStagi
 	String type;
 	DatabaseObject object;
 	
-	
+	/*
+	 * This class is used to order the DatasetHierarchy items using the priority in
+	 * SetUpCollapsibleItem
+	 * 
+	 */
 	public static ArrayList<DatasetHierarchyStaging> computeStaging(DatabaseObjectHierarchy hierarchy) {
 		ArrayList<DatasetHierarchyStaging> lst = new ArrayList<DatasetHierarchyStaging>();
 		for(DatabaseObjectHierarchy  sub : hierarchy.getSubobjects()) {

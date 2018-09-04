@@ -110,7 +110,7 @@ public class PrimitiveOneLineRow extends Composite implements HasText, ChooseFro
 	}
 
 	@Override
-	public void conceptChosen(String topconcept, String concept) {
+	public void conceptChosen(String topconcept, String concept, ArrayList<String> path) {
 		typeWithNamespace = concept;
 		type.setText(TextUtilities.removeNamespace(typeWithNamespace));
 	}

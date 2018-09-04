@@ -4,6 +4,7 @@ package info.esblurock.reaction.core.server.initialization.catobj;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
@@ -95,7 +96,9 @@ public class InitialDeviceTest {
 		DatabaseObject obj = new DatabaseObject("AdministrationCatalog","Public","Administration","1" );
 		String devicename = "dataset:HeatFluxBurnerBurnerPlate";
 		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,"");
-		DataCatalogID datid = new DataCatalogID(structure,"Catalog-Base","Catalog","Simple");
+		ArrayList<String> path = new ArrayList<String>();
+		path.add("First");
+		DataCatalogID datid = new DataCatalogID(structure,"Catalog-Base","Catalog","Simple",path);
 		DatabaseObjectHierarchy hierarchy1 = CreateDefaultObjectsFactory.fillSubSystemDescription(obj, 
 				devicename, datid);
 		

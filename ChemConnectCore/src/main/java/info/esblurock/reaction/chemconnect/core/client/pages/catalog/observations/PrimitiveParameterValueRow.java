@@ -305,7 +305,7 @@ public class PrimitiveParameterValueRow extends Composite
 	}
 
 	@Override
-	public void conceptChosen(String topconcept, String chosenConcept) {
+	public void conceptChosen(String topconcept, String chosenConcept, ArrayList<String> path) {
 		if (topconcept.compareTo(unitsConcept) == 0) {
 			setUnits(chosenConcept);
 			this.chosenUnit = chosenConcept;

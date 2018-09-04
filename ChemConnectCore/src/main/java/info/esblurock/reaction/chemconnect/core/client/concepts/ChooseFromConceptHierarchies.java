@@ -22,6 +22,7 @@ import gwt.material.design.client.ui.MaterialModalContent;
 import gwt.material.design.client.ui.MaterialModalFooter;
 import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.chemconnect.core.client.graph.hierarchy.ConvertToMaterialTree;
+import info.esblurock.reaction.chemconnect.core.client.graph.hierarchy.MaterialTreeItemWithPath;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
@@ -107,9 +108,9 @@ public class ChooseFromConceptHierarchies extends Composite {
 
 	@UiHandler("tree")
 	public void onSelected(SelectionEvent<MaterialTreeItem> event) {
-		MaterialTreeItem item = (MaterialTreeItem) event.getSelectedItem();
+		MaterialTreeItemWithPath item = (MaterialTreeItemWithPath) event.getSelectedItem();
 		if (item.getTreeItems().size() == 0) {
-			chosen.conceptChosen(topconcept, item.getText());
+			chosen.conceptChosen(topconcept, item.getText(),item.getPath());
 			close();
 		}
 	}

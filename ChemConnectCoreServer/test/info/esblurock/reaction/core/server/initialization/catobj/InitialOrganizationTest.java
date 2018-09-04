@@ -4,6 +4,7 @@ package info.esblurock.reaction.core.server.initialization.catobj;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
@@ -91,7 +92,9 @@ public class InitialOrganizationTest {
 	public void test() {
 		DatabaseObject obj = new DatabaseObject("AdministrationCatalog","Public","Administration","1" );
 		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,"");
-		DataCatalogID datid = new DataCatalogID(structure,"Catalog-Base","Catalog","Simple");
+		ArrayList<String> path = new ArrayList<String>();
+		path.add("First");
+		DataCatalogID datid = new DataCatalogID(structure,"Catalog-Base","Catalog","Simple",path);
 		String orgname = "Acme Inc.";
 		DatabaseObjectHierarchy hierarchy1 = CreateDefaultObjectsFactory.fillOrganization(obj, orgname, datid);
 		try {

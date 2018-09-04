@@ -3,6 +3,7 @@ package info.esblurock.reaction.core.server.initialization.catobj;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
@@ -98,7 +99,9 @@ public class InitialMethodologyTest {
 		String methodology = "dataset:BurnerPlateThermocoupleMeasurements";
 		String title = "The methodology";
 		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,"");
-		DataCatalogID name = new DataCatalogID(structure,"Catalog-Base","Catalog","Simple");
+		ArrayList<String> path = new ArrayList<String>();
+		path.add("First");
+		DataCatalogID name = new DataCatalogID(structure,"Catalog-Base","Catalog","Simple",path);
 		DatabaseObjectHierarchy hierarchy1 = CreateDefaultObjectsFactory.fillMethodologyDefinition(obj, methodology, title,name);
 		
 		String descr = "The Heat Flux method is one of the most recent "

@@ -1,7 +1,7 @@
-package info.esblurock.reaction.chemconnect.core.client.pages.catalog.hierarchy;
+package info.esblurock.reaction.chemconnect.core.client.catalog.hierarchy;
 
 import gwt.material.design.client.ui.MaterialPanel;
-import info.esblurock.reaction.chemconnect.core.client.pages.catalog.StandardDatasetObjectHierarchyItem;
+import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 

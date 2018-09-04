@@ -2,6 +2,7 @@ package info.esblurock.reaction.core.server.initialization;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -344,10 +345,11 @@ public class CreateDefaultObjectsFactory {
 		return catid;
 	}
 	
-	public static DatabaseObjectHierarchy fillDataCatalogID(DatabaseObject obj, String parentLink, String catalogbase, String catalog, String simple) {
+	public static DatabaseObjectHierarchy fillDataCatalogID(DatabaseObject obj, String parentLink, String catalogbase, 
+			String catalog, String simple, ArrayList<String> path) {
 		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,parentLink);
 		
-		DataCatalogID id = new DataCatalogID(structure,catalogbase,catalog,simple);
+		DataCatalogID id = new DataCatalogID(structure,catalogbase,catalog,simple,path);
 		DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(id);
 		return hierarchy;
 	}
@@ -474,7 +476,9 @@ public class CreateDefaultObjectsFactory {
 		
 		DatabaseObject usrcatobj = new DatabaseObject(catname,access,username,sourceID);
 		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(usrcatobj,"");
-		DataCatalogID namecatid = new DataCatalogID(structure,catname,"dataset:UserDataCatagory",username);
+		ArrayList<String> userPath = new ArrayList<String>();
+		userPath.add(catname);
+		DataCatalogID namecatid = new DataCatalogID(structure,catname,"dataset:UserDataCatagory",username,userPath);
 
 		DatabaseObject obj = new DatabaseObject(username, access, owner, sourceID);
 		NameOfPerson person = new NameOfPerson(obj, "", "", username);
@@ -484,7 +488,10 @@ public class CreateDefaultObjectsFactory {
 		
 		DatabaseObject orgobj = new DatabaseObject(orgname, access, owner, sourceID);
 		ChemConnectCompoundDataStructure orgstructure = new ChemConnectCompoundDataStructure(orgobj,"");
-		DataCatalogID orgnamecatid = new DataCatalogID(orgstructure,catname,"dataset:OrganizationDataCatagory",orgname);
+		
+		ArrayList<String> orgPath = new ArrayList<String>(userPath);
+		orgPath.add(orgname);
+		DataCatalogID orgnamecatid = new DataCatalogID(orgstructure,catname,"dataset:OrganizationDataCatagory",orgname,orgPath);
 		DatabaseObjectHierarchy org = CreateDefaultObjectsFactory.fillOrganization(orgobj, title,orgnamecatid);
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(org);
 		//System.out.println("fillOrganization\n" + org.toString());

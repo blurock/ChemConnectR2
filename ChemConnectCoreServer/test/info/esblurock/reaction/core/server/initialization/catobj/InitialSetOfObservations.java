@@ -4,6 +4,7 @@ package info.esblurock.reaction.core.server.initialization.catobj;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
@@ -94,7 +95,9 @@ public class InitialSetOfObservations {
 		DatabaseObject obj = new DatabaseObject("AdministrationCatalog","Public","Administration","1" );
 		String setobs = "dataset:BurnerPlateObservations";
 		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,"");
-		DataCatalogID datid = new DataCatalogID(structure,"Catalog-Base","Catalog","Simple");
+		ArrayList<String> path = new ArrayList<String>();
+		path.add("First");
+		DataCatalogID datid = new DataCatalogID(structure,"Catalog-Base","Catalog","Simple",path);
 		String oneline = "A set of Heat Flux Burner Observations";
 		DatabaseObjectHierarchy hierarchy1 = CreateDefaultObjectsFactory.fillSetOfObservations(obj, setobs, oneline, datid);
 		String descr = "The Heat Flux method is one of the most recent "

@@ -96,7 +96,7 @@ public class SetOfObservationsCollapsible extends Composite implements ChooseFro
 	}
 
 	@Override
-	public void conceptChosen(String topconcept, String concept) {
+	public void conceptChosen(String topconcept, String concept, ArrayList<String> path) {
 		rootID = TextUtilities.removeNamespace(concept);
 		ObservationHierarchyCallback callback = new ObservationHierarchyCallback(this);
 		ContactDatabaseAccessAsync async = ContactDatabaseAccess.Util.getInstance();

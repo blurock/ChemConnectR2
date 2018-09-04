@@ -15,9 +15,9 @@ import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialTooltip;
 import info.esblurock.reaction.chemconnect.core.client.catalog.HierarchyNodeCallback;
 import info.esblurock.reaction.chemconnect.core.client.catalog.HierarchyNodeCallbackInterface;
+import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHeirarchy;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchies;
-import info.esblurock.reaction.chemconnect.core.client.pages.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
@@ -89,7 +89,7 @@ public class PrimitiveDataObjectLinkRow extends Composite implements ChooseFromC
 		findLinkObject();
 	}
 	@Override
-	public void conceptChosen(String topconcept, String chosen) {
+	public void conceptChosen(String topconcept, String chosen, ArrayList<String> path) {
 		if(chooseConcept) {
 			chosenLinkConcept = chosen;
 			concept.setText(TextUtilities.removeNamespace(chosenLinkConcept));

@@ -3,9 +3,11 @@ package info.esblurock.reaction.chemconnect.core.client;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-public class InitializationCallback implements AsyncCallback<Void> {
+import gwt.material.design.client.ui.MaterialToast;
+
+public class GeneralVoidReturnCallback implements AsyncCallback<Void> {
 	String message;
-	public InitializationCallback(String message) {
+	public GeneralVoidReturnCallback(String message) {
 		this.message = message;
 	}
 	
@@ -17,7 +19,7 @@ public class InitializationCallback implements AsyncCallback<Void> {
 
 	@Override
 	public void onSuccess(Void arg0) {
-		Window.alert(message);
+		MaterialToast.fireToast(message);
 	}
 
 }

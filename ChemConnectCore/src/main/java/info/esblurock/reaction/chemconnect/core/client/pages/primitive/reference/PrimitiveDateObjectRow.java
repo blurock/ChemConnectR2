@@ -92,7 +92,7 @@ public class PrimitiveDateObjectRow extends Composite implements ChooseFromConce
 	}
 
 	@Override
-	public void conceptChosen(String topconcept, String concept) {
+	public void conceptChosen(String topconcept, String concept, ArrayList<String> path) {
 		typeWithNamespace = concept;
 		dateType.setText(TextUtilities.removeNamespace(typeWithNamespace));
 	}

@@ -112,7 +112,7 @@ public class PrimitiveShortStringRow extends Composite implements HasText, Choos
 	}
 
 	@Override
-	public void conceptChosen(String topconcept, String concept) {
+	public void conceptChosen(String topconcept, String concept, ArrayList<String> path) {
 		typeWithNamespace = concept;
 		type.setText(TextUtilities.removeNamespace(typeWithNamespace));
 	}

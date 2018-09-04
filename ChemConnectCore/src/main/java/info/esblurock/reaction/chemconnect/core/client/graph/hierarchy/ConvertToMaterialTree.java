@@ -1,6 +1,8 @@
 package info.esblurock.reaction.chemconnect.core.client.graph.hierarchy;
 
 
+import java.util.ArrayList;
+
 import gwt.material.design.addins.client.tree.MaterialTree;
 import gwt.material.design.addins.client.tree.MaterialTreeItem;
 import gwt.material.design.client.constants.Color;
@@ -12,18 +14,21 @@ public class ConvertToMaterialTree {
 	
 	
 	public static MaterialTree addHierarchyTop(HierarchyNode hierarchy, MaterialTree tree) {
-		MaterialTreeItem item = new MaterialTreeItem(hierarchy.getIdentifier());
+		ArrayList<String> path = new ArrayList<String>();
+		MaterialTreeItemWithPath item = new MaterialTreeItemWithPath(hierarchy.getIdentifier(), path);
 		item.setTextColor(Color.BLACK);
 		item.setTextAlign(TextAlign.LEFT);
 		item.setIconType(IconType.FOLDER);
 		tree.add(item);
+		ArrayList<String> nextpath = new ArrayList<String>(path);
+		nextpath.add(item.getText());
 		for(HierarchyNode sub : hierarchy.getSubNodes()) {
-			addHierarchy(sub,item);
+			addHierarchy(sub,nextpath,item);
 		}
 		return tree;
 	}
 		
-	public static void addHierarchy(HierarchyNode hierarchy, MaterialTreeItem item) {
+	public static void addHierarchy(HierarchyNode hierarchy, ArrayList<String> path, MaterialTreeItem item) {
 		MaterialTreeItem next = new MaterialTreeItem(hierarchy.getIdentifier());
 		next.setTextColor(Color.BLACK);
 		next.setTextAlign(TextAlign.LEFT);
@@ -34,8 +39,10 @@ public class ConvertToMaterialTree {
 			next.setIconType(IconType.BUILD);
 		}
 		item.add(next);
+		ArrayList<String> nextpath = new ArrayList<String>(path);
+		nextpath.add(next.getText());
 		for(HierarchyNode sub : hierarchy.getSubNodes() ) {
-			addHierarchy(sub,next);
+			addHierarchy(sub,nextpath,next);
 		}
 	}
 

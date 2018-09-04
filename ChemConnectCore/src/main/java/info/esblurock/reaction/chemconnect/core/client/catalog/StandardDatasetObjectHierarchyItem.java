@@ -1,4 +1,4 @@
-package info.esblurock.reaction.chemconnect.core.client.pages.catalog;
+package info.esblurock.reaction.chemconnect.core.client.catalog;
 
 import java.util.ArrayList;
 
@@ -16,7 +16,8 @@ import gwt.material.design.client.ui.MaterialCollapsibleBody;
 import gwt.material.design.client.ui.MaterialCollapsibleHeader;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
-import info.esblurock.reaction.chemconnect.core.client.pages.catalog.multiple.ChemConnectCompoundMultipleHeader;
+import info.esblurock.reaction.chemconnect.core.client.GeneralVoidReturnCallback;
+import info.esblurock.reaction.chemconnect.core.client.catalog.multiple.ChemConnectCompoundMultipleHeader;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
@@ -178,6 +179,12 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		WriteDatasetObjectHierarchyCallback callback = new WriteDatasetObjectHierarchyCallback(this);
 		async.writeDatabaseObjectHierarchy(hierarchy, callback);
+	}
+	public void writeYamlObjectHierarchy() {
+		updateDatabaseObjectHierarchy();
+		UserImageServiceAsync async = UserImageService.Util.getInstance();
+		GeneralVoidReturnCallback callback = new GeneralVoidReturnCallback("Successful YAML save");
+		async.writeYamlObjectHierarchy(hierarchy, callback);
 	}
 
 	public void updateDatabaseObjectHierarchy() {

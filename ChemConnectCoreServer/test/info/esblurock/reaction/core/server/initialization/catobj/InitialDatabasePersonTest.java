@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
@@ -93,7 +94,9 @@ public class InitialDatabasePersonTest {
 	public void test() {
 		DatabaseObject obj = new DatabaseObject("AdministrationCatalog","Public","Administration","1" );
 		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,"");
-		DataCatalogID datid = new DataCatalogID(structure,"Catalog-Base","Catalog","Simple");
+		ArrayList<String> path = new ArrayList<String>();
+		path.add("First");
+		DataCatalogID datid = new DataCatalogID(structure,"Catalog-Base","Catalog","Simple",path);
 		String userClassification = MetaDataKeywords.accessTypeStandardUser;
 		String title = "Dr.";
 		String givenName = "Homer";

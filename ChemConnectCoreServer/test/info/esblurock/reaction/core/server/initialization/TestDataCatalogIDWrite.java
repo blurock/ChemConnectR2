@@ -90,7 +90,9 @@ public class TestDataCatalogIDWrite {
 		DatabaseObject obj = new DatabaseObject(id,access,owner,sourceID);
 
 		String parentLink = "Catalog-Administration";
-		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillDataCatalogID(obj, parentLink, catalogbase, catalog, simple);
+		ArrayList<String> path = new ArrayList<String>();
+		path.add("First");
+		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillDataCatalogID(obj, parentLink, catalogbase, catalog, simple,path);
 		System.out.println("Create\n" + hierarchy.toString());
 		
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(hierarchy);

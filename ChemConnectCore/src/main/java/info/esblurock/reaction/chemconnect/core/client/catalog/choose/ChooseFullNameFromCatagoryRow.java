@@ -78,6 +78,7 @@ public class ChooseFullNameFromCatagoryRow extends Composite
 	String enterkeyS;
 	String keynameS;
 	String username;
+	ArrayList<String> chosenPath;
 	
 	ObjectVisualizationInterface top;
 	/**
@@ -93,6 +94,7 @@ public class ChooseFullNameFromCatagoryRow extends Composite
 		this.objectS = objectS;
 		this.user = user;
 		this.top = top;
+		chosenPath = null;
 		init();
 	}
 	
@@ -165,7 +167,8 @@ public class ChooseFullNameFromCatagoryRow extends Composite
 		choosedevice.open();				
 	}
 	@Override
-	public void conceptChosen(String topconcept, String concept) {
+	public void conceptChosen(String topconcept, String concept, ArrayList<String> path) {
+		chosenPath = path;
 		objecttype.setText(TextUtilities.removeNamespace(concept));
 		objecttypeid.setText(concept);
 		typeSelected = true;
@@ -226,7 +229,7 @@ public class ChooseFullNameFromCatagoryRow extends Composite
 			String simple = objectname.getText().trim();
 			DatabaseObject obj = new DatabaseObject("",access,username,sourceID);
 			ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,"");
-			name = new DataCatalogID(structure,basecatalog,catalogname,simple);
+			name = new DataCatalogID(structure,basecatalog,catalogname,simple, chosenPath);
 			String id = name.getFullName();
 			name.setIdentifier(id);
 			name.setParentLink(id);

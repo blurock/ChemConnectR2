@@ -86,4 +86,6 @@ public interface UserImageServiceAsync {
 
 	void getCatalogObject(String id, String dataType, AsyncCallback<DatabaseObjectHierarchy> callback);
 
+	void writeYamlObjectHierarchy(DatabaseObjectHierarchy hierarchy, AsyncCallback<Void> callback);
+
 }

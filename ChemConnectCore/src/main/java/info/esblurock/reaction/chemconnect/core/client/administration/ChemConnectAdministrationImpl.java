@@ -20,7 +20,7 @@ import gwt.material.design.client.ui.MaterialNavBrand;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTitle;
 import gwt.material.design.client.ui.MaterialToast;
-import info.esblurock.reaction.chemconnect.core.client.InitializationCallback;
+import info.esblurock.reaction.chemconnect.core.client.GeneralVoidReturnCallback;
 import info.esblurock.reaction.chemconnect.core.client.pages.DataStructurePages;
 import info.esblurock.reaction.chemconnect.core.client.resources.BaseText;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.ChemConnectAdministrationView;
@@ -211,12 +211,12 @@ public class ChemConnectAdministrationImpl extends Composite implements ChemConn
 		if(modaltask.compareTo("cleardb") == 0) {
 			MaterialToast.fireToast("Clear");
 			InitializationServiceAsync async = GWT.create(InitializationService.class);
-			InitializationCallback callback = new InitializationCallback("Clearing of database Successful");
+			GeneralVoidReturnCallback callback = new GeneralVoidReturnCallback("Clearing of database Successful");
 			async.clearDatabaseObjects(callback);
 		} else if(modaltask.compareTo("readinit") == 0) {
 			MaterialToast.fireToast("Read init");
 			InitializationServiceAsync async = InitializationService.Util.getInstance();
-			InitializationCallback callback = new InitializationCallback("Initialization Successful");
+			GeneralVoidReturnCallback callback = new GeneralVoidReturnCallback("Initialization Successful");
 			async.initializeDatabaseObjects(callback);		
 		}
 		okmodal.close();

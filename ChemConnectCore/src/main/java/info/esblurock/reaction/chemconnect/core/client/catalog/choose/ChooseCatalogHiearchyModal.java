@@ -1,5 +1,6 @@
 package info.esblurock.reaction.chemconnect.core.client.catalog.choose;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -116,7 +117,7 @@ public class ChooseCatalogHiearchyModal extends Composite implements SubCatagory
 		mapping = new HashMap<String,String>();
 		HierarchyNode node = nodeFromDatabaseObjectHierarchy(hierarchy);
 		recursiveHierarchy(hierarchy,node);
-		ConvertToMaterialTree.addHierarchyTop(node, tree);
+		ConvertToMaterialTree.addHierarchyTop(node,tree);
 	}
 	
 	private void recursiveHierarchy(DatabaseObjectHierarchy hierarchy, HierarchyNode node) {

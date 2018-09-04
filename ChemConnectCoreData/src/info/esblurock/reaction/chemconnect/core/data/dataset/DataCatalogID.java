@@ -1,7 +1,10 @@
 package info.esblurock.reaction.chemconnect.core.data.dataset;
 
+import java.util.ArrayList;
+
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.Unindex;
 
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 
@@ -15,16 +18,20 @@ public class DataCatalogID extends ChemConnectCompoundDataStructure {
 	String DataCatalog;
 	@Index
 	String SimpleCatalogName;
+	@Unindex
+	ArrayList<String> path;
 	
 	public DataCatalogID() {
 	}
 	
 	public DataCatalogID(ChemConnectCompoundDataStructure object, 
-			String catalogBaseName, String dataCatalog, String simpleCatalogName) {
+			String catalogBaseName, String dataCatalog, String simpleCatalogName,
+			ArrayList<String> path) {
 		super(object);
 		CatalogBaseName = catalogBaseName;
 		DataCatalog = dataCatalog;
 		SimpleCatalogName = simpleCatalogName;
+		this.path = path;
 	}
 	public String getCatalogBaseName() {
 		return CatalogBaseName;
@@ -46,9 +53,12 @@ public class DataCatalogID extends ChemConnectCompoundDataStructure {
 	}
 	
 	public String getFullName() {
+		return getFullName("-");
+	}
+	public String getFullName(String delimitor) {
 		StringBuilder build = new StringBuilder();
 		build.append(CatalogBaseName);
-		build.append("-");
+		build.append(delimitor);
 		if(DataCatalog != null) {
 			if(DataCatalog.length() > 0) {
 				build.append(ChemConnectCompoundDataStructure.removeNamespace(DataCatalog));
@@ -62,6 +72,14 @@ public class DataCatalogID extends ChemConnectCompoundDataStructure {
 	public String toString() {
 		return toString("");
 	}
+	public ArrayList<String> getPath() {
+		return path;
+	}
+	
+	public String blobFilenameFromCatalogID() {
+		return getFullName("/");
+	}
+	
 	
 	public String toString(String prefix) {
 		StringBuilder build = new StringBuilder();

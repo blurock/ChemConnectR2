@@ -1,5 +1,7 @@
 package info.esblurock.reaction.core.server.initialization;
 
+import java.util.ArrayList;
+
 //import static org.junit.Assert.*;
 
 import org.junit.Test;
@@ -27,7 +29,9 @@ public class CreateDefault {
 		
 		DatabaseObject obj = new DatabaseObject("AdministrationCatalog","Public","Administration","1" );
 		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,"");
-		DataCatalogID name = new DataCatalogID(structure,"Catalog-Base","Catalog","Simple");
+		ArrayList<String> path = new ArrayList<String>();
+		path.add("First");
+		DataCatalogID name = new DataCatalogID(structure,"Catalog-Base","Catalog","Simple",path);
 		
 		/*
 		System.out.println("--------------------------------------------------------------------\n");

@@ -110,7 +110,7 @@ public class DefaultPrimitiveStructureRow extends Composite implements ChooseFro
 	}
 
 	@Override
-	public void conceptChosen(String topconcept, String concept) {
+	public void conceptChosen(String topconcept, String concept, ArrayList<String> path) {
 		typeWithNamespace = concept;
 		type.setText(TextUtilities.removeNamespace(typeWithNamespace));
 	}

@@ -42,7 +42,7 @@
 						</m:MaterialColumn>
 					</m:MaterialRow>
 					<m:MaterialDivider/>
-					<m:MaterialRow ui:field="purposeconceptrow" styleName="{style.panelbox}">
+					<m:MaterialRow ui:field="purposeconceptrow" margin="0">
 						
 					</m:MaterialRow>
 					<m:MaterialDivider/>

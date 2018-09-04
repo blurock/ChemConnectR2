@@ -89,7 +89,9 @@ public class ReadFromLinkConcept {
 		
 		String devicename = "dataset:HeatFluxBurner";
 		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,"");
-		DataCatalogID name = new DataCatalogID(structure,"Catalog-Base","Catalog","Simple");
+		ArrayList<String> path = new ArrayList<String>();
+		path.add("First");
+		DataCatalogID name = new DataCatalogID(structure,"Catalog-Base","Catalog","Simple",path);
 
 		DatabaseObjectHierarchy devicehier = CreateDefaultObjectsFactory.fillSubSystemDescription(obj,
 				devicename,name);
@@ -108,13 +110,13 @@ public class ReadFromLinkConcept {
 			for(String id : ids) {
 				System.out.println(id);
 				StringTokenizer tok = new StringTokenizer(id,"-");
-				ArrayList<String> path = new ArrayList<String>();
+				ArrayList<String> nextpath = new ArrayList<String>();
 				String last = null;
 				while(tok.hasMoreTokens()) {
 					last = tok.nextToken();
-					path.add(last);
+					nextpath.add(last);
 				}
-				ParseUtilities.fillInHierarchy(topnode, path, id);
+				ParseUtilities.fillInHierarchy(topnode, nextpath, id);
 			}
 			System.out.println(topnode.toString());
 		} catch (IOException e) {

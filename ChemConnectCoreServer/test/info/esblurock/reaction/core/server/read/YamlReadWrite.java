@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.junit.Test;
@@ -28,7 +29,9 @@ public class YamlReadWrite {
 	
 		String devicename = "dataset:HeatFluxBurner";
 		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,"");
-		DataCatalogID name = new DataCatalogID(structure,"Catalog-Base","Catalog","Simple");
+		ArrayList<String> path = new ArrayList<String>();
+		path.add("First");
+		DataCatalogID name = new DataCatalogID(structure,"Catalog-Base","Catalog","Simple",path);
 		
 		DatabaseObjectHierarchy devicehier = CreateDefaultObjectsFactory.fillSubSystemDescription(obj,
 				devicename,name);
