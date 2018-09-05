@@ -104,7 +104,8 @@ public class LoginSetupTest {
 				System.out.println(object.toString());
 			}
 			System.out.println("---------------------------------------------------------------");
-			String catid = "Catalog-Administration-sethier";
+			
+			String catid = CreateDefaultObjectsFactory.userCatalogHierarchyID(username);
 			DatabaseObjectHierarchy ucathier = ExtractCatalogInformation.getDatabaseObjectHierarchy(catid);
 			System.out.println(ucathier.toString());
 			//System.out.println("---------------------------------------------------------------");

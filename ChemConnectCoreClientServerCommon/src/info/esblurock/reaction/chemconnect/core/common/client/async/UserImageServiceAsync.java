@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
@@ -75,7 +76,7 @@ public interface UserImageServiceAsync {
 	void createDatabasePerson(DatabaseObject obj, String userClassification, NameOfPerson name, DataCatalogID catid,
 			AsyncCallback<DatabaseObjectHierarchy> callback);
 
-	void createOrganization(DatabaseObject obj, String organizationname, DataCatalogID catid,
+	void createOrganization(DatabaseObject obj, String shortname, String organizationname, DataCatalogID catid,
 			AsyncCallback<DatabaseObjectHierarchy> callback);
 
 	void createEmptyObject(DatabaseObject obj, String dataType, AsyncCallback<DatabaseObjectHierarchy> callback);
@@ -87,5 +88,8 @@ public interface UserImageServiceAsync {
 	void getCatalogObject(String id, String dataType, AsyncCallback<DatabaseObjectHierarchy> callback);
 
 	void writeYamlObjectHierarchy(DatabaseObjectHierarchy hierarchy, AsyncCallback<Void> callback);
+
+	void createEmptyMultipleObject(ChemConnectCompoundMultiple multiple,
+			AsyncCallback<DatabaseObjectHierarchy> callback);
 
 }

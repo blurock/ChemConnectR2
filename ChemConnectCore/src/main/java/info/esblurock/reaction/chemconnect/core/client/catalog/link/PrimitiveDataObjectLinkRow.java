@@ -55,6 +55,7 @@ public class PrimitiveDataObjectLinkRow extends Composite implements ChooseFromC
 		this.item = item;
 		linkobject = (DataObjectLink) item.getObject();
 		chosenLinkConcept = linkobject.getLinkConcept();
+		chosenObjectID = linkobject.getDataStructure();
 		concept.setText(TextUtilities.removeNamespace(linkobject.getLinkConcept()));
 		link.setText(linkobject.getDataStructure());
 	}
@@ -70,6 +71,7 @@ public class PrimitiveDataObjectLinkRow extends Composite implements ChooseFromC
 	public boolean updateObject() {
 		linkobject.setLinkConcept(chosenLinkConcept);
 		linkobject.setDataStructure(chosenObjectID);
+		Window.alert("PrimitiveDataObjectLinkRow: " + chosenLinkConcept + ": " + chosenObjectID);
 		return false;
 	}
 	
@@ -86,10 +88,12 @@ public class PrimitiveDataObjectLinkRow extends Composite implements ChooseFromC
 	}
 	@UiHandler("link")
 	void onClickLink(ClickEvent e) {
+		chooseConcept = false;
 		findLinkObject();
 	}
 	@Override
 	public void conceptChosen(String topconcept, String chosen, ArrayList<String> path) {
+		Window.alert("PrimitiveDataObjectLinkRow conceptChosen: " + chooseConcept + ": " + chosen);
 		if(chooseConcept) {
 			chosenLinkConcept = chosen;
 			concept.setText(TextUtilities.removeNamespace(chosenLinkConcept));
@@ -103,6 +107,7 @@ public class PrimitiveDataObjectLinkRow extends Composite implements ChooseFromC
 		}
 	}
 	private void findLinkObject() {
+		Window.alert("PrimitiveDataObjectLinkRow findLinkObject(): " + chosenLinkConcept);
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		HierarchyNodeCallback callback = new HierarchyNodeCallback(this);
 		async.getIDsFromConceptLink(chosenLinkConcept,callback);
@@ -110,6 +115,7 @@ public class PrimitiveDataObjectLinkRow extends Composite implements ChooseFromC
 
 	@Override
 	public void insertTree(HierarchyNode topnode) {
+		Window.alert("PrimitiveDataObjectLinkRow insertTree: \n" + topnode.toString());
 		chooseConcept = false;
 		ChooseFromConceptHierarchies chooseconcept = new ChooseFromConceptHierarchies(this);
 		chooseconcept.setupTree(topnode);

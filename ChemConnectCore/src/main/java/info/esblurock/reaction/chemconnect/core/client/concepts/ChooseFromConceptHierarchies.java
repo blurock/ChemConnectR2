@@ -133,6 +133,7 @@ public class ChooseFromConceptHierarchies extends Composite {
 		topconcept = hierarchy.getIdentifier();
 		tree.clear();
 		ConvertToMaterialTree.addHierarchyTop(hierarchy, tree);
+		tree.collapse();
 	}
 
 

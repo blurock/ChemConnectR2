@@ -1496,6 +1496,15 @@ xsd:date rdf:type rdfs:Datatype .
                  <http://www.w3.org/2004/02/skos/core#altLabel> "base" .
 
 
+###  http://www.esblurock.info/dataset#CatalogPathElement
+:CatalogPathElement rdf:type owl:Class ;
+                    rdfs:subClassOf :ShortStringLabel ;
+                    <http://purl.org/dc/elements/1.1/type> "ShortString" ;
+                    <http://purl.org/dc/terms/identifier> "dataset:CatalogPath" ;
+                    rdfs:label "Catalog Path Element" ;
+                    <http://www.w3.org/2004/02/skos/core#prefLabel> "catpath" .
+
+
 ###  http://www.esblurock.info/dataset#ChemConectChemicalComposition
 :ChemConectChemicalComposition rdf:type owl:Class ;
                                rdfs:subClassOf :SpeciesParameter ,
@@ -3311,8 +3320,8 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#FileTypeYaml
 :FileTypeYaml rdf:type owl:Class ;
               rdfs:subClassOf :FileTypeText ;
-              <http://purl.org/dc/elements/1.1/type> "YAML"^^xsd:string ;
-              <http://purl.org/dc/terms/identifier> "text/yaml"^^xsd:string ;
+              <http://purl.org/dc/elements/1.1/type> "text/yaml"^^xsd:string ;
+              <http://purl.org/dc/terms/identifier> "dataset:FileTypeYaml"^^xsd:string ;
               :fileextension "yaml"^^xsd:string .
 
 

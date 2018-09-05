@@ -11,6 +11,7 @@ import com.google.cloud.storage.Acl.User;
 import info.esblurock.reaction.chemconnect.core.data.base.GoogleCloudStorageConstants;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
+import info.esblurock.reaction.core.server.db.image.GCSServiceRoutines;
 import info.esblurock.reaction.core.server.db.image.UserImageServiceImpl;
 import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
 
@@ -58,10 +59,15 @@ public class FileUploadServlet extends HttpServlet {
 				
 				
 				ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
-				GCSBlobFileInformation source = UserImageServiceImpl.createInitialUploadInfo(
-						GoogleCloudStorageConstants.uploadBucket, fileItem.getName(), 
+				
+				//String filename = GCSServiceRoutines.createUploadPath(util.getUserName());
+				String path = GCSServiceRoutines.createUploadPath(util.getUserName());
+				GCSBlobFileInformation source = GCSServiceRoutines.createInitialUploadInfo(
+						GoogleCloudStorageConstants.uploadBucket, 
+						path, fileItem.getName(), 
 						fileItem.getContentType(), 
-						uploadDescriptionText, util);
+						uploadDescriptionText,
+						util.getId(),util.getUserName());
 								
 				System.out.println("FileUploadServlet: " + source.toString());
 				

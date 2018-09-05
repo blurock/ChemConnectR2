@@ -27,11 +27,16 @@ public class ChemConnectCompoundMultiple extends DatabaseObject {
 		this.ids = ids;
 		this.type = type;
 	}
+	public void fill(DatabaseObject obj) {
+		super.fill(obj);
+		ChemConnectCompoundMultiple multiple = (ChemConnectCompoundMultiple) obj;
+		this.type = multiple.getType();
+		ids = new HashSet<String>(multiple.getIds());
+	}
 
 	public void addID(String id) {
 		ids.add(id);
 	}
-	
 	
 	public void setType(String type) {
 		this.type = type;

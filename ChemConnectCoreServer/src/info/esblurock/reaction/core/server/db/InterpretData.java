@@ -639,7 +639,6 @@ public enum InterpretData {
 					.getSubElementStructureFromIDObject(OntologyKeys.datasetCatalogHierarchy);
 			String catid = createSuffix(obj, element);
 			catobj.setIdentifier(catid);
-			System.out.println("createEmptyObject:  " + catid);
 
 			DatabaseObjectHierarchy structhier = InterpretData.ChemConnectDataStructure.createEmptyObject(catobj);
 			ChemConnectDataStructure structure = (ChemConnectDataStructure) structhier.getObject();

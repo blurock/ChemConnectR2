@@ -52,7 +52,9 @@ public class GCSBlobFileInformation extends DatabaseObject {
 	public String getGSFilename() {
 		String name = filename;
 		if(path != null) {
-			name =  path + "/" + filename;
+			if(path.length() > 0) {
+				name =  path + "/" + filename;
+			}
 		}
 		return name;
 	}

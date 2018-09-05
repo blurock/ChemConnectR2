@@ -7,6 +7,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
@@ -91,7 +92,7 @@ public interface UserImageService  extends RemoteService  {
 	
 	DatabaseObjectHierarchy createDatabasePerson(DatabaseObject obj, String userClassification, NameOfPerson name, DataCatalogID catid);
 	
-	DatabaseObjectHierarchy createOrganization(DatabaseObject obj, String organizationname, DataCatalogID catid);
+	DatabaseObjectHierarchy createOrganization(DatabaseObject obj, String shortname, String organizationname, DataCatalogID catid);
 	
 	DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj, String dataType);
 	
@@ -102,4 +103,6 @@ public interface UserImageService  extends RemoteService  {
 	DatabaseObjectHierarchy getCatalogObject(String id, String dataType);
 	
 	void writeYamlObjectHierarchy(DatabaseObjectHierarchy hierarchy) throws IOException;
+	
+	DatabaseObjectHierarchy createEmptyMultipleObject(ChemConnectCompoundMultiple multiple);
 }

@@ -15,23 +15,23 @@
 			<m:MaterialPanel>
 				<m:MaterialRow styleName="{style.box}">
 					<m:MaterialColumn grid="s1">
-						<m:MaterialCheckBox ui:field="databasecheckbox" paddingTop="0" paddingBottom="0"/>
+						<m:MaterialCheckBox ui:field="databasecheckbox" />
 					</m:MaterialColumn>
 					<m:MaterialColumn grid="s11">
-						<m:MaterialLabel ui:field="databasetextbox" paddingTop="0" paddingBottom="0"/>
+						<m:MaterialLabel ui:field="databasetextbox" />
 					</m:MaterialColumn>
 				</m:MaterialRow>
 				<m:MaterialRow styleName="{style.box}">
 					<m:MaterialColumn grid="s1">
-						<m:MaterialCheckBox ui:field="yamlcheckbox" paddingTop="0" paddingBottom="0"/>
+						<m:MaterialCheckBox ui:field="yamlcheckbox" />
 					</m:MaterialColumn>
 					<m:MaterialColumn grid="s11">
-						<m:MaterialLabel ui:field="yamltextbox" paddingTop="0" paddingBottom="0"/>
+						<m:MaterialLabel ui:field="yamltextbox" />
 					</m:MaterialColumn>
 				</m:MaterialRow>
 			</m:MaterialPanel>
 		</m:MaterialModalContent>
-		<m:MaterialModalFooter ui:field="footer" paddingTop="0" paddingBottom="0">
+		<m:MaterialModalFooter ui:field="footer" >
 			<m:MaterialLink ui:field="close" text="CLOSE" type="FLAT"
 				iconColor="BLACK" textAlign="RIGHT"/>		
 			<m:MaterialLink ui:field="done" text="Done" type="FLAT"

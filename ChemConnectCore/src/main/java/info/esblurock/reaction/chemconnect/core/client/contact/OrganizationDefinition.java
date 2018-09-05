@@ -83,7 +83,8 @@ public class OrganizationDefinition extends Composite implements ObjectVisualiza
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		String observation = choose.getObjectType();
 		String title = choose.getObjectName();
-		async.createOrganization(obj,title,datid,callback);
+		String shortname = title;
+		async.createOrganization(obj,shortname, title,datid,callback);
 	}
 
 	@Override

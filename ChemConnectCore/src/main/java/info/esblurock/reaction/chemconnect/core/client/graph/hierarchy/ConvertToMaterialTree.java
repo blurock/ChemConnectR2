@@ -29,7 +29,7 @@ public class ConvertToMaterialTree {
 	}
 		
 	public static void addHierarchy(HierarchyNode hierarchy, ArrayList<String> path, MaterialTreeItem item) {
-		MaterialTreeItem next = new MaterialTreeItem(hierarchy.getIdentifier());
+		MaterialTreeItemWithPath next = new MaterialTreeItemWithPath(hierarchy.getIdentifier(),path);
 		next.setTextColor(Color.BLACK);
 		next.setTextAlign(TextAlign.LEFT);
 		if(hierarchy.getSubNodes().size() > 0) {

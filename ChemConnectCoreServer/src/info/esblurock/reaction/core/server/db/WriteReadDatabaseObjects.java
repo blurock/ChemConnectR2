@@ -77,7 +77,7 @@ public class WriteReadDatabaseObjects {
 	}
 
 	public static DatabaseObjectHierarchy writeDatabaseObjectHierarchyWithTransaction(DatabaseObjectHierarchy objecthierarchy) {
-		DatabaseWriteBase. writeTransactionWithoutObjectWrite(objecthierarchy.getObject());
+		DatabaseWriteBase.writeTransactionWithoutObjectWrite(objecthierarchy.getObject());
 		return writeDatabaseObjectHierarchy(objecthierarchy);
 	}
 	public static DatabaseObjectHierarchy writeDatabaseObjectHierarchy(DatabaseObjectHierarchy objecthierarchy) {
@@ -102,29 +102,44 @@ public class WriteReadDatabaseObjects {
 	public static void updateDatabaseObjectHierarchy(DatabaseObjectHierarchy objecthierarchy) {
 		ArrayList<DatabaseObject> lst = new ArrayList<DatabaseObject>();
 		Map<String,DatabaseObject> map = new HashMap<String,DatabaseObject>();
-		collectDatabaseObjectsInHierarchy(objecthierarchy,lst,map);
-		System.out.println("--------------------------------");
-		System.out.println(lst);
+		ArrayList<DatabaseObject> newobjs = new ArrayList<DatabaseObject>();
+		collectDatabaseObjectsInHierarchy(objecthierarchy,newobjs,lst,map);
+		ObjectifyService.ofy().save().entities(newobjs).now();
+		System.out.println("--------------------------------"  + newobjs.size());
+		for(DatabaseObject obj: newobjs) {
+			System.out.println("ID: '" + obj.getIdentifier() + "'  Key: " + obj.getKey());
+		}
+		
 		System.out.println("--------------------------------");
 		Map<Key<DatabaseObject>,DatabaseObject> result = ObjectifyService.ofy().load().entities(lst);
-		System.out.println(result.keySet());
-		ArrayList<DatabaseObject> newobjs = new ArrayList<DatabaseObject>();
+		//System.out.println(result.keySet());
+		ArrayList<DatabaseObject> objs = new ArrayList<DatabaseObject>();
 		for(Key<DatabaseObject> id: result.keySet()) {
 			DatabaseObject dbobj = result.get(id);
 			DatabaseObject update = map.get(dbobj.getIdentifier());
+			//System.out.println("updateDatabaseObjectHierarchy: id=" + id + "  ID: " + dbobj.getIdentifier());
+			//System.out.println("updateDatabaseObjectHierarchy: update\n" + update);
 			dbobj.fill(update);
-			newobjs.add(dbobj);
+			objs.add(dbobj);
 		}
-		ObjectifyService.ofy().save().entities(newobjs).now();
+		ObjectifyService.ofy().save().entities(objs).now();
 	}
 	
-	public static void collectDatabaseObjectsInHierarchy(DatabaseObjectHierarchy objecthierarchy, ArrayList<DatabaseObject> lst, 
+	public static void collectDatabaseObjectsInHierarchy(DatabaseObjectHierarchy objecthierarchy, 
+			ArrayList<DatabaseObject> newobjs, 
+			ArrayList<DatabaseObject> lst, 
 			Map<String,DatabaseObject> map) {
 		DatabaseObject obj = objecthierarchy.getObject();
-		lst.add(obj);
-		map.put(obj.getIdentifier(),obj);
-		for (DatabaseObjectHierarchy subhierarchy : objecthierarchy.getSubobjects()) {
-			collectDatabaseObjectsInHierarchy(subhierarchy,lst,map);
+		System.out.println("collectDatabaseObjectsInHierarchy: ID: '" + obj.getIdentifier() + "'  Key: " + obj.getKey());
+		if(obj.getKey() == null) {
+			newobjs.add(obj);
+		} else {
+			lst.add(obj);
+			map.put(obj.getIdentifier(),obj);
+			for (DatabaseObjectHierarchy subhierarchy : objecthierarchy.getSubobjects()) {
+				collectDatabaseObjectsInHierarchy(subhierarchy,newobjs,lst,map);
+			}
+			ObjectifyService.ofy().save().entities(newobjs).now();
 		}
 	}
 	

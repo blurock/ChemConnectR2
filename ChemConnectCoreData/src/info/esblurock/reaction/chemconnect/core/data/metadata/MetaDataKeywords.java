@@ -23,7 +23,7 @@ public class MetaDataKeywords {
 	public static String accessTypeAdministrator = "dataset:Administrator";
 	public static String accessTypeSuperUser = "dataset:SuperUser";
 	
-	public static String linkSubCatalog = "dataset:ChemConnectConceptSubCatalog";
+	public static String linkSubCatalog = "dataset:ConceptLinkCatalogHierarchyStructure";
 	public static String linkUser = "dataset:ChemConnectConceptUser";
 	public static String linkOrganization = "dataset:ChemConnectConceptOrganization";
 	

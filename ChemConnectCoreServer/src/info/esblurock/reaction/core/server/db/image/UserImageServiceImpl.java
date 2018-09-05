@@ -31,6 +31,7 @@ import com.google.cloud.storage.Acl.Role;
 import com.google.cloud.storage.Acl.User;
 
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.base.GoogleCloudStorageConstants;
@@ -206,7 +207,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
 		UserDTO user = util.getUserInfo();
 
-		String path = createUploadPath(util);
+		String path = GCSServiceRoutines.createUploadPath(util.getUserName());
 
 		String id = fileinfo.getIdentifier();
 		String access = user.getName();
@@ -266,11 +267,11 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		tok.close();
 		return lines;
 	}
-
+/*
 	public void uploadFileBlob(String id, String bucket, String filename, String contentType, String description, String contentS)
 			throws IOException {
 		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
-		GCSBlobFileInformation info = createInitialUploadInfo(
+		GCSBlobFileInformation info = GCSServiceRoutines.createInitialUploadInfo(
 				bucket,
 				filename, contentType, description, util);
 		System.out.println("uploadFileBlob: " + info.toString());
@@ -278,7 +279,8 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		GCSBlobContent gcs = new GCSBlobContent(url, info);
 		writeBlobContent(gcs);
 	}
-
+*/
+	/*
 	public void writeBlobContent(GCSBlobContent gcs) throws IOException {
 		GCSBlobFileInformation info = gcs.getInfo();
 		String contentS = gcs.getBytes();
@@ -294,7 +296,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		}
 		DatabaseWriteBase.writeObjectWithTransaction(gcs.getInfo());
 	}
-
+*/
 	public void deleteUploadedFile(GCSBlobFileInformation gcsinfo) {
 		deleteBlob(gcsinfo);
 	}
@@ -357,8 +359,6 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	}
 
 	public GCSBlobFileInformation retrieveBlobFromURL(String requestUrl) throws IOException {
-		//ContextAndSessionUtilities context = getUtilities();
-		//String path = createUploadPath(context);
 		String uploadDescriptionText = "Uploaded File from URL";
 
 		URL urlconnect = new URL(requestUrl);
@@ -368,19 +368,25 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		URL urlstream = new URL(requestUrl);
 		InputStream in = urlstream.openStream();
 		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
-
-		GCSBlobFileInformation source = createInitialUploadInfo(requestUrl, contentType, uploadDescriptionText, util);
+		String path = GCSServiceRoutines.createUploadPath(util.getUserName());
+		GCSBlobFileInformation source = GCSServiceRoutines.createInitialUploadInfo(
+				GoogleCloudStorageConstants.uploadBucket,
+				path, requestUrl, contentType, uploadDescriptionText,
+				util.getId(),util.getUserName());
 		retrieveContentFromStream(in, source);
 
 		return source;
 	}
 
 	public GCSBlobFileInformation retrieveBlobFromContent(String filename, String content) throws IOException {
+		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
+		String path = GCSServiceRoutines.createUploadPath(util.getUserName());
 		String contentType = "text/plain";
 		String uploadDescriptionText = "Uploaded File from text input";
-		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
-		GCSBlobFileInformation source = createInitialUploadInfo(
-				GoogleCloudStorageConstants.uploadBucket, filename, contentType, uploadDescriptionText, util);
+		GCSBlobFileInformation source = GCSServiceRoutines.createInitialUploadInfo(
+				GoogleCloudStorageConstants.uploadBucket, 
+				path, filename, contentType, uploadDescriptionText,
+				util.getId(),util.getUserName());
 
 		InputStream in = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
 		retrieveContentFromStream(in, source);
@@ -443,9 +449,12 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		}
 		return hierarchy;
 	}
+	public DatabaseObjectHierarchy createEmptyMultipleObject(ChemConnectCompoundMultiple multiple) {
+		return CreateDefaultObjectsFactory.createEmptyMultipleObject(multiple);
+	}
 	
-	public DatabaseObjectHierarchy createOrganization(DatabaseObject obj, String organizationname, DataCatalogID catid) {
-		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillOrganization(obj, organizationname,catid);
+	public DatabaseObjectHierarchy createOrganization(DatabaseObject obj, String shortname, String organizationname, DataCatalogID catid) {
+		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillOrganization(obj, shortname, organizationname,catid);
 		return hierarchy;
 	}
 	
@@ -518,11 +527,20 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 			String idS = structure.getCatalogDataID();
 			DatabaseObjectHierarchy catalogHier = hierarchy.getSubObject(idS);
 			DataCatalogID catalogID = (DataCatalogID) catalogHier.getObject();
-			String filename = catalogID.blobFilenameFromCatalogID();
+			String extension = ConceptParsing.getFileExtension(StandardDatasetMetaData.yamlFileType);
+			String filename = catalogID.blobFilenameFromCatalogID(extension);
 			String contentType = ConceptParsing.getContentType(StandardDatasetMetaData.yamlFileType);
+	
+			System.out.println("writeYamlObjectHierarchy: " + contentType);
+			//contentType = "text/yaml";
 			String title = structure.getClass().getSimpleName() + ": " + structure.getIdentifier();
-			uploadFileBlob(hierarchy.getObject().getIdentifier(),
-					GoogleCloudStorageConstants.storageBucket, filename,contentType,title,wS.toString());
+			ContextAndSessionUtilities util = getUtilities();
+			//ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
+			String path = "";
+			GCSServiceRoutines.uploadFileBlob(hierarchy.getObject().getIdentifier(),
+					GoogleCloudStorageConstants.storageBucket, 
+					util.getId(),util.getUserName(),
+					path, filename,contentType,title,wS.toString());
 		} catch (Exception ex) {
 			System.out.println("writeYamlObjectHierarchy  error in writing");
 			System.out.println(ex.toString());
@@ -552,18 +570,19 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		BlobId blobId = BlobId.of(gcsinfo.getBucket(), gcsinfo.getGSFilename());
 		storage.delete(blobId);
 	}
-
+/*
 	public static String createUploadPath(ContextAndSessionUtilities util) {
 		String username = util.getUserName();
 		String path = GoogleCloudStorageConstants.uploadPathPrefix + "/" + username;
 		return path;
 	}
-
+*/
+	/*
 	public static GCSBlobFileInformation createInitialUploadInfo(String bucket, String filename, String contentType,
 			String uploadDescriptionText, ContextAndSessionUtilities util) {
 		UserDTO user = util.getUserInfo();
 
-		String path = createUploadPath(util);
+		String path = GCSServiceRoutines.createUploadPath(util);
 
 		String id = util.getUserInfo().getIP() + ":" + user.getName();
 		String access = user.getName();
@@ -574,7 +593,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 				filename, contentType, uploadDescriptionText);
 		return source;
 	}
-
+*/
 	public static InputStream getInputStream(GCSBlobFileInformation info) {
 		GCSBlobContent content = getContent(info);
 		String contentstring = content.getBytes();

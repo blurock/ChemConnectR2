@@ -72,12 +72,12 @@ public class ManageCatalogHierarchy extends Composite {
 			Window.alert("Not logged in");
 		}
 	}
-	
+	/*
 	public void saveCatagory() {
 		StandardDatasetObjectHierarchyItem item = (StandardDatasetObjectHierarchyItem) panel.getChildrenList().get(0);
 		item.writeDatabaseObjectHierarchy();
 	}
-		
+		*/
 	@UiHandler("refresh")
 	public void onClickRefresh(ClickEvent event) {
 		panel.clear();
@@ -85,7 +85,11 @@ public class ManageCatalogHierarchy extends Composite {
 	}
 	@UiHandler("save")
 	public void onClickSave(ClickEvent event) {
-		saveCatagory();
+		StandardDatasetObjectHierarchyItem item = (StandardDatasetObjectHierarchyItem) panel.getChildrenList().get(0);
+		SaveDatasetCatalogHierarchy savemodal = new SaveDatasetCatalogHierarchy(item);
+		modalpanel.clear();
+		modalpanel.add(savemodal);
+		savemodal.openModal();
 	}
 	
 	public void setIdentifer(DatabaseObject obj) {

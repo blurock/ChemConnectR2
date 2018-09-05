@@ -53,6 +53,10 @@ public class SaveDatasetCatalogHierarchy extends Composite {
 		yamltextbox.setText("Save as yaml string");
 	}
 
+	public void openModal() {
+		modal.open();
+	}
+	
 	@UiHandler("close")
 	void onClickClose(ClickEvent e) {
 		MaterialToast.fireToast("Cancel Save");

@@ -490,6 +490,8 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public boolean update(StandardDatasetObjectHierarchyItem item) {
+			ChemConnectCompoundMultipleHeader header = (ChemConnectCompoundMultipleHeader) item.getHeader();
+			header.updateObject();
 			return true;
 		}
 

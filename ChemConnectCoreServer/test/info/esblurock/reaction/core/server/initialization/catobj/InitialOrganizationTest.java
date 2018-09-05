@@ -95,8 +95,9 @@ public class InitialOrganizationTest {
 		ArrayList<String> path = new ArrayList<String>();
 		path.add("First");
 		DataCatalogID datid = new DataCatalogID(structure,"Catalog-Base","Catalog","Simple",path);
+		String shortname = "AcmeInc";
 		String orgname = "Acme Inc.";
-		DatabaseObjectHierarchy hierarchy1 = CreateDefaultObjectsFactory.fillOrganization(obj, orgname, datid);
+		DatabaseObjectHierarchy hierarchy1 = CreateDefaultObjectsFactory.fillOrganization(obj, shortname, orgname, datid);
 		try {
 			System.out.println(hierarchy1.toString());
 			

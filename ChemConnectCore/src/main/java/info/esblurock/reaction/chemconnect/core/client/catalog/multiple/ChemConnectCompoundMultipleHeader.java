@@ -1,5 +1,7 @@
 package info.esblurock.reaction.chemconnect.core.client.catalog.multiple;
 
+import java.util.ArrayList;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -37,13 +39,18 @@ public class ChemConnectCompoundMultipleHeader extends Composite {
 	@UiField
 	MaterialPanel multiobjects;
 	
+	ArrayList<StandardDatasetObjectHierarchyItem> multipleItems;
+	
 	StandardDatasetObjectHierarchyItem item;
 	ChemConnectCompoundMultiple multiple;
+	DatabaseObjectHierarchy multipleHier;
+	
 	String dataType;
 	public ChemConnectCompoundMultipleHeader(StandardDatasetObjectHierarchyItem item) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.item = item;
 		multiple = (ChemConnectCompoundMultiple) item.getObject();
+		multipleHier = item.getHierarchy();
 		dataType = multiple.getType();
 		init();
 		typename.setText(TextUtilities.removeNamespace(dataType));
@@ -51,13 +58,14 @@ public class ChemConnectCompoundMultipleHeader extends Composite {
 
 	private void init() {
 		multipletitle.setText("Objects:");
+		multipleItems = new ArrayList<StandardDatasetObjectHierarchyItem>();
 	}
 
 	private DatabaseObject determineSubObjectID() {
 		DatabaseObject obj = new DatabaseObject(multiple);
-		int elementNumber = item.getSubitems().size() + 1;
+		int elementNumber = multiple.getIds().size();
 		String elementNumberS = String.valueOf(elementNumber);
-		String id = "Element" + elementNumberS;
+		String id = obj.getIdentifier() + "-link" + elementNumberS;
 		obj.setIdentifier(id);
 		return obj;
 	}
@@ -67,22 +75,30 @@ public class ChemConnectCompoundMultipleHeader extends Composite {
 		ChemConnectCompoundMultipleCallback callback = new ChemConnectCompoundMultipleCallback(this);
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		DatabaseObject obj = determineSubObjectID();
-		async.createEmptyObject(obj,dataType,callback);
+		async.createEmptyMultipleObject(multiple,callback);
 	}
 	public void addMultipleObject(DatabaseObjectHierarchy obj) {
+		multipleHier.addSubobject(obj);
+		multiple.addID(obj.getObject().getIdentifier());
 		String type = obj.getObject().getClass().getSimpleName();
 		SetUpCollapsibleItem setup = SetUpCollapsibleItem.valueOf(type);
 		if(setup != null) {
 			MaterialPanel modalpanel = item.getModalpanel();
-			StandardDatasetObjectHierarchyItem itemobj = new StandardDatasetObjectHierarchyItem(obj,modalpanel);		
+			StandardDatasetObjectHierarchyItem itemobj = new StandardDatasetObjectHierarchyItem(obj,modalpanel);
+			multipleItems.add(itemobj);
 			if(setup.isInformation()) {
-				//item.addInfoItem(itemobj);
 				multiobjects.add(itemobj.getHeader());
 			} else {
 				item.addSubItem(itemobj);
 			}
 		} else {
 			Window.alert("addMultipleObject:  not setup found");
+		}
+	}
+
+	public void updateObject() {
+		for(StandardDatasetObjectHierarchyItem item: multipleItems) {
+			item.updateDatabaseObjectHierarchy();
 		}
 	}
 	
