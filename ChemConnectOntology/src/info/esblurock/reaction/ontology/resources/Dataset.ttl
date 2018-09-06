@@ -1880,6 +1880,16 @@ Under the general type of is the actual data object referenced by the ChemConnec
                       rdfs:label "Combustion Instrument" .
 
 
+###  http://www.esblurock.info/dataset#Company
+:Company rdf:type owl:Class ;
+         rdfs:subClassOf :OrganizationClassificationChoices .
+
+
+###  http://www.esblurock.info/dataset#CompanyDepartment
+:CompanyDepartment rdf:type owl:Class ;
+                   rdfs:subClassOf :OrganizationClassificationChoices .
+
+
 ###  http://www.esblurock.info/dataset#Component
 :Component rdf:type owl:Class .
 
@@ -2643,6 +2653,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
             rdfs:isDefinedBy <http://purl.org/dc/terms/available> ;
             rdfs:label "Date entered in database"^^xsd:string ;
             <http://www.w3.org/2004/02/skos/core#altLabel> "entered"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#Department
+:Department rdf:type owl:Class ;
+            rdfs:subClassOf :OrganizationClassificationChoices .
 
 
 ###  http://www.esblurock.info/dataset#DescriptionAbstract
@@ -6445,6 +6460,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                             rdfs:subClassOf :Classification .
 
 
+###  http://www.esblurock.info/dataset#OrganizationClassificationChoices
+:OrganizationClassificationChoices rdf:type owl:Class ;
+                                   rdfs:subClassOf :ChemConnectClassifications .
+
+
 ###  http://www.esblurock.info/dataset#OrganizationDataCatagory
 :OrganizationDataCatagory rdf:type owl:Class ;
                           rdfs:subClassOf :CatagoryTypeChoices .
@@ -7168,6 +7188,16 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#ReportedValue
 :ReportedValue rdf:type owl:Class .
+
+
+###  http://www.esblurock.info/dataset#ResearchGroup
+:ResearchGroup rdf:type owl:Class ;
+               rdfs:subClassOf :OrganizationClassificationChoices .
+
+
+###  http://www.esblurock.info/dataset#ResearchInstitute
+:ResearchInstitute rdf:type owl:Class ;
+                   rdfs:subClassOf :OrganizationClassificationChoices .
 
 
 ###  http://www.esblurock.info/dataset#SampleFlameSpecies
@@ -7967,6 +7997,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
               rdfs:subClassOf :Classification ;
               <http://purl.org/dc/terms/identifier> "qudt:QuantityKind"^^xsd:string ;
               <http://www.w3.org/2004/02/skos/core#altLabel> "units"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#Univerisity
+:Univerisity rdf:type owl:Class ;
+             rdfs:subClassOf :OrganizationClassificationChoices .
 
 
 ###  http://www.esblurock.info/dataset#UploadFileSpecification
@@ -9667,8 +9702,8 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
                                     <http://purl.org/dc/terms/issued> "2000-07-11"^^xsd:date .
 
 
-<http://purl.org/dc/terms/rights> <http://purl.org/dc/terms/issued> "2008-01-14"^^xsd:date ;
-                                  rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
+<http://purl.org/dc/terms/rights> rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
+                                  <http://purl.org/dc/terms/issued> "2008-01-14"^^xsd:date ;
                                   rdfs:label "Rights"@en ;
                                   rdfs:comment "Information about rights held in and over the resource."@en ;
                                   <http://purl.org/dc/terms/modified> "2008-01-14"^^xsd:date ;
@@ -9676,8 +9711,8 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
                                   <http://purl.org/dc/terms/description> "Typically, rights information includes a statement about various property rights associated with the resource, including intellectual property rights."@en .
 
 
-<http://purl.org/dc/terms/rightsHolder> rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
-                                        <http://purl.org/dc/terms/hasVersion> <http://dublincore.org/usage/terms/history/#rightsHolder-002> ;
+<http://purl.org/dc/terms/rightsHolder> <http://purl.org/dc/terms/hasVersion> <http://dublincore.org/usage/terms/history/#rightsHolder-002> ;
+                                        rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
                                         <http://purl.org/dc/terms/modified> "2008-01-14"^^xsd:date ;
                                         rdfs:comment "A person or organization owning or managing rights over the resource."@en ;
                                         <http://purl.org/dc/terms/issued> "2004-06-14"^^xsd:date ;

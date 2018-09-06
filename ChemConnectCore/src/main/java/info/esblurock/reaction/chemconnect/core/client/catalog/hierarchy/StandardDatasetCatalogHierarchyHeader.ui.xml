@@ -23,10 +23,6 @@
 				iconColor="BLACK" iconPosition="RIGHT" textColor="BLACK" />
 		</m:MaterialColumn>
 		<m:MaterialColumn grid="s1">
-			<m:MaterialLink ui:field="save" iconType="SAVE"
-				iconColor="BLACK" iconPosition="RIGHT" textColor="BLACK" />
-		</m:MaterialColumn>
-		<m:MaterialColumn grid="s1">
 			<m:MaterialLink ui:field="add" iconType="ADD"
 				iconColor="BLACK" iconPosition="RIGHT" textColor="BLACK" />
 		</m:MaterialColumn>

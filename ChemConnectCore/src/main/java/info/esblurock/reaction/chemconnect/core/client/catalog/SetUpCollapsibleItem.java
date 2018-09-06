@@ -1,7 +1,5 @@
 package info.esblurock.reaction.chemconnect.core.client.catalog;
 
-import com.google.gwt.user.client.Window;
-
 import info.esblurock.reaction.chemconnect.core.client.catalog.hierarchy.StandardDatasetCatalogHierarchyHeader;
 import info.esblurock.reaction.chemconnect.core.client.catalog.link.PrimitiveDataObjectLinkRow;
 import info.esblurock.reaction.chemconnect.core.client.catalog.multiple.ChemConnectCompoundMultipleHeader;
@@ -64,7 +62,9 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public boolean update(StandardDatasetObjectHierarchyItem item) {
-			return false;
+			StandardDatasetOrganizationHeader header = (StandardDatasetOrganizationHeader) item.getHeader();
+			header.updateData();
+			return true;
 		}
 
 		@Override
@@ -702,12 +702,12 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public int priority() {
-			return 10;
+			return 500;
 		}
 
 		@Override
 		public boolean isInformation() {
-			return false;
+			return true;
 		}
 
 		@Override
@@ -735,7 +735,7 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public boolean isInformation() {
-			return false;
+			return true;
 		}
 
 		@Override

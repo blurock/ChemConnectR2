@@ -1,5 +1,7 @@
 package info.esblurock.reaction.chemconnect.core.client.contact;
 
+import java.util.ArrayList;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -11,13 +13,20 @@ import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialTooltip;
+import info.esblurock.reaction.chemconnect.core.client.catalog.SaveDatasetCatalogHierarchy;
 import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
+import info.esblurock.reaction.chemconnect.core.client.catalog.choose.ChooseCatagoryHierarchyInterface;
+import info.esblurock.reaction.chemconnect.core.client.catalog.choose.ChooseCatalogHiearchyModal;
+import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHeirarchy;
+import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchies;
+import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchyFromDefinition;
 import info.esblurock.reaction.chemconnect.core.client.modal.InputLineModal;
 import info.esblurock.reaction.chemconnect.core.client.modal.SetLineContentInterface;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.data.contact.OrganizationDescription;
 
-public class StandardDatasetOrganizationDescriptionHeader extends Composite implements SetLineContentInterface {
+public class StandardDatasetOrganizationDescriptionHeader extends Composite 
+		implements SetLineContentInterface, ChooseFromConceptHeirarchy {
 
 	private static StandardDatasetOrganizationDescriptionHeaderUiBinder uiBinder = GWT
 			.create(StandardDatasetOrganizationDescriptionHeaderUiBinder.class);
@@ -55,6 +64,8 @@ public class StandardDatasetOrganizationDescriptionHeader extends Composite impl
 	OrganizationDescription descr;
 	InputLineModal line;
 	String linequery;
+	ChooseFromConceptHierarchies choosecat;
+	String organizationClass;
 
 	public StandardDatasetOrganizationDescriptionHeader(StandardDatasetObjectHierarchyItem item) {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -62,8 +73,9 @@ public class StandardDatasetOrganizationDescriptionHeader extends Composite impl
 		descr = (OrganizationDescription) item.getObject();
 		init();
 		orgnametooltip.setText(descr.getIdentifier());
+		organizationClass = descr.getOrganizationClassification();
 		TextUtilities.setText(orgname,descr.getOrganizationName(),"OrganizationName");
-		TextUtilities.setText(orgclass,descr.getOrganizationClassification(),"OrganizationClass");
+		TextUtilities.setText(orgclass,TextUtilities.removeNamespace(organizationClass),"OrganizationClass");
 		TextUtilities.setText(suborg,descr.getSubOrganizationOf(),"SubOrganizationOfName");
 		TextUtilities.setText(orgunit,descr.getOrganizationUnit(),"TopOrganizationName");
 	}
@@ -76,10 +88,9 @@ public class StandardDatasetOrganizationDescriptionHeader extends Composite impl
 	public void updateInfo() {
 		OrganizationDescription descr = (OrganizationDescription) item.getObject();
 		descr.setOrganizationName(orgname.getText());
-		descr.setOrganizationClassification(orgclass.getText());
+		descr.setOrganizationClassification(organizationClass);
 		descr.setOrganizationUnit(orgunit.getText());
 		descr.setSubOrganizationOf(suborg.getText());
-		
 	}
 	
 	public void setOrganizationName(String name) {
@@ -88,8 +99,10 @@ public class StandardDatasetOrganizationDescriptionHeader extends Composite impl
 	
 	@UiHandler("save")
 	void onClickSave(ClickEvent event) {
-		Window.alert("Save Object");
-		item.writeDatabaseObjectHierarchy();
+		SaveDatasetCatalogHierarchy savemodal = new SaveDatasetCatalogHierarchy(item);
+		item.getModalpanel().clear();
+		item.getModalpanel().add(savemodal);
+		savemodal.openModal();
 	}
 	@UiHandler("orgname")
 	void onClickOrgName(ClickEvent event) {
@@ -114,10 +127,11 @@ public class StandardDatasetOrganizationDescriptionHeader extends Composite impl
 	}
 	@UiHandler("orgclass")
 	void onClickOrganizationalClass(ClickEvent event) {
-		line = new InputLineModal("Input the type of organizational","University, Institute, Company...",this);
-		linequery = "orgclass";
-		item.getModalpanel().add(line);
-		line.openModal();
+		ArrayList<String> choices = new ArrayList<String>();
+		choices.add("dataset:OrganizationClassificationChoices");
+		choosecat = new ChooseFromConceptHierarchies(choices,this);
+		item.getModalpanel().add(choosecat);
+		choosecat.open();
 	}
 	@UiHandler("delete")
 	void onClickDelete(ClickEvent event) {
@@ -137,8 +151,16 @@ public class StandardDatasetOrganizationDescriptionHeader extends Composite impl
 	}
 
 	public boolean updateData() {
-		
+		descr.setOrganizationClassification(organizationClass);
+		descr.setOrganizationName(orgname.getText());
+		descr.setOrganizationUnit(orgunit.getText());
+		descr.setSubOrganizationOf(suborg.getText());
 		return false;
+	}
+	@Override
+	public void conceptChosen(String topconcept, String concept, ArrayList<String> path) {
+		orgclass.setText(TextUtilities.removeNamespace(concept));
+		organizationClass = concept;
 	}
 
 }

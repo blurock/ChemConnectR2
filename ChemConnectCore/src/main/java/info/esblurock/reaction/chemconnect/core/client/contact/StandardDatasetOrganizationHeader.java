@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialTooltip;
+import info.esblurock.reaction.chemconnect.core.client.catalog.SaveDatasetCatalogHierarchy;
 import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.client.modal.SetLineContentInterface;
 import info.esblurock.reaction.chemconnect.core.data.contact.Organization;
@@ -60,10 +61,10 @@ public class StandardDatasetOrganizationHeader extends Composite  implements Set
 	}
 	@UiHandler("save")
 	void onClickSave(ClickEvent event) {
-		Window.alert("Save Object");
-		item.writeDatabaseObjectHierarchy();
-		
-		
+		SaveDatasetCatalogHierarchy savemodal = new SaveDatasetCatalogHierarchy(item);
+		item.getModalpanel().clear();
+		item.getModalpanel().add(savemodal);
+		savemodal.openModal();
 	}
 	@UiHandler("delete")
 	void onClickDelete(ClickEvent event) {
@@ -71,6 +72,7 @@ public class StandardDatasetOrganizationHeader extends Composite  implements Set
 	}
 
 	public void updateData() {
+		
 	}
 	@Override
 	public void setLineContent(String line) {

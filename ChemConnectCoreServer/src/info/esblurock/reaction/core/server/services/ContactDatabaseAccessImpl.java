@@ -118,7 +118,6 @@ public class ContactDatabaseAccessImpl extends ServerBase implements ContactData
 	@Override
 	public HierarchyNode hierarchyOfConcepts(String topnode) {
 		HierarchyNode hierarchy = ConceptParsing.conceptHierarchy(topnode);
-		System.out.println(hierarchy);
 		return hierarchy;
 	}
 

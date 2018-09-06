@@ -71,7 +71,6 @@ public class PrimitiveDataObjectLinkRow extends Composite implements ChooseFromC
 	public boolean updateObject() {
 		linkobject.setLinkConcept(chosenLinkConcept);
 		linkobject.setDataStructure(chosenObjectID);
-		Window.alert("PrimitiveDataObjectLinkRow: " + chosenLinkConcept + ": " + chosenObjectID);
 		return false;
 	}
 	

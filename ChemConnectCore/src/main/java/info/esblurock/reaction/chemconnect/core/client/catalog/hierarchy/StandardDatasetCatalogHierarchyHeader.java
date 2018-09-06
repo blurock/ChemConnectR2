@@ -50,8 +50,6 @@ public class StandardDatasetCatalogHierarchyHeader extends Composite
 	@UiField
 	MaterialLink delete;
 	@UiField
-	MaterialLink save;
-	@UiField
 	MaterialLink add;
 
 	StandardDatasetObjectHierarchyItem item;
@@ -65,6 +63,7 @@ public class StandardDatasetCatalogHierarchyHeader extends Composite
 	ArrayList<String> choices;
 	String newChosenCatalogConcept;
 	ArrayList<String> newChosenPath;
+	ArrayList<String> subcatagories;
 	
 	public StandardDatasetCatalogHierarchyHeader(StandardDatasetObjectHierarchyItem item) {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -83,6 +82,7 @@ public class StandardDatasetCatalogHierarchyHeader extends Composite
 		cardmodal = new CardModal();
 		choices = new ArrayList<String>();
 		choices.add(catagorychoice);
+		subcatagories = new ArrayList<String>();
 	}
 	@UiHandler("delete")
 	public void onDeleteClick(ClickEvent event) {
@@ -96,11 +96,6 @@ public class StandardDatasetCatalogHierarchyHeader extends Composite
 	@UiHandler("add")
 	public void onAddClick(ClickEvent event) {
 		addCatagory();
-	}
-
-	@UiHandler("save")
-	public void onSaveClick(ClickEvent event) {
-		item.writeDatabaseObjectHierarchy();
 	}
 
 	private void addCatagory() {
@@ -126,15 +121,11 @@ public class StandardDatasetCatalogHierarchyHeader extends Composite
 		String oneline = wizard.getOneLineDescription();
 		
 		boolean addsub = true;
-		/*
-		for(CatalogHierarchyNode cat : subcatagories) {
-			DatasetCatalogHierarchy hierarchy = cat.getHierarchyElement();
-			String name = hierarchy.getSimpleCatalogName();
-			if(name.compareTo(id) == 0) {
+		for(String simple : subcatagories) {
+			if(simple.compareTo(newSimpleName) == 0) {
 				addsub = false;
 			}
 		}
-		*/
 		if(addsub) {
 			DatabaseObject subobj = new DatabaseObject(item.getObject());
 			UserImageServiceAsync async = UserImageService.Util.getInstance();
@@ -142,27 +133,21 @@ public class StandardDatasetCatalogHierarchyHeader extends Composite
 			async.createNewCatalogHierarchy(subobj,newSimpleName,oneline,newChosenCatalogConcept,callback);	
 		} else {
 			MaterialToast.fireToast("Name already being used in another sub-catagory");
+			addCatagory();
 		}
 	}
 	public void setInHierarchy(DatabaseObjectHierarchy subs) {
-		/*
-		DatasetCatalogHierarchy subcat = (DatasetCatalogHierarchy) subs.getObject();
-		String id = subcat.getCatalogDataID();
-		DatabaseObjectHierarchy cathier = subs.getSubObject(id);
-		DataCatalogID catid = (DataCatalogID) cathier.getObject();
-		catid.setDataCatalog(newChosenCatalogConcept);
-		catid.setSimpleCatalogName(newSimpleName);
-		catid.setCatalogBaseName(dataid.getCatalogBaseName());
-		catid.setDataCatalog(newChosenCatalogConcept);
-		catid.setSimpleCatalogName(newSimpleName);
-		*/
 		StandardDatasetObjectHierarchyItem subhiearchy = new StandardDatasetObjectHierarchyItem(subs,modal);
 		item.addSubItem(subhiearchy);
+		DatasetCatalogHierarchy catalog = (DatasetCatalogHierarchy) subs.getObject();
+		String catalogidID = catalog.getCatalogDataID();
+		DatabaseObjectHierarchy catalogidhier = subs.getSubObject(catalogidID);
+		DataCatalogID catalogID = (DataCatalogID) catalogidhier.getObject();
+		subcatagories.add(catalogID.getSimpleCatalogName());
 	}
 
 	@Override
 	public void conceptChosen(String topconcept, String concept, ArrayList<String> path) {
-		Window.alert("Concept Chosen: " + concept);
 		newChosenCatalogConcept = concept;
 		newChosenPath = path;
 		addSubCatagory();
