@@ -72,12 +72,6 @@ public class ManageCatalogHierarchy extends Composite {
 			Window.alert("Not logged in");
 		}
 	}
-	/*
-	public void saveCatagory() {
-		StandardDatasetObjectHierarchyItem item = (StandardDatasetObjectHierarchyItem) panel.getChildrenList().get(0);
-		item.writeDatabaseObjectHierarchy();
-	}
-		*/
 	@UiHandler("refresh")
 	public void onClickRefresh(ClickEvent event) {
 		panel.clear();

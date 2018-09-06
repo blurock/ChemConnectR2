@@ -33,10 +33,6 @@ public class StandardDatasetContactInfoHeader extends Composite implements SetLi
 	MaterialTooltip devicetooltip;
 	@UiField
 	MaterialLink contacthead;
-	@UiField
-	MaterialLink save;
-	@UiField
-	MaterialLink delete;
 	
 	StandardDatasetObjectHierarchyItem item;
 	ContactInfoData descr;
@@ -48,18 +44,8 @@ public class StandardDatasetContactInfoHeader extends Composite implements SetLi
 		descr = (ContactInfoData) item.getObject();
 		TextUtilities.setText(contacthead,descr.getEmail(), "Email");
 		devicetooltip.setText(descr.getIdentifier());
-		save.setEnabled(true);
 	}
 	
-	@UiHandler("save")
-	void onClickSave(ClickEvent event) {
-		Window.alert("Save Object");
-		item.writeDatabaseObjectHierarchy();
-	}
-	@UiHandler("delete")
-	void onClickDelete(ClickEvent event) {
-		Window.alert("Delete Object not implemented");
-	}
 	@UiHandler("contacthead")
 	void onClickHead(ClickEvent event) {
 		line = new InputLineModal("primary email address", "info@email.edu", this);

@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialLink;
+import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.MaterialTooltip;
 import info.esblurock.reaction.chemconnect.core.client.catalog.SaveDatasetCatalogHierarchy;
 import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
@@ -57,18 +58,17 @@ public class StandardDatasetOrganizationHeader extends Composite  implements Set
 		orgdescr = (OrganizationDescription) descrhier.getObject();
 		orghead.setText(orgdescr.getOrganizationName());
 		devicetooltip.setText(descr.getIdentifier());
-		save.setEnabled(true);
 	}
 	@UiHandler("save")
-	void onClickSave(ClickEvent event) {
+	public void onClickSave(ClickEvent event) {
 		SaveDatasetCatalogHierarchy savemodal = new SaveDatasetCatalogHierarchy(item);
 		item.getModalpanel().clear();
 		item.getModalpanel().add(savemodal);
 		savemodal.openModal();
 	}
 	@UiHandler("delete")
-	void onClickDelete(ClickEvent event) {
-		Window.alert("Delete Object not implemented");
+	public void onClickDelete(ClickEvent event) {
+		MaterialToast.fireToast("Delete not implemented yet");
 	}
 
 	public void updateData() {

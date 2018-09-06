@@ -55,10 +55,6 @@ public class StandardDatasetOrganizationDescriptionHeader extends Composite
 	MaterialTooltip orgunittooltip;
 	@UiField
 	MaterialLink orgunit;
-	@UiField
-	MaterialLink delete;
-	@UiField
-	MaterialLink save;
 	
 	StandardDatasetObjectHierarchyItem item;
 	OrganizationDescription descr;
@@ -97,13 +93,6 @@ public class StandardDatasetOrganizationDescriptionHeader extends Composite
 		orgname.setText(name);
 	}
 	
-	@UiHandler("save")
-	void onClickSave(ClickEvent event) {
-		SaveDatasetCatalogHierarchy savemodal = new SaveDatasetCatalogHierarchy(item);
-		item.getModalpanel().clear();
-		item.getModalpanel().add(savemodal);
-		savemodal.openModal();
-	}
 	@UiHandler("orgname")
 	void onClickOrgName(ClickEvent event) {
 		line = new InputLineModal("Input organization name","Combustion Kinetics Group",this);
@@ -132,10 +121,6 @@ public class StandardDatasetOrganizationDescriptionHeader extends Composite
 		choosecat = new ChooseFromConceptHierarchies(choices,this);
 		item.getModalpanel().add(choosecat);
 		choosecat.open();
-	}
-	@UiHandler("delete")
-	void onClickDelete(ClickEvent event) {
-		Window.alert("Delete Object not implemented");
 	}
 	@Override
 	public void setLineContent(String line) {

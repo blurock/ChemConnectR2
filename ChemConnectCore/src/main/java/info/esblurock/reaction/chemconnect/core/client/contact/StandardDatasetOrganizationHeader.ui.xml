@@ -5,7 +5,7 @@
 		font-weight: bold;
 	}
 	</ui:style>
-	<m:MaterialRow>
+	<m:MaterialRow margin="0">
 		<m:MaterialColumn grid="s9">
 			<m:MaterialTooltip ui:field="devicetooltip">
 			<m:MaterialLink ui:field="orghead" textColor="BLACK" />
