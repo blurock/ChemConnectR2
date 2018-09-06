@@ -8,6 +8,10 @@
 		border: 1px solid #607d8b;
 		margin: 0px;
 	}
+	.text {
+		font-color: #000000;
+		font-size: 150%;
+	}
 	</ui:style>
 	<m:MaterialModal ui:field="modal" type="DEFAULT"
 		inDuration="500" outDuration="500" dismissible="true" height="200px">
@@ -18,7 +22,7 @@
 						<m:MaterialCheckBox ui:field="databasecheckbox" />
 					</m:MaterialColumn>
 					<m:MaterialColumn grid="s11">
-						<m:MaterialLabel ui:field="databasetextbox" />
+						<m:MaterialLabel ui:field="databasetextbox" textColor="BLACK"/>
 					</m:MaterialColumn>
 				</m:MaterialRow>
 				<m:MaterialRow styleName="{style.box}">
@@ -26,7 +30,7 @@
 						<m:MaterialCheckBox ui:field="yamlcheckbox" />
 					</m:MaterialColumn>
 					<m:MaterialColumn grid="s11">
-						<m:MaterialLabel ui:field="yamltextbox" />
+						<m:MaterialLabel ui:field="yamltextbox" textColor="BLACK"/>
 					</m:MaterialColumn>
 				</m:MaterialRow>
 			</m:MaterialPanel>
