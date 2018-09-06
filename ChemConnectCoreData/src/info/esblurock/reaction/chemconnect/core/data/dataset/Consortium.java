@@ -28,7 +28,7 @@ public class Consortium extends ChemConnectDataStructure {
 		DataSetCatalogID = new HashSet<String>();
 		OrganizationID = new HashSet<String>();
 	}
-	
+
 	public Consortium(String identifier, String sourceID) {
 		super(identifier, sourceID);
 		DatabaseUserIDReadAccess = new HashSet<String>();

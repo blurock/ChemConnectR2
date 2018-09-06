@@ -115,6 +115,7 @@ public enum InterpretData {
 		@Override
 		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
 			DatabaseObject objcpy = new DatabaseObject(obj);
+			objcpy.nullKey();
 			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(objcpy);
 			return hierarchy;
 		}
@@ -247,6 +248,7 @@ public enum InterpretData {
 		public DatabaseObjectHierarchy createEmptyObject(
 				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
 			DatabaseObject compobj = new DatabaseObject(obj);
+			compobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(OntologyKeys.chemConnectCompoundDataStructure);
 			String compid = createSuffix(obj, element);
@@ -262,6 +264,7 @@ public enum InterpretData {
 		@Override
 		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
 			DatabaseObject refobj = new DatabaseObject(obj);
+			refobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(OntologyKeys.datacatalogid);
 			String catid = createSuffix(obj, element);
@@ -376,6 +379,7 @@ public enum InterpretData {
 		@Override
 		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
 			DatabaseObject refobj = new DatabaseObject(obj);
+			refobj.nullKey();
 			String dataType = "noType";
 			ChemConnectCompoundMultiple refmult = new ChemConnectCompoundMultiple(refobj,dataType);
 			DatabaseObjectHierarchy refhier = new DatabaseObjectHierarchy(refmult);
@@ -414,6 +418,7 @@ public enum InterpretData {
 		@Override
 		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
 			DatabaseObject obsobj = new DatabaseObject(obj);
+			obsobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(OntologyKeys.setOfObservationValues);
 			String obsid = createSuffix(obj, element);
@@ -500,6 +505,7 @@ public enum InterpretData {
 		@Override
 		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
 			DatabaseObject subsysobj = new DatabaseObject(obj);
+			subsysobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(OntologyKeys.subSystemDescription);
 			String subsysid = createSuffix(obj, element);
@@ -572,6 +578,7 @@ public enum InterpretData {
 		public DatabaseObjectHierarchy createEmptyObject(
 				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
 			DatabaseObject methobj = new DatabaseObject(obj);
+			methobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(OntologyKeys.methodology);
 			String methid = createSuffix(obj, element);
@@ -635,6 +642,7 @@ public enum InterpretData {
 		@Override
 		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
 			DatabaseObject catobj = new DatabaseObject(obj);
+			catobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(OntologyKeys.datasetCatalogHierarchy);
 			String catid = createSuffix(obj, element);
@@ -699,6 +707,7 @@ public enum InterpretData {
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(OntologyKeys.purposeConceptPair);
 			DatabaseObject conceptobj = new DatabaseObject(obj);
+			conceptobj.nullKey();
 			String conceptid = createSuffix(obj, element);
 			conceptobj.setIdentifier(conceptid);
 			ChemConnectCompoundDataStructure conceptcompound = new ChemConnectCompoundDataStructure(conceptobj,
@@ -773,6 +782,7 @@ public enum InterpretData {
 		public DatabaseObjectHierarchy createEmptyObject(
 				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
 			DatabaseObject descrobj = new DatabaseObject(obj);
+			descrobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(OntologyKeys.descriptionDataData);
 			String descrid = createSuffix(obj, element);
@@ -798,49 +808,7 @@ public enum InterpretData {
 			return descrhier;
 		}
 
-	}, /*CatalogName {
-
-		@Override
-		public info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject fillFromYamlString(
-				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject top, Map<String, Object> yaml,
-				String sourceID) throws IOException {
-
-			DescriptionDataData descdata = null;
-			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
-			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);
-
-			String titleS = (String) yaml.get(StandardDatasetMetaData.titleKeyS);
-			return null;
-		}
-
-		@Override
-		public Map<String, Object> createYamlFromObject(
-				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject object) throws IOException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject readElementFromDatabase(
-				String identifier) throws IOException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public String canonicalClassName() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public DatabaseObjectHierarchy createEmptyObject(
-				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
-			// TODO Auto-generated method stub
-			return null;
-		}
-		
-	}*/
+	},
 	DataSpecification {
 
 		@Override
@@ -883,6 +851,7 @@ public enum InterpretData {
 		@Override
 		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
 			DatabaseObject descrobj = new DatabaseObject(obj);
+			descrobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(OntologyKeys.dataSpecification);
 			String descrid = createSuffix(obj, element);
@@ -933,6 +902,7 @@ public enum InterpretData {
 		@Override
 		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
 			DatabaseObject descrobj = new DatabaseObject(obj);
+			descrobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(OntologyKeys.dimensionParameterValue);
 			String descrid = createSuffix(obj, element);
@@ -982,6 +952,7 @@ public enum InterpretData {
 		@Override
 		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
 			DatabaseObject descrobj = new DatabaseObject(obj);
+			descrobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(OntologyKeys.measurementParameterValue);
 			String descrid = createSuffix(obj, element);
@@ -1042,6 +1013,7 @@ public enum InterpretData {
 		public DatabaseObjectHierarchy createEmptyObject(
 				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
 			DatabaseObject descrobj = new DatabaseObject(obj);
+			descrobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(OntologyKeys.parameterValue);
 			String descrid = createSuffix(obj, element);
@@ -1170,6 +1142,7 @@ public enum InterpretData {
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(OntologyKeys.measureSpecification);
 			DatabaseObject specobj = new DatabaseObject(obj);
+			specobj.nullKey();
 			String specsid = createSuffix(obj, element);
 			specobj.setIdentifier(specsid);
 			DatabaseObjectHierarchy spechier = InterpretData.ParameterSpecification.createEmptyObject(specobj);			
@@ -1216,6 +1189,7 @@ public enum InterpretData {
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(OntologyKeys.dimensionSpecification);
 			DatabaseObject specobj = new DatabaseObject(obj);
+			specobj.nullKey();
 			String specsid = createSuffix(obj, element);
 			specobj.setIdentifier(specsid);
 
@@ -1274,6 +1248,7 @@ public enum InterpretData {
 		public DatabaseObjectHierarchy createEmptyObject(
 				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
 			DatabaseObject unitsobj = new DatabaseObject(obj);
+			unitsobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(OntologyKeys.valueUnits);
 			String unitsid = createSuffix(obj, element);
@@ -1333,6 +1308,7 @@ public enum InterpretData {
 		@Override
 		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
 			DatabaseObject specobj = new DatabaseObject(obj);
+			specobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(OntologyKeys.observationSpecs);
 			String specsid = createSuffix(obj, element);
@@ -1363,6 +1339,7 @@ public enum InterpretData {
 		@Override
 		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
 			DatabaseObject matspecobj = new DatabaseObject(obj);
+			matspecobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(StandardDatasetMetaData.matrixSpecificationCorrespondenceSet);
 			String contactid = createSuffix(obj, element);
@@ -1433,6 +1410,7 @@ public enum InterpretData {
 		public DatabaseObjectHierarchy createEmptyObject(
 				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
 			DatabaseObject matobj = new DatabaseObject(obj);
+			matobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(StandardDatasetMetaData.matrixSpecificationCorrespondence);
 			String matid = createSuffix(obj, element);
@@ -1489,6 +1467,7 @@ public enum InterpretData {
 		public DatabaseObjectHierarchy createEmptyObject(
 				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
 			DatabaseObject matobj = new DatabaseObject(obj);
+			matobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(StandardDatasetMetaData.observationMatrixValues);
 			String matid = createSuffix(obj, element);
@@ -1554,6 +1533,7 @@ public enum InterpretData {
 		public DatabaseObjectHierarchy createEmptyObject(
 				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
 			DatabaseObject matobj = new DatabaseObject(obj);
+			matobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(StandardDatasetMetaData.matrixBlockDefinition);
 			String matid = createSuffix(obj, element);
@@ -1619,6 +1599,7 @@ public enum InterpretData {
 		@Override
 		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
 			DatabaseObject rowobj = new DatabaseObject(obj);
+			rowobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(StandardDatasetMetaData.observationValueRow);
 			String rowid = createSuffix(obj, element);
@@ -1674,6 +1655,7 @@ public enum InterpretData {
 		public DatabaseObjectHierarchy createEmptyObject(
 				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
 			DatabaseObject rowobj = new DatabaseObject(obj);
+			rowobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(StandardDatasetMetaData.observationValueRowTitle);
 			String rowid = createSuffix(obj, element);
@@ -1765,6 +1747,7 @@ public enum InterpretData {
 		public DatabaseObjectHierarchy createEmptyObject(
 				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
 			DatabaseObject contactobj = new DatabaseObject(obj);
+			contactobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(OntologyKeys.contactInfoData);
 			String contactid = createSuffix(obj, element);
@@ -1841,6 +1824,7 @@ public enum InterpretData {
 		public DatabaseObjectHierarchy createEmptyObject(
 				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
 			DatabaseObject contactobj = new DatabaseObject(obj);
+			contactobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(OntologyKeys.contactLocationInformation);
 			String contactid = createSuffix(obj, element);
@@ -1904,6 +1888,7 @@ public enum InterpretData {
 		public DatabaseObjectHierarchy createEmptyObject(
 				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
 			DatabaseObject gpsobj = new DatabaseObject(obj);
+			gpsobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(OntologyKeys.gPSLocation);
 			String gpsid = createSuffix(obj, element);
@@ -1968,6 +1953,7 @@ public enum InterpretData {
 		public DatabaseObjectHierarchy createEmptyObject(
 				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
 			DatabaseObject orgobj = new DatabaseObject(obj);
+			orgobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(OntologyKeys.organizationDescription);
 			String orgid = createSuffix(obj, element);
@@ -2033,6 +2019,7 @@ public enum InterpretData {
 		public DatabaseObjectHierarchy createEmptyObject(
 				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
 			DatabaseObject refobj = new DatabaseObject(obj);
+			refobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(OntologyKeys.dataSetReference);
 			String refid = createSuffix(obj, element);
@@ -2095,6 +2082,7 @@ public enum InterpretData {
 		public DatabaseObjectHierarchy createEmptyObject(
 				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
 			DatabaseObject linkobj = new DatabaseObject(obj);
+			linkobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(OntologyKeys.dataObjectLink);
 			String linkid = createSuffix(obj, element);
@@ -2153,6 +2141,7 @@ public enum InterpretData {
 		public DatabaseObjectHierarchy createEmptyObject(
 				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
 			DatabaseObject personobj = new DatabaseObject(obj);
+			personobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(OntologyKeys.personalDescription);
 			String personid = createSuffix(obj, element);
@@ -2220,6 +2209,7 @@ public enum InterpretData {
 		public DatabaseObjectHierarchy createEmptyObject(
 				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
 			DatabaseObject personobj = new DatabaseObject(obj);
+			personobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(OntologyKeys.nameOfPerson);
 			String personid = createSuffix(obj, element);
@@ -2281,6 +2271,7 @@ public enum InterpretData {
 		@Override
 		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
 			DatabaseObject indobj = new DatabaseObject(obj);
+			indobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(OntologyKeys.individualInformation);
 			String indid = createSuffix(obj, element);
@@ -2354,6 +2345,7 @@ public enum InterpretData {
 		public DatabaseObjectHierarchy createEmptyObject(
 				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
 			DatabaseObject compobj = new DatabaseObject(obj);
+			compobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(OntologyKeys.organization);
 			String compid = createSuffix(obj, element);
@@ -2425,6 +2417,7 @@ public enum InterpretData {
 		public DatabaseObjectHierarchy createEmptyObject(
 				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
 			DatabaseObject userobj = new DatabaseObject(obj);
+			userobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(OntologyKeys.useraccountid);
 			String userid = createSuffix(obj, element);
@@ -2483,6 +2476,7 @@ public enum InterpretData {
 		public DatabaseObjectHierarchy createEmptyObject(
 				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
 			DatabaseObject userobj = new DatabaseObject(obj);
+			userobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(OntologyKeys.useraccount);
 			String userid = createSuffix(obj, element);
@@ -2563,7 +2557,6 @@ public enum InterpretData {
 		@Override
 		public DatabaseObjectHierarchy createEmptyObject(
 				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
