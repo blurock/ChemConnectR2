@@ -30,37 +30,49 @@ public class StandardDatasetContactInfoHeader extends Composite implements SetLi
 	}
 
 	@UiField
-	MaterialTooltip devicetooltip;
+	MaterialTooltip contacttypetooltip;
 	@UiField
-	MaterialLink contacthead;
+	MaterialLink contacttype;
+	@UiField
+	MaterialTooltip contactkeytooltip;
+	@UiField
+	MaterialLink contactkey;
 	
 	StandardDatasetObjectHierarchyItem item;
-	ContactInfoData descr;
+	ContactInfoData contact;
 	InputLineModal line;
+	String contactType;
 	
 	public StandardDatasetContactInfoHeader(StandardDatasetObjectHierarchyItem item) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.item = item;
-		descr = (ContactInfoData) item.getObject();
-		TextUtilities.setText(contacthead,descr.getEmail(), "Email");
-		devicetooltip.setText(descr.getIdentifier());
+		init();
+		contact = (ContactInfoData) item.getObject();
+		contactType = contact.getContactType();
+		contacttype.setText(TextUtilities.removeNamespace(contact.getContactType()));
+		contactkey.setText(contact.getContact());
+	}
+	void init() {
+		contacttypetooltip.setText("Type of contact information");
+		contactkeytooltip.setText("Contact information");
 	}
 	
-	@UiHandler("contacthead")
+	@UiHandler("contactkey")
 	void onClickHead(ClickEvent event) {
-		line = new InputLineModal("primary email address", "info@email.edu", this);
+		line = new InputLineModal("HTTP address", "https://", this);
 		item.getModalpanel().add(line);
 		line.openModal();
 	}
 
 	public boolean updateData() {
-		descr.setEmail(contacthead.getText());
-		return true;
+		contact.setContact(contactkey.getText());
+		contact.setContactType(contactType);
+		return false;
 	}
 
 	@Override
 	public void setLineContent(String line) {
-		contacthead.setText(line);
+		contactkey.setText(line);
 	}
 	
 }

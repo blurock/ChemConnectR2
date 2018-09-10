@@ -259,7 +259,41 @@ public enum SetUpCollapsibleItem {
 			return true;
 		}
 		
-	}, ChemConnectMethodology {
+	}, ObservationMatrixValues {
+
+		@Override
+		public void addInformation(StandardDatasetObjectHierarchyItem item) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public boolean update(StandardDatasetObjectHierarchyItem item) {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public int priority() {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public boolean isInformation() {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public boolean addSubitems() {
+			// TODO Auto-generated method stub
+			return false;
+		}
+		
+	},
+	
+	ChemConnectMethodology {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {

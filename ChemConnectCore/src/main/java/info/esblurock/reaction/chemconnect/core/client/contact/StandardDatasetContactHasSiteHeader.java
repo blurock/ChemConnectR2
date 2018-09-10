@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialTooltip;
 import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
+import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.data.contact.ContactHasSite;
 
 public class StandardDatasetContactHasSiteHeader extends Composite {
@@ -29,25 +30,25 @@ public class StandardDatasetContactHasSiteHeader extends Composite {
 	@UiField
 	MaterialLink httpaddress;
 	@UiField
-	MaterialTooltip descriptiontooltip;
-	@UiField
-	MaterialLink description;
-	@UiField
 	MaterialTooltip linktypetooltip;
 	@UiField
 	MaterialLink linktype;
 
 	StandardDatasetObjectHierarchyItem item;
 	ContactHasSite  site;
+	String httpType;
 	
 	public StandardDatasetContactHasSiteHeader(StandardDatasetObjectHierarchyItem item) {
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
 		site = (ContactHasSite ) item.getObject();
+		httpType = site.getHttpAddressType();
 		httpaddress.setText(site.getHttpAddress());
+		linktype.setText(TextUtilities.removeNamespace(site.getHttpAddressType()));
 	}
 	private void init() {
-		httptooltip.setText("Http Address");
+		httptooltip.setText("Link Address");
+		linktypetooltip.setText("Type of link");
 	}
 	
 	

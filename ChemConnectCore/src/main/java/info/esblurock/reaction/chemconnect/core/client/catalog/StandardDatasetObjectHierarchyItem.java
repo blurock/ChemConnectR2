@@ -7,7 +7,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -105,7 +104,6 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 	}
 
 	public void addSubItems(DatabaseObjectHierarchy hierarchy) {
-		Window.alert("addSubItems: " + hierarchy.getObject().getIdentifier());
 		boolean multipleB = hierarchy.getObject().getClass().getCanonicalName()
 				.compareTo(ChemConnectCompoundMultiple.class.getCanonicalName()) == 0;
 		boolean multinfoB = false;
