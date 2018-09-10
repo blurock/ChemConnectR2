@@ -4,6 +4,7 @@ import info.esblurock.reaction.chemconnect.core.client.catalog.hierarchy.Standar
 import info.esblurock.reaction.chemconnect.core.client.catalog.link.PrimitiveDataObjectLinkRow;
 import info.esblurock.reaction.chemconnect.core.client.catalog.multiple.ChemConnectCompoundMultipleHeader;
 import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatabasePersonalDescriptionHeader;
+import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetContactHasSiteHeader;
 import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetContactInfoHeader;
 import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetContactLocationInformationHeader;
 import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetIndividualInformation;
@@ -741,6 +742,34 @@ public enum SetUpCollapsibleItem {
 		@Override
 		public boolean addSubitems() {
 			return true;
+		}
+		
+	}, ContactHasSite {
+
+		@Override
+		public void addInformation(StandardDatasetObjectHierarchyItem item) {
+			StandardDatasetContactHasSiteHeader header = new StandardDatasetContactHasSiteHeader(item);
+			item.addHeader(header);
+		}
+
+		@Override
+		public boolean update(StandardDatasetObjectHierarchyItem item) {
+			return false;
+		}
+
+		@Override
+		public int priority() {
+			return 100;
+		}
+
+		@Override
+		public boolean isInformation() {
+			return true;
+		}
+
+		@Override
+		public boolean addSubitems() {
+			return false;
 		}
 		
 	},

@@ -11,29 +11,14 @@ import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 public class ContactInfoData extends ChemConnectCompoundDataStructure {
 
 	   	@Index
-	   	String email;
+	   	String contactType;
 	    @Index
-	    String topSites;
-	    @Index
-	    String hasSites;
+	    String contact;
 	    
 	    public ContactInfoData() {
 			super();
-			this.email = "";
-			this.topSites = "";
-			this.hasSites = "";
-		}
-	    public ContactInfoData(String identifier, String sourceID) {
-	    	super(identifier,sourceID);
-			this.email = "";
-			this.topSites = "";
-			this.hasSites = "";
-		}
-	    public ContactInfoData(ChemConnectCompoundDataStructure obj) {
-	    	super(obj);
-			this.email = "";
-			this.topSites = "";
-			this.hasSites = "";
+			this.contactType = "";
+			this.contact = "";
 		}
 	    
 	    /**
@@ -45,57 +30,48 @@ public class ContactInfoData extends ChemConnectCompoundDataStructure {
 	     * @param hasSite The web-site associated with the contact
 	     */
 	    public ContactInfoData(ChemConnectCompoundDataStructure obj,
-	    		String email, String topSites, String hasSites) {
-			fill(obj,email,topSites,hasSites);
+	    		String contactType, String contact) {
+			fill(obj,contactType,contact);
 		}
 
 	    public void fill(ChemConnectCompoundDataStructure obj,
-	    		String email, String topSites, String hasSites) {
+	    		String contactType, String contact) {
 			super.fill(obj);
-			this.email = email;
-			this.topSites = topSites;
-			this.hasSites = hasSites;
+			this.contactType = contactType;
+			this.contact = contact;
 		}
 	    @Override
 	    public void fill(DatabaseObject object) {
 	    		super.fill(object);
 	    		ContactInfoData contact = (ContactInfoData) object;
-				this.email = contact.getEmail();
-				this.topSites = contact.getTopSite();
-				this.hasSites = contact.getHasSite();	    		
+				this.contactType = contact.getContactType();
+				this.contact = contact.getContact();	    		
 	    }
 	    
-		public String getEmail() {
-			return email;
+		public String getContactType() {
+			return contactType;
 		}
 
-		public void setEmail(String email) {
-			this.email = email;
-		}
-		public String getTopSite() {
-			return topSites;
+		public String getContact() {
+			return contact;
 		}
 
-		public String getHasSite() {
-			return hasSites;
+		public void setContactType(String contactType) {
+			this.contactType = contactType;
 		}
 
-		public void setTopSite(String topSites) {
-			this.topSites = topSites;
+		public void setContact(String contact) {
+			this.contact = contact;
 		}
 
-		public void setHasSite(String hasSites) {
-			this.hasSites = hasSites;
-		}
 		public String toString() {
 			return toString("");
 		}
 		public String toString(String prefix) {
 			StringBuilder builder = new StringBuilder();
 			builder.append(super.toString(prefix));
-			builder.append(prefix + "email: " + email + "\n");
-			builder.append(prefix + "topSite: " + topSites + "\n");
-			builder.append(prefix + "hasSite: " + hasSites + "\n");
+			builder.append(prefix + "contactType: " + contactType + "\n");
+			builder.append(prefix + "contact: " + contact + "\n");
 			return builder.toString();
 		}	
 }

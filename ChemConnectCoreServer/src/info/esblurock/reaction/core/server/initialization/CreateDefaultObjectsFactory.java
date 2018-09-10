@@ -14,6 +14,8 @@ import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMul
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.concepts.AttributeDescription;
+import info.esblurock.reaction.chemconnect.core.data.contact.ContactHasSite;
+import info.esblurock.reaction.chemconnect.core.data.contact.ContactInfoData;
 import info.esblurock.reaction.chemconnect.core.data.contact.IndividualInformation;
 import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
 import info.esblurock.reaction.chemconnect.core.data.contact.Organization;
@@ -95,6 +97,10 @@ public class CreateDefaultObjectsFactory {
 		setOneLineDescription(infohier, onlinedescription);
 		setDescriptionInHierarchy(infohier,info.getDescriptionDataData(),personDescription,username);
 
+		createContactInfoData(infohier,info.getContactInfoData(),"dataset:EmailContactType","first.last@email.com");
+		createContactInfoData(infohier,info.getContactInfoData(),"dataset:TelephoneContactType","+00-000-000-0000");
+		createContactHasSite(infohier,info.getContactHasSite(),"dataset:CompanyHomepage","https://homepage.com");
+		
 		String concept = "dataset:ChemConnectContactUser";
 		String purpose = "dataset:PurposeUser";
 		setPurposeConceptPair(infohier, concept, purpose);
@@ -102,6 +108,45 @@ public class CreateDefaultObjectsFactory {
 		return infohier;
 	}
 
+	public static void createContactInfoData(DatabaseObjectHierarchy infohier, String id,
+			String contactType, String contactkey) {
+		DatabaseObjectHierarchy contactmulthier = infohier.getSubObject(id);
+		
+		ChemConnectCompoundMultiple contactmult = (ChemConnectCompoundMultiple) contactmulthier.getObject();
+		int numlinks = contactmult.getIds().size();
+		String numlinkS = Integer.toString(numlinks);
+		
+		DatabaseObjectHierarchy contacthier = InterpretData.ContactInfoData.createEmptyObject(contactmult);
+		ContactInfoData contact = (ContactInfoData) contacthier.getObject();
+		String newid = contact.getIdentifier() + numlinkS;
+		contact.setIdentifier(newid);
+		
+		contactmult.addID(contact.getIdentifier());
+		contactmulthier.addSubobject(contacthier);
+		
+		contact.setContactType(contactType);
+		contact.setContact(contactkey);
+	}
+	
+	public static void createContactHasSite(DatabaseObjectHierarchy infohier, String id,
+			String siteType, String sitekey) {		
+		DatabaseObjectHierarchy contactmulthier = infohier.getSubObject(id);		
+		ChemConnectCompoundMultiple contactmult = (ChemConnectCompoundMultiple) contactmulthier.getObject();
+		int numlinks = contactmult.getIds().size();
+		String numlinkS = Integer.toString(numlinks);
+		
+		DatabaseObjectHierarchy contacthier = InterpretData.ContactHasSite.createEmptyObject(contactmult);
+		ContactHasSite site = (ContactHasSite) contacthier.getObject();
+		String newid = site.getIdentifier() + numlinkS;
+		site.setIdentifier(newid);
+
+		contactmult.addID(site.getIdentifier());
+		contactmulthier.addSubobject(contacthier);
+		
+		site.setHttpAddressType(siteType);
+		site.setHttpAddress(sitekey);
+	}
+		
 	public static void insertDataCatalogID(DatabaseObjectHierarchy hierarchy, DataCatalogID datid) {
 		ChemConnectDataStructure info = (ChemConnectDataStructure) hierarchy.getObject();
 		DatabaseObjectHierarchy catidhier = hierarchy.getSubObject(info.getCatalogDataID());

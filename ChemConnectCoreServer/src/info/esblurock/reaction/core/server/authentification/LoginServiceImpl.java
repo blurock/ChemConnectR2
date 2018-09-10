@@ -113,9 +113,9 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 				verify(login, login);
 				//String directory = "upload/" + user.getName() + "/";
 				String directory = "upload/";
-				System.out.println("----------------------------------------------------------");
+				//System.out.println("----------------------------------------------------------");
 				System.out.println("Blob list: '" + directory + "'");
-				System.out.println("----------------------------------------------------------");
+				//System.out.println("----------------------------------------------------------");
 				DatabaseObject obj = new DatabaseObject("chemconnect",user.getName(),user.getName(),"1");
 				//HierarchyNode topnode = GoogleCloudStorageBase.getBlobHierarchy(obj,"chemconnect",directory);
 				//System.out.println(topnode.toString("getBlobHierarchy blobs: "));

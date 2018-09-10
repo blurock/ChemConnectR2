@@ -11,16 +11,16 @@
 		<m:MaterialPanel ui:field="topPanel" />
 		<m:MaterialCollapsible ui:field="contentcollapsible">
 			<m:MaterialCollapsibleItem>
-				<m:MaterialCollapsibleHeader>
-					<m:MaterialLink ui:field="organizationExisingHeader" />
+				<m:MaterialCollapsibleHeader margin="0">
+					<m:MaterialLink ui:field="organizationExisingHeader" textColor="BLACK"/>
 				</m:MaterialCollapsibleHeader>
 				<m:MaterialCollapsibleBody>
 					<m:MaterialCollapsible ui:field="existingOrgs" />
 				</m:MaterialCollapsibleBody>
 			</m:MaterialCollapsibleItem>
 			<m:MaterialCollapsibleItem>
-				<m:MaterialCollapsibleHeader>
-					<m:MaterialLink ui:field="organizationCreatedHeader" />
+				<m:MaterialCollapsibleHeader margin="0">
+							<m:MaterialLink ui:field="organizationCreatedHeader" textColor="BLACK"/>
 				</m:MaterialCollapsibleHeader>
 				<m:MaterialCollapsibleBody>
 					<m:MaterialCollapsible ui:field="createdOrgs" />

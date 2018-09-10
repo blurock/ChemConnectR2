@@ -14,6 +14,7 @@ public class RegisterContactData {
 		ObjectifyService.register(GPSLocation.class);
 		ObjectifyService.register(IndividualInformation.class);
 		ObjectifyService.register(NameOfPerson.class);
+		ObjectifyService.register(ContactHasSite.class);
 	}
 	
 	public static void reset() {
@@ -25,5 +26,6 @@ public class RegisterContactData {
 		ResetDatabaseObjects.resetClass(GPSLocation.class);
 		ResetDatabaseObjects.resetClass(IndividualInformation.class);
 		ResetDatabaseObjects.resetClass(NameOfPerson.class);
+		ResetDatabaseObjects.resetClass(ContactHasSite.class);
 	}
 }

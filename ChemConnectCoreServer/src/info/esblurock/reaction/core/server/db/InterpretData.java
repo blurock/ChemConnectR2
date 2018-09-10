@@ -61,6 +61,7 @@ import info.esblurock.reaction.chemconnect.core.data.observations.matrix.MatrixS
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRowTitle;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationMatrixValues;
+import info.esblurock.reaction.chemconnect.core.data.contact.ContactHasSite;
 
 public enum InterpretData {
 
@@ -136,9 +137,11 @@ public enum InterpretData {
 			String dataSetReferenceS    = (String) yaml.get(StandardDatasetMetaData.dataSetReferenceS);
 			String dataObjectLinkS      = (String) yaml.get(StandardDatasetMetaData.parameterObjectLinkS);
 			String catalogDataIDS      = (String) yaml.get(StandardDatasetMetaData.DataCatalogIDID);
+			String contactHasSiteS      = (String) yaml.get(StandardDatasetMetaData.ContactHasSiteID);
 			
 			datastructure = new ChemConnectDataStructure(objdata, 
-					descriptionDataDataS, dataSetReferenceS,dataObjectLinkS, catalogDataIDS);
+					descriptionDataDataS, dataSetReferenceS,dataObjectLinkS, 
+					catalogDataIDS, contactHasSiteS);
 			
 			
 			return datastructure;
@@ -154,6 +157,7 @@ public enum InterpretData {
 			map.put(StandardDatasetMetaData.dataSetReferenceS, datastructure.getDataSetReference());
 			map.put(StandardDatasetMetaData.parameterObjectLinkS, datastructure.getChemConnectObjectLink());
 			map.put(StandardDatasetMetaData.DataCatalogIDID, datastructure.getCatalogDataID());
+			map.put(StandardDatasetMetaData.ContactHasSiteID, datastructure.getContactHasSite());
 
 			return map;
 		}
@@ -183,6 +187,8 @@ public enum InterpretData {
 			DatabaseObjectHierarchy descrhier = InterpretData.DescriptionDataData.createEmptyObject(obj);
 			DescriptionDataData descr = (DescriptionDataData) descrhier.getObject();
 			
+			DatabaseObjectHierarchy sitehier = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(compobj);
+			setChemConnectCompoundMultipleType(sitehier,OntologyKeys.contactHasSite);
 			DatabaseObjectHierarchy refhier = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(compobj);
 			setChemConnectCompoundMultipleType(refhier,OntologyKeys.dataSetReference);
 			DatabaseObjectHierarchy lnkhier = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(compobj);
@@ -192,13 +198,15 @@ public enum InterpretData {
 					descr.getIdentifier(), 
 					refhier.getObject().getIdentifier(),
 					lnkhier.getObject().getIdentifier(),
-					cathier.getObject().getIdentifier());
+					cathier.getObject().getIdentifier(),
+					sitehier.getObject().getIdentifier());
 
 			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(compound);
 			hierarchy.addSubobject(descrhier);
 			hierarchy.addSubobject(refhier);
 			hierarchy.addSubobject(lnkhier);
 			hierarchy.addSubobject(cathier);
+			hierarchy.addSubobject(sitehier);
 
 			return hierarchy;
 		}
@@ -1680,8 +1688,7 @@ public enum InterpretData {
 		}
 
 		@Override
-		public Map<String, Object> createYamlFromObject(
-				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject object) throws IOException {
+		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
 			ObservationValueRowTitle rowtitles = (ObservationValueRowTitle) object;
 
 			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
@@ -1702,6 +1709,62 @@ public enum InterpretData {
 			return ObservationValueRowTitle.class.getCanonicalName();
 		}
 		
+	}, ContactHasSite {
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
+			DatabaseObject rowobj = new DatabaseObject(obj);
+			rowobj.nullKey();
+			DataElementInformation element = DatasetOntologyParsing
+					.getSubElementStructureFromIDObject(OntologyKeys.contactHasSite);
+			String rowid = createSuffix(obj, element);
+			rowobj.setIdentifier(rowid);
+			
+			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
+			DatabaseObjectHierarchy compoundhier = interpret.createEmptyObject(obj);
+			ChemConnectCompoundDataStructure structure = (ChemConnectCompoundDataStructure) compoundhier.getObject();
+			String httpaddress = "https://homepage.com";
+			String httpaddressType = "dataset:PersonalHomepage";
+			ContactHasSite hassite = new ContactHasSite(structure,httpaddress,httpaddressType);
+			hassite.setIdentifier(rowid);
+			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(hassite);
+			return hierarchy;
+		}
+
+		@Override
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml,
+				String sourceID) throws IOException {
+			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
+			ChemConnectCompoundDataStructure compound = (ChemConnectCompoundDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
+			String httpaddress = (String) yaml.get(StandardDatasetMetaData.siteOfS);
+			String httpaddressType = (String) yaml.get(StandardDatasetMetaData.siteTypeS);
+			ContactHasSite hassite = new ContactHasSite(compound,httpaddressType, httpaddress);
+			return hassite;
+		}
+
+		@Override
+		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
+			ContactHasSite sites = (ContactHasSite) object;
+
+			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
+			Map<String, Object> map = interpret.createYamlFromObject(object);
+
+			map.put(StandardDatasetMetaData.siteOfS, sites.getHttpAddress());
+			map.put(StandardDatasetMetaData.siteTypeS, sites.getHttpAddressType());
+
+			return map;
+		}
+
+		@Override
+		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(ContactHasSite.class.getCanonicalName(), identifier);
+		}
+
+		@Override
+		public String canonicalClassName() {
+			return ContactHasSite.class.getCanonicalName();
+		}
+	
 	}, ContactInfoData {
 
 		@Override
@@ -1711,11 +1774,10 @@ public enum InterpretData {
 			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
 			ChemConnectCompoundDataStructure objdata = (ChemConnectCompoundDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
 
-			String email = (String) yaml.get(StandardDatasetMetaData.emailKeyS);
-			String hasSite = (String) yaml.get(StandardDatasetMetaData.hasSiteS);
-			String siteOf = (String) yaml.get(StandardDatasetMetaData.siteOfS);
+			String contactkey = (String) yaml.get(StandardDatasetMetaData.contactKeyS);
+			String contacttype = (String) yaml.get(StandardDatasetMetaData.contactTypeS);
 
-			ContactInfoData contact = new ContactInfoData(objdata, email, hasSite, siteOf);
+			ContactInfoData contact = new ContactInfoData(objdata, contacttype, contactkey);
 			return contact;
 		}
 
@@ -1726,9 +1788,8 @@ public enum InterpretData {
 			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
-			map.put(StandardDatasetMetaData.emailKeyS, contact.getEmail());
-			map.put(StandardDatasetMetaData.hasSiteS, contact.getHasSite());
-			map.put(StandardDatasetMetaData.siteOfS, contact.getTopSite());
+			map.put(StandardDatasetMetaData.contactKeyS, contact.getContactType());
+			map.put(StandardDatasetMetaData.contactTypeS, contact.getContact());
 
 			return map;
 		}
@@ -1753,23 +1814,12 @@ public enum InterpretData {
 			String contactid = createSuffix(obj, element);
 			contactobj.setIdentifier(contactid);
 
-			DatabaseObjectHierarchy topsitesmult = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(contactobj);
-			setChemConnectCompoundMultipleType(topsitesmult,OntologyKeys.contactTopSite);
-			DatabaseObjectHierarchy hassitesmult = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(contactobj);
-			setChemConnectCompoundMultipleType(hassitesmult,OntologyKeys.contactHasSite);
 			DatabaseObjectHierarchy compoundhier = InterpretData.ChemConnectCompoundDataStructure.createEmptyObject(obj);
 			ChemConnectCompoundDataStructure compound = (ChemConnectCompoundDataStructure) compoundhier.getObject();
 
-			ContactInfoData contact = new ContactInfoData(compound,
-					"email",
-					topsitesmult.getObject().getIdentifier(),
-					hassitesmult.getObject().getIdentifier());
+			ContactInfoData contact = new ContactInfoData(compound, "contactType","contactKey");
 			contact.setIdentifier(contactid);
-			
 			DatabaseObjectHierarchy top = new DatabaseObjectHierarchy(contact);
-			top.addSubobject(topsitesmult);
-			top.addSubobject(hassitesmult);
-			
 			return top;
 		}
 
@@ -2231,14 +2281,15 @@ public enum InterpretData {
 			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
 			ChemConnectDataStructure datastructure = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
 
-			String contactInfoDataID = (String) yaml.get(StandardDatasetMetaData.contactKeyS);
-			String contactLocationInformationID = (String) yaml
-					.get(StandardDatasetMetaData.locationKeyS);
+			String contactLocationInformationID = (String) yaml.get(StandardDatasetMetaData.locationKeyS);
 			String personalDescriptionID = (String) yaml.get(StandardDatasetMetaData.personS);
+			String contactinfodataID = (String) yaml.get(OntologyKeys.contactInfoData);
 
 			org = new IndividualInformation(datastructure,
-					contactInfoDataID, contactLocationInformationID, 
-					personalDescriptionID);
+					contactLocationInformationID, 
+					personalDescriptionID,
+					contactinfodataID);
+			
 			return org;
 		}
 
@@ -2249,10 +2300,9 @@ public enum InterpretData {
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
 			IndividualInformation individual = (IndividualInformation) object;
-
-			map.put(StandardDatasetMetaData.contactKeyS, individual.getContactInfoDataID());
 			map.put(StandardDatasetMetaData.locationKeyS, individual.getContactLocationInformationID());
 			map.put(StandardDatasetMetaData.personS, individual.getPersonalDescriptionID());
+			map.put(OntologyKeys.contactInfoData, individual.getContactInfoData());
 
 			return map;
 		}
@@ -2280,16 +2330,20 @@ public enum InterpretData {
 			DatabaseObjectHierarchy compoundhier = InterpretData.ChemConnectDataStructure.createEmptyObject(indobj);
 			ChemConnectDataStructure structure = (ChemConnectDataStructure) compoundhier.getObject();
 
-			DatabaseObjectHierarchy contact = InterpretData.ContactInfoData.createEmptyObject(indobj);
+			DatabaseObjectHierarchy contacthier = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(indobj);
+			setChemConnectCompoundMultipleType(contacthier,OntologyKeys.contactInfoData);
+
 			DatabaseObjectHierarchy location = InterpretData.ContactLocationInformation.createEmptyObject(indobj);
 			DatabaseObjectHierarchy personalhier = InterpretData.PersonalDescription.createEmptyObject(indobj);
-			IndividualInformation info = new IndividualInformation(structure, contact.getObject().getIdentifier(),
-					location.getObject().getIdentifier(), personalhier.getObject().getIdentifier());
+			IndividualInformation info = new IndividualInformation(structure, 
+					location.getObject().getIdentifier(), 
+					personalhier.getObject().getIdentifier(),
+					contacthier.getObject().getIdentifier());
 			info.setIdentifier(indid);
 			DatabaseObjectHierarchy top = new DatabaseObjectHierarchy(info);
-			top.addSubobject(contact);
 			top.addSubobject(location);
 			top.addSubobject(personalhier);
+			top.addSubobject(contacthier);
 			top.transferSubObjects(compoundhier);
 
 			return top;
@@ -2306,14 +2360,18 @@ public enum InterpretData {
 			ChemConnectDataStructure datastructure = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml,
 					sourceID);
 
-			String contactInfoDataID = (String) yaml.get(StandardDatasetMetaData.contactKeyS);
+			String contactInfoData = (String) 
+					yaml.get(OntologyKeys.contactInfoData);
 			String contactLocationInformationID = (String) 
 					yaml.get(StandardDatasetMetaData.locationKeyS);
 			String organizationDescriptionID = (String) 
 					yaml.get(StandardDatasetMetaData.orginfoKeyS);
 		
-			org = new Organization(datastructure, contactInfoDataID,
-					contactLocationInformationID, organizationDescriptionID);
+			org = new Organization(datastructure,
+					contactLocationInformationID, 
+					organizationDescriptionID,
+					contactInfoData
+					);
 
 			return org;
 		}
@@ -2325,7 +2383,7 @@ public enum InterpretData {
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
 			Organization org = (Organization) object;
-			map.put(StandardDatasetMetaData.contactKeyS, org.getContactInfoDataID());
+			map.put(OntologyKeys.contactInfoData, org.getContactInfoData());
 			map.put(StandardDatasetMetaData.locationKeyS, org.getContactLocationInformationID());
 			map.put(StandardDatasetMetaData.orginfoKeyS, org.getOrganizationDescriptionID());
 			return map;
@@ -2350,19 +2408,22 @@ public enum InterpretData {
 					.getSubElementStructureFromIDObject(OntologyKeys.organization);
 			String compid = createSuffix(obj, element);
 			compobj.setIdentifier(compid);
-			DatabaseObjectHierarchy contact = InterpretData.ContactInfoData.createEmptyObject(compobj);
 			DatabaseObjectHierarchy location = InterpretData.ContactLocationInformation.createEmptyObject(compobj);
 			DatabaseObjectHierarchy orgdescr = InterpretData.OrganizationDescription.createEmptyObject(compobj);
+			DatabaseObjectHierarchy contacthier = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(compobj);
+			setChemConnectCompoundMultipleType(contacthier,OntologyKeys.contactInfoData);
 
 			DatabaseObjectHierarchy compoundhier = InterpretData.ChemConnectDataStructure.createEmptyObject(compobj);
 			ChemConnectDataStructure structure = (ChemConnectDataStructure) compoundhier.getObject();
-			Organization org = new Organization(structure, contact.getObject().getIdentifier(),
-					location.getObject().getIdentifier(), orgdescr.getObject().getIdentifier());
+			Organization org = new Organization(structure,
+					location.getObject().getIdentifier(), 
+					orgdescr.getObject().getIdentifier(),
+					contacthier.getObject().getIdentifier());
 			org.setIdentifier(compid);
 			DatabaseObjectHierarchy top = new DatabaseObjectHierarchy(org);
-			top.addSubobject(contact);
 			top.addSubobject(location);
 			top.addSubobject(orgdescr);
+			top.addSubobject(contacthier);
 			top.transferSubObjects(compoundhier);
 
 			return top;

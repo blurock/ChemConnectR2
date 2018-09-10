@@ -129,7 +129,7 @@ public class InitialDatabasePersonTest {
 			
 			System.out.println("----------------------------------------------------------------");
 			//String uid = DatasetCatalogHierarchy.createFullCatalogName("Catalog", username);
-			String uid = "AdministrationCatalog-usrinfo";
+			String uid = "AdministrationCatalog-simpson-usrinfo";
 			DatabaseObjectHierarchy methhier = ExtractCatalogInformation.getCatalogObject(uid, "dataset:DatabasePerson");
 			System.out.println("----------------------------------------------------------------");
 			System.out.println(methhier.toString());

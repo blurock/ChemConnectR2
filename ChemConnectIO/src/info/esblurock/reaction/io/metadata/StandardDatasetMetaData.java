@@ -35,6 +35,7 @@ public class StandardDatasetMetaData {
 	
 	public static String CatalogBaseName = "skos:hasTopConcept";
 	public static String DataCatalogIDID = "qb:ObservationGroup";
+	public static String ContactHasSiteID = "foaf:page";
 	public static String DataCatalog = "skos:inScheme";
 	public static String SimpleCatalogName = "qb:DataSet";
 	public static String catalogPath = "dataset:CatalogPath";
@@ -62,7 +63,8 @@ public class StandardDatasetMetaData {
 
 
 	public static String hasSiteS = "foaf:homepage";
-	public static String siteOfS = "foaf:workInfoHomepage";
+	public static String siteOfS = "dataset:HttpAddress";
+	public static String siteTypeS = "dataset:HttpAddressType";
 	
 	public static String titleKeyS = "dcterms:title";
 	public static String descriptionKeyS = "dcterms:description";
@@ -81,6 +83,7 @@ public class StandardDatasetMetaData {
 	
 	public static String orginfoKeyS = "org:Organization";
 	public static String contactKeyS = "vcard:Contact";
+	public static String contactTypeS = "dataset:ContactType";
 	public static String locationKeyS = "vcard:Location";
 	public static String userAccountS = "prov:SoftwareAgent";
 	public static String databaseUserS = "vcard:Individual";

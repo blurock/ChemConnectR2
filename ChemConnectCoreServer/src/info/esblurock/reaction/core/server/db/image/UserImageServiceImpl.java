@@ -316,7 +316,6 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		values.add("owner", username);
 		values.add("bucket", GoogleCloudStorageConstants.uploadBucket);
 		
-		System.out.println("getUploadedFiles()");
 		QuerySetupBase query = new QuerySetupBase(GCSBlobFileInformation.class.getCanonicalName(), values);
 		query.setAccess(username);
 		try {
@@ -325,7 +324,6 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 			throw new IOException("Class Not found: " + GCSBlobFileInformation.class.getCanonicalName());
 		}
 		ArrayList<GCSBlobFileInformation> fileset = new ArrayList<GCSBlobFileInformation>();
-		System.out.println("getUploadedFiles()\n" + result.getResults());
 		for (DatabaseObject obj : result.getResults()) {
 			fileset.add((GCSBlobFileInformation) obj);
 		}
@@ -412,13 +410,18 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
 		UserDTO user = util.getUserInfo();
 		ArrayList<DatabaseObjectHierarchy> objects = WriteReadDatabaseObjects.getAllDatabaseObjectHierarchyForUser(user.getName(), classType);
+		for(DatabaseObjectHierarchy hierarchy : objects) {
+			System.out.println(classType + ": -----------------------------------------------------------");
+			System.out.println(hierarchy.toString());
+			System.out.println(classType + ": -----------------------------------------------------------");
+		}
+		
 		return objects;
 	}
 	
 	public DatabaseObjectHierarchy getUserDatasetCatalogHierarchy(String username) throws IOException {
 		String uid = CreateDefaultObjectsFactory.userCatalogHierarchyID(username);
 		DatabaseObjectHierarchy hierarchy = ExtractCatalogInformation.getDatabaseObjectHierarchy(uid);
-		System.out.println("getUserDatasetCatalogHierarchy\n" + hierarchy.toString());
 		return hierarchy;
 	}
 
@@ -455,6 +458,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	
 	public DatabaseObjectHierarchy createOrganization(DatabaseObject obj, String shortname, String organizationname, DataCatalogID catid) {
 		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillOrganization(obj, shortname, organizationname,catid);
+		System.out.println("createOrganization\n" + hierarchy.toString());
 		return hierarchy;
 	}
 	

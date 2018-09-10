@@ -11,7 +11,7 @@ import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 public class Organization extends ChemConnectDataStructure {
 
 	@Index
-	String contactInfoDataID;
+	String contactInfoData;
 	
 	@Index
 	String contactLocationInformationID;
@@ -21,52 +21,51 @@ public class Organization extends ChemConnectDataStructure {
 
 	public Organization() {
 		super();
-		this.contactInfoDataID = "";
 		this.contactLocationInformationID = "";
 		this.organizationDescriptionID = "";
+		this.contactInfoData = "";
 	}
 	
 	public Organization(String identifier, String sourceID) {
 		super(identifier,sourceID);
-		this.contactInfoDataID = "";
 		this.contactLocationInformationID = "";
 		this.organizationDescriptionID = "";
+		this.contactInfoData = "";
 	}
 	
 	public Organization(ChemConnectDataStructure datastructure,
-			String contactInfoDataID, 
-			String contactLocationInformationID, String organizationDescriptionID) {
-		this.fill(datastructure,contactInfoDataID, contactLocationInformationID,organizationDescriptionID);
+			String contactLocationInformationID, String organizationDescriptionID,
+			String contactInfoData) {
+		this.fill(datastructure, contactLocationInformationID,organizationDescriptionID,contactInfoData);
 	}
 
 	public void fill(ChemConnectDataStructure datastructure,
-			String contactInfoDataID, 
-			String contactLocationInformationID, String organizationDescriptionID) {
+			String contactLocationInformationID, String organizationDescriptionID,
+			String contactInfoData) {
 		super.fill(datastructure);
-		this.contactInfoDataID = contactInfoDataID;
 		this.contactLocationInformationID = contactLocationInformationID;
 		this.organizationDescriptionID = organizationDescriptionID;		
+		this.contactInfoData = contactInfoData;		
 	}
 	@Override
 	public void fill(DatabaseObject object) {
 		super.fill(object);
 		Organization org = (Organization) object;
-		this.contactInfoDataID = org.getContactInfoDataID();
 		this.contactLocationInformationID = org.getContactLocationInformationID();
 		this.organizationDescriptionID = org.getOrganizationDescriptionID();		
+		this.contactInfoData = org.getContactInfoData();		
 	}
 	
-	
-	public String getContactInfoDataID() {
-		return contactInfoDataID;
-	}
-
 	public String getContactLocationInformationID() {
 		return contactLocationInformationID;
 	}
 
 	public String getOrganizationDescriptionID() {
 		return organizationDescriptionID;
+	}
+
+	public String getContactInfoData() {
+		return contactInfoData;
 	}
 
 	@Override
@@ -77,8 +76,8 @@ public class Organization extends ChemConnectDataStructure {
 	public String toString(String prefix) {
 		StringBuilder builder = new StringBuilder();
 		builder.append(super.toString(prefix));
-		builder.append(prefix + "Contact: ");
-		builder.append(contactInfoDataID + "\n");
+		builder.append(prefix + "Contacts: ");
+		builder.append(contactInfoData + "\n");
 		builder.append(prefix + "Location: ");
 		builder.append(contactLocationInformationID + "\n");
 		builder.append(prefix + "OrgDescr: ");

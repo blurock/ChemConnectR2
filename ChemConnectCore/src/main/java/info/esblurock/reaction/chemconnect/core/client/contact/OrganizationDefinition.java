@@ -6,6 +6,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -59,7 +60,7 @@ public class OrganizationDefinition extends Composite implements ObjectVisualiza
 	}
 
 	private void init() {
-		String orgType = "dataset:OrganizationType";
+		String orgType = "dataset:OrganizationClassifications";
 		
 		organizationExisingHeader.setText("Existing Organization Definitions");
 		organizationCreatedHeader.setText("New Organizations");
@@ -75,10 +76,10 @@ public class OrganizationDefinition extends Composite implements ObjectVisualiza
 		SetOfObjectsCallback callback = new SetOfObjectsCallback(this);
 		async.getSetOfDatabaseObjectHierarchyForUser("dataset:Organization",callback);
 		
-		
 	}
 	@Override
 	public void createCatalogObject(DatabaseObject obj,DataCatalogID datid) {
+		Window.alert("createCatalogObject:\n" + datid.toString());
 		SetUpDatabaseObjectHierarchyCallback callback = new SetUpDatabaseObjectHierarchyCallback(createdOrgs,modalpanel);
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		String observation = choose.getObjectType();
@@ -98,9 +99,9 @@ public class OrganizationDefinition extends Composite implements ObjectVisualiza
 
 	@Override
 	public void insertCatalogObject(DatabaseObjectHierarchy subs) {
+		Window.alert("insertCatalogObject: \n" + subs.toString());
 		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(subs,modalpanel);
 		contentcollapsible.add(item);
 	}
-
 
 }

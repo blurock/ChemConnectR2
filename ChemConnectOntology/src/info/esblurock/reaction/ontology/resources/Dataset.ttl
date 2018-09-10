@@ -1120,6 +1120,11 @@ xsd:date rdf:type rdfs:Datatype .
              owl:disjointWith :NASAPolynomialSet .
 
 
+###  http://www.esblurock.info/dataset#BlogHomepage
+:BlogHomepage rdf:type owl:Class ;
+              rdfs:subClassOf :SiteClassifications .
+
+
 ###  http://www.esblurock.info/dataset#BurnerParameters
 :BurnerParameters rdf:type owl:Class ;
                   rdfs:subClassOf :DistanceParameter .
@@ -1882,12 +1887,17 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#Company
 :Company rdf:type owl:Class ;
-         rdfs:subClassOf :OrganizationClassificationChoices .
+         rdfs:subClassOf :OrganizationClassifications .
 
 
 ###  http://www.esblurock.info/dataset#CompanyDepartment
 :CompanyDepartment rdf:type owl:Class ;
-                   rdfs:subClassOf :OrganizationClassificationChoices .
+                   rdfs:subClassOf :OrganizationClassifications .
+
+
+###  http://www.esblurock.info/dataset#CompanyHomepage
+:CompanyHomepage rdf:type owl:Class ;
+                 rdfs:subClassOf :SiteClassifications .
 
 
 ###  http://www.esblurock.info/dataset#Component
@@ -2139,7 +2149,17 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#ContactHasSite
 :ContactHasSite rdf:type owl:Class ;
-                rdfs:subClassOf :HTTPAddress .
+                rdfs:subClassOf :ChemConnectCompoundDataStructure ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                  owl:onClass :HTTPAddress
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                  owl:onClass :HttpAddressType
+                                ] .
 
 
 ###  http://www.esblurock.info/dataset#ContactInfoData
@@ -2147,17 +2167,23 @@ Under the general type of is the actual data object referenced by the ChemConnec
                  rdfs:subClassOf :ChemConnectCompoundDataStructure ,
                                  [ rdf:type owl:Restriction ;
                                    owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                   owl:someValuesFrom :ContactHasSite
-                                 ] ,
-                                 [ rdf:type owl:Restriction ;
-                                   owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                   owl:someValuesFrom :ContactSiteOf
+                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                   owl:onClass :ContactKey
                                  ] ,
                                  [ rdf:type owl:Restriction ;
                                    owl:onProperty <http://purl.org/dc/terms/hasPart> ;
                                    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                   owl:onClass :ContactEmail
+                                   owl:onClass :ContactType
                                  ] .
+
+
+###  http://www.esblurock.info/dataset#ContactKey
+:ContactKey rdf:type owl:Class ;
+            rdfs:subClassOf :ShortStringLabel ;
+            <http://purl.org/dc/elements/1.1/type> "ShortString" ;
+            <http://purl.org/dc/terms/identifier> "vcard:Contact" ;
+            <http://www.w3.org/2004/02/skos/core#altLabel> "Contact Key" ,
+                                                           "contact" .
 
 
 ###  http://www.esblurock.info/dataset#ContactLocationInformation
@@ -2193,6 +2219,19 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#ContactSiteOf
 :ContactSiteOf rdf:type owl:Class ;
                rdfs:subClassOf :HTTPAddress .
+
+
+###  http://www.esblurock.info/dataset#ContactType
+:ContactType rdf:type owl:Class ;
+             rdfs:subClassOf :Classification ;
+             <http://purl.org/dc/elements/1.1/type> "ShortString" ;
+             <http://purl.org/dc/terms/identifier> "dataset:ContactType" ;
+             <http://www.w3.org/2004/02/skos/core#altLabel> "contacttype" .
+
+
+###  http://www.esblurock.info/dataset#ContactTypes
+:ContactTypes rdf:type owl:Class ;
+              rdfs:subClassOf :ChemConnectClassifications .
 
 
 ###  http://www.esblurock.info/dataset#ControlledEvaporationMixing
@@ -2562,8 +2601,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                 rdfs:subClassOf :ChemConnectDataStructure ,
                                 [ rdf:type owl:Restriction ;
                                   owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                  owl:onClass :ContactInfoData
+                                  owl:someValuesFrom :ContactInfoData
                                 ] ,
                                 [ rdf:type owl:Restriction ;
                                   owl:onProperty <http://www.w3.org/ns/dcat#record> ;
@@ -2613,6 +2651,10 @@ Under the general type of is the actual data object referenced by the ChemConnec
                            rdfs:subClassOf :SimpleDatasetObject ,
                                            [ rdf:type owl:Restriction ;
                                              owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                             owl:someValuesFrom :ContactHasSite
+                                           ] ,
+                                           [ rdf:type owl:Restriction ;
+                                             owl:onProperty <http://www.w3.org/ns/dcat#record> ;
                                              owl:someValuesFrom :DataObjectLink
                                            ] ,
                                            [ rdf:type owl:Restriction ;
@@ -2657,7 +2699,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#Department
 :Department rdf:type owl:Class ;
-            rdfs:subClassOf :OrganizationClassificationChoices .
+            rdfs:subClassOf :OrganizationClassifications .
 
 
 ###  http://www.esblurock.info/dataset#DescriptionAbstract
@@ -2867,6 +2909,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
        <http://purl.org/dc/elements/1.1/type> "Email"^^xsd:string ;
        rdfs:isDefinedBy <http://www.w3.org/2006/vcard/ns#email> ;
        rdfs:label "email data"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#EmailContactType
+:EmailContactType rdf:type owl:Class ;
+                  rdfs:subClassOf :ContactTypes .
 
 
 ###  http://www.esblurock.info/dataset#EncompassingExperimentalConditions
@@ -3932,12 +3979,18 @@ Under the general type of is the actual data object referenced by the ChemConnec
  ] .
 
 
+###  http://www.esblurock.info/dataset#GroupHomepage
+:GroupHomepage rdf:type owl:Class ;
+               rdfs:subClassOf :SiteClassifications .
+
+
 ###  http://www.esblurock.info/dataset#HTTPAddress
 :HTTPAddress rdf:type owl:Class ;
              rdfs:subClassOf :ChemConnectPrimitiveDataStructure ;
              <http://purl.org/dc/elements/1.1/type> "HTTPAddress"^^xsd:string ;
-             rdfs:isDefinedBy <http://purl.org/spar/fabio/hasURL> ;
-             rdfs:label "HTTP address data"^^xsd:string .
+             <http://purl.org/dc/terms/identifier> "dataset:HttpAddress" ;
+             rdfs:label "HTTP address data"^^xsd:string ;
+             <http://www.w3.org/2004/02/skos/core#altLabel> "http" .
 
 
 ###  http://www.esblurock.info/dataset#HeatFluxBurner
@@ -4967,6 +5020,16 @@ Under the general type of is the actual data object referenced by the ChemConnec
  ] .
 
 
+###  http://www.esblurock.info/dataset#HttpAddressType
+:HttpAddressType rdf:type owl:Class ;
+                 rdfs:subClassOf :Classification ;
+                 <http://purl.org/dc/elements/1.1/type> "Classification" ;
+                 <http://purl.org/dc/terms/identifier> "dataset:HttpAddressType" ;
+                 rdfs:comment "This is the type of link referenced" ;
+                 rdfs:label "Http Address Type" ;
+                 <http://www.w3.org/2004/02/skos/core#altLabel> "httptype" .
+
+
 ###  http://www.esblurock.info/dataset#IRSpectrometer
 :IRSpectrometer rdf:type owl:Class ;
                 rdfs:subClassOf :Spectrometer ;
@@ -4992,6 +5055,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#IgnitionDelayTimeFromPressureTrace
 :IgnitionDelayTimeFromPressureTrace rdf:type owl:Class ;
                                     rdfs:subClassOf :ComputeIgnitionDelayTime .
+
+
+###  http://www.esblurock.info/dataset#InstitueHomepage
+:InstitueHomepage rdf:type owl:Class ;
+                  rdfs:subClassOf :SiteClassifications .
 
 
 ###  http://www.esblurock.info/dataset#InstrumentConcept
@@ -6440,8 +6508,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
               rdfs:subClassOf :ChemConnectDataStructure ,
                               [ rdf:type owl:Restriction ;
                                 owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                owl:onClass :ContactInfoData
+                                owl:someValuesFrom :ContactInfoData
                               ] ,
                               [ rdf:type owl:Restriction ;
                                 owl:onProperty <http://www.w3.org/ns/dcat#record> ;
@@ -6460,9 +6527,9 @@ Under the general type of is the actual data object referenced by the ChemConnec
                             rdfs:subClassOf :Classification .
 
 
-###  http://www.esblurock.info/dataset#OrganizationClassificationChoices
-:OrganizationClassificationChoices rdf:type owl:Class ;
-                                   rdfs:subClassOf :ChemConnectClassifications .
+###  http://www.esblurock.info/dataset#OrganizationClassifications
+:OrganizationClassifications rdf:type owl:Class ;
+                             rdfs:subClassOf :ChemConnectClassifications .
 
 
 ###  http://www.esblurock.info/dataset#OrganizationDataCatagory
@@ -6669,6 +6736,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                        owl:onClass :UserClassification
                                      ] .
+
+
+###  http://www.esblurock.info/dataset#PersonalHomepage
+:PersonalHomepage rdf:type owl:Class ;
+                  rdfs:subClassOf :SiteClassifications .
 
 
 ###  http://www.esblurock.info/dataset#PlenumChamberHeight
@@ -7192,12 +7264,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#ResearchGroup
 :ResearchGroup rdf:type owl:Class ;
-               rdfs:subClassOf :OrganizationClassificationChoices .
+               rdfs:subClassOf :OrganizationClassifications .
 
 
 ###  http://www.esblurock.info/dataset#ResearchInstitute
 :ResearchInstitute rdf:type owl:Class ;
-                   rdfs:subClassOf :OrganizationClassificationChoices .
+                   rdfs:subClassOf :OrganizationClassifications .
 
 
 ###  http://www.esblurock.info/dataset#SampleFlameSpecies
@@ -7418,6 +7490,16 @@ Under the general type of is the actual data object referenced by the ChemConnec
                    <http://purl.org/dc/terms/type> "qb:observation" ;
                    rdfs:label "Single Observation" ;
                    <http://www.w3.org/2004/02/skos/core#altLabel> "value" .
+
+
+###  http://www.esblurock.info/dataset#SiteClassifications
+:SiteClassifications rdf:type owl:Class ;
+                     rdfs:subClassOf :ChemConnectClassifications .
+
+
+###  http://www.esblurock.info/dataset#SkypeContactType
+:SkypeContactType rdf:type owl:Class ;
+                  rdfs:subClassOf :ContactTypes .
 
 
 ###  http://www.esblurock.info/dataset#SourceKey
@@ -7692,6 +7774,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                       rdfs:subClassOf :ProbeAngleTip .
 
 
+###  http://www.esblurock.info/dataset#TelephoneContactType
+:TelephoneContactType rdf:type owl:Class ;
+                      rdfs:subClassOf :ContactTypes .
+
+
 ###  http://www.esblurock.info/dataset#TemperatureBathStability
 :TemperatureBathStability rdf:type owl:Class ;
                           rdfs:subClassOf :TemperatureParameter .
@@ -7947,6 +8034,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                ] .
 
 
+###  http://www.esblurock.info/dataset#TwitterContactType
+:TwitterContactType rdf:type owl:Class ;
+                    rdfs:subClassOf :ContactTypes .
+
+
 ###  http://www.esblurock.info/dataset#UVSpectrometer
 :UVSpectrometer rdf:type owl:Class ;
                 rdfs:subClassOf :Spectrometer ;
@@ -8001,7 +8093,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#Univerisity
 :Univerisity rdf:type owl:Class ;
-             rdfs:subClassOf :OrganizationClassificationChoices .
+             rdfs:subClassOf :OrganizationClassifications .
+
+
+###  http://www.esblurock.info/dataset#UniversityHomepage
+:UniversityHomepage rdf:type owl:Class ;
+                    rdfs:subClassOf :SiteClassifications .
 
 
 ###  http://www.esblurock.info/dataset#UploadFileSpecification
@@ -8164,6 +8261,16 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#WaterBathTemperatureControl
 :WaterBathTemperatureControl rdf:type owl:Class ;
                              rdfs:subClassOf :TemperatureControl .
+
+
+###  http://www.esblurock.info/dataset#WorkInfoHomepage
+:WorkInfoHomepage rdf:type owl:Class ;
+                  rdfs:subClassOf :SiteClassifications .
+
+
+###  http://www.esblurock.info/dataset#WorkplaceHomepage
+:WorkplaceHomepage rdf:type owl:Class ;
+                   rdfs:subClassOf :SiteClassifications .
 
 
 ###  http://www.esblurock.info/dataset#familyName
@@ -9702,8 +9809,8 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
                                     <http://purl.org/dc/terms/issued> "2000-07-11"^^xsd:date .
 
 
-<http://purl.org/dc/terms/rights> rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
-                                  <http://purl.org/dc/terms/issued> "2008-01-14"^^xsd:date ;
+<http://purl.org/dc/terms/rights> <http://purl.org/dc/terms/issued> "2008-01-14"^^xsd:date ;
+                                  rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
                                   rdfs:label "Rights"@en ;
                                   rdfs:comment "Information about rights held in and over the resource."@en ;
                                   <http://purl.org/dc/terms/modified> "2008-01-14"^^xsd:date ;
@@ -9711,8 +9818,8 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
                                   <http://purl.org/dc/terms/description> "Typically, rights information includes a statement about various property rights associated with the resource, including intellectual property rights."@en .
 
 
-<http://purl.org/dc/terms/rightsHolder> <http://purl.org/dc/terms/hasVersion> <http://dublincore.org/usage/terms/history/#rightsHolder-002> ;
-                                        rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
+<http://purl.org/dc/terms/rightsHolder> rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
+                                        <http://purl.org/dc/terms/hasVersion> <http://dublincore.org/usage/terms/history/#rightsHolder-002> ;
                                         <http://purl.org/dc/terms/modified> "2008-01-14"^^xsd:date ;
                                         rdfs:comment "A person or organization owning or managing rights over the resource."@en ;
                                         <http://purl.org/dc/terms/issued> "2004-06-14"^^xsd:date ;
@@ -9794,16 +9901,16 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
               <http://purl.org/dc/elements/1.1/type> "Email" .
 
 
-:ContactHasSite <http://purl.org/dc/elements/1.1/type> "HTTPAddress" ;
-                rdfs:label "HTTP site of contact"^^xsd:string ;
+:ContactHasSite rdfs:label "HTTP site of contact"^^xsd:string ;
                 <http://www.w3.org/2004/02/skos/core#altLabel> "httpcontact"^^xsd:string ;
-                <http://purl.org/dc/terms/identifier> "foaf:homepage"^^xsd:string .
+                <http://purl.org/dc/terms/identifier> "foaf:page"^^xsd:string ;
+                <http://purl.org/dc/elements/1.1/type> "ContactHasSite" .
 
 
-:ContactInfoData <http://purl.org/dc/terms/identifier> "vcard:Contact"^^xsd:string ;
-                 <http://purl.org/dc/elements/1.1/type> "ContactInfoData"^^xsd:string ;
+:ContactInfoData <http://purl.org/dc/elements/1.1/type> "ContactInfoData"^^xsd:string ;
                  rdfs:isDefinedBy <http://www.w3.org/2006/vcard/ns#Contact> ;
                  <http://www.w3.org/2004/02/skos/core#altLabel> "contact"^^xsd:string ;
+                 <http://purl.org/dc/terms/identifier> "dataset:ContactInfoData"^^xsd:string ;
                  rdfs:label "Contact Information"^^xsd:string .
 
 
@@ -9820,7 +9927,8 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
                <http://www.w3.org/2004/02/skos/core#altLabel> "httpinst"^^xsd:string .
 
 
-:DOI <http://purl.org/dc/elements/1.1/type> "DOI" ;
+:DOI <http://www.w3.org/2004/02/skos/core#altLabel> "doi" ;
+     <http://purl.org/dc/elements/1.1/type> "DOI" ;
      rdfs:label "DOI reference"^^xsd:string ;
      rdfs:isDefinedBy <http://www.w3.org/ns/org#identifier> ;
      <http://www.w3.org/2004/02/skos/core#altLabel> "doi"^^xsd:string ;

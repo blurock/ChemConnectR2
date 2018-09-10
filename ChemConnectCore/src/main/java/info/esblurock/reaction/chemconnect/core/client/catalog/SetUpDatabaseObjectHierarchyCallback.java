@@ -22,8 +22,11 @@ public class SetUpDatabaseObjectHierarchyCallback implements AsyncCallback<Datab
 
 	@Override
 	public void onSuccess(DatabaseObjectHierarchy transfer) {
+		Window.alert("SetUpDatabaseObjectHierarchyCallback\n" + transfer.toString());
 		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(transfer,modalpanel);		
+		Window.alert("SetUpDatabaseObjectHierarchyCallback 1");
 		panel.add(item);
+		Window.alert("SetUpDatabaseObjectHierarchyCallback 2");
 	}
 
 }

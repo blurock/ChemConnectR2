@@ -122,7 +122,7 @@ public class InitialOrganizationTest {
 			
 			System.out.println("----------------------------------------------------------------");
 			//String uid = DatasetCatalogHierarchy.createFullCatalogName("Catalog", username);
-			String uid = "AdministrationCatalog-org";
+			String uid = "AdministrationCatalog-AcmeInc-org";
 			DatabaseObjectHierarchy methhier = ExtractCatalogInformation.getCatalogObject(uid, "dataset:Organization");
 			System.out.println("----------------------------------------------------------------");
 			System.out.println(methhier.toString());
