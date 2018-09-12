@@ -12,6 +12,7 @@ import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetNa
 import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetOrganizationDescriptionHeader;
 import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetOrganizationHeader;
 import info.esblurock.reaction.chemconnect.core.client.device.StandardDatasetSubSystemHeader;
+import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.SpreadSheetBlockMatrix;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.methodology.StandardDatasetMethodologyHeader;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.observations.ParameterValueHeader;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.observations.PrimitiveParameterValueRow;
@@ -263,31 +264,27 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
-			// TODO Auto-generated method stub
-			
+			SpreadSheetBlockMatrix header = new SpreadSheetBlockMatrix(item);
+			item.addHeader(header);
 		}
 
 		@Override
 		public boolean update(StandardDatasetObjectHierarchyItem item) {
-			// TODO Auto-generated method stub
 			return false;
 		}
 
 		@Override
 		public int priority() {
-			// TODO Auto-generated method stub
-			return 0;
+			return 200;
 		}
 
 		@Override
 		public boolean isInformation() {
-			// TODO Auto-generated method stub
 			return false;
 		}
 
 		@Override
 		public boolean addSubitems() {
-			// TODO Auto-generated method stub
 			return false;
 		}
 		

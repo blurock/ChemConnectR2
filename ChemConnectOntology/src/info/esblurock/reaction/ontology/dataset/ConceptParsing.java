@@ -634,6 +634,12 @@ public class ConceptParsing {
 		return result;
 	}
 
+	public static boolean isAArrayListDataObject(String unit) {
+		String query = "ASK {" + "	" + unit + " rdfs:subClassOf dataset:ArrayListDataObject }";
+		boolean result = OntologyBase.datasetASK(query);
+		return result;
+	}
+
 	public static String getContentType(String yamlFileType) {
 		String query = "SELECT ?type\n" + 
 				"	WHERE {\n" + 

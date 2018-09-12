@@ -43,6 +43,9 @@ import info.esblurock.reaction.chemconnect.core.data.dataset.device.SubSystemDes
 import info.esblurock.reaction.chemconnect.core.data.description.DescriptionDataData;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.methodology.ChemConnectMethodology;
+import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
+import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
+import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInterpretation;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.MatrixSpecificationCorrespondence;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.MatrixSpecificationCorrespondenceSet;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationMatrixValues;
@@ -206,6 +209,7 @@ public class CreateDefaultObjectsFactory {
 		}
 		return methodhier;
 	}
+	
 	public static DatabaseObjectHierarchy fillSubSystemDescription(DatabaseObject obj, String devicename,
 			DataCatalogID datid) {
 		DatabaseObjectHierarchy hierarchy = InterpretData.SubSystemDescription.createEmptyObject(obj);
@@ -280,6 +284,71 @@ public class CreateDefaultObjectsFactory {
 		fillInputOutputObservationSpecifications(devicename,obspecset);
 		return hierarchy;
 	}
+	
+	public static DatabaseObjectHierarchy fillObservationsFromSpreadSheet(DatabaseObject obj, DataCatalogID catid, int numberOfColumns, int numberOfRows) {
+		DatabaseObjectHierarchy hierarchy = InterpretData.ObservationsFromSpreadSheet.createEmptyObject(obj);
+		ObservationsFromSpreadSheet observations = (ObservationsFromSpreadSheet) hierarchy.getObject();
+		
+		DatabaseObjectHierarchy inputhierarchy = hierarchy.getSubObject(observations.getSpreadSheetInputInformation());
+		SpreadSheetInputInformation input = (SpreadSheetInputInformation) inputhierarchy.getObject();
+		DatabaseObjectHierarchy interprethierarchy = hierarchy.getSubObject(observations.getSpreadSheetInterpretation());
+		SpreadSheetInterpretation interpret = (SpreadSheetInterpretation) interprethierarchy.getObject();
+		DatabaseObjectHierarchy observehierarchy = hierarchy.getSubObject(observations.getObservationMatrixValues());
+		ObservationMatrixValues values = (ObservationMatrixValues) observehierarchy.getObject();
+		DatabaseObjectHierarchy cathierarchy = hierarchy.getSubObject(observations.getCatalogDataID());
+		DataCatalogID cat = (DataCatalogID) cathierarchy.getObject();
+		
+		DatabaseObjectHierarchy titlehier = observehierarchy.getSubObject(values.getObservationRowValueTitles());
+		ObservationValueRowTitle rowtitles = (ObservationValueRowTitle) titlehier.getObject();
+		
+		DatabaseObjectHierarchy valuemulthier = observehierarchy.getSubObject(values.getObservationRowValue());
+		ChemConnectCompoundMultiple valuemult = (ChemConnectCompoundMultiple) valuemulthier.getObject();
+		
+		cat.setDataCatalog(catid.getDataCatalog());
+		cat.setSimpleCatalogName(catid.getSimpleCatalogName());
+		cat.setPath(catid.getPath());
+		cat.setCatalogBaseName(catid.getCatalogBaseName());
+		
+		StringBuilder build = new StringBuilder();
+		ArrayList<String> titles = new ArrayList<String>();
+		for(int colcount=0; colcount<numberOfColumns;colcount++) {
+			String title = "Column" + colcount;
+			titles.add(title);
+		}
+		for(int rowcount= 0; rowcount < numberOfRows; rowcount++) {
+			DatabaseObjectHierarchy obshier = InterpretData.ObservationValueRow.createEmptyObject(valuemult);
+			ObservationValueRow obs = (ObservationValueRow) obshier.getObject();
+			String id = obs.getIdentifier() + rowcount;
+			obs.setIdentifier(id);
+			valuemulthier.addSubobject(obshier);
+			valuemult.addID(id);
+			
+			for(int colcount= 0; colcount < numberOfColumns - 1; colcount++) {
+				obs.addValue("0");
+				build.append("0, ");
+			}
+			obs.addValue("0");
+			obs.setRowNumber(String.valueOf(rowcount));
+			build.append("0\n");
+		}
+		
+		input.setDelimitor(",");
+		input.setDelimitorType("dataset:CSV");
+		input.setSource(build.toString());
+		input.setSourceType("dataset:StringSource");
+		
+		interpret.setStartRow(0);
+		interpret.setEndRow(numberOfRows-1);
+		interpret.setStartColumn(0);
+		interpret.setEndColumn(numberOfColumns-1);
+		interpret.setNoBlanks(false);
+		interpret.setTitleSearchKey("");
+
+		rowtitles.setParameterLabel(titles);
+
+		return hierarchy;
+	}
+	
 	
 	public static void fillInputOutputObservationSpecifications(String setofobservationsS,
 			DatabaseObjectHierarchy obspecset) {

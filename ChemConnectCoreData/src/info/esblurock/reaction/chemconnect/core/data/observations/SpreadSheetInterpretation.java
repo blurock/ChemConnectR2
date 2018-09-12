@@ -3,20 +3,20 @@ package info.esblurock.reaction.chemconnect.core.data.observations;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
 
-import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 
 @SuppressWarnings("serial")
 @Entity
-public class SpreadSheetInterpretation extends DatabaseObject  {
+public class SpreadSheetInterpretation extends ChemConnectCompoundDataStructure  {
 
 	@Index
-	String parent;
-	@Index
-	int beginRow;
+	int startRow;
 	@Index
 	int endRow;
 	@Index
-	int titleRow;
+	int startColumn;
+	@Index
+	int endColumn;
 	@Index
 	String titleSearchKey;
 	@Index
@@ -26,28 +26,32 @@ public class SpreadSheetInterpretation extends DatabaseObject  {
 		super();
 	}
 	
-	public SpreadSheetInterpretation(DatabaseObject obj, String parent, 
-			int beginRow, int endRow, int titleRow,
-			String titleSearchKey, boolean noBlanks) {
+	public SpreadSheetInterpretation(ChemConnectCompoundDataStructure obj, 
+			String startRow, String endRow, String startColumn, String endColumn,
+			String titleSearchKey, String noBlanks) {
 		super(obj);
-		this.parent = parent;
-		this.beginRow = beginRow;
-		this.endRow = endRow;
-		this.titleRow = titleRow;
+		this.startRow = Integer.parseInt(startRow);
+		this.endRow = Integer.parseInt(endRow);
+		this.startColumn = Integer.parseInt(startColumn);
+		this.endColumn = Integer.parseInt(endColumn);
 		this.titleSearchKey = titleSearchKey;
-		this.noBlanks = noBlanks;
+		this.noBlanks = Boolean.parseBoolean(noBlanks);
 	}
-	public String getParent() {
-		return parent;
+
+	public int getStartRow() {
+		return startRow;
 	}
-	public int getBeginRow() {
-		return beginRow;
-	}
+
 	public int getEndRow() {
 		return endRow;
 	}
-	public int getTitleRow() {
-		return titleRow;
+
+	public int getStartColumn() {
+		return startColumn;
+	}
+
+	public int getEndColumn() {
+		return endColumn;
 	}
 
 	public String getTitleSearchKey() {
@@ -58,24 +62,42 @@ public class SpreadSheetInterpretation extends DatabaseObject  {
 		return noBlanks;
 	}
 
+	public void setStartRow(int startRow) {
+		this.startRow = startRow;
+	}
+
+	public void setEndRow(int endRow) {
+		this.endRow = endRow;
+	}
+
+	public void setStartColumn(int startColumn) {
+		this.startColumn = startColumn;
+	}
+
+	public void setEndColumn(int endColumn) {
+		this.endColumn = endColumn;
+	}
+
+	public void setTitleSearchKey(String titleSearchKey) {
+		this.titleSearchKey = titleSearchKey;
+	}
+
+	public void setNoBlanks(boolean noBlanks) {
+		this.noBlanks = noBlanks;
+	}
+
 	public String toString() {
 		return toString("");
 	}
 	public String toString(String prefix) {
 		StringBuilder build = new StringBuilder();
 		build.append(super.toString(prefix) + "\n");
-		build.append(prefix + beginRow + " - " + endRow + "  ");
+		build.append(prefix + " Row(" + startRow + " - " + endRow + ")  ");
+		build.append("Column(" + startColumn + " - " + endColumn + ")   ");
 		if(noBlanks) {
 			build.append("(No blank lines) ");
-		}
-		if(titleRow >= 0) {
-			if(titleSearchKey.length() > 0) {
-				build.append("Titles: (" + titleRow + "): " + titleSearchKey);
-			} else {
-				build.append("Titles: (" + titleRow + ")");			
-			}
 		} else {
-			build.append("no column titles");
+			build.append("(No blank lines) ");
 		}
 		build.append("\n");
 		return build.toString();

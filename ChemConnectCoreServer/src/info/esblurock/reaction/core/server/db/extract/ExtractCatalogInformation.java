@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import org.apache.poi.ss.usermodel.charts.ValueAxis;
+
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataObjectLink;
@@ -26,6 +28,7 @@ import info.esblurock.reaction.core.server.db.InterpretData;
 import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFactory;
 import info.esblurock.reaction.io.db.QueryBase;
 import info.esblurock.reaction.io.metadata.StandardDatasetMetaData;
+import info.esblurock.reaction.ontology.dataset.ConceptParsing;
 import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 
 public class ExtractCatalogInformation {
@@ -63,7 +66,10 @@ public class ExtractCatalogInformation {
 							if(sub != null) {
 								hierarchy.addSubobject(sub);
 							}
+						} else if(ConceptParsing.isAArrayListDataObject(element.getDataElementName())) {
+							System.out.println("getDatabaseObjectAndSubElements: ArrayList: " + element.getDataElementName());
 						} else {
+							System.out.println("getDatabaseObjectAndSubElements: \n" + obj.toString());
 							System.out.println("getDatabaseObjectAndSubElements: \n" + element.toString());
 							System.out.println("getDatabaseObjectAndSubElements: \n" + elementobj.toString());
 						}

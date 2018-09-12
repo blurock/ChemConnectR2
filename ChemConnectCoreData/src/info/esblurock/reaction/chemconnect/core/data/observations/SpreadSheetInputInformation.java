@@ -3,23 +3,23 @@ package info.esblurock.reaction.chemconnect.core.data.observations;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
 
-import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 
 @Entity
-public class SpreadSheetInputInformation  extends DatabaseObject  {
+public class SpreadSheetInputInformation  extends ChemConnectCompoundDataStructure  {
 
 	private static final long serialVersionUID = 1L;
 	
-	public static String CSV = "CSV";
-	public static String XLS = "XLS";
-	public static String SpaceDelimited    = "SpaceDelimited";
-	public static String TabDelimited      = "TabDelimited";
-	public static String Delimited         = "Delimited";
-	public static String SpaceTabDelimited = "SpaceTabDelimited";
+	public static String CSV = "dataset:CSV";
+	public static String XLS = "dataset:XLS";
+	public static String SpaceDelimited    = "dataset:SpaceDelimited";
+	public static String TabDelimited      = "dataset:TabDelimited";
+	public static String Delimited         = "dataset:Delimited";
+	public static String SpaceTabDelimited = "dataset:SpaceTabDelimited";
 	
-	public static String URL          = "URL";
-	public static String STRINGSOURCE = "String";
-	public static String BLOBSOURCE   = "Blob";
+	public static String URL          = "dataset:URLSourceFile";
+	public static String STRINGSOURCE = "dataset:StringSource";
+	public static String BLOBSOURCE   = "dataset:BlobSourceFile";
 	
 	public static String[] choices = {CSV,XLS,SpaceDelimited,TabDelimited,Delimited};
 	public static String[] sourcechoices = {URL,STRINGSOURCE,BLOBSOURCE};
@@ -41,14 +41,14 @@ public class SpreadSheetInputInformation  extends DatabaseObject  {
 	}
 	
 
-	public SpreadSheetInputInformation(DatabaseObject obj, String type, String sourceType, String source) {
+	public SpreadSheetInputInformation(ChemConnectCompoundDataStructure obj, String type, String sourceType, String source) {
 		super(obj);
 		this.type = type;
 		this.sourceType = sourceType;
 		setDelimitorType(type);
 		this.source = source;
 	}
-	public SpreadSheetInputInformation(DatabaseObject obj, String type, String sourceType, String source, String delimitor) {
+	public SpreadSheetInputInformation(ChemConnectCompoundDataStructure obj, String type, String sourceType, String source, String delimitor) {
 		super(obj);
 		this.type = type;
 		this.sourceType = sourceType;
@@ -96,23 +96,46 @@ public class SpreadSheetInputInformation  extends DatabaseObject  {
 		return ans;
 	}
 	
+	
+	
+	public void setType(String type) {
+		this.type = type;
+	}
+
+
+	public void setDelimitor(String delimitor) {
+		this.delimitor = delimitor;
+	}
+
+
+	public void setSource(String source) {
+		this.source = source;
+	}
+
+
+	public void setSourceType(String sourceType) {
+		this.sourceType = sourceType;
+	}
+
+
 	public String toString() {
 		return toString("");
 	}
 	
 	public String toString(String prefix) {
 		StringBuilder build = new StringBuilder();
+		build.append(super.toString(prefix));
 		build.append(prefix);
 		if(type != null) {
 			build.append(type);
 		} else {
 			build.append("unknown");
 		}
-		build.append(": " + sourceType + "(" + delimitor + ") ");
+		build.append(": " + sourceType + "  Delimitor(" + delimitor + ") ");
 		if(isSourceType(URL)) {
 			build.append(source);
 		} else {
-			build.append("Source as string");
+			build.append("Source as string\n");
 		}
 		return build.toString();
 	}

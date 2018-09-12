@@ -60,6 +60,13 @@ public class StandardDatasetMetaData {
 	public static String observationValueRow = "dataset:ObservationValueRow";
 	public static String position = "qb:order";
 	
+	
+	public static String LastColumnInMatrix = "dataset:LastColumnInMatrix";
+	public static String LastRowInMatrix = "dataset:astRowInMatrix";
+	public static String StartColumnInMatrix = "dataset:StartColumnInMatrix";
+	public static String StartRowInMatrix = "dataset:tartRowInMatrix";
+	public static String NoBlanks = "dataset:NoBlanks";
+	public static String TitleSearchKey = "dataset:TitleSearchKey";
 
 
 	public static String hasSiteS = "foaf:homepage";
@@ -188,4 +195,15 @@ public class StandardDatasetMetaData {
 	public static String conceptUserDataCatagory = "dataset:UserDataCatagory";
 	public static String conceptOrgDataCatagory = "dataset:OrganizationDataCatagory";
 	public static String conceptPublishedResultsCatagory = "dataset:PublishedResultsCatagory";
+	public static String spreadSheetSourceType = "dataset:SpreadSheetSourceType";
+	public static String spreadSheetDelimitor = "dataset:SpreadSheetDelimitor";
+	public static String fileSourceIdentifier = "dataset:FileSourceIdentifier";
+	public static String fileSourceType = "dataset:FileSourceType";
+	public static String spreadSheetInformation = "dataset:SpreadSheetInputInformation";
+	public static String spreadSheetInterpretation = "dataset:SpreadSheetInterpretation";
+	public static String spreadSheetInformationID = "dataset:spreadsheet";
+	public static String spreadSheetInterpretationID = "dataset:SpreadSheetInterpretation";
+	public static String observationsFromSpreadSheet = "dataset:ObservationsFromSpreadSheet";
+	public static String listOfValuesAsString = "dataset:ListOfValuesAsString";
+	public static String listOfTitles = "dataset:ListOfTitles";
 }

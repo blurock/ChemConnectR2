@@ -27,9 +27,9 @@ public class DataCatalogID extends ChemConnectCompoundDataStructure {
 	public DataCatalogID(ChemConnectCompoundDataStructure object, String catalogBaseName, String dataCatalog,
 			String simpleCatalogName, ArrayList<String> path) {
 		super(object);
-		CatalogBaseName = catalogBaseName;
-		DataCatalog = dataCatalog;
-		SimpleCatalogName = simpleCatalogName;
+		this.CatalogBaseName = catalogBaseName;
+		this.DataCatalog = dataCatalog;
+		this.SimpleCatalogName = simpleCatalogName;
 		this.path = path;
 	}
 
@@ -38,7 +38,7 @@ public class DataCatalogID extends ChemConnectCompoundDataStructure {
 	}
 
 	public void setCatalogBaseName(String catalogBaseName) {
-		CatalogBaseName = catalogBaseName;
+		this.CatalogBaseName = catalogBaseName;
 	}
 
 	public String getDataCatalog() {
@@ -46,7 +46,7 @@ public class DataCatalogID extends ChemConnectCompoundDataStructure {
 	}
 
 	public void setDataCatalog(String dataCatalog) {
-		DataCatalog = dataCatalog;
+		this.DataCatalog = dataCatalog;
 	}
 
 	public String getSimpleCatalogName() {
@@ -54,7 +54,7 @@ public class DataCatalogID extends ChemConnectCompoundDataStructure {
 	}
 
 	public void setSimpleCatalogName(String simpleCatalogName) {
-		SimpleCatalogName = simpleCatalogName;
+		this.SimpleCatalogName = simpleCatalogName;
 	}
 
 	public String getFullName() {
@@ -96,7 +96,7 @@ public class DataCatalogID extends ChemConnectCompoundDataStructure {
 	}
 
 	public String blobFilenameFromCatalogID(String extension) {
-		String filename = getFullName("/") + "." + extension;
+		String filename = getFullName("-") + "." + extension;
 		return filename;
 	}
 

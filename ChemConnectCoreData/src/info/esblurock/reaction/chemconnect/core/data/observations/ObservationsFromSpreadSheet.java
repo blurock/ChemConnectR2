@@ -1,97 +1,57 @@
 package info.esblurock.reaction.chemconnect.core.data.observations;
 
-import java.util.ArrayList;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Index;
 
-import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
 
-public class ObservationsFromSpreadSheet extends VisualizeObservationBase {
-
-	private static final long serialVersionUID = 1L;
+@SuppressWarnings("serial")
+@Entity
+public class ObservationsFromSpreadSheet extends ChemConnectDataStructure {
 	
+	@Index
+	String observationMatrixValues;
+	@Index
+	String spreadSheetInputInformation;
+	@Index
+	String spreadSheetInterpretation;
 	
-	ArrayList<ObservationValueRow> matrix;
-	ArrayList<SpreadSheetBlockInformation> blocks;
-	SpreadSheetInputInformation input;
-	int sizeOfMatrix;
-	int numberOfColumns;
 
 	public ObservationsFromSpreadSheet() {
 		super();
-		//this.matrix = new ArrayList<SpreadSheetRow>();
-		//this.blocks = new ArrayList<SpreadSheetBlockInformation>();
-		this.matrix = null;
-		this.blocks = null;
+		this.observationMatrixValues = "";
+		this.spreadSheetInputInformation = "";
+		this.spreadSheetInterpretation = "";
 	}
-	public ObservationsFromSpreadSheet(SpreadSheetInputInformation input) {
-		super(input);
-		this.input = input;
-		//this.matrix = new ArrayList<SpreadSheetRow>();
-		//this.blocks = new ArrayList<SpreadSheetBlockInformation>();
-		this.matrix = null;
-		this.blocks = null;
-	}
-
-	public ObservationsFromSpreadSheet(SpreadSheetInputInformation input, 
-			ArrayList<ObservationValueRow> matrix) {
-		super(input);
-		this.input = input;
-		this.matrix = matrix;
-		this.blocks = null;
-		//this.blocks = new ArrayList<SpreadSheetBlockInformation>();
+	public ObservationsFromSpreadSheet(ChemConnectDataStructure source, 
+			String observationMatrixValues,
+			String spreadSheetInputInformation,
+			String spreadSheetInterpretation) {
+		super(source);
+		this.observationMatrixValues = observationMatrixValues;
+		this.spreadSheetInputInformation = spreadSheetInputInformation;
+		this.spreadSheetInterpretation = spreadSheetInterpretation;
 	}
 	
-	public ArrayList<SpreadSheetBlockInformation> getBlocks() {
-		return blocks;
+	public String getObservationMatrixValues() {
+		return observationMatrixValues;
 	}
-	
-	public void addBlock(SpreadSheetBlockInformation block) {
-		blocks.add(block);
+	public String getSpreadSheetInputInformation() {
+		return spreadSheetInputInformation;
 	}
-	/*	
-	public void addRow(SpreadSheetRow row) {
-		matrix.add(row);
+	public String getSpreadSheetInterpretation() {
+		return spreadSheetInterpretation;
 	}
-
-	public ArrayList<SpreadSheetRow> getMatrix() {
-		return matrix;
-	}
-	*/
 	public String toString() {
 		return toString("");
 	}
-	
-	public int getSizeOfMatrix() {
-		return sizeOfMatrix;
-	}
-	
-	public void setSizeOfMatrix(int sizeOfMatrix) {
-		this.sizeOfMatrix = sizeOfMatrix;
-	}
-	
-	public void setNumberOfColumns(int numberOfColumns) {
-		this.numberOfColumns = numberOfColumns;
-	}
-	public int getNumberOfColumns() {
-		return numberOfColumns;
-	}
 	public String toString(String prefix) {
 		StringBuilder build = new StringBuilder();
-		build.append(input.toString(prefix + "ObservationsFromSpreadSheet: "));
-		build.append("\n");
-		//int count = 0;
-		if(matrix != null) {
-		for(ObservationValueRow row : matrix) {
-			build.append(row.toString());
-		}
-		} else {
-			build.append("Matrix size: " + sizeOfMatrix);
-		}
-		if(blocks != null) {
-		for(SpreadSheetBlockInformation block : blocks) {
-			build.append(block.toString(prefix));
-			build.append("\n");
-		}
-		}
+		build.append(prefix);
+		build.append(super.toString(prefix));
+		build.append(prefix + "ObservationMatrixValues:      " + observationMatrixValues + "\n");
+		build.append(prefix + "SpreadSheetInputInformation: " + spreadSheetInputInformation + "\n");
+		build.append(prefix + "SpreadSheetInterpretation:   " + spreadSheetInterpretation + "\n");
 		return build.toString();
 	}
 

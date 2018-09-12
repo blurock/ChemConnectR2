@@ -24,23 +24,25 @@ import com.ibm.icu.util.StringTokenizer;
 
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHierarchy;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetBlockInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
 import info.esblurock.reaction.core.server.db.image.UserImageServiceImpl;
 
 public class InterpretSpreadSheet {
 
-	public static ObservationsFromSpreadSheet readSpreadSheetFromGCS(GCSBlobFileInformation gcsinfo,
+	public static DatabaseObjectHierarchy readSpreadSheetFromGCS(GCSBlobFileInformation gcsinfo,
 			SpreadSheetInputInformation input, boolean writeObjects) throws IOException {
 		InputStream stream = UserImageServiceImpl.getInputStream(gcsinfo);
 		return streamReadSpreadSheet(stream, input, writeObjects);
 	}
 
-	public static ObservationsFromSpreadSheet readSpreadSheet(boolean writeObjects, SpreadSheetInputInformation input)
+	public static DatabaseObjectHierarchy readSpreadSheet(boolean writeObjects, SpreadSheetInputInformation input)
 			throws IOException {
 		InputStream is = null;
 		System.out.println(input.getSource());
@@ -61,14 +63,14 @@ public class InterpretSpreadSheet {
 		return streamReadSpreadSheet(is, input, writeObjects);
 	}
 
-	public static ObservationsFromSpreadSheet streamReadSpreadSheet(InputStream is, 
+	public static DatabaseObjectHierarchy streamReadSpreadSheet(InputStream is, 
 			SpreadSheetInputInformation input,
 			boolean writeObjects) throws IOException {
-		ObservationsFromSpreadSheet obs = new ObservationsFromSpreadSheet(input);
 		System.out.println(input.toString());
-		ArrayList<DatabaseObject> set = new ArrayList<DatabaseObject>();
+		ArrayList<ObservationValueRow> set = new ArrayList<ObservationValueRow>();
 		DatabaseObject obj = new DatabaseObject(input);
 		obj.nullKey();
+		
 		int numberOfColumns = 0;
 		if (input.isType(SpreadSheetInputInformation.XLS)) {
 			numberOfColumns = readXLSFile(is, obj, set);
@@ -84,8 +86,18 @@ public class InterpretSpreadSheet {
 			System.out.println("streamReadSpreadSheet: TabDelimited");
 			numberOfColumns = readDelimitedFile(is, "\t", obj, set);
 		}
-		obs.setNumberOfColumns(numberOfColumns);
-		obs.setSizeOfMatrix(set.size());
+		
+		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,obj.getIdentifier());		
+		for(ObservationValueRow row: set) {
+			
+		}
+		
+		
+		ObservationsFromSpreadSheet obssheet;
+		
+		
+		
+		
 		writeSpreadSheetRows(writeObjects, input, set);
 		return obs;
 	}
@@ -111,7 +123,7 @@ public class InterpretSpreadSheet {
 	}
 
 	public static int readDelimitedFile(InputStream is, String delimiter, DatabaseObject obj,
-			ArrayList<DatabaseObject> rowset) throws IOException {
+			ArrayList<ObservationValueRow> rowset) throws IOException {
 		BufferedInputStream reader = new BufferedInputStream(is);
 		BufferedReader r = new BufferedReader(new InputStreamReader(reader, StandardCharsets.UTF_8));
 		boolean notdone = true;
@@ -145,7 +157,7 @@ public class InterpretSpreadSheet {
 		return numberOfColumns;
 	}
 
-	public static int readXLSFile(InputStream is, DatabaseObject obj, ArrayList<DatabaseObject> rowset)
+	public static int readXLSFile(InputStream is, DatabaseObject obj, ArrayList<ObservationValueRow> rowset)
 			throws IOException {
 		HSSFWorkbook wb = new HSSFWorkbook(is);
 
@@ -184,7 +196,7 @@ public class InterpretSpreadSheet {
 		return numberOfColumns;
 	}
 
-	public static void findBlocks(ObservationsFromSpreadSheet obs, ArrayList<ObservationValueRow> rows) {
+	public static SpreadSheetBlockInformation findBlocks(ObservationsFromSpreadSheet obs, ArrayList<ObservationValueRow> rows) {
 		Iterator<ObservationValueRow> iter = rows.iterator();
 		int linecount = 0;
 		boolean morerows = iter.hasNext();

@@ -33,6 +33,14 @@ public class ObservationValueRow extends ChemConnectCompoundDataStructure {
 		return rowNumber;
 	}
 
+	public void setRowNumber(String rowNumber) {
+		this.rowNumber = rowNumber;
+	}
+
+	public void setRow(ArrayList<String> row) {
+		this.row = row;
+	}
+
 	public ArrayList<String> getRow() {
 		return row;
 	}
