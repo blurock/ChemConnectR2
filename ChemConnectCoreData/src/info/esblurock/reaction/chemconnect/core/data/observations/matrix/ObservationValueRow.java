@@ -60,10 +60,6 @@ public class ObservationValueRow extends ChemConnectCompoundDataStructure {
 		return row.size();
 	}
 
-	public 	ArrayList<String> get() {
-		return row;
-	}
-
 	public String toString() {
 		return toString("");
 	}

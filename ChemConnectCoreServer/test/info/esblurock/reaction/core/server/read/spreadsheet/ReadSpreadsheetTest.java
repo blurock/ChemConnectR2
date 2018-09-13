@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
 import info.esblurock.reaction.core.server.read.InterpretSpreadSheet;
 
 public class ReadSpreadsheetTest {
@@ -34,12 +35,12 @@ public class ReadSpreadsheetTest {
 		DatabaseObject obj = new DatabaseObject("id", "Public", "Administration", "1");
 		
 		InputStream stream = new ByteArrayInputStream(fileS.getBytes(StandardCharsets.UTF_8));
-		ArrayList<DatabaseObject> rowset = new ArrayList<DatabaseObject>();
+		ArrayList<ObservationValueRow> rowset = new ArrayList<ObservationValueRow>();
 		try {
 			InterpretSpreadSheet.readDelimitedFile(stream, "\t", obj, rowset);
 			System.out.println("==================================================");
 			
-			for(DatabaseObject row : rowset) {
+			for(ObservationValueRow row : rowset) {
 				System.out.println(row.toString());
 			}
 		} catch (IOException e) {

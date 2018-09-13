@@ -199,6 +199,7 @@ public class StandardDatasetMetaData {
 	public static String spreadSheetDelimitor = "dataset:SpreadSheetDelimitor";
 	public static String fileSourceIdentifier = "dataset:FileSourceIdentifier";
 	public static String fileSourceType = "dataset:FileSourceType";
+	public static String includeTitle = "dataset:IncludeTitle";
 	public static String spreadSheetInformation = "dataset:SpreadSheetInputInformation";
 	public static String spreadSheetInterpretation = "dataset:SpreadSheetInterpretation";
 	public static String spreadSheetInformationID = "dataset:spreadsheet";

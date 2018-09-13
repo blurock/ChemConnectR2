@@ -488,11 +488,11 @@ public enum InterpretData {
 			
 			DatabaseObjectHierarchy obspechier = InterpretData.ChemConnectCompoundDataStructure.createEmptyObject(spreadobj);
 			ChemConnectCompoundDataStructure structure = (ChemConnectCompoundDataStructure) obspechier.getObject();
-			String type = "";
+			String type = "dataset:CSV";
 			String sourceType = "dataset:StringSource";
 			String source = "0,0,0,0,0\n0,0,0,0,0\n";
-			String delimitor = "dataset:CSV";
-			SpreadSheetInputInformation input = new SpreadSheetInputInformation(structure,type,sourceType,source,delimitor);
+			boolean includeTitle = false;
+			SpreadSheetInputInformation input = new SpreadSheetInputInformation(structure,type,sourceType,source,includeTitle);
 			DatabaseObjectHierarchy inputhier = new DatabaseObjectHierarchy(input);
 			return inputhier;
 		}
@@ -505,11 +505,12 @@ public enum InterpretData {
 			ChemConnectCompoundDataStructure objdata = (ChemConnectCompoundDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
 					
 			String type = (String) yaml.get(StandardDatasetMetaData.spreadSheetSourceType);			
-			String delimitor = (String) yaml.get(StandardDatasetMetaData.spreadSheetDelimitor);			
 			String source    = (String) yaml.get(StandardDatasetMetaData.fileSourceIdentifier);
 			String sourceType    = (String) yaml.get(StandardDatasetMetaData.fileSourceType);
+			String includeTitleS    = (String) yaml.get(StandardDatasetMetaData.includeTitle);
+			boolean includeTitleB = Boolean.valueOf(includeTitleS).booleanValue();
 
-			set = new SpreadSheetInputInformation(objdata, type, sourceType, source, delimitor);
+			set = new SpreadSheetInputInformation(objdata, type, sourceType, source, includeTitleB);
 			return set;
 		}
 
@@ -521,9 +522,10 @@ public enum InterpretData {
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
 			map.put(StandardDatasetMetaData.spreadSheetSourceType, datastructure.getType());
-			map.put(StandardDatasetMetaData.spreadSheetDelimitor, datastructure.getDelimitor());
 			map.put(StandardDatasetMetaData.fileSourceIdentifier, datastructure.getSourceID());
 			map.put(StandardDatasetMetaData.fileSourceType, datastructure.getSourceType());
+			String includeTitleS = String.valueOf(datastructure.isTitleRowGiven());
+			map.put(StandardDatasetMetaData.spreadSheetDelimitor, includeTitleS);
 			
 			return map;
 		}
@@ -3071,7 +3073,7 @@ public enum InterpretData {
 		return createSuffix(obj, element);
 	}
 
-	static String createSuffix(DatabaseObject obj, DataElementInformation element) {
+	public static String createSuffix(DatabaseObject obj, DataElementInformation element) {
 		return obj.getIdentifier() + "-" + element.getSuffix();
 	}
 

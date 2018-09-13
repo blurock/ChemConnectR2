@@ -95,7 +95,10 @@ public enum VisualizeMedia {
 	abstract public void insertVisualization(Serializable object, String title, VisualizationOfBlobStorage visual);
 	
 	
-	void getSpreadSheetInterpretation(String type, GCSBlobFileInformation info, SpreadSheetInputInformation spread, VisualizationOfBlobStorage visual) {
+	void getSpreadSheetInterpretation(String type, 
+			GCSBlobFileInformation info, 
+			SpreadSheetInputInformation spread, 
+			VisualizationOfBlobStorage visual) {
 		VisualizeMediaCallback callback = new VisualizeMediaCallback(type, info.getGSFilename(), visual);
 		SpreadSheetServicesAsync async = SpreadSheetServices.Util.getInstance();
 		async.interpretSpreadSheetGCS(info, spread, true, callback);		

@@ -7,11 +7,11 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
-import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
-import info.esblurock.reaction.chemconnect.core.data.observations.VisualizeObservationBase;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 @RemoteServiceRelativePath("spreadsheet")
 public interface SpreadSheetServices extends RemoteService {
@@ -28,10 +28,11 @@ public interface SpreadSheetServices extends RemoteService {
 
 	ArrayList<ObservationValueRow> getSpreadSheetRows(String parent, int start, int limit) throws IOException;
 
-	ObservationsFromSpreadSheet interpretSpreadSheet(SpreadSheetInputInformation input, boolean writeObjects)
+	DatabaseObjectHierarchy interpretSpreadSheet(SpreadSheetInputInformation input, DataCatalogID catid, boolean writeObjects)
 			throws IOException;
 
-	VisualizeObservationBase interpretSpreadSheetGCS(GCSBlobFileInformation gcsinfo, SpreadSheetInputInformation input,
+	DatabaseObjectHierarchy interpretSpreadSheetGCS(GCSBlobFileInformation gcsinfo, SpreadSheetInputInformation input, 
+			DataCatalogID catid,
 			boolean writeObject) throws IOException;
 
 	void deleteSpreadSheetTransaction(String filename) throws IOException;
