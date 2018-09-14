@@ -5,8 +5,9 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.spreadsheet.ObservationsFromSpreadSheetInterface;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
-public class ReadInSpreadSheetCallback  implements AsyncCallback<ObservationsFromSpreadSheet> {
+public class ReadInSpreadSheetCallback  implements AsyncCallback<DatabaseObjectHierarchy> {
 
 	ObservationsFromSpreadSheetInterface top;
 	
@@ -19,7 +20,7 @@ public class ReadInSpreadSheetCallback  implements AsyncCallback<ObservationsFro
 	}
 
 	@Override
-	public void onSuccess(ObservationsFromSpreadSheet results) {
+	public void onSuccess(DatabaseObjectHierarchy results) {
 		top.setUpResultMatrix(results);
 	}
 

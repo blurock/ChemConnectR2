@@ -5,7 +5,6 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
-import info.esblurock.reaction.chemconnect.core.client.place.ChemConnectAdministrationPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.ChemConnectObservationPlace;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.ChemConnectObservationView;
 

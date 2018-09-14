@@ -3,9 +3,9 @@ package info.esblurock.reaction.chemconnect.core.client.gcs;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import info.esblurock.reaction.chemconnect.core.data.observations.VisualizeObservationBase;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
-public class VisualizeMediaCallback implements AsyncCallback<VisualizeObservationBase> {
+public class VisualizeMediaCallback implements AsyncCallback<DatabaseObjectHierarchy> {
 
 	String type;
 	String title;
@@ -22,7 +22,7 @@ public class VisualizeMediaCallback implements AsyncCallback<VisualizeObservatio
 	}
 
 	@Override
-	public void onSuccess(VisualizeObservationBase obj) {
+	public void onSuccess(DatabaseObjectHierarchy obj) {
 		VisualizeMedia visualization = VisualizeMedia.valueOf(type);
 		visualization.insertVisualization(obj, title, visual);
 	}

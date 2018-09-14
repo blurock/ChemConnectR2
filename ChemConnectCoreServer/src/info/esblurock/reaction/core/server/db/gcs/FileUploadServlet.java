@@ -12,7 +12,6 @@ import info.esblurock.reaction.chemconnect.core.data.base.GoogleCloudStorageCons
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
 import info.esblurock.reaction.core.server.db.image.GCSServiceRoutines;
-import info.esblurock.reaction.core.server.db.image.UserImageServiceImpl;
 import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
 
 import com.google.cloud.storage.BlobInfo;
@@ -26,6 +25,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.*;
 
 public class FileUploadServlet extends HttpServlet {
@@ -40,27 +40,16 @@ public class FileUploadServlet extends HttpServlet {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Not a multipart request");
 			return;
 		}
-
 		ServletFileUpload upload = new ServletFileUpload(); // from Commons
-
 		try {
 			FileItemIterator iter = upload.getItemIterator(request);
-
 			if (iter.hasNext()) {
 				FileItemStream fileItem = iter.next();
-
-				// ServletOutputStream out = response.getOutputStream();
-				// response.setBufferSize(32768);
-
+				System.out.println("FileUploadServlet: 4");
 				InputStream in = fileItem.openStream();
-				//String filename = fileItem.getName().trim();
 				Storage storage = StorageOptions.getDefaultInstance().getService();
 				String uploadDescriptionText = "Uploaded File from FileUploadServlet";
-				
-				
-				ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
-				
-				//String filename = GCSServiceRoutines.createUploadPath(util.getUserName());
+				ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), request.getSession());
 				String path = GCSServiceRoutines.createUploadPath(util.getUserName());
 				GCSBlobFileInformation source = GCSServiceRoutines.createInitialUploadInfo(
 						GoogleCloudStorageConstants.uploadBucket, 
@@ -68,15 +57,11 @@ public class FileUploadServlet extends HttpServlet {
 						fileItem.getContentType(), 
 						uploadDescriptionText,
 						util.getId(),util.getUserName());
-								
-				System.out.println("FileUploadServlet: " + source.toString());
 				
 				BlobInfo info = BlobInfo.newBuilder(source.getBucket(), source.getGSFilename())
 						.setAcl(new ArrayList<>(Arrays.asList(Acl.of(User.ofAllUsers(), Role.READER))))
 						.setContentType(fileItem.getContentType())
 						.build();
-				
-				System.out.println("FileUploadServlet: " + info.toString());
 				@SuppressWarnings("deprecation")
 				BlobInfo blobInfo = storage.create(info, in);
 				String url = blobInfo.getMediaLink();

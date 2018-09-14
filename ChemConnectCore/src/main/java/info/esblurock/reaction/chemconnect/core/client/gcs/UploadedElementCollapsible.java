@@ -25,6 +25,10 @@ import info.esblurock.reaction.chemconnect.core.client.gcs.objects.UploadedTextO
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.spreadsheet.DeleteObjectCallback;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
@@ -78,6 +82,8 @@ public class UploadedElementCollapsible extends Composite implements Visualizati
 	GCSBlobContent content;
 	MaterialPanel modalpanel;
 	String visualType;
+	
+	DataCatalogID catid;
 	
 	public UploadedElementCollapsible(GCSBlobContent content,MaterialPanel modalpanel) {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -189,9 +195,12 @@ public class UploadedElementCollapsible extends Composite implements Visualizati
 		VisualizeMedia visual = VisualizeMedia.valueOf(visualType);
 		String sourceType = SpreadSheetInputInformation.BLOBSOURCE;
 		String source = info.getGSFilename();
-		SpreadSheetInputInformation spread = new SpreadSheetInputInformation(info," ",sourceType,source);
+		boolean titleGiven = false;
+		DatabaseObject obj = new DatabaseObject(info);
+		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,"");
+		SpreadSheetInputInformation spread = new SpreadSheetInputInformation(structure," ",sourceType,source,titleGiven);
 		if(visual != null) {
-			visual.getInterpretedBlob(info, spread, this);
+			visual.getInterpretedBlob(info, spread, catid,true,this);
 		}
 	}
 	

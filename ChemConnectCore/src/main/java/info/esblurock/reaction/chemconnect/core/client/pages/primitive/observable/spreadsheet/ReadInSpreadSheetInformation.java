@@ -30,11 +30,14 @@ import gwt.material.design.client.ui.MaterialTooltip;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.ReadInSpreadSheetCallback;
 import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServices;
 import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServicesAsync;
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInterpretation;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 public class ReadInSpreadSheetInformation extends Composite implements ObservationsFromSpreadSheetInterface {
 
@@ -254,7 +257,15 @@ public class ReadInSpreadSheetInformation extends Composite implements Observati
 		if(title.getValue().booleanValue()) {
 			titlerow = beginningRow;
 		}
-		interpretation = new SpreadSheetInterpretation(obj,parent,beginningRow,endingRow,titlerow,searchbegin.getText(),title.getValue().booleanValue());
+		String beginningColumn = "0";
+		String endingColumn = "0";
+		boolean titleGiven = title.getValue().booleanValue();
+		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,"");
+		interpretation = new SpreadSheetInterpretation(structure,
+				String.valueOf(beginningRow),String.valueOf(endingRow),
+				beginningColumn, endingColumn,
+				searchbegin.getText(),
+				String.valueOf(titleGiven));
 		top.setMatrixInterpretation(interpretation);
 		stepper.reset();
 		overlay.close();
@@ -354,11 +365,14 @@ public class ReadInSpreadSheetInformation extends Composite implements Observati
 			type = SpreadSheetInputInformation.XLS;
 		}
 		DatabaseObject obj = new DatabaseObject();
-		SpreadSheetInputInformation input = new SpreadSheetInputInformation(obj,type, sourceType, source);
-		readInSpreadSheet(input);
+		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,"");
+		DataCatalogID catid = new DataCatalogID();
+		boolean titleGiven = false;
+		SpreadSheetInputInformation input = new SpreadSheetInputInformation(structure,type, sourceType, source,titleGiven);
+		readInSpreadSheet(input,catid);
 	}
 	
-	public void setUpResultMatrix(ObservationsFromSpreadSheet results) {
+	public void setUpResultMatrix(DatabaseObjectHierarchy results) {
 		Window.alert("ReadInSpreadSheetInformation  setUpResultMatrix(");
 		/*
 		origmatrix = results.getMatrix();
@@ -394,10 +408,10 @@ public class ReadInSpreadSheetInformation extends Composite implements Observati
 		//tablepanel.add(spreadsheet);
 	}
 	
-	private void readInSpreadSheet(SpreadSheetInputInformation input) {
+	private void readInSpreadSheet(SpreadSheetInputInformation input, DataCatalogID catid) {
 		SpreadSheetServicesAsync async = SpreadSheetServices.Util.getInstance();
 		ReadInSpreadSheetCallback callback = new ReadInSpreadSheetCallback(this);
-		async.interpretSpreadSheet(input,true, callback);
+		async.interpretSpreadSheet(input,catid,true, callback);
 	}
 
 

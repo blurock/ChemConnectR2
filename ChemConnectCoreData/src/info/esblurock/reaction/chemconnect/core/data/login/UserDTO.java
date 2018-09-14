@@ -86,11 +86,11 @@ public class UserDTO implements Serializable {
 		build.append(IP);
 		build.append(")  ");
 		build.append(userLevel);
-		build.append("/n"); 
+		build.append("\n"); 
 		build.append(privledges);
-		build.append("/n"); 
+		build.append("\n"); 
 		build.append(access);
-		build.append("/n"); 
+		build.append("\n"); 
 		
 		return build.toString();
 	}

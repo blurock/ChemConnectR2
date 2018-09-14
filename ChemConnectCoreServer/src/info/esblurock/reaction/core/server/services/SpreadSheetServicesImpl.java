@@ -46,7 +46,7 @@ public class SpreadSheetServicesImpl extends ServerBase implements SpreadSheetSe
 				lst.add(row);
 			}
 		} catch (Exception e) {
-			throw new IOException("getSpreadSheetRows: Error trying to read spread sheet rows");
+			throw new IOException("getSpreadSheetRows: Error trying to read spread sheet rows: " + e.getClass().getSimpleName());
 		}
 		return lst;
 	}
