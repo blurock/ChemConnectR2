@@ -70,6 +70,12 @@ public class ChooseFromConceptHierarchies extends Composite {
 		setInLinks(choices);
 	}
 
+	public ChooseFromConceptHierarchies(HierarchyNode hierarchy, ChooseFromConceptHeirarchy chosen) {
+		initWidget(uiBinder.createAndBindUi(this));
+		this.chosen = chosen;
+		setupTree(hierarchy);
+	}
+
 	private void setInLinks(ArrayList<String> choices) {
 		if (choices.size() > 1) {
 			for (String choice : choices) {

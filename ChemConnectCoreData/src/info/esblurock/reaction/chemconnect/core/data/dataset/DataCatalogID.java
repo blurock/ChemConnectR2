@@ -79,8 +79,8 @@ public class DataCatalogID extends ChemConnectCompoundDataStructure {
 				build.append(delimitor);
 			}
 		}
-		String catalogpath = CatalogBaseName.replace("-", "/");
-		build.append(catalogpath);
+		//String catalogpath = CatalogBaseName.replace("-", "/");
+		//build.append(catalogpath);
 		build.append(delimitor);
 
 		if (DataCatalog != null) {

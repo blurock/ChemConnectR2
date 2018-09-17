@@ -51,6 +51,7 @@ public class SpreadSheetServicesImpl extends ServerBase implements SpreadSheetSe
 		return lst;
 	}
 
+	
 	public DatabaseObjectHierarchy interpretSpreadSheet(SpreadSheetInputInformation input, DataCatalogID catid, boolean writeObjects) throws IOException {
 		System.out.println("interpretSpreadSheet");
 		System.out.println("interpretSpreadSheet: " + input.toString());
@@ -98,6 +99,11 @@ public class SpreadSheetServicesImpl extends ServerBase implements SpreadSheetSe
 		} catch (Exception e) {
 			throw new IOException("Error trying to read spread sheet rows\n" + e.toString());
 		}
+		if(writeObjects) {
+			System.out.println("\"interpretSpreadSheetGCS: writeObjects");
+			WriteReadDatabaseObjects.writeDatabaseObjectHierarchyWithTransaction(hierarchy);
+		}
+		System.out.println("interpretSpreadSheetGCS: \n" + hierarchy.toString());
 		return hierarchy;
 	}
 	

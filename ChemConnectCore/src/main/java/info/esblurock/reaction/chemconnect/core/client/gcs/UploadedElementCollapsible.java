@@ -9,6 +9,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -18,7 +19,11 @@ import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTextArea;
+import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.MaterialTooltip;
+import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
+import info.esblurock.reaction.chemconnect.core.client.catalog.choose.ChooseFullNameFromCatagoryRow;
+import info.esblurock.reaction.chemconnect.core.client.catalog.choose.ObjectVisualizationInterface;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHeirarchy;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchies;
 import info.esblurock.reaction.chemconnect.core.client.gcs.objects.UploadedTextObject;
@@ -26,16 +31,16 @@ import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observabl
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
-import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 
-public class UploadedElementCollapsible extends Composite implements VisualizationOfBlobStorage, ChooseFromConceptHeirarchy, InsertBlobContentInterface {
+public class UploadedElementCollapsible extends Composite implements ObjectVisualizationInterface, VisualizationOfBlobStorage, ChooseFromConceptHeirarchy, InsertBlobContentInterface {
 
 	private static UploadedElementCollapsibleUiBinder uiBinder = GWT.create(UploadedElementCollapsibleUiBinder.class);
 
@@ -69,7 +74,9 @@ public class UploadedElementCollapsible extends Composite implements Visualizati
 	@UiField
 	MaterialTooltip typetooltip;
 	@UiField
-	MaterialLink add;
+	MaterialPanel catidpanel;
+	@UiField
+	MaterialPanel objectpanel;
 	
 	GCSBlobFileInformation info;
 	Map<String, ClassificationInformation> interpretmap;
@@ -84,6 +91,7 @@ public class UploadedElementCollapsible extends Composite implements Visualizati
 	String visualType;
 	
 	DataCatalogID catid;
+	ChooseFullNameFromCatagoryRow choose;
 	
 	public UploadedElementCollapsible(GCSBlobContent content,MaterialPanel modalpanel) {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -94,6 +102,12 @@ public class UploadedElementCollapsible extends Composite implements Visualizati
 	}
 	
 	void init() {
+		ArrayList<String> choices = new ArrayList<String>();
+		choices.add("dataset:DataTypeFileFormat");
+		String user = Cookies.getCookie("user");
+		String object = null;
+		choose = new ChooseFullNameFromCatagoryRow(this,user,object,choices,modalpanel);
+		catidpanel.add(choose);
 		typeClass = null;
 		typeInstance = null;
 		identifier = null;
@@ -102,7 +116,6 @@ public class UploadedElementCollapsible extends Composite implements Visualizati
 	}
 	
 	void fill(GCSBlobContent content) {
-		Window.alert("fill(GCSBlobContent content):  url" + content.getUrl());
 		this.content = content;
 		info = content.getInfo();
 		linkUrl = content.getUrl();
@@ -166,8 +179,8 @@ public class UploadedElementCollapsible extends Composite implements Visualizati
 			typeClass = type.substring(0, pos);
 			typeInstance = type.substring(pos+1);
 		}
-		visualType = "SpreadSheet";
-		if(typeClass.compareTo("image") == 0) {
+		visualType = null;
+		if(typeClass.startsWith(type)) {
 			visualType = "Image";
 		} else {
 			
@@ -176,11 +189,13 @@ public class UploadedElementCollapsible extends Composite implements Visualizati
 	
 	@UiHandler("type")
 	void onClickType(ClickEvent e) {
+		askForType();
+	}
+	void askForType() {
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		FindFileTypeCallback callback = new FindFileTypeCallback(this);
-		async.getFileInterpretionChoices(info,callback);
+		async.getFileInterpretionChoices(info,callback);		
 	}
-	
 	@UiHandler("delete")
 	void onClickDelete(ClickEvent e) {
 		Window.alert("Delete");
@@ -189,21 +204,6 @@ public class UploadedElementCollapsible extends Composite implements Visualizati
 		async.deleteTransaction(info.getSourceID(), callback);
 		this.removeFromParent();
 	}
-	
-	@UiHandler("add")
-	void onClick(ClickEvent e) {
-		VisualizeMedia visual = VisualizeMedia.valueOf(visualType);
-		String sourceType = SpreadSheetInputInformation.BLOBSOURCE;
-		String source = info.getGSFilename();
-		boolean titleGiven = false;
-		DatabaseObject obj = new DatabaseObject(info);
-		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,"");
-		SpreadSheetInputInformation spread = new SpreadSheetInputInformation(structure," ",sourceType,source,titleGiven);
-		if(visual != null) {
-			visual.getInterpretedBlob(info, spread, catid,true,this);
-		}
-	}
-	
 	@UiHandler("url")
 	void onClickUrl(ClickEvent e) {
 		Window.open(linkUrl, "Download", "");
@@ -266,12 +266,35 @@ public class UploadedElementCollapsible extends Composite implements Visualizati
 	@Override
 	public void insertBlobInformation(GCSBlobContent content) {
 	if(isImage()) {
-		Window.alert("insertBlobInformation: " + content.getUrl());
 		linkUrl = content.getUrl();
 		imagepanel.clear();
 		MaterialImage image = new MaterialImage(linkUrl);				
 		imagepanel.add(image);
 		
 	}
+	}
+
+	@Override
+	public void createCatalogObject(DatabaseObject obj, DataCatalogID catid) {
+		if(visualType == null) {
+			MaterialToast.fireToast("Specify exact file type for interpretation and press Submit again");
+			askForType();
+		}
+		VisualizeMedia visual = VisualizeMedia.valueOf(visualType);
+		String sourceType = SpreadSheetInputInformation.BLOBSOURCE;
+		String source = info.getGSFilename();
+		boolean titleGiven = false;
+		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,obj.getIdentifier());
+		SpreadSheetInputInformation spread = new SpreadSheetInputInformation(structure," ",sourceType,source,titleGiven);
+		if(visual != null) {
+			visual.getInterpretedBlob(info, spread, catid,true,this);
+		}
+	}
+
+	@Override
+	public void insertCatalogObject(DatabaseObjectHierarchy subs) {
+		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(subs,modalpanel);
+		objectpanel.add(item);
+		
 	}
 }

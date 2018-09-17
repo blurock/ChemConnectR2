@@ -35,7 +35,6 @@ import info.esblurock.reaction.chemconnect.core.data.observations.matrix.Observa
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRowTitle;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
-import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
 import info.esblurock.reaction.core.server.db.InterpretData;
 import info.esblurock.reaction.core.server.db.image.UserImageServiceImpl;
 import info.esblurock.reaction.io.metadata.StandardDatasetMetaData;
@@ -75,8 +74,11 @@ public class InterpretSpreadSheet {
 			SpreadSheetInputInformation spreadinput, DataCatalogID catid) throws IOException {
 		System.out.println(spreadinput.toString());
 		ArrayList<ObservationValueRow> set = new ArrayList<ObservationValueRow>();
+		System.out.println("streamReadSpreadSheet: \n" + spreadinput.toString());
+		System.out.println("streamReadSpreadSheet: \n" + catid.toString());
 		DatabaseObject obj = new DatabaseObject(spreadinput);
 		obj.nullKey();
+		System.out.println("streamReadSpreadSheet: \n" + obj.toString());
 		
 		int numberOfColumns = 0;
 		if (spreadinput.isType(SpreadSheetInputInformation.XLS)) {

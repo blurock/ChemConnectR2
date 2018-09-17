@@ -1,6 +1,5 @@
 package info.esblurock.reaction.chemconnect.core.client.catalog.choose;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,9 +24,8 @@ import info.esblurock.reaction.chemconnect.core.client.catalog.SubCatagoryHierar
 import info.esblurock.reaction.chemconnect.core.client.graph.hierarchy.ConvertToMaterialTree;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
+import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHierarchy;
-import info.esblurock.reaction.chemconnect.core.data.description.DescriptionDataData;
-import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
@@ -96,7 +94,7 @@ public class ChooseCatalogHiearchyModal extends Composite implements SubCatagory
 	private void selected(MaterialTreeItem item) {
 		if (item.getTreeItems().size() == 0) {
 			String id = item.getText();
-			chosen.catagoryChosen(mapping.get(id), id);
+			chosen.catagoryChosen(mapping.get(id), item);
 			close();
 		}
 		
@@ -133,17 +131,13 @@ public class ChooseCatalogHiearchyModal extends Composite implements SubCatagory
 	
 	private HierarchyNode nodeFromDatabaseObjectHierarchy(DatabaseObjectHierarchy hierarchy) {
 		DatasetCatalogHierarchy sub = (DatasetCatalogHierarchy) hierarchy.getObject();
-		String descrID = sub.getDescriptionDataData();
+		String descrID = sub.getCatalogDataID();
 		DatabaseObjectHierarchy descrhier = hierarchy.getSubObject(descrID);
-		DescriptionDataData description = (DescriptionDataData) descrhier.getObject();
+		DataCatalogID catid = (DataCatalogID) descrhier.getObject();
 		String link = sub.getIdentifier();
-		String idName = "";
-		String identifier = "";
-		String dataType = "";
-		String oneline = description.getOnlinedescription();
-		mapping.put(oneline,link);
-		ClassificationInformation info = new ClassificationInformation(sub, link, idName, identifier, dataType);
-		HierarchyNode node = new HierarchyNode(oneline);
+		String simplename = catid.getSimpleCatalogName();
+		mapping.put(simplename,link);
+		HierarchyNode node = new HierarchyNode(simplename);
 		return node;
 	}
 

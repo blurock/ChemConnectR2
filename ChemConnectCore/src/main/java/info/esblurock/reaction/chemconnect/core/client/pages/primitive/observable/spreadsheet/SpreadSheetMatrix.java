@@ -85,7 +85,7 @@ public class SpreadSheetMatrix extends Composite {
 			table = new MaterialDataTable<ObservationValueRow>();
 			table.setTitle(obstitle);
 			panel.add(table);
-			getSectionOfData();
+			//getSectionOfData();
 			setUpGenericColumns(table);
 		}
 	}

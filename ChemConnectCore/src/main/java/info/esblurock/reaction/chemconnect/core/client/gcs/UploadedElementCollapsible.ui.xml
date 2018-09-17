@@ -23,13 +23,18 @@
 					</m:MaterialTooltip>
 		</m:MaterialCollapsibleHeader>
 		<m:MaterialCollapsibleBody>
+		<m:MaterialRow padding="0">
+		<m:MaterialColumn grid="s12">
+		<m:MaterialPanel ui:field="catidpanel"/>
+		</m:MaterialColumn>
+		</m:MaterialRow>
 			<m:MaterialRow padding="0">
 				<m:MaterialColumn grid="s4">
 					<m:MaterialTooltip ui:field="typetooltip">
 					<m:MaterialLink ui:field="type" textAlign="LEFT" truncate="true" textColor="BLACK" />
 					</m:MaterialTooltip>
 				</m:MaterialColumn>
-				<m:MaterialColumn grid="s5">
+				<m:MaterialColumn grid="s6">
 					<m:MaterialLink ui:field="filetype" textAlign="LEFT" truncate="true" textColor="BLACK" />
 				</m:MaterialColumn>
 				<m:MaterialColumn grid="s1">
@@ -37,10 +42,6 @@
 						<m:MaterialLink ui:field="url"  iconType="SAVE"
 							iconColor="BLACK" iconPosition="RIGHT" />
 					</m:MaterialTooltip>
-				</m:MaterialColumn>
-				<m:MaterialColumn grid="s1">
-					<m:MaterialLink ui:field="add"  iconType="ADD"
-						iconColor="BLACK" iconPosition="RIGHT" />
 				</m:MaterialColumn>
 				<m:MaterialColumn grid="s1" >
 					<m:MaterialLink ui:field="delete"  iconType="CLEAR"
@@ -55,6 +56,7 @@
 			</m:MaterialRow>
 			<m:MaterialRow>
 				<m:MaterialColumn grid="s12">
+				<m:MaterialPanel ui:field="objectpanel"/>
 				</m:MaterialColumn>
 			</m:MaterialRow>
 			<m:MaterialRow padding="0">

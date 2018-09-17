@@ -1,12 +1,14 @@
 package info.esblurock.reaction.chemconnect.core.client.gcs;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import com.google.gwt.user.client.Window;
 
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.spreadsheet.SpreadSheetMatrix;
 import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServices;
 import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServicesAsync;
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
@@ -14,6 +16,7 @@ import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFr
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInterpretation;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationMatrixValues;
+import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 public enum VisualizeMedia {
@@ -141,14 +144,24 @@ public enum VisualizeMedia {
 	
 	void insertSpreadSheetVisualization(DatabaseObjectHierarchy hierarchy, String title, VisualizationOfBlobStorage visual) {
 		ObservationsFromSpreadSheet observation = (ObservationsFromSpreadSheet) hierarchy.getObject();
-		
-		DatabaseObjectHierarchy inputhier = hierarchy.getSubObject(observation.getSpreadSheetInputInformation());
-		SpreadSheetInterpretation values = (SpreadSheetInterpretation) inputhier.getObject();
-		
+		DatabaseObjectHierarchy inputhier = hierarchy.getSubObject(observation.getSpreadSheetInterpretation());
+		SpreadSheetInterpretation input = (SpreadSheetInterpretation) inputhier.getObject();
 		String id = observation.getIdentifier();
-		int total = values.getEndRow() - values.getStartRow();
-		int numcols = values.getEndColumn() - values.getStartColumn();
+		int total = input.getEndRow() - input.getStartRow();
+		int numcols = input.getEndColumn() - input.getStartColumn();
 		SpreadSheetMatrix matrix = new SpreadSheetMatrix(title,id,numcols ,total);
+		DatabaseObjectHierarchy obsrowshier = hierarchy.getSubObject(observation.getObservationMatrixValues());
+		ObservationMatrixValues values = (ObservationMatrixValues) obsrowshier.getObject();
+		DatabaseObjectHierarchy multrowshier = obsrowshier.getSubObject(values.getObservationRowValue());
+		
+		ChemConnectCompoundMultiple multrows = (ChemConnectCompoundMultiple) multrowshier.getObject();
+		ArrayList<ObservationValueRow> lst = new ArrayList<ObservationValueRow>();
+		for(String name : multrows.getIds()) {
+			DatabaseObjectHierarchy rowhier = multrowshier.getSubObject(name);
+			ObservationValueRow row = (ObservationValueRow) rowhier.getObject();
+			lst.add(row);
+		}
+		matrix.setUpResultMatrix(lst);
 		visual.insertVisualization(matrix);		
 	}
 	

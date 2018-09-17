@@ -12,6 +12,7 @@ import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
+import gwt.material.design.addins.client.tree.MaterialTreeItem;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialDropDown;
 import gwt.material.design.client.ui.MaterialLink;
@@ -20,6 +21,7 @@ import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.MaterialTooltip;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHeirarchy;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchies;
+import info.esblurock.reaction.chemconnect.core.client.graph.hierarchy.MaterialTreeItemWithPath;
 import info.esblurock.reaction.chemconnect.core.client.modal.InputLineModal;
 import info.esblurock.reaction.chemconnect.core.client.modal.SetLineContentInterface;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
@@ -145,9 +147,13 @@ public class ChooseFullNameFromCatagoryRow extends Composite
 		hierarchymodal.open();		
 	}
 	@Override
-	public void catagoryChosen(String id, String title) {
+	public void catagoryChosen(String id, MaterialTreeItem item) {
+		MaterialTreeItemWithPath withpath = (MaterialTreeItemWithPath) item;
+		ArrayList<String> lst = withpath.getPath();
+		lst.add(item.getText());
+		chosenPath = lst;
 		catalogtypeid.setText(id);
-		catalog.setText(title);
+		catalog.setText(item.getText());
 		catalogSelected = true;
 	}
 	/*
@@ -168,7 +174,6 @@ public class ChooseFullNameFromCatagoryRow extends Composite
 	}
 	@Override
 	public void conceptChosen(String topconcept, String concept, ArrayList<String> path) {
-		chosenPath = path;
 		objecttype.setText(TextUtilities.removeNamespace(concept));
 		objecttypeid.setText(concept);
 		typeSelected = true;
