@@ -5,8 +5,10 @@ import java.util.ArrayList;
 
 import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServices;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.base.GoogleCloudStorageConstants;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
+import info.esblurock.reaction.chemconnect.core.data.gcs.GCSInputFileInterpretation;
 import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
@@ -15,7 +17,9 @@ import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.data.query.SetOfQueryPropertyValues;
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
+import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
 import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
+import info.esblurock.reaction.core.server.db.image.GCSServiceRoutines;
 import info.esblurock.reaction.core.server.db.image.UserImageServiceImpl;
 import info.esblurock.reaction.core.server.read.InterpretSpreadSheet;
 import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
@@ -76,8 +80,6 @@ public class SpreadSheetServicesImpl extends ServerBase implements SpreadSheetSe
 
 		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
 		UserDTO user = util.getUserInfo();
-		System.out.println("User: " + user);
-
 		SetOfQueryPropertyValues queryvalues = new SetOfQueryPropertyValues();
 		QueryPropertyValue filequery = new QueryPropertyValue("source", gcsinfo.getGSFilename());
 		queryvalues.add(filequery);
@@ -86,22 +88,26 @@ public class SpreadSheetServicesImpl extends ServerBase implements SpreadSheetSe
 		input.setSourceID(sourceID);
 		DatabaseObjectHierarchy hierarchy = null;
 		try {
-			System.out.println("interpretSpreadSheetGCS:  " + query.toString());
 			SingleQueryResult result = QueryBase.StandardQueryResult(query);
-			System.out.println("interpretSpreadSheetGCS: numbrer of results " + result.getResults().size());
 			if(result.getResults().size() > 0) {
 				System.out.println("interpretSpreadSheetGCS:  already stored");
 				//hierarchy = new ObservationsFromSpreadSheet(input);
 			} else {
-				System.out.println("interpretSpreadSheetGCS:  interpret spreadsheet");
 				hierarchy = InterpretSpreadSheet.readSpreadSheetFromGCS(gcsinfo, input,catid);
 			}
 		} catch (Exception e) {
 			throw new IOException("Error trying to read spread sheet rows\n" + e.toString());
 		}
 		if(writeObjects) {
-			System.out.println("\"interpretSpreadSheetGCS: writeObjects");
-			WriteReadDatabaseObjects.writeDatabaseObjectHierarchyWithTransaction(hierarchy);
+			WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(hierarchy);
+			GCSBlobFileInformation source = new GCSBlobFileInformation(gcsinfo);
+			source.setPath(catid.getFullName("/"));
+			source.setBucket(GoogleCloudStorageConstants.storageBucket);
+			GCSServiceRoutines.moveBlob(source,gcsinfo);
+			GCSInputFileInterpretation transaction = new GCSInputFileInterpretation(hierarchy.getObject(),
+					source.getBucket(),source.getGSFilename(),
+					hierarchy.getObject().getClass().getCanonicalName());
+			DatabaseWriteBase.writeObjectWithTransaction(transaction);
 		}
 		System.out.println("interpretSpreadSheetGCS: \n" + hierarchy.toString());
 		return hierarchy;

@@ -7,9 +7,9 @@
 		font-weight: bold;
 	}
 	</ui:style>
-	<m:MaterialModal ui:field="modal" type="DEFAULT"
+	<m:MaterialDialog ui:field="modal" type="DEFAULT"
 		inDuration="500" outDuration="500" dismissible="true" height="200px">
-		<m:MaterialModalContent ui:field="modalcontent">
+		<m:MaterialDialogContent ui:field="modalcontent">
 			<m:MaterialPanel>
 				<m:MaterialRow backgroundColor="GREY_LIGHTEN_2">
 					<m:MaterialColumn grid="s6">
@@ -24,12 +24,12 @@
 					</m:MaterialColumn>
 				</m:MaterialRow>
 			</m:MaterialPanel>
-		</m:MaterialModalContent>
-		<m:MaterialModalFooter ui:field="footer"
+		</m:MaterialDialogContent>
+		<m:MaterialDialogFooter ui:field="footer"
 			paddingTop="0" paddingBottom="0">
 			<m:MaterialLink ui:field="close" text="CLOSE" type="FLAT"
 				iconColor="BLACK" textAlign="RIGHT" />
-		</m:MaterialModalFooter>
-	</m:MaterialModal>
+		</m:MaterialDialogFooter>
+	</m:MaterialDialog>
 
 </ui:UiBinder> 

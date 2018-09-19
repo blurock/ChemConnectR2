@@ -32,7 +32,14 @@ public class GCSBlobFileInformation extends DatabaseObject {
 		this.filetype = filetype;
 		this.description = description;
 }
-
+	public GCSBlobFileInformation(GCSBlobFileInformation info) {
+		super(info);
+		this.bucket = info.getBucket();
+		this.path = info.getPath();
+		this.filename = info.getFilename();
+		this.filetype = info.getFiletype();
+		this.description = info.getDescription();		
+	}
 	public String getBucket() {
 		return bucket;
 	}
@@ -48,7 +55,22 @@ public class GCSBlobFileInformation extends DatabaseObject {
 	public String getDescription() {
 		return description;
 	}
-	
+
+	public void setBucket(String bucket) {
+		this.bucket = bucket;
+	}
+	public void setPath(String path) {
+		this.path = path;
+	}
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+	public void setFiletype(String filetype) {
+		this.filetype = filetype;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
 	public String getGSFilename() {
 		String name = filename;
 		if(path != null) {

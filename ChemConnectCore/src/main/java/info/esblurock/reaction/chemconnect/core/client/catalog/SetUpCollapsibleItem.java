@@ -1,5 +1,7 @@
 package info.esblurock.reaction.chemconnect.core.client.catalog;
 
+import com.google.gwt.user.client.Window;
+
 import info.esblurock.reaction.chemconnect.core.client.catalog.hierarchy.StandardDatasetCatalogHierarchyHeader;
 import info.esblurock.reaction.chemconnect.core.client.catalog.link.PrimitiveDataObjectLinkRow;
 import info.esblurock.reaction.chemconnect.core.client.catalog.multiple.ChemConnectCompoundMultipleHeader;
@@ -13,6 +15,9 @@ import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetOr
 import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetOrganizationHeader;
 import info.esblurock.reaction.chemconnect.core.client.device.StandardDatasetSubSystemHeader;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.SpreadSheetBlockMatrix;
+import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.SpreadSheetInputInformationHeader;
+import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.SpreadSheetInterpretationHeader;
+import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.StandardDatasetObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.methodology.StandardDatasetMethodologyHeader;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.observations.ParameterValueHeader;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.observations.PrimitiveParameterValueRow;
@@ -200,9 +205,66 @@ public enum SetUpCollapsibleItem {
 		public boolean addSubitems() {
 			return false;
 		}
-	},
-	
-	ObservationSpecification {
+	}, ObservationsFromSpreadSheet  {
+
+		@Override
+		public void addInformation(StandardDatasetObjectHierarchyItem item) {
+			StandardDatasetObservationsFromSpreadSheet header = new StandardDatasetObservationsFromSpreadSheet(item);
+			item.addHeader(header);
+			
+		}
+
+		@Override
+		public boolean update(StandardDatasetObjectHierarchyItem item) {
+			return true;
+		}
+
+		@Override
+		public int priority() {
+			return 800;
+		}
+
+		@Override
+		public boolean isInformation() {
+			return false;
+		}
+
+		@Override
+		public boolean addSubitems() {
+			return true;
+		}
+		
+	}, SpreadSheetInterpretation {
+
+		@Override
+		public void addInformation(StandardDatasetObjectHierarchyItem item) {
+			Window.alert("SpreadSheetInterpretation: ");
+			SpreadSheetInterpretationHeader header = new SpreadSheetInterpretationHeader(item);
+			item.addHeader(header);
+			Window.alert("SpreadSheetInterpretation: " + item.getObject().toString());
+		}
+
+		@Override
+		public boolean update(StandardDatasetObjectHierarchyItem item) {
+			return false;
+		}
+
+		@Override
+		public int priority() {
+			return 400;
+		}
+
+		@Override
+		public boolean isInformation() {
+			return true;
+		}
+
+		@Override
+		public boolean addSubitems() {
+			return false;
+		}
+		
+	}, ObservationSpecification {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
@@ -260,12 +322,45 @@ public enum SetUpCollapsibleItem {
 			return true;
 		}
 		
+	}, SpreadSheetInputInformation {
+
+		@Override
+		public void addInformation(StandardDatasetObjectHierarchyItem item) {
+			Window.alert("SpreadSheetInputInformation: ");
+			SpreadSheetInputInformationHeader header = new SpreadSheetInputInformationHeader(item);
+			item.addHeader(header);
+			Window.alert("SpreadSheetInputInformation: " + item.getObject().toString());
+		}
+
+		@Override
+		public boolean update(StandardDatasetObjectHierarchyItem item) {
+			return true;
+		}
+
+		@Override
+		public int priority() {
+			return 200;
+		}
+
+		@Override
+		public boolean isInformation() {
+			return true;
+		}
+
+		@Override
+		public boolean addSubitems() {
+			return true;
+		}
+		
 	}, ObservationMatrixValues {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
+			Window.alert("ObservationMatrixValues" );
 			SpreadSheetBlockMatrix header = new SpreadSheetBlockMatrix(item);
+			Window.alert("ObservationMatrixValues 0: " + item.getObject().getIdentifier());
 			item.addHeader(header);
+			Window.alert("ObservationMatrixValues 1: " + item.getObject().getIdentifier());
 		}
 
 		@Override

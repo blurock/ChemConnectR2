@@ -14,8 +14,8 @@ import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialLink;
-import gwt.material.design.client.ui.MaterialModal;
-import gwt.material.design.client.ui.MaterialModalFooter;
+import gwt.material.design.client.ui.MaterialDialog;
+import gwt.material.design.client.ui.MaterialDialogFooter;
 import gwt.material.design.client.ui.MaterialNavBrand;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTitle;
@@ -75,9 +75,9 @@ public class ChemConnectAdministrationImpl extends Composite implements ChemConn
 	@UiField
 	MaterialLink close;
 	@UiField
-	MaterialModal okmodal;
+	MaterialDialog okmodal;
 	@UiField
-	MaterialModalFooter footer;
+	MaterialDialogFooter footer;
 	@UiField
 	MaterialPanel content;
 	

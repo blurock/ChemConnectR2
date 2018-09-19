@@ -78,6 +78,7 @@ public class InterpretSpreadSheet {
 		System.out.println("streamReadSpreadSheet: \n" + catid.toString());
 		DatabaseObject obj = new DatabaseObject(spreadinput);
 		obj.nullKey();
+		obj.setIdentifier(catid.getFullName());
 		System.out.println("streamReadSpreadSheet: \n" + obj.toString());
 		
 		int numberOfColumns = 0;

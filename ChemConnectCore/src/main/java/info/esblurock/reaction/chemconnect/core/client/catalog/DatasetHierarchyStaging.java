@@ -67,7 +67,8 @@ public class DatasetHierarchyStaging implements Comparator<DatasetHierarchyStagi
 		try {
 			setup = SetUpCollapsibleItem.valueOf(structure);
 		} catch (Exception ex) {
-			Window.alert(structure + " not found: " + ex.getClass().getSimpleName());
+			Window.alert(structure + " has not been not found: " + ex.getClass().getSimpleName());
+			Window.alert(structure + " not found: " + SetUpCollapsibleItem.values());
 		}
 		return setup;
 	}

@@ -8,9 +8,9 @@
 		font-weight: bold;
 	}
 	</ui:style>
-	<m:MaterialModal ui:field="modal" type="DEFAULT" height="100"
+	<m:MaterialDialog ui:field="modal" type="DEFAULT" height="100"
 		inDuration="500" outDuration="500" dismissible="true">
-		<m:MaterialModalContent ui:field="modalcontent" height="100">
+		<m:MaterialDialogContent ui:field="modalcontent" height="100">
 			<m:MaterialPanel height="100" >
 				<ma:fileuploader.MaterialFileUploader
 					ui:field="uploader" url="/gcsfileupload" maxFileSize="20" shadow="1">
@@ -18,11 +18,11 @@
 						title="Drag Files to Upload" description="Some description here" />
 				</ma:fileuploader.MaterialFileUploader>
 			</m:MaterialPanel>
-		</m:MaterialModalContent>
-		<m:MaterialModalFooter ui:field="footer"
+		</m:MaterialDialogContent>
+		<m:MaterialDialogFooter ui:field="footer"
 			paddingTop="0" paddingBottom="0">
 			<m:MaterialLink ui:field="close" text="CLOSE" type="FLAT"
 				iconColor="BLACK" textAlign="RIGHT" />
-		</m:MaterialModalFooter>
-	</m:MaterialModal>
+		</m:MaterialDialogFooter>
+	</m:MaterialDialog>
 </ui:UiBinder> 

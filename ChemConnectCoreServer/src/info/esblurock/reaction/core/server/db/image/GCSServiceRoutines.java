@@ -5,8 +5,10 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
 import com.google.cloud.WriteChannel;
+import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
+import com.google.cloud.storage.CopyWriter;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
 
@@ -71,6 +73,34 @@ public class GCSServiceRoutines {
 					+ " with size " + contentS.length() + "bytes");
 		}
 		DatabaseWriteBase.writeObjectWithTransaction(gcs.getInfo());
+	}
+	public static GCSBlobContent moveBlob(GCSBlobFileInformation fileinfo, GCSBlobFileInformation source) {
+		Storage storage = StorageOptions.getDefaultInstance().getService();
+
+		String sourcefilename = source.getGSFilename();
+		String sourcebucket = source.getBucket();
+		String targetfilename = fileinfo.getGSFilename();
+		String targetbucket = fileinfo.getBucket();
+
+		System.out.println("moveBlob: " + sourcebucket);
+		System.out.println("moveBlob: " + sourcefilename);
+		System.out.println("moveBlob: " + targetbucket);
+		System.out.println("moveBlob: " + targetfilename);
+
+		BlobId blobId = BlobId.of(sourcebucket, sourcefilename);
+		System.out.println("moveBlob: " + blobId);
+
+		Blob blob = storage.get(blobId);
+
+		CopyWriter copyWriter = blob.copyTo(BlobId.of(targetbucket, targetfilename));
+
+		Blob copiedBlob = copyWriter.getResult();
+		GCSBlobContent content = new GCSBlobContent(copiedBlob.getMediaLink(), fileinfo);
+		String sourceID = QueryBase.getDataSourceIdentification(fileinfo.getOwner());
+		fileinfo.setSourceID(sourceID);
+		fileinfo.nullKey();
+		DatabaseWriteBase.writeObjectWithTransaction(fileinfo);
+		return content;
 	}
 
 

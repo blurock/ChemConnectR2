@@ -8,16 +8,16 @@
 	}
 	</ui:style>
 	<m:MaterialPanel ui:field="toppanel">
-		<m:MaterialModal ui:field="okmodal" type="DEFAULT"
+		<m:MaterialDialog ui:field="okmodal" type="DEFAULT"
 			inDuration="500" outDuration="500">
-			<m:MaterialModalContent>
+			<m:MaterialDialogContent>
 				<m:MaterialTitle ui:field="title" />
-			</m:MaterialModalContent>
-			<m:MaterialModalFooter ui:field="footer">
+			</m:MaterialDialogContent>
+			<m:MaterialDialogFooter ui:field="footer">
 				<m:MaterialLink ui:field="close" type="FLAT" />
 				<m:MaterialLink ui:field="ok" type="FLAT" />
-			</m:MaterialModalFooter>
-		</m:MaterialModal>
+			</m:MaterialDialogFooter>
+		</m:MaterialDialog>
 		<m:MaterialHeader ui:field="header">
 			<m:MaterialNavBar activates="sidenavFixed"
 				backgroundColor="BLUE" shadow="1">

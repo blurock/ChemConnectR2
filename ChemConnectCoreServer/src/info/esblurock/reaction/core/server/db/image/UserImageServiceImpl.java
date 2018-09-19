@@ -224,32 +224,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	}
 
 	public GCSBlobContent moveBlob(GCSBlobFileInformation fileinfo, GCSBlobFileInformation source) {
-		Storage storage = StorageOptions.getDefaultInstance().getService();
-
-		//ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
-		//UserDTO user = util.getUserInfo();
-
-		String sourcefilename = source.getGSFilename();
-		String sourcebucket = source.getBucket();
-		String targetfilename = fileinfo.getGSFilename();
-		String targetbucket = fileinfo.getBucket();
-
-		System.out.println("moveBlob: " + sourcebucket);
-		System.out.println("moveBlob: " + sourcefilename);
-		System.out.println("moveBlob: " + targetbucket);
-		System.out.println("moveBlob: " + targetfilename);
-
-		BlobId blobId = BlobId.of(sourcebucket, sourcefilename);
-		System.out.println("moveBlob: " + blobId);
-
-		Blob blob = storage.get(blobId);
-
-		CopyWriter copyWriter = blob.copyTo(BlobId.of(targetbucket, targetfilename));
-
-		Blob copiedBlob = copyWriter.getResult();
-		GCSBlobContent content = new GCSBlobContent(copiedBlob.getMediaLink(), fileinfo);
-		DatabaseWriteBase.writeObjectWithTransaction(fileinfo);
-		return content;
+		return GCSServiceRoutines.moveBlob(fileinfo, source);
 	}
 
 	public GCSBlobContent getBlobContent(GCSBlobFileInformation gcsinfo) {
@@ -558,6 +533,10 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		ParsedFilename parsed = parseFilename(info);
 		return ParseUtilities.getFileInterpretionChoices(parsed);
 	}
+	
+	public String getStructureFromFileType(String filetype) {
+		return ConceptParsing.getStructureFromFileType(filetype);
+	}
 
 	public static ParsedFilename parseFilename(GCSBlobFileInformation info) throws IOException {
 		ParsedFilename parsed = ParseUtilities.fillFileInformation(info, info.getFilename(), info.getFiletype());
@@ -574,6 +553,9 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		BlobId blobId = BlobId.of(gcsinfo.getBucket(), gcsinfo.getGSFilename());
 		storage.delete(blobId);
 	}
+	
+	
+	
 /*
 	public static String createUploadPath(ContextAndSessionUtilities util) {
 		String username = util.getUserName();

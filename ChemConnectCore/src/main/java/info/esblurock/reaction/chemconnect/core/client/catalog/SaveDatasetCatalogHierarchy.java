@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.ui.MaterialCheckBox;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
-import gwt.material.design.client.ui.MaterialModal;
+import gwt.material.design.client.ui.MaterialDialog;
 import gwt.material.design.client.ui.MaterialToast;
 
 public class SaveDatasetCatalogHierarchy extends Composite {
@@ -26,7 +26,7 @@ public class SaveDatasetCatalogHierarchy extends Composite {
 	}
 
 	@UiField
-	MaterialModal modal;
+	MaterialDialog modal;
 	@UiField
 	MaterialCheckBox databasecheckbox;
 	@UiField

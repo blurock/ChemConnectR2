@@ -14,7 +14,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialDropDown;
 import gwt.material.design.client.ui.MaterialLink;
-import gwt.material.design.client.ui.MaterialModal;
+import gwt.material.design.client.ui.MaterialDialog;
 
 public class ChooseColumnForParameterModal extends Composite {
 
@@ -37,7 +37,7 @@ public class ChooseColumnForParameterModal extends Composite {
 	@UiField
 	MaterialDropDown column;
 	@UiField
-	MaterialModal modal;
+	MaterialDialog modal;
 	
 	ColumnToParameterCorrespondenceRow top;
 	int colcount;

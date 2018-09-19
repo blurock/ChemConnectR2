@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.ui.MaterialLink;
-import gwt.material.design.client.ui.MaterialModal;
+import gwt.material.design.client.ui.MaterialDialog;
 import gwt.material.design.client.ui.MaterialTextBox;
 import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
 
@@ -29,7 +29,7 @@ public class QueryNameOfPersonModal extends Composite {
 	}
 
 	@UiField
-	MaterialModal personmodal;
+	MaterialDialog personmodal;
 	@UiField
 	MaterialTextBox personTitle;
 	@UiField

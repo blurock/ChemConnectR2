@@ -284,6 +284,7 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 		String sourceType = SpreadSheetInputInformation.BLOBSOURCE;
 		String source = info.getGSFilename();
 		boolean titleGiven = false;
+		obj.setIdentifier(catid.getFullName());
 		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,obj.getIdentifier());
 		SpreadSheetInputInformation spread = new SpreadSheetInputInformation(structure," ",sourceType,source,titleGiven);
 		if(visual != null) {
@@ -293,6 +294,7 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 
 	@Override
 	public void insertCatalogObject(DatabaseObjectHierarchy subs) {
+		Window.alert("insertCatalogObject: " + subs.getObject().toString());
 		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(subs,modalpanel);
 		objectpanel.add(item);
 		

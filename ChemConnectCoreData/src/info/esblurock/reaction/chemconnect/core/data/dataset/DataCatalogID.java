@@ -70,7 +70,7 @@ public class DataCatalogID extends ChemConnectCompoundDataStructure {
 	public void setPath(ArrayList<String> path) {
 		this.path = path;
 	}
-
+	
 	public String getFullName(String delimitor) {
 		StringBuilder build = new StringBuilder();
 		if (path != null) {
@@ -79,10 +79,7 @@ public class DataCatalogID extends ChemConnectCompoundDataStructure {
 				build.append(delimitor);
 			}
 		}
-		//String catalogpath = CatalogBaseName.replace("-", "/");
-		//build.append(catalogpath);
-		build.append(delimitor);
-
+		
 		if (DataCatalog != null) {
 			if (DataCatalog.length() > 0) {
 				build.append(ChemConnectCompoundDataStructure.removeNamespace(DataCatalog));

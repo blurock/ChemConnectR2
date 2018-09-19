@@ -10,8 +10,8 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialLink;
-import gwt.material.design.client.ui.MaterialModal;
-import gwt.material.design.client.ui.MaterialModalContent;
+import gwt.material.design.client.ui.MaterialDialog;
+import gwt.material.design.client.ui.MaterialDialogContent;
 import gwt.material.design.client.ui.MaterialTextArea;
 import gwt.material.design.client.ui.MaterialTextBox;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
@@ -26,9 +26,9 @@ public class DetermineBlobTargetModal extends Composite  {
 
 
 	@UiField
-	MaterialModal modal;
+	MaterialDialog modal;
 	@UiField
-	MaterialModalContent modalcontent;
+	MaterialDialogContent modalcontent;
 	@UiField
 	MaterialLink filetype;
 	@UiField

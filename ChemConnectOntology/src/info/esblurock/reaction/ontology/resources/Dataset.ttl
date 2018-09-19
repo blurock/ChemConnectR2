@@ -3349,14 +3349,6 @@ Under the general type of is the actual data object referenced by the ChemConnec
                rdfs:subClassOf :DataTypeFileFormat .
 
 
-###  http://www.esblurock.info/dataset#FileTypeInitializationFiles
-:FileTypeInitializationFiles rdf:type owl:Class ;
-                             rdfs:subClassOf :FileTypeYaml ;
-                             <http://purl.org/dc/elements/1.1/type> "YAML"^^xsd:string ;
-                             <http://purl.org/dc/terms/identifier> "text/yaml"^^xsd:string ;
-                             :fileextension "yaml"^^xsd:string .
-
-
 ###  http://www.esblurock.info/dataset#FileTypeMSExcel
 :FileTypeMSExcel rdf:type owl:Class ;
                  rdfs:subClassOf :ApplicationSpreadSheet ;
@@ -3402,7 +3394,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#FileTypeSpreadsheet
 :FileTypeSpreadsheet rdf:type owl:Class ;
-                     rdfs:subClassOf :FileTypeText .
+                     rdfs:subClassOf :FileTypeText ,
+                                     [ rdf:type owl:Restriction ;
+                                       owl:onProperty <http://purl.org/linked-data/cube#structure> ;
+                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                       owl:onClass :ObservationsFromSpreadSheet
+                                     ] .
 
 
 ###  http://www.esblurock.info/dataset#FileTypeText
@@ -3454,6 +3451,69 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :FileUploadFromTextArea rdf:type owl:Class ;
                         rdfs:subClassOf :UploadFileSpecification ;
                         <http://www.w3.org/2004/02/skos/core#altLabel> "uploadtext"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#FileYamlChemConnectMethodology
+:FileYamlChemConnectMethodology rdf:type owl:Class ;
+                                rdfs:subClassOf :FileTypeYaml ,
+                                                [ rdf:type owl:Restriction ;
+                                                  owl:onProperty <http://purl.org/linked-data/cube#structure> ;
+                                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                  owl:onClass :ChemConnectMethodology
+                                                ] .
+
+
+###  http://www.esblurock.info/dataset#FileYamlDatabasePerson
+:FileYamlDatabasePerson rdf:type owl:Class ;
+                        rdfs:subClassOf :FileTypeYaml ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://purl.org/linked-data/cube#structure> ;
+                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onClass :DatabasePerson
+                                        ] .
+
+
+###  http://www.esblurock.info/dataset#FileYamlDatasetCatalogHierarchy
+:FileYamlDatasetCatalogHierarchy rdf:type owl:Class ;
+                                 rdfs:subClassOf :FileTypeYaml ,
+                                                 [ rdf:type owl:Restriction ;
+                                                   owl:onProperty <http://purl.org/linked-data/cube#structure> ;
+                                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                   owl:onClass :DatasetCatalogHierarchy
+                                                 ] .
+
+
+###  http://www.esblurock.info/dataset#FileYamlOrganization
+:FileYamlOrganization rdf:type owl:Class ;
+                      rdfs:subClassOf :FileTypeYaml ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty <http://purl.org/linked-data/cube#structure> ;
+                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                        owl:onClass :Organization
+                                      ] .
+
+
+###  http://www.esblurock.info/dataset#FileYamlSetOfObservationValues
+:FileYamlSetOfObservationValues rdf:type owl:Class ;
+                                rdfs:subClassOf :FileTypeYaml ,
+                                                [ rdf:type owl:Restriction ;
+                                                  owl:onProperty <http://purl.org/linked-data/cube#structure> ;
+                                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                  owl:onClass :SetOfObservationValues
+                                                ] .
+
+
+###  http://www.esblurock.info/dataset#FileYamlSubSystemDescription
+:FileYamlSubSystemDescription rdf:type owl:Class ;
+                              rdfs:subClassOf :FileTypeYaml ,
+                                              [ rdf:type owl:Restriction ;
+                                                owl:onProperty <http://purl.org/linked-data/cube#structure> ;
+                                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                owl:onClass :SubSystemDescription
+                                              ] ;
+                              <http://purl.org/dc/elements/1.1/type> "YAML"^^xsd:string ;
+                              <http://purl.org/dc/terms/identifier> "text/yaml"^^xsd:string ;
+                              :fileextension "yaml"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#FiletypeHTML
@@ -10006,8 +10066,8 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
                                     <http://purl.org/dc/terms/issued> "2000-07-11"^^xsd:date .
 
 
-<http://purl.org/dc/terms/rights> <http://purl.org/dc/terms/issued> "2008-01-14"^^xsd:date ;
-                                  rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
+<http://purl.org/dc/terms/rights> rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
+                                  <http://purl.org/dc/terms/issued> "2008-01-14"^^xsd:date ;
                                   rdfs:label "Rights"@en ;
                                   rdfs:comment "Information about rights held in and over the resource."@en ;
                                   <http://purl.org/dc/terms/modified> "2008-01-14"^^xsd:date ;
@@ -10015,8 +10075,8 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
                                   <http://purl.org/dc/terms/description> "Typically, rights information includes a statement about various property rights associated with the resource, including intellectual property rights."@en .
 
 
-<http://purl.org/dc/terms/rightsHolder> rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
-                                        <http://purl.org/dc/terms/hasVersion> <http://dublincore.org/usage/terms/history/#rightsHolder-002> ;
+<http://purl.org/dc/terms/rightsHolder> <http://purl.org/dc/terms/hasVersion> <http://dublincore.org/usage/terms/history/#rightsHolder-002> ;
+                                        rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
                                         <http://purl.org/dc/terms/modified> "2008-01-14"^^xsd:date ;
                                         rdfs:comment "A person or organization owning or managing rights over the resource."@en ;
                                         <http://purl.org/dc/terms/issued> "2004-06-14"^^xsd:date ;
@@ -10127,8 +10187,8 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
 :DOI <http://www.w3.org/2004/02/skos/core#altLabel> "doi" ;
      <http://purl.org/dc/elements/1.1/type> "DOI" ;
      rdfs:label "DOI reference"^^xsd:string ;
-     rdfs:isDefinedBy <http://www.w3.org/ns/org#identifier> ;
      <http://www.w3.org/2004/02/skos/core#altLabel> "doi"^^xsd:string ;
+     rdfs:isDefinedBy <http://www.w3.org/ns/org#identifier> ;
      <http://purl.org/dc/terms/identifier> "datacite:PrimaryResourceIdentifier"^^xsd:string .
 
 

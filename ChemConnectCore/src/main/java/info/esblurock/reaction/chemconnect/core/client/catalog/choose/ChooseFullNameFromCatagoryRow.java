@@ -9,6 +9,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -177,7 +178,20 @@ public class ChooseFullNameFromCatagoryRow extends Composite
 		objecttype.setText(TextUtilities.removeNamespace(concept));
 		objecttypeid.setText(concept);
 		typeSelected = true;
+		
+		if(objectS == null) {
+			Window.alert("conceptChosen: find object type:   " + concept);
+			UserImageServiceAsync async = UserImageService.Util.getInstance();
+			SetObjectTypeCallback callback = new SetObjectTypeCallback(this);
+			async.getStructureFromFileType(concept,callback);
+		}
 	}
+	
+	public void setObjectType(String objectType) {
+		Window.alert("setObjectType: the object type:   " + objectType);
+		this.objectS = objectType;
+	}
+	
 	/*
 	 * 
 	 */
@@ -253,6 +267,7 @@ public class ChooseFullNameFromCatagoryRow extends Composite
 	public void objectChosen(String id) {
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		SubCatagoryHierarchyCallback callback = new SubCatagoryHierarchyCallback(this);
+		Window.alert("objectChosen: " + objectS + ":   " + id);
 		async.getCatalogObject(id, objectS,callback);
 	}
 

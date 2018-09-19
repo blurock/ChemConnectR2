@@ -9,7 +9,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialLink;
-import gwt.material.design.client.ui.MaterialModal;
+import gwt.material.design.client.ui.MaterialDialog;
 
 public class OKModal extends Composite {
 
@@ -20,7 +20,7 @@ public class OKModal extends Composite {
 
 
 	@UiField
-	MaterialModal modal;
+	MaterialDialog modal;
 	@UiField
 	MaterialLink ok;
 	@UiField

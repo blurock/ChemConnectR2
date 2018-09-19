@@ -10,8 +10,8 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialLink;
-import gwt.material.design.client.ui.MaterialModal;
-import gwt.material.design.client.ui.MaterialModalContent;
+import gwt.material.design.client.ui.MaterialDialog;
+import gwt.material.design.client.ui.MaterialDialogContent;
 
 public class CardModal extends Composite {
 
@@ -24,9 +24,9 @@ public class CardModal extends Composite {
 	@UiField
 	MaterialLink close;
 	@UiField
-	MaterialModal modal;
+	MaterialDialog modal;
 	@UiField
-	MaterialModalContent modalcontent;
+	MaterialDialogContent modalcontent;
 	
 	CardModalInterface card;
 	

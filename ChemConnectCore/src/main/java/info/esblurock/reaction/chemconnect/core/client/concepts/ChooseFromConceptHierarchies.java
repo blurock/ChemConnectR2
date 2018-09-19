@@ -17,9 +17,9 @@ import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.tree.MaterialTree;
 import gwt.material.design.addins.client.tree.MaterialTreeItem;
 import gwt.material.design.client.ui.MaterialLink;
-import gwt.material.design.client.ui.MaterialModal;
-import gwt.material.design.client.ui.MaterialModalContent;
-import gwt.material.design.client.ui.MaterialModalFooter;
+import gwt.material.design.client.ui.MaterialDialog;
+import gwt.material.design.client.ui.MaterialDialogContent;
+import gwt.material.design.client.ui.MaterialDialogFooter;
 import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.chemconnect.core.client.graph.hierarchy.ConvertToMaterialTree;
 import info.esblurock.reaction.chemconnect.core.client.graph.hierarchy.MaterialTreeItemWithPath;
@@ -41,15 +41,15 @@ public class ChooseFromConceptHierarchies extends Composite {
 	@UiField
 	MaterialLink title;
 	@UiField
-	MaterialModal modal;
+	MaterialDialog modal;
 	@UiField
-	MaterialModalContent modalcontent;
+	MaterialDialogContent modalcontent;
 	@UiField
 	MaterialLink close;
 	@UiField
 	MaterialTree tree;
 	@UiField
-	MaterialModalFooter footer;
+	MaterialDialogFooter footer;
 	ArrayList<MaterialLink> links;
 	String topconcept;
 

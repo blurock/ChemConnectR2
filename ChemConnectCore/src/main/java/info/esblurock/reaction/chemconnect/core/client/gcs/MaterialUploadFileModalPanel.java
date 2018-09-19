@@ -10,7 +10,7 @@ import gwt.material.design.addins.client.fileuploader.MaterialFileUploader;
 import gwt.material.design.addins.client.fileuploader.base.UploadFile;
 import gwt.material.design.addins.client.fileuploader.events.SuccessEvent;
 import gwt.material.design.client.events.DragOverEvent;
-import gwt.material.design.client.ui.MaterialModal;
+import gwt.material.design.client.ui.MaterialDialog;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.animate.MaterialAnimation;
 import info.esblurock.reaction.chemconnect.core.data.base.GoogleCloudStorageConstants;
@@ -30,7 +30,7 @@ public class MaterialUploadFileModalPanel extends Composite {
 	@UiField
 	MaterialFileUploader uploader;
 	@UiField
-	MaterialModal modal;
+	MaterialDialog modal;
 	
 	String rootID;
 	MaterialPanel modalpanel;

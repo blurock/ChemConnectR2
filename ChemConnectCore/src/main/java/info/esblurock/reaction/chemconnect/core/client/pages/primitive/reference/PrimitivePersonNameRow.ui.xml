@@ -8,9 +8,9 @@
 	}
 	</ui:style>
 	<m:MaterialPanel ui:field="toppanel">
-		<m:MaterialModal ui:field="personmodal" type="DEFAULT" 
+		<m:MaterialDialog ui:field="personmodal" type="DEFAULT" 
 			inDuration="500" outDuration="500">
-			<m:MaterialModalContent>
+			<m:MaterialDialogContent>
 		<m:MaterialRow>
 			<m:MaterialColumn grid="s1">
 						<m:MaterialTooltip ui:field="identifiertip">
@@ -29,12 +29,12 @@
 					textColor="BLACK" />
 			</m:MaterialColumn>
 		</m:MaterialRow>
-			</m:MaterialModalContent>
-			<m:MaterialModalFooter ui:field="footer">
+			</m:MaterialDialogContent>
+			<m:MaterialDialogFooter ui:field="footer">
 				<m:MaterialLink ui:field="close" type="FLAT" textColor="BLACK" />
 				<m:MaterialLink ui:field="ok" type="FLAT"  textColor="BLACK"/>
-			</m:MaterialModalFooter>
-		</m:MaterialModal>
+			</m:MaterialDialogFooter>
+		</m:MaterialDialog>
 	<m:MaterialRow>
 	<m:MaterialColumn grid="s1">
 		<m:MaterialIcon ui:field="add"  iconColor="BLACK" iconType="ADD"/>

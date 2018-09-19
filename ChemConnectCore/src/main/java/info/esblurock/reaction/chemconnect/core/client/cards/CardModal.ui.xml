@@ -4,13 +4,13 @@
 	xmlns:ma="urn:import:gwt.material.design.addins.client">
 	<ui:style>
 	</ui:style>
-		<m:MaterialModal ui:field="modal" type="DEFAULT" 
+		<m:MaterialDialog ui:field="modal" type="DEFAULT" 
 			inDuration="500" outDuration="500">
-			<m:MaterialModalContent ui:field="modalcontent">
-			</m:MaterialModalContent>
-			<m:MaterialModalFooter ui:field="footer">
+			<m:MaterialDialogContent ui:field="modalcontent">
+			</m:MaterialDialogContent>
+			<m:MaterialDialogFooter ui:field="footer">
 				<m:MaterialLink ui:field="close" type="FLAT" iconType="CLOSE" iconPosition="RIGHT"/>
 				<m:MaterialLink ui:field="ok" type="FLAT" iconType="CHECK" iconPosition="RIGHT"/>
-			</m:MaterialModalFooter>
-		</m:MaterialModal>
+			</m:MaterialDialogFooter>
+		</m:MaterialDialog>
 </ui:UiBinder> 

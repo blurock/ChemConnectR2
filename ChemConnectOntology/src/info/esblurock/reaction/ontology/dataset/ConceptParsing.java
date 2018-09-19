@@ -667,4 +667,22 @@ public class ConceptParsing {
 		return type;
 	}
 
+	public static String getStructureFromFileType(String filetype) {
+		String query = "SELECT ?filetype\n" + 
+				"WHERE {\n" + 
+				filetype + " rdfs:subClassOf* ?subclass .\n" + 
+				"  ?subclass owl:onProperty <http://purl.org/linked-data/cube#structure> .\n" + 
+				"  ?subclass owl:onClass ?filetype\n" + 
+				"}";
+		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
+		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
+		String type = null;
+		if (stringlst.size() > 0) {
+			Map<String, String> result = stringlst.get(0);
+			type = result.get("filetype");
+		}
+		return type;
+		
+	}
+
 }

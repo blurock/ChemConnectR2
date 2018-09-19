@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLink;
-import gwt.material.design.client.ui.MaterialModal;
+import gwt.material.design.client.ui.MaterialDialog;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.MaterialToast;
@@ -32,7 +32,7 @@ public class PrimitivePersonNameRow extends Composite implements 	PersonNameInte
 	@UiField
 	MaterialIcon add;
 	@UiField
-	MaterialModal personmodal;
+	MaterialDialog personmodal;
 	@UiField
 	MaterialTooltip identifiertip;
 	@UiField

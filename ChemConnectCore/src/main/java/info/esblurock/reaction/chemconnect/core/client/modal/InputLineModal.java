@@ -10,7 +10,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.ui.MaterialLink;
-import gwt.material.design.client.ui.MaterialModal;
+import gwt.material.design.client.ui.MaterialDialog;
 import gwt.material.design.client.ui.MaterialTextBox;
 
 public class InputLineModal extends Composite  {
@@ -27,7 +27,7 @@ public class InputLineModal extends Composite  {
 	@UiField
 	MaterialTextBox textbox;
 	@UiField
-	MaterialModal modal;
+	MaterialDialog modal;
 	@UiField
 	MaterialLink close;
 	@UiField

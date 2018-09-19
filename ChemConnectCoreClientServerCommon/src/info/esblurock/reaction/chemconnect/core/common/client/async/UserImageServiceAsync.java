@@ -92,4 +92,6 @@ public interface UserImageServiceAsync {
 	void createEmptyMultipleObject(ChemConnectCompoundMultiple multiple,
 			AsyncCallback<DatabaseObjectHierarchy> callback);
 
+	void getStructureFromFileType(String filetype, AsyncCallback<String> callback);
+
 }

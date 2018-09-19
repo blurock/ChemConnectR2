@@ -17,7 +17,7 @@ import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.tree.MaterialTree;
 import gwt.material.design.addins.client.tree.MaterialTreeItem;
 import gwt.material.design.client.ui.MaterialLink;
-import gwt.material.design.client.ui.MaterialModal;
+import gwt.material.design.client.ui.MaterialDialog;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTextBox;
 import info.esblurock.reaction.chemconnect.core.client.catalog.HierarchyNodeCallback;
@@ -43,7 +43,7 @@ public class ChooseSimpleNameModal extends Composite implements HierarchyNodeCal
 	}
 
 	@UiField
-	MaterialModal modal;
+	MaterialDialog modal;
 	@UiField
 	MaterialTextBox textbox;
 	@UiField
@@ -103,8 +103,14 @@ public class ChooseSimpleNameModal extends Composite implements HierarchyNodeCal
 	@UiHandler("tree")
 	public void onSelected(SelectionEvent<MaterialTreeItem> event) {
 		MaterialTreeItem item = (MaterialTreeItem) event.getSelectedItem();
+		
+		Window.alert("ChooseSimpleNameModal   : (" + item.getTreeItems().size()+ ")   " +  item.getText());
+		
 		if (item.getTreeItems().size() == 0) {
+			Window.alert("ChooseSimpleNameModal: " + item.getText());
 			answer.objectChosen(item.getText());
+		} else {
+			item.expand();
 		}
 		modal.close();
 	}

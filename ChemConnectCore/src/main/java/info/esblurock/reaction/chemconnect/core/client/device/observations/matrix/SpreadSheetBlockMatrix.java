@@ -6,6 +6,7 @@ import java.util.HashSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -39,24 +40,31 @@ public class SpreadSheetBlockMatrix extends Composite {
 	
 	public SpreadSheetBlockMatrix(StandardDatasetObjectHierarchyItem item) {
 		hierarchy = item.getHierarchy();
+		Window.alert("SpreadSheetBlockMatrix: " + hierarchy.getObject().toString());
 		values = (ObservationMatrixValues) hierarchy.getObject(); 
 		DatabaseObjectHierarchy titleshier = hierarchy.getSubObject(values.getObservationRowValueTitles());
 		ObservationValueRowTitle titles = (ObservationValueRowTitle) titleshier.getObject();
+		Window.alert("SpreadSheetBlockMatrix: 1");
+		Window.alert("SpreadSheetBlockMatrix: 1.1: " + titleshier.getObject());
 		ArrayList<String> titlesS = titles.getParameterLabel();
+		Window.alert("SpreadSheetBlockMatrix: 1.2: " + titlesS);
 		int i = 0;
 		for(String title: titlesS) {
-			addColumn(i,title);
+			addColumn(i++,title);
 		}
+		Window.alert("SpreadSheetBlockMatrix: 2");
 		table.setTitle("Block of Data: ");
 		DatabaseObjectHierarchy rowvalueshier = hierarchy.getSubObject(values.getObservationRowValue());
 		ChemConnectCompoundMultiple multiple = (ChemConnectCompoundMultiple) rowvalueshier.getObject();
 		HashSet<String> ids = multiple.getIds();
 		ArrayList<ObservationValueRow> rows = new ArrayList<ObservationValueRow>();
+		Window.alert("SpreadSheetBlockMatrix: 3");
 		for(String id: ids) {
 			DatabaseObjectHierarchy subhier = rowvalueshier.getSubObject(id);
 			ObservationValueRow row = (ObservationValueRow) subhier.getObject();
 			rows.add(row);
 		}
+		Window.alert("SpreadSheetBlockMatrix: 4");
 	}	
 	void addColumn(int columnnumber, String columnname) {
 		int number = columnnumber;
