@@ -1,7 +1,7 @@
 # Module chemconnectcore
 # RPC service class, partial path of RPC policy file
+info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService, 3BF0887CCBD3644D7E68038E81978E20.gwt.rpc
 info.esblurock.reaction.chemconnect.core.common.client.async.InitializationService, 8C324549F16A310F91E07CB0BA06BC50.gwt.rpc
-info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess, 4145447211E50535FB602176AEE2C3B9.gwt.rpc
-info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServices, 9EC77E3EE90B310283DD9ED719BCA35F.gwt.rpc
+info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess, 0241B90AE4122C74DA337BD52D9F70C1.gwt.rpc
 info.esblurock.reaction.chemconnect.core.common.client.async.LoginService, D9422F0930323D0B0BE5B0ABF4ECAB29.gwt.rpc
-info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService, 1E892F621C469EFCF06B1DA2E24FB390.gwt.rpc
+info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServices, 322BA8BBECF17E046DE03DCB91ED1636.gwt.rpc

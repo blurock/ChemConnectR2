@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.io.StringWriter;
 import java.net.URL;
 import java.net.URLConnection;
-import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,13 +17,11 @@ import com.esotericsoftware.yamlbeans.YamlWriter;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.blobstore.UploadOptions;
-import com.google.cloud.WriteChannel;
 import com.google.cloud.storage.Acl;
 import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.Blob.BlobSourceOption;
 import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
-import com.google.cloud.storage.CopyWriter;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
 import com.google.cloud.storage.Acl.Role;
@@ -427,8 +424,8 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		}
 		return hierarchy;
 	}
-	public DatabaseObjectHierarchy createEmptyMultipleObject(ChemConnectCompoundMultiple multiple) {
-		return CreateDefaultObjectsFactory.createEmptyMultipleObject(multiple);
+	public DatabaseObjectHierarchy createEmptyMultipleObject(DatabaseObjectHierarchy multiplehier) {
+		return CreateDefaultObjectsFactory.createEmptyMultipleObject(multiplehier);
 	}
 	
 	public DatabaseObjectHierarchy createOrganization(DatabaseObject obj, String shortname, String organizationname, DataCatalogID catid) {

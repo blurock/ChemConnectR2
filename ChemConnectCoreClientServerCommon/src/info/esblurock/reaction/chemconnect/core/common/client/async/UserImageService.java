@@ -104,7 +104,7 @@ public interface UserImageService  extends RemoteService  {
 	
 	void writeYamlObjectHierarchy(DatabaseObjectHierarchy hierarchy) throws IOException;
 	
-	DatabaseObjectHierarchy createEmptyMultipleObject(ChemConnectCompoundMultiple multiple);
+	DatabaseObjectHierarchy createEmptyMultipleObject(DatabaseObjectHierarchy multiplehier);
 	
 	String getStructureFromFileType(String filetype);
 }

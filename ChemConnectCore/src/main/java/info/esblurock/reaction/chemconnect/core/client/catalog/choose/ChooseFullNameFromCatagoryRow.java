@@ -10,6 +10,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
+//import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -90,7 +91,9 @@ public class ChooseFullNameFromCatagoryRow extends Composite
 	 * @param modalpanel: The modal panel for the inquires
 	 */
 	public ChooseFullNameFromCatagoryRow(ObjectVisualizationInterface top, 
-			String user, String objectS, ArrayList<String> choices, MaterialPanel modalpanel) {
+			String user, String objectS, 
+			ArrayList<String> choices, 
+			MaterialPanel modalpanel) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.modalpanel = modalpanel;
 		this.choices = choices;
@@ -125,14 +128,25 @@ public class ChooseFullNameFromCatagoryRow extends Composite
 		MaterialLink userlink = new MaterialLink(username);
 		dropdown.add(userlink);
 		dropdown.add(publiclink);
+		
+		accessButton.setEnabled(true);
+		dropdown.setEnabled(true);
+		Window.alert("setupAccessDropDown(): " + accessButton.getActivates());
+		Window.alert("setupAccessDropDown(): " + accessButton.isEnabled());
 	}
-	
+	@UiHandler("dropdown")
+	void dropdownClick(ClickEvent event) {
+		Window.alert("On click");
+	}
 	@UiHandler("dropdown")
 	void onDropdown(SelectionEvent<Widget> callback) {
+		Window.alert("On Dropdown");
 		MaterialLink chosen = (MaterialLink)callback.getSelectedItem();
 		access = chosen.getText();
 		accessButton.setText(access);
 		accessSelected = true;
+		setupAccessDropDown();
+		Window.alert("Dropdown: " + chosen.getText());
 	 }
 	
 	/* Open up a modal panel with the hierarchy catalog items
@@ -180,7 +194,6 @@ public class ChooseFullNameFromCatagoryRow extends Composite
 		typeSelected = true;
 		
 		if(objectS == null) {
-			Window.alert("conceptChosen: find object type:   " + concept);
 			UserImageServiceAsync async = UserImageService.Util.getInstance();
 			SetObjectTypeCallback callback = new SetObjectTypeCallback(this);
 			async.getStructureFromFileType(concept,callback);
@@ -188,7 +201,6 @@ public class ChooseFullNameFromCatagoryRow extends Composite
 	}
 	
 	public void setObjectType(String objectType) {
-		Window.alert("setObjectType: the object type:   " + objectType);
 		this.objectS = objectType;
 	}
 	
@@ -267,7 +279,6 @@ public class ChooseFullNameFromCatagoryRow extends Composite
 	public void objectChosen(String id) {
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		SubCatagoryHierarchyCallback callback = new SubCatagoryHierarchyCallback(this);
-		Window.alert("objectChosen: " + objectS + ":   " + id);
 		async.getCatalogObject(id, objectS,callback);
 	}
 

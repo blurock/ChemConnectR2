@@ -19,7 +19,7 @@ public class NewMultipleObjectTest {
 		DatabaseObjectHierarchy hierarchy = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(obj);
 		ChemConnectCompoundMultiple multiple = (ChemConnectCompoundMultiple) hierarchy.getObject();
 		multiple.setType("dataset:DataObjectLink");
-		DatabaseObjectHierarchy multhier = CreateDefaultObjectsFactory.createEmptyMultipleObject(multiple);
+		DatabaseObjectHierarchy multhier = CreateDefaultObjectsFactory.createEmptyMultipleObject(hierarchy);
 		if(obj.getKey() == null) {
 			System.out.println(multhier.getObject().getKey() + " is null");
 		}

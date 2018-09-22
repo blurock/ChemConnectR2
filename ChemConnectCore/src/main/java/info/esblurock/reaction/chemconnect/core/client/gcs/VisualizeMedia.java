@@ -1,6 +1,5 @@
 package info.esblurock.reaction.chemconnect.core.client.gcs;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import com.google.gwt.user.client.Window;
@@ -138,7 +137,6 @@ public enum VisualizeMedia {
 			VisualizationOfBlobStorage visual) {
 		VisualizeMediaCallback callback = new VisualizeMediaCallback(type, info.getGSFilename(), visual);
 		SpreadSheetServicesAsync async = SpreadSheetServices.Util.getInstance();
-		DatabaseObject obj = new DatabaseObject(spread);
 		async.interpretSpreadSheetGCS(info, spread, catid, true, callback);		
 	}
 	
@@ -156,8 +154,7 @@ public enum VisualizeMedia {
 		
 		ChemConnectCompoundMultiple multrows = (ChemConnectCompoundMultiple) multrowshier.getObject();
 		ArrayList<ObservationValueRow> lst = new ArrayList<ObservationValueRow>();
-		for(String name : multrows.getIds()) {
-			DatabaseObjectHierarchy rowhier = multrowshier.getSubObject(name);
+		for(DatabaseObjectHierarchy rowhier : multrowshier.getSubobjects()) {
 			ObservationValueRow row = (ObservationValueRow) rowhier.getObject();
 			lst.add(row);
 		}

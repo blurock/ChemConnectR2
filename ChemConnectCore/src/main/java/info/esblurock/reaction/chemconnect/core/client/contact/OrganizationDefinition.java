@@ -6,7 +6,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Cookies;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -79,10 +78,8 @@ public class OrganizationDefinition extends Composite implements ObjectVisualiza
 	}
 	@Override
 	public void createCatalogObject(DatabaseObject obj,DataCatalogID datid) {
-		Window.alert("createCatalogObject:\n" + datid.toString());
 		SetUpDatabaseObjectHierarchyCallback callback = new SetUpDatabaseObjectHierarchyCallback(createdOrgs,modalpanel);
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
-		String observation = choose.getObjectType();
 		String title = choose.getObjectName();
 		String shortname = title;
 		async.createOrganization(obj,shortname, title,datid,callback);
@@ -99,7 +96,6 @@ public class OrganizationDefinition extends Composite implements ObjectVisualiza
 
 	@Override
 	public void insertCatalogObject(DatabaseObjectHierarchy subs) {
-		Window.alert("insertCatalogObject: \n" + subs.toString());
 		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(subs,modalpanel);
 		contentcollapsible.add(item);
 	}

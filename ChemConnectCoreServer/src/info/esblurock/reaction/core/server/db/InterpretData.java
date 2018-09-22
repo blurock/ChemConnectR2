@@ -373,7 +373,6 @@ public enum InterpretData {
 			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 			map.put(StandardDatasetMetaData.elementType, multi.getType());
-			putMultipleInYaml(StandardDatasetMetaData.chemConnectCompoundMultipleS, map,multi.getIds());
 			return map;
 		}
 
@@ -1839,7 +1838,7 @@ public enum InterpretData {
 			
 			DatabaseObjectHierarchy compoundhier = InterpretData.ChemConnectCompoundDataStructure.createEmptyObject(obj);
 			ChemConnectCompoundDataStructure structure = (ChemConnectCompoundDataStructure) compoundhier.getObject();
-			ObservationValueRow valuerow = new ObservationValueRow(structure,"",new ArrayList<String>());
+			ObservationValueRow valuerow = new ObservationValueRow(structure,0,new ArrayList<String>());
 			DatabaseObjectHierarchy hier = new DatabaseObjectHierarchy(valuerow);
 			
 			return hier;
@@ -1852,9 +1851,10 @@ public enum InterpretData {
 			ChemConnectCompoundDataStructure objdata = (ChemConnectCompoundDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
 
 			String position = (String) yaml.get(StandardDatasetMetaData.position);
+			int pos = Integer.valueOf(position).intValue();
 			ArrayList<String> values = interpretMultipleYamlList(StandardDatasetMetaData.listOfValuesAsString,yaml);
 			
-			ObservationValueRow row = new ObservationValueRow(objdata, position,values);
+			ObservationValueRow row = new ObservationValueRow(objdata, pos,values);
 			return row;
 		}
 

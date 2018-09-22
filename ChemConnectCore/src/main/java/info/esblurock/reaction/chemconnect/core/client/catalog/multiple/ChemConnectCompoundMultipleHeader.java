@@ -63,7 +63,7 @@ public class ChemConnectCompoundMultipleHeader extends Composite {
 
 	private DatabaseObject determineSubObjectID() {
 		DatabaseObject obj = new DatabaseObject(multiple);
-		int elementNumber = multiple.getIds().size();
+		int elementNumber = multiple.getNumberOfElements();
 		String elementNumberS = String.valueOf(elementNumber);
 		String id = obj.getIdentifier() + "-link" + elementNumberS;
 		obj.setIdentifier(id);
@@ -75,11 +75,9 @@ public class ChemConnectCompoundMultipleHeader extends Composite {
 		ChemConnectCompoundMultipleCallback callback = new ChemConnectCompoundMultipleCallback(this);
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		DatabaseObject obj = determineSubObjectID();
-		async.createEmptyMultipleObject(multiple,callback);
+		async.createEmptyMultipleObject(multipleHier,callback);
 	}
 	public void addMultipleObject(DatabaseObjectHierarchy obj) {
-		multipleHier.addSubobject(obj);
-		multiple.addID(obj.getObject().getIdentifier());
 		String type = obj.getObject().getClass().getSimpleName();
 		SetUpCollapsibleItem setup = SetUpCollapsibleItem.valueOf(type);
 		if(setup != null) {

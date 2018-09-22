@@ -356,11 +356,8 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
-			Window.alert("ObservationMatrixValues" );
-			SpreadSheetBlockMatrix header = new SpreadSheetBlockMatrix(item);
-			Window.alert("ObservationMatrixValues 0: " + item.getObject().getIdentifier());
+			SpreadSheetBlockMatrix header = new SpreadSheetBlockMatrix(item);	
 			item.addHeader(header);
-			Window.alert("ObservationMatrixValues 1: " + item.getObject().getIdentifier());
 		}
 
 		@Override
@@ -375,7 +372,7 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public boolean isInformation() {
-			return false;
+			return true;
 		}
 
 		@Override

@@ -11,29 +11,29 @@ import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDat
 
 @Entity
 @SuppressWarnings("serial")
-public class ObservationValueRow extends ChemConnectCompoundDataStructure {
+public class ObservationValueRow extends ChemConnectCompoundDataStructure implements Comparable<ObservationValueRow>{
 
 	@Index
-	String rowNumber;
+	int rowNumber;
 	@Unindex
 	ArrayList<String> row;
 
 	public ObservationValueRow() {
 		row = new ArrayList<String>();
-		rowNumber = "0";
+		rowNumber = 0;
 	}
 
-	public ObservationValueRow(ChemConnectCompoundDataStructure obj, String rowNumber, ArrayList<String> row) {
+	public ObservationValueRow(ChemConnectCompoundDataStructure obj, int rowNumber, ArrayList<String> row) {
 		super(obj);
 		this.rowNumber = rowNumber;
 		this.row = row;
 	}
 
-	public String getRowNumber() {
+	public int getRowNumber() {
 		return rowNumber;
 	}
 
-	public void setRowNumber(String rowNumber) {
+	public void setRowNumber(int rowNumber) {
 		this.rowNumber = rowNumber;
 	}
 
@@ -77,6 +77,11 @@ public class ObservationValueRow extends ChemConnectCompoundDataStructure {
 		}
 		build.append("\n");
 		return build.toString();
+	}
+
+	@Override
+	public int compareTo(ObservationValueRow o) {
+		return rowNumber - o.getRowNumber();
 	}
 
 }

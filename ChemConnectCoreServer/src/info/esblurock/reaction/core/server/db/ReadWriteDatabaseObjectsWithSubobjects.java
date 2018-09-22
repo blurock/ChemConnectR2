@@ -67,10 +67,9 @@ public class ReadWriteDatabaseObjectsWithSubobjects {
 					String multid = object.getIdentifier() + "-" + subelement.getSuffix();
 					System.out.println("readObjectAndSubObjects multiple ID: " + multid);
 					ArrayList<String> ids = (ArrayList<String>) mapping.get(identifier);
-					HashSet<String> idset = new HashSet<String>(ids);
 					DatabaseObject mobj = new DatabaseObject(object);
 					mobj.setIdentifier(multid);
-					ChemConnectCompoundMultiple multiple = new ChemConnectCompoundMultiple(mobj,subelement.getChemconnectStructure(),idset);
+					ChemConnectCompoundMultiple multiple = new ChemConnectCompoundMultiple(mobj,subelement.getChemconnectStructure());
 					map.put(multid, multiple);
 					for(String id: ids) {
 						addDatabaseObject(id,subelement.getChemconnectStructure(),subelement.getDataElementName(),map);

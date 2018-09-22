@@ -11,10 +11,7 @@
 	<m:MaterialRow ui:field="matrixrow">
 		<m:MaterialColumn grid="s12">
 		<m:MaterialPanel ui:field="tablepanel">
-			<m:table.MaterialDataTable ui:field="table"
-                                           shadow="1"
-                                           rowHeight="60"
-										selectionType="SINGLE"/>
+			<!--  m:table.MaterialDataTable ui:field="table"/  -->
 			</m:MaterialPanel>
 		</m:MaterialColumn>
 		

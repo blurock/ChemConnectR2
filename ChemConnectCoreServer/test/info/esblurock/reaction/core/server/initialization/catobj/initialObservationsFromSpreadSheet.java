@@ -76,7 +76,6 @@ public class initialObservationsFromSpreadSheet {
 		ObjectifyService.register(ChemConnectDataStructure.class);
 		ObjectifyService.register(ChemConnectCompoundDataStructure.class);
 		ObjectifyService.register(ChemConnectCompoundMultiple.class);
-		ObjectifyService.register(ChemConnectCompoundMultipleInfo.class);
 		System.out.println("Classes Registered");
 		this.helper.setUp();
 	}

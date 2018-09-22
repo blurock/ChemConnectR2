@@ -11,6 +11,6 @@ public class ChemConnectCompoundMultipleInfo extends ChemConnectCompoundMultiple
 	}
 
 	public ChemConnectCompoundMultipleInfo(ChemConnectCompoundMultiple multiple) {
-		super(multiple,multiple.getType(), multiple.getIds());
+		super(multiple,multiple.getType());
 	}
 }

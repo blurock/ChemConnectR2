@@ -11,41 +11,40 @@ public class ChemConnectCompoundMultiple extends DatabaseObject {
 	@Index 
 	String type;
 	@Index 
-	HashSet<String> ids;
+	int numberOfElements;
 	
 	public ChemConnectCompoundMultiple() {
 		super();
-		ids = new HashSet<String>();
 	}
 	public ChemConnectCompoundMultiple(DatabaseObject obj, String type) {
 		super(obj);
 		this.type = type;
-		ids = new HashSet<String>();
+		numberOfElements = 0;
 	}
-	public ChemConnectCompoundMultiple(DatabaseObject obj,String type, HashSet<String> ids) {
+	public ChemConnectCompoundMultiple(DatabaseObject obj,String type, int numberOfElements) {
 		super(obj);
-		this.ids = ids;
 		this.type = type;
+		this.numberOfElements = numberOfElements;
 	}
 	public void fill(DatabaseObject obj) {
 		super.fill(obj);
 		ChemConnectCompoundMultiple multiple = (ChemConnectCompoundMultiple) obj;
 		this.type = multiple.getType();
-		ids = new HashSet<String>(multiple.getIds());
 	}
 
-	public void addID(String id) {
-		ids.add(id);
-	}
-	
 	public void setType(String type) {
 		this.type = type;
 	}
 	public String getType() {
 		return type;
 	}
-	public HashSet<String> getIds() {
-		return ids;
+	
+	
+	public int getNumberOfElements() {
+		return numberOfElements;
+	}
+	public void setNumberOfElements(int numberOfElements) {
+		this.numberOfElements = numberOfElements;
 	}
 	public String toString() {
 		return toString("");
@@ -54,7 +53,6 @@ public class ChemConnectCompoundMultiple extends DatabaseObject {
 		StringBuilder build = new StringBuilder();
 		build.append(super.toString(prefix));
 		build.append(prefix + "Type: " + type + "\n");
-		build.append(prefix + ids.toString());
 		return build.toString();
 	}
 }

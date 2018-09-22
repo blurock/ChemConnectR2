@@ -67,7 +67,6 @@ public class ReadWriteYamlDatabaseObjectHierarchy {
 			if (submap != null) {
 				Set<String> keys = submap.keySet();
 				for (String key : keys) {
-					mult.addID(key);
 					Map<String, Object> multimap = (Map<String, Object>) submap.get(key);
 					DatabaseObjectHierarchy subhier = readYamlDatabaseObjectHierarchy(top, multimap, sourceID);
 					hierarchy.addSubobject(subhier);

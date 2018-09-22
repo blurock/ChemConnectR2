@@ -89,7 +89,7 @@ public interface UserImageServiceAsync {
 
 	void writeYamlObjectHierarchy(DatabaseObjectHierarchy hierarchy, AsyncCallback<Void> callback);
 
-	void createEmptyMultipleObject(ChemConnectCompoundMultiple multiple,
+	void createEmptyMultipleObject(DatabaseObjectHierarchy multiplehier,
 			AsyncCallback<DatabaseObjectHierarchy> callback);
 
 	void getStructureFromFileType(String filetype, AsyncCallback<String> callback);

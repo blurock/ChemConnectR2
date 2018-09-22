@@ -133,7 +133,6 @@ public class InterpretSpreadSheet {
 			String id = InterpretData.createSuffix(valuemult, element) + String.valueOf(rowcount-startrow);
 			obs.setIdentifier(id);
 			valuemulthier.addSubobject(obshier);
-			valuemult.addID(id);
 		}
 		
 		interpret.setStartColumn(0);
@@ -153,7 +152,7 @@ public class InterpretSpreadSheet {
 		
 		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(rowobj,obj.getIdentifier());
 		String countS = String.valueOf(count);
-		ObservationValueRow row = new ObservationValueRow(structure, countS, lst);
+		ObservationValueRow row = new ObservationValueRow(structure, count, lst);
 		return row;
 	}
 

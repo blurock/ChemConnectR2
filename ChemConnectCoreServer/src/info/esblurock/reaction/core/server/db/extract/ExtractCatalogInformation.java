@@ -13,6 +13,10 @@ import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataObjectLink;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHierarchy;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
+import info.esblurock.reaction.chemconnect.core.data.query.ListOfQueries;
+import info.esblurock.reaction.chemconnect.core.data.query.QueryPropertyValue;
+import info.esblurock.reaction.chemconnect.core.data.query.SetOfQueryPropertyValues;
+import info.esblurock.reaction.chemconnect.core.data.query.SetOfQueryResults;
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.CompoundDataStructureInformation;
@@ -27,6 +31,7 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.structure.Database
 import info.esblurock.reaction.core.server.db.InterpretData;
 import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFactory;
 import info.esblurock.reaction.io.db.QueryBase;
+import info.esblurock.reaction.io.db.QueryFactory;
 import info.esblurock.reaction.io.metadata.StandardDatasetMetaData;
 import info.esblurock.reaction.ontology.dataset.ConceptParsing;
 import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
@@ -87,10 +92,22 @@ public class ExtractCatalogInformation {
 				InterpretData multiinterpret = InterpretData.valueOf("ChemConnectCompoundMultiple");
 				ChemConnectCompoundMultiple multi = (ChemConnectCompoundMultiple) multiinterpret.readElementFromDatabase(id);
 				hierarchy = new DatabaseObjectHierarchy(multi);
-				HashSet<String> ids = multi.getIds();
-				for(String objID : ids) {
-					DatabaseObjectHierarchy sub = getDatabaseObjectAndSubElements(objID,dataelement,true);
-					hierarchy.addSubobject(sub);
+				String parentid = multi.getIdentifier();
+				String classtype = multi.getType();
+				SetOfQueryPropertyValues values = new SetOfQueryPropertyValues();
+				QueryPropertyValue value1 = new QueryPropertyValue("parentLink",parentid);
+				values.add(value1);
+				ListOfQueries queries = QueryFactory.accessQueryForUser(classtype, multi.getOwner(), values);
+				SetOfQueryResults results;
+				try {
+					results = QueryBase.StandardSetOfQueries(queries);
+					List<DatabaseObject> objs = results.retrieveAndClear();
+					for(DatabaseObject obj: objs) {
+						DatabaseObjectHierarchy subhier = new DatabaseObjectHierarchy(obj);
+						hierarchy.addSubobject(subhier);
+					}
+				} catch (ClassNotFoundException e) {
+					throw new IOException("Class not found: " + classtype);
 				}
 			}
 		} catch(IllegalArgumentException ex) {
@@ -325,9 +342,7 @@ public class ExtractCatalogInformation {
 		String objlinkid = (String) mapping.get(StandardDatasetMetaData.parameterObjectLinkS);
 		DatabaseObjectHierarchy multihier = hierarchy.getSubObject(objlinkid);
 		ChemConnectCompoundMultiple multi = (ChemConnectCompoundMultiple) multihier.getObject();
-		HashSet<String> ids = multi.getIds();
-		for(String lnkid : ids) {
-			DatabaseObjectHierarchy subhier = multihier.getSubObject(lnkid);
+		for(DatabaseObjectHierarchy subhier : multihier.getSubobjects()) {
 			if(subhier != null) {
 				DataObjectLink lnk = (DataObjectLink) subhier.getObject();
 				String type = lnk.getLinkConcept();
@@ -337,8 +352,6 @@ public class ExtractCatalogInformation {
 					hierarchy.addSubobject(subhierarchy);
 				}
 			} else {
-				System.out.println("getDatabaseObjectHierarchy: id not found " + lnkid);
-				System.out.println("getDatabaseObjectHierarchy: id not found " + ids);
 				System.out.println("getDatabaseObjectHierarchy: catalog " + catid);
 			}
 		}

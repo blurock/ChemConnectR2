@@ -45,11 +45,14 @@ public class FileUploadServlet extends HttpServlet {
 			FileItemIterator iter = upload.getItemIterator(request);
 			if (iter.hasNext()) {
 				FileItemStream fileItem = iter.next();
-				System.out.println("FileUploadServlet: 4");
+				
 				InputStream in = fileItem.openStream();
 				Storage storage = StorageOptions.getDefaultInstance().getService();
 				String uploadDescriptionText = "Uploaded File from FileUploadServlet";
 				ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), request.getSession());
+
+				System.out.println("FileUploadServlet: 4: " + util.getUserName());
+				
 				String path = GCSServiceRoutines.createUploadPath(util.getUserName());
 				GCSBlobFileInformation source = GCSServiceRoutines.createInitialUploadInfo(
 						GoogleCloudStorageConstants.uploadBucket, 

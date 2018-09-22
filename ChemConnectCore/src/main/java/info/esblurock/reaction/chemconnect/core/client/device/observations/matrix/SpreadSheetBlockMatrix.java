@@ -1,6 +1,8 @@
 package info.esblurock.reaction.chemconnect.core.client.device.observations.matrix;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 
 import com.google.gwt.core.client.GWT;
@@ -10,6 +12,9 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
+import gwt.material.design.client.data.ListDataSource;
+import gwt.material.design.client.ui.MaterialPanel;
+import gwt.material.design.client.ui.pager.MaterialDataPager;
 import gwt.material.design.client.ui.table.MaterialDataTable;
 import gwt.material.design.client.ui.table.cell.TextColumn;
 import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
@@ -33,39 +38,71 @@ public class SpreadSheetBlockMatrix extends Composite {
 	}
 
 	@UiField
+	MaterialPanel tablepanel;
+	
 	MaterialDataTable<ObservationValueRow> table;
+	private MaterialDataPager<ObservationValueRow> pager;
 	
 	DatabaseObjectHierarchy hierarchy;
 	ObservationMatrixValues values;
+	ListDataSource<ObservationValueRow> dataSource;
+	ArrayList<ObservationValueRow> matrix;
+	int numbercolumns;
 	
 	public SpreadSheetBlockMatrix(StandardDatasetObjectHierarchyItem item) {
+		
+		initWidget(uiBinder.createAndBindUi(this));
+		table = new MaterialDataTable<ObservationValueRow>();
+		
 		hierarchy = item.getHierarchy();
-		Window.alert("SpreadSheetBlockMatrix: " + hierarchy.getObject().toString());
 		values = (ObservationMatrixValues) hierarchy.getObject(); 
 		DatabaseObjectHierarchy titleshier = hierarchy.getSubObject(values.getObservationRowValueTitles());
 		ObservationValueRowTitle titles = (ObservationValueRowTitle) titleshier.getObject();
-		Window.alert("SpreadSheetBlockMatrix: 1");
-		Window.alert("SpreadSheetBlockMatrix: 1.1: " + titleshier.getObject());
 		ArrayList<String> titlesS = titles.getParameterLabel();
-		Window.alert("SpreadSheetBlockMatrix: 1.2: " + titlesS);
-		int i = 0;
-		for(String title: titlesS) {
-			addColumn(i++,title);
-		}
-		Window.alert("SpreadSheetBlockMatrix: 2");
-		table.setTitle("Block of Data: ");
+		table.getTableTitle().setText("Block of Data: ");
 		DatabaseObjectHierarchy rowvalueshier = hierarchy.getSubObject(values.getObservationRowValue());
 		ChemConnectCompoundMultiple multiple = (ChemConnectCompoundMultiple) rowvalueshier.getObject();
-		HashSet<String> ids = multiple.getIds();
-		ArrayList<ObservationValueRow> rows = new ArrayList<ObservationValueRow>();
-		Window.alert("SpreadSheetBlockMatrix: 3");
-		for(String id: ids) {
-			DatabaseObjectHierarchy subhier = rowvalueshier.getSubObject(id);
+		matrix = new ArrayList<ObservationValueRow>();
+		numbercolumns = 0;
+
+		for(DatabaseObjectHierarchy subhier: rowvalueshier.getSubobjects()) {
 			ObservationValueRow row = (ObservationValueRow) subhier.getObject();
-			rows.add(row);
+			matrix.add(row);
+			if(row.getRow().size() > numbercolumns) {
+				numbercolumns = row.getRow().size();
+			}
 		}
-		Window.alert("SpreadSheetBlockMatrix: 4");
-	}	
+		for (int i = 0; i < numbercolumns; i++) {
+			String name = "Col:" + i;
+			if(titlesS.size() > i) {
+				name = titlesS.get(i);
+			}
+				addColumn(i, name);
+		}
+		
+		Collections.sort(matrix, new Comparator<ObservationValueRow>() {
+		    public int compare(ObservationValueRow lhs, ObservationValueRow rhs) {
+		        // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+		        return lhs.getRowNumber() - rhs.getRowNumber();
+		    }
+		});
+		
+		try {
+			dataSource = new ListDataSource<ObservationValueRow>(matrix);
+			pager = new MaterialDataPager<>(table, dataSource);
+			pager.setLimitOptions(5, 10, 20,40);
+			table.setVisibleRange(1, 30);
+			table.add(pager);
+			table.setDataSource(dataSource);
+			//table.setRowData(0, matrix);
+			tablepanel.add(table);
+			tablepanel.add(pager);
+		} catch(Exception e) {
+			Window.alert("setUpResultMatrix    " + e.toString());
+		}
+
+	}
+	
 	void addColumn(int columnnumber, String columnname) {
 		int number = columnnumber;
 		TextColumn<ObservationValueRow> cell = new TextColumn<ObservationValueRow>() {

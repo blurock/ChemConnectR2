@@ -45,8 +45,8 @@ public class SpreadSheetInterpretationHeader extends Composite {
 		
 		startrow.setText(String.valueOf(spread.getStartRow()));
 		endrow.setText(String.valueOf(spread.getEndRow()));
-		startrow.setText(String.valueOf(spread.getStartColumn()));
-		startrow.setText(String.valueOf(spread.getEndColumn()));
+		startcolumn.setText(String.valueOf(spread.getStartColumn()));
+		endcolumn.setText(String.valueOf(spread.getEndColumn()));
 	}
 
 }

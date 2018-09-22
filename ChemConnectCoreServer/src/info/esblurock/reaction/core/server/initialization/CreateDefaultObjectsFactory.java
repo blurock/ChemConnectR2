@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.xalan.xsltc.dom.MultiValuedNodeHeapIterator;
 
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
@@ -116,7 +117,7 @@ public class CreateDefaultObjectsFactory {
 		DatabaseObjectHierarchy contactmulthier = infohier.getSubObject(id);
 		
 		ChemConnectCompoundMultiple contactmult = (ChemConnectCompoundMultiple) contactmulthier.getObject();
-		int numlinks = contactmult.getIds().size();
+		int numlinks = contactmulthier.getSubobjects().size();
 		String numlinkS = Integer.toString(numlinks);
 		
 		DatabaseObjectHierarchy contacthier = InterpretData.ContactInfoData.createEmptyObject(contactmult);
@@ -124,7 +125,6 @@ public class CreateDefaultObjectsFactory {
 		String newid = contact.getIdentifier() + numlinkS;
 		contact.setIdentifier(newid);
 		
-		contactmult.addID(contact.getIdentifier());
 		contactmulthier.addSubobject(contacthier);
 		
 		contact.setContactType(contactType);
@@ -135,7 +135,7 @@ public class CreateDefaultObjectsFactory {
 			String siteType, String sitekey) {		
 		DatabaseObjectHierarchy contactmulthier = infohier.getSubObject(id);		
 		ChemConnectCompoundMultiple contactmult = (ChemConnectCompoundMultiple) contactmulthier.getObject();
-		int numlinks = contactmult.getIds().size();
+		int numlinks = contactmulthier.getSubobjects().size();
 		String numlinkS = Integer.toString(numlinks);
 		
 		DatabaseObjectHierarchy contacthier = InterpretData.ContactHasSite.createEmptyObject(contactmult);
@@ -143,7 +143,6 @@ public class CreateDefaultObjectsFactory {
 		String newid = site.getIdentifier() + numlinkS;
 		site.setIdentifier(newid);
 
-		contactmult.addID(site.getIdentifier());
 		contactmulthier.addSubobject(contacthier);
 		
 		site.setHttpAddressType(siteType);
@@ -204,9 +203,9 @@ public class CreateDefaultObjectsFactory {
 		Set<AttributeDescription> attrs = ConceptParsing.attributesInConcept(methodologyS);
 		for (AttributeDescription attr : attrs) {
 			DatabaseObjectHierarchy paramhier = fillParameterValueAndSpecification(parammulti, attr.getAttributeName());
-			parammulti.addID(paramhier.getObject().getIdentifier());
 			paramsethier.addSubobject(paramhier);
 		}
+		parammulti.setNumberOfElements(parammulti.getNumberOfElements() + attrs.size());
 		return methodhier;
 	}
 	
@@ -243,7 +242,6 @@ public class CreateDefaultObjectsFactory {
 	
 		for (AttributeDescription attr : attrs) {
 			DatabaseObjectHierarchy paramhier = fillParameterValueAndSpecification(parammulti, attr.getAttributeName());
-			parammulti.addID(paramhier.getObject().getIdentifier());
 			paramsethier.addSubobject(paramhier);
 		}
 
@@ -259,7 +257,6 @@ public class CreateDefaultObjectsFactory {
 			subobj.setIdentifier(id);
 			DatabaseObjectHierarchy subhierarchy = fillSubSystemDescription(subobj,subsystem,datid);
 			subsystemhier.addSubobject(subhierarchy);
-			subsystemmulti.addID(subhierarchy.getObject().getIdentifier());
 		}
 		for(String component : components) {
 			String simple = ChemConnectCompoundDataStructure.removeNamespace(component);
@@ -268,7 +265,6 @@ public class CreateDefaultObjectsFactory {
 			subobj.setIdentifier(id);
 			DatabaseObjectHierarchy subhierarchy = fillSubSystemDescription(subobj,component,datid);
 			subsystemhier.addSubobject(subhierarchy);
-			subsystemmulti.addID(subhierarchy.getObject().getIdentifier());			
 		}
 
 
@@ -321,17 +317,17 @@ public class CreateDefaultObjectsFactory {
 			String id = obs.getIdentifier() + rowcount;
 			obs.setIdentifier(id);
 			valuemulthier.addSubobject(obshier);
-			valuemult.addID(id);
+		
 			
 			for(int colcount= 0; colcount < numberOfColumns - 1; colcount++) {
 				obs.addValue("0");
 				build.append("0, ");
 			}
 			obs.addValue("0");
-			obs.setRowNumber(String.valueOf(rowcount));
+			obs.setRowNumber(rowcount);
 			build.append("0\n");
 		}
-		
+		valuemult.setNumberOfElements(numberOfRows);
 		input.setDelimitor(",");
 		input.setDelimitorType("dataset:CSV");
 		input.setSource(build.toString());
@@ -364,9 +360,10 @@ public class CreateDefaultObjectsFactory {
 			fillObservationSpecification(observation, measure, obspecmulti,obspecset);
 		}
 	}
-	public static DatabaseObjectHierarchy createEmptyMultipleObject(ChemConnectCompoundMultiple multiple) {
+	public static DatabaseObjectHierarchy createEmptyMultipleObject(DatabaseObjectHierarchy multhierarchy) {
+		ChemConnectCompoundMultiple multiple = (ChemConnectCompoundMultiple) multhierarchy.getObject();
 		String dataType = multiple.getType();
-		String numS = String.valueOf(multiple.getIds().size());
+		String numS = String.valueOf(multiple.getNumberOfElements());
 		DatabaseObject obj = new DatabaseObject(multiple);
 		obj.nullKey();
 		ClassificationInformation info = DatasetOntologyParsing.getIdentificationInformation(dataType);
@@ -375,8 +372,8 @@ public class CreateDefaultObjectsFactory {
 		DatabaseObjectHierarchy hierarchy = interpret.createEmptyObject(obj);
 		String uid = hierarchy.getObject().getIdentifier() + numS;
 		hierarchy.getObject().setIdentifier(uid);
+		multhierarchy.addSubobject(hierarchy);
 		return hierarchy;
-		
 	}
 	
 	public static void fillObservationSpecification(String observation, 
@@ -389,7 +386,6 @@ public class CreateDefaultObjectsFactory {
 			subobsobj.setIdentifier(specid);
 			DatabaseObjectHierarchy obsspechier = InterpretData.ObservationSpecification.createEmptyObject(subobsobj);
 			fillObservationSpecification(obsspechier,observation,obsspecID,measure);
-			obspecmulti.addID(obsspechier.getObject().getIdentifier());
 			obspecset.addSubobject(obsspechier);
 	}
 	public static void fillObservationSpecification(DatabaseObjectHierarchy obsspechier, String observation, String parentID, boolean measure) {
@@ -487,6 +483,7 @@ public class CreateDefaultObjectsFactory {
 	
 	public static void connectInCatalogHierarchy(DatasetCatalogHierarchy parentcatalog, DatasetCatalogHierarchy childcatalog) throws IOException {
 		String linkid = parentcatalog.getChemConnectObjectLink();
+		
 		InterpretData multiinterpret = InterpretData.valueOf("ChemConnectCompoundMultiple");
 		ChemConnectCompoundMultiple multi = (ChemConnectCompoundMultiple) multiinterpret.readElementFromDatabase(linkid);
 		DatabaseObjectHierarchy subcatalog = addConnectionToMultiple(multi, childcatalog.getIdentifier());
@@ -503,17 +500,17 @@ public class CreateDefaultObjectsFactory {
 		ChemConnectCompoundMultiple multilnk = (ChemConnectCompoundMultiple) multilnkhier.getObject();
 		DatabaseObjectHierarchy subcatalog = addConnectionToMultiple(multilnk, childcatalog.getIdentifier());
 		multilnkhier.addSubobject(subcatalog);
+		multilnk.setNumberOfElements(multilnk.getNumberOfElements() + 1);
 	}
 	
 	public static DatabaseObjectHierarchy addConnectionToMultiple(ChemConnectCompoundMultiple multilnk,
 			String childid) {
-		int numlinks = multilnk.getIds().size();
+		int numlinks = multilnk.getNumberOfElements();
 		String numlinkS = Integer.toString(numlinks);
 
 		DatabaseObjectHierarchy subcatalog = fillDataObjectLink(multilnk, numlinkS, MetaDataKeywords.linkSubCatalog,
 				childid);
 
-		multilnk.addID(subcatalog.getObject().getIdentifier());
 		return subcatalog;
 	}
 
@@ -546,8 +543,8 @@ public class CreateDefaultObjectsFactory {
 		DatabaseObjectHierarchy multilnkhier = userhierarchy.getSubObject(usercatalog.getChemConnectObjectLink());
 		ChemConnectCompoundMultiple multilnk = (ChemConnectCompoundMultiple) multilnkhier.getObject();
 		DatabaseObjectHierarchy userlink = fillDataObjectLink(multilnk, "0", MetaDataKeywords.linkUser, userid);
-		multilnk.addID(userlink.getObject().getIdentifier());
 		multilnkhier.addSubobject(userlink);
+		multilnk.setNumberOfElements(1);
 		return userhierarchy;
 	}
 
@@ -599,8 +596,7 @@ public class CreateDefaultObjectsFactory {
 		DatabaseObjectHierarchy orglink = fillDataObjectLink(multiorg, "0", MetaDataKeywords.linkOrganization,
 				orglinkid);
 		multiorghier.addSubobject(orglink);
-		multiorg.addID(orglink.getObject().getIdentifier());
-
+		multiorg.setNumberOfElements(1);
 		return orghierarchy;
 	}
 	
@@ -735,9 +731,7 @@ public class CreateDefaultObjectsFactory {
 			DatabaseObjectHierarchy spec) {
 		ChemConnectCompoundMultiple colcorrset = (ChemConnectCompoundMultiple) colcorrhier.getObject();
 		ChemConnectCompoundMultiple multiple = (ChemConnectCompoundMultiple) spec.getObject();
-		HashSet<String> ids = multiple.getIds();
-		for(String id: ids) {
-			DatabaseObjectHierarchy hier = spec.getSubObject(id);
+		for(DatabaseObjectHierarchy hier: colcorrhier.getSubobjects()) {
 			ParameterSpecification pspec = (ParameterSpecification) hier.getObject();
 			String name = pspec.getParameterLabel();
 			
@@ -751,7 +745,6 @@ public class CreateDefaultObjectsFactory {
 			MatrixSpecificationCorrespondence corr = (MatrixSpecificationCorrespondence) corrhier.getObject();
 			corr.setMatrixColumn(String.valueOf(count));
 			corr.setSpecificationLabel(name);
-			colcorrset.addID(corr.getIdentifier());
 			colcorrhier.addSubobject(corrhier);
 			count++;
 		}
@@ -768,8 +761,8 @@ public class CreateDefaultObjectsFactory {
 		ChemConnectCompoundMultiple valuemultiple = (ChemConnectCompoundMultiple) valueshier.getObject();
 		DatabaseObjectHierarchy rowvalueshier = InterpretData.ObservationValueRow.createEmptyObject(valuemultiple);
 		ObservationValueRow rowvalues = (ObservationValueRow) rowvalueshier.getObject();
-		valuemultiple.addID(rowvalues.getIdentifier());
 		valueshier.addSubobject(rowvalueshier);
+		valuemultiple.setNumberOfElements(valuemultiple.getNumberOfElements() + 1);
 		addTitlesAndSampleValues(titles,rowvalues,dimension);
 		addTitlesAndSampleValues(titles,rowvalues,measure);
 		
@@ -777,9 +770,7 @@ public class CreateDefaultObjectsFactory {
 	
 	public static void addTitlesAndSampleValues(ObservationValueRowTitle titles, ObservationValueRow rowvalues, DatabaseObjectHierarchy multhier) {
 		ChemConnectCompoundMultiple multiple = (ChemConnectCompoundMultiple) multhier.getObject();
-		HashSet<String> ids = multiple.getIds();
-		for(String id: ids) {
-			DatabaseObjectHierarchy hier = multhier.getSubObject(id);
+		for(DatabaseObjectHierarchy hier: multhier.getSubobjects()) {
 			ParameterSpecification spec = (ParameterSpecification) hier.getObject();
 			String name = spec.getParameterLabel();
 			titles.addParameterTitle(name);
@@ -798,9 +789,9 @@ public class CreateDefaultObjectsFactory {
 		for (AttributeDescription attr : measureset) {
 			DatabaseObjectHierarchy paramhier = fillParameterValueAndSpecification(measremul, attr.getAttributeName(),
 					dimension,specification);
-			measremul.addID(paramhier.getObject().getIdentifier());
 			measurehier.addSubobject(paramhier);
 		}
+		measremul.setNumberOfElements(measremul.getNumberOfElements() + measureset.size());
 		set.addSubobject(measurehier);
 		return measurehier;
 	}
