@@ -1,7 +1,5 @@
 package info.esblurock.reaction.chemconnect.core.client.catalog;
 
-import com.google.gwt.user.client.Window;
-
 import info.esblurock.reaction.chemconnect.core.client.catalog.hierarchy.StandardDatasetCatalogHierarchyHeader;
 import info.esblurock.reaction.chemconnect.core.client.catalog.link.PrimitiveDataObjectLinkRow;
 import info.esblurock.reaction.chemconnect.core.client.catalog.multiple.ChemConnectCompoundMultipleHeader;
@@ -14,6 +12,7 @@ import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetNa
 import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetOrganizationDescriptionHeader;
 import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetOrganizationHeader;
 import info.esblurock.reaction.chemconnect.core.client.device.StandardDatasetSubSystemHeader;
+import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.MatrixSpecificationCorrespondenceSetHeader;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.SpreadSheetBlockMatrix;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.SpreadSheetInputInformationHeader;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.SpreadSheetInterpretationHeader;
@@ -380,37 +379,32 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
-			// TODO Auto-generated method stub
-			
+			MatrixSpecificationCorrespondenceSetHeader header = new MatrixSpecificationCorrespondenceSetHeader(item);
+			item.addHeader(header);
 		}
 
 		@Override
 		public boolean update(StandardDatasetObjectHierarchyItem item) {
-			// TODO Auto-generated method stub
 			return false;
 		}
 
 		@Override
 		public int priority() {
 			// TODO Auto-generated method stub
-			return 0;
+			return 500;
 		}
 
 		@Override
 		public boolean isInformation() {
-			// TODO Auto-generated method stub
-			return false;
+			return true;
 		}
 
 		@Override
 		public boolean addSubitems() {
-			// TODO Auto-generated method stub
 			return false;
 		}
 		
-	},
-	
-	ChemConnectMethodology {
+	}, ChemConnectMethodology {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {

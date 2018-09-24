@@ -6,15 +6,16 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
+import info.esblurock.reaction.chemconnect.core.data.observations.matrix.MatrixBlockDefinition;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.MatrixSpecificationCorrespondenceSet;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 public class MatrixSpecificationCorrespondenceSetHeader extends Composite {
 
@@ -32,13 +33,13 @@ public class MatrixSpecificationCorrespondenceSetHeader extends Composite {
 	@UiField
 	MaterialLink headername;
 	@UiField
-	MaterialLink startRow;
+	MaterialLink startrow;
 	@UiField
-	MaterialLink endRow;
+	MaterialLink endrow;
 	@UiField
-	MaterialLink startColumn;
+	MaterialLink startcolumn;
 	@UiField
-	MaterialLink endColumn;
+	MaterialLink endcolumn;
 	@UiField
 	MaterialLink corrspecheader;
 	@UiField
@@ -47,10 +48,30 @@ public class MatrixSpecificationCorrespondenceSetHeader extends Composite {
 	MaterialPanel corrspecpanel;
 	
 	MatrixSpecificationCorrespondenceSet speccorrset;
+	DatabaseObjectHierarchy hierarchy;
+	MatrixBlockDefinition blockdef;
+	ChemConnectCompoundMultiple specmult;
 	
-
 	public MatrixSpecificationCorrespondenceSetHeader(StandardDatasetObjectHierarchyItem item) {
 		initWidget(uiBinder.createAndBindUi(this));
+		hierarchy = item.getHierarchy();
+		speccorrset = (MatrixSpecificationCorrespondenceSet) hierarchy.getObject();
+		DatabaseObjectHierarchy matblockhierarchy = hierarchy.getSubObject(speccorrset.getMatrixBlockDefinition());
+		DatabaseObjectHierarchy matspechierarchy = hierarchy.getSubObject(speccorrset.getMatrixSpecificationCorrespondence());
+		blockdef = (MatrixBlockDefinition) matblockhierarchy.getObject();
+		specmult = (ChemConnectCompoundMultiple) matspechierarchy.getObject();
+		
+		startrow.setText(blockdef.getStartRowInMatrix());
+		endrow.setText(blockdef.getLastRowInMatrix());
+		startcolumn.setText(blockdef.getStartColumnInMatrix());
+		endcolumn.setText(blockdef.getLastColumnInMatrix());
+		
+		headername.setText("Matrix Specification Correspondence Set");
+		corrspecheader.setText("Specification Correspondence Set");
 	}
 
+	@UiHandler("addcorr")
+	void addClickEvent(ClickEvent event) {
+		Window.alert("Add Click Event");
+	}
 }

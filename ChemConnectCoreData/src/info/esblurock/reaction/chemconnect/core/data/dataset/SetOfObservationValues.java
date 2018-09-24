@@ -11,8 +11,6 @@ public class SetOfObservationValues extends ChemConnectDataStructure {
 	@Index
 	String observationSpecification;
 	@Index
-	String observationMatrixValues;
-	@Index
 	String matrixSpecificationCorrespondenceSet;
 
 	public SetOfObservationValues() {
@@ -25,30 +23,20 @@ public class SetOfObservationValues extends ChemConnectDataStructure {
 	}
 	
 	public SetOfObservationValues(ChemConnectDataStructure structure, 
-			String observationSpecification, String observationMatrixValues, String matrixSpecificationCorrespondenceSet) {
+			String observationSpecification, String matrixSpecificationCorrespondenceSet) {
 		super(structure);
 		init();
 		this.observationSpecification = observationSpecification;
-		this.observationMatrixValues = observationMatrixValues;
 		this.matrixSpecificationCorrespondenceSet = matrixSpecificationCorrespondenceSet;
 	}
 	
 	void init() {
-		observationMatrixValues = "";
 		matrixSpecificationCorrespondenceSet = "";
 		observationSpecification = "";
 	}
 	
-	public String getObservationMatrixValues() {
-		return observationMatrixValues;
-	}
-
 	public String getMatrixSpecificationCorrespondenceSet() {
 		return matrixSpecificationCorrespondenceSet;
-	}
-
-	public void setObservationMatrixValues(String observationMatrixValues) {
-		this.observationMatrixValues = observationMatrixValues;
 	}
 
 	public void setMatrixSpecificationCorrespondenceSet(String matrixSpecificationCorrespondenceSet) {
@@ -70,7 +58,6 @@ public class SetOfObservationValues extends ChemConnectDataStructure {
 		StringBuilder build = new StringBuilder();
 		build.append(super.toString(prefix));
 		build.append(prefix + "Specification:              " + observationSpecification + "\n");
-		build.append(prefix + "MatrixValues:               " + observationMatrixValues + "\n");
 		build.append(prefix + "SpecificationCorrSet:       " + matrixSpecificationCorrespondenceSet + "\n");
 		return build.toString();
 	}

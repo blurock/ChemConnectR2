@@ -704,10 +704,8 @@ public class CreateDefaultObjectsFactory {
 		DatabaseObjectHierarchy obsspechier = sethier.getSubObject(set.getObservationSpecification());
 		ObservationSpecification spec = (ObservationSpecification) obsspechier.getObject();
 		fillObservationSpecification(obsspechier, parameter, set.getIdentifier());
-		DatabaseObjectHierarchy matrixvalueshier = sethier.getSubObject(set.getObservationMatrixValues());
 		DatabaseObjectHierarchy measure = obsspechier.getSubObject(spec.getMeasureSpecifications());
 		DatabaseObjectHierarchy dimension = obsspechier.getSubObject(spec.getDimensionSpecifications());
-		fillObservationMatrixValues(matrixvalueshier,measure,dimension);
 		
 		DatabaseObjectHierarchy corrspechier = sethier.getSubObject(set.getMatrixSpecificationCorrespondenceSet());
 		MatrixSpecificationCorrespondenceSet corrspec = (MatrixSpecificationCorrespondenceSet) corrspechier.getObject();

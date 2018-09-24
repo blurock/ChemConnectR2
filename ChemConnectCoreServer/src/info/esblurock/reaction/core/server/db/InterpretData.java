@@ -629,7 +629,6 @@ public enum InterpretData {
 
 			map.put(StandardDatasetMetaData.matrixSpecificationCorrespondenceSetID, datastructure.getMatrixSpecificationCorrespondenceSet());
 			map.put(StandardDatasetMetaData.observationSpecificationID, datastructure.getObservationSpecification());
-			map.put(StandardDatasetMetaData.observationMatrixValuesID, datastructure.getObservationMatrixValues());
 			
 			return map;
 		}
@@ -656,18 +655,15 @@ public enum InterpretData {
 			obsobj.setIdentifier(obsid);
 			
 			DatabaseObjectHierarchy obspechier = InterpretData.ObservationSpecification.createEmptyObject(obsobj);
-			DatabaseObjectHierarchy matrixhier = InterpretData.ObservationMatrixValues.createEmptyObject(obsobj);
 			DatabaseObjectHierarchy matrixspecehier = InterpretData.MatrixSpecificationCorrespondenceSet.createEmptyObject(obsobj);
 			DatabaseObjectHierarchy structurehier = InterpretData.ChemConnectDataStructure.createEmptyObject(obsobj);
 			ChemConnectDataStructure structure = (ChemConnectDataStructure) structurehier.getObject();
 			SetOfObservationValues set = new SetOfObservationValues(structure,
 					obspechier.getObject().getIdentifier(),
-					matrixhier.getObject().getIdentifier(),
 					matrixspecehier.getObject().getIdentifier());
 			set.setIdentifier(obsid);
 			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(set);
 			hierarchy.addSubobject(obspechier);
-			hierarchy.addSubobject(matrixhier);
 			hierarchy.addSubobject(matrixspecehier);
 			hierarchy.transferSubObjects(structurehier);
 			return hierarchy;
@@ -682,10 +678,9 @@ public enum InterpretData {
 					
 			String parameterTypeS = (String) yaml.get(StandardDatasetMetaData.matrixSpecificationCorrespondenceSetID);			
 			String measurementValuesS = (String) yaml.get(StandardDatasetMetaData.observationSpecificationID);			
-			String dimensionValuesS    = (String) yaml.get(StandardDatasetMetaData.observationMatrixValuesID);
 
 			set = new SetOfObservationValues(objdata, 
-					parameterTypeS, measurementValuesS, dimensionValuesS);
+					parameterTypeS, measurementValuesS);
 			return set;
 		}
 		
