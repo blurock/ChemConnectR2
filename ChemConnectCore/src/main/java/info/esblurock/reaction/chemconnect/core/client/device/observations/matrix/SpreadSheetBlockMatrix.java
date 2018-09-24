@@ -1,9 +1,6 @@
 package info.esblurock.reaction.chemconnect.core.client.device.observations.matrix;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -18,7 +15,11 @@ import gwt.material.design.client.ui.pager.MaterialDataPager;
 import gwt.material.design.client.ui.table.MaterialDataTable;
 import gwt.material.design.client.ui.table.cell.TextColumn;
 import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
+import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.spreadsheet.SpreadSheetDataSource;
+import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServices;
+import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServicesAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
+import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationMatrixValues;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRowTitle;
@@ -41,6 +42,8 @@ public class SpreadSheetBlockMatrix extends Composite {
 	MaterialPanel tablepanel;
 	
 	MaterialDataTable<ObservationValueRow> table;
+	//MaterialInfiniteDataTable<ObservationValueRow> inftable;
+
 	private MaterialDataPager<ObservationValueRow> pager;
 	
 	DatabaseObjectHierarchy hierarchy;
@@ -50,56 +53,67 @@ public class SpreadSheetBlockMatrix extends Composite {
 	int numbercolumns;
 	
 	public SpreadSheetBlockMatrix(StandardDatasetObjectHierarchyItem item) {
-		
 		initWidget(uiBinder.createAndBindUi(this));
-		table = new MaterialDataTable<ObservationValueRow>();
-		
 		hierarchy = item.getHierarchy();
-		values = (ObservationMatrixValues) hierarchy.getObject(); 
-		DatabaseObjectHierarchy titleshier = hierarchy.getSubObject(values.getObservationRowValueTitles());
+		Window.alert("SpreadSheetBlockMatrix: from item: " + hierarchy.getObject().getClass().getSimpleName());
+		setupTableFromObservationMatrixValues(hierarchy);
+	}
+		
+	public SpreadSheetBlockMatrix(DatabaseObjectHierarchy hierarchy) {
+		initWidget(uiBinder.createAndBindUi(this));
+		Window.alert("SpreadSheetBlockMatrix: from hierarchy: " + hierarchy.getObject().getClass().getSimpleName());
+		setupTableFromObservationsFromSpreadSheet(hierarchy);
+	}
+	private void setupTableFromObservationsFromSpreadSheet(DatabaseObjectHierarchy hierarchy) {
+		Window.alert("setupTableFromObservationsFromSpreadSheet: " + hierarchy.getObject().getClass().getSimpleName());
+		ObservationsFromSpreadSheet sheet = (ObservationsFromSpreadSheet) hierarchy.getObject(); 
+		DatabaseObjectHierarchy valueshierarchy = hierarchy.getSubObject(sheet.getObservationMatrixValues());
+		setupTableFromObservationMatrixValues(valueshierarchy);
+	}
+	private void setupTableFromObservationMatrixValues(DatabaseObjectHierarchy valueshierarchy) {
+		Window.alert("setupTableFromObservationMatrixValues: " + hierarchy.getObject().getClass().getSimpleName());
+		values = (ObservationMatrixValues) valueshierarchy.getObject(); 
+		DatabaseObjectHierarchy titleshier = valueshierarchy.getSubObject(values.getObservationRowValueTitles());
 		ObservationValueRowTitle titles = (ObservationValueRowTitle) titleshier.getObject();
 		ArrayList<String> titlesS = titles.getParameterLabel();
-		table.getTableTitle().setText("Block of Data: ");
-		DatabaseObjectHierarchy rowvalueshier = hierarchy.getSubObject(values.getObservationRowValue());
-		ChemConnectCompoundMultiple multiple = (ChemConnectCompoundMultiple) rowvalueshier.getObject();
-		matrix = new ArrayList<ObservationValueRow>();
-		numbercolumns = 0;
+		DatabaseObjectHierarchy rowvalueshier = valueshierarchy.getSubObject(values.getObservationRowValue());
 
-		for(DatabaseObjectHierarchy subhier: rowvalueshier.getSubobjects()) {
+		ChemConnectCompoundMultiple multiple = (ChemConnectCompoundMultiple) rowvalueshier.getObject();
+		table = new MaterialDataTable<ObservationValueRow>();
+		matrix = new ArrayList<ObservationValueRow>();
+		numbercolumns = 4;
+		if(rowvalueshier.getSubobjects().size() > 0) {
+			DatabaseObjectHierarchy subhier = rowvalueshier.getSubobjects().get(0);
 			ObservationValueRow row = (ObservationValueRow) subhier.getObject();
-			matrix.add(row);
-			if(row.getRow().size() > numbercolumns) {
-				numbercolumns = row.getRow().size();
-			}
+			numbercolumns = row.getRow().size();
 		}
+		
 		for (int i = 0; i < numbercolumns; i++) {
 			String name = "Col:" + i;
 			if(titlesS.size() > i) {
 				name = titlesS.get(i);
 			}
-				addColumn(i, name);
+			addColumn(i, name);
 		}
 		
-		Collections.sort(matrix, new Comparator<ObservationValueRow>() {
-		    public int compare(ObservationValueRow lhs, ObservationValueRow rhs) {
-		        // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
-		        return lhs.getRowNumber() - rhs.getRowNumber();
-		    }
-		});
-		
 		try {
-			dataSource = new ListDataSource<ObservationValueRow>(matrix);
-			pager = new MaterialDataPager<>(table, dataSource);
-			pager.setLimitOptions(5, 10, 20,40);
-			table.setVisibleRange(1, 30);
+			String parent = multiple.getIdentifier();
+			int totalcount = rowvalueshier.getSubobjects().size();		
+			SpreadSheetServicesAsync spreadsheet = SpreadSheetServices.Util.getInstance();
+			SpreadSheetDataSource source = new SpreadSheetDataSource(parent, totalcount, spreadsheet);
+			pager = new MaterialDataPager<>(table, source);
+			pager.setLimitOptions(10, 20,40);
+			table.setVisibleRange(1, 25);
+			
+			
 			table.add(pager);
-			table.setDataSource(dataSource);
-			//table.setRowData(0, matrix);
+			table.setDataSource(source);
 			tablepanel.add(table);
 			tablepanel.add(pager);
 		} catch(Exception e) {
 			Window.alert("setUpResultMatrix    " + e.toString());
 		}
+	
 
 	}
 	
@@ -116,17 +130,6 @@ public class SpreadSheetBlockMatrix extends Composite {
 			}
 			
 		};
-		/*
-		Comparator<? super RowComponent<ArrayList<String>>> sortComparator = 
-				new Comparator<RowComponent<ArrayList<String>>>() {
-
-					@Override
-					public int compare(RowComponent<ArrayList<String>> o1, RowComponent<ArrayList<String>> o2) {
-						return 0;
-					}
-
-		};
-		*/
 		table.addColumn(cell,columnname);
 	}
 }

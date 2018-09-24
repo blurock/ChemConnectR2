@@ -54,7 +54,7 @@ public class WriteReadDatabaseObjects {
 				ids.add(obj.getIdentifier());
 			}
 		} catch (ClassNotFoundException e) {
-			throw new IOException("Class not found: " + classType);
+			throw new IOException("getIDsOfAllDatabaseObjects Class not found: " + classType);
 		}
 		return ids;
 	}
@@ -165,7 +165,7 @@ public class WriteReadDatabaseObjects {
 			}
 			topnode = ParseUtilities.parseIDsToHierarchyNode("Objects",ids,true);
 		} catch (ClassNotFoundException e) {
-			throw new IOException("Class not found: " + classname);
+			throw new IOException("getIDHierarchyFromDataCatalogID Class not found: " + classname);
 		}
 		return topnode;
 		

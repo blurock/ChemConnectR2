@@ -9,7 +9,6 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Cookies;
-import com.google.gwt.user.client.Window;
 //import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
@@ -117,36 +116,29 @@ public class ChooseFullNameFromCatagoryRow extends Composite
 		keynameS = "ShortDeviceName";
 		enterkeyS = "Enter Name of Device: ";
 		line = new InputLineModal(enterkeyS,keynameS,this);
-		access = MetaDataKeywords.publicAccess;
 		setupAccessDropDown();
 		
 	}
 	void setupAccessDropDown() {
 		accesstitle.setText("Visibility of object");
-		accessButton.setText("Accessibility");
-		MaterialLink publiclink = new MaterialLink(access);
+		MaterialLink publiclink = new MaterialLink(MetaDataKeywords.publicAccess);
 		MaterialLink userlink = new MaterialLink(username);
 		dropdown.add(userlink);
 		dropdown.add(publiclink);
 		
 		accessButton.setEnabled(true);
 		dropdown.setEnabled(true);
-		Window.alert("setupAccessDropDown(): " + accessButton.getActivates());
-		Window.alert("setupAccessDropDown(): " + accessButton.isEnabled());
-	}
-	@UiHandler("dropdown")
-	void dropdownClick(ClickEvent event) {
-		Window.alert("On click");
+
+		access = username;
+		accessButton.setText(access);
+		accessSelected = true;
 	}
 	@UiHandler("dropdown")
 	void onDropdown(SelectionEvent<Widget> callback) {
-		Window.alert("On Dropdown");
 		MaterialLink chosen = (MaterialLink)callback.getSelectedItem();
 		access = chosen.getText();
 		accessButton.setText(access);
 		accessSelected = true;
-		setupAccessDropDown();
-		Window.alert("Dropdown: " + chosen.getText());
 	 }
 	
 	/* Open up a modal panel with the hierarchy catalog items

@@ -28,7 +28,6 @@ import com.google.cloud.storage.Acl.Role;
 import com.google.cloud.storage.Acl.User;
 
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
-import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.base.GoogleCloudStorageConstants;
@@ -136,7 +135,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 				imagelst.add(uploaded);
 			}
 		} catch (ClassNotFoundException e) {
-			throw new IOException("Class not found: " + classname);
+			throw new IOException("getUploadedImageSet Class not found: " + classname);
 		}
 		return imagelst;
 	}
@@ -167,7 +166,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 				}
 			}
 		} catch (ClassNotFoundException e) {
-			throw new IOException("Class not found: " + classname);
+			throw new IOException("getUploadedImageSetFromKeywordAndUser Class not found: " + classname);
 		}
 		return imagelst;
 	}

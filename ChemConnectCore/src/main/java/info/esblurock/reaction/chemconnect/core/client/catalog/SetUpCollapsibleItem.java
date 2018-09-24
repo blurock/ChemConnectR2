@@ -238,10 +238,8 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
-			Window.alert("SpreadSheetInterpretation: ");
 			SpreadSheetInterpretationHeader header = new SpreadSheetInterpretationHeader(item);
 			item.addHeader(header);
-			Window.alert("SpreadSheetInterpretation: " + item.getObject().toString());
 		}
 
 		@Override
@@ -326,10 +324,8 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
-			Window.alert("SpreadSheetInputInformation: ");
 			SpreadSheetInputInformationHeader header = new SpreadSheetInputInformationHeader(item);
 			item.addHeader(header);
-			Window.alert("SpreadSheetInputInformation: " + item.getObject().toString());
 		}
 
 		@Override
@@ -377,6 +373,38 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public boolean addSubitems() {
+			return false;
+		}
+		
+	}, MatrixSpecificationCorrespondenceSet {
+
+		@Override
+		public void addInformation(StandardDatasetObjectHierarchyItem item) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public boolean update(StandardDatasetObjectHierarchyItem item) {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public int priority() {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public boolean isInformation() {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public boolean addSubitems() {
+			// TODO Auto-generated method stub
 			return false;
 		}
 		

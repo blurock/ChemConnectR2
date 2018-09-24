@@ -69,7 +69,7 @@ public class QueryBase {
 			objClass = Class.forName(classname);
 			lst = (List<DatabaseObject>) ofy().load().type(objClass).list();
 		} catch (ClassNotFoundException e) {
-			throw new IOException("Class not found: " + classname);
+			throw new IOException("getDatabaseObjects: Class not found: " + classname);
 		}
 		return lst;
 		
@@ -92,7 +92,7 @@ public class QueryBase {
 			Object o = ofy().load().type(objClass).filter(propertyname, propertyvalue).first().now();
 			set = (List<DatabaseObject>) o;
 		} catch (ClassNotFoundException e) {
-			throw new IOException("Class not found: " + classname);
+			throw new IOException("getDatabaseObjectsFromSingleProperty  Class not found: " + classname);
 		}
 		
 		return set;
@@ -115,7 +115,7 @@ public class QueryBase {
 				throw new IOException(o.getClass().getCanonicalName() + " is not a superclas of DatabaseObject");
 			}
 		} catch (ClassNotFoundException e) {
-			throw new IOException("Class not found: " + classname);
+			throw new IOException("getFirstDatabaseObjectsFromSingleProperty Class not found: " + classname);
 		}
 
 		return obj;

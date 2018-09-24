@@ -2,6 +2,8 @@ package info.esblurock.reaction.core.server.services;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServices;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
@@ -19,11 +21,13 @@ import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
 import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
+import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.db.image.GCSServiceRoutines;
 import info.esblurock.reaction.core.server.db.image.UserImageServiceImpl;
 import info.esblurock.reaction.core.server.read.InterpretSpreadSheet;
 import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
 import info.esblurock.reaction.io.db.QueryBase;
+import info.esblurock.reaction.io.metadata.StandardDatasetMetaData;
 
 @SuppressWarnings("serial")
 public class SpreadSheetServicesImpl extends ServerBase implements SpreadSheetServices {
@@ -31,18 +35,18 @@ public class SpreadSheetServicesImpl extends ServerBase implements SpreadSheetSe
 	public ArrayList<ObservationValueRow> getSpreadSheetRows(String parent, int start, int limit) throws IOException {
 		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
 		UserDTO user = util.getUserInfo();
-		System.out.println("User: " + user);
-
-		System.out.println("SpreadSheetServicesImpl: getSpreadSheetRows " + parent + "  "  + start + "  " + limit);
 		ArrayList<ObservationValueRow> lst = new ArrayList<ObservationValueRow>();
 		SetOfQueryPropertyValues queryvalues = new SetOfQueryPropertyValues();
 		int startI = start;
 		int endI = start + limit;
 		QueryPropertyValue startquery = new QueryPropertyValue("rowNumber >=", startI);
 		QueryPropertyValue endquery = new QueryPropertyValue("rowNumber <", endI);
+		QueryPropertyValue parentquery = new QueryPropertyValue("parentLink", parent);
 		queryvalues.add(startquery);
 		queryvalues.add(endquery);
+		queryvalues.add(parentquery);
 		QuerySetupBase query = new QuerySetupBase(user.getName(),ObservationValueRow.class.getCanonicalName(), queryvalues);
+
 		try {
 			SingleQueryResult result = QueryBase.StandardQueryResult(query);
 			for (DatabaseObject obj : result.getResults()) {
@@ -52,20 +56,32 @@ public class SpreadSheetServicesImpl extends ServerBase implements SpreadSheetSe
 		} catch (Exception e) {
 			throw new IOException("getSpreadSheetRows: Error trying to read spread sheet rows: " + e.getClass().getSimpleName());
 		}
+		Collections.sort(lst, new Comparator<ObservationValueRow>() {
+		    public int compare(ObservationValueRow lhs, ObservationValueRow rhs) {
+		        // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+		        return lhs.getRowNumber() - rhs.getRowNumber();
+		    }
+		});
+		/*
+		System.out.println("-----------------------------------------------------");
+		System.out.println("SpreadSheetServicesImpl: getSpreadSheetRows ");
+		System.out.println("-----------------------------------------------------");
+		for(ObservationValueRow row: lst) {
+			System.out.println(row.toString());
+		}
+		System.out.println("-----------------------------------------------------");
+*/
 		return lst;
 	}
 
 	
 	public DatabaseObjectHierarchy interpretSpreadSheet(SpreadSheetInputInformation input, DataCatalogID catid, boolean writeObjects) throws IOException {
-		System.out.println("interpretSpreadSheet");
-		System.out.println("interpretSpreadSheet: " + input.toString());
 		DatabaseObjectHierarchy hierarchy = null;
 		String sourceID = QueryBase.getDataSourceIdentification(input.getOwner());
 		input.setSourceID(sourceID);
 		try {
 			hierarchy = InterpretSpreadSheet.readSpreadSheet(input,catid);
 			if(writeObjects) {
-				System.out.println("SpreadSheetServicesImpl: interpretSpreadSheet: writeObjects");
 				WriteReadDatabaseObjects.writeDatabaseObjectHierarchyWithTransaction(hierarchy);
 			}
 		} catch (IOException e) {
@@ -90,7 +106,11 @@ public class SpreadSheetServicesImpl extends ServerBase implements SpreadSheetSe
 		try {
 			SingleQueryResult result = QueryBase.StandardQueryResult(query);
 			if(result.getResults().size() > 0) {
-				System.out.println("interpretSpreadSheetGCS:  already stored");
+				SpreadSheetInputInformation spreadinput = (SpreadSheetInputInformation) result.getResults().get(0);
+				String parentid = spreadinput.getParentLink();
+				System.out.println("interpretSpreadSheetGCS:  already stored: " + parentid);
+				hierarchy = 
+				ExtractCatalogInformation.getCatalogObject(parentid, StandardDatasetMetaData.observationsFromSpreadSheet);
 				//hierarchy = new ObservationsFromSpreadSheet(input);
 			} else {
 				hierarchy = InterpretSpreadSheet.readSpreadSheetFromGCS(gcsinfo, input,catid);
@@ -109,12 +129,11 @@ public class SpreadSheetServicesImpl extends ServerBase implements SpreadSheetSe
 					hierarchy.getObject().getClass().getCanonicalName());
 			DatabaseWriteBase.writeObjectWithTransaction(transaction);
 		}
-		System.out.println("interpretSpreadSheetGCS: \n" + hierarchy.toString());
+		//System.out.println("interpretSpreadSheetGCS: \n" + hierarchy.toString());
 		return hierarchy;
 	}
 	
 	public void deleteSpreadSheetTransaction(String filename) throws IOException {
-		System.out.println("deleteSpreadSheetTransaction:  " + filename);
 		SpreadSheetInputInformation spreadsheet = (SpreadSheetInputInformation) 
 				QueryBase.getFirstDatabaseObjectsFromSingleProperty(SpreadSheetInputInformation.class.getCanonicalName(), 
 				"source", filename);

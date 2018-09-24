@@ -80,22 +80,7 @@ public class InterpretSpreadSheet {
 		obj.nullKey();
 		obj.setIdentifier(catid.getFullName());
 		System.out.println("streamReadSpreadSheet: \n" + obj.toString());
-		
-		int numberOfColumns = 0;
-		if (spreadinput.isType(SpreadSheetInputInformation.XLS)) {
-			numberOfColumns = readXLSFile(is, obj, set);
-		} else if (spreadinput.isType(SpreadSheetInputInformation.CSV)) {
-			System.out.println("streamReadSpreadSheet: CSV");
-			numberOfColumns = readDelimitedFile(is, ",", obj, set);
-		} else if (spreadinput.isType(SpreadSheetInputInformation.Delimited)) {
-			numberOfColumns = readDelimitedFile(is, spreadinput.getDelimitor(), obj, set);
-		} else if (spreadinput.isType(SpreadSheetInputInformation.SpaceDelimited)) {
-			System.out.println("streamReadSpreadSheet: SpaceDelimited");
-			numberOfColumns = readDelimitedFile(is, " ", obj, set);
-		} else if (spreadinput.isType(SpreadSheetInputInformation.TabDelimited)) {
-			System.out.println("streamReadSpreadSheet: TabDelimited");
-			numberOfColumns = readDelimitedFile(is, "\t", obj, set);
-		}
+
 		DatabaseObjectHierarchy hierarchy = InterpretData.ObservationsFromSpreadSheet.createEmptyObject(obj);
 		ObservationsFromSpreadSheet observations = (ObservationsFromSpreadSheet) hierarchy.getObject();
 		
@@ -113,6 +98,28 @@ public class InterpretSpreadSheet {
 		
 		DatabaseObjectHierarchy valuemulthier = observehierarchy.getSubObject(values.getObservationRowValue());
 		ChemConnectCompoundMultiple valuemult = (ChemConnectCompoundMultiple) valuemulthier.getObject();
+
+		
+		
+		int numberOfColumns = 0;
+		if (spreadinput.isType(SpreadSheetInputInformation.XLS)) {
+			numberOfColumns = readXLSFile(is, valuemult, set);
+		} else if (spreadinput.isType(SpreadSheetInputInformation.CSV)) {
+			System.out.println("streamReadSpreadSheet: CSV");
+			numberOfColumns = readDelimitedFile(is, ",", valuemult, set);
+		} else if (spreadinput.isType(SpreadSheetInputInformation.Delimited)) {
+			numberOfColumns = readDelimitedFile(is, spreadinput.getDelimitor(), valuemult, set);
+		} else if (spreadinput.isType(SpreadSheetInputInformation.SpaceDelimited)) {
+			System.out.println("streamReadSpreadSheet: SpaceDelimited");
+			numberOfColumns = readDelimitedFile(is, " ", valuemult, set);
+		} else if (spreadinput.isType(SpreadSheetInputInformation.TabDelimited)) {
+			System.out.println("streamReadSpreadSheet: TabDelimited");
+			numberOfColumns = readDelimitedFile(is, "\t", valuemult, set);
+		}
+		
+		valuemult.setNumberOfElements(set.size());
+		System.out.println("streamReadSpreadSheet: rows: " + set.size() + ":   columns: " + numberOfColumns);
+		
 		
 		input.localFill(spreadinput);
 		cat.localFill(catid);

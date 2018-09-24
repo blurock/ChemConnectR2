@@ -93,7 +93,10 @@ public class ExtractCatalogInformation {
 				ChemConnectCompoundMultiple multi = (ChemConnectCompoundMultiple) multiinterpret.readElementFromDatabase(id);
 				hierarchy = new DatabaseObjectHierarchy(multi);
 				String parentid = multi.getIdentifier();
-				String classtype = multi.getType();
+				ClassificationInformation classification = DatasetOntologyParsing.getIdentificationInformation(multi.getType());
+				InterpretData clsinterpret = InterpretData.valueOf(classification.getDataType());
+				String classtype = clsinterpret.canonicalClassName();
+				
 				SetOfQueryPropertyValues values = new SetOfQueryPropertyValues();
 				QueryPropertyValue value1 = new QueryPropertyValue("parentLink",parentid);
 				values.add(value1);
@@ -107,7 +110,7 @@ public class ExtractCatalogInformation {
 						hierarchy.addSubobject(subhier);
 					}
 				} catch (ClassNotFoundException e) {
-					throw new IOException("Class not found: " + classtype);
+					throw new IOException("getDatabaseObjectAndSubElements Class not found: " + classtype);
 				}
 			}
 		} catch(IllegalArgumentException ex) {

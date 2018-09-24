@@ -16,6 +16,8 @@ public class SpreadSheetRowsCallback implements AsyncCallback<ArrayList<Observat
 	
 	public SpreadSheetRowsCallback(LoadCallback<ObservationValueRow> callback, int start, int total) {
 		this.callback = callback;
+		this.start = start;
+		this.total = total;
 	}
 	@Override
 	public void onFailure(Throwable caught) {

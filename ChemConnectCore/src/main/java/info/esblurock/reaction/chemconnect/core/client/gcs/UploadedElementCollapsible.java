@@ -106,9 +106,7 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 		choices.add("dataset:DataTypeFileFormat");
 		String user = Cookies.getCookie("user");
 		String object = null;
-		Window.alert("UploadedElementCollapsible: \n" + content.getInfo());
 		choose = new ChooseFullNameFromCatagoryRow(this,user,object,choices,modalpanel);
-		Window.alert("UploadedElementCollapsible");
 		catidpanel.add(choose);
 		typeClass = null;
 		typeInstance = null;
@@ -296,6 +294,7 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 
 	@Override
 	public void insertCatalogObject(DatabaseObjectHierarchy subs) {
+		Window.alert("insertCatalogObject: ");
 		Window.alert("insertCatalogObject: " + subs.getObject().toString());
 		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(subs,modalpanel);
 		objectpanel.add(item);

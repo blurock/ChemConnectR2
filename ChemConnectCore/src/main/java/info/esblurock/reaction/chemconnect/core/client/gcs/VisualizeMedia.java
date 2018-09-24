@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.google.gwt.user.client.Window;
 
+import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.SpreadSheetBlockMatrix;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.spreadsheet.SpreadSheetMatrix;
 import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServices;
 import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServicesAsync;
@@ -141,6 +142,12 @@ public enum VisualizeMedia {
 	}
 	
 	void insertSpreadSheetVisualization(DatabaseObjectHierarchy hierarchy, String title, VisualizationOfBlobStorage visual) {
+		Window.alert("VisualizeMedia  insertSpreadSheetVisualization: \n" + 
+				hierarchy.getObject().getClass().getSimpleName());
+		SpreadSheetBlockMatrix matrix = new SpreadSheetBlockMatrix(hierarchy);
+		visual.insertVisualization(matrix);	
+		
+		/*
 		ObservationsFromSpreadSheet observation = (ObservationsFromSpreadSheet) hierarchy.getObject();
 		DatabaseObjectHierarchy inputhier = hierarchy.getSubObject(observation.getSpreadSheetInterpretation());
 		SpreadSheetInterpretation input = (SpreadSheetInterpretation) inputhier.getObject();
@@ -160,6 +167,7 @@ public enum VisualizeMedia {
 		}
 		matrix.setUpResultMatrix(lst);
 		visual.insertVisualization(matrix);		
+		*/
 	}
 	
 	
