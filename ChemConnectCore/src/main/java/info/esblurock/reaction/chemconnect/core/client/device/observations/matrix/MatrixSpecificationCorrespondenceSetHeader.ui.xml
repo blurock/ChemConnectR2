@@ -22,8 +22,11 @@
 	</ui:style>
 	<m:MaterialPanel styleName="{style.panelbox}">
 		<m:MaterialRow ui:field="headerrow">
-			<m:MaterialColumn grid="s12">
+			<m:MaterialColumn grid="s6">
 				<m:MaterialLink ui:field="headername" />
+			</m:MaterialColumn>
+			<m:MaterialColumn grid="s6">
+				<m:MaterialLink ui:field="spreadsheetname" />
 			</m:MaterialColumn>
 		</m:MaterialRow>
 		<m:MaterialRow ui:field="blockdefinition">

@@ -12,10 +12,16 @@
 				<m:MaterialLink ui:field="observationtype" textColor="BLACK" />
 			</m:MaterialTooltip>
 		</m:MaterialColumn>
-		<m:MaterialColumn grid="s6">
+		<m:MaterialColumn grid="s5">
 			<m:MaterialTooltip ui:field="titletooltip">
 			<m:MaterialLink ui:field="observationhead" textColor="BLACK" />
 			</m:MaterialTooltip>
+		</m:MaterialColumn>
+		<m:MaterialColumn grid="s1">
+		<m:MaterialTooltip ui:field="attachtooltip">
+			<m:MaterialIcon ui:field="attach" iconType="ATTACH_FILE"
+				iconColor="BLACK" iconPosition="RIGHT" textColor="BLACK" />
+				</m:MaterialTooltip>
 		</m:MaterialColumn>
 		<m:MaterialColumn grid="s1">
 			<m:MaterialIcon ui:field="save" iconType="SAVE"

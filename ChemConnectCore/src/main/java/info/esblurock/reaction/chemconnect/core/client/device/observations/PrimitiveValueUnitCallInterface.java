@@ -1,4 +1,4 @@
-package info.esblurock.reaction.chemconnect.core.client.pages.catalog.observations;
+package info.esblurock.reaction.chemconnect.core.client.device.observations;
 
 import info.esblurock.reaction.chemconnect.core.data.concepts.SetOfUnitProperties;
 

@@ -1,4 +1,4 @@
-package info.esblurock.reaction.chemconnect.core.client.pages.catalog.observations;
+package info.esblurock.reaction.chemconnect.core.client.device.observations;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiHandler;

@@ -18,6 +18,8 @@ import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTextBox;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHeirarchy;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchies;
+import info.esblurock.reaction.chemconnect.core.client.device.observations.PrimitiveValueUnitCallInterface;
+import info.esblurock.reaction.chemconnect.core.client.device.observations.PrimitiveValueUnitCallback;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;

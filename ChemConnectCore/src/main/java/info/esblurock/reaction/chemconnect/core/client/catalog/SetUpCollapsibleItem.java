@@ -12,17 +12,17 @@ import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetNa
 import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetOrganizationDescriptionHeader;
 import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetOrganizationHeader;
 import info.esblurock.reaction.chemconnect.core.client.device.StandardDatasetSubSystemHeader;
+import info.esblurock.reaction.chemconnect.core.client.device.observations.ParameterValueHeader;
+import info.esblurock.reaction.chemconnect.core.client.device.observations.PrimitiveParameterValueRow;
+import info.esblurock.reaction.chemconnect.core.client.device.observations.StandardDatasetSetOfObservationValuesHeader;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.MatrixSpecificationCorrespondenceSetHeader;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.SpreadSheetBlockMatrix;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.SpreadSheetInputInformationHeader;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.SpreadSheetInterpretationHeader;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.StandardDatasetObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.methodology.StandardDatasetMethodologyHeader;
-import info.esblurock.reaction.chemconnect.core.client.pages.catalog.observations.ParameterValueHeader;
-import info.esblurock.reaction.chemconnect.core.client.pages.catalog.observations.PrimitiveParameterValueRow;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.observations.StandardDatasetObservationSpecificationHeader;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.observations.StandardDatasetParameterSpecificationHeader;
-import info.esblurock.reaction.chemconnect.core.client.pages.catalog.observations.StandardDatasetSetOfObservationValuesHeader;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.observations.StandardDatasetValueUnitsHeader;
 import info.esblurock.reaction.chemconnect.core.client.pages.description.StandardDatasetDescriptionDataDataHeader;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.concept.PrimitiveConceptRow;
@@ -396,7 +396,7 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public boolean isInformation() {
-			return true;
+			return false;
 		}
 
 		@Override

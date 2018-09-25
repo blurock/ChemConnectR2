@@ -13,6 +13,8 @@ import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
+import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
+import info.esblurock.reaction.chemconnect.core.data.dataset.ObservationSpecification;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.MatrixBlockDefinition;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.MatrixSpecificationCorrespondenceSet;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
@@ -46,11 +48,14 @@ public class MatrixSpecificationCorrespondenceSetHeader extends Composite {
 	MaterialLink addcorr;
 	@UiField
 	MaterialPanel corrspecpanel;
+	@UiField
+	MaterialLink spreadsheetname;
 	
 	MatrixSpecificationCorrespondenceSet speccorrset;
 	DatabaseObjectHierarchy hierarchy;
 	MatrixBlockDefinition blockdef;
 	ChemConnectCompoundMultiple specmult;
+	DataCatalogID datacatalogid;
 	
 	public MatrixSpecificationCorrespondenceSetHeader(StandardDatasetObjectHierarchyItem item) {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -68,10 +73,17 @@ public class MatrixSpecificationCorrespondenceSetHeader extends Composite {
 		
 		headername.setText("Matrix Specification Correspondence Set");
 		corrspecheader.setText("Specification Correspondence Set");
+		spreadsheetname.setText("Spreadsheet Matrix");
 	}
 
-	@UiHandler("addcorr")
+	@UiHandler("spreadsheetname")
 	void addClickEvent(ClickEvent event) {
-		Window.alert("Add Click Event");
+		Window.alert("Add Spreadsheet");
 	}
+	
+	public void setupMatrix(DataCatalogID catid, ObservationSpecification obsspec) {
+		Window.alert("MatrixSpecificationCorrespondenceSetHeader: \n" + catid);
+		Window.alert("MatrixSpecificationCorrespondenceSetHeader: \n" + obsspec);
+	}
+	
 }
