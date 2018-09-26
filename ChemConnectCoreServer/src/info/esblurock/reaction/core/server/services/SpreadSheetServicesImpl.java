@@ -18,8 +18,10 @@ import info.esblurock.reaction.chemconnect.core.data.query.QueryPropertyValue;
 import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.data.query.SetOfQueryPropertyValues;
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
+import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
+import info.esblurock.reaction.core.server.db.InterpretData;
 import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.db.image.GCSServiceRoutines;
@@ -28,6 +30,7 @@ import info.esblurock.reaction.core.server.read.InterpretSpreadSheet;
 import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
 import info.esblurock.reaction.io.db.QueryBase;
 import info.esblurock.reaction.io.metadata.StandardDatasetMetaData;
+import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 
 @SuppressWarnings("serial")
 public class SpreadSheetServicesImpl extends ServerBase implements SpreadSheetServices {
@@ -103,18 +106,36 @@ public class SpreadSheetServicesImpl extends ServerBase implements SpreadSheetSe
 		String sourceID = QueryBase.getDataSourceIdentification(input.getOwner());
 		input.setSourceID(sourceID);
 		DatabaseObjectHierarchy hierarchy = null;
+		
+		DataElementInformation element = DatasetOntologyParsing
+				.getSubElementStructureFromIDObject(StandardDatasetMetaData.observationsFromSpreadSheet);
+		String obsid = InterpretData.createSuffix(catid, element);
+		
+		
 		try {
 			SingleQueryResult result = QueryBase.StandardQueryResult(query);
+			String originalid = null;
 			if(result.getResults().size() > 0) {
-				SpreadSheetInputInformation spreadinput = (SpreadSheetInputInformation) result.getResults().get(0);
-				String parentid = spreadinput.getParentLink();
-				System.out.println("interpretSpreadSheetGCS:  already stored: " + parentid);
-				hierarchy = 
-				ExtractCatalogInformation.getCatalogObject(parentid, StandardDatasetMetaData.observationsFromSpreadSheet);
-				//hierarchy = new ObservationsFromSpreadSheet(input);
+				for(DatabaseObject obj: result.getResults()) {
+					SpreadSheetInputInformation spreadinput = (SpreadSheetInputInformation) obj;
+					String parentid = spreadinput.getParentLink();
+					System.out.println("interpretSpreadSheetGCS:  already stored: " + parentid);
+					if(obsid.compareTo(parentid) == 0) {
+						System.out.println("The new one is already: " + obsid);
+						originalid = parentid;
+					} else {
+						System.out.println("Not the same as: " + obsid);
+					}
+				}
+			} 
+			if(originalid != null) {
+				System.out.println("interpretSpreadSheetGCS: Extract: " + originalid);
+				ExtractCatalogInformation.getCatalogObject(originalid, StandardDatasetMetaData.observationsFromSpreadSheet);
 			} else {
+				System.out.println("interpretSpreadSheetGCS: Create: " + obsid);
 				hierarchy = InterpretSpreadSheet.readSpreadSheetFromGCS(gcsinfo, input,catid);
 			}
+
 		} catch (Exception e) {
 			throw new IOException("Error trying to read spread sheet rows\n" + e.toString());
 		}

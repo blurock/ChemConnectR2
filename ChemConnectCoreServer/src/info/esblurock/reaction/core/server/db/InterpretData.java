@@ -409,8 +409,9 @@ public enum InterpretData {
 			String catid = createSuffix(obj, element);
 			spreadobj.setIdentifier(catid);
 			
-			DatabaseObjectHierarchy obspechier = InterpretData.ChemConnectCompoundDataStructure.createEmptyObject(spreadobj);
+			DatabaseObjectHierarchy obspechier = InterpretData.ChemConnectCompoundDataStructure.createEmptyObject(obj);
 			ChemConnectCompoundDataStructure structure = (ChemConnectCompoundDataStructure) obspechier.getObject();
+
 			String startRow = "0";
 			String endRow = "0";
 			String startColumn = "0";
@@ -418,6 +419,7 @@ public enum InterpretData {
 			String titleSearchKey = "";
 			String noBlanks = "false";
 			SpreadSheetInterpretation interpret = new SpreadSheetInterpretation(structure,startRow,endRow,startColumn,endColumn,titleSearchKey,noBlanks);
+			interpret.setIdentifier(catid);
 			DatabaseObjectHierarchy interprethier = new DatabaseObjectHierarchy(interpret);
 			
 			return interprethier;
@@ -484,13 +486,14 @@ public enum InterpretData {
 			String catid = createSuffix(obj, element);
 			spreadobj.setIdentifier(catid);
 			
-			DatabaseObjectHierarchy obspechier = InterpretData.ChemConnectCompoundDataStructure.createEmptyObject(spreadobj);
+			DatabaseObjectHierarchy obspechier = InterpretData.ChemConnectCompoundDataStructure.createEmptyObject(obj);
 			ChemConnectCompoundDataStructure structure = (ChemConnectCompoundDataStructure) obspechier.getObject();
 			String type = "dataset:CSV";
 			String sourceType = "dataset:StringSource";
 			String source = "0,0,0,0,0\n0,0,0,0,0\n";
 			boolean includeTitle = false;
 			SpreadSheetInputInformation input = new SpreadSheetInputInformation(structure,type,sourceType,source,includeTitle);
+			input.setIdentifier(catid);
 			DatabaseObjectHierarchy inputhier = new DatabaseObjectHierarchy(input);
 			return inputhier;
 		}

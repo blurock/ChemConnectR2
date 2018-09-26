@@ -42,7 +42,6 @@ public class SpreadSheetBlockMatrix extends Composite {
 	MaterialPanel tablepanel;
 	
 	MaterialDataTable<ObservationValueRow> table;
-	//MaterialInfiniteDataTable<ObservationValueRow> inftable;
 
 	private MaterialDataPager<ObservationValueRow> pager;
 	
@@ -55,23 +54,19 @@ public class SpreadSheetBlockMatrix extends Composite {
 	public SpreadSheetBlockMatrix(StandardDatasetObjectHierarchyItem item) {
 		initWidget(uiBinder.createAndBindUi(this));
 		hierarchy = item.getHierarchy();
-		Window.alert("SpreadSheetBlockMatrix: from item: " + hierarchy.getObject().getClass().getSimpleName());
 		setupTableFromObservationMatrixValues(hierarchy);
 	}
 		
 	public SpreadSheetBlockMatrix(DatabaseObjectHierarchy hierarchy) {
 		initWidget(uiBinder.createAndBindUi(this));
-		Window.alert("SpreadSheetBlockMatrix: from hierarchy: " + hierarchy.getObject().getClass().getSimpleName());
 		setupTableFromObservationsFromSpreadSheet(hierarchy);
 	}
 	private void setupTableFromObservationsFromSpreadSheet(DatabaseObjectHierarchy hierarchy) {
-		Window.alert("setupTableFromObservationsFromSpreadSheet: " + hierarchy.getObject().getClass().getSimpleName());
 		ObservationsFromSpreadSheet sheet = (ObservationsFromSpreadSheet) hierarchy.getObject(); 
 		DatabaseObjectHierarchy valueshierarchy = hierarchy.getSubObject(sheet.getObservationMatrixValues());
 		setupTableFromObservationMatrixValues(valueshierarchy);
 	}
 	private void setupTableFromObservationMatrixValues(DatabaseObjectHierarchy valueshierarchy) {
-		Window.alert("setupTableFromObservationMatrixValues: " + hierarchy.getObject().getClass().getSimpleName());
 		values = (ObservationMatrixValues) valueshierarchy.getObject(); 
 		DatabaseObjectHierarchy titleshier = valueshierarchy.getSubObject(values.getObservationRowValueTitles());
 		ObservationValueRowTitle titles = (ObservationValueRowTitle) titleshier.getObject();
