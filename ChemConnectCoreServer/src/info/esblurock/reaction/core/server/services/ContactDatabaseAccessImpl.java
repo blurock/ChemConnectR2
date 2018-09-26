@@ -9,7 +9,6 @@ import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatab
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.concepts.SetOfUnitProperties;
 import info.esblurock.reaction.chemconnect.core.data.contact.GPSLocation;
-import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
 import info.esblurock.reaction.chemconnect.core.data.contact.Organization;
 import info.esblurock.reaction.chemconnect.core.data.login.UserAccount;
 import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
@@ -39,7 +38,6 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.graph.TotalSubsyst
 import info.esblurock.reaction.chemconnect.core.data.transfer.observations.SetOfObservationsTransfer;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
-import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 @SuppressWarnings("serial")
 public class ContactDatabaseAccessImpl extends ServerBase implements ContactDatabaseAccess {

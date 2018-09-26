@@ -5,10 +5,7 @@ package info.esblurock.reaction.ontology.test;
 import org.junit.Test;
 
 import info.esblurock.reaction.chemconnect.core.data.concepts.SetOfUnitProperties;
-import info.esblurock.reaction.io.db.QueryBase;
-import info.esblurock.reaction.ontology.OntologyBase;
 import info.esblurock.reaction.ontology.units.OntologyUnits;
-import org.apache.jena.query.ResultSet;
 
 public class TestMeasurementOntology {
 

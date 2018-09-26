@@ -1,6 +1,6 @@
 package info.esblurock.reaction.core.server.read;
 
-import static org.junit.Assert.*;
+//import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,7 +34,6 @@ import info.esblurock.reaction.chemconnect.core.data.rdf.RegisterRDFData;
 import info.esblurock.reaction.chemconnect.core.data.transaction.RegisterTransactionData;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.db.InterpretData;
-import info.esblurock.reaction.core.server.db.ReadWriteDatabaseCatalog;
 import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.core.server.db.image.BlobKeyCorrespondence;
 import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFactory;
@@ -88,9 +87,8 @@ public class FindDatabaseElements {
 		
 		String sourceID = "1";
 		String username = "Administration";
-		String access = "Administration";
+		//String access = "Administration";
 		String owner = "Administration";
-		String orgname = "BlurockConsultingAB";
 		String title = "Blurock Consulting AB";
 		String userrole = MetaDataKeywords.accessTypeAdministrator;
 		CreateDefaultObjectsFactory.createAndWriteDefaultUserOrgAndCatagories(username, userrole, username, owner,

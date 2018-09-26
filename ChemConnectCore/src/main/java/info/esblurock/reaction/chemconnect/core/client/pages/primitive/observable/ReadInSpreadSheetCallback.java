@@ -4,7 +4,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.spreadsheet.ObservationsFromSpreadSheetInterface;
-import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 public class ReadInSpreadSheetCallback  implements AsyncCallback<DatabaseObjectHierarchy> {

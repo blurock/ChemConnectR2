@@ -1,7 +1,5 @@
 package info.esblurock.reaction.core.server.initialization;
 
-import java.io.IOException;
-
 //import static org.junit.Assert.*;
 
 import org.junit.After;
@@ -20,17 +18,8 @@ import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDat
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
-import info.esblurock.reaction.chemconnect.core.data.contact.ContactInfoData;
-import info.esblurock.reaction.chemconnect.core.data.contact.ContactLocationInformation;
-import info.esblurock.reaction.chemconnect.core.data.contact.GPSLocation;
-import info.esblurock.reaction.chemconnect.core.data.contact.IndividualInformation;
-import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
-import info.esblurock.reaction.chemconnect.core.data.contact.Organization;
-import info.esblurock.reaction.chemconnect.core.data.contact.OrganizationDescription;
-import info.esblurock.reaction.chemconnect.core.data.contact.PersonalDescription;
 import info.esblurock.reaction.chemconnect.core.data.contact.RegisterContactData;
 import info.esblurock.reaction.chemconnect.core.data.dataset.RegistrerDataset;
-import info.esblurock.reaction.chemconnect.core.data.dataset.SetOfObservationValues;
 import info.esblurock.reaction.chemconnect.core.data.description.RegisterDescriptionData;
 import info.esblurock.reaction.chemconnect.core.data.gcs.RegisterGCSClasses;
 import info.esblurock.reaction.chemconnect.core.data.image.RegisterImageInformation;
@@ -39,12 +28,7 @@ import info.esblurock.reaction.chemconnect.core.data.login.RegisterUserLoginData
 import info.esblurock.reaction.chemconnect.core.data.observations.RegisterObservationData;
 import info.esblurock.reaction.chemconnect.core.data.rdf.RegisterRDFData;
 import info.esblurock.reaction.chemconnect.core.data.transaction.RegisterTransactionData;
-import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
-import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
-import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.db.image.BlobKeyCorrespondence;
-import info.esblurock.reaction.io.db.QueryBase;
-import info.esblurock.reaction.chemconnect.core.data.dataset.MeasurementParameterValue;
 
 public class WriteReadDefaultObjects {
 	protected Closeable session;

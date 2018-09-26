@@ -83,7 +83,7 @@ public class ReadAndWriteFromDatabase {
 					WriteReadDatabaseObjects.writeChemConnectDataStructureObject(structure);
 					ChemConnectDataStructure datastructure = structure.getChemconnect();
 					ClassificationInformation classification = datastructure.getClassification();
-					DatabaseObject obj = structure.getObjecthierarchy().getObject();
+					//DatabaseObject obj = structure.getObjecthierarchy().getObject();
 					System.out.println(classification.toString());
 					/*
 					WriteReadDatabaseObjects.readChemConnectDataStructureObject(classification.getIdName(),

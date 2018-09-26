@@ -3,12 +3,10 @@ package info.esblurock.reaction.core.server.initialization;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.xalan.xsltc.dom.MultiValuedNodeHeapIterator;
 
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
@@ -727,7 +725,7 @@ public class CreateDefaultObjectsFactory {
 	public static int addMatrixSpecificationCorrespondence(int count,
 			DatabaseObjectHierarchy colcorrhier,
 			DatabaseObjectHierarchy spec) {
-		ChemConnectCompoundMultiple colcorrset = (ChemConnectCompoundMultiple) colcorrhier.getObject();
+		//ChemConnectCompoundMultiple colcorrset = (ChemConnectCompoundMultiple) colcorrhier.getObject();
 		ChemConnectCompoundMultiple multiple = (ChemConnectCompoundMultiple) spec.getObject();
 		for(DatabaseObjectHierarchy hier: colcorrhier.getSubobjects()) {
 			ParameterSpecification pspec = (ParameterSpecification) hier.getObject();
@@ -767,7 +765,7 @@ public class CreateDefaultObjectsFactory {
 	}
 	
 	public static void addTitlesAndSampleValues(ObservationValueRowTitle titles, ObservationValueRow rowvalues, DatabaseObjectHierarchy multhier) {
-		ChemConnectCompoundMultiple multiple = (ChemConnectCompoundMultiple) multhier.getObject();
+		//ChemConnectCompoundMultiple multiple = (ChemConnectCompoundMultiple) multhier.getObject();
 		for(DatabaseObjectHierarchy hier: multhier.getSubobjects()) {
 			ParameterSpecification spec = (ParameterSpecification) hier.getObject();
 			String name = spec.getParameterLabel();

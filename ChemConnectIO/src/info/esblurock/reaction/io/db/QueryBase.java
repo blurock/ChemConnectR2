@@ -3,13 +3,9 @@ package info.esblurock.reaction.io.db;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import com.google.appengine.api.datastore.Cursor;
 import com.googlecode.objectify.Key;
-import com.googlecode.objectify.LoadResult;
-import com.googlecode.objectify.Objectify;
-import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.cmd.Query;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
@@ -28,7 +24,7 @@ public class QueryBase {
 	public static String userS = "user";
 	
 	public static void getDatabaseObjectsFromKey(ArrayList<DatabaseObject> objs) {
-		Map<Key<DatabaseObject>,DatabaseObject> result = ObjectifyService.ofy().load().entities(objs);
+		//Map<Key<DatabaseObject>,DatabaseObject> result = ObjectifyService.ofy().load().entities(objs);
 		
 	}
 	

@@ -1,6 +1,5 @@
 package info.esblurock.reaction.chemconnect.core.client.pages;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 

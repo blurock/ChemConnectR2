@@ -2,6 +2,7 @@ package info.esblurock.reaction.chemconnect.core.data.transfer.graph;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 
+@SuppressWarnings("serial")
 public class DatabaseObjectHierarchyNode extends HierarchyNode {
 	
 	DatabaseObject object;

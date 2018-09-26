@@ -13,7 +13,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 
-import com.googlecode.objectify.annotation.Index;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.io.db.QueryBase;

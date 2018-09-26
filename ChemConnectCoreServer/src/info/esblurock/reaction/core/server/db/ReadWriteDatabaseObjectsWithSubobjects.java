@@ -2,7 +2,6 @@ package info.esblurock.reaction.core.server.db;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;

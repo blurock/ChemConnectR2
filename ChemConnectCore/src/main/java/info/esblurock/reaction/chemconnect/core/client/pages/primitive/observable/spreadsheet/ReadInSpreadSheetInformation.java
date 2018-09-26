@@ -33,7 +33,6 @@ import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetS
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
-import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInterpretation;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
@@ -252,11 +251,12 @@ public class ReadInSpreadSheetInformation extends Composite implements Observati
 			visible.add(matrix.get(i));
 		}
 		top.setIsolatedMatrix(visible);
-		
+		/*
 		int titlerow = -1;
 		if(title.getValue().booleanValue()) {
 			titlerow = beginningRow;
 		}
+		*/
 		String beginningColumn = "0";
 		String endingColumn = "0";
 		boolean titleGiven = title.getValue().booleanValue();

@@ -20,7 +20,6 @@ import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialDialog;
 import gwt.material.design.client.ui.MaterialDialogContent;
 import gwt.material.design.client.ui.MaterialDialogFooter;
-import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.chemconnect.core.client.graph.hierarchy.ConvertToMaterialTree;
 import info.esblurock.reaction.chemconnect.core.client.graph.hierarchy.MaterialTreeItemWithPath;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;

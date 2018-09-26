@@ -1,14 +1,12 @@
 package info.esblurock.reaction.ontology.concepts;
 
-import static org.junit.Assert.*;
+//import static org.junit.Assert.*;
 
 import org.junit.Test;
 
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectPrimitiveDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
-import info.esblurock.reaction.ontology.OntologyBase;
 import info.esblurock.reaction.ontology.dataset.ConceptParsing;
-import info.esblurock.reaction.ontology.units.OntologyUnits;
 
 public class IsConnectPrimitiveDataStructureTest {
 

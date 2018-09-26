@@ -2,8 +2,6 @@ package info.esblurock.reaction.chemconnect.core.client.pages.catalog.observatio
 
 import java.util.ArrayList;
 
-import com.google.gwt.user.client.Window;
-
 import gwt.material.design.addins.client.combobox.MaterialComboBox;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.data.concepts.SetOfUnitProperties;

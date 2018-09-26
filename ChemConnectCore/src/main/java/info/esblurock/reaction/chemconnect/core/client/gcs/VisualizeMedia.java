@@ -1,22 +1,14 @@
 package info.esblurock.reaction.chemconnect.core.client.gcs;
 
-import java.util.ArrayList;
-
 import com.google.gwt.user.client.Window;
 
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.SpreadSheetBlockMatrix;
-import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.spreadsheet.SpreadSheetMatrix;
 import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServices;
 import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServicesAsync;
-import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
-import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
-import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInterpretation;
-import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationMatrixValues;
-import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 public enum VisualizeMedia {

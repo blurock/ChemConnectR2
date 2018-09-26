@@ -158,7 +158,6 @@ public class InterpretSpreadSheet {
 		rowobj.setIdentifier(id);
 		
 		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(rowobj,obj.getIdentifier());
-		String countS = String.valueOf(count);
 		ObservationValueRow row = new ObservationValueRow(structure, count, lst);
 		return row;
 	}

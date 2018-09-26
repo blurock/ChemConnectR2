@@ -35,7 +35,6 @@ import info.esblurock.reaction.chemconnect.core.data.gcs.RegisterGCSClasses;
 import info.esblurock.reaction.chemconnect.core.data.image.RegisterImageInformation;
 import info.esblurock.reaction.chemconnect.core.data.initialization.RegisterInitializationData;
 import info.esblurock.reaction.chemconnect.core.data.login.RegisterUserLoginData;
-import info.esblurock.reaction.chemconnect.core.data.methodology.ChemConnectMethodology;
 import info.esblurock.reaction.chemconnect.core.data.methodology.RegisterMethodology;
 import info.esblurock.reaction.chemconnect.core.data.observations.RegisterObservationData;
 import info.esblurock.reaction.chemconnect.core.data.rdf.RegisterRDFData;

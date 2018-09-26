@@ -2,9 +2,7 @@ package info.esblurock.reaction.core.server.initialization.catobj;
 
 
 import java.io.IOException;
-import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Set;
 
 import org.junit.After;
@@ -15,7 +13,6 @@ import org.junit.BeforeClass;
 
 import org.junit.Test;
 
-import com.esotericsoftware.yamlbeans.YamlWriter;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.googlecode.objectify.ObjectifyFactory;
@@ -25,7 +22,6 @@ import com.googlecode.objectify.util.Closeable;
 
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
-import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultipleInfo;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.contact.RegisterContactData;
@@ -47,7 +43,6 @@ import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.db.image.BlobKeyCorrespondence;
 import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFactory;
-import info.esblurock.reaction.core.server.read.ReadWriteYamlDatabaseObjectHierarchy;
 
 public class InitialMethodologyTest {
 

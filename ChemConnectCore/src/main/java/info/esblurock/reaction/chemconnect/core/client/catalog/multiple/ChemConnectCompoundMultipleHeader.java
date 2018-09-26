@@ -19,7 +19,6 @@ import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
-import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 public class ChemConnectCompoundMultipleHeader extends Composite {
@@ -60,7 +59,7 @@ public class ChemConnectCompoundMultipleHeader extends Composite {
 		multipletitle.setText("Objects:");
 		multipleItems = new ArrayList<StandardDatasetObjectHierarchyItem>();
 	}
-
+/*
 	private DatabaseObject determineSubObjectID() {
 		DatabaseObject obj = new DatabaseObject(multiple);
 		int elementNumber = multiple.getNumberOfElements();
@@ -69,12 +68,12 @@ public class ChemConnectCompoundMultipleHeader extends Composite {
 		obj.setIdentifier(id);
 		return obj;
 	}
-	
+	*/
 	@UiHandler("add")
 	public void onAddClick(ClickEvent event) {
 		ChemConnectCompoundMultipleCallback callback = new ChemConnectCompoundMultipleCallback(this);
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
-		DatabaseObject obj = determineSubObjectID();
+		//DatabaseObject obj = determineSubObjectID();
 		async.createEmptyMultipleObject(multipleHier,callback);
 	}
 	public void addMultipleObject(DatabaseObjectHierarchy obj) {

@@ -21,7 +21,6 @@ import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.CompoundDataStructureInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
-import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveInterpretedInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.MapToChemConnectCompoundDataStructure;
 
@@ -133,14 +132,18 @@ public class RecordStructureCollapsible extends Composite {
 					panel.add(base);
 				}
 			}
+			/*
 			for (CompoundDataStructureInformation primitive : compound.getCompoundelements()) {
+			
 				DatabaseObject subobj = new DatabaseObject(obj);
 
 				Window.alert("Compound:   " + primitive.toString());
+			
 			}
+			*/
 		}
 	}
-	
+	/*
 	private void putCreateObjectInPanel(String structuretype) throws IllegalArgumentException {
 		CreatePrimitiveStructure create = CreatePrimitiveStructure.valueOf(structuretype);
 		Window.alert("RecordStructureCollapsible: using create:  " + structuretype);
@@ -155,5 +158,5 @@ public class RecordStructureCollapsible extends Composite {
 		element.setIdentifier(cobj);
 		panel.add(element);
 	}
-
+*/
 }

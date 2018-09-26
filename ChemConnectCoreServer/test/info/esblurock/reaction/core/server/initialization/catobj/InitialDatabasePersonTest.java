@@ -1,6 +1,6 @@
 package info.esblurock.reaction.core.server.initialization.catobj;
 
-import static org.junit.Assert.*;
+//import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.io.StringWriter;

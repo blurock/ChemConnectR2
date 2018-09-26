@@ -1,9 +1,8 @@
 package info.esblurock.reaction.core.server.read;
 
-import static org.junit.Assert.*;
+//import static org.junit.Assert.*;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -21,6 +20,7 @@ import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFa
 
 public class YamlReadWrite {
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void test() {
 		

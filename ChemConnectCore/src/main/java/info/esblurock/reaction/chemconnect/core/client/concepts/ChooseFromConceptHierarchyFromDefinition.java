@@ -2,8 +2,6 @@ package info.esblurock.reaction.chemconnect.core.client.concepts;
 
 import java.util.ArrayList;
 
-import com.google.gwt.user.client.Window;
-
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
 

@@ -22,6 +22,7 @@ public class PrettyPrintYaml {
 			Object obj = mapping.get(key);
 			if (obj != null) {
 				if (!String.class.isInstance(obj)) {
+					@SuppressWarnings("unchecked")
 					Map<String, Object> submap = (Map<String, Object>) obj;
 					build.append(prefix + key + ":\n");
 					build.append(print(submap, newprefix));

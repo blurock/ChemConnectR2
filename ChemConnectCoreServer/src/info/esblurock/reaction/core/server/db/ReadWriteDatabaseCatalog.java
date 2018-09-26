@@ -145,7 +145,7 @@ public class ReadWriteDatabaseCatalog {
 	 */
 	static void createHierarchy(DatabaseObjectHierarchy top,
 			Map<String, DatasetCatalogHierarchy> catalogmap, Map<String, DataObjectLink> linkmap) {
-		DatasetCatalogHierarchy obj = (DatasetCatalogHierarchy) top.getObject();
+		//DatasetCatalogHierarchy obj = (DatasetCatalogHierarchy) top.getObject();
 		/*
 		for(String sub : obj.getChemConnectObjectLink()) {
 			DataObjectLink link = linkmap.get(sub);

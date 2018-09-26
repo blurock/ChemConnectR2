@@ -1,7 +1,5 @@
 package info.esblurock.reaction.chemconnect.core.data.base;
 
-import java.util.HashSet;
-
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
 

@@ -21,9 +21,7 @@ import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructu
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.contact.RegisterContactData;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
-import info.esblurock.reaction.chemconnect.core.data.dataset.PurposeConceptPair;
 import info.esblurock.reaction.chemconnect.core.data.dataset.RegistrerDataset;
-import info.esblurock.reaction.chemconnect.core.data.dataset.device.SubSystemDescription;
 import info.esblurock.reaction.chemconnect.core.data.description.RegisterDescriptionData;
 import info.esblurock.reaction.chemconnect.core.data.gcs.RegisterGCSClasses;
 import info.esblurock.reaction.chemconnect.core.data.image.RegisterImageInformation;
@@ -37,7 +35,6 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.structure.Database
 import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.db.image.BlobKeyCorrespondence;
-import info.esblurock.reaction.ontology.dataset.ConceptParsing;
 
 public class WriteReadDevices {
 	protected Closeable session;

@@ -8,7 +8,6 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -22,7 +21,6 @@ import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetOb
 import info.esblurock.reaction.chemconnect.core.client.catalog.SubCatagoryHierarchyCallback;
 import info.esblurock.reaction.chemconnect.core.client.catalog.choose.SubCatagoryHierarchyCallbackInterface;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.MatrixSpecificationCorrespondenceSetHeader;
-import info.esblurock.reaction.chemconnect.core.client.graph.hierarchy.ConvertToMaterialTree;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.observations.StandardDatasetObservationSpecificationHeader;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
@@ -34,7 +32,6 @@ import info.esblurock.reaction.chemconnect.core.data.description.DescriptionData
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.MatrixSpecificationCorrespondenceSet;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
-import info.esblurock.reaction.io.metadata.StandardDatasetMetaData;
 
 public class StandardDatasetSetOfObservationValuesHeader extends Composite 
 	implements HierarchyNodeCallbackInterface, ChooseFromHierarchyTreeInterface, SubCatagoryHierarchyCallbackInterface {

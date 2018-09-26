@@ -3,38 +3,22 @@ package info.esblurock.reaction.chemconnect.core.client.device;
 import java.util.ArrayList;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Cookies;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialCollapsible;
-import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
-import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.chemconnect.core.client.catalog.SetUpDatabaseObjectHierarchyCallback;
 import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.client.catalog.choose.ChooseFullNameFromCatagoryRow;
 import info.esblurock.reaction.chemconnect.core.client.catalog.choose.ObjectVisualizationInterface;
-import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHeirarchy;
-import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchies;
-import info.esblurock.reaction.chemconnect.core.client.device.observations.SetOfObservationsCollapsible;
-import info.esblurock.reaction.chemconnect.core.client.modal.InputLineModal;
-import info.esblurock.reaction.chemconnect.core.client.modal.SetLineContentInterface;
-import info.esblurock.reaction.chemconnect.core.client.pages.MainDataStructureCollapsible;
-import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
-import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
-import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
-import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
-import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 public class SetOfObservationsDefinition extends Composite implements ObjectVisualizationInterface {

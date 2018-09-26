@@ -9,7 +9,6 @@ import java.util.Set;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.vocabulary.ReasonerVocabulary;
 
 import info.esblurock.reaction.chemconnect.core.data.concepts.SetOfUnitProperties;
 import info.esblurock.reaction.chemconnect.core.data.concepts.UnitProperties;

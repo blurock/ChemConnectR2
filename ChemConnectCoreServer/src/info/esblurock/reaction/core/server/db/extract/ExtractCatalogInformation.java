@@ -1,12 +1,9 @@
 package info.esblurock.reaction.core.server.db.extract;
 
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
-
-import org.apache.poi.ss.usermodel.charts.ValueAxis;
 
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
@@ -344,7 +341,7 @@ public class ExtractCatalogInformation {
 		//Set<String> keys = mapping.keySet();
 		String objlinkid = (String) mapping.get(StandardDatasetMetaData.parameterObjectLinkS);
 		DatabaseObjectHierarchy multihier = hierarchy.getSubObject(objlinkid);
-		ChemConnectCompoundMultiple multi = (ChemConnectCompoundMultiple) multihier.getObject();
+		//ChemConnectCompoundMultiple multi = (ChemConnectCompoundMultiple) multihier.getObject();
 		for(DatabaseObjectHierarchy subhier : multihier.getSubobjects()) {
 			if(subhier != null) {
 				DataObjectLink lnk = (DataObjectLink) subhier.getObject();

@@ -4,35 +4,19 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Iterator;
 import java.util.List;
 
-import com.google.cloud.PageImpl;
-import com.google.cloud.storage.Blob;
-import com.google.cloud.storage.Bucket;
-import com.google.cloud.storage.BucketInfo;
-import com.google.cloud.storage.Storage;
-import com.google.cloud.storage.Storage.BlobListOption;
-import com.google.cloud.storage.Storage.BucketListOption;
-import com.google.cloud.storage.StorageOptions;
 
 import info.esblurock.reaction.chemconnect.core.common.client.async.LoginService;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.contact.IndividualInformation;
-import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
-import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHierarchy;
 import info.esblurock.reaction.chemconnect.core.data.login.UnverifiedUserAccount;
 import info.esblurock.reaction.chemconnect.core.data.login.UserAccountInformation;
 import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.rdf.KeywordRDF;
 import info.esblurock.reaction.chemconnect.core.data.transaction.EventCount;
-import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
-import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
-import info.esblurock.reaction.core.server.db.GoogleCloudStorageBase;
-import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
-import info.esblurock.reaction.core.server.db.image.UserImageServiceImpl;
 import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFactory;
 import info.esblurock.reaction.core.server.mail.SendMail;
 import info.esblurock.reaction.core.server.services.ServerBase;
@@ -116,7 +100,7 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 				//System.out.println("----------------------------------------------------------");
 				System.out.println("Blob list: '" + directory + "'");
 				//System.out.println("----------------------------------------------------------");
-				DatabaseObject obj = new DatabaseObject("chemconnect",user.getName(),user.getName(),"1");
+				//DatabaseObject obj = new DatabaseObject("chemconnect",user.getName(),user.getName(),"1");
 				//HierarchyNode topnode = GoogleCloudStorageBase.getBlobHierarchy(obj,"chemconnect",directory);
 				//System.out.println(topnode.toString("getBlobHierarchy blobs: "));
 			} else {

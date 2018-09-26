@@ -29,7 +29,6 @@ import info.esblurock.reaction.chemconnect.core.client.pages.primitive.value.Mul
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
-import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
@@ -263,7 +262,7 @@ public class MainDataStructureCollapsible extends Composite {
 				String elementname = element.getDataElementName();
 				MultipleRecordsPrimitive multiple = new MultipleRecordsPrimitive(elementname, create);
 				if(currentobject != null) {
-				ChemConnectCompoundMultiple compound = (ChemConnectCompoundMultiple) currentobject;
+				//ChemConnectCompoundMultiple compound = (ChemConnectCompoundMultiple) currentobject;
 				//ArrayList<String> lst = compound.getIds();
 				//multiple.setIdentifier(currentobject);
 				//multiple.addPrimitive(lst, objectmap);

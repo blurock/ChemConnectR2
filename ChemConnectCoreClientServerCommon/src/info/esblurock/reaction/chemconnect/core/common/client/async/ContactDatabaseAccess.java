@@ -11,7 +11,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.concepts.SetOfUnitProperties;
 import info.esblurock.reaction.chemconnect.core.data.contact.GPSLocation;
-import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
 import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.data.rdf.SetOfKeywordRDF;
@@ -25,7 +24,6 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.graph.TotalSubsyst
 import info.esblurock.reaction.chemconnect.core.data.transfer.observations.SetOfObservationsTransfer;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
-import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 @RemoteServiceRelativePath("contactservice")
 public interface ContactDatabaseAccess extends RemoteService {
