@@ -524,6 +524,13 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		}
 
 	}
+	
+	public HierarchyNode getIDHierarchyFromDataCatalogIDAndClassType(String catalogbasename, String classtype) throws IOException {
+		ContextAndSessionUtilities util = getUtilities();
+		String user = util.getUserName();
+		return WriteReadDatabaseObjects.getIDHierarchyFromDataCatalogIDAndClassType(user, 
+				catalogbasename,classtype);
+	}
 
 	public HierarchyNode getFileInterpretionChoices(GCSBlobFileInformation info) throws IOException {
 		ParsedFilename parsed = parseFilename(info);

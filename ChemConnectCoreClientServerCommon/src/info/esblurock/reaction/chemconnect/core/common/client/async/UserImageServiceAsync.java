@@ -94,4 +94,7 @@ public interface UserImageServiceAsync {
 
 	void getStructureFromFileType(String filetype, AsyncCallback<String> callback);
 
+	void getIDHierarchyFromDataCatalogIDAndClassType(String catalogbasename, String classtype,
+			AsyncCallback<HierarchyNode> callback);
+
 }

@@ -107,4 +107,6 @@ public interface UserImageService  extends RemoteService  {
 	DatabaseObjectHierarchy createEmptyMultipleObject(DatabaseObjectHierarchy multiplehier);
 	
 	String getStructureFromFileType(String filetype);
+	
+	HierarchyNode getIDHierarchyFromDataCatalogIDAndClassType(String catalogbasename, String classtype) throws IOException;
 }

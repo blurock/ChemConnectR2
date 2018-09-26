@@ -7,6 +7,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -14,18 +16,28 @@ import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialTooltip;
 import info.esblurock.reaction.chemconnect.core.client.catalog.DatasetStandardDataCatalogIDHeader;
+import info.esblurock.reaction.chemconnect.core.client.catalog.HierarchyNodeCallback;
+import info.esblurock.reaction.chemconnect.core.client.catalog.HierarchyNodeCallbackInterface;
 import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
+import info.esblurock.reaction.chemconnect.core.client.catalog.SubCatagoryHierarchyCallback;
+import info.esblurock.reaction.chemconnect.core.client.catalog.choose.SubCatagoryHierarchyCallbackInterface;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.MatrixSpecificationCorrespondenceSetHeader;
+import info.esblurock.reaction.chemconnect.core.client.graph.hierarchy.ConvertToMaterialTree;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.observations.StandardDatasetObservationSpecificationHeader;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
+import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
+import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ObservationSpecification;
 import info.esblurock.reaction.chemconnect.core.data.dataset.SetOfObservationValues;
 import info.esblurock.reaction.chemconnect.core.data.description.DescriptionDataData;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.MatrixSpecificationCorrespondenceSet;
+import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
+import info.esblurock.reaction.io.metadata.StandardDatasetMetaData;
 
-public class StandardDatasetSetOfObservationValuesHeader extends Composite {
+public class StandardDatasetSetOfObservationValuesHeader extends Composite 
+	implements HierarchyNodeCallbackInterface, ChooseFromHierarchyTreeInterface, SubCatagoryHierarchyCallbackInterface {
 
 	private static StandardDatasetSetOfObservationValuesHeaderUiBinder uiBinder = GWT
 			.create(StandardDatasetSetOfObservationValuesHeaderUiBinder.class);
@@ -60,6 +72,8 @@ public class StandardDatasetSetOfObservationValuesHeader extends Composite {
 	DataCatalogID catid;
 	ObservationSpecification obsspec;
 	MatrixSpecificationCorrespondenceSet matspec;
+	
+	ChooseFromHiearchyTree chooseSheet;
 
 	public StandardDatasetSetOfObservationValuesHeader() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -103,8 +117,34 @@ public class StandardDatasetSetOfObservationValuesHeader extends Composite {
 				specheader = (StandardDatasetObservationSpecificationHeader) i.getHeader();
 			}
 		}
+		UserImageServiceAsync async = UserImageService.Util.getInstance();
+		HierarchyNodeCallback callback = new HierarchyNodeCallback(this);
+		async.getIDHierarchyFromDataCatalogIDAndClassType(catid.getCatalogBaseName(),"dataset:ObservationsFromSpreadSheet",callback);
 		
-		matspecheader.setupMatrix(catid,obsspec);
+	}
+
+	@Override
+	public void insertTree(HierarchyNode topnode) {
+		chooseSheet = new ChooseFromHiearchyTree("",topnode,this);
+		chooseSheet.open();
+		item.getModalpanel().clear();
+		item.getModalpanel().add(chooseSheet);
+	}
+
+	@Override
+	public void treeNodeChosen(String id, ArrayList<String> path) {
+		chooseSheet.close();
+		Window.alert("ID of Spreadsheet: " + id);
+		Window.alert("Dir path of Spreadsheet: " + path);
+		UserImageServiceAsync async = UserImageService.Util.getInstance();
+		SubCatagoryHierarchyCallback callback = new SubCatagoryHierarchyCallback(this);
+		async.getCatalogObject(id, "dataset:ObservationsFromSpreadSheet",callback);
+	}
+
+	@Override
+	public void setInHierarchy(DatabaseObjectHierarchy subs) {
+		matspecheader.setupMatrix(catid,obsspec,subs);
+		
 	}
 
 }

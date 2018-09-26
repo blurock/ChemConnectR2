@@ -17,6 +17,7 @@ import info.esblurock.reaction.chemconnect.core.data.query.ListOfQueries;
 import info.esblurock.reaction.chemconnect.core.data.query.QueryPropertyValue;
 import info.esblurock.reaction.chemconnect.core.data.query.SetOfQueryPropertyValues;
 import info.esblurock.reaction.chemconnect.core.data.query.SetOfQueryResults;
+import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructureObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
@@ -170,6 +171,36 @@ public class WriteReadDatabaseObjects {
 		return topnode;
 		
 	}
+	
+	public static HierarchyNode getIDHierarchyFromDataCatalogIDAndClassType(String user,
+			String catalogbasename, String classtype) throws IOException {
+		String classname = DataCatalogID.class.getCanonicalName();
+		SetOfQueryPropertyValues values = new SetOfQueryPropertyValues();
+		DataElementInformation info = DatasetOntologyParsing.getSubElementStructureFromIDObject(classtype);
+		String suffix = info.getSuffix();
+		QueryPropertyValue value2 = new QueryPropertyValue("CatalogBaseName",catalogbasename);
+		values.add(value2);
+		ListOfQueries queries = QueryFactory.accessQueryForUser(classname, user, values);
+		SetOfQueryResults results;
+		Set<String> ids = new HashSet<String>();
+		HierarchyNode topnode = null;
+		try {
+			results = QueryBase.StandardSetOfQueries(queries);
+			List<DatabaseObject> objs = results.retrieveAndClear();
+			for(DatabaseObject obj : objs) {
+				DataCatalogID datid = (DataCatalogID) obj;
+				String parent = datid.getParentLink();
+				if(parent.endsWith(suffix)) {
+					ids.add(datid.getParentLink());
+				}
+			}
+			topnode = ParseUtilities.parseIDsToHierarchyNode("Objects",ids,true);
+		} catch (ClassNotFoundException e) {
+			throw new IOException("getIDHierarchyFromDataCatalogIDAndClassType Class not found: " + classtype);
+		}
+		return topnode;
+	}
+	
 /*
 	@SuppressWarnings("unchecked")
 	public static void readChemConnectDataStructureObject(String elementType, String identifier) throws IOException {

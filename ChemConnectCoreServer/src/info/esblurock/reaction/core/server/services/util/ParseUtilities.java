@@ -183,7 +183,6 @@ public class ParseUtilities {
 			HierarchyNode node = new HierarchyNode(filename);
 			top.addSubNode(node);
 		}
-
 	}
 	public static HierarchyNode parseIDsToHierarchyNode(String topnodeS, Set<String> ids,boolean simplify) {
 		HierarchyNode topnode = new HierarchyNode(topnodeS);
@@ -196,6 +195,7 @@ public class ParseUtilities {
 				last = tok.nextToken();
 				path.add(last);
 			}
+			System.out.println("parseIDsToHierarchyNode: " + path);
 			ParseUtilities.fillInHierarchy(topnode, path, id);
 		}
 		if(simplify) {

@@ -81,9 +81,10 @@ public class MatrixSpecificationCorrespondenceSetHeader extends Composite {
 		Window.alert("Add Spreadsheet");
 	}
 	
-	public void setupMatrix(DataCatalogID catid, ObservationSpecification obsspec) {
+	public void setupMatrix(DataCatalogID catid, ObservationSpecification obsspec,DatabaseObjectHierarchy subs) {
 		Window.alert("MatrixSpecificationCorrespondenceSetHeader: \n" + catid);
 		Window.alert("MatrixSpecificationCorrespondenceSetHeader: \n" + obsspec);
+		Window.alert("MatrixSpecificationCorrespondenceSetHeader: \n" + subs.getObject().toString());
 	}
 	
 }
