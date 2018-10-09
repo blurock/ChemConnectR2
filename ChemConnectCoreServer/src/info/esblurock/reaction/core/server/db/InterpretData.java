@@ -1291,6 +1291,7 @@ public enum InterpretData {
 			map.put(StandardDatasetMetaData.parameterLabelS, spec.getParameterLabel());
 			map.put(StandardDatasetMetaData.dataPointUncertaintyS, spec.getDataPointUncertainty());
 			map.put(StandardDatasetMetaData.unitsS, spec.getUnits());
+			
 
 			return map;
 		}
@@ -1350,6 +1351,7 @@ public enum InterpretData {
 
 			InterpretData interpret = InterpretData.valueOf("ParameterSpecification");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
+			System.out.println("MeasureParameterSpecification: \n" + map);
 			return map;
 		}
 
@@ -1398,6 +1400,7 @@ public enum InterpretData {
 				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject object) throws IOException {
 			InterpretData interpret = InterpretData.valueOf("ParameterSpecification");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
+			System.out.println("DimensionParameterSpecification: \n" + map);
 			return map;
 		}
 

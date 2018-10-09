@@ -450,6 +450,12 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	}
 	public DatabaseObjectHierarchy getCatalogObject(String id, String dataType) {
 		DatabaseObjectHierarchy readhierarchy = ExtractCatalogInformation.getCatalogObject(id,dataType);
+		
+		System.out.println("getCatalogObject: " + dataType);
+		System.out.println("getCatalogObject: " + id);
+		System.out.println("getCatalogObject: " + readhierarchy);
+
+		
 		return readhierarchy;
 	}
 	

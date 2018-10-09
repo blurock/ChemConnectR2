@@ -37,9 +37,6 @@ public class StandardDatasetObservationSpecificationHeader extends Composite
 
 	public StandardDatasetObservationSpecificationHeader(StandardDatasetObjectHierarchyItem item) {
 		initWidget(uiBinder.createAndBindUi(this));
-		
-		Window.alert("ObservationSpecification\n" + item.getHierarchy());
-		
 		ObservationSpecification observation = (ObservationSpecification) item.getObject();
 		observationhead.setText(TextUtilities.removeNamespace(observation.getSpecificationLabel()));
 		observationtooltip.setText(observation.getIdentifier());

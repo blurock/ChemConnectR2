@@ -52,44 +52,16 @@ public class ExtractCatalogInformation {
 			InterpretData interpret = InterpretData.valueOf(classify.getDataType());
 			if(asSinglet) {
 				DatabaseObject obj = interpret.readElementFromDatabase(id);
-				hierarchy = new DatabaseObjectHierarchy(obj);
-				Map<String,Object> mapping = interpret.createYamlFromObject(obj);
-				for(DataElementInformation element : substructures) {
-					String identifier = element.getIdentifier();
-					Object elementobj = mapping.get(identifier);
-					if(elementobj != null) {
-						if(elementobj.getClass().getCanonicalName().compareTo(String.class.getCanonicalName()) == 0) {
-							String newid = (String) elementobj;
-							DatabaseObjectHierarchy sub = getDatabaseObjectAndSubElements(newid,element,element.isSinglet());
-							if(sub != null) {
-								hierarchy.addSubobject(sub);
-							}
-						} else if(ConceptParsing.isAArrayListDataObject(element.getDataElementName())) {
-							System.out.println("getDatabaseObjectAndSubElements: ArrayList: " + element.getDataElementName());
-						} else {
-							System.out.println("getDatabaseObjectAndSubElements: \n" + obj.toString());
-							System.out.println("getDatabaseObjectAndSubElements: \n" + element.toString());
-							System.out.println("getDatabaseObjectAndSubElements: \n" + elementobj.toString());
-						}
-					} else {
-						System.out.println("--------------------------------------");
-						System.out.println("Couldn't find Identifier: \n" + element.toString());
-						System.out.println("Couldn't find Identifier: " + classify.getDataType());
-						System.out.println("Couldn't find Identifier: " + type);
-						System.out.println("Couldn't find Identifier: " + identifier);
-						System.out.println("Couldn't find Identifier: " + mapping.keySet());
-						System.out.println("--------------------------------------");
-					}
-				}
+				hierarchy = readSingletInformation(obj, interpret, substructures);
 			} else {
 				InterpretData multiinterpret = InterpretData.valueOf("ChemConnectCompoundMultiple");
 				ChemConnectCompoundMultiple multi = (ChemConnectCompoundMultiple) multiinterpret.readElementFromDatabase(id);
 				hierarchy = new DatabaseObjectHierarchy(multi);
 				String parentid = multi.getIdentifier();
 				ClassificationInformation classification = DatasetOntologyParsing.getIdentificationInformation(multi.getType());
+				List<DataElementInformation> mulitsubstructures = DatasetOntologyParsing.subElementsOfStructure(type);
 				InterpretData clsinterpret = InterpretData.valueOf(classification.getDataType());
 				String classtype = clsinterpret.canonicalClassName();
-				
 				SetOfQueryPropertyValues values = new SetOfQueryPropertyValues();
 				QueryPropertyValue value1 = new QueryPropertyValue("parentLink",parentid);
 				values.add(value1);
@@ -99,7 +71,7 @@ public class ExtractCatalogInformation {
 					results = QueryBase.StandardSetOfQueries(queries);
 					List<DatabaseObject> objs = results.retrieveAndClear();
 					for(DatabaseObject obj: objs) {
-						DatabaseObjectHierarchy subhier = new DatabaseObjectHierarchy(obj);
+						DatabaseObjectHierarchy subhier = readSingletInformation(obj, interpret, mulitsubstructures);
 						hierarchy.addSubobject(subhier);
 					}
 				} catch (ClassNotFoundException e) {
@@ -121,6 +93,38 @@ public class ExtractCatalogInformation {
 		return hierarchy;
 	}
 
+	private static DatabaseObjectHierarchy readSingletInformation(DatabaseObject obj, InterpretData interpret,
+			List<DataElementInformation> substructures) throws IOException {
+		DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(obj);
+		Map<String,Object> mapping = interpret.createYamlFromObject(obj);
+		for(DataElementInformation element : substructures) {
+			String identifier = element.getIdentifier();
+			Object elementobj = mapping.get(identifier);
+			if(elementobj != null) {
+				if(elementobj.getClass().getCanonicalName().compareTo(String.class.getCanonicalName()) == 0) {
+					String newid = (String) elementobj;
+					DatabaseObjectHierarchy sub = getDatabaseObjectAndSubElements(newid,element,element.isSinglet());
+					if(sub != null) {
+						hierarchy.addSubobject(sub);
+					}
+				} else if(ConceptParsing.isAArrayListDataObject(element.getDataElementName())) {
+					System.out.println("getDatabaseObjectAndSubElements: ArrayList: " + element.getDataElementName());
+				} else {
+					System.out.println("getDatabaseObjectAndSubElements: \n" + obj.toString());
+					System.out.println("getDatabaseObjectAndSubElements: \n" + element.toString());
+					System.out.println("getDatabaseObjectAndSubElements: \n" + elementobj.toString());
+				}
+			} else {
+				System.out.println("--------------------------------------");
+				System.out.println("Couldn't find Identifier: \n" + element.toString());
+				System.out.println("Couldn't find Identifier: " + interpret.canonicalClassName());
+				System.out.println("Couldn't find Identifier: " + identifier);
+				System.out.println("Couldn't find Identifier: " + mapping.keySet());
+				System.out.println("--------------------------------------");
+			}
+		}
+		return hierarchy;
+	}
 
 	public static DatasetInformationFromOntology extract(String identifier, String dataElementName) throws IOException {
 		DataElementInformation dataelement = new DataElementInformation(dataElementName, null, true, 0, null, null,

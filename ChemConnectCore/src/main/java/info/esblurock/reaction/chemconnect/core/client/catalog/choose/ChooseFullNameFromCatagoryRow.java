@@ -277,6 +277,7 @@ public class ChooseFullNameFromCatagoryRow extends Composite
 
 	@Override
 	public void setInHierarchy(DatabaseObjectHierarchy subs) {
+		Window.alert("setInHierarchy:\n" + subs);
 		top.insertCatalogObject(subs);
 	}
 
