@@ -35,6 +35,7 @@ import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
+import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
@@ -103,7 +104,7 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 	
 	void init() {
 		ArrayList<String> choices = new ArrayList<String>();
-		choices.add("dataset:DataTypeFileFormat");
+		choices.add(MetaDataKeywords.dataTypeFileFormat);
 		String user = Cookies.getCookie("user");
 		String object = null;
 		choose = new ChooseFullNameFromCatagoryRow(this,user,object,choices,modalpanel);
@@ -294,8 +295,6 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 
 	@Override
 	public void insertCatalogObject(DatabaseObjectHierarchy subs) {
-		Window.alert("insertCatalogObject: ");
-		Window.alert("insertCatalogObject: " + subs.getObject().toString());
 		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(subs,modalpanel);
 		objectpanel.add(item);
 		

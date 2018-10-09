@@ -22,6 +22,7 @@ import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConcep
 import info.esblurock.reaction.chemconnect.core.client.modal.InputLineModal;
 import info.esblurock.reaction.chemconnect.core.client.modal.SetLineContentInterface;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
+import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
 
 public class PrimitiveOneLineRow extends Composite implements HasText, ChooseFromConceptHeirarchy, SetLineContentInterface {
@@ -36,7 +37,7 @@ public class PrimitiveOneLineRow extends Composite implements HasText, ChooseFro
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
 	}
-	String chemconnectPropertiesS = "dataset:ChemConnectProperties";
+	String chemconnectPropertiesS = MetaDataKeywords.chemConnectProperties;
 	
 	@UiField
 	MaterialIcon info;

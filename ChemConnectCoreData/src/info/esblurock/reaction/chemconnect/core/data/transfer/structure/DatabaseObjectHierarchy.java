@@ -50,6 +50,12 @@ public class DatabaseObjectHierarchy implements Serializable {
 		return subobjects.keySet();
 	}
 
+	public void replaceInfo(DatabaseObjectHierarchy newhier) {
+		object = newhier.getObject();
+		subobjects = new HashMap<String, DatabaseObjectHierarchy>();
+		transferSubObjects(newhier);
+	}
+	
 	public ArrayList<DatabaseObjectHierarchy> getSubobjects() {
 		ArrayList<DatabaseObjectHierarchy> array = new ArrayList<DatabaseObjectHierarchy>();
 		Set<String> names = subobjects.keySet();

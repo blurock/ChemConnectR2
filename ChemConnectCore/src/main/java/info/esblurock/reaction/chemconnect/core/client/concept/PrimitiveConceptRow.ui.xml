@@ -25,12 +25,12 @@
 		<m:MaterialRow styleName="{style.panelbox}">
 			<m:MaterialColumn grid="s6" styleName="{style.rowbox}">
 				<m:MaterialTooltip ui:field="purposetip">
-					<m:MaterialLink ui:field="purpose"/>
+					<m:MaterialLink ui:field="purpose" textColor="BLACK"/>
 					</m:MaterialTooltip>
 			</m:MaterialColumn>
 			<m:MaterialColumn grid="s6" styleName="{style.rowbox}">
 			<m:MaterialTooltip ui:field="concepttip">
-				<m:MaterialLink ui:field="concept" />
+				<m:MaterialLink ui:field="concept" textColor="BLACK"/>
 				</m:MaterialTooltip>
 			</m:MaterialColumn>
 		</m:MaterialRow>

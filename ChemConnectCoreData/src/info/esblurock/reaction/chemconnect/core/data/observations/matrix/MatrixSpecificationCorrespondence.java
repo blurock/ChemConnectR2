@@ -13,16 +13,20 @@ public class MatrixSpecificationCorrespondence extends ChemConnectCompoundDataSt
 	String matrixColumn;
 	@Index
 	String specificationLabel;
+	@Index
+	boolean includesUncertaintyParameter;
 	
 	public MatrixSpecificationCorrespondence() {
 		this.matrixColumn = "0";
-		this.specificationLabel = "label";		
+		this.specificationLabel = "label";
+		this.includesUncertaintyParameter = false;
 	}
 	public MatrixSpecificationCorrespondence(ChemConnectCompoundDataStructure structure,
-			String matrixColumn, String specificationLabel) {
+			String matrixColumn, String specificationLabel, boolean includesUncertaintyParameter) {
 		super(structure);
 		this.matrixColumn = matrixColumn;
 		this.specificationLabel = specificationLabel;
+		this.includesUncertaintyParameter = includesUncertaintyParameter;
 	}
 	public String getMatrixColumn() {
 		return matrixColumn;
@@ -36,7 +40,12 @@ public class MatrixSpecificationCorrespondence extends ChemConnectCompoundDataSt
 	public void setSpecificationLabel(String specificationLabel) {
 		this.specificationLabel = specificationLabel;
 	}
-	
+	public boolean isIncludesUncertaintyParameter() {
+		return includesUncertaintyParameter;
+	}
+	public void setIncludesUncertaintyParameter(boolean includesUncertaintyParameter) {
+		this.includesUncertaintyParameter = includesUncertaintyParameter;
+	}
 	public String toString() {
 		return toString("");
 	}

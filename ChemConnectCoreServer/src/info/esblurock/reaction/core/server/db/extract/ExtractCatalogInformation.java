@@ -47,10 +47,6 @@ public class ExtractCatalogInformation {
 		String type = dataelement.getDataElementName();
 		List<DataElementInformation> substructures = DatasetOntologyParsing.subElementsOfStructure(type);
 		
-		//System.out.println("DatasetOntologyParsing.subElementsOfStructure: " + substructures.size());
-		//System.out.println("DatasetOntologyParsing.subElementsOfStructure\n" + substructures);
-		//System.out.println("DatasetOntologyParsing.subElementsOfStructure: end");
-		
 		DatabaseObjectHierarchy hierarchy = null;
 		try {
 			InterpretData interpret = InterpretData.valueOf(classify.getDataType());
@@ -238,15 +234,12 @@ public class ExtractCatalogInformation {
 			String primitiveclass = DatasetOntologyParsing.getPrimitiveStructureClass(primitive.getDataElementName());
 			String objid = obj.getIdentifier() + "-" + primitive.getSuffix();
 			System.out.println("extractCompoundDataStructure primitive id=" + objid);
-			String simplestructure = "dataset:ChemConnectPrimitiveDataStructure";
-			String compoundstructure = "dataset:ChemConnectPrimitiveCompound";
+			String simplestructure = MetaDataKeywords.chemConnectPrimitiveDataStructure;
+			String compoundstructure = MetaDataKeywords.chemConnectPrimitiveCompound;
 			if (primitivetype.contains(simplestructure)) {
-				System.out.println("dataset:ChemConnectPrimitiveDataStructure");
 				if (primitive.isSinglet()) {
 					String value = (String) map.get(primitive.getIdentifier());
-					System.out.println("dataset:ChemConnectPrimitiveDataStructure: '" + value + "'  non-null");
 					if (value != null) {
-						System.out.println("dataset:ChemConnectPrimitiveDataStructure: size" + value.length());
 						if (value.length() > 0) {
 							StringTokenizer tok = new StringTokenizer(value, ",");
 							while (tok.hasMoreTokens()) {
@@ -279,17 +272,14 @@ public class ExtractCatalogInformation {
 					}
 				}
 			} else if (primitivetype.contains(compoundstructure)) {
-				System.out.println("ChemConnectPrimitiveCompound:   " + primitive.getChemconnectStructure());
 				InterpretData subinterpret = InterpretData.valueOf(primitive.getChemconnectStructure());
 				if (subinterpret != null) {
 					try {
 						DatabaseObject subobj = subinterpret.readElementFromDatabase(objid);
-						System.out.println("ChemConnectPrimitiveCompound:   " + subobj.toString());
 						PrimitiveDataStructureInformation subprimitive = new PrimitiveDataStructureInformation(subobj,
 								primitive.getDataElementName(), primitive.getChemconnectStructure(), objid);
 						PrimitiveInterpretedInformation interpreted = new PrimitiveInterpretedInformation(subprimitive,
 								subobj);
-						System.out.println("ChemConnectPrimitiveCompound:\n" + interpreted.toString());
 						compound.addPrimitive(interpreted);
 					} catch (IOException ex) {
 						System.out.println("No elements found:   " + ex.toString());
@@ -303,7 +293,6 @@ public class ExtractCatalogInformation {
 					DatabaseObject subobj = objinterpret.fillFromYamlString(obj, submap, obj.getSourceID());
 					CompoundDataStructureInformation subcompound = extractCompoundDataStructure(subobj, submap,
 							primitive);
-					System.out.println("ChemConnectPrimitiveCompound:   Compound=\n" + subcompound.toString());
 					compound.addCompound(subcompound);
 				}
 			}
@@ -333,7 +322,8 @@ public class ExtractCatalogInformation {
 	}
 	
 	public static DatabaseObjectHierarchy getDatabaseObjectHierarchy(String catid) throws IOException {
-		DatabaseObjectHierarchy hierarchy = ExtractCatalogInformation.getCatalogObject(catid, "dataset:DatasetCatalogHierarchy");
+		DatabaseObjectHierarchy hierarchy = ExtractCatalogInformation.getCatalogObject(catid, 
+				MetaDataKeywords.datasetCatalogHierarchy);
 		if(hierarchy != null) {
 		InterpretData interpret = InterpretData.valueOf("DatasetCatalogHierarchy");
 		//String classname = interpret.canonicalClassName();

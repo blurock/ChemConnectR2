@@ -18,6 +18,7 @@ import gwt.material.design.client.ui.MaterialTooltip;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
 
 public class ManageCatalogHierarchy extends Composite {
@@ -27,7 +28,7 @@ public class ManageCatalogHierarchy extends Composite {
 	interface ManageCatalogHierarchyUiBinder extends UiBinder<Widget, ManageCatalogHierarchy> {
 	}
 
-	public static String catalogS = "dataset:DatasetCatalogHierarchy";
+	public static String catalogS = MetaDataKeywords.datasetCatalogHierarchy;
 	
 	@UiField
 	MaterialTooltip identifiertip;

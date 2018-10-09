@@ -3,6 +3,7 @@ package info.esblurock.reaction.chemconnect.core.client.catalog;
 import info.esblurock.reaction.chemconnect.core.client.catalog.hierarchy.StandardDatasetCatalogHierarchyHeader;
 import info.esblurock.reaction.chemconnect.core.client.catalog.link.PrimitiveDataObjectLinkRow;
 import info.esblurock.reaction.chemconnect.core.client.catalog.multiple.ChemConnectCompoundMultipleHeader;
+import info.esblurock.reaction.chemconnect.core.client.concept.PrimitiveConceptRow;
 import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatabasePersonalDescriptionHeader;
 import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetContactHasSiteHeader;
 import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetContactInfoHeader;
@@ -14,18 +15,18 @@ import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatasetOr
 import info.esblurock.reaction.chemconnect.core.client.device.StandardDatasetSubSystemHeader;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.ParameterValueHeader;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.PrimitiveParameterValueRow;
+import info.esblurock.reaction.chemconnect.core.client.device.observations.StandardDatasetObservationSpecificationHeader;
+import info.esblurock.reaction.chemconnect.core.client.device.observations.StandardDatasetParameterSpecificationHeader;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.StandardDatasetSetOfObservationValuesHeader;
+import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.MatrixSpecificationCorrespondenceHeader;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.MatrixSpecificationCorrespondenceSetHeader;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.SpreadSheetBlockMatrix;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.SpreadSheetInputInformationHeader;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.SpreadSheetInterpretationHeader;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.StandardDatasetObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.methodology.StandardDatasetMethodologyHeader;
-import info.esblurock.reaction.chemconnect.core.client.pages.catalog.observations.StandardDatasetObservationSpecificationHeader;
-import info.esblurock.reaction.chemconnect.core.client.pages.catalog.observations.StandardDatasetParameterSpecificationHeader;
 import info.esblurock.reaction.chemconnect.core.client.pages.catalog.observations.StandardDatasetValueUnitsHeader;
 import info.esblurock.reaction.chemconnect.core.client.pages.description.StandardDatasetDescriptionDataDataHeader;
-import info.esblurock.reaction.chemconnect.core.client.pages.primitive.concept.PrimitiveConceptRow;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.gps.PrimitiveGPSLocationRow;
 import info.esblurock.reaction.chemconnect.core.client.pages.reference.StandardDatasetDataSetReferenceHeader;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
@@ -118,8 +119,7 @@ public enum SetUpCollapsibleItem {
 			return false;
 		}
 		
-	},
-	SubSystemDescription {
+	}, SubSystemDescription {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
@@ -316,6 +316,8 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public boolean update(StandardDatasetObjectHierarchyItem item) {
+			StandardDatasetSetOfObservationValuesHeader header = (StandardDatasetSetOfObservationValuesHeader) item.getHeader();
+			header.updateData();
 			return true;
 		}
 		
@@ -385,7 +387,10 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public boolean update(StandardDatasetObjectHierarchyItem item) {
-			return false;
+			MatrixSpecificationCorrespondenceSetHeader header = 
+						(MatrixSpecificationCorrespondenceSetHeader) item.getHeader();
+			header.updateData();
+			return true;
 		}
 
 		@Override
@@ -397,6 +402,37 @@ public enum SetUpCollapsibleItem {
 		@Override
 		public boolean isInformation() {
 			return false;
+		}
+
+		@Override
+		public boolean addSubitems() {
+			return false;
+		}
+		
+	}, MatrixSpecificationCorrespondence {
+
+		@Override
+		public void addInformation(StandardDatasetObjectHierarchyItem item) {
+			MatrixSpecificationCorrespondenceHeader header = new MatrixSpecificationCorrespondenceHeader(item);
+			item.addHeader(header);
+		}
+
+		@Override
+		public boolean update(StandardDatasetObjectHierarchyItem item) {
+			MatrixSpecificationCorrespondenceHeader header = (MatrixSpecificationCorrespondenceHeader)
+					item.getHeader();
+			header.updateData();
+			return false;
+		}
+
+		@Override
+		public int priority() {
+			return 500;
+		}
+
+		@Override
+		public boolean isInformation() {
+			return true;
 		}
 
 		@Override
@@ -430,7 +466,7 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public boolean addSubitems() {
-			return true;
+			return false;
 		}
 		
 	}, ParameterValue {
@@ -490,7 +526,8 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public boolean update(StandardDatasetObjectHierarchyItem item) {
-			return true;
+			ParameterValueHeader header = (ParameterValueHeader) item.getHeader();
+			return header.updateObject();
 		}
 		
 	}, MeasurementParameterValue {
@@ -498,7 +535,6 @@ public enum SetUpCollapsibleItem {
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
 			ParameterValueHeader header = new ParameterValueHeader(item.getHierarchy());
-			//PrimitiveParameterValueRow header = new PrimitiveParameterValueRow(item.getHierarchy());
 			item.addHeader(header);
 			
 		}
@@ -515,7 +551,7 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public boolean addSubitems() {
-			return false;
+			return true;
 		}
 
 		@Override
@@ -696,10 +732,7 @@ public enum SetUpCollapsibleItem {
 		@Override
 		public boolean update(StandardDatasetObjectHierarchyItem item) {
 			PrimitiveConceptRow row = (PrimitiveConceptRow) item.getHeader();
-			PurposeConceptPair pair = (PurposeConceptPair) item.getObject();
-			pair.setPurpose(row.getPurpose());
-			pair.setConcept(row.getConcept());
-			return true;
+			return row.updateData();
 		}
 
 	}, DataCatalogID {

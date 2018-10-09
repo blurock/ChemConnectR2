@@ -22,6 +22,7 @@ import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageSer
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
+import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 public class OrganizationDefinition extends Composite implements ObjectVisualizationInterface, SetOfObjectsCallbackInterface {
@@ -59,7 +60,7 @@ public class OrganizationDefinition extends Composite implements ObjectVisualiza
 	}
 
 	private void init() {
-		String orgType = "dataset:OrganizationClassifications";
+		String orgType = MetaDataKeywords.organizationClassifications;
 		
 		organizationExisingHeader.setText("Existing Organization Definitions");
 		organizationCreatedHeader.setText("New Organizations");
@@ -67,13 +68,13 @@ public class OrganizationDefinition extends Composite implements ObjectVisualiza
 		ArrayList<String> choices = new ArrayList<String>();
 		choices.add(orgType);
 		String user = Cookies.getCookie("user");
-		String object = "dataset:Organization";
-		choose = new ChooseFullNameFromCatagoryRow(this,user,object,choices,modalpanel);
+		String organization = MetaDataKeywords.organization;
+		choose = new ChooseFullNameFromCatagoryRow(this,user,organization,choices,modalpanel);
 		topPanel.add(choose);
 		
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		SetOfObjectsCallback callback = new SetOfObjectsCallback(this);
-		async.getSetOfDatabaseObjectHierarchyForUser("dataset:Organization",callback);
+		async.getSetOfDatabaseObjectHierarchyForUser(organization,callback);
 		
 	}
 	@Override

@@ -50,7 +50,7 @@ public class ChemConnectCompoundMultiple extends DatabaseObject {
 	public String toString(String prefix) {
 		StringBuilder build = new StringBuilder();
 		build.append(super.toString(prefix));
-		build.append(prefix + "Type: " + type + "\n");
+		build.append(prefix + numberOfElements +  " elements of type: '" + type + "'\n");
 		return build.toString();
 	}
 }

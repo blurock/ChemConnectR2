@@ -1373,7 +1373,7 @@ public enum InterpretData {
 			specobj.nullKey();
 			String specsid = createSuffix(obj, element);
 			specobj.setIdentifier(specsid);
-			DatabaseObjectHierarchy spechier = InterpretData.ParameterSpecification.createEmptyObject(specobj);			
+			DatabaseObjectHierarchy spechier = InterpretData.ParameterSpecification.createEmptyObject(obj);			
 			ParameterSpecification spec = (ParameterSpecification) spechier.getObject();
 			MeasureParameterSpecification mspec = new MeasureParameterSpecification(spec);
 			spechier.setObject(mspec);
@@ -1421,7 +1421,7 @@ public enum InterpretData {
 			String specsid = createSuffix(obj, element);
 			specobj.setIdentifier(specsid);
 
-			DatabaseObjectHierarchy spechier = InterpretData.ParameterSpecification.createEmptyObject(specobj);
+			DatabaseObjectHierarchy spechier = InterpretData.ParameterSpecification.createEmptyObject(obj);
 			ParameterSpecification spec = (ParameterSpecification) spechier.getObject();
 
 			DimensionParameterSpecification dspec = new DimensionParameterSpecification(spec);
@@ -1647,7 +1647,7 @@ public enum InterpretData {
 			DatabaseObjectHierarchy comphier =  
 					InterpretData.ChemConnectCompoundDataStructure.createEmptyObject(obj);
 			ChemConnectCompoundDataStructure structure = (ChemConnectCompoundDataStructure) comphier.getObject();
-			MatrixSpecificationCorrespondence corr = new MatrixSpecificationCorrespondence(structure,"0","label");
+			MatrixSpecificationCorrespondence corr = new MatrixSpecificationCorrespondence(structure,"0","label",false);
 			corr.setIdentifier(matobj.getIdentifier());
 			DatabaseObjectHierarchy hier = new DatabaseObjectHierarchy(corr);
 			return hier;
@@ -1660,7 +1660,9 @@ public enum InterpretData {
 					InterpretData.ChemConnectCompoundDataStructure.fillFromYamlString(top, yaml, sourceID);
 			String column = (String) yaml.get(StandardDatasetMetaData.matrixColumn);
 			String label = (String) yaml.get(StandardDatasetMetaData.specificationLabel);
-			MatrixSpecificationCorrespondence corr = new MatrixSpecificationCorrespondence(structure,column,label);
+			String uncertainty = (String) yaml.get(StandardDatasetMetaData.includesUncertaintyParameter);
+			boolean uncertaintyB = Boolean.parseBoolean(uncertainty);
+			MatrixSpecificationCorrespondence corr = new MatrixSpecificationCorrespondence(structure,column,label,uncertaintyB);
 			return corr;
 		}
 
@@ -1674,6 +1676,8 @@ public enum InterpretData {
 
 			map.put(StandardDatasetMetaData.matrixColumn, matspec.getMatrixColumn());
 			map.put(StandardDatasetMetaData.specificationLabel, matspec.getSpecificationLabel());
+			String uncertainty = Boolean.toString(matspec.isIncludesUncertaintyParameter());
+			map.put(StandardDatasetMetaData.includesUncertaintyParameter, uncertainty);
 
 			return map;
 		}

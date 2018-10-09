@@ -49,7 +49,6 @@ public class SpreadSheetServicesImpl extends ServerBase implements SpreadSheetSe
 		queryvalues.add(endquery);
 		queryvalues.add(parentquery);
 		QuerySetupBase query = new QuerySetupBase(user.getName(),ObservationValueRow.class.getCanonicalName(), queryvalues);
-
 		try {
 			SingleQueryResult result = QueryBase.StandardQueryResult(query);
 			for (DatabaseObject obj : result.getResults()) {
@@ -65,15 +64,6 @@ public class SpreadSheetServicesImpl extends ServerBase implements SpreadSheetSe
 		        return lhs.getRowNumber() - rhs.getRowNumber();
 		    }
 		});
-		/*
-		System.out.println("-----------------------------------------------------");
-		System.out.println("SpreadSheetServicesImpl: getSpreadSheetRows ");
-		System.out.println("-----------------------------------------------------");
-		for(ObservationValueRow row: lst) {
-			System.out.println(row.toString());
-		}
-		System.out.println("-----------------------------------------------------");
-*/
 		return lst;
 	}
 

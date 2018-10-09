@@ -79,16 +79,22 @@ public class WriteReadDatabaseObjects {
 
 	public static DatabaseObjectHierarchy writeDatabaseObjectHierarchyWithTransaction(DatabaseObjectHierarchy objecthierarchy) {
 		DatabaseWriteBase.writeTransactionWithoutObjectWrite(objecthierarchy.getObject());
+		System.out.println("writeDatabaseObjectHierarchyWithTransaction");
 		return writeDatabaseObjectHierarchy(objecthierarchy);
 	}
 	public static DatabaseObjectHierarchy writeDatabaseObjectHierarchy(DatabaseObjectHierarchy objecthierarchy) {
+		writeDatabaseObjectHierarchyRecursive(objecthierarchy);
+		/*
 		DatabaseObject topobject = objecthierarchy.getObject();
 		try {
+			System.out.println("writeDatabaseObjectHierarchy: " + topobject);
 			QueryBase.getDatabaseObjectFromIdentifier(topobject.getClass().getCanonicalName(),topobject.getIdentifier());
 			updateDatabaseObjectHierarchy(objecthierarchy);
 		} catch (IOException e) {
+			System.out.println("writeDatabaseObjectHierarchy: " + objecthierarchy);
 			writeDatabaseObjectHierarchyRecursive(objecthierarchy);
 		}
+		*/
 		return objecthierarchy;
 	}
 		
@@ -101,6 +107,7 @@ public class WriteReadDatabaseObjects {
 	}
 
 	public static void updateDatabaseObjectHierarchy(DatabaseObjectHierarchy objecthierarchy) {
+		System.out.println("updateDatabaseObjectHierarchy\n" + objecthierarchy);
 		ArrayList<DatabaseObject> lst = new ArrayList<DatabaseObject>();
 		Map<String,DatabaseObject> map = new HashMap<String,DatabaseObject>();
 		ArrayList<DatabaseObject> newobjs = new ArrayList<DatabaseObject>();
@@ -115,11 +122,13 @@ public class WriteReadDatabaseObjects {
 		Map<Key<DatabaseObject>,DatabaseObject> result = ObjectifyService.ofy().load().entities(lst);
 		//System.out.println(result.keySet());
 		ArrayList<DatabaseObject> objs = new ArrayList<DatabaseObject>();
+		
 		for(Key<DatabaseObject> id: result.keySet()) {
 			DatabaseObject dbobj = result.get(id);
 			DatabaseObject update = map.get(dbobj.getIdentifier());
-			//System.out.println("updateDatabaseObjectHierarchy: id=" + id + "  ID: " + dbobj.getIdentifier());
-			//System.out.println("updateDatabaseObjectHierarchy: update\n" + update);
+			System.out.println("updateDatabaseObjectHierarchy: \n" + dbobj.toString());
+			System.out.println("updateDatabaseObjectHierarchy: id=" + id + "  ID: " + dbobj.getIdentifier());
+			System.out.println("updateDatabaseObjectHierarchy: update\n" + update);
 			dbobj.fill(update);
 			objs.add(dbobj);
 		}

@@ -4,8 +4,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-
 import info.esblurock.reaction.chemconnect.core.data.concepts.AttributeDescription;
+import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.transfer.SetOfObservationsInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.SubSystemConceptLink;
@@ -24,7 +24,8 @@ public class BuildSubsystemInformation {
 		total = new TotalSubsystemInformation(structureS);
 		HierarchyNode info = buildHierarchy(structureS,total.getSubsystemsandcomponents(), total.getAttributesubsystemMap());
 		total.setSubsystemtree(info);
-		ChemConnectDataStructure struct = BuildFromCatalogInformation.getChemConnectDataStructure(topid,"dataset:SubSystemDescription");
+		ChemConnectDataStructure struct = BuildFromCatalogInformation.getChemConnectDataStructure(topid,
+				MetaDataKeywords.subSystemDescription);
 		System.out.println("BuildSubsystemInformation:  " + struct.toString());
 		total.setInfoStructure(struct);
 		System.out.println(total.toString());

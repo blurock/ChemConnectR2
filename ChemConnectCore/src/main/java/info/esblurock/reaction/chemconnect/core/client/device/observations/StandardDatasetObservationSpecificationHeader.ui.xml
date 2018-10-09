@@ -7,21 +7,13 @@
 	}
 	</ui:style>
 	<m:MaterialRow>
-		<m:MaterialColumn grid="s6">
+		<m:MaterialColumn grid="s8">
 			<m:MaterialTooltip ui:field="observationtooltip">
 			<m:MaterialLink ui:field="observationhead" textColor="BLACK" />
 			</m:MaterialTooltip>
 		</m:MaterialColumn>
 		<m:MaterialColumn grid="s4">
 			<m:MaterialLink ui:field="observationtype" textColor="BLACK" />
-		</m:MaterialColumn>
-		<m:MaterialColumn grid="s1">
-			<m:MaterialIcon ui:field="save" iconType="SAVE"
-				iconColor="BLACK" iconPosition="RIGHT" textColor="BLACK" />
-		</m:MaterialColumn>
-		<m:MaterialColumn grid="s1">
-			<m:MaterialIcon ui:field="delete" iconType="DELETE"
-				iconColor="BLACK" iconPosition="RIGHT" textColor="BLACK" />
 		</m:MaterialColumn>
 	</m:MaterialRow>
 

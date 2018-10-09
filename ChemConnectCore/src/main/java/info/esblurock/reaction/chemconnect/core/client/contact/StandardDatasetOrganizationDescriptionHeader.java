@@ -19,6 +19,7 @@ import info.esblurock.reaction.chemconnect.core.client.modal.InputLineModal;
 import info.esblurock.reaction.chemconnect.core.client.modal.SetLineContentInterface;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.data.contact.OrganizationDescription;
+import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 
 public class StandardDatasetOrganizationDescriptionHeader extends Composite 
 		implements SetLineContentInterface, ChooseFromConceptHeirarchy {
@@ -112,7 +113,7 @@ public class StandardDatasetOrganizationDescriptionHeader extends Composite
 	@UiHandler("orgclass")
 	void onClickOrganizationalClass(ClickEvent event) {
 		ArrayList<String> choices = new ArrayList<String>();
-		choices.add("dataset:OrganizationClassificationChoices");
+		choices.add(MetaDataKeywords.organizationClassificationChoices);
 		choosecat = new ChooseFromConceptHierarchies(choices,this);
 		item.getModalpanel().add(choosecat);
 		choosecat.open();

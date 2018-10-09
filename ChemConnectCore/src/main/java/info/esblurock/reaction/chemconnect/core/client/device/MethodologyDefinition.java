@@ -19,6 +19,7 @@ import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageSer
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
+import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 public class MethodologyDefinition extends Composite implements  ObjectVisualizationInterface {
@@ -49,9 +50,9 @@ public class MethodologyDefinition extends Composite implements  ObjectVisualiza
 	
 	private void init() {
 		ArrayList<String> choices = new ArrayList<String>();
-		choices.add("dataset:DataTypeMethodology");
+		choices.add(MetaDataKeywords.dataTypeMethodology);
 		String user = Cookies.getCookie("user");
-		String object = "dataset:Methodology";
+		String object = MetaDataKeywords.methodology;
 		choose = new ChooseFullNameFromCatagoryRow(this,user,object,choices,modalpanel);
 		topPanel.add(choose);
 	}

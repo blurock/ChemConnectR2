@@ -28,7 +28,6 @@ public class SpreadSheetRowsCallback implements AsyncCallback<ArrayList<Observat
 	@Override
 	public void onSuccess(ArrayList<ObservationValueRow> result) {
 		callback.onSuccess(new LoadResult<ObservationValueRow>(result, start, total));
-		
 	}
 
 }

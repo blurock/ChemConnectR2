@@ -21,6 +21,7 @@ import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConcep
 import info.esblurock.reaction.chemconnect.core.client.modal.InputLineModal;
 import info.esblurock.reaction.chemconnect.core.client.modal.SetLineContentInterface;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
+import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
 
 public class DefaultPrimitiveStructureRow extends Composite implements ChooseFromConceptHeirarchy, SetLineContentInterface {
@@ -32,7 +33,7 @@ public class DefaultPrimitiveStructureRow extends Composite implements ChooseFro
 	}
 
 
-	String chemconnectPropertiesS = "dataset:ChemConnectProperties";
+	String chemconnectPropertiesS;
 
 	@UiField
 	MaterialIcon info;
@@ -63,6 +64,7 @@ public class DefaultPrimitiveStructureRow extends Composite implements ChooseFro
 		type.setTextColor(Color.BLACK);
 		value.setTextColor(Color.BLACK);
 		typeSet = false;
+		chemconnectPropertiesS = MetaDataKeywords.chemConnectProperties;
 	}
 	public void fill(PrimitiveDataStructureInformation info) {
 		typeWithNamespace = info.getType();

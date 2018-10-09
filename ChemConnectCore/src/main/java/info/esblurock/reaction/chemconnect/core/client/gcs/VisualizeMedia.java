@@ -1,7 +1,5 @@
 package info.esblurock.reaction.chemconnect.core.client.gcs;
 
-import com.google.gwt.user.client.Window;
-
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.SpreadSheetBlockMatrix;
 import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServices;
 import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServicesAsync;
@@ -28,7 +26,6 @@ public enum VisualizeMedia {
 		}
 		@Override
 		public void insertVisualization(DatabaseObjectHierarchy object, String title, VisualizationOfBlobStorage visual) {
-			Window.alert("SpreadSheetTabDelimited: insertVisualization");
 				insertSpreadSheetVisualization(object,title,visual);
 		}
 		
@@ -134,8 +131,6 @@ public enum VisualizeMedia {
 	}
 	
 	void insertSpreadSheetVisualization(DatabaseObjectHierarchy hierarchy, String title, VisualizationOfBlobStorage visual) {
-		Window.alert("VisualizeMedia  insertSpreadSheetVisualization: \n" + 
-				hierarchy.getObject().getClass().getSimpleName());
 		SpreadSheetBlockMatrix matrix = new SpreadSheetBlockMatrix(hierarchy);
 		visual.insertVisualization(matrix);	
 		

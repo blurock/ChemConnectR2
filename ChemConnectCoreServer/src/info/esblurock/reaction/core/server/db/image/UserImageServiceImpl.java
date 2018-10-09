@@ -402,7 +402,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		try {
 			QueryBase.getDatabaseObjectFromIdentifier(classname, obj.getIdentifier());
 			devicehier = ExtractCatalogInformation.getCatalogObject(obj.getIdentifier(),
-					"dataset:SubSystemDescription");
+					MetaDataKeywords.subSystemDescription);
 		} catch (IOException e) {
 			devicehier = CreateDefaultObjectsFactory.fillSubSystemDescription(obj, devicename, datid);
 		}
@@ -452,6 +452,21 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		DatabaseObjectHierarchy readhierarchy = ExtractCatalogInformation.getCatalogObject(id,dataType);
 		return readhierarchy;
 	}
+	
+	/** fillMatrixSpecificationCorrespondence
+	 * 
+	 * Fill in matrix correspondence from matrix and specification
+	 *   
+	 *   MatrixSpecificationCorrespondence hierarchy
+	 * 
+	 * @param corrspechier Hierarchy for MatrixSpecificationCorrespondenceSet
+	 * @param sethier     Hierarchy for SetOfObservationValues
+	 */
+	public DatabaseObjectHierarchy fillMatrixSpecificationCorrespondence(DatabaseObjectHierarchy corrspechier,
+			ArrayList<String> coltitles) {
+		CreateDefaultObjectsFactory.fillMatrixSpecificationCorrespondence(corrspechier, coltitles);
+		return corrspechier;
+	}
 
 	public DatabaseObjectHierarchy getMethodology(DatabaseObject obj, String methodology, String title, DataCatalogID catid) {
 		String sourceID = QueryBase.getDataSourceIdentification(obj.getOwner());
@@ -477,6 +492,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 
 	public DatabaseObjectHierarchy writeDatabaseObjectHierarchy(DatabaseObjectHierarchy hierarchy) throws IOException {
 		DatabaseObjectHierarchy hier = null;
+		System.out.println("writeDatabaseObjectHierarchy begin");
 		try {
 			WriteReadDatabaseObjects.updateSourceID(hierarchy);
 			hier = WriteReadDatabaseObjects.writeDatabaseObjectHierarchyWithTransaction(hierarchy);

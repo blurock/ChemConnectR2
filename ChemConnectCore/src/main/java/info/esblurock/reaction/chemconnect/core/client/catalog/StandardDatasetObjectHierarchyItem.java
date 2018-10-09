@@ -1,6 +1,7 @@
 package info.esblurock.reaction.chemconnect.core.client.catalog;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -75,6 +76,36 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 		topbody.setVisible(true);
 		infopanel.setVisible(false);
 		infovisible = false;
+	}
+	
+	public Composite getItemHeaderFromID(String id) {
+		Composite foundheader = null;
+		StandardDatasetObjectHierarchyItem found = getItemFromID(id);
+		if(found != null) {
+			foundheader = found.getHeader();
+		}
+		return foundheader;
+	}
+	
+	public StandardDatasetObjectHierarchyItem getItemFromID(String id) {
+		StandardDatasetObjectHierarchyItem found = getItemFromID(subitems,id);
+		if(found == null) {
+			found = getItemFromID(infosubitems,id);
+		}
+		return found;
+	}
+	
+	private StandardDatasetObjectHierarchyItem getItemFromID(ArrayList<StandardDatasetObjectHierarchyItem> items, String id) {
+		StandardDatasetObjectHierarchyItem found = null;
+		Iterator<StandardDatasetObjectHierarchyItem> iter = items.iterator();
+		while(found == null && iter.hasNext()) {
+			StandardDatasetObjectHierarchyItem next = iter.next();
+			DatabaseObject obj = next.getObject();
+			if(obj.getIdentifier().compareTo(id) == 0) {
+				found = next;
+			}
+		}
+		return found;
 	}
 
 	@UiHandler("seeinfo")

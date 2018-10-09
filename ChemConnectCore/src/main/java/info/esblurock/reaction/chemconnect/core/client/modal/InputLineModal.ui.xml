@@ -3,8 +3,9 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:m="urn:import:gwt.material.design.client.ui"
 	xmlns:ma="urn:import:gwt.material.design.addins.client">
 	<ui:style>
-	.important {
-		font-weight: bold;
+	.rowbox {
+		background-color: #cfd8dc;
+		border: 1px solid #607d8b;
 	}
 	</ui:style>
 	<m:MaterialDialog ui:field="modal" type="DEFAULT"
@@ -12,17 +13,30 @@
 		<m:MaterialDialogContent ui:field="modalcontent">
 			<m:MaterialPanel>
 				<m:MaterialRow>
-					<m:MaterialColumn grid="s12">
-						<m:MaterialTextBox ui:field="textbox" paddingTop="0" paddingBottom="0"/>
+					<m:MaterialColumn grid="s11" styleName="{style.rowbox}">
+						<m:MaterialTextBox ui:field="textbox" textColor="BLACK"
+							fieldType="OUTLINED" margin="0" />
+						<m:MaterialIntegerBox ui:field="integerbox"
+							autoValidate="true" allowBlank="false" textColor="BLACK"
+							fieldType="OUTLINED" margin="0" />
+						<m:MaterialFloatBox ui:field="floatbox"
+							autoValidate="true" allowBlank="false" textColor="BLACK"
+							fieldType="OUTLINED" margin="0" />
+					</m:MaterialColumn>
+					<m:MaterialColumn grid="s1" styleName="{style.rowbox}">
+						<m:MaterialTooltip ui:field="undefinedtooltip">
+							<m:MaterialCheckBox ui:field="undefined" />
+						</m:MaterialTooltip>
 					</m:MaterialColumn>
 				</m:MaterialRow>
 			</m:MaterialPanel>
 		</m:MaterialDialogContent>
-		<m:MaterialDialogFooter ui:field="footer" paddingTop="0" paddingBottom="0">
+		<m:MaterialDialogFooter ui:field="footer"
+			paddingTop="0" paddingBottom="0">
 			<m:MaterialLink ui:field="close" text="CLOSE" type="FLAT"
-				iconColor="BLACK" textAlign="RIGHT"/>		
+				iconColor="BLACK" textAlign="RIGHT" />
 			<m:MaterialLink ui:field="done" text="Done" type="FLAT"
-				iconColor="BLACK" textAlign="RIGHT"/>		
+				iconColor="BLACK" textAlign="RIGHT" />
 		</m:MaterialDialogFooter>
 	</m:MaterialDialog>
 

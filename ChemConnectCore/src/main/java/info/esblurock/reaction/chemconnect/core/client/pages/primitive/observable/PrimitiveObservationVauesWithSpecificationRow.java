@@ -22,6 +22,7 @@ import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observabl
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.spreadsheet.SpreadSheetInformationExtractionInterface;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInterpretation;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetTitleRowCorrespondence;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
@@ -172,9 +173,9 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite
 	}
 	private void chooseConceptHieararchy() {
 		ArrayList<String> choices = new ArrayList<String>();
-		choices.add("dataset:DataTypeDevice");
-		choices.add("dataset:DataTypeSubSystem");
-		choices.add("dataset:DataTypeComponent");
+		choices.add(MetaDataKeywords.dataTypeDevice);
+		choices.add(MetaDataKeywords.dataTypeSubSystem);
+		choices.add(MetaDataKeywords.dataTypeComponent);
 		ChooseFromConceptHierarchies choosedevice = new ChooseFromConceptHierarchies(choices,this);
 		modalpanel.add(choosedevice);
 		choosedevice.open();		

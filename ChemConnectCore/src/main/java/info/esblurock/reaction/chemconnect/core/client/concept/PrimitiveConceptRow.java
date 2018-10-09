@@ -1,4 +1,4 @@
-package info.esblurock.reaction.chemconnect.core.client.pages.primitive.concept;
+package info.esblurock.reaction.chemconnect.core.client.concept;
 
 import java.util.ArrayList;
 
@@ -19,6 +19,7 @@ import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConcep
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.dataset.PurposeConceptPair;
+import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 
 public class PrimitiveConceptRow extends Composite implements ChooseFromConceptHeirarchy {
 
@@ -63,17 +64,12 @@ public class PrimitiveConceptRow extends Composite implements ChooseFromConceptH
 		identifier = conceptobj.getIdentifier();
 		TextUtilities.setText(purpose,TextUtilities.removeNamespace(conceptobj.getPurpose()),  "Set purpose");
 		TextUtilities.setText(concept,TextUtilities.removeNamespace(conceptobj.getConcept()),  "Set concept");
-		//tip.setText(identifier);
 		conceptSet = true;
 	}
 
 	private void init() {
-		//label.setText("Pupose");
-		//label.setTextColor(Color.BLACK);
 		purposetip.setText("Purpose");
 		concepttip.setText("Concept");
-		purpose.setTextColor(Color.BLACK);
-		concept.setTextColor(Color.BLACK);
 		conceptSet = false;
 	}
 	
@@ -84,7 +80,7 @@ public class PrimitiveConceptRow extends Composite implements ChooseFromConceptH
 	@UiHandler("concept")
 	void onClick(ClickEvent e) {
 			ArrayList<String> choices = new ArrayList<String>();
-			choices.add("dataset:DataTypeConcept");
+			choices.add(MetaDataKeywords.dataTypeConcept);
 			ChooseFromConceptHierarchyFromDefinition choosedevice = new ChooseFromConceptHierarchyFromDefinition(choices,this);
 			modalpanel.add(choosedevice);
 			chooseConcept=true;
@@ -93,7 +89,7 @@ public class PrimitiveConceptRow extends Composite implements ChooseFromConceptH
 	@UiHandler("purpose")
 	void onClickPurpose(ClickEvent e) {
 			ArrayList<String> choices = new ArrayList<String>();
-			choices.add("dataset:PurposeKeyword");
+			choices.add(MetaDataKeywords.purposeKeyword);
 			ChooseFromConceptHierarchyFromDefinition choosedevice = new ChooseFromConceptHierarchyFromDefinition(choices,this);
 			modalpanel.add(choosedevice);
 			chooseConcept=false;
@@ -103,8 +99,10 @@ public class PrimitiveConceptRow extends Composite implements ChooseFromConceptH
 	public void conceptChosen(String topconcept, String conceptText, ArrayList<String> path) {
 		if(chooseConcept) {
 			concept.setText(TextUtilities.removeNamespace(conceptText));
+			conceptobj.setConcept(conceptText);
 		} else {
 			purpose.setText(TextUtilities.removeNamespace(conceptText));
+			conceptobj.setPurpose(conceptText);
 		}
 	}
 
@@ -120,8 +118,6 @@ public class PrimitiveConceptRow extends Composite implements ChooseFromConceptH
 		return typeWithNamespace;
 	}
 	public boolean updateData() {
-		conceptobj.setConcept(concept.getText());
-		conceptobj.setPurpose(purpose.getText());
 		return true;
 	}
 

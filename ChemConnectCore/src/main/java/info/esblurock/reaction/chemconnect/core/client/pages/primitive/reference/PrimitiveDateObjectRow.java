@@ -21,6 +21,7 @@ import gwt.material.design.client.ui.MaterialTooltip;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHeirarchy;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchies;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
+import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
 
 public class PrimitiveDateObjectRow extends Composite implements ChooseFromConceptHeirarchy {
@@ -41,7 +42,7 @@ public class PrimitiveDateObjectRow extends Composite implements ChooseFromConce
 	@UiField
 	MaterialPanel toppanel;
 	
-	String chemconnectPropertiesS = "dataset:ChemConnectProperties";
+	String chemconnectPropertiesS = MetaDataKeywords.chemConnectProperties;
 	String typeWithNamespace;
 	String identifier;
 	boolean typeSet;

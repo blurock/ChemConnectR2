@@ -10,17 +10,17 @@
 	</ui:style>
 	<m:MaterialPanel>
 		<m:MaterialRow>
-			<m:MaterialColumn grid="s3">
-				<m:MaterialLink ui:field="startrow" styleName="{style.rowbox}" textColor="BLACK" text="0"/>
+			<m:MaterialColumn grid="s3" styleName="{style.rowbox}">
+				<m:MaterialLink ui:field="startrow"  textColor="BLACK" text="0"/>
 			</m:MaterialColumn>
-			<m:MaterialColumn grid="s3">
-				<m:MaterialLink ui:field="endrow" styleName="{style.rowbox}" textColor="BLACK" text="0"/>
+			<m:MaterialColumn grid="s3" styleName="{style.rowbox}">
+				<m:MaterialLink ui:field="endrow"  textColor="BLACK" text="0"/>
 			</m:MaterialColumn>
-			<m:MaterialColumn grid="s3">
-				<m:MaterialLink ui:field="startcolumn" styleName="{style.rowbox}" textColor="BLACK" text="0"/>
+			<m:MaterialColumn grid="s3" styleName="{style.rowbox}">
+				<m:MaterialLink ui:field="startcolumn" textColor="BLACK" text="0"/>
 			</m:MaterialColumn>
-			<m:MaterialColumn grid="s3">
-				<m:MaterialLink ui:field="endcolumn" styleName="{style.rowbox}" textColor="BLACK" text="0"/>
+			<m:MaterialColumn grid="s3" styleName="{style.rowbox}">
+				<m:MaterialLink ui:field="endcolumn" textColor="BLACK" text="0"/>
 			</m:MaterialColumn>
 		</m:MaterialRow>
 	</m:MaterialPanel>

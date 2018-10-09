@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -30,6 +31,7 @@ import info.esblurock.reaction.chemconnect.core.data.concepts.UnitProperties;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ParameterSpecification;
 import info.esblurock.reaction.chemconnect.core.data.dataset.PurposeConceptPair;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ValueUnits;
+import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 public class PrimitiveParameterValueRow extends Composite
@@ -41,10 +43,10 @@ public class PrimitiveParameterValueRow extends Composite
 	}
 
 	String unitsConcept = "qudt:Unit";
-	String purposeConcept = "dataset:ChemConnectPurpose";
-	String conceptConcept = "dataset:ChemConnectConceptProperties";
-	String parameterNames = "dataset:ChemConnectParameter";
-	String uncertaintyConcept = "dataset:ChemConnectUncertaintyTypes";
+	String purposeConcept = MetaDataKeywords.chemConnectPurpose;
+	String conceptConcept = MetaDataKeywords.chemConnectConceptProperties;
+	String parameterNames = MetaDataKeywords.chemConnectParameter;
+	String uncertaintyConcept = MetaDataKeywords.chemConnectUncertaintyTypes;
 	
 	@UiField
 	MaterialColumn uncertaintycolumn;
@@ -155,6 +157,9 @@ public class PrimitiveParameterValueRow extends Composite
 	public void fill(DatabaseObjectHierarchy spechierarchy) {
 		this.spechierarchy = spechierarchy;
 		specification = (ParameterSpecification) spechierarchy.getObject();
+		
+		Window.alert("PrimitiveParameterValueRow\n" + specification);
+		
 		setFullIdentifier();
 		
 		this.propertyType = specification.getParameterLabel();

@@ -22,6 +22,7 @@ import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataObjectLink;
+import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 
 public class PrimitiveDataObjectLinkRow extends Composite implements ChooseFromConceptHeirarchy, HierarchyNodeCallbackInterface {
@@ -78,7 +79,7 @@ public class PrimitiveDataObjectLinkRow extends Composite implements ChooseFromC
 	void onClickConcept(ClickEvent e) {
 		chooseConcept = true;
 		ArrayList<String> choices = new ArrayList<String>();
-		String topconcept = "dataset:ConceptLinkDataStructures";
+		String topconcept = MetaDataKeywords.conceptLinkDataStructures;
 		choices.add(topconcept);
 		ChooseFromConceptHierarchies chooseconcept = new ChooseFromConceptHierarchies(choices,this);
 		item.getModalpanel().clear();
@@ -92,7 +93,6 @@ public class PrimitiveDataObjectLinkRow extends Composite implements ChooseFromC
 	}
 	@Override
 	public void conceptChosen(String topconcept, String chosen, ArrayList<String> path) {
-		Window.alert("PrimitiveDataObjectLinkRow conceptChosen: " + chooseConcept + ": " + chosen);
 		if(chooseConcept) {
 			chosenLinkConcept = chosen;
 			concept.setText(TextUtilities.removeNamespace(chosenLinkConcept));

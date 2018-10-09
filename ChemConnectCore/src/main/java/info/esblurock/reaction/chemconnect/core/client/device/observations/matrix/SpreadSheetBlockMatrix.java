@@ -72,7 +72,6 @@ public class SpreadSheetBlockMatrix extends Composite {
 		ObservationValueRowTitle titles = (ObservationValueRowTitle) titleshier.getObject();
 		ArrayList<String> titlesS = titles.getParameterLabel();
 		DatabaseObjectHierarchy rowvalueshier = valueshierarchy.getSubObject(values.getObservationRowValue());
-
 		ChemConnectCompoundMultiple multiple = (ChemConnectCompoundMultiple) rowvalueshier.getObject();
 		table = new MaterialDataTable<ObservationValueRow>();
 		matrix = new ArrayList<ObservationValueRow>();
@@ -82,7 +81,6 @@ public class SpreadSheetBlockMatrix extends Composite {
 			ObservationValueRow row = (ObservationValueRow) subhier.getObject();
 			numbercolumns = row.getRow().size();
 		}
-		
 		for (int i = 0; i < numbercolumns; i++) {
 			String name = "Col:" + i;
 			if(titlesS.size() > i) {
@@ -99,14 +97,12 @@ public class SpreadSheetBlockMatrix extends Composite {
 			pager = new MaterialDataPager<>(table, source);
 			pager.setLimitOptions(10, 20,40);
 			table.setVisibleRange(1, 25);
-			
-			
 			table.add(pager);
 			table.setDataSource(source);
 			tablepanel.add(table);
 			tablepanel.add(pager);
 		} catch(Exception e) {
-			Window.alert("setUpResultMatrix    " + e.toString());
+			Window.alert("Problem in setting up Matrix:\n" + e.toString());
 		}
 	
 

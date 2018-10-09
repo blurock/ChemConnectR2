@@ -108,4 +108,7 @@ public interface UserImageService  extends RemoteService  {
 	String getStructureFromFileType(String filetype);
 	
 	HierarchyNode getIDHierarchyFromDataCatalogIDAndClassType(String catalogbasename, String classtype) throws IOException;
+		
+	public DatabaseObjectHierarchy fillMatrixSpecificationCorrespondence(DatabaseObjectHierarchy corrspechier,
+			ArrayList<String> coltitles);
 }

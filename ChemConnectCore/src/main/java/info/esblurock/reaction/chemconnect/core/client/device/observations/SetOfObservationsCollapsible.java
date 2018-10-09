@@ -22,6 +22,7 @@ import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.transfer.observations.SetOfObservationsTransfer;
 
 public class SetOfObservationsCollapsible extends Composite implements ChooseFromConceptHeirarchy, ObservationHierarchyInterface {
@@ -88,7 +89,7 @@ public class SetOfObservationsCollapsible extends Composite implements ChooseFro
 	@UiHandler("add") 
 	void onClickAdd(ClickEvent event) {
 		ArrayList<String> choices = new ArrayList<String>();
-		choices.add("dataset:ChemConnectObservable");
+		choices.add(MetaDataKeywords.chemConnectObservable);
 		ChooseFromConceptHierarchies choosedevice = new ChooseFromConceptHierarchies(choices,this);
 		modalpanel.add(choosedevice);
 		choosedevice.open();		

@@ -30,6 +30,7 @@ import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveDataStructureInformation;
@@ -51,11 +52,11 @@ public class MainDataStructureCollapsible extends Composite {
 	interface MainDataStructureCollapsibleUiBinder extends UiBinder<Widget, MainDataStructureCollapsible> {
 	}
 
-	String parameterDescriptionSetS = "dataset:ParameterDescriptionSet";
-	String observationSpecificationS = "dataset:SetOfObservationsSpecification";
-	String parameterSpecificationS = "dataset:ParameterSpecification";
-	String parameterValueS = "dataset:ParameterValue";
-	String specandvalues = "dataset:ObservationValuesWithSpecification";
+	String parameterDescriptionSetS = MetaDataKeywords.parameterDescriptionSet;
+	String observationSpecificationS = MetaDataKeywords.setOfObservationsSpecification;
+	String parameterSpecificationS = MetaDataKeywords.parameterSpecification;
+	String parameterValueS = MetaDataKeywords.parameterValue;
+	String specandvalues = MetaDataKeywords.observationValuesWithSpecification;
 
 	@UiField
 	MaterialLabel datatype;

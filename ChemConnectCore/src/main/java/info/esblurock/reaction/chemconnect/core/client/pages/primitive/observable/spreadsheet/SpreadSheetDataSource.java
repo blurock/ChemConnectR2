@@ -1,5 +1,7 @@
 package info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.spreadsheet;
 
+import com.google.gwt.user.client.Window;
+
 import gwt.material.design.client.data.DataSource;
 import gwt.material.design.client.data.loader.LoadCallback;
 import gwt.material.design.client.data.loader.LoadConfig;

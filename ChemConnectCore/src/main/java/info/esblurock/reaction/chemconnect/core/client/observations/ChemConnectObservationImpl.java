@@ -23,6 +23,7 @@ import info.esblurock.reaction.chemconnect.core.client.resources.BaseText;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.ChemConnectObservationView;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
+import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 public class ChemConnectObservationImpl extends Composite implements ChemConnectObservationView, ObjectVisualizationInterface {
@@ -66,9 +67,9 @@ public class ChemConnectObservationImpl extends Composite implements ChemConnect
 		observationsdeclaration.setText(basetext.observations());
 		
 		ArrayList<String> choices = new ArrayList<String>();
-		choices.add("dataset:ChemConnectObservable");
+		choices.add(MetaDataKeywords.chemConnectObservable);
 		String user = Cookies.getCookie("user");
-		String object = "dataset:SetOfObservationValues";
+		String object = MetaDataKeywords.setOfObservationValues;
 		choose = new ChooseFullNameFromCatagoryRow(this,user,object,choices,toppanel);
 		catagorysetup.add(choose);
 

@@ -34,7 +34,7 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 
 	String admin = "Administration";
 	String adminpass = "laguna";
-	String level = "dataset:SuperUser";
+	String level = MetaDataKeywords.accessTypeSuperUser;
 
 	@Override
 	public UserDTO loginServer(String name, String password) throws IOException {
@@ -114,7 +114,7 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 
 	private void addAccessKeys(UserDTO user) {
 		String username = user.getName();
-		List<KeywordRDF> lst = QueryBase.findRDF(null, "dataset:userReadAccess", username);
+		List<KeywordRDF> lst = QueryBase.findRDF(null, MetaDataKeywords.userReadAccess, username);
 		for (KeywordRDF rdf : lst) {
 			user.addAccess(rdf.getIdentifier());
 		}
