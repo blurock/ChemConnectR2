@@ -22,7 +22,6 @@ import info.esblurock.reaction.chemconnect.core.client.modal.SetLineContentInter
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
-import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ObservationSpecification;
@@ -31,7 +30,6 @@ import info.esblurock.reaction.chemconnect.core.data.dataset.ValueUnits;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.MatrixBlockDefinition;
-import info.esblurock.reaction.chemconnect.core.data.observations.matrix.MatrixSpecificationCorrespondence;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.MatrixSpecificationCorrespondenceSet;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationMatrixValues;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRowTitle;
@@ -239,7 +237,6 @@ public class MatrixSpecificationCorrespondenceSetHeader extends Composite
 		DatabaseObjectHierarchy titlehierarchy = matrixhierarchy.getSubObject(matrix.getObservationRowValueTitles());
 		ObservationValueRowTitle titles = (ObservationValueRowTitle) titlehierarchy.getObject();
 		ArrayList<String> coltitles = titles.getParameterLabel();
-		int colcount = 0;
 		
 		if(coltitles.size() > 0) {
 			blockdef.setStartColumnInMatrix("0");
