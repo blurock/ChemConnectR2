@@ -69,7 +69,7 @@ public class StandardDatasetParameterSpecificationHeader extends Composite
 	}
 	
 	
-	public boolean updateObject() {
+	public boolean updateData() {
 		specification.setParameterLabel(parameter);
 		return true;
 	}

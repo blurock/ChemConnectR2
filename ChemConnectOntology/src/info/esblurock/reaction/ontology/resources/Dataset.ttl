@@ -2737,6 +2737,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
             rdfs:subClassOf :OrganizationClassifications .
 
 
+###  http://www.esblurock.info/dataset#DerivedParameter
+:DerivedParameter rdf:type owl:Class ;
+                  rdfs:subClassOf :ChemConnectConceptProperties .
+
+
 ###  http://www.esblurock.info/dataset#DescriptionAbstract
 :DescriptionAbstract rdf:type owl:Class ;
                      rdfs:subClassOf :Paragraph .
@@ -3850,11 +3855,13 @@ Under the general type of is the actual data object referenced by the ChemConnec
                            rdfs:subClassOf :SpeciesPercentageCompositionObservable ,
                                            [ rdf:type owl:Restriction ;
                                              owl:onProperty <http://purl.org/linked-data/cube#concept> ;
-                                             owl:someValuesFrom :RelativeSpeciesAmount
+                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                             owl:onClass :RelativeSpeciesAmount
                                            ] ,
                                            [ rdf:type owl:Restriction ;
                                              owl:onProperty :hasPurpose ;
-                                             owl:someValuesFrom :SpecifySpeciesAmount
+                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                             owl:onClass :SpecifySpeciesAmount
                                            ] ;
                            rdfs:isDefinedBy :MatrixOfObservables .
 
@@ -5174,7 +5181,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#IgnitionDelayTime
 :IgnitionDelayTime rdf:type owl:Class ;
-                   rdfs:subClassOf :TimeParameter ;
+                   rdfs:subClassOf :TimeParameter ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty <http://purl.org/linked-data/cube#concept> ;
+                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                     owl:onClass :ExperimentalIgnitionDelayTime
+                                   ] ;
                    <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#MilliSecond> .
 
 [ rdf:type owl:Axiom ;
@@ -5248,20 +5260,28 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                    <http://www.w3.org/2004/02/skos/core#altLabel> "interpretation" .
 
 
+###  http://www.esblurock.info/dataset#InverseTemperatureOfExperiment
+:InverseTemperatureOfExperiment rdf:type owl:Class ;
+                                rdfs:subClassOf :DerivedParameter .
+
+
 ###  http://www.esblurock.info/dataset#InverseTemperatureParameter
 :InverseTemperatureParameter rdf:type owl:Class ;
                              rdfs:subClassOf :ChemConnectValueParameter ,
                                              [ rdf:type owl:Restriction ;
                                                owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
-                                               owl:someValuesFrom :InverseTemperatureUnit
+                                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                               owl:onClass :InverseTemperatureUnit
                                              ] ,
                                              [ rdf:type owl:Restriction ;
                                                owl:onProperty <http://purl.org/linked-data/cube#concept> ;
-                                               owl:someValuesFrom :TemperatureOfExperiment
+                                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                               owl:onClass :InverseTemperatureOfExperiment
                                              ] ,
                                              [ rdf:type owl:Restriction ;
                                                owl:onProperty :hasPurpose ;
-                                               owl:someValuesFrom :ExperimentalCondition
+                                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                               owl:onClass :ExperimentalCondition
                                              ] ;
                              <http://www.w3.org/2004/02/skos/core#example> :InverseTemperatureTimes1000 .
 
@@ -7342,7 +7362,17 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#RCMCompressionPressure
 :RCMCompressionPressure rdf:type owl:Class ;
-                        rdfs:subClassOf :PressureParameter ;
+                        rdfs:subClassOf :PressureParameter ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://purl.org/linked-data/cube#concept> ;
+                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onClass :RCMExperimentalMeasurement
+                                        ] ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty :hasPurpose ;
+                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onClass :FundamentalExperimentalMeasurement
+                                        ] ;
                         <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#Bar> .
 
 [ rdf:type owl:Axiom ;
@@ -7355,7 +7385,17 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#RCMCompressionTemperature
 :RCMCompressionTemperature rdf:type owl:Class ;
-                           rdfs:subClassOf :TemperatureParameter ;
+                           rdfs:subClassOf :TemperatureParameter ,
+                                           [ rdf:type owl:Restriction ;
+                                             owl:onProperty <http://purl.org/linked-data/cube#concept> ;
+                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                             owl:onClass :RCMExperimentalMeasurement
+                                           ] ,
+                                           [ rdf:type owl:Restriction ;
+                                             owl:onProperty :hasPurpose ;
+                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                             owl:onClass :FundamentalExperimentalMeasurement
+                                           ] ;
                            <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#Kelvin> .
 
 [ rdf:type owl:Axiom ;
@@ -7368,7 +7408,17 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#RCMCompressionTime
 :RCMCompressionTime rdf:type owl:Class ;
-                    rdfs:subClassOf :TimeParameter ;
+                    rdfs:subClassOf :TimeParameter ,
+                                    [ rdf:type owl:Restriction ;
+                                      owl:onProperty <http://purl.org/linked-data/cube#concept> ;
+                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                      owl:onClass :RCMExperimentalMeasurement
+                                    ] ,
+                                    [ rdf:type owl:Restriction ;
+                                      owl:onProperty :hasPurpose ;
+                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                      owl:onClass :FundamentalExperimentalMeasurement
+                                    ] ;
                     <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#MilliSecond> .
 
 [ rdf:type owl:Axiom ;
@@ -7377,6 +7427,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
    owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#MilliSecond> ;
    <http://www.w3.org/2004/02/skos/core#example> 50.0
  ] .
+
+
+###  http://www.esblurock.info/dataset#RCMExperimentalMeasurement
+:RCMExperimentalMeasurement rdf:type owl:Class ;
+                            rdfs:subClassOf :ChemConnectConceptInstrument .
 
 
 ###  http://www.esblurock.info/dataset#RCMPublishedResults
@@ -8447,6 +8502,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                  owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                  owl:onClass <http://data.nasa.gov/qudt/owl/qudt#TimeUnit>
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty :hasPurpose ;
+                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                 owl:onClass :FundamentalExperimentalMeasurement
                                ] .
 
 

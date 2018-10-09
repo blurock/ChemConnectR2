@@ -586,7 +586,7 @@ public enum SetUpCollapsibleItem {
 		@Override
 		public boolean update(StandardDatasetObjectHierarchyItem item) {
 			StandardDatasetParameterSpecificationHeader header = (StandardDatasetParameterSpecificationHeader) item.getHeader();
-			return header.updateObject();
+			return header.updateData();
 		}
 		
 	}, MeasureParameterSpecification {
@@ -615,7 +615,7 @@ public enum SetUpCollapsibleItem {
 		@Override
 		public boolean update(StandardDatasetObjectHierarchyItem item) {
 			StandardDatasetParameterSpecificationHeader header = (StandardDatasetParameterSpecificationHeader) item.getHeader();
-			return header.updateObject();
+			return header.updateData();
 		}
 		
 	}, DimensionParameterSpecification {
@@ -644,7 +644,7 @@ public enum SetUpCollapsibleItem {
 		@Override
 		public boolean update(StandardDatasetObjectHierarchyItem item) {
 			StandardDatasetParameterSpecificationHeader header = (StandardDatasetParameterSpecificationHeader) item.getHeader();
-			return header.updateObject();
+			return header.updateData();
 		}
 		
 	}, ChemConnectCompoundMultiple {
