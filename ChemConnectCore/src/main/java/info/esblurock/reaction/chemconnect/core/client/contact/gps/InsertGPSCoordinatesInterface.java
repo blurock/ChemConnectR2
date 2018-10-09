@@ -1,4 +1,4 @@
-package info.esblurock.reaction.chemconnect.core.client.pages.primitive.gps;
+package info.esblurock.reaction.chemconnect.core.client.contact.gps;
 
 import info.esblurock.reaction.chemconnect.core.data.contact.GPSLocation;
 

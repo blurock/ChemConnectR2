@@ -11,8 +11,8 @@ import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.combobox.MaterialComboBox;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialDialog;
+import info.esblurock.reaction.chemconnect.core.client.device.observations.units.SetUpParameterValue;
 import info.esblurock.reaction.chemconnect.core.client.modal.SetLineContentInterface;
-import info.esblurock.reaction.chemconnect.core.client.pages.catalog.observations.SetUpParameterValue;
 import info.esblurock.reaction.chemconnect.core.data.concepts.SetOfUnitProperties;
 
 public class AskForUnitsModal extends Composite {

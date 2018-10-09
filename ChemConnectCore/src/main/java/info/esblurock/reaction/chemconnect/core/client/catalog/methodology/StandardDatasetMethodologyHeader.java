@@ -1,4 +1,4 @@
-package info.esblurock.reaction.chemconnect.core.client.pages.catalog.methodology;
+package info.esblurock.reaction.chemconnect.core.client.catalog.methodology;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;

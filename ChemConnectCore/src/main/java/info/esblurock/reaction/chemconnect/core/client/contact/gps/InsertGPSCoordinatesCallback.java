@@ -1,4 +1,4 @@
-package info.esblurock.reaction.chemconnect.core.client.pages.primitive.gps;
+package info.esblurock.reaction.chemconnect.core.client.contact.gps;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
