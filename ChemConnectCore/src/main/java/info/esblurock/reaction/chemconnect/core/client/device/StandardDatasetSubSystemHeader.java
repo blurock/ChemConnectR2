@@ -48,7 +48,6 @@ public class StandardDatasetSubSystemHeader extends Composite {
 	}
 	@UiHandler("save")
 	void onClickSave(ClickEvent event) {
-		Window.alert("Save Object");
 		item.writeDatabaseObjectHierarchy();
 		
 		

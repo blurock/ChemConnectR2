@@ -8,7 +8,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -269,7 +268,6 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 	public void updateHierarchy(DatabaseObjectHierarchy hierarchy) {
 		MaterialCollapsible parent = (MaterialCollapsible) this.getParent();
 		this.removeFromParent();
-		Window.alert("updateHierarchy\n" + hierarchy);
 		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(hierarchy, modalpanel);
 		parent.add(item);
 	}

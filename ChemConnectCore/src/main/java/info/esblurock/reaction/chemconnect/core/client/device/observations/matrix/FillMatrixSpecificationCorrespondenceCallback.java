@@ -1,7 +1,5 @@
 package info.esblurock.reaction.chemconnect.core.client.device.observations.matrix;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
