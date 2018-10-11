@@ -21,7 +21,7 @@ public enum VisualizeMedia {
 			SpreadSheetInputInformation spread = (SpreadSheetInputInformation) interpret;
 			SpreadSheetInputInformation modified = new SpreadSheetInputInformation(spread,
 					SpreadSheetInputInformation.TabDelimited,
-					spread.getSourceType(),spread.getSource(),titleGiven);
+					spread.getSourceType(),spread.getSource());
 			getSpreadSheetInterpretation("SpreadSheetTabDelimited",catid, info,modified,visual);
 		}
 		@Override
@@ -40,8 +40,7 @@ public enum VisualizeMedia {
 			SpreadSheetInputInformation spread = (SpreadSheetInputInformation) interpret;
 			SpreadSheetInputInformation modified = new SpreadSheetInputInformation(spread,
 					SpreadSheetInputInformation.SpaceDelimited,
-					spread.getSourceType(),spread.getSource(),
-					titleGiven);
+					spread.getSourceType(),spread.getSource());
 			getSpreadSheetInterpretation("SpreadSheetSpaceDelimited",catid, info,modified,visual);
 		}
 		@Override
@@ -61,8 +60,7 @@ public enum VisualizeMedia {
 			SpreadSheetInputInformation modified = new SpreadSheetInputInformation(spread,
 					SpreadSheetInputInformation.CSV,
 					spread.getSourceType(),
-					spread.getSource(),
-					titleGiven);
+					spread.getSource());
 			getSpreadSheetInterpretation("SpreadSheetCSV",catid, info,modified,visual);
 		}
 		@Override
@@ -81,8 +79,7 @@ public enum VisualizeMedia {
 			SpreadSheetInputInformation spread = (SpreadSheetInputInformation) interpret;
 			SpreadSheetInputInformation modified = new SpreadSheetInputInformation(spread,
 					SpreadSheetInputInformation.XLS,
-					spread.getSourceType(),spread.getSource(),
-					titleGiven);
+					spread.getSourceType(),spread.getSource());
 			getSpreadSheetInterpretation("MSExcel",catid, info,modified,visual);
 		}
 		@Override
@@ -101,8 +98,7 @@ public enum VisualizeMedia {
 			SpreadSheetInputInformation spread = (SpreadSheetInputInformation) interpret;
 			SpreadSheetInputInformation modified = new SpreadSheetInputInformation(spread,
 					SpreadSheetInputInformation.XLS,
-					spread.getSourceType(),spread.getSource(),
-					titleGiven);
+					spread.getSourceType(),spread.getSource());
 			getSpreadSheetInterpretation("ExcelOffice", catid, info,modified,visual);
 		}
 		@Override

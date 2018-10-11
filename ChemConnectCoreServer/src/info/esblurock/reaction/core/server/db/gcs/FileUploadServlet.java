@@ -50,9 +50,6 @@ public class FileUploadServlet extends HttpServlet {
 				Storage storage = StorageOptions.getDefaultInstance().getService();
 				String uploadDescriptionText = "Uploaded File from FileUploadServlet";
 				ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), request.getSession());
-
-				System.out.println("FileUploadServlet: 4: " + util.getUserName());
-				
 				String path = GCSServiceRoutines.createUploadPath(util.getUserName());
 				GCSBlobFileInformation source = GCSServiceRoutines.createInitialUploadInfo(
 						GoogleCloudStorageConstants.uploadBucket, 
@@ -67,8 +64,7 @@ public class FileUploadServlet extends HttpServlet {
 						.build();
 				@SuppressWarnings("deprecation")
 				BlobInfo blobInfo = storage.create(info, in);
-				String url = blobInfo.getMediaLink();
-				System.out.println("URL:  " + url);
+				System.out.println("FileUploadServlet: " + blobInfo.getMediaLink());
 				DatabaseWriteBase.writeObjectWithTransaction(source);
 			}
 		} catch (Exception caught) {

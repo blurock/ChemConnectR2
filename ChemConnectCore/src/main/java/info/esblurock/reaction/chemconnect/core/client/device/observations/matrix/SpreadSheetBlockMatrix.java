@@ -22,7 +22,6 @@ import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMul
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationMatrixValues;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
-import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRowTitle;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 public class SpreadSheetBlockMatrix extends Composite {
@@ -68,9 +67,6 @@ public class SpreadSheetBlockMatrix extends Composite {
 	}
 	private void setupTableFromObservationMatrixValues(DatabaseObjectHierarchy valueshierarchy) {
 		values = (ObservationMatrixValues) valueshierarchy.getObject(); 
-		DatabaseObjectHierarchy titleshier = valueshierarchy.getSubObject(values.getObservationRowValueTitles());
-		ObservationValueRowTitle titles = (ObservationValueRowTitle) titleshier.getObject();
-		ArrayList<String> titlesS = titles.getParameterLabel();
 		DatabaseObjectHierarchy rowvalueshier = valueshierarchy.getSubObject(values.getObservationRowValue());
 		ChemConnectCompoundMultiple multiple = (ChemConnectCompoundMultiple) rowvalueshier.getObject();
 		table = new MaterialDataTable<ObservationValueRow>();
@@ -83,9 +79,6 @@ public class SpreadSheetBlockMatrix extends Composite {
 		}
 		for (int i = 0; i < numbercolumns; i++) {
 			String name = "Col:" + i;
-			if(titlesS.size() > i) {
-				name = titlesS.get(i);
-			}
 			addColumn(i, name);
 		}
 		
@@ -96,7 +89,7 @@ public class SpreadSheetBlockMatrix extends Composite {
 			SpreadSheetDataSource source = new SpreadSheetDataSource(parent, totalcount, spreadsheet);
 			pager = new MaterialDataPager<>(table, source);
 			pager.setLimitOptions(10, 20,40);
-			table.setVisibleRange(1, 25);
+			table.setVisibleRange(0, 25);
 			table.add(pager);
 			table.setDataSource(source);
 			tablepanel.add(table);

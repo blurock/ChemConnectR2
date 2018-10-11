@@ -13,24 +13,19 @@ public class ObservationsFromSpreadSheet extends ChemConnectDataStructure {
 	String observationMatrixValues;
 	@Index
 	String spreadSheetInputInformation;
-	@Index
-	String spreadSheetInterpretation;
 	
 
 	public ObservationsFromSpreadSheet() {
 		super();
 		this.observationMatrixValues = "";
 		this.spreadSheetInputInformation = "";
-		this.spreadSheetInterpretation = "";
 	}
 	public ObservationsFromSpreadSheet(ChemConnectDataStructure source, 
 			String observationMatrixValues,
-			String spreadSheetInputInformation,
-			String spreadSheetInterpretation) {
+			String spreadSheetInputInformation) {
 		super(source);
 		this.observationMatrixValues = observationMatrixValues;
 		this.spreadSheetInputInformation = spreadSheetInputInformation;
-		this.spreadSheetInterpretation = spreadSheetInterpretation;
 	}
 	
 	public String getObservationMatrixValues() {
@@ -38,9 +33,6 @@ public class ObservationsFromSpreadSheet extends ChemConnectDataStructure {
 	}
 	public String getSpreadSheetInputInformation() {
 		return spreadSheetInputInformation;
-	}
-	public String getSpreadSheetInterpretation() {
-		return spreadSheetInterpretation;
 	}
 	public String toString() {
 		return toString("");
@@ -51,7 +43,6 @@ public class ObservationsFromSpreadSheet extends ChemConnectDataStructure {
 		build.append(super.toString(prefix));
 		build.append(prefix + "ObservationMatrixValues:      " + observationMatrixValues + "\n");
 		build.append(prefix + "SpreadSheetInputInformation: " + spreadSheetInputInformation + "\n");
-		build.append(prefix + "SpreadSheetInterpretation:   " + spreadSheetInterpretation + "\n");
 		return build.toString();
 	}
 

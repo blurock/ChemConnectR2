@@ -29,10 +29,8 @@ import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetBlockInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
-import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInterpretation;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationMatrixValues;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
-import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRowTitle;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.db.InterpretData;
@@ -52,7 +50,6 @@ public class InterpretSpreadSheet {
 	public static DatabaseObjectHierarchy readSpreadSheet(SpreadSheetInputInformation input, DataCatalogID catid)
 			throws IOException {
 		InputStream is = null;
-		System.out.println(input.getSource());
 
 		if (input.isSourceType(SpreadSheetInputInformation.URL)) {
 			URL oracle;
@@ -60,7 +57,6 @@ public class InterpretSpreadSheet {
 			is = oracle.openStream();
 		} else if (input.isSourceType(SpreadSheetInputInformation.STRINGSOURCE)) {
 			String source = input.getSource();
-			System.out.println(input.getSource());
 			is = new ByteArrayInputStream(source.getBytes(StandardCharsets.UTF_8));
 		} else if (input.isSourceType(SpreadSheetInputInformation.BLOBSOURCE)) {
 		}
@@ -72,7 +68,6 @@ public class InterpretSpreadSheet {
 
 	public static DatabaseObjectHierarchy streamReadSpreadSheet(InputStream is, 
 			SpreadSheetInputInformation spreadinput, DataCatalogID catid) throws IOException {
-		System.out.println(spreadinput.toString());
 		ArrayList<ObservationValueRow> set = new ArrayList<ObservationValueRow>();
 		DatabaseObject obj = new DatabaseObject(spreadinput);
 		obj.nullKey();
@@ -83,69 +78,39 @@ public class InterpretSpreadSheet {
 		
 		DatabaseObjectHierarchy inputhierarchy = hierarchy.getSubObject(observations.getSpreadSheetInputInformation());
 		SpreadSheetInputInformation input = (SpreadSheetInputInformation) inputhierarchy.getObject();
-		DatabaseObjectHierarchy interprethierarchy = hierarchy.getSubObject(observations.getSpreadSheetInterpretation());
-		SpreadSheetInterpretation interpret = (SpreadSheetInterpretation) interprethierarchy.getObject();
 		DatabaseObjectHierarchy observehierarchy = hierarchy.getSubObject(observations.getObservationMatrixValues());
 		ObservationMatrixValues values = (ObservationMatrixValues) observehierarchy.getObject();
 		DatabaseObjectHierarchy cathierarchy = hierarchy.getSubObject(observations.getCatalogDataID());
 		DataCatalogID cat = (DataCatalogID) cathierarchy.getObject();
-		
-		DatabaseObjectHierarchy titlehier = observehierarchy.getSubObject(values.getObservationRowValueTitles());
-		ObservationValueRowTitle rowtitles = (ObservationValueRowTitle) titlehier.getObject();
-		
+				
 		DatabaseObjectHierarchy valuemulthier = observehierarchy.getSubObject(values.getObservationRowValue());
 		ChemConnectCompoundMultiple valuemult = (ChemConnectCompoundMultiple) valuemulthier.getObject();
 
 		
-		
-		int numberOfColumns = 0;
 		if (spreadinput.isType(SpreadSheetInputInformation.XLS)) {
-			numberOfColumns = readXLSFile(is, valuemult, set);
+			readXLSFile(is, valuemult, set);
 		} else if (spreadinput.isType(SpreadSheetInputInformation.CSV)) {
-			System.out.println("streamReadSpreadSheet: CSV");
-			numberOfColumns = readDelimitedFile(is, ",", valuemult, set);
+			readDelimitedFile(is, ",", valuemult, set);
 		} else if (spreadinput.isType(SpreadSheetInputInformation.Delimited)) {
-			numberOfColumns = readDelimitedFile(is, spreadinput.getDelimitor(), valuemult, set);
+			readDelimitedFile(is, spreadinput.getDelimitor(), valuemult, set);
 		} else if (spreadinput.isType(SpreadSheetInputInformation.SpaceDelimited)) {
-			System.out.println("streamReadSpreadSheet: SpaceDelimited");
-			numberOfColumns = readDelimitedFile(is, " ", valuemult, set);
+			readDelimitedFile(is, " ", valuemult, set);
 		} else if (spreadinput.isType(SpreadSheetInputInformation.TabDelimited)) {
-			System.out.println("streamReadSpreadSheet: TabDelimited");
-			numberOfColumns = readDelimitedFile(is, "\t", valuemult, set);
+			readDelimitedFile(is, "\t", valuemult, set);
 		}
 		
 		valuemult.setNumberOfElements(set.size());
-		System.out.println("streamReadSpreadSheet: rows: " + set.size() + ":   columns: " + numberOfColumns);
-		
-		
 		input.localFill(spreadinput);
 		cat.localFill(catid);
-		System.out.println("streamReadSpreadSheet   CatalogDataID: " + cat.toString());
-		int startrow = 0;
-		boolean notitle = !input.isTitleRowGiven();
-		if(!notitle) {
-			startrow = 1;
-			ObservationValueRow obs = set.get(0);
-			rowtitles.setParameterLabel(obs.getRow());
-		}
-		
-		for(int rowcount = startrow; rowcount < set.size(); rowcount++) {
+		for(int rowcount = 0; rowcount < set.size(); rowcount++) {
 			ObservationValueRow obs = set.get(rowcount);
 			DatabaseObjectHierarchy obshier = new DatabaseObjectHierarchy(obs);
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(StandardDatasetMetaData.observationValueRow);
-			String id = InterpretData.createSuffix(valuemult, element) + String.valueOf(rowcount-startrow);
+			String id = InterpretData.createSuffix(valuemult, element) + String.valueOf(rowcount);
 			obs.setIdentifier(id);
 			valuemulthier.addSubobject(obshier);
 		}
-		
-		interpret.setStartColumn(0);
-		interpret.setStartRow(0);
-		interpret.setEndRow(set.size()-startrow);
-		interpret.setEndColumn(numberOfColumns);
-		interpret.setNoBlanks(false);
-		interpret.setTitleSearchKey("");
-		
 		return hierarchy;
 	}
 

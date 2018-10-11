@@ -283,6 +283,9 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		SetOfQueryPropertyValues values = new SetOfQueryPropertyValues();
 		ContextAndSessionUtilities context = getUtilities();
 		UserDTO user = context.getUserInfo();
+		if(user == null) {
+			throw new IOException("User information not available: try logging in again");
+		}
 		String username = user.getName();
 		values.add("owner", username);
 		values.add("bucket", GoogleCloudStorageConstants.uploadBucket);
@@ -380,13 +383,17 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	public ArrayList<DatabaseObjectHierarchy> getSetOfDatabaseObjectHierarchyForUser(String classType) throws IOException {
 		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
 		UserDTO user = util.getUserInfo();
+		if(user == null) {
+			throw new IOException("User information not available: try logging in again");
+		}
 		ArrayList<DatabaseObjectHierarchy> objects = WriteReadDatabaseObjects.getAllDatabaseObjectHierarchyForUser(user.getName(), classType);
+/*
 		for(DatabaseObjectHierarchy hierarchy : objects) {
 			System.out.println(classType + ": -----------------------------------------------------------");
 			System.out.println(hierarchy.toString());
 			System.out.println(classType + ": -----------------------------------------------------------");
 		}
-		
+		*/
 		return objects;
 	}
 	
@@ -468,8 +475,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	 * @param corrspechier Hierarchy for MatrixSpecificationCorrespondenceSet
 	 * @param sethier     Hierarchy for SetOfObservationValues
 	 */
-	public DatabaseObjectHierarchy fillMatrixSpecificationCorrespondence(DatabaseObjectHierarchy corrspechier,
-			ArrayList<String> coltitles) {
+	public DatabaseObjectHierarchy fillMatrixSpecificationCorrespondence(DatabaseObjectHierarchy corrspechier,ArrayList<String> coltitles) {
 		CreateDefaultObjectsFactory.fillMatrixSpecificationCorrespondence(corrspechier, coltitles);
 		return corrspechier;
 	}

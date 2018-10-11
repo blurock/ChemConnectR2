@@ -21,11 +21,8 @@ public class VerifyServerTransaction {
 	public static void verify(UserDTO user, String event, String ip,
 			String sessionid, String tasktype) throws IOException {
 		if (authorization.authorize(user.getUserLevel(), tasktype)) {
-			log.info("Login verify: \t" + tasktype);
-			log.info("event=" + event);
-			log.info("ip=" + ip + "   \tUserIP= " + user.getIP());
-			log.info("sessionid=" + sessionid + " \tUser session=" + user.getSessionId());
-			log.info("tasktype=" + tasktype);
+			log.info("Login verify: ip=" + ip + "   \tUserIP= " + user.getIP()
+			+"\nsessionid=" + sessionid + " \tUser session=" + user.getSessionId());
 			/*
 			if (ip.equals(user.getIP())) {
 				System.out.println("Login verify 3:" + ip);

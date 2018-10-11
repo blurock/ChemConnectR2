@@ -10,13 +10,13 @@ import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDat
 public class SpreadSheetInterpretation extends ChemConnectCompoundDataStructure  {
 
 	@Index
-	int startRow;
+	String startRow;
 	@Index
-	int endRow;
+	String endRow;
 	@Index
-	int startColumn;
+	String startColumn;
 	@Index
-	int endColumn;
+	String endColumn;
 	@Index
 	String titleSearchKey;
 	@Index
@@ -30,27 +30,27 @@ public class SpreadSheetInterpretation extends ChemConnectCompoundDataStructure 
 			String startRow, String endRow, String startColumn, String endColumn,
 			String titleSearchKey, String noBlanks) {
 		super(obj);
-		this.startRow = Integer.parseInt(startRow);
-		this.endRow = Integer.parseInt(endRow);
-		this.startColumn = Integer.parseInt(startColumn);
-		this.endColumn = Integer.parseInt(endColumn);
+		this.startRow = startRow;
+		this.endRow = endRow;
+		this.startColumn = startColumn;
+		this.endColumn = endColumn;
 		this.titleSearchKey = titleSearchKey;
 		this.noBlanks = Boolean.parseBoolean(noBlanks);
 	}
 
-	public int getStartRow() {
+	public String getStartRow() {
 		return startRow;
 	}
 
-	public int getEndRow() {
+	public String getEndRow() {
 		return endRow;
 	}
 
-	public int getStartColumn() {
+	public String getStartColumn() {
 		return startColumn;
 	}
 
-	public int getEndColumn() {
+	public String getEndColumn() {
 		return endColumn;
 	}
 
@@ -62,19 +62,19 @@ public class SpreadSheetInterpretation extends ChemConnectCompoundDataStructure 
 		return noBlanks;
 	}
 
-	public void setStartRow(int startRow) {
+	public void setStartRow(String startRow) {
 		this.startRow = startRow;
 	}
 
-	public void setEndRow(int endRow) {
+	public void setEndRow(String endRow) {
 		this.endRow = endRow;
 	}
 
-	public void setStartColumn(int startColumn) {
+	public void setStartColumn(String startColumn) {
 		this.startColumn = startColumn;
 	}
 
-	public void setEndColumn(int endColumn) {
+	public void setEndColumn(String endColumn) {
 		this.endColumn = endColumn;
 	}
 

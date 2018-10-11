@@ -65,6 +65,7 @@ import info.esblurock.reaction.chemconnect.core.data.observations.matrix.Observa
 import info.esblurock.reaction.chemconnect.core.data.contact.ContactHasSite;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInterpretation;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
+import info.esblurock.reaction.chemconnect.core.data.observations.ObservationBlockFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
 
 public enum InterpretData {
@@ -491,8 +492,7 @@ public enum InterpretData {
 			String type = "dataset:CSV";
 			String sourceType = "dataset:StringSource";
 			String source = "0,0,0,0,0\n0,0,0,0,0\n";
-			boolean includeTitle = false;
-			SpreadSheetInputInformation input = new SpreadSheetInputInformation(structure,type,sourceType,source,includeTitle);
+			SpreadSheetInputInformation input = new SpreadSheetInputInformation(structure,type,sourceType,source);
 			input.setIdentifier(catid);
 			DatabaseObjectHierarchy inputhier = new DatabaseObjectHierarchy(input);
 			return inputhier;
@@ -508,10 +508,8 @@ public enum InterpretData {
 			String type = (String) yaml.get(StandardDatasetMetaData.spreadSheetSourceType);			
 			String source    = (String) yaml.get(StandardDatasetMetaData.fileSourceIdentifier);
 			String sourceType    = (String) yaml.get(StandardDatasetMetaData.fileSourceType);
-			String includeTitleS    = (String) yaml.get(StandardDatasetMetaData.includeTitle);
-			boolean includeTitleB = Boolean.valueOf(includeTitleS).booleanValue();
 
-			set = new SpreadSheetInputInformation(objdata, type, sourceType, source, includeTitleB);
+			set = new SpreadSheetInputInformation(objdata, type, sourceType, source);
 			return set;
 		}
 
@@ -525,8 +523,6 @@ public enum InterpretData {
 			map.put(StandardDatasetMetaData.spreadSheetSourceType, datastructure.getType());
 			map.put(StandardDatasetMetaData.fileSourceIdentifier, datastructure.getSourceID());
 			map.put(StandardDatasetMetaData.fileSourceType, datastructure.getSourceType());
-			String includeTitleS = String.valueOf(datastructure.isTitleRowGiven());
-			map.put(StandardDatasetMetaData.spreadSheetDelimitor, includeTitleS);
 			
 			return map;
 		}
@@ -554,7 +550,6 @@ public enum InterpretData {
 			String catid = createSuffix(obj, element);
 			spreadobj.setIdentifier(catid);
 			
-			DatabaseObjectHierarchy interprethier = InterpretData.SpreadSheetInterpretation.createEmptyObject(spreadobj);
 			DatabaseObjectHierarchy inputhier = InterpretData.SpreadSheetInputInformation.createEmptyObject(spreadobj);
 			DatabaseObjectHierarchy matrixhier = InterpretData.ObservationMatrixValues.createEmptyObject(spreadobj);
 			
@@ -562,11 +557,9 @@ public enum InterpretData {
 			ChemConnectDataStructure structure = (ChemConnectDataStructure) structurehier.getObject();
 			ObservationsFromSpreadSheet set = new ObservationsFromSpreadSheet(structure,
 					matrixhier.getObject().getIdentifier(),
-					inputhier.getObject().getIdentifier(),
-					interprethier.getObject().getIdentifier());
+					inputhier.getObject().getIdentifier());
 			set.setIdentifier(catid);
 			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(set);
-			hierarchy.addSubobject(interprethier);
 			hierarchy.addSubobject(inputhier);
 			hierarchy.addSubobject(matrixhier);
 			hierarchy.transferSubObjects(structurehier);
@@ -582,12 +575,10 @@ public enum InterpretData {
 					
 			String observationMatrixValuesID = (String) yaml.get(StandardDatasetMetaData.observationMatrixValuesID);			
 			String spreadSheetInformationID = (String) yaml.get(StandardDatasetMetaData.spreadSheetInformationID);			
-			String spreadSheetInterpretationID    = (String) yaml.get(StandardDatasetMetaData.spreadSheetInterpretationID);
 
 			set = new ObservationsFromSpreadSheet(objdata, 
 					observationMatrixValuesID, 
-					spreadSheetInformationID, 
-					spreadSheetInterpretationID);
+					spreadSheetInformationID);
 			return set;
 		}
 
@@ -600,7 +591,6 @@ public enum InterpretData {
 
 			map.put(StandardDatasetMetaData.observationMatrixValuesID, datastructure.getObservationMatrixValues());
 			map.put(StandardDatasetMetaData.spreadSheetInformationID, datastructure.getSpreadSheetInputInformation());
-			map.put(StandardDatasetMetaData.spreadSheetInterpretationID, datastructure.getSpreadSheetInterpretation());
 			
 			return map;
 		}
@@ -1715,7 +1705,6 @@ public enum InterpretData {
 					InterpretData.ChemConnectCompoundDataStructure.createEmptyObject(obj);
 			ChemConnectCompoundDataStructure structure = (ChemConnectCompoundDataStructure) comphier.getObject();
 			ObservationMatrixValues obsmat = new ObservationMatrixValues(structure,
-					titleshier.getObject().getIdentifier(),
 					matspechier.getObject().getIdentifier());
 			obsmat.setIdentifier(matid);
 			DatabaseObjectHierarchy hier = new DatabaseObjectHierarchy(obsmat);
@@ -1731,9 +1720,8 @@ public enum InterpretData {
 				String sourceID) throws IOException {
 			ChemConnectCompoundDataStructure structure = (ChemConnectCompoundDataStructure) 
 					InterpretData.ChemConnectCompoundDataStructure.fillFromYamlString(top, yaml, sourceID);
-			String titles = (String) yaml.get(StandardDatasetMetaData.observationValueRowTitleID);
 			String values = (String) yaml.get(StandardDatasetMetaData.observationValueRowID);
-			ObservationMatrixValues corr = new ObservationMatrixValues(structure,titles,values);
+			ObservationMatrixValues corr = new ObservationMatrixValues(structure,values);
 			return corr;
 		}
 
@@ -1745,14 +1733,13 @@ public enum InterpretData {
 			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
-			map.put(StandardDatasetMetaData.observationValueRowTitleID, values.getObservationRowValueTitles());
 			map.put(StandardDatasetMetaData.observationValueRowID, values.getObservationRowValue());
 
 			return map;
 		}
 
 		@Override
-		public info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject readElementFromDatabase(
+		public DatabaseObject readElementFromDatabase(
 				String identifier) throws IOException {
 			return QueryBase.getDatabaseObjectFromIdentifier(ObservationMatrixValues.class.getCanonicalName(), identifier);
 		}
@@ -1762,7 +1749,72 @@ public enum InterpretData {
 			return ObservationMatrixValues.class.getCanonicalName();
 		}
 		
-	}, MatrixBlockDefinition {
+	}, ObservationBlockFromSpreadSheet {
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+			DatabaseObject matobj = new DatabaseObject(obj);
+			matobj.nullKey();
+			DataElementInformation element = DatasetOntologyParsing
+					.getSubElementStructureFromIDObject(StandardDatasetMetaData.observationBlockFromSpreadSheet);
+			String matid = createSuffix(obj, element);
+			matobj.setIdentifier(matid);
+			
+			DatabaseObjectHierarchy titleshier = InterpretData.ObservationValueRowTitle.createEmptyObject(matobj);
+			DatabaseObjectHierarchy interpretpechier = InterpretData.SpreadSheetInterpretation.createEmptyObject(matobj);
+			DatabaseObjectHierarchy comphier =  
+					InterpretData.ChemConnectDataStructure.createEmptyObject(obj);
+			ChemConnectDataStructure structure = (ChemConnectDataStructure) comphier.getObject();
+			ObservationBlockFromSpreadSheet obsmat = new ObservationBlockFromSpreadSheet(structure,
+					titleshier.getObject().getIdentifier(),
+					interpretpechier.getObject().getIdentifier());
+			obsmat.setIdentifier(matid);
+			DatabaseObjectHierarchy hier = new DatabaseObjectHierarchy(obsmat);
+			hier.addSubobject(titleshier);
+			hier.addSubobject(interpretpechier);
+			hier.transferSubObjects(comphier);
+			
+			return hier;
+		}
+
+		@Override
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml,
+				String sourceID) throws IOException {
+			ChemConnectDataStructure structure = (ChemConnectDataStructure) 
+					InterpretData.ChemConnectDataStructure.fillFromYamlString(top, yaml, sourceID);
+			String titles = (String) yaml.get(StandardDatasetMetaData.observationValueRowTitleID);
+			String interpret = (String) yaml.get(StandardDatasetMetaData.spreadSheetInterpretationID);
+			ObservationBlockFromSpreadSheet obs = new ObservationBlockFromSpreadSheet(structure,titles,interpret);
+			return obs;
+		}
+
+		@Override
+		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
+			ObservationBlockFromSpreadSheet values = (ObservationBlockFromSpreadSheet) object;
+
+			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
+			Map<String, Object> map = interpret.createYamlFromObject(object);
+
+			map.put(StandardDatasetMetaData.observationValueRowTitleID, values.getObservationValueRowTitle());
+			map.put(StandardDatasetMetaData.spreadSheetInterpretationID, values.getSpreadSheetInterpretation());
+
+			return map;
+		}
+
+		@Override
+		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(ObservationBlockFromSpreadSheet.class.getCanonicalName(), identifier);
+		}
+
+		@Override
+		public String canonicalClassName() {
+			return ObservationBlockFromSpreadSheet.class.getCanonicalName();
+		}
+		
+	},
+	
+	MatrixBlockDefinition {
 
 		@Override
 		public DatabaseObjectHierarchy createEmptyObject(

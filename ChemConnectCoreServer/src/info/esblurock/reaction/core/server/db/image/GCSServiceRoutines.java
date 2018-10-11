@@ -82,13 +82,7 @@ public class GCSServiceRoutines {
 		String targetfilename = fileinfo.getGSFilename();
 		String targetbucket = fileinfo.getBucket();
 
-		System.out.println("moveBlob: " + sourcebucket);
-		System.out.println("moveBlob: " + sourcefilename);
-		System.out.println("moveBlob: " + targetbucket);
-		System.out.println("moveBlob: " + targetfilename);
-
 		BlobId blobId = BlobId.of(sourcebucket, sourcefilename);
-		System.out.println("moveBlob: " + blobId);
 
 		Blob blob = storage.get(blobId);
 

@@ -758,14 +758,12 @@ dataset:ChemConnectPrimitiveDataStructure:
 		ArrayList<String> typelst = new ArrayList<String>();
 		String query = "SELECT ?type \n" + 
 				"	WHERE {?type dataset:fileextension  \"" + extension + "\"^^xsd:string }";
-		System.out.println("typesWithExtension: " + query);
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		System.out.println(lst.size());
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
 		System.out.println(stringlst.size());
 		for(Map<String, String> maptype : stringlst) {
 			String exttype = maptype.get("type");
-			System.out.println("typesWithExtension: " + exttype);
 			if(exttype != null) {
 				typelst.add(exttype);
 			}

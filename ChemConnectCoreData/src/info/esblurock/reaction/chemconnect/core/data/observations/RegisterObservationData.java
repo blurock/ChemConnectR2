@@ -17,6 +17,8 @@ public class RegisterObservationData {
 		ObjectifyService.register(ObservationsFromSpreadSheet.class);
 		ObjectifyService.register(ObservationMatrixValues.class);
 		ObjectifyService.register(ObservationValueRowTitle.class);
+		ObjectifyService.register(ObservationBlockFromSpreadSheet.class);
+		
 	}
 	public static void reset() {
 		ResetDatabaseObjects.resetClass(SpreadSheetInputInformation.class);
@@ -26,5 +28,6 @@ public class RegisterObservationData {
 		ResetDatabaseObjects.resetClass(ObservationsFromSpreadSheet.class);
 		ResetDatabaseObjects.resetClass(ObservationMatrixValues.class);
 		ResetDatabaseObjects.resetClass(ObservationValueRowTitle.class);
-	}
+		ResetDatabaseObjects.resetClass(ObservationBlockFromSpreadSheet.class);
+		}
 }

@@ -38,8 +38,6 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 
 	@Override
 	public UserDTO loginServer(String name, String password) throws IOException {
-		String msg1 = "loginServer: " + name + " Password: " + password;
-		System.out.println(msg1);
 		ContextAndSessionUtilities util = getUtilities();
 		String passwd = null;
 		String lvl = null;
@@ -53,7 +51,7 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 				IndividualInformation person = (IndividualInformation) QueryBase
 						.getFirstDatabaseObjectsFromSingleProperty(IndividualInformation.class.getCanonicalName(),
 								"owner", "Administration");
-				System.out.println("User: " + person.toString());
+				System.out.println("Already Created: " + person.getIdentifier());
 			} catch (IOException ex) {
 				String sourceID = QueryBase.getDataSourceIdentification("Administration");
 				String username = "Administration";
@@ -84,7 +82,6 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 			if (password.equals(passwd)) {
 				System.out.println("Password matches");
 				String sessionid = util.getId();
-				System.out.println("sessionid= " + sessionid);
 				String ip = getThreadLocalRequest().getRemoteAddr();
 				System.out.println("IP=" + ip);
 				String host = getThreadLocalRequest().getRemoteHost();
@@ -96,13 +93,15 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 				System.out.println("Verifying user: " + login);
 				verify(login, login);
 				//String directory = "upload/" + user.getName() + "/";
-				String directory = "upload/";
+				//String directory = "upload/";
 				//System.out.println("----------------------------------------------------------");
+				/*
 				System.out.println("Blob list: '" + directory + "'");
-				//System.out.println("----------------------------------------------------------");
-				//DatabaseObject obj = new DatabaseObject("chemconnect",user.getName(),user.getName(),"1");
-				//HierarchyNode topnode = GoogleCloudStorageBase.getBlobHierarchy(obj,"chemconnect",directory);
-				//System.out.println(topnode.toString("getBlobHierarchy blobs: "));
+				System.out.println("----------------------------------------------------------");
+				DatabaseObject obj = new DatabaseObject("chemconnect",user.getName(),user.getName(),"1");
+				HierarchyNode topnode = GoogleCloudStorageBase.getBlobHierarchy(obj,"chemconnect",directory);
+				System.out.println(topnode.toString("getBlobHierarchy blobs: "));
+				*/
 			} else {
 				throw new IOException("name mismatch; " + name);
 			}

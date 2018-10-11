@@ -284,10 +284,9 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 		VisualizeMedia visual = VisualizeMedia.valueOf(visualType);
 		String sourceType = SpreadSheetInputInformation.BLOBSOURCE;
 		String source = info.getGSFilename();
-		boolean titleGiven = false;
 		obj.setIdentifier(catid.getFullName());
 		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(catid,catid.getIdentifier());
-		SpreadSheetInputInformation spread = new SpreadSheetInputInformation(structure," ",sourceType,source,titleGiven);
+		SpreadSheetInputInformation spread = new SpreadSheetInputInformation(structure," ",sourceType,source);
 		if(visual != null) {
 			visual.getInterpretedBlob(info, spread, catid,true,this);
 		}

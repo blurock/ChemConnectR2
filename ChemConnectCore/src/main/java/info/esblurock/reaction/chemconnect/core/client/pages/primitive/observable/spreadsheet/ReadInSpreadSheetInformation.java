@@ -367,8 +367,7 @@ public class ReadInSpreadSheetInformation extends Composite implements Observati
 		DatabaseObject obj = new DatabaseObject();
 		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,"");
 		DataCatalogID catid = new DataCatalogID();
-		boolean titleGiven = false;
-		SpreadSheetInputInformation input = new SpreadSheetInputInformation(structure,type, sourceType, source,titleGiven);
+		SpreadSheetInputInformation input = new SpreadSheetInputInformation(structure,type, sourceType, source);
 		readInSpreadSheet(input,catid);
 	}
 	

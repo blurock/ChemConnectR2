@@ -34,8 +34,6 @@ public class SpreadSheetInputInformation  extends ChemConnectCompoundDataStructu
 	String source;
 	@Index
 	String sourceType;
-	@Index
-	String titleRowGiven;
 	
 	public SpreadSheetInputInformation() {
 		this.type = CSV;
@@ -44,13 +42,12 @@ public class SpreadSheetInputInformation  extends ChemConnectCompoundDataStructu
 	}
 	
 	public SpreadSheetInputInformation(ChemConnectCompoundDataStructure obj, String type, String sourceType, 
-			String source, boolean titleGiven) {
+			String source) {
 		super(obj);
 		this.type = type;
 		this.sourceType = sourceType;
 		setDelimitorType(type);
 		this.source = source;
-		this.titleRowGiven = String.valueOf(titleGiven);
 	}
 
 	public void setDelimitorType(String type) {
@@ -81,7 +78,6 @@ public class SpreadSheetInputInformation  extends ChemConnectCompoundDataStructu
 		this.sourceType = input.getSourceType();
 		this.delimitor = input.getDelimitor();
 		this.source = input.getSource();
-		this.titleRowGiven = String.valueOf(input.isTitleRowGiven());		
 	}
 	public String getDelimitor() {
 		return delimitor;
@@ -102,12 +98,6 @@ public class SpreadSheetInputInformation  extends ChemConnectCompoundDataStructu
 	public boolean isSourceType(String source) {
 		boolean ans = this.sourceType.compareTo(source) == 0;
 		return ans;
-	}
-	public void setTitleRowGiven(boolean titleRowGiven) {
-		this.titleRowGiven = String.valueOf(titleRowGiven);
-	}
-	public boolean isTitleRowGiven() {
-		return Boolean.valueOf(titleRowGiven).booleanValue();
 	}
 	
 	public void setType(String type) {
@@ -148,11 +138,6 @@ public class SpreadSheetInputInformation  extends ChemConnectCompoundDataStructu
 			build.append(source);
 		} else {
 			build.append("Source as string");
-		}
-		if(isTitleRowGiven()) {
-			build.append(" include title\n");
-		} else {
-			build.append(" no title\n");
 		}
 		return build.toString();
 	}

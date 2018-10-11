@@ -29,7 +29,7 @@ public class ReadDelimitedFile {
 			DatabaseObject obj = new DatabaseObject(id, access, owner, sourceID);
 			ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,"");
 			SpreadSheetInputInformation input = new SpreadSheetInputInformation(structure,SpreadSheetInputInformation.CSV,
-					SpreadSheetInputInformation.STRINGSOURCE,matrix,true);
+					SpreadSheetInputInformation.STRINGSOURCE,matrix);
 			System.out.println(input.toString());
 			String catalogBaseName = "Catalog-Administration";
 			String dataCatalog = "dataset:SpreadSheet";

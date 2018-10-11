@@ -90,7 +90,6 @@ public class ParseUtilities {
 			addHierachy(top, exttypes, "From Extension");
 		}
 		if (parsed.getFiletype() != null) {
-			System.out.println("MIME types: " + parsed.getFiletype());
 			ArrayList<String> filetypes = DatasetOntologyParsing.typesFromFileType(parsed.getFiletype());
 			addHierachy(top, filetypes, "MIME Types");
 		}
@@ -98,7 +97,6 @@ public class ParseUtilities {
 	}
 
 	static void addHierachy(HierarchyNode top, ArrayList<String> lst, String name) {
-		System.out.println("addHierachy: " + lst);
 		HierarchyNode fromExtension = new HierarchyNode(name);
 		boolean typefound = lst.size() > 0;
 		for (String exttype : lst) {

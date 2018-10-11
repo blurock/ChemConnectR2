@@ -96,7 +96,8 @@ public interface UserImageServiceAsync {
 	void getIDHierarchyFromDataCatalogIDAndClassType(String catalogbasename, String classtype,
 			AsyncCallback<HierarchyNode> callback);
 
-	void fillMatrixSpecificationCorrespondence(DatabaseObjectHierarchy corrspechier, ArrayList<String> coltitles,
+	void fillMatrixSpecificationCorrespondence(DatabaseObjectHierarchy corrspechier,
+			ArrayList<String> coltitles,
 			AsyncCallback<DatabaseObjectHierarchy> callback);
 
 }

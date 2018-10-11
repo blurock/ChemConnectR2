@@ -28,10 +28,10 @@ import info.esblurock.reaction.chemconnect.core.data.dataset.ObservationSpecific
 import info.esblurock.reaction.chemconnect.core.data.dataset.ParameterSpecification;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ValueUnits;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
-import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
+import info.esblurock.reaction.chemconnect.core.data.observations.ObservationBlockFromSpreadSheet;
+import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInterpretation;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.MatrixBlockDefinition;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.MatrixSpecificationCorrespondenceSet;
-import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationMatrixValues;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRowTitle;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
@@ -195,8 +195,8 @@ public class MatrixSpecificationCorrespondenceSetHeader extends Composite
 	 */
 	public void setupMatrix(DataCatalogID catid, DatabaseObjectHierarchy subs) {
 		attachedObservationsFromSpreadSheet = subs;
-		ObservationsFromSpreadSheet observations = (ObservationsFromSpreadSheet) attachedObservationsFromSpreadSheet.getObject();
-		DatabaseObjectHierarchy matrixhierarchy = attachedObservationsFromSpreadSheet.getSubObject(observations.getObservationMatrixValues());
+		ObservationBlockFromSpreadSheet observations = (ObservationBlockFromSpreadSheet) attachedObservationsFromSpreadSheet.getObject();
+		DatabaseObjectHierarchy matrixhierarchy = attachedObservationsFromSpreadSheet.getSubObject(observations.getObservationValueRowTitle());
 		setInColumnCorrespondences(matrixhierarchy);
 	}
 	
@@ -233,27 +233,16 @@ public class MatrixSpecificationCorrespondenceSetHeader extends Composite
 	}
 
 	private void setInColumnCorrespondences(DatabaseObjectHierarchy matrixhierarchy) {
-		ObservationMatrixValues matrix = (ObservationMatrixValues) matrixhierarchy.getObject();
-		DatabaseObjectHierarchy titlehierarchy = matrixhierarchy.getSubObject(matrix.getObservationRowValueTitles());
-		ObservationValueRowTitle titles = (ObservationValueRowTitle) titlehierarchy.getObject();
+		ObservationBlockFromSpreadSheet sheet = (ObservationBlockFromSpreadSheet) matrixhierarchy.getObject();
+		DatabaseObjectHierarchy titlehier = matrixhierarchy.getSubObject(sheet.getObservationValueRowTitle());
+		ObservationValueRowTitle titles = (ObservationValueRowTitle) titlehier.getObject();
 		ArrayList<String> coltitles = titles.getParameterLabel();
-		
-		if(coltitles.size() > 0) {
-			blockdef.setStartColumnInMatrix("0");
-			blockdef.setLastColumnInMatrix(String.valueOf(coltitles.size()));
-		} else {
-			blockdef.setStartColumnInMatrix(null);
-			blockdef.setStartColumnInMatrix(null);
-		}
-		
-		DatabaseObjectHierarchy rowhier = matrixhierarchy.getSubObject(matrix.getObservationRowValue());
-		if(rowhier.getSubobjects().size() > 0) {
-			blockdef.setStartRowInMatrix("0");
-			blockdef.setLastRowInMatrix(String.valueOf(rowhier.getSubobjects().size()));
-		} else {
-			blockdef.setStartRowInMatrix(null);
-			blockdef.setLastRowInMatrix(null);
-		}
+		DatabaseObjectHierarchy interprethier = matrixhierarchy.getSubObject(sheet.getSpreadSheetInterpretation());
+		SpreadSheetInterpretation interpret = (SpreadSheetInterpretation) interprethier.getObject();
+			blockdef.setStartRowInMatrix(interpret.getStartRow());
+			blockdef.setLastRowInMatrix(interpret.getEndRow());
+			blockdef.setStartColumnInMatrix(interpret.getStartColumn());
+			blockdef.setLastColumnInMatrix(interpret.getEndColumn());
 		displayMatrixBlockDefinition();
 		
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
