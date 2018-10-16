@@ -22,7 +22,7 @@ public enum VisualizeMedia {
 			SpreadSheetInputInformation modified = new SpreadSheetInputInformation(spread,
 					SpreadSheetInputInformation.TabDelimited,
 					spread.getSourceType(),spread.getSource());
-			getSpreadSheetInterpretation("SpreadSheetTabDelimited",catid, info,modified,visual);
+			interpretSpreadSheetAsMatrix("SpreadSheetTabDelimited",catid, info,modified,visual);
 		}
 		@Override
 		public void insertVisualization(DatabaseObjectHierarchy object, String title, VisualizationOfBlobStorage visual) {
@@ -41,7 +41,7 @@ public enum VisualizeMedia {
 			SpreadSheetInputInformation modified = new SpreadSheetInputInformation(spread,
 					SpreadSheetInputInformation.SpaceDelimited,
 					spread.getSourceType(),spread.getSource());
-			getSpreadSheetInterpretation("SpreadSheetSpaceDelimited",catid, info,modified,visual);
+			interpretSpreadSheetAsMatrix("SpreadSheetSpaceDelimited",catid, info,modified,visual);
 		}
 		@Override
 		public void insertVisualization(DatabaseObjectHierarchy object, String title, VisualizationOfBlobStorage visual) {
@@ -61,7 +61,7 @@ public enum VisualizeMedia {
 					SpreadSheetInputInformation.CSV,
 					spread.getSourceType(),
 					spread.getSource());
-			getSpreadSheetInterpretation("SpreadSheetCSV",catid, info,modified,visual);
+			interpretSpreadSheetAsMatrix("SpreadSheetCSV",catid, info,modified,visual);
 		}
 		@Override
 		public void insertVisualization(DatabaseObjectHierarchy object, String title, VisualizationOfBlobStorage visual) {
@@ -80,7 +80,7 @@ public enum VisualizeMedia {
 			SpreadSheetInputInformation modified = new SpreadSheetInputInformation(spread,
 					SpreadSheetInputInformation.XLS,
 					spread.getSourceType(),spread.getSource());
-			getSpreadSheetInterpretation("MSExcel",catid, info,modified,visual);
+			interpretSpreadSheetAsMatrix("MSExcel",catid, info,modified,visual);
 		}
 		@Override
 		public void insertVisualization(DatabaseObjectHierarchy object, String title, VisualizationOfBlobStorage visual) {
@@ -99,7 +99,7 @@ public enum VisualizeMedia {
 			SpreadSheetInputInformation modified = new SpreadSheetInputInformation(spread,
 					SpreadSheetInputInformation.XLS,
 					spread.getSourceType(),spread.getSource());
-			getSpreadSheetInterpretation("ExcelOffice", catid, info,modified,visual);
+			interpretSpreadSheetAsMatrix("ExcelOffice", catid, info,modified,visual);
 		}
 		@Override
 		public void insertVisualization(DatabaseObjectHierarchy object, String title, VisualizationOfBlobStorage visual) {
@@ -116,7 +116,7 @@ public enum VisualizeMedia {
 	abstract public void insertVisualization(DatabaseObjectHierarchy object, String title, VisualizationOfBlobStorage visual);
 	
 	
-	void getSpreadSheetInterpretation(String type, 
+	void interpretSpreadSheetAsMatrix(String type, 
 			DataCatalogID catid,
 			GCSBlobFileInformation info,
 			SpreadSheetInputInformation spread, 
@@ -129,28 +129,6 @@ public enum VisualizeMedia {
 	void insertSpreadSheetVisualization(DatabaseObjectHierarchy hierarchy, String title, VisualizationOfBlobStorage visual) {
 		SpreadSheetBlockMatrix matrix = new SpreadSheetBlockMatrix(hierarchy);
 		visual.insertVisualization(matrix);	
-		
-		/*
-		ObservationsFromSpreadSheet observation = (ObservationsFromSpreadSheet) hierarchy.getObject();
-		DatabaseObjectHierarchy inputhier = hierarchy.getSubObject(observation.getSpreadSheetInterpretation());
-		SpreadSheetInterpretation input = (SpreadSheetInterpretation) inputhier.getObject();
-		String id = observation.getIdentifier();
-		int total = input.getEndRow() - input.getStartRow();
-		int numcols = input.getEndColumn() - input.getStartColumn();
-		SpreadSheetMatrix matrix = new SpreadSheetMatrix(title,id,numcols ,total);
-		DatabaseObjectHierarchy obsrowshier = hierarchy.getSubObject(observation.getObservationMatrixValues());
-		ObservationMatrixValues values = (ObservationMatrixValues) obsrowshier.getObject();
-		DatabaseObjectHierarchy multrowshier = obsrowshier.getSubObject(values.getObservationRowValue());
-		
-		ChemConnectCompoundMultiple multrows = (ChemConnectCompoundMultiple) multrowshier.getObject();
-		ArrayList<ObservationValueRow> lst = new ArrayList<ObservationValueRow>();
-		for(DatabaseObjectHierarchy rowhier : multrowshier.getSubobjects()) {
-			ObservationValueRow row = (ObservationValueRow) rowhier.getObject();
-			lst.add(row);
-		}
-		matrix.setUpResultMatrix(lst);
-		visual.insertVisualization(matrix);		
-		*/
 	}
 	
 	

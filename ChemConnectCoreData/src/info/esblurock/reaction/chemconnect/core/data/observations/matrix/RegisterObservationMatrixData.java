@@ -6,7 +6,6 @@ import info.esblurock.reaction.chemconnect.core.data.base.ResetDatabaseObjects;
 
 public class RegisterObservationMatrixData {
 	public static void register() {
-		ObjectifyService.register(MatrixBlockDefinition.class);
 		ObjectifyService.register(MatrixSpecificationCorrespondence.class);
 		ObjectifyService.register(MatrixSpecificationCorrespondenceSet.class);
 		ObjectifyService.register(ObservationValueRow.class);
@@ -15,7 +14,6 @@ public class RegisterObservationMatrixData {
 	}
 	
 	public static void reset() {
-		ResetDatabaseObjects.resetClass(MatrixBlockDefinition.class);
 		ResetDatabaseObjects.resetClass(MatrixSpecificationCorrespondence.class);
 		ResetDatabaseObjects.resetClass(MatrixSpecificationCorrespondenceSet.class);
 		ResetDatabaseObjects.resetClass(ObservationValueRow.class);

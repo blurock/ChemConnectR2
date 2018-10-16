@@ -26,7 +26,7 @@ import info.esblurock.reaction.chemconnect.core.client.device.observations.matri
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.MatrixSpecificationCorrespondenceSetHeader;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.SpreadSheetBlockMatrix;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.SpreadSheetInputInformationHeader;
-import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.SpreadSheetInterpretationHeader;
+import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.SpreadSheetMatrixBlockIsolateHeader;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.StandardDatasetObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.units.StandardDatasetValueUnitsHeader;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
@@ -232,11 +232,11 @@ public enum SetUpCollapsibleItem {
 			return true;
 		}
 		
-	}, SpreadSheetInterpretation {
+	}, SpreadSheetBlockIsolation {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
-			SpreadSheetInterpretationHeader header = new SpreadSheetInterpretationHeader(item);
+			SpreadSheetMatrixBlockIsolateHeader header = new SpreadSheetMatrixBlockIsolateHeader(item);
 			item.addHeader(header);
 		}
 

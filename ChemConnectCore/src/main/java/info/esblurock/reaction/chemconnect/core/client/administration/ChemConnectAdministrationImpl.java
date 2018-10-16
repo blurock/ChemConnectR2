@@ -56,6 +56,8 @@ public class ChemConnectAdministrationImpl extends Composite implements ChemConn
 	@UiField
 	MaterialLink blobstorage;
 	@UiField
+	MaterialLink block;
+	@UiField
 	MaterialLink cleardb;
 	@UiField
 	MaterialLink readinit;
@@ -107,8 +109,10 @@ public class ChemConnectAdministrationImpl extends Composite implements ChemConn
 		methodologydeclaration.setIconType(IconType.BUILD);
 		managecatalog.setText("Manage Catalog");
 		managecatalog.setIconType(IconType.BUILD);
-		blobstorage.setText("Blob Storage");
+		blobstorage.setText("File Staging");
 		blobstorage.setIconType(IconType.BUILD);
+		block.setText("Matrix Block");
+		block.setIconType(IconType.BUILD);
 		okmodal.setBackgroundColor(Color.BLUE_GREY_DARKEN_1);
 		footer.setBackgroundColor(Color.BLUE_GREY);
 		footer.setTextColor(Color.BLACK);
@@ -235,13 +239,18 @@ public class ChemConnectAdministrationImpl extends Composite implements ChemConn
 	}
 	@UiHandler("organizations")
 	public void onOrganizations(ClickEvent event) {
-		MaterialToast.fireToast("Organization");
+		MaterialToast.fireToast("Organizations");
 		handleHistoryToken("Organization");
 	}
 	@UiHandler("people")
 	public void onPeople(ClickEvent event) {
 		MaterialToast.fireToast("People");
 		handleHistoryToken("DatabasePerson");
+	}
+	@UiHandler("block")
+	public void onBlock(ClickEvent event) {
+		MaterialToast.fireToast("Isolate Matrix Block");
+		handleHistoryToken("IsolateMatrixBlock");
 	}
 	
 	@Override

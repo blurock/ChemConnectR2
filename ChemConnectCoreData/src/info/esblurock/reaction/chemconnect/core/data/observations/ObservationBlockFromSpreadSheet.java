@@ -11,18 +11,18 @@ public class ObservationBlockFromSpreadSheet extends ChemConnectDataStructure {
 	@Index
 	String observationValueRowTitle;
 	@Index
-	String spreadSheetInterpretation;
+	String spreadBlockIsolation;
 	
 	public ObservationBlockFromSpreadSheet() {
 		this.observationValueRowTitle = null;
-		this.spreadSheetInterpretation = null;		
+		this.spreadBlockIsolation = null;		
 	}
 	
 	public ObservationBlockFromSpreadSheet(ChemConnectDataStructure structure,
-			String observationValueRowTitle, String spreadSheetInterpretation) {
-		super();
+			String observationValueRowTitle, String spreadBlockIsolation) {
+		super(structure);
 		this.observationValueRowTitle = observationValueRowTitle;
-		this.spreadSheetInterpretation = spreadSheetInterpretation;
+		this.spreadBlockIsolation = spreadBlockIsolation;
 	}
 
 	public String getObservationValueRowTitle() {
@@ -33,12 +33,12 @@ public class ObservationBlockFromSpreadSheet extends ChemConnectDataStructure {
 		this.observationValueRowTitle = observationValueRowTitle;
 	}
 
-	public String getSpreadSheetInterpretation() {
-		return spreadSheetInterpretation;
+	public String getSpreadBlockIsolation() {
+		return spreadBlockIsolation;
 	}
 
-	public void setSpreadSheetInterpretation(String spreadSheetInterpretation) {
-		this.spreadSheetInterpretation = spreadSheetInterpretation;
+	public void setSpreadBlockIsolation(String spreadBlockIsolation) {
+		this.spreadBlockIsolation = spreadBlockIsolation;
 	}
 	
 	public String toString() {
@@ -48,8 +48,8 @@ public class ObservationBlockFromSpreadSheet extends ChemConnectDataStructure {
 		StringBuilder build = new StringBuilder();
 		build.append(prefix);
 		build.append(super.toString(prefix));
-		build.append(prefix + "Titles        :      " + observationValueRowTitle + "\n");
-		build.append(prefix + "Interpretation: " + spreadSheetInterpretation + "\n");
+		build.append(prefix + "Titles      :      " + observationValueRowTitle + "\n");
+		build.append(prefix + "Matrix Block: " + spreadBlockIsolation + "\n");
 		return build.toString();
 	}
 	

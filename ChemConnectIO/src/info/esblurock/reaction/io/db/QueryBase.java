@@ -104,7 +104,7 @@ public class QueryBase {
 			objClass = Class.forName(classname);
 			Object o = ofy().load().type(objClass).filter(propertyname, propertyvalue).first().now();
 			if(o == null) {
-				throw new IOException("No results found");				
+				throw new IOException("No results found: " + classname + "(" + propertyname + "=" + propertyvalue + ")");				
 			} else if(DatabaseObject.class.isAssignableFrom(o.getClass())) {
 				obj = (DatabaseObject) o;
 			} else {

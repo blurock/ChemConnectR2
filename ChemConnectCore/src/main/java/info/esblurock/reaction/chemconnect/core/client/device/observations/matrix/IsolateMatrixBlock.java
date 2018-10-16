@@ -1,0 +1,80 @@
+package info.esblurock.reaction.chemconnect.core.client.device.observations.matrix;
+
+import java.util.ArrayList;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Widget;
+
+import gwt.material.design.client.ui.MaterialCollapsible;
+import gwt.material.design.client.ui.MaterialPanel;
+import info.esblurock.reaction.chemconnect.core.client.catalog.SetUpDatabaseObjectHierarchyCallback;
+import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
+import info.esblurock.reaction.chemconnect.core.client.catalog.choose.ChooseFullNameFromCatagoryRow;
+import info.esblurock.reaction.chemconnect.core.client.catalog.choose.ObjectVisualizationInterface;
+import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
+import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
+import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
+
+public class IsolateMatrixBlock extends Composite implements ObjectVisualizationInterface {
+
+	private static IsolateMatrixBlockUiBinder uiBinder = GWT.create(IsolateMatrixBlockUiBinder.class);
+
+	interface IsolateMatrixBlockUiBinder extends UiBinder<Widget, IsolateMatrixBlock> {
+	}
+
+
+	String defaultCatagory;
+	String enterkeyS;
+	String keynameS;
+	@UiField
+	MaterialCollapsible contentcollapsible;
+	@UiField
+	MaterialPanel modalpanel;
+	@UiField
+	MaterialPanel topPanel;
+	
+	ChooseFullNameFromCatagoryRow choose;
+	String access;
+
+	public IsolateMatrixBlock() {
+		initWidget(uiBinder.createAndBindUi(this));
+		init();
+	}
+
+	private void init() {
+		ArrayList<String> choices = new ArrayList<String>();
+		choices.add(MetaDataKeywords.chemConnectIsolateBlockTypes);
+		String user = Cookies.getCookie("user");
+		String object = MetaDataKeywords.spreadSheetBlockIsolation;
+		choose = new ChooseFullNameFromCatagoryRow(this,user,object,choices,modalpanel);
+		topPanel.add(choose);
+	}
+	
+	@Override
+	public void createCatalogObject(DatabaseObject obj,DataCatalogID datid) {
+		Window.alert("createCatalogObject: \n");
+		Window.alert("createCatalogObject: \n" + datid.toString());
+		SetUpDatabaseObjectHierarchyCallback callback = new SetUpDatabaseObjectHierarchyCallback(contentcollapsible,modalpanel);
+		UserImageServiceAsync async = UserImageService.Util.getInstance();
+		String observation = choose.getObjectType();
+		String title = choose.getObjectName();
+		async.getSetOfObservations(obj,observation,title,datid,callback);
+	}
+
+	@Override
+	public void insertCatalogObject(DatabaseObjectHierarchy subs) {
+		Window.alert("insertCatalogObject: \n" + subs.toString());
+		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(subs,modalpanel);
+		contentcollapsible.add(item);
+	}
+
+
+}

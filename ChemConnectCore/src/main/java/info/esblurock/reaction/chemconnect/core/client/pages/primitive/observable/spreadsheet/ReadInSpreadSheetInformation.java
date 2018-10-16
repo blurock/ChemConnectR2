@@ -34,7 +34,7 @@ import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDat
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
-import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInterpretation;
+//import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInterpretation;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
@@ -120,7 +120,7 @@ public class ReadInSpreadSheetInformation extends Composite implements Observati
 	ArrayList<ObservationValueRow> origmatrix;
 	ArrayList<ObservationValueRow> matrix;
 	ArrayList<ObservationValueRow> visiblematrix;
-	SpreadSheetInterpretation interpretation;
+	//SpreadSheetInterpretation interpretation;
 	String obstitle;
 	int maxcount;
 	AssignParameterToColumnPanel assign;
@@ -260,6 +260,8 @@ public class ReadInSpreadSheetInformation extends Composite implements Observati
 		String beginningColumn = "0";
 		String endingColumn = "0";
 		boolean titleGiven = title.getValue().booleanValue();
+		Window.alert("Should not be here: ReadInSpreadSheetInformation (eliminated insert to SpreadSheetInterpretation");
+		/*
 		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,"");
 		interpretation = new SpreadSheetInterpretation(structure,
 				String.valueOf(beginningRow),String.valueOf(endingRow),
@@ -267,6 +269,7 @@ public class ReadInSpreadSheetInformation extends Composite implements Observati
 				searchbegin.getText(),
 				String.valueOf(titleGiven));
 		top.setMatrixInterpretation(interpretation);
+		*/
 		stepper.reset();
 		overlay.close();
 	}

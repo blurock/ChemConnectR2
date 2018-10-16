@@ -10,6 +10,7 @@ import info.esblurock.reaction.chemconnect.core.client.contact.OrganizationDefin
 import info.esblurock.reaction.chemconnect.core.client.device.DeviceWithSubystemsDefinition;
 import info.esblurock.reaction.chemconnect.core.client.device.MethodologyDefinition;
 import info.esblurock.reaction.chemconnect.core.client.device.SetOfObservationsDefinition;
+import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.IsolateMatrixBlock;
 import info.esblurock.reaction.chemconnect.core.client.gcs.UploadFileToBlobStorage;
 
 public enum DataStructurePages implements Serializable {
@@ -152,6 +153,23 @@ public enum DataStructurePages implements Serializable {
 			return people;
 		}
 		
+	}, IsolateMatrixBlock {
+
+		@Override
+		public String getTitle() {
+			return "Isolate Matrix Block";
+		}
+
+		@Override
+		public String getDescription() {
+			return "From a full matrix file, isolate a single block of information";
+		}
+
+		@Override
+		public Widget getContent() {
+			return block;
+		}
+		
 	};
 	
 	public abstract String getTitle();
@@ -159,6 +177,7 @@ public enum DataStructurePages implements Serializable {
 	public abstract Widget getContent();
 	
 	static MainDataStructureVisualization dataStructures = new MainDataStructureVisualization();
+	static IsolateMatrixBlock block = new IsolateMatrixBlock();
 	static DeviceWithSubystemsDefinition subsystems = new DeviceWithSubystemsDefinition();
 	static SetOfObservationsDefinition setofobservations = new SetOfObservationsDefinition();
 	static MethodologyDefinition methodology = new MethodologyDefinition();

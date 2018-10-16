@@ -11,11 +11,13 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.vocabulary.ReasonerVocabulary;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetBlockIsolation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
+import info.esblurock.reaction.io.metadata.StandardDatasetMetaData;
 import info.esblurock.reaction.ontology.OntologyBase;
 
 public class DatasetOntologyParsing {
@@ -800,5 +802,39 @@ dataset:ChemConnectPrimitiveDataStructure:
 		}
 		return datatype;
 	}
+	
+	public static String spreadSheetBlockType(String blockType, SpreadSheetBlockIsolation isolate) {
+		String query = "SELECT ?subject ?property ?value \n" + 
+				"	WHERE { " + blockType + " rdfs:subClassOf ?object .\n" + 
+				"	?object owl:onProperty ?property .\n" + 
+				"	?object owl:onClass ?value\n" + 
+				"\n" + 
+				"}";
+		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
+		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
+		String datatype = null;
+
+		
+		for(Map<String, String> map : stringlst) {
+			String property = map.get("property");
+			String value = map.get("value");
+			if(property.compareTo(StandardDatasetMetaData.startColumnInMatrix) == 0) {
+				isolate.setStartColumnType(value);
+			} else if(property.compareTo(StandardDatasetMetaData.lastColumnInMatrix) == 0) {
+				isolate.setEndColumnType(value);
+			} else if(property.compareTo(StandardDatasetMetaData.startRowInMatrix) == 0) {
+				isolate.setStartRowType(value);
+			} else if(property.compareTo(StandardDatasetMetaData.lastRowInMatrix) == 0) {
+				isolate.setEndRowType(value);
+			} else if(property.compareTo(StandardDatasetMetaData.includeBlockTitle) == 0) {
+				isolate.setTitleIncluded(value);
+			}
+		}
+		return datatype;
+		
+	}
+
+	
+	
 	
 }

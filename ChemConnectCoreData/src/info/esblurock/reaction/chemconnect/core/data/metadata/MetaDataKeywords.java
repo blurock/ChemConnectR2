@@ -41,6 +41,8 @@ public class MetaDataKeywords {
 	
 	public static String chemConnectPrimitiveDataStructure = "dataset:ChemConnectPrimitiveDataStructure";
 	public static String chemConnectPrimitiveCompound = "dataset:ChemConnectPrimitiveCompound";
+	public static String chemConnectIsolateBlockTypes = "dataset:ChemConnectIsoloateBlockTypes";
+	public static String spreadSheetBlockIsolation = "dataset:SpreadSheetBlockIsolation";
 	
 	public static String emailContactType = "dataset:EmailContactType";
 	public static String telephoneContactType = "dataset:TelephoneContactType";

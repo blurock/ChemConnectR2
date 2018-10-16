@@ -23,7 +23,7 @@ import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observabl
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
-import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInterpretation;
+import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetBlockIsolation;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetTitleRowCorrespondence;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
 import info.esblurock.reaction.chemconnect.core.data.transfer.PrimitiveParameterSpecificationInformation;
@@ -203,7 +203,7 @@ public class PrimitiveObservationVauesWithSpecificationRow extends Composite
 	}
 
 	@Override
-	public void setMatrixInterpretation(SpreadSheetInterpretation interpretation) {
+	public void setMatrixInterpretation(SpreadSheetBlockIsolation interpretation) {
 		Window.alert(interpretation.toString());
 	}
 

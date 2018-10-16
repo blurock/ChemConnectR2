@@ -2,7 +2,7 @@ package info.esblurock.reaction.chemconnect.core.client.pages.primitive.observab
 
 import java.util.ArrayList;
 
-import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInterpretation;
+import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetBlockIsolation;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetTitleRowCorrespondence;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
 
@@ -12,6 +12,6 @@ public interface SpreadSheetInformationExtractionInterface {
 
 	public void setIsolatedMatrix(ArrayList<ObservationValueRow> matrix);
 
-	public void setMatrixInterpretation(SpreadSheetInterpretation interpretation);
+	public void setMatrixInterpretation(SpreadSheetBlockIsolation interpretation);
 
 }

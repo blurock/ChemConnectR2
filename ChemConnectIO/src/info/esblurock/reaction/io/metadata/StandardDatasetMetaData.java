@@ -49,10 +49,6 @@ public class StandardDatasetMetaData {
 	public static String matrixBlockDefinition = "dataset:MatrixBlockDefinition";
 	public static String matrixSpecificationCorrespondence = "dataset:MatrixSpecificationCorrespondence";
 	
-	public static String lastColumnInMatrix = "dataset:lastColumnInMatrix";
-	public static String startColumnInMatrix = "dataset:startColumnInMatrix";
-	public static String lastRowInMatrix = "dataset:lastRowInMatrix";
-	public static String startRowInMatrix = "dataset:startRowInMatrix";
 	public static String matrixColumn = "dataset:matrixColumn";
 	public static String observationValueRowTitleID = "qb:SliceKey";
 	public static String observationValueRowID = "qb:Slice";
@@ -62,9 +58,17 @@ public class StandardDatasetMetaData {
 	
 	
 	public static String LastColumnInMatrix = "dataset:LastColumnInMatrix";
-	public static String LastRowInMatrix = "dataset:astRowInMatrix";
+	public static String LastRowInMatrix = "dataset:LastRowInMatrix";
 	public static String StartColumnInMatrix = "dataset:StartColumnInMatrix";
-	public static String StartRowInMatrix = "dataset:tartRowInMatrix";
+	public static String StartRowInMatrix = "dataset:StartRowInMatrix";
+
+	public static String lastColumnInMatrix = "dataset:lastColumnInMatrix";
+	public static String startColumnInMatrix = "dataset:startColumnInMatrix";
+	public static String lastRowInMatrix = "dataset:lastRowInMatrix";
+	public static String startRowInMatrix = "dataset:startRowInMatrix";
+	public static String includeBlockTitle = "dataset:matrixBlockTitle";
+	public static String spreadSheetBlockIsolationType = "dataset:SpreadSheetBlockIsolationType";
+	
 	public static String NoBlanks = "dataset:NoBlanks";
 	public static String TitleSearchKey = "dataset:TitleSearchKey";
 
@@ -200,15 +204,47 @@ public class StandardDatasetMetaData {
 	public static String spreadSheetDelimitor = "dataset:SpreadSheetDelimitor";
 	public static String fileSourceIdentifier = "dataset:FileSourceIdentifier";
 	public static String fileSourceType = "dataset:FileSourceType";
-	public static String includeTitle = "dataset:IncludeTitle";
 	public static String spreadSheetInformation = "dataset:SpreadSheetInputInformation";
-	public static String spreadSheetInterpretation = "dataset:SpreadSheetInterpretation";
+	public static String spreadSheetBlockIsolation = "dataset:SpreadSheetBlockIsolation";
 	public static String spreadSheetInformationID = "dataset:spreadsheet";
-	public static String spreadSheetInterpretationID = "dataset:SpreadSheetInterpretation";
+	public static String spreadSheetBlockIsolationID = "dataset:SpreadSheetBlockIsolation";
 	public static String observationsFromSpreadSheet = "dataset:ObservationsFromSpreadSheet";
 	public static String listOfValuesAsString = "dataset:ListOfValuesAsString";
 	public static String listOfTitles = "dataset:ListOfTitles";
 	public static String observationBlockFromSpreadSheet = "dataset:ObservationBlockFromSpreadSheet";
 	public static String observationBlockFromSpreadSheetID = "dataset:SpreadSheetBlock";
+	
+	public static String matrixBlockColumnBegin = "matrixBlockColumnBegin";
+	public static String matrixBlockColumnEnd = "matrixBlockColumnEnd";
+	public static String matrixBlockRowBegin = "matrixBlockRowBegin";
+	public static String matrixBlockRowEnd = "matrixBlockRowEnd";
+	public static String matrixBlockTitle = "matrixBlockTitle";
+
+	
+	public static String chemConnectIsolateBlockEntireMatrix = "ChemConnectIsolateBlockEntireMatrix";
+	public static String chemConnectIsolateBlockBeginEndSpecified = "ChemConnectIsolateBlockBeginEndSpecified";
+	public static String chemConnectIsolateBlockBeginAtRow = "ChemConnectIsolateBlockBeginAtRow";
+	
+	public static String matrixBlockColumnBeginAtIdentifier = "dataset:MatrixBlockColumnBeginAtIdentifier";
+	public static String matrixBlockColumnAtPosition = "dataset:MatrixBlockColumnAtPosition";
+	public static String matrixBlockColumnBeginLeft = "dataset:MatrixBlockColumnBeginLeft";
+	
+	public static String matrixBlockColumnEndFromTitles = "dataset:MatrixBlockColumnEndFromTitles";
+	public static String matrixBlockColumnEndAtPosition = "dataset:MatrixBlockColumnEndAtPosition";
+	public static String matrixBlockColumnEndMaximum = "dataset:MatrixBlockColumnEndMaximum";
+	
+	public static String beginMatrixAtSpecifiedIdentifier = "dataset:BeginMatrixAtSpecifiedIdentifier";
+	public static String beginMatrixAfterSpecifiedIdentifier = "dataset:BeginMatrixAfterSpecifiedIdentifier";
+	public static String beginMatrixTopOfSpreadSheet = "dataset:BeginMatrixTopOfSpreadSheet";
+	public static String beginMatrixAtSpecified = "dataset:BeginMatrixAtSpecified";	
+
+	public static String matrixBlockEndAtFileEndOrBlankLine = "dataset:MatrixBlockEndAtFileEndOrBlankLine";
+	public static String matrixBlockEndAtIdentifierExclusive = "dataset:MatrixBlockEndAtIdentifierExclusive";
+	public static String matrixBlockEndAtIdentifierInclusive = "dataset:MatrixBlockEndAtIdentifierInclusive";
+	public static String matrixBlockEndAtBlankLine = "dataset:MatrixBlockEndAtBlankLine";
+	public static String matrixBlockEndAtFileEnd = "dataset:MatrixBlockEndAtFileEnd";
+	
+	public static String matrixBlockTitleFirstLine = "dataset:MatrixBlockTitleFirstLine";
+	public static String matrixBlockTitleNone = "dataset:MatrixBlockTitleNone";
 	
 }

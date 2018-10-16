@@ -27,16 +27,13 @@ import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ObservationSpecification;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ParameterSpecification;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ValueUnits;
-import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationBlockFromSpreadSheet;
-import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInterpretation;
-import info.esblurock.reaction.chemconnect.core.data.observations.matrix.MatrixBlockDefinition;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.MatrixSpecificationCorrespondenceSet;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRowTitle;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 public class MatrixSpecificationCorrespondenceSetHeader extends Composite 
-	implements SetLineContentInterface, UpdateDataObjectHeaderInterface {
+	implements  UpdateDataObjectHeaderInterface {
 
 	private static MatrixSpecificationCorrespondenceSetHeaderUiBinder uiBinder = GWT
 			.create(MatrixSpecificationCorrespondenceSetHeaderUiBinder.class);
@@ -51,6 +48,7 @@ public class MatrixSpecificationCorrespondenceSetHeader extends Composite
 
 	@UiField
 	MaterialLink headername;
+	/*
 	@UiField
 	MaterialLink startrow;
 	@UiField
@@ -59,6 +57,7 @@ public class MatrixSpecificationCorrespondenceSetHeader extends Composite
 	MaterialLink startcolumn;
 	@UiField
 	MaterialLink endcolumn;
+	*/
 	@UiField
 	MaterialLink corrspecheader;
 	@UiField
@@ -67,15 +66,15 @@ public class MatrixSpecificationCorrespondenceSetHeader extends Composite
 	MaterialPanel corrspecpanel;
 	@UiField
 	MaterialLink spreadsheetname;
-	
+	/*
 	boolean startrowB;
 	boolean endrowB;
 	boolean startcolumnB;
 	boolean endcolumnB;
-
+*/
 	MatrixSpecificationCorrespondenceSet speccorrset;
 	DatabaseObjectHierarchy hierarchy;
-	MatrixBlockDefinition blockdef;
+	//MatrixBlockDefinition blockdef;
 	DatabaseObjectHierarchy matspechierarchy;
 	ChemConnectCompoundMultiple specmult;
 	StandardDatasetObjectHierarchyItem topitem;
@@ -90,7 +89,7 @@ public class MatrixSpecificationCorrespondenceSetHeader extends Composite
 		this.hierarchy = item.getHierarchy();
 		initMatrixSpecificationCorrespondenceSet();
 		this.topitem = item;
-		displayMatrixBlockDefinition();
+		//displayMatrixBlockDefinition();
 		displayCorrespondences();
 	}
 	/*
@@ -98,10 +97,8 @@ public class MatrixSpecificationCorrespondenceSetHeader extends Composite
 	 */
 	private void initMatrixSpecificationCorrespondenceSet() {
 		speccorrset = (MatrixSpecificationCorrespondenceSet) hierarchy.getObject();
-		DatabaseObjectHierarchy matblockhierarchy = hierarchy.getSubObject(speccorrset.getMatrixBlockDefinition());
 		matspechierarchy = hierarchy
 				.getSubObject(speccorrset.getMatrixSpecificationCorrespondence());
-		blockdef = (MatrixBlockDefinition) matblockhierarchy.getObject();
 		specmult = (ChemConnectCompoundMultiple) matspechierarchy.getObject();		
 	}
 	
@@ -109,10 +106,10 @@ public class MatrixSpecificationCorrespondenceSetHeader extends Composite
 		headername.setText("Matrix Specification Correspondence Set");
 		corrspecheader.setText("Specification Correspondence Set");
 		spreadsheetname.setText("Spreadsheet Matrix");
-		startrowB = false;
-		endrowB = false;
-		startcolumnB = false;
-		endcolumnB = false;
+		//startrowB = false;
+		//endrowB = false;
+		//startcolumnB = false;
+		//endcolumnB = false;
 		
 		orderedlist = null;
 		listmap = null;
@@ -132,7 +129,7 @@ public class MatrixSpecificationCorrespondenceSetHeader extends Composite
 			corrspecpanel.add(header);
 		}
 	}
-
+/*
 	@UiHandler("startrow")
 	public void onStartRowClock(ClickEvent event) {
 		startrowB = true;
@@ -181,7 +178,7 @@ public class MatrixSpecificationCorrespondenceSetHeader extends Composite
 		endrowB = false;
 		endcolumnB = false;			
 	}
-	
+	*/
 
 	@UiHandler("spreadsheetname")
 	void addClickEvent(ClickEvent event) {
@@ -237,14 +234,16 @@ public class MatrixSpecificationCorrespondenceSetHeader extends Composite
 		DatabaseObjectHierarchy titlehier = matrixhierarchy.getSubObject(sheet.getObservationValueRowTitle());
 		ObservationValueRowTitle titles = (ObservationValueRowTitle) titlehier.getObject();
 		ArrayList<String> coltitles = titles.getParameterLabel();
+		Window.alert("Eliminated Block Information: displayMatrixBlockDefinition();");
+		/*
 		DatabaseObjectHierarchy interprethier = matrixhierarchy.getSubObject(sheet.getSpreadSheetInterpretation());
-		SpreadSheetInterpretation interpret = (SpreadSheetInterpretation) interprethier.getObject();
+		SpreadSheetBlockIsolation interpret = (SpreadSheetBlockIsolation) interprethier.getObject();
 			blockdef.setStartRowInMatrix(interpret.getStartRow());
 			blockdef.setLastRowInMatrix(interpret.getEndRow());
 			blockdef.setStartColumnInMatrix(interpret.getStartColumn());
 			blockdef.setLastColumnInMatrix(interpret.getEndColumn());
 		displayMatrixBlockDefinition();
-		
+		*/
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		FillMatrixSpecificationCorrespondenceCallback callback = new FillMatrixSpecificationCorrespondenceCallback(this);
 		async.fillMatrixSpecificationCorrespondence(hierarchy,coltitles,callback);
@@ -262,6 +261,7 @@ public class MatrixSpecificationCorrespondenceSetHeader extends Composite
 			MatrixSpecificationCorrespondenceHeader header = (MatrixSpecificationCorrespondenceHeader) widget;
 			header.updateData();
 		}
+		/*
 		if(startcolumn.getText().compareTo(MetaDataKeywords.undefined) != 0) {
 			blockdef.setStartColumnInMatrix(startcolumn.getText());
 			blockdef.setLastColumnInMatrix(endcolumn.getText());
@@ -276,8 +276,12 @@ public class MatrixSpecificationCorrespondenceSetHeader extends Composite
 			blockdef.setStartRowInMatrix(null);
 			blockdef.setLastRowInMatrix(null);			
 		}
+		*/
 		return true;
 	}
+	
+	/*
+	
 	public void displayMatrixBlockDefinition() {
 		if(blockdef.getStartRowInMatrix() != null) {
 			startrow.setText(blockdef.getStartRowInMatrix());
@@ -296,5 +300,6 @@ public class MatrixSpecificationCorrespondenceSetHeader extends Composite
 			
 		}
 	}
+	*/
 
 }
