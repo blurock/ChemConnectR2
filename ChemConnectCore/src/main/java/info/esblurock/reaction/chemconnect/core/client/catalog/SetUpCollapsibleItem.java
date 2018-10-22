@@ -24,6 +24,7 @@ import info.esblurock.reaction.chemconnect.core.client.device.observations.Stand
 import info.esblurock.reaction.chemconnect.core.client.device.observations.StandardDatasetSetOfObservationValuesHeader;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.MatrixSpecificationCorrespondenceHeader;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.MatrixSpecificationCorrespondenceSetHeader;
+import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.ObservationBlockFromSpreadSheetHeader;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.SpreadSheetBlockMatrix;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.SpreadSheetInputInformationHeader;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.SpreadSheetMatrixBlockIsolateHeader;
@@ -232,7 +233,69 @@ public enum SetUpCollapsibleItem {
 			return true;
 		}
 		
-	}, SpreadSheetBlockIsolation {
+	}, ObservationValueRowTitle {
+
+		@Override
+		public void addInformation(StandardDatasetObjectHierarchyItem item) {
+
+		}
+
+		@Override
+		public boolean update(StandardDatasetObjectHierarchyItem item) {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public int priority() {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public boolean isInformation() {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public boolean addSubitems() {
+			// TODO Auto-generated method stub
+			return false;
+		}
+		
+	}, ObservationBlockFromSpreadSheet {
+
+		@Override
+		public void addInformation(StandardDatasetObjectHierarchyItem item) {
+			ObservationBlockFromSpreadSheetHeader header = new ObservationBlockFromSpreadSheetHeader(item);
+			item.addHeader(header);
+		}
+
+		@Override
+		public boolean update(StandardDatasetObjectHierarchyItem item) {
+			ObservationBlockFromSpreadSheetHeader header = (ObservationBlockFromSpreadSheetHeader) item.getHeader();
+			return header.updateData();
+		}
+
+		@Override
+		public int priority() {
+			return 500;
+		}
+
+		@Override
+		public boolean isInformation() {
+			return true;
+		}
+
+		@Override
+		public boolean addSubitems() {
+			return true;
+		}
+		
+	},
+	
+	SpreadSheetBlockIsolation {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {

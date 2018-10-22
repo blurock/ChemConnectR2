@@ -6,60 +6,45 @@
 		background-color: #cfd8dc;
 		border: 1px solid #607d8b;
 		width: 95%;
+		margin: 0px;
 	}
 	</ui:style>
 	<m:MaterialPanel>
 		<m:MaterialPanel>
-			<m:MaterialRow>
-				<m:MaterialColumn grid="s3" styleName="{style.rowbox}">
+			<m:MaterialRow margin="0">
+				<m:MaterialColumn grid="s8" styleName="{style.rowbox}">
 					<m:MaterialLink ui:field="startrow" textColor="BLACK"
 						text="Row Start" />
-				</m:MaterialColumn>
-				<m:MaterialColumn grid="s5" styleName="{style.rowbox}">
-					<m:MaterialLink ui:field="startrowtype" textColor="BLACK"
-						text="chose type" />
 				</m:MaterialColumn>
 				<m:MaterialColumn grid="s4" styleName="{style.rowbox}">
 					<m:MaterialLink ui:field="startrowtext" textColor="BLACK"
 						text="0" />
 				</m:MaterialColumn>
 			</m:MaterialRow>
-			<m:MaterialRow>
-				<m:MaterialColumn grid="s3" styleName="{style.rowbox}">
+			<m:MaterialRow margin="0">
+				<m:MaterialColumn grid="s8" styleName="{style.rowbox}">
 					<m:MaterialLink ui:field="endrow" textColor="BLACK"
 						text="Row End" />
-				</m:MaterialColumn>
-				<m:MaterialColumn grid="s5" styleName="{style.rowbox}">
-					<m:MaterialLink ui:field="endrowtype" textColor="BLACK"
-						text="chose type" />
 				</m:MaterialColumn>
 				<m:MaterialColumn grid="s4" styleName="{style.rowbox}">
 					<m:MaterialLink ui:field="endrowtext" textColor="BLACK"
 						text="0" />
 				</m:MaterialColumn>
 			</m:MaterialRow>
-			<m:MaterialRow>
-				<m:MaterialColumn grid="s3" styleName="{style.rowbox}">
+			<m:MaterialRow margin="0">
+				<m:MaterialColumn grid="s8" styleName="{style.rowbox}">
 					<m:MaterialLink ui:field="startcolumn" textColor="BLACK"
 						text="Column Start" />
 				</m:MaterialColumn>
-				<m:MaterialColumn grid="s5" styleName="{style.rowbox}">
-					<m:MaterialLink ui:field="startcolumntype"
-						textColor="BLACK" text="chose type" />
-				</m:MaterialColumn>
 				<m:MaterialColumn grid="s4" styleName="{style.rowbox}">
-					<m:MaterialLink ui:field="startcolumnext" textColor="BLACK"
+					<m:MaterialLink ui:field="startcolumntext" textColor="BLACK"
 						text="0" />
 				</m:MaterialColumn>
 			</m:MaterialRow>
-			<m:MaterialRow>
-				<m:MaterialColumn grid="s3" styleName="{style.rowbox}">
+			<m:MaterialRow margin="0">
+				<m:MaterialColumn grid="s8" styleName="{style.rowbox}">
 					<m:MaterialLink ui:field="endcolumn" textColor="BLACK"
 						text="Column End" />
-				</m:MaterialColumn>
-				<m:MaterialColumn grid="s5" styleName="{style.rowbox}">
-					<m:MaterialLink ui:field="endcolumntype" textColor="BLACK"
-						text="chose type" />
 				</m:MaterialColumn>
 				<m:MaterialColumn grid="s4" styleName="{style.rowbox}">
 					<m:MaterialLink ui:field="endcolumntext" textColor="BLACK"
@@ -70,28 +55,37 @@
 		<m:MaterialCollapsible>
 			<m:MaterialCollapsibleItem>
 				<m:MaterialCollapsibleHeader>
-					<m:MaterialTooltip ui:field="originaltooltip"
-						text="The reference matrix (the pattern on which to base the block)">
-						<m:MaterialLink ui:field="originalmatrix" text="Reference Matrix"
-							textColor="BLACK" />
-					</m:MaterialTooltip>
+					<m:MaterialRow margin="0">
+						<m:MaterialColumn grid="s11">
+							<m:MaterialTooltip ui:field="originaltooltip">
+								<m:MaterialLink ui:field="originalmatrix" text="Reference Matrix"
+									textColor="BLACK" />
+							</m:MaterialTooltip>
+						</m:MaterialColumn>
+						<m:MaterialColumn grid="s1">
+							<m:MaterialLink ui:field="delete" iconColor="BLACK"
+								iconType="INFO" />
+						</m:MaterialColumn>
+					</m:MaterialRow>
+					<m:MaterialRow margin="0">
+					<m:MaterialPanel ui:field="originalmatrixpanel" />
+					</m:MaterialRow>
 				</m:MaterialCollapsibleHeader>
 				<m:MaterialCollapsibleBody>
-					<m:MaterialPanel ui:field="originalmatrixpanel" />
 				</m:MaterialCollapsibleBody>
 			</m:MaterialCollapsibleItem>
 			<m:MaterialCollapsibleItem>
 				<m:MaterialCollapsibleHeader>
-					<m:MaterialRow>
-						<m:MaterialColumn grid="s10">
-							<m:MaterialLink ui:field="block" text="Sub-Block Matrix" />
+					<m:MaterialRow margin="0">
+						<m:MaterialColumn grid="s11">
+							<m:MaterialLink ui:field="block" text="Sub-Block Matrix"
+								textColor="BLACK" />
 						</m:MaterialColumn>
-						<m:MaterialColumn grid="s2">
+						<m:MaterialColumn grid="s1">
 							<m:MaterialLink ui:field="apply" iconColor="BLACK"
 								iconType="REFRESH" />
 						</m:MaterialColumn>
 					</m:MaterialRow>
-					<m:MaterialLink ui:field="interpreted" textColor="BLACK" />
 				</m:MaterialCollapsibleHeader>
 				<m:MaterialCollapsibleBody>
 					<m:MaterialPanel ui:field="blockmatrixpanel" />

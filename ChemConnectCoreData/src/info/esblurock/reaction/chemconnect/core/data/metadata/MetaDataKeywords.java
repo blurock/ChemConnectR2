@@ -41,7 +41,7 @@ public class MetaDataKeywords {
 	
 	public static String chemConnectPrimitiveDataStructure = "dataset:ChemConnectPrimitiveDataStructure";
 	public static String chemConnectPrimitiveCompound = "dataset:ChemConnectPrimitiveCompound";
-	public static String chemConnectIsolateBlockTypes = "dataset:ChemConnectIsoloateBlockTypes";
+	public static String chemConnectIsolateBlockTypes = "dataset:ChemConnectIsolateBlockTypes";
 	public static String spreadSheetBlockIsolation = "dataset:SpreadSheetBlockIsolation";
 	
 	public static String emailContactType = "dataset:EmailContactType";
@@ -58,9 +58,15 @@ public class MetaDataKeywords {
 	public static String dataTypeMethodology = "dataset:DataTypeMethodology";
 	public static String methodology = "dataset:Methodology";
 	public static String setOfObservationValues = "dataset:SetOfObservationValues";
-	public static String dataTypeFileFormat = "dataset:DataTypeFileFormat";
+	public static String dataFileInformationStructure = "dataset:DataFileInformationStructure";
+	public static String dataTypeFileFormatInterpretation = "dataset:DataTypeFileFormatInterpretation";
 	public static String dataTypeConcept = "dataset:DataTypeConcept";
 	public static String purposeKeyword = "dataset:PurposeKeyword";
+	
+	public static String dataFileImageStructure = "dataset:DataFileImageStructure";
+	public static String dataFileYamlStructure = "dataset:DataFileYamlStructure";
+	public static String dataFileChemicalInformation = "dataset:DataFileChemicalInformation";
+	public static String dataFileMatrixStructure = "dataset:DataFileMatrixStructure";
 
 	public static String observationValuesWithSpecification = "dataset:ObservationValuesWithSpecification";
 	public static String parameterValue = "dataset:ParameterValue";

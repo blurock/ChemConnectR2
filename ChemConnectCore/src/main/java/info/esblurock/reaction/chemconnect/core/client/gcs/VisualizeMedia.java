@@ -1,5 +1,7 @@
 package info.esblurock.reaction.chemconnect.core.client.gcs;
 
+import com.google.gwt.user.client.Window;
+
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.SpreadSheetBlockMatrix;
 import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServices;
 import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServicesAsync;
@@ -121,6 +123,7 @@ public enum VisualizeMedia {
 			GCSBlobFileInformation info,
 			SpreadSheetInputInformation spread, 
 			VisualizationOfBlobStorage visual) {
+		Window.alert("interpretSpreadSheetAsMatrix: catid\n" + catid.toString());
 		VisualizeMediaCallback callback = new VisualizeMediaCallback(type, info.getGSFilename(), visual);
 		SpreadSheetServicesAsync async = SpreadSheetServices.Util.getInstance();
 		async.interpretSpreadSheetGCS(info, spread, catid, true, callback);		

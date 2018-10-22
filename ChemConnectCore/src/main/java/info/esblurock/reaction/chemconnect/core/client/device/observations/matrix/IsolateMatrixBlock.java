@@ -60,18 +60,14 @@ public class IsolateMatrixBlock extends Composite implements ObjectVisualization
 	
 	@Override
 	public void createCatalogObject(DatabaseObject obj,DataCatalogID datid) {
-		Window.alert("createCatalogObject: \n");
-		Window.alert("createCatalogObject: \n" + datid.toString());
 		SetUpDatabaseObjectHierarchyCallback callback = new SetUpDatabaseObjectHierarchyCallback(contentcollapsible,modalpanel);
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		String observation = choose.getObjectType();
-		String title = choose.getObjectName();
-		async.getSetOfObservations(obj,observation,title,datid,callback);
+		async.createObservationBlockFromSpreadSheet(obj,observation,datid,callback);
 	}
 
 	@Override
 	public void insertCatalogObject(DatabaseObjectHierarchy subs) {
-		Window.alert("insertCatalogObject: \n" + subs.toString());
 		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(subs,modalpanel);
 		contentcollapsible.add(item);
 	}

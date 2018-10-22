@@ -111,4 +111,8 @@ public interface UserImageService  extends RemoteService  {
 		
 	public DatabaseObjectHierarchy fillMatrixSpecificationCorrespondence(DatabaseObjectHierarchy corrspechier,
 			ArrayList<String> coltitles);
+	
+	DatabaseObjectHierarchy createObservationBlockFromSpreadSheet(DatabaseObject obj, 
+			String blocktype, DataCatalogID datid);
+	HierarchyNode getIDHierarchyFromDataCatalogAndUser(String datacatalog) throws IOException;
 }

@@ -1141,7 +1141,7 @@ xsd:date rdf:type rdfs:Datatype .
 
 ###  http://www.esblurock.info/dataset#ApplicationSpreadSheet
 :ApplicationSpreadSheet rdf:type owl:Class ;
-                        rdfs:subClassOf :FileTypeApplication .
+                        rdfs:subClassOf :FileTypeMatrix .
 
 
 ###  http://www.esblurock.info/dataset#ArrayListDataObject
@@ -1539,7 +1539,7 @@ xsd:date rdf:type rdfs:Datatype .
 
 ###  http://www.esblurock.info/dataset#CHEMKINTransportProperties
 :CHEMKINTransportProperties rdf:type owl:Class ;
-                            rdfs:subClassOf :FileTypeChemical .
+                            rdfs:subClassOf :ChemicalTextInformation .
 
 
 ###  http://www.esblurock.info/dataset#CSV
@@ -2030,6 +2030,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                  rdfs:subClassOf :ChemConnectConceptProperties .
 
 
+###  http://www.esblurock.info/dataset#ChemicalTextInformation
+:ChemicalTextInformation rdf:type owl:Class ;
+                         rdfs:subClassOf :FileTypeChemical .
+
+
 ###  http://www.esblurock.info/dataset#Classification
 :Classification rdf:type owl:Class ;
                 rdfs:subClassOf :ChemConnectPrimitiveDataStructure ;
@@ -2488,6 +2493,31 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#DataCreator
 :DataCreator rdf:type owl:Class ;
              rdfs:subClassOf :Classification .
+
+
+###  http://www.esblurock.info/dataset#DataFileChemicalInformation
+:DataFileChemicalInformation rdf:type owl:Class ;
+                             rdfs:subClassOf :DataFileInformationStructure .
+
+
+###  http://www.esblurock.info/dataset#DataFileImageStructure
+:DataFileImageStructure rdf:type owl:Class ;
+                        rdfs:subClassOf :DataFileInformationStructure .
+
+
+###  http://www.esblurock.info/dataset#DataFileInformationStructure
+:DataFileInformationStructure rdf:type owl:Class ;
+                              rdfs:subClassOf :DataTypeDataStructure .
+
+
+###  http://www.esblurock.info/dataset#DataFileMatrixStructure
+:DataFileMatrixStructure rdf:type owl:Class ;
+                         rdfs:subClassOf :DataFileInformationStructure .
+
+
+###  http://www.esblurock.info/dataset#DataFileYamlStructure
+:DataFileYamlStructure rdf:type owl:Class ;
+                       rdfs:subClassOf :DataFileInformationStructure .
 
 
 ###  http://www.esblurock.info/dataset#DataLinkType
@@ -3486,14 +3516,9 @@ Under the general type of is the actual data object referenced by the ChemConnec
                    <http://www.w3.org/2004/02/skos/core#altLabel> "filespec"^^xsd:string .
 
 
-###  http://www.esblurock.info/dataset#FileTypeApplication
-:FileTypeApplication rdf:type owl:Class ;
-                     rdfs:subClassOf :DataTypeFileFormat .
-
-
 ###  http://www.esblurock.info/dataset#FileTypeChemical
 :FileTypeChemical rdf:type owl:Class ;
-                  rdfs:subClassOf :FileTypeText ;
+                  rdfs:subClassOf :DataTypeFileFormat ;
                   <http://purl.org/dc/elements/1.1/type> "text/plain"^^xsd:string .
 
 
@@ -3507,7 +3532,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#FileTypeHTML
 :FileTypeHTML rdf:type owl:Class ;
-              rdfs:subClassOf :FileTypeText ;
+              rdfs:subClassOf :FileTypeXML ;
               <http://purl.org/dc/elements/1.1/type> "HTML"^^xsd:string ;
               <http://purl.org/dc/terms/identifier> "text/html"^^xsd:string ;
               :fileextension "html"^^xsd:string .
@@ -3526,9 +3551,14 @@ Under the general type of is the actual data object referenced by the ChemConnec
                  :fileextension "xls"^^xsd:string .
 
 
+###  http://www.esblurock.info/dataset#FileTypeMatrix
+:FileTypeMatrix rdf:type owl:Class ;
+                rdfs:subClassOf :DataTypeFileFormat .
+
+
 ###  http://www.esblurock.info/dataset#FileTypeRespectFormat
 :FileTypeRespectFormat rdf:type owl:Class ;
-                       rdfs:subClassOf :FileTypeXML ;
+                       rdfs:subClassOf :ChemicalTextInformation ;
                        <http://purl.org/dc/terms/type> "RespectFormat"^^xsd:string .
 
 
@@ -3563,7 +3593,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#FileTypeSpreadsheet
 :FileTypeSpreadsheet rdf:type owl:Class ;
-                     rdfs:subClassOf :FileTypeText ,
+                     rdfs:subClassOf :FileTypeMatrix ,
                                      [ rdf:type owl:Restriction ;
                                        owl:onProperty <http://purl.org/linked-data/cube#structure> ;
                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
@@ -3578,24 +3608,29 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                                     "text/plain"^^xsd:string .
 
 
-###  http://www.esblurock.info/dataset#FileTypeUninterpreted
-:FileTypeUninterpreted rdf:type owl:Class ;
-                       rdfs:subClassOf :DataTypeFileFormat .
+###  http://www.esblurock.info/dataset#FileTypeUninterpretedBinary
+:FileTypeUninterpretedBinary rdf:type owl:Class ;
+                             rdfs:subClassOf :DataTypeFileFormat .
 
 
 ###  http://www.esblurock.info/dataset#FileTypeXML
 :FileTypeXML rdf:type owl:Class ;
-             rdfs:subClassOf :FileTypeApplication ;
+             rdfs:subClassOf :FileTypeText ;
              <http://purl.org/dc/terms/type> "application/xml"^^xsd:string ;
              :fileextension "xml"^^xsd:string .
 
 
-###  http://www.esblurock.info/dataset#FileTypeYaml
-:FileTypeYaml rdf:type owl:Class ;
-              rdfs:subClassOf :FileTypeText ;
-              <http://purl.org/dc/elements/1.1/type> "text/yaml"^^xsd:string ;
-              <http://purl.org/dc/terms/identifier> "dataset:FileTypeYaml"^^xsd:string ;
-              :fileextension "yaml"^^xsd:string .
+###  http://www.esblurock.info/dataset#FileTypeYamlCatalogObject
+:FileTypeYamlCatalogObject rdf:type owl:Class ;
+                           rdfs:subClassOf :DataTypeFileFormat ;
+                           <http://purl.org/dc/elements/1.1/type> "text/yaml"^^xsd:string ;
+                           <http://purl.org/dc/terms/identifier> "dataset:FileTypeYaml"^^xsd:string ;
+                           :fileextension "yaml"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#FileTypeYamlMatrix
+:FileTypeYamlMatrix rdf:type owl:Class ;
+                    rdfs:subClassOf :FileTypeMatrix .
 
 
 ###  http://www.esblurock.info/dataset#FileUploadFromDOI
@@ -3624,7 +3659,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#FileYamlChemConnectMethodology
 :FileYamlChemConnectMethodology rdf:type owl:Class ;
-                                rdfs:subClassOf :FileTypeYaml ,
+                                rdfs:subClassOf :FileTypeYamlCatalogObject ,
                                                 [ rdf:type owl:Restriction ;
                                                   owl:onProperty <http://purl.org/linked-data/cube#structure> ;
                                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
@@ -3634,7 +3669,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#FileYamlDatabasePerson
 :FileYamlDatabasePerson rdf:type owl:Class ;
-                        rdfs:subClassOf :FileTypeYaml ,
+                        rdfs:subClassOf :FileTypeYamlCatalogObject ,
                                         [ rdf:type owl:Restriction ;
                                           owl:onProperty <http://purl.org/linked-data/cube#structure> ;
                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
@@ -3644,7 +3679,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#FileYamlDatasetCatalogHierarchy
 :FileYamlDatasetCatalogHierarchy rdf:type owl:Class ;
-                                 rdfs:subClassOf :FileTypeYaml ,
+                                 rdfs:subClassOf :FileTypeYamlCatalogObject ,
                                                  [ rdf:type owl:Restriction ;
                                                    owl:onProperty <http://purl.org/linked-data/cube#structure> ;
                                                    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
@@ -3654,7 +3689,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#FileYamlOrganization
 :FileYamlOrganization rdf:type owl:Class ;
-                      rdfs:subClassOf :FileTypeYaml ,
+                      rdfs:subClassOf :FileTypeYamlCatalogObject ,
                                       [ rdf:type owl:Restriction ;
                                         owl:onProperty <http://purl.org/linked-data/cube#structure> ;
                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
@@ -3664,7 +3699,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#FileYamlSetOfObservationValues
 :FileYamlSetOfObservationValues rdf:type owl:Class ;
-                                rdfs:subClassOf :FileTypeYaml ,
+                                rdfs:subClassOf :FileTypeYamlCatalogObject ,
                                                 [ rdf:type owl:Restriction ;
                                                   owl:onProperty <http://purl.org/linked-data/cube#structure> ;
                                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
@@ -3674,7 +3709,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#FileYamlSubSystemDescription
 :FileYamlSubSystemDescription rdf:type owl:Class ;
-                              rdfs:subClassOf :FileTypeYaml ,
+                              rdfs:subClassOf :FileTypeYamlCatalogObject ,
                                               [ rdf:type owl:Restriction ;
                                                 owl:onProperty <http://purl.org/linked-data/cube#structure> ;
                                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
@@ -7805,12 +7840,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#ReactionMechanism
 :ReactionMechanism rdf:type owl:Class ;
-                   rdfs:subClassOf :FileTypeChemical .
+                   rdfs:subClassOf :ChemicalTextInformation .
 
 
 ###  http://www.esblurock.info/dataset#ReactionProperties
 :ReactionProperties rdf:type owl:Class ;
-                    rdfs:subClassOf :FileTypeChemical .
+                    rdfs:subClassOf :ChemicalTextInformation .
 
 
 ###  http://www.esblurock.info/dataset#ReferenceString
@@ -8266,7 +8301,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#SpeciesProperties
 :SpeciesProperties rdf:type owl:Class ;
-                   rdfs:subClassOf :FileTypeChemical .
+                   rdfs:subClassOf :ChemicalTextInformation .
 
 
 ###  http://www.esblurock.info/dataset#SpecificationLabel

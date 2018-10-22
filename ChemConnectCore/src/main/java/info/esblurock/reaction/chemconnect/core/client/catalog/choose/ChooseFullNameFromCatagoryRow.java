@@ -67,6 +67,7 @@ public class ChooseFullNameFromCatagoryRow extends Composite
 	@UiField
 	MaterialDropDown dropdown;
 	
+	String objecttypeFull;
 	String user;
 	String objectS;
 	boolean catalogSelected;
@@ -180,6 +181,7 @@ public class ChooseFullNameFromCatagoryRow extends Composite
 	}
 	@Override
 	public void conceptChosen(String topconcept, String concept, ArrayList<String> path) {
+		objecttypeFull = concept;
 		objecttype.setText(TextUtilities.removeNamespace(concept));
 		objecttypeid.setText(concept);
 		typeSelected = true;
@@ -202,7 +204,7 @@ public class ChooseFullNameFromCatagoryRow extends Composite
 	public void objectNameKey(ClickEvent event) {
 		String sourceID = "";
 		String basecatalog = catalogtypeid.getText();
-		String catalogname = ChemConnectCompoundDataStructure.removeNamespace(objecttype.getText());
+		String catalogname = objecttypeFull;
 		DatabaseObject obj = new DatabaseObject("",access,username,sourceID);
 		ChooseSimpleNameModal simplename = new ChooseSimpleNameModal(this,obj,basecatalog,catalogname);
 		modalpanel.add(simplename);
@@ -247,7 +249,7 @@ public class ChooseFullNameFromCatagoryRow extends Composite
 		} else {
 			String sourceID = "";
 			String basecatalog = catalogtypeid.getText();
-			String catalogname = ChemConnectCompoundDataStructure.removeNamespace(objecttype.getText());
+			String catalogname = objecttypeFull;
 			String simple = objectname.getText().trim();
 			DatabaseObject obj = new DatabaseObject("",access,username,sourceID);
 			ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,"");

@@ -15,6 +15,7 @@ import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.query.ListOfQueries;
 import info.esblurock.reaction.chemconnect.core.data.query.QueryPropertyValue;
+import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.data.query.SetOfQueryPropertyValues;
 import info.esblurock.reaction.chemconnect.core.data.query.SetOfQueryResults;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
@@ -26,6 +27,7 @@ import info.esblurock.reaction.core.server.services.util.ParseUtilities;
 import info.esblurock.reaction.io.db.QueryBase;
 import info.esblurock.reaction.io.db.QueryFactory;
 import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
+import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;;
 
 public class WriteReadDatabaseObjects {
 
@@ -178,8 +180,38 @@ public class WriteReadDatabaseObjects {
 			throw new IOException("getIDHierarchyFromDataCatalogID Class not found: " + classname);
 		}
 		return topnode;
+	}	
+	
+	public static HierarchyNode getIDHierarchyFromDataCatalogAndUser(String user,String datacatalog) throws IOException {
+		String classname = DataCatalogID.class.getCanonicalName();
+		SetOfQueryPropertyValues values = new SetOfQueryPropertyValues();
+		QueryPropertyValue value1 = new QueryPropertyValue("owner",user);
+		values.add(value1);
+		QueryPropertyValue value2 = new QueryPropertyValue("DataCatalog",datacatalog);
+		values.add(value2);
+		QuerySetupBase ownerquery = new QuerySetupBase(user,classname, values);
+		Set<String> ids = new HashSet<String>();
+		HierarchyNode topnode = null;
+		try {
+			SingleQueryResult result = QueryBase.StandardQueryResult(ownerquery);
+			List<DatabaseObject> objs = result.getResults();
+			for(DatabaseObject obj : objs) {
+				DataCatalogID datid = (DataCatalogID) obj;
+				ids.add(datid.getParentLink());
+			}
+			System.out.println("getIDHierarchyFromDataCatalogAndUser\n"+ ids);
+			topnode = ParseUtilities.parseIDsToHierarchyNode("Objects",ids,true);
+		} catch (ClassNotFoundException e) {
+			throw new IOException("getIDHierarchyFromDataCatalogIDAndClassType DataCatalog Class not found: " + datacatalog);
+		}
+		
+		System.out.println("getIDHierarchyFromDataCatalogAndUser\n"+ topnode.toString());
+		
+		return topnode;
 		
 	}
+	
+	
 	
 	public static HierarchyNode getIDHierarchyFromDataCatalogIDAndClassType(String user,
 			String catalogbasename, String classtype) throws IOException {

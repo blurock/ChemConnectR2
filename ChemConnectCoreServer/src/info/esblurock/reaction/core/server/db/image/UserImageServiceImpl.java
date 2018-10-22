@@ -455,13 +455,21 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		return hierarchy;
 	}
 	
-	
+	public DatabaseObjectHierarchy createObservationBlockFromSpreadSheet(DatabaseObject obj, 
+			String blocktype, DataCatalogID datid) {
+		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillObservationBlockFromSpreadSheet(obj,
+				blocktype,datid);
+		
+		System.out.println("createObservationBlockFromSpreadSheet\n" + hierarchy.toString());
+		
+		return hierarchy;
+	}
 	
 	public DatabaseObjectHierarchy getCatalogObject(String id, String dataType) {
-		DatabaseObjectHierarchy readhierarchy = ExtractCatalogInformation.getCatalogObject(id,dataType);
-		
 		System.out.println("getCatalogObject: " + dataType);
 		System.out.println("getCatalogObject: " + id);
+		DatabaseObjectHierarchy readhierarchy = ExtractCatalogInformation.getCatalogObject(id,dataType);
+		
 		System.out.println("getCatalogObject: " + readhierarchy);
 
 		
@@ -553,6 +561,14 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 			throw new IOException("Error in writing objects");
 		}
 
+	}
+	
+	
+	public HierarchyNode getIDHierarchyFromDataCatalogAndUser(String datacatalog) throws IOException {
+		ContextAndSessionUtilities util = getUtilities();
+		String user = util.getUserName();
+		System.out.println("getIDHierarchyFromDataCatalogAndUser:\n" +  user + ": " + datacatalog);
+		return WriteReadDatabaseObjects.getIDHierarchyFromDataCatalogAndUser(user,datacatalog);
 	}
 	
 	public HierarchyNode getIDHierarchyFromDataCatalogIDAndClassType(String catalogbasename, String classtype) throws IOException {

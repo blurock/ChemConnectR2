@@ -104,7 +104,7 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 	
 	void init() {
 		ArrayList<String> choices = new ArrayList<String>();
-		choices.add(MetaDataKeywords.dataTypeFileFormat);
+		choices.add(MetaDataKeywords.dataFileInformationStructure);
 		String user = Cookies.getCookie("user");
 		String object = null;
 		choose = new ChooseFullNameFromCatagoryRow(this,user,object,choices,modalpanel);

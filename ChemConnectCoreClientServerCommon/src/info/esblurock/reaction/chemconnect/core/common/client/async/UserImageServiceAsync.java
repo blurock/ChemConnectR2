@@ -100,4 +100,9 @@ public interface UserImageServiceAsync {
 			ArrayList<String> coltitles,
 			AsyncCallback<DatabaseObjectHierarchy> callback);
 
+	void createObservationBlockFromSpreadSheet(DatabaseObject obj, String blocktype, DataCatalogID datid,
+			AsyncCallback<DatabaseObjectHierarchy> callback);
+
+	void getIDHierarchyFromDataCatalogAndUser(String datacatalog, AsyncCallback<HierarchyNode> callback);
+
 }

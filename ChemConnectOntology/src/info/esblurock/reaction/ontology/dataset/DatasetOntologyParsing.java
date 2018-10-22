@@ -334,8 +334,6 @@ dataset:ChemConnectPrimitiveDataStructure:
 				+ "UNION\n" + "	{ " + id
 				+ " <" + ReasonerVocabulary.directSubClassOf + "> ?subclass .\n"
 				+ "	   ?subclass <http://purl.org/dc/elements/1.1/type>  ?datatype\n" + "	}" + "  }";
-		
-		
 		ClassificationInformation classification = null;
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		if (lst.size() > 0) {
