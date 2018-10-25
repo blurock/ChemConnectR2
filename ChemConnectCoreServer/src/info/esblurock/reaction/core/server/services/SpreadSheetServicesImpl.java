@@ -12,6 +12,7 @@ import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSInputFileInterpretation;
 import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
+import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetBlockIsolation;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
 import info.esblurock.reaction.chemconnect.core.data.query.QueryPropertyValue;
@@ -26,6 +27,7 @@ import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.db.image.GCSServiceRoutines;
 import info.esblurock.reaction.core.server.db.image.UserImageServiceImpl;
+import info.esblurock.reaction.core.server.db.spreadsheet.block.IsolateBlockFromMatrix;
 import info.esblurock.reaction.core.server.read.InterpretSpreadSheet;
 import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
 import info.esblurock.reaction.io.db.QueryBase;
@@ -152,6 +154,11 @@ public class SpreadSheetServicesImpl extends ServerBase implements SpreadSheetSe
 		UserImageServiceImpl.deleteTransactionFromSourceID(sourceID);
 	}
 	
+	public DatabaseObjectHierarchy isolateFromMatrix(DataCatalogID catid,  
+			DatabaseObjectHierarchy matrixhier, 
+			SpreadSheetBlockIsolation blockisolate) throws IOException {
+		return IsolateBlockFromMatrix.isolateFromMatrix(catid, matrixhier, blockisolate);
+	}
 	
 	
 }

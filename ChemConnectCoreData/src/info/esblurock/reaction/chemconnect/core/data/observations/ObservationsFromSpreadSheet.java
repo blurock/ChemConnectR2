@@ -3,36 +3,28 @@ package info.esblurock.reaction.chemconnect.core.data.observations;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
 
-import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
-
 @SuppressWarnings("serial")
 @Entity
-public class ObservationsFromSpreadSheet extends ChemConnectDataStructure {
+public class ObservationsFromSpreadSheet extends ObservationsFromSpreadSheetFull {
 	
 	@Index
-	String observationMatrixValues;
-	@Index
-	String spreadSheetInputInformation;
+	String observationValueRowTitle;
 	
-
 	public ObservationsFromSpreadSheet() {
 		super();
-		this.observationMatrixValues = "";
-		this.spreadSheetInputInformation = "";
+		this.observationValueRowTitle = "";
 	}
-	public ObservationsFromSpreadSheet(ChemConnectDataStructure source, 
-			String observationMatrixValues,
-			String spreadSheetInputInformation) {
-		super(source);
-		this.observationMatrixValues = observationMatrixValues;
-		this.spreadSheetInputInformation = spreadSheetInputInformation;
+	public ObservationsFromSpreadSheet(ObservationsFromSpreadSheetFull full, 
+			String observationValueRowTitle) {
+		super(full);
+		this.observationValueRowTitle = observationValueRowTitle;
 	}
 	
-	public String getObservationMatrixValues() {
-		return observationMatrixValues;
+	public String getObservationValueRowTitle() {
+		return observationValueRowTitle;
 	}
-	public String getSpreadSheetInputInformation() {
-		return spreadSheetInputInformation;
+	public void setObservationValueRowTitle(String observationValueRowTitle) {
+		this.observationValueRowTitle = observationValueRowTitle;
 	}
 	public String toString() {
 		return toString("");
@@ -41,8 +33,7 @@ public class ObservationsFromSpreadSheet extends ChemConnectDataStructure {
 		StringBuilder build = new StringBuilder();
 		build.append(prefix);
 		build.append(super.toString(prefix));
-		build.append(prefix + "ObservationMatrixValues:      " + observationMatrixValues + "\n");
-		build.append(prefix + "SpreadSheetInputInformation: " + spreadSheetInputInformation + "\n");
+		build.append(prefix + "ObservationValueRowTitle:      " + observationValueRowTitle + "\n");
 		return build.toString();
 	}
 

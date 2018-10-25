@@ -257,9 +257,11 @@ public class ReadInSpreadSheetInformation extends Composite implements Observati
 			titlerow = beginningRow;
 		}
 		*/
+		/*
 		String beginningColumn = "0";
 		String endingColumn = "0";
 		boolean titleGiven = title.getValue().booleanValue();
+		*/
 		Window.alert("Should not be here: ReadInSpreadSheetInformation (eliminated insert to SpreadSheetInterpretation");
 		/*
 		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,"");

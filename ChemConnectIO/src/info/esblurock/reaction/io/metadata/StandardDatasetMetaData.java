@@ -208,6 +208,7 @@ public class StandardDatasetMetaData {
 	public static String spreadSheetBlockIsolation = "dataset:SpreadSheetBlockIsolation";
 	public static String spreadSheetInformationID = "dataset:spreadsheet";
 	public static String spreadSheetBlockIsolationID = "dataset:SpreadSheetBlockIsolation";
+	public static String observationsFromSpreadSheetFull = "dataset:ObservationsFromSpreadSheetFull";
 	public static String observationsFromSpreadSheet = "dataset:ObservationsFromSpreadSheet";
 	public static String listOfValuesAsString = "dataset:ListOfValuesAsString";
 	public static String listOfTitles = "dataset:ListOfTitles";

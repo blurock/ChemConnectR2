@@ -46,11 +46,13 @@ import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.methodology.ChemConnectMethodology;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationBlockFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
+import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheetFull;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.MatrixSpecificationCorrespondence;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.MatrixSpecificationCorrespondenceSet;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationMatrixValues;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
+import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRowTitle;
 import info.esblurock.reaction.ontology.OntologyKeys;
 import info.esblurock.reaction.ontology.dataset.ConceptParsing;
 import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
@@ -311,9 +313,9 @@ public class CreateDefaultObjectsFactory {
 	}
 	
 	
-	public static DatabaseObjectHierarchy fillObservationsFromSpreadSheet(DatabaseObject obj, DataCatalogID catid, int numberOfColumns, int numberOfRows) {
-		DatabaseObjectHierarchy hierarchy = InterpretData.ObservationsFromSpreadSheet.createEmptyObject(obj);
-		ObservationsFromSpreadSheet observations = (ObservationsFromSpreadSheet) hierarchy.getObject();
+	public static DatabaseObjectHierarchy fillObservationsFromSpreadSheetFull(DatabaseObject obj, DataCatalogID catid, int numberOfColumns, int numberOfRows) {
+		DatabaseObjectHierarchy hierarchy = InterpretData.ObservationsFromSpreadSheetFull.createEmptyObject(obj);
+		ObservationsFromSpreadSheetFull observations = (ObservationsFromSpreadSheetFull) hierarchy.getObject();
 		
 		DatabaseObjectHierarchy inputhierarchy = hierarchy.getSubObject(observations.getSpreadSheetInputInformation());
 		SpreadSheetInputInformation input = (SpreadSheetInputInformation) inputhierarchy.getObject();
@@ -323,13 +325,59 @@ public class CreateDefaultObjectsFactory {
 		ChemConnectCompoundMultiple valuemult = (ChemConnectCompoundMultiple) valuemulthier.getObject();
 		replaceDataCatalogID(hierarchy,observations.getCatalogDataID(),catid);
 		StringBuilder build = new StringBuilder();
+		
 		for(int rowcount= 0; rowcount < numberOfRows; rowcount++) {
 			DatabaseObjectHierarchy obshier = InterpretData.ObservationValueRow.createEmptyObject(valuemult);
 			ObservationValueRow obs = (ObservationValueRow) obshier.getObject();
 			String id = obs.getIdentifier() + rowcount;
 			obs.setIdentifier(id);
 			valuemulthier.addSubobject(obshier);
+			for(int colcount= 0; colcount < numberOfColumns - 1; colcount++) {
+				obs.addValue("0");
+				build.append("0, ");
+			}
+			obs.addValue("0");
+			obs.setRowNumber(rowcount);
+			build.append("0\n");
+		}
+		valuemult.setNumberOfElements(numberOfRows);
+		input.setDelimitor(",");
+		input.setDelimitorType(SpreadSheetInputInformation.CSV);
+		input.setSource(build.toString());
+		input.setSourceType(SpreadSheetInputInformation.STRINGSOURCE);
+
+		return hierarchy;
+	}
+
+	
+	public static DatabaseObjectHierarchy fillObservationsFromSpreadSheet(DatabaseObject obj, DataCatalogID catid, int numberOfColumns, int numberOfRows) {
+		DatabaseObjectHierarchy hierarchy = InterpretData.ObservationsFromSpreadSheet.createEmptyObject(obj);
+		ObservationsFromSpreadSheet observations = (ObservationsFromSpreadSheet) hierarchy.getObject();
 		
+		DatabaseObjectHierarchy titlehierarchy = hierarchy.getSubObject(observations.getObservationValueRowTitle());
+		ObservationValueRowTitle title = (ObservationValueRowTitle) titlehierarchy.getObject();
+		DatabaseObjectHierarchy inputhierarchy = hierarchy.getSubObject(observations.getSpreadSheetInputInformation());
+		SpreadSheetInputInformation input = (SpreadSheetInputInformation) inputhierarchy.getObject();
+		DatabaseObjectHierarchy observehierarchy = hierarchy.getSubObject(observations.getObservationMatrixValues());
+		ObservationMatrixValues values = (ObservationMatrixValues) observehierarchy.getObject();
+		DatabaseObjectHierarchy valuemulthier = observehierarchy.getSubObject(values.getObservationRowValue());
+		ChemConnectCompoundMultiple valuemult = (ChemConnectCompoundMultiple) valuemulthier.getObject();
+		replaceDataCatalogID(hierarchy,observations.getCatalogDataID(),catid);
+		StringBuilder build = new StringBuilder();
+		
+		ArrayList<String> defaulttitles = new ArrayList<String>();
+		for(int colcount= 0; colcount < numberOfColumns - 1; colcount++) {
+			String coltitle = "col:" + colcount;
+			defaulttitles.add(coltitle);
+		}
+		title.setParameterLabel(defaulttitles);
+		
+		for(int rowcount= 0; rowcount < numberOfRows; rowcount++) {
+			DatabaseObjectHierarchy obshier = InterpretData.ObservationValueRow.createEmptyObject(valuemult);
+			ObservationValueRow obs = (ObservationValueRow) obshier.getObject();
+			String id = obs.getIdentifier() + rowcount;
+			obs.setIdentifier(id);
+			valuemulthier.addSubobject(obshier);
 			
 			for(int colcount= 0; colcount < numberOfColumns - 1; colcount++) {
 				obs.addValue("0");
@@ -347,7 +395,7 @@ public class CreateDefaultObjectsFactory {
 
 		return hierarchy;
 	}
-	
+
 	
 	public static void fillInputOutputObservationSpecifications(String setofobservationsS,
 			DatabaseObjectHierarchy obspecset) {

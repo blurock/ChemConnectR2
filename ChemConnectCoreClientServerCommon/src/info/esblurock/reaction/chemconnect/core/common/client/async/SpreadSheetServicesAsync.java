@@ -6,6 +6,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
+import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetBlockIsolation;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
@@ -21,4 +22,7 @@ public interface SpreadSheetServicesAsync {
 			boolean writeObject, AsyncCallback<DatabaseObjectHierarchy> callback);
 
 	void deleteSpreadSheetTransaction(String filename, AsyncCallback<Void> callback);
+
+	void isolateFromMatrix(DataCatalogID catid, DatabaseObjectHierarchy matrixhier,
+			SpreadSheetBlockIsolation blockisolate, AsyncCallback<DatabaseObjectHierarchy> callback);
 }

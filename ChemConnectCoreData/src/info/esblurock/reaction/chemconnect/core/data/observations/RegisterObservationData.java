@@ -14,6 +14,7 @@ public class RegisterObservationData {
 		ObjectifyService.register(SpreadSheetBlockIsolation.class);
 		ObjectifyService.register(ObservationValueRow.class);
 		ObjectifyService.register(SpreadSheetTitleRowCorrespondence.class);
+		ObjectifyService.register(ObservationsFromSpreadSheetFull.class);
 		ObjectifyService.register(ObservationsFromSpreadSheet.class);
 		ObjectifyService.register(ObservationMatrixValues.class);
 		ObjectifyService.register(ObservationValueRowTitle.class);
@@ -25,6 +26,7 @@ public class RegisterObservationData {
 		ResetDatabaseObjects.resetClass(SpreadSheetBlockIsolation.class);
 		ResetDatabaseObjects.resetClass(ObservationValueRow.class);
 		ResetDatabaseObjects.resetClass(SpreadSheetTitleRowCorrespondence.class);
+		ResetDatabaseObjects.resetClass(ObservationsFromSpreadSheetFull.class);
 		ResetDatabaseObjects.resetClass(ObservationsFromSpreadSheet.class);
 		ResetDatabaseObjects.resetClass(ObservationMatrixValues.class);
 		ResetDatabaseObjects.resetClass(ObservationValueRowTitle.class);

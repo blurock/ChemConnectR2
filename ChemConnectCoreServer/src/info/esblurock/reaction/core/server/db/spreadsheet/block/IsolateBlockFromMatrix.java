@@ -2,54 +2,81 @@ package info.esblurock.reaction.core.server.db.spreadsheet.block;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
-import info.esblurock.reaction.chemconnect.core.data.observations.ObservationBlockFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
+import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheetFull;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetBlockIsolation;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationMatrixValues;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
+import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRowTitle;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFactory;
+import info.esblurock.reaction.core.server.read.spreadsheet.CompareObservationValueRowHierarchy;
 import info.esblurock.reaction.io.metadata.StandardDatasetMetaData;
 
 public class IsolateBlockFromMatrix {
 	
 	public static DatabaseObjectHierarchy isolateFromMatrix(DataCatalogID catid,  
 			DatabaseObjectHierarchy matrixhier, 
-			DatabaseObjectHierarchy blockdefinitionhier) throws IOException {
-		ObservationsFromSpreadSheet matrix = (ObservationsFromSpreadSheet) matrixhier.getObject();
-		ObservationBlockFromSpreadSheet blockdefinition = (ObservationBlockFromSpreadSheet) blockdefinitionhier.getObject();
-	
-		DatabaseObjectHierarchy valueshier = matrixhier.getSubObject(matrix.getObservationMatrixValues());
-		DatabaseObjectHierarchy blockisolatehier = blockdefinitionhier.getSubObject(blockdefinition.getSpreadBlockIsolation());
-		SpreadSheetBlockIsolation blockisolate = (SpreadSheetBlockIsolation) blockisolatehier.getObject();
+			SpreadSheetBlockIsolation blockisolate) throws IOException {
+		ObservationsFromSpreadSheetFull matrix = (ObservationsFromSpreadSheetFull) matrixhier.getObject();	
+		DatabaseObjectHierarchy obsmathier = matrixhier.getSubObject(matrix.getObservationMatrixValues());
+		ObservationMatrixValues obsvalues = (ObservationMatrixValues) obsmathier.getObject();
+		DatabaseObjectHierarchy valueshier = obsmathier.getSubObject(obsvalues.getObservationRowValue());
 		int beginrow = determineBeginRow(valueshier, blockisolate);
 		int endrow = determineEndRow(beginrow,valueshier,blockisolate);
+		System.out.println("Rows: " + beginrow + " - " + endrow);
 		DatabaseObjectHierarchy rowhier = valueshier.getSubobjects().get(beginrow);
 		ObservationValueRow row = (ObservationValueRow) rowhier.getObject();
+		String titleS = blockisolate.getTitleIncluded();
+		boolean title = titleS.compareTo(Boolean.TRUE.toString()) == 0;
+		System.out.println("Title included: " +  title + ": '" +  titleS + "'");
 		int begincolumn = determineBeginColumn(row,blockisolate);
 		int endcolumn = determineEndColumn(begincolumn, row,blockisolate);
+		System.out.println("Columns: " + begincolumn + " - " + endcolumn);
 		int numberOfColumns = endcolumn - begincolumn+1;
 		int numberOfRows = endrow - beginrow+1;
+		if(title) {
+			numberOfRows--;
+		}
 		DatabaseObjectHierarchy newmatrixhier = CreateDefaultObjectsFactory.fillObservationsFromSpreadSheet(catid, 
 				catid, numberOfColumns, numberOfRows);
+		
+		System.out.println(newmatrixhier.toString());
+		
+		
 		ObservationsFromSpreadSheet newmatrix = (ObservationsFromSpreadSheet) newmatrixhier.getObject();
-		DatabaseObjectHierarchy newvalueshier = matrixhier.getSubObject(newmatrix.getObservationMatrixValues());
-		fillNewMatrix(beginrow, endrow, begincolumn, endcolumn,valueshier,newvalueshier);
+		DatabaseObjectHierarchy newobsmathier = newmatrixhier.getSubObject(newmatrix.getObservationMatrixValues());
+		ObservationMatrixValues newobsvalues = (ObservationMatrixValues) newobsmathier.getObject();
+		DatabaseObjectHierarchy newvalueshier = newobsmathier.getSubObject(newobsvalues.getObservationRowValue());
+		ArrayList<DatabaseObjectHierarchy> values = valueshier.getSubobjects();
+		ArrayList<DatabaseObjectHierarchy> newvalues = newvalueshier.getSubobjects();
+		values.sort(new CompareObservationValueRowHierarchy());
+		newvalues.sort(new CompareObservationValueRowHierarchy());
+		if(title) {
+			DatabaseObjectHierarchy titleshier = newmatrixhier.getSubObject(newmatrix.getObservationValueRowTitle());
+			ObservationValueRowTitle titles = (ObservationValueRowTitle) titleshier.getObject();
+			DatabaseObjectHierarchy rowelementhier = values.get(0);
+			ObservationValueRow rowelement = (ObservationValueRow) rowelementhier.getObject();
+			ArrayList<String> rowvalues = new ArrayList<String>(rowelement.getRow());
+			titles.setParameterLabel(rowvalues);
+			beginrow++;
+		}
+
+		fillNewMatrix(beginrow, endrow, begincolumn, endcolumn,values,newvalues);
 		return newmatrixhier;
 	}
 	
 	private static void fillNewMatrix(int beginrow, int endrow, int begincolumn,int endcolumn,
-			DatabaseObjectHierarchy valueshier, DatabaseObjectHierarchy newvalueshier) {
-		ArrayList<DatabaseObjectHierarchy> values = valueshier.getSubobjects();
-		ArrayList<DatabaseObjectHierarchy> newvalues = valueshier.getSubobjects();
+			ArrayList<DatabaseObjectHierarchy> values,
+			ArrayList<DatabaseObjectHierarchy> newvalues) {
 		int newrowcount = 0;
 		for(int rowcount=beginrow; rowcount <= endrow;rowcount++) {
 			DatabaseObjectHierarchy rowhier = values.get(rowcount);
 			ObservationValueRow row = (ObservationValueRow) rowhier.getObject();
 			ArrayList<String> rowvalues = row.getRow();
+			System.out.println(rowvalues);
 			DatabaseObjectHierarchy newrowhier = newvalues.get(newrowcount);
 			ObservationValueRow newrow = (ObservationValueRow) newrowhier.getObject();
 			ArrayList<String> newrowvalues = newrow.getRow();
@@ -62,9 +89,8 @@ public class IsolateBlockFromMatrix {
 				}
 				newcolcount++;
 			}
+			newrowcount++;
 		}
-		
-		
 	}
 
 	private static int determineEndColumn(int begincolumn, ObservationValueRow row, SpreadSheetBlockIsolation blockisolate) throws IOException {
@@ -120,16 +146,13 @@ public class IsolateBlockFromMatrix {
 		return begincolumn;
 	}
 	
-	private static int determineEndRow(int start, DatabaseObjectHierarchy valueshier, SpreadSheetBlockIsolation blockisolate) throws IOException {
-		String endtype = blockisolate.getStartRowType();
-		String endinfo = blockisolate.getStartRowInfo();
+	private static int determineEndRow(int start, DatabaseObjectHierarchy multhier, SpreadSheetBlockIsolation blockisolate) throws IOException {
+		String endtype = blockisolate.getEndRowType();
+		String endinfo = blockisolate.getEndRowInfo();
 		if(endinfo == null) {
 			endinfo = String.valueOf(start);
 		}
 		int endrow = start;
-		ObservationMatrixValues values = (ObservationMatrixValues) valueshier.getObject();
-		DatabaseObjectHierarchy multhier = valueshier.getSubObject(values.getObservationRowValue());
-		
 		if(endtype.compareTo(StandardDatasetMetaData.matrixBlockEndAtBlankLine) == 0) {
 			try {
 				endrow = searchForBlankLine(start,multhier.getSubobjects());
@@ -151,16 +174,13 @@ public class IsolateBlockFromMatrix {
 		}
 		return endrow;
 	}
-	private static int determineBeginRow(DatabaseObjectHierarchy valueshier, SpreadSheetBlockIsolation blockisolate) throws IOException {
+	private static int determineBeginRow(DatabaseObjectHierarchy multhier, SpreadSheetBlockIsolation blockisolate) throws IOException {
 		String begintype = blockisolate.getStartRowType();
 		String begininfo = blockisolate.getStartRowInfo();
 		if(begininfo == null) {
 			begininfo = "0";
 		}
 		int beginrow = 0;
-		ObservationMatrixValues values = (ObservationMatrixValues) valueshier.getObject();
-		DatabaseObjectHierarchy multhier = valueshier.getSubObject(values.getObservationRowValue());
-		
 		if(begintype.compareTo(StandardDatasetMetaData.beginMatrixAfterSpecifiedIdentifier) == 0) {
 			beginrow = findIdentifierInRows(0,begininfo,multhier);
 		} else if(begintype.compareTo(StandardDatasetMetaData.beginMatrixAtSpecified) == 0) {
@@ -174,7 +194,10 @@ public class IsolateBlockFromMatrix {
 	private static int searchForBlankLine(int startrow, ArrayList<DatabaseObjectHierarchy> subs) throws IOException {
 		int endrow = startrow;
 		boolean notfound = true;
+		
+		subs.sort(new CompareObservationValueRowHierarchy());
 		while(notfound && endrow < subs.size() ) {
+			
 			DatabaseObjectHierarchy hierarchy = subs.get(endrow);
 			ObservationValueRow row = (ObservationValueRow) hierarchy.getObject();
 			if(rowIsABlankLine(row)) {
@@ -191,40 +214,39 @@ public class IsolateBlockFromMatrix {
 	private static boolean rowIsABlankLine(ObservationValueRow row) {
 		boolean blank = true;
 		int count = 0;
-		while(count < row.size() && blank) {
-			if(row.get(count).compareTo(",") == 0) {
-				count++;
+		ArrayList<String> labels = row.getRow();
+		while(count < labels.size() && blank) {
+			if(labels.get(count).compareTo(",") != 0) {
+				blank = false;
 			}
+			count++;
 		}
 		return blank;
 	}
 	private static int findIdentifierInRows(int start, String identifier, DatabaseObjectHierarchy multhier) throws IOException {
-		int beginrow = 0;
-		Iterator<DatabaseObjectHierarchy> iter = multhier.getSubobjects().iterator();
-		while(iter.hasNext() && beginrow < start) {
-			iter.next();
-			beginrow++;
-		}
 		boolean notfound = true;
-		while(iter.hasNext() && notfound) {
-			ObservationValueRow row = (ObservationValueRow) iter.next().getObject();
+		int endrow = start;
+		ArrayList<DatabaseObjectHierarchy> lst = multhier.getSubobjects();
+		lst.sort(new CompareObservationValueRowHierarchy());
+		while(endrow < lst.size() && notfound) {
+			DatabaseObjectHierarchy hier = lst.get(endrow);
+			ObservationValueRow row = (ObservationValueRow) hier.getObject();
 			ArrayList<String> rowvalues = row.getRow();
-			if(rowvalues.size() > 0) {
+				if(rowvalues.size() > 0) {
 				String rowS = rowvalues.get(0);
 				if(rowS.compareTo(identifier) == 0) {
 					notfound = false;
 				} else {
-					beginrow++;
+					endrow++;
 				}
 			} else {
-				beginrow++;
+				endrow++;
 			}
-			iter.next();
 		}
-		if(!iter.hasNext()) {
+		if(endrow >= lst.size()) {
 			throw new IOException("Identifier for end of block not found: " + identifier);
 		}
-		return beginrow;
+		return endrow;
 	}
 
 }

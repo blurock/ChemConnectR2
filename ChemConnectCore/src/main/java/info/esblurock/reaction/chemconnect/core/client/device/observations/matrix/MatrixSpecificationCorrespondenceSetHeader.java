@@ -18,7 +18,6 @@ import info.esblurock.reaction.chemconnect.core.client.UpdateDataObjectHeaderInt
 import info.esblurock.reaction.chemconnect.core.client.catalog.SetUpCollapsibleItem;
 import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.client.modal.InputLineModal;
-import info.esblurock.reaction.chemconnect.core.client.modal.SetLineContentInterface;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;

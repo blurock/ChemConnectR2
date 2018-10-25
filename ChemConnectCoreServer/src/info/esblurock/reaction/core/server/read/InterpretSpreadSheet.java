@@ -26,7 +26,7 @@ import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMul
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
-import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
+import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheetFull;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetBlockInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationMatrixValues;
@@ -73,8 +73,8 @@ public class InterpretSpreadSheet {
 		obj.nullKey();
 		obj.setIdentifier(catid.getFullName());
 
-		DatabaseObjectHierarchy hierarchy = InterpretData.ObservationsFromSpreadSheet.createEmptyObject(obj);
-		ObservationsFromSpreadSheet observations = (ObservationsFromSpreadSheet) hierarchy.getObject();
+		DatabaseObjectHierarchy hierarchy = InterpretData.ObservationsFromSpreadSheetFull.createEmptyObject(obj);
+		ObservationsFromSpreadSheetFull observations = (ObservationsFromSpreadSheetFull) hierarchy.getObject();
 		
 		DatabaseObjectHierarchy inputhierarchy = hierarchy.getSubObject(observations.getSpreadSheetInputInformation());
 		SpreadSheetInputInformation input = (SpreadSheetInputInformation) inputhierarchy.getObject();
