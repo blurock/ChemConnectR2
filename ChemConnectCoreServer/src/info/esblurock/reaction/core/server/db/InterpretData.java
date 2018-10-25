@@ -548,7 +548,7 @@ public enum InterpretData {
 			DatabaseObject spreadobj = new DatabaseObject(obj);
 			spreadobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
-					.getSubElementStructureFromIDObject(StandardDatasetMetaData.observationsFromSpreadSheetFull);
+					.getSubElementStructureFromIDObject(MetaDataKeywords.observationsFromSpreadSheetFull);
 			String catid = createSuffix(obj, element);
 			spreadobj.setIdentifier(catid);
 			
@@ -613,7 +613,7 @@ public enum InterpretData {
 			DatabaseObject spreadobj = new DatabaseObject(obj);
 			spreadobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
-					.getSubElementStructureFromIDObject(StandardDatasetMetaData.observationsFromSpreadSheet);
+					.getSubElementStructureFromIDObject(MetaDataKeywords.observationsFromSpreadSheet);
 			String catid = createSuffix(obj, element);
 			spreadobj.setIdentifier(catid);
 			

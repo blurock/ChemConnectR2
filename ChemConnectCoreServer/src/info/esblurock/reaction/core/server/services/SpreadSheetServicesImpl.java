@@ -12,6 +12,7 @@ import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSInputFileInterpretation;
 import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
+import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetBlockIsolation;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
@@ -100,7 +101,7 @@ public class SpreadSheetServicesImpl extends ServerBase implements SpreadSheetSe
 		DatabaseObjectHierarchy hierarchy = null;
 		
 		DataElementInformation element = DatasetOntologyParsing
-				.getSubElementStructureFromIDObject(StandardDatasetMetaData.observationsFromSpreadSheet);
+				.getSubElementStructureFromIDObject(MetaDataKeywords.observationsFromSpreadSheet);
 		String obsid = InterpretData.createSuffix(catid, element);
 		
 		
@@ -122,7 +123,7 @@ public class SpreadSheetServicesImpl extends ServerBase implements SpreadSheetSe
 			} 
 			if(originalid != null) {
 				System.out.println("interpretSpreadSheetGCS: Extract: " + originalid);
-				ExtractCatalogInformation.getCatalogObject(originalid, StandardDatasetMetaData.observationsFromSpreadSheet);
+				ExtractCatalogInformation.getCatalogObject(originalid, MetaDataKeywords.observationsFromSpreadSheet);
 			} else {
 				System.out.println("interpretSpreadSheetGCS: Create: " + obsid);
 				hierarchy = InterpretSpreadSheet.readSpreadSheetFromGCS(gcsinfo, input,catid);

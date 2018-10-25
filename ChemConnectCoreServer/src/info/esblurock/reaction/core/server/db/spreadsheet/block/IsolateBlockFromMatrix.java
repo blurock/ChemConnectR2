@@ -11,8 +11,8 @@ import info.esblurock.reaction.chemconnect.core.data.observations.matrix.Observa
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRowTitle;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
+import info.esblurock.reaction.core.server.db.spreadsheet.CompareObservationValueRowHierarchy;
 import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFactory;
-import info.esblurock.reaction.core.server.read.spreadsheet.CompareObservationValueRowHierarchy;
 import info.esblurock.reaction.io.metadata.StandardDatasetMetaData;
 
 public class IsolateBlockFromMatrix {
@@ -30,7 +30,7 @@ public class IsolateBlockFromMatrix {
 		DatabaseObjectHierarchy rowhier = valueshier.getSubobjects().get(beginrow);
 		ObservationValueRow row = (ObservationValueRow) rowhier.getObject();
 		String titleS = blockisolate.getTitleIncluded();
-		boolean title = titleS.compareTo(Boolean.TRUE.toString()) == 0;
+		boolean title = titleS.compareTo("dataset:MatrixBlockTitleFirstLine") == 0;
 		System.out.println("Title included: " +  title + ": '" +  titleS + "'");
 		int begincolumn = determineBeginColumn(row,blockisolate);
 		int endcolumn = determineEndColumn(begincolumn, row,blockisolate);
@@ -65,6 +65,7 @@ public class IsolateBlockFromMatrix {
 		}
 
 		fillNewMatrix(beginrow, endrow, begincolumn, endcolumn,values,newvalues);
+		System.out.println(newmatrixhier.toString("Isolated: "));
 		return newmatrixhier;
 	}
 	

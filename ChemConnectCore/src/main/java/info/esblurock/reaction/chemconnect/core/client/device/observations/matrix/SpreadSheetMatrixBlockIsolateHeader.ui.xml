@@ -68,10 +68,10 @@
 						</m:MaterialColumn>
 					</m:MaterialRow>
 					<m:MaterialRow margin="0">
-					<m:MaterialPanel ui:field="originalmatrixpanel" />
 					</m:MaterialRow>
 				</m:MaterialCollapsibleHeader>
 				<m:MaterialCollapsibleBody>
+					<m:MaterialPanel ui:field="originalmatrixpanel" />
 				</m:MaterialCollapsibleBody>
 			</m:MaterialCollapsibleItem>
 			<m:MaterialCollapsibleItem>
@@ -86,9 +86,11 @@
 								iconType="REFRESH" />
 						</m:MaterialColumn>
 					</m:MaterialRow>
+					<m:MaterialRow margin="0">
+					<m:MaterialPanel ui:field="blockmatrixpanel" />
+					</m:MaterialRow>
 				</m:MaterialCollapsibleHeader>
 				<m:MaterialCollapsibleBody>
-					<m:MaterialPanel ui:field="blockmatrixpanel" />
 				</m:MaterialCollapsibleBody>
 			</m:MaterialCollapsibleItem>
 		</m:MaterialCollapsible>

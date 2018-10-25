@@ -176,7 +176,7 @@ public class StandardDatasetSetOfObservationValuesHeader extends Composite
 		chooseSheet.close();
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		SubCatagoryHierarchyCallback callback = new SubCatagoryHierarchyCallback(this);
-		async.getCatalogObject(id,MetaDataKeywords.observationBlockFromSpreadSheet,callback);
+		async.getCatalogObject(id,MetaDataKeywords.observationsFromSpreadSheet,callback);
 	}
 
 	@Override

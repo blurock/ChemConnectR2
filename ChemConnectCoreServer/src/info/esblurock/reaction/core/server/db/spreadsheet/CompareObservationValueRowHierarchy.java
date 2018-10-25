@@ -1,4 +1,4 @@
-package info.esblurock.reaction.core.server.read.spreadsheet;
+package info.esblurock.reaction.core.server.db.spreadsheet;
 
 import java.util.Comparator;
 

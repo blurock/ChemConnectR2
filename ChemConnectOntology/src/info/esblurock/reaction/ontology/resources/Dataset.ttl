@@ -7005,7 +7005,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                                    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                    owl:onClass :SpreadSheetInputInformation
                                                  ] ;
-                                 <http://purl.org/dc/elements/1.1/type> "ObservationsFromSpreadSheet" ;
+                                 <http://purl.org/dc/elements/1.1/type> "ObservationsFromSpreadSheetFull" ;
                                  <http://purl.org/dc/terms/identifier> "dataset:ObservationsFromSpreadSheetFull" ;
                                  rdfs:label "Observations from a spreadsheet" ;
                                  <http://www.w3.org/2004/02/skos/core#altLabel> "fullspreadsheet" .

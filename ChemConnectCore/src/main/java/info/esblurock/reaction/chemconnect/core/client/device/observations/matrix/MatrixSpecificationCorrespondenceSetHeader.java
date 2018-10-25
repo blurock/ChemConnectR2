@@ -27,6 +27,7 @@ import info.esblurock.reaction.chemconnect.core.data.dataset.ObservationSpecific
 import info.esblurock.reaction.chemconnect.core.data.dataset.ParameterSpecification;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ValueUnits;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationBlockFromSpreadSheet;
+import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.MatrixSpecificationCorrespondenceSet;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRowTitle;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
@@ -191,7 +192,7 @@ public class MatrixSpecificationCorrespondenceSetHeader extends Composite
 	 */
 	public void setupMatrix(DataCatalogID catid, DatabaseObjectHierarchy subs) {
 		attachedObservationsFromSpreadSheet = subs;
-		ObservationBlockFromSpreadSheet observations = (ObservationBlockFromSpreadSheet) attachedObservationsFromSpreadSheet.getObject();
+		ObservationsFromSpreadSheet observations = (ObservationsFromSpreadSheet) attachedObservationsFromSpreadSheet.getObject();
 		DatabaseObjectHierarchy matrixhierarchy = attachedObservationsFromSpreadSheet.getSubObject(observations.getObservationValueRowTitle());
 		setInColumnCorrespondences(matrixhierarchy);
 	}
@@ -229,7 +230,7 @@ public class MatrixSpecificationCorrespondenceSetHeader extends Composite
 	}
 
 	private void setInColumnCorrespondences(DatabaseObjectHierarchy matrixhierarchy) {
-		ObservationBlockFromSpreadSheet sheet = (ObservationBlockFromSpreadSheet) matrixhierarchy.getObject();
+		ObservationsFromSpreadSheet sheet = (ObservationsFromSpreadSheet) matrixhierarchy.getObject();
 		DatabaseObjectHierarchy titlehier = matrixhierarchy.getSubObject(sheet.getObservationValueRowTitle());
 		ObservationValueRowTitle titles = (ObservationValueRowTitle) titlehier.getObject();
 		ArrayList<String> coltitles = titles.getParameterLabel();

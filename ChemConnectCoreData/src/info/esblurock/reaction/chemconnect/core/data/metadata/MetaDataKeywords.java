@@ -37,6 +37,7 @@ public class MetaDataKeywords {
 	public static String chemConnectUncertaintyTypes = "dataset:dataset:ChemConnectUncertaintyTypes";
 	public static String chemConnectObservable = "dataset:ChemConnectObservable";
 	public static String observationsFromSpreadSheet = "dataset:ObservationsFromSpreadSheet";
+	public static String observationsFromSpreadSheetFull = "dataset:ObservationsFromSpreadSheetFull";
 	public static String observationBlockFromSpreadSheet = "dataset:ObservationBlockFromSpreadSheet";
 	
 	public static String chemConnectPrimitiveDataStructure = "dataset:ChemConnectPrimitiveDataStructure";

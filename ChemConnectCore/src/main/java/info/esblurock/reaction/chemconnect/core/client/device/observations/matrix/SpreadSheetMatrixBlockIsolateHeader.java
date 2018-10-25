@@ -23,10 +23,14 @@ import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConcep
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchies;
 import info.esblurock.reaction.chemconnect.core.client.modal.ChooseFromHierarchyNode;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
+import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServices;
+import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServicesAsync;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
+import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
+import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheetFull;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetBlockIsolation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
@@ -63,6 +67,10 @@ public class SpreadSheetMatrixBlockIsolateHeader extends Composite
 	MaterialLink originalmatrix;
 	@UiField
 	MaterialPanel originalmatrixpanel;
+	@UiField
+	MaterialLink apply;
+	@UiField
+	MaterialPanel blockmatrixpanel;
 	
 	boolean startrowB;
 	boolean endrowB;
@@ -72,6 +80,8 @@ public class SpreadSheetMatrixBlockIsolateHeader extends Composite
 	ArrayList<String> endrowChoice;
 	ArrayList<String> startcolumnChoice;
 	ArrayList<String> endcolumnChoice;
+	
+	boolean readoriginalmatrix;
 	
 	boolean originalmatrixB;
 	
@@ -121,6 +131,8 @@ public class SpreadSheetMatrixBlockIsolateHeader extends Composite
 		
 		originaltooltip.setText("The reference matrix (the pattern on which to base the block)");
 		originalmatrix.setText("Choose Reference Matrix");
+		
+		apply.setEnabled(false);
 	}
 	
 	
@@ -198,7 +210,8 @@ public class SpreadSheetMatrixBlockIsolateHeader extends Composite
 			
 			UserImageServiceAsync async = UserImageService.Util.getInstance();
 			SubCatagoryHierarchyCallback callback = new SubCatagoryHierarchyCallback(this);
-			async.getCatalogObject(concept,MetaDataKeywords.observationsFromSpreadSheet,callback);
+			readoriginalmatrix = true;
+			async.getCatalogObject(concept,MetaDataKeywords.observationsFromSpreadSheetFull,callback);
 			
 		}
 		startrowB = false;
@@ -208,18 +221,35 @@ public class SpreadSheetMatrixBlockIsolateHeader extends Composite
 		originalmatrixB = false;
 	}
 
-	private void setInfoRelativeToOriginal() {
-		
-	}
-
 	@Override
 	public void setInHierarchy(DatabaseObjectHierarchy subs) {
 		observationsFromSpreadSheet = subs;
-		ObservationsFromSpreadSheet obs = (ObservationsFromSpreadSheet) subs.getObject();
-		observationMatrixValues = subs.getSubObject(obs.getObservationMatrixValues());
-		StandardDatasetObjectHierarchyItem matrixitem = new StandardDatasetObjectHierarchyItem(observationMatrixValues,item.getModalpanel());
-		originalmatrixpanel.add(matrixitem.getHeader());
+		if(readoriginalmatrix) {
+			ObservationsFromSpreadSheetFull obs = (ObservationsFromSpreadSheetFull) observationsFromSpreadSheet.getObject();
+			observationMatrixValues = subs.getSubObject(obs.getObservationMatrixValues());
+			StandardDatasetObjectHierarchyItem matrixitem = new StandardDatasetObjectHierarchyItem(observationMatrixValues,item.getModalpanel());
+			apply.setEnabled(true);
+			originalmatrixpanel.add(matrixitem.getHeader());
+			readoriginalmatrix= false;
+		} else {
+			ObservationsFromSpreadSheet obs = (ObservationsFromSpreadSheet) subs.getObject();
+			DatabaseObjectHierarchy isolatedmatrixhier = subs.getSubObject(obs.getObservationMatrixValues());
+			StandardDatasetObjectHierarchyItem matrixitem = new StandardDatasetObjectHierarchyItem(isolatedmatrixhier,item.getModalpanel());
+			blockmatrixpanel.add(matrixitem.getHeader());
+			readoriginalmatrix= false;
+		}
 	}
 
+	@UiHandler("apply")
+	public void onBlockClick(ClickEvent event) {
+		ObservationsFromSpreadSheetFull obs = (ObservationsFromSpreadSheetFull) observationsFromSpreadSheet.getObject();
+		DatabaseObjectHierarchy catidhier = observationsFromSpreadSheet.getSubObject(obs.getCatalogDataID());
+		DataCatalogID catid = (DataCatalogID) catidhier.getObject();
+
+		SpreadSheetServicesAsync async = SpreadSheetServices.Util.getInstance();
+		SubCatagoryHierarchyCallback callback = new SubCatagoryHierarchyCallback(this);
+		async.isolateFromMatrix(catid, observationsFromSpreadSheet, spread, callback);
+		readoriginalmatrix= false;
+	}
 
 }
