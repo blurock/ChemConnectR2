@@ -61,6 +61,7 @@ public class SpreadSheetBlockMatrix extends Composite {
 		setupTableFromObservationsFromSpreadSheet(hierarchy);
 	}
 	private void setupTableFromObservationsFromSpreadSheet(DatabaseObjectHierarchy hierarchy) {
+		Window.alert("setupTableFromObservationsFromSpreadSheet: " + hierarchy.getObject().getClass().getSimpleName());
 		ObservationsFromSpreadSheet sheet = (ObservationsFromSpreadSheet) hierarchy.getObject(); 
 		DatabaseObjectHierarchy valueshierarchy = hierarchy.getSubObject(sheet.getObservationMatrixValues());
 		setupTableFromObservationMatrixValues(valueshierarchy);

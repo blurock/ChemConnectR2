@@ -110,9 +110,9 @@ public class ExtractCatalogInformation {
 				} else if(ConceptParsing.isAArrayListDataObject(element.getDataElementName())) {
 					System.out.println("getDatabaseObjectAndSubElements: ArrayList: " + element.getDataElementName());
 				} else {
-					System.out.println("getDatabaseObjectAndSubElements: \n" + obj.toString());
-					System.out.println("getDatabaseObjectAndSubElements: \n" + element.toString());
-					System.out.println("getDatabaseObjectAndSubElements: \n" + elementobj.toString());
+					System.out.println("getDatabaseObjectAndSubElements: obj\n" + obj.toString());
+					System.out.println("getDatabaseObjectAndSubElements: element\n" + element.toString());
+					System.out.println("getDatabaseObjectAndSubElements: elementobj\n" + elementobj.toString());
 				}
 			} else {
 				System.out.println("--------------------------------------");

@@ -7,10 +7,10 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
+import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTooltip;
@@ -66,11 +66,20 @@ public class SpreadSheetMatrixBlockIsolateHeader extends Composite
 	@UiField
 	MaterialLink originalmatrix;
 	@UiField
+	MaterialTooltip applytooltip;
+	@UiField
+	MaterialLink apply;
+	/*
+	
+	@UiField
 	MaterialPanel originalmatrixpanel;
 	@UiField
 	MaterialLink apply;
 	@UiField
 	MaterialPanel blockmatrixpanel;
+	@UiField
+	MaterialCollapsible originalcollapsible;
+	*/
 	
 	boolean startrowB;
 	boolean endrowB;
@@ -131,7 +140,8 @@ public class SpreadSheetMatrixBlockIsolateHeader extends Composite
 		
 		originaltooltip.setText("The reference matrix (the pattern on which to base the block)");
 		originalmatrix.setText("Choose Reference Matrix");
-		
+		applytooltip.setText("Apply the current block definition to the reference matrix");
+		apply.setText("Apply Block Definition");
 		apply.setEnabled(false);
 	}
 	
@@ -182,7 +192,6 @@ public class SpreadSheetMatrixBlockIsolateHeader extends Composite
 	}
 	@Override
 	public void insertTree(HierarchyNode topnode) {
-		Window.alert(topnode.toString());
 		ChooseFromHierarchyNode choose = new ChooseFromHierarchyNode(MetaDataKeywords.dataFileMatrixStructure,
 				"Choose a reference Matrix to test isolation", topnode, this);
 		item.getModalpanel().clear();
@@ -206,8 +215,6 @@ public class SpreadSheetMatrixBlockIsolateHeader extends Composite
 			spread.setEndColumnType(concept);
 			endcolumn.setText(TextUtilities.removeNamespace(concept));			
 		} else if(originalmatrixB) {
-			Window.alert("conceptChosen- originalmatrix: " + concept);
-			
 			UserImageServiceAsync async = UserImageService.Util.getInstance();
 			SubCatagoryHierarchyCallback callback = new SubCatagoryHierarchyCallback(this);
 			readoriginalmatrix = true;
@@ -223,19 +230,17 @@ public class SpreadSheetMatrixBlockIsolateHeader extends Composite
 
 	@Override
 	public void setInHierarchy(DatabaseObjectHierarchy subs) {
-		observationsFromSpreadSheet = subs;
 		if(readoriginalmatrix) {
-			ObservationsFromSpreadSheetFull obs = (ObservationsFromSpreadSheetFull) observationsFromSpreadSheet.getObject();
-			observationMatrixValues = subs.getSubObject(obs.getObservationMatrixValues());
-			StandardDatasetObjectHierarchyItem matrixitem = new StandardDatasetObjectHierarchyItem(observationMatrixValues,item.getModalpanel());
+			observationsFromSpreadSheet = subs;
+			StandardDatasetObjectHierarchyItem matrixitem = new StandardDatasetObjectHierarchyItem(subs,
+					item.getModalpanel());
+			item.addSubItem(matrixitem);
 			apply.setEnabled(true);
-			originalmatrixpanel.add(matrixitem.getHeader());
-			readoriginalmatrix= false;
 		} else {
-			ObservationsFromSpreadSheet obs = (ObservationsFromSpreadSheet) subs.getObject();
-			DatabaseObjectHierarchy isolatedmatrixhier = subs.getSubObject(obs.getObservationMatrixValues());
-			StandardDatasetObjectHierarchyItem matrixitem = new StandardDatasetObjectHierarchyItem(isolatedmatrixhier,item.getModalpanel());
-			blockmatrixpanel.add(matrixitem.getHeader());
+			StandardDatasetObjectHierarchyItem matrixitem = new StandardDatasetObjectHierarchyItem(subs,
+					item.getModalpanel());
+			item.addSubItem(matrixitem);
+			apply.setEnabled(true);
 			readoriginalmatrix= false;
 		}
 	}
@@ -245,10 +250,11 @@ public class SpreadSheetMatrixBlockIsolateHeader extends Composite
 		ObservationsFromSpreadSheetFull obs = (ObservationsFromSpreadSheetFull) observationsFromSpreadSheet.getObject();
 		DatabaseObjectHierarchy catidhier = observationsFromSpreadSheet.getSubObject(obs.getCatalogDataID());
 		DataCatalogID catid = (DataCatalogID) catidhier.getObject();
-
+		DataCatalogID isolatedcatid = new DataCatalogID(catid);
+		isolatedcatid.setSimpleCatalogName(catid.getSimpleCatalogName() + "Isolated");
 		SpreadSheetServicesAsync async = SpreadSheetServices.Util.getInstance();
 		SubCatagoryHierarchyCallback callback = new SubCatagoryHierarchyCallback(this);
-		async.isolateFromMatrix(catid, observationsFromSpreadSheet, spread, callback);
+		async.isolateFromMatrix(isolatedcatid, observationsFromSpreadSheet, spread, callback);
 		readoriginalmatrix= false;
 	}
 

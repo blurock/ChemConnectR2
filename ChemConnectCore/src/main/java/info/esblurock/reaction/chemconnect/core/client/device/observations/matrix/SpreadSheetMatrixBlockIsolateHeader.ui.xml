@@ -51,8 +51,22 @@
 						text="0" />
 				</m:MaterialColumn>
 			</m:MaterialRow>
+			<m:MaterialRow margin="0">
+				<m:MaterialColumn grid="s6" styleName="{style.rowbox}">
+				<m:MaterialTooltip ui:field="originaltooltip">
+					<m:MaterialLink ui:field="originalmatrix" textColor="BLACK"
+						text="Load Reference Matrix" />
+						</m:MaterialTooltip>
+				</m:MaterialColumn>
+				<m:MaterialColumn grid="s6" styleName="{style.rowbox}">
+				<m:MaterialTooltip ui:field="applytooltip">
+					<m:MaterialLink ui:field="apply" textColor="BLACK"
+						text="Apply Block Definition" />
+						</m:MaterialTooltip>
+				</m:MaterialColumn>
+			</m:MaterialRow>
 		</m:MaterialPanel>
-		<m:MaterialCollapsible>
+		<!--  m:MaterialCollapsible>
 			<m:MaterialCollapsibleItem>
 				<m:MaterialCollapsibleHeader>
 					<m:MaterialRow margin="0">
@@ -68,10 +82,11 @@
 						</m:MaterialColumn>
 					</m:MaterialRow>
 					<m:MaterialRow margin="0">
+					<m:MaterialPanel ui:field="originalmatrixpanel" />
 					</m:MaterialRow>
 				</m:MaterialCollapsibleHeader>
 				<m:MaterialCollapsibleBody>
-					<m:MaterialPanel ui:field="originalmatrixpanel" />
+				<m:MaterialCollapsible ui:field="originalcollapsible"/>
 				</m:MaterialCollapsibleBody>
 			</m:MaterialCollapsibleItem>
 			<m:MaterialCollapsibleItem>
@@ -93,6 +108,6 @@
 				<m:MaterialCollapsibleBody>
 				</m:MaterialCollapsibleBody>
 			</m:MaterialCollapsibleItem>
-		</m:MaterialCollapsible>
+		</m:MaterialCollapsible  -->
 	</m:MaterialPanel>
 </ui:UiBinder> 

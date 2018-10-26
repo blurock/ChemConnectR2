@@ -242,6 +242,10 @@ public class WriteReadDatabaseObjects {
 		return topnode;
 	}
 	
+	public static void deleteObject(String elementType, String identifier) throws IOException {
+		
+	}
+	
 /*
 	@SuppressWarnings("unchecked")
 	public static void readChemConnectDataStructureObject(String elementType, String identifier) throws IOException {

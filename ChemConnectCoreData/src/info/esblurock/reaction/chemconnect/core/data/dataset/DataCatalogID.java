@@ -32,6 +32,13 @@ public class DataCatalogID extends ChemConnectCompoundDataStructure {
 		this.SimpleCatalogName = simpleCatalogName;
 		this.path = path;		
 	}
+	public DataCatalogID(DataCatalogID original) {
+		super(original);
+		this.CatalogBaseName = original.getCatalogBaseName();
+		this.DataCatalog = original.getDataCatalog();
+		this.SimpleCatalogName = original.getSimpleCatalogName();
+		this.path = new ArrayList<String>(original.getPath());		
+	}
 
 	public void localFill(DataCatalogID catid) {
 		this.CatalogBaseName = catid.getCatalogBaseName();

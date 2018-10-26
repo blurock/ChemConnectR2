@@ -158,7 +158,9 @@ public class SpreadSheetServicesImpl extends ServerBase implements SpreadSheetSe
 	public DatabaseObjectHierarchy isolateFromMatrix(DataCatalogID catid,  
 			DatabaseObjectHierarchy matrixhier, 
 			SpreadSheetBlockIsolation blockisolate) throws IOException {
-		return IsolateBlockFromMatrix.isolateFromMatrix(catid, matrixhier, blockisolate);
+		DatabaseObjectHierarchy isolated = IsolateBlockFromMatrix.isolateFromMatrix(catid, matrixhier, blockisolate);
+		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(isolated);
+		return isolated;
 	}
 	
 	

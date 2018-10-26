@@ -1,5 +1,7 @@
 package info.esblurock.reaction.chemconnect.core.client.catalog;
 
+import com.google.gwt.user.client.Window;
+
 import info.esblurock.reaction.chemconnect.core.client.catalog.description.StandardDatasetDescriptionDataDataHeader;
 import info.esblurock.reaction.chemconnect.core.client.catalog.hierarchy.StandardDatasetCatalogHierarchyHeader;
 import info.esblurock.reaction.chemconnect.core.client.catalog.link.PrimitiveDataObjectLinkRow;
@@ -29,6 +31,7 @@ import info.esblurock.reaction.chemconnect.core.client.device.observations.matri
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.SpreadSheetInputInformationHeader;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.SpreadSheetMatrixBlockIsolateHeader;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.StandardDatasetObservationsFromSpreadSheet;
+import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.StandardDatasetObservationsFromSpreadSheetFull;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.units.StandardDatasetValueUnitsHeader;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.description.DescriptionDataData;
@@ -233,6 +236,33 @@ public enum SetUpCollapsibleItem {
 			return true;
 		}
 		
+	}, ObservationsFromSpreadSheetFull  {
+		@Override
+		public void addInformation(StandardDatasetObjectHierarchyItem item) {
+			StandardDatasetObservationsFromSpreadSheetFull header = new StandardDatasetObservationsFromSpreadSheetFull(item);
+			item.addHeader(header);
+		}
+
+		@Override
+		public boolean update(StandardDatasetObjectHierarchyItem item) {
+			return true;
+		}
+
+		@Override
+		public int priority() {
+			return 800;
+		}
+
+		@Override
+		public boolean isInformation() {
+			return false;
+		}
+
+		@Override
+		public boolean addSubitems() {
+			return true;
+		}
+		
 	}, ObservationValueRowTitle {
 
 		@Override
@@ -248,8 +278,7 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public int priority() {
-			// TODO Auto-generated method stub
-			return 0;
+			return 100;
 		}
 
 		@Override
@@ -260,7 +289,6 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public boolean addSubitems() {
-			// TODO Auto-generated method stub
 			return false;
 		}
 		
@@ -285,7 +313,7 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public boolean isInformation() {
-			return true;
+			return false;
 		}
 
 		@Override
@@ -315,7 +343,7 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public boolean isInformation() {
-			return true;
+			return false;
 		}
 
 		@Override
@@ -415,8 +443,11 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
+			Window.alert("SetUpCollapsibleItem  ObservationMatrixValues: 1");
 			SpreadSheetBlockMatrix header = new SpreadSheetBlockMatrix(item);	
+			Window.alert("SetUpCollapsibleItem  ObservationMatrixValues: 2");
 			item.addHeader(header);
+			Window.alert("SetUpCollapsibleItem  ObservationMatrixValues: 3");
 		}
 
 		@Override
@@ -431,7 +462,7 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public boolean isInformation() {
-			return true;
+			return false;
 		}
 
 		@Override
