@@ -213,7 +213,6 @@ public enum SetUpCollapsibleItem {
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
 			StandardDatasetObservationsFromSpreadSheet header = new StandardDatasetObservationsFromSpreadSheet(item);
 			item.addHeader(header);
-			
 		}
 
 		@Override
@@ -272,7 +271,6 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public boolean update(StandardDatasetObjectHierarchyItem item) {
-			// TODO Auto-generated method stub
 			return false;
 		}
 
@@ -443,11 +441,8 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
-			Window.alert("SetUpCollapsibleItem  ObservationMatrixValues: 1");
 			SpreadSheetBlockMatrix header = new SpreadSheetBlockMatrix(item);	
-			Window.alert("SetUpCollapsibleItem  ObservationMatrixValues: 2");
 			item.addHeader(header);
-			Window.alert("SetUpCollapsibleItem  ObservationMatrixValues: 3");
 		}
 
 		@Override

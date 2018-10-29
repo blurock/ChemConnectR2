@@ -66,18 +66,6 @@ public class SpreadSheetMatrixBlockIsolateHeader extends Composite
 	MaterialTooltip applytooltip;
 	@UiField
 	MaterialLink apply;
-	/*
-	
-	@UiField
-	MaterialPanel originalmatrixpanel;
-	@UiField
-	MaterialLink apply;
-	@UiField
-	MaterialPanel blockmatrixpanel;
-	@UiField
-	MaterialCollapsible originalcollapsible;
-	*/
-	
 	boolean startrowB;
 	boolean endrowB;
 	boolean startcolumnB;
@@ -237,6 +225,8 @@ public class SpreadSheetMatrixBlockIsolateHeader extends Composite
 			StandardDatasetObjectHierarchyItem matrixitem = new StandardDatasetObjectHierarchyItem(subs,
 					item.getModalpanel());
 			item.addSubItem(matrixitem);
+			StandardDatasetObservationsFromSpreadSheet header = (StandardDatasetObservationsFromSpreadSheet) matrixitem.getHeader();
+			header.addTitles();
 			apply.setEnabled(true);
 			readoriginalmatrix= false;
 		}

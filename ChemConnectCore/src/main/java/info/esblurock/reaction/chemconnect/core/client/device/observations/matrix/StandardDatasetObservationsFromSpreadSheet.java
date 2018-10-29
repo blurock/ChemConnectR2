@@ -3,6 +3,7 @@ package info.esblurock.reaction.chemconnect.core.client.device.observations.matr
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -11,6 +12,7 @@ import gwt.material.design.client.ui.MaterialTooltip;
 import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
+import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRowTitle;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 public class StandardDatasetObservationsFromSpreadSheet extends Composite {
@@ -33,10 +35,12 @@ public class StandardDatasetObservationsFromSpreadSheet extends Composite {
 	
 	ObservationsFromSpreadSheet observation;
 	DatabaseObjectHierarchy hierarchy;
+	StandardDatasetObjectHierarchyItem item;
 	
 	public StandardDatasetObservationsFromSpreadSheet(StandardDatasetObjectHierarchyItem item) {
 		initWidget(uiBinder.createAndBindUi(this));
 		
+		this.item = item;
 		hierarchy = item.getHierarchy();
 		observation = (ObservationsFromSpreadSheet) item.getObject();
 		
@@ -45,8 +49,35 @@ public class StandardDatasetObservationsFromSpreadSheet extends Composite {
 		DataCatalogID catid = (DataCatalogID) catidhierarchy.getObject();
 		
 		titletooltip.setText(catid.getFullName());
-		title.setText(catid.getSimpleCatalogName());
+		title.setText(catid.getSimpleCatalogName());	
 		
 	}
-
+	public void addTitles() {
+		Window.alert("StandardDatasetObservationsFromSpreadSheet addTitles()");
+		String matrixid = observation.getObservationMatrixValues();
+		StandardDatasetObjectHierarchyItem matrixitem= item.getItemFromID(matrixid);
+		if(matrixitem !=  null) {
+			Window.alert("StandardDatasetObservationsFromSpreadSheet ObservationMatrixValues");
+			Window.alert("StandardDatasetObservationsFromSpreadSheet ObservationMatrixValues\n" + 
+					item.getObject().getIdentifier());
+			SpreadSheetBlockMatrix header = (SpreadSheetBlockMatrix) matrixitem.getHeader();
+			Window.alert("StandardDatasetObservationsFromSpreadSheet ObservationMatrixValues got header");
+			DatabaseObjectHierarchy valueshierarchy = hierarchy.getSubObject(observation.getObservationMatrixValues());
+			Window.alert("StandardDatasetObservationsFromSpreadSheet ObservationMatrixValues got valueshierarchy");
+			DatabaseObjectHierarchy titleshierarchy = hierarchy.getSubObject(observation.getObservationValueRowTitle());
+			Window.alert("StandardDatasetObservationsFromSpreadSheet ObservationMatrixValues got titleshierarchy");
+			ObservationValueRowTitle titles = (ObservationValueRowTitle) titleshierarchy.getObject();
+			Window.alert("StandardDatasetObservationsFromSpreadSheet ObservationMatrixValues got titles");
+			Window.alert("StandardDatasetObservationsFromSpreadSheet ObservationMatrixValues got titles: \n" + titles);
+			header.setupTableFromObservationMatrixValuesWithTitles(valueshierarchy, titles);
+			Window.alert("StandardDatasetObservationsFromSpreadSheet ObservationMatrixValues DONE");
+		} else {
+			Window.alert("StandardDatasetObservationsFromSpreadSheet not found");
+			Window.alert("StandardDatasetObservationsFromSpreadSheet info:\n"
+					+ item.getInfoSubitems().size());
+			Window.alert("StandardDatasetObservationsFromSpreadSheet sub:\n"
+					+ item.getSubitems().size());
+		}
+		
+	}
 }

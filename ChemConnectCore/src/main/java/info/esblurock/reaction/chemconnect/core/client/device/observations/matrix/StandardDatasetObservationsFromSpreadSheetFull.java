@@ -47,7 +47,6 @@ public class StandardDatasetObservationsFromSpreadSheetFull extends Composite  {
 		
 		titletooltip.setText(catid.getFullName());
 		title.setText(catid.getSimpleCatalogName());
-		Window.alert("StandardDatasetObservationsFromSpreadSheetFull: " + catid.getSimpleCatalogName());
 	}
 
 }

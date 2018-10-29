@@ -1,6 +1,7 @@
 package info.esblurock.reaction.chemconnect.core.client.device.observations.matrix;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -22,6 +23,7 @@ import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMul
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationMatrixValues;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
+import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRowTitle;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 public class SpreadSheetBlockMatrix extends Composite {
@@ -52,12 +54,14 @@ public class SpreadSheetBlockMatrix extends Composite {
 	
 	public SpreadSheetBlockMatrix(StandardDatasetObjectHierarchyItem item) {
 		initWidget(uiBinder.createAndBindUi(this));
+		Window.alert("setupTableFromObservationsFromSpreadSheet: from StandardDatasetObjectHierarchyItem");
 		hierarchy = item.getHierarchy();
 		setupTableFromObservationMatrixValues(hierarchy);
 	}
 		
 	public SpreadSheetBlockMatrix(DatabaseObjectHierarchy hierarchy) {
 		initWidget(uiBinder.createAndBindUi(this));
+		Window.alert("setupTableFromObservationsFromSpreadSheet: from DatabaseObjectHierarchy");
 		setupTableFromObservationsFromSpreadSheet(hierarchy);
 	}
 	private void setupTableFromObservationsFromSpreadSheet(DatabaseObjectHierarchy hierarchy) {
@@ -67,22 +71,41 @@ public class SpreadSheetBlockMatrix extends Composite {
 		setupTableFromObservationMatrixValues(valueshierarchy);
 	}
 	private void setupTableFromObservationMatrixValues(DatabaseObjectHierarchy valueshierarchy) {
+		Window.alert("SpreadSheetBlockMatrix setupTableFromObservationMatrixValues");
+		setupTableFromObservationMatrixValuesWithTitles(hierarchy,null);
+	}
+	
+	public void setupTableFromObservationMatrixValuesWithTitles(DatabaseObjectHierarchy valueshierarchy, ObservationValueRowTitle titles) {
+		tablepanel.clear();
+		//table.clearRows(true);
 		values = (ObservationMatrixValues) valueshierarchy.getObject(); 
 		DatabaseObjectHierarchy rowvalueshier = valueshierarchy.getSubObject(values.getObservationRowValue());
 		ChemConnectCompoundMultiple multiple = (ChemConnectCompoundMultiple) rowvalueshier.getObject();
+	
 		table = new MaterialDataTable<ObservationValueRow>();
 		matrix = new ArrayList<ObservationValueRow>();
-		numbercolumns = 4;
-		if(rowvalueshier.getSubobjects().size() > 0) {
-			DatabaseObjectHierarchy subhier = rowvalueshier.getSubobjects().get(0);
-			ObservationValueRow row = (ObservationValueRow) subhier.getObject();
-			numbercolumns = row.getRow().size();
+		if(titles == null) {
+			numbercolumns = 4;
+			if(rowvalueshier.getSubobjects().size() > 0) {
+				DatabaseObjectHierarchy subhier = rowvalueshier.getSubobjects().get(0);
+				ObservationValueRow row = (ObservationValueRow) subhier.getObject();
+				numbercolumns = row.getRow().size();
+			}
+			for (int i = 0; i < numbercolumns; i++) {
+				String name = "Col:" + i;
+				addColumn(i, name);
+			}
+		} else {
+			Window.alert("SpreadSheetBlockMatrix setupTableFromObservationMatrixValues with Titles:\n"
+					+ titles);
+			ArrayList<String> coltitles = titles.getParameterLabel();
+			Window.alert("SpreadSheetBlockMatrix setupTableFromObservationMatrixValues with Titles:\n"
+					+ coltitles);
+			int count = 0;
+			for(String coltitle : coltitles) {
+				addColumn(count++, coltitle);
+			}
 		}
-		for (int i = 0; i < numbercolumns; i++) {
-			String name = "Col:" + i;
-			addColumn(i, name);
-		}
-		
 		try {
 			String parent = multiple.getIdentifier();
 			int totalcount = rowvalueshier.getSubobjects().size();		
@@ -101,7 +124,6 @@ public class SpreadSheetBlockMatrix extends Composite {
 	
 
 	}
-	
 	void addColumn(int columnnumber, String columnname) {
 		int number = columnnumber;
 		TextColumn<ObservationValueRow> cell = new TextColumn<ObservationValueRow>() {
