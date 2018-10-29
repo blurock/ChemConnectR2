@@ -7,7 +7,7 @@
 	.important {
 		font-weight: bold;
 	}
-		.panel {
+	.panel {
 		font-family: monospace;
 		color: black;
 		background: white;

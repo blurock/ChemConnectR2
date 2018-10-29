@@ -1,7 +1,6 @@
 package info.esblurock.reaction.chemconnect.core.client.device.observations.matrix;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -54,30 +53,25 @@ public class SpreadSheetBlockMatrix extends Composite {
 	
 	public SpreadSheetBlockMatrix(StandardDatasetObjectHierarchyItem item) {
 		initWidget(uiBinder.createAndBindUi(this));
-		Window.alert("setupTableFromObservationsFromSpreadSheet: from StandardDatasetObjectHierarchyItem");
 		hierarchy = item.getHierarchy();
 		setupTableFromObservationMatrixValues(hierarchy);
 	}
 		
 	public SpreadSheetBlockMatrix(DatabaseObjectHierarchy hierarchy) {
 		initWidget(uiBinder.createAndBindUi(this));
-		Window.alert("setupTableFromObservationsFromSpreadSheet: from DatabaseObjectHierarchy");
 		setupTableFromObservationsFromSpreadSheet(hierarchy);
 	}
 	private void setupTableFromObservationsFromSpreadSheet(DatabaseObjectHierarchy hierarchy) {
-		Window.alert("setupTableFromObservationsFromSpreadSheet: " + hierarchy.getObject().getClass().getSimpleName());
 		ObservationsFromSpreadSheet sheet = (ObservationsFromSpreadSheet) hierarchy.getObject(); 
 		DatabaseObjectHierarchy valueshierarchy = hierarchy.getSubObject(sheet.getObservationMatrixValues());
 		setupTableFromObservationMatrixValues(valueshierarchy);
 	}
 	private void setupTableFromObservationMatrixValues(DatabaseObjectHierarchy valueshierarchy) {
-		Window.alert("SpreadSheetBlockMatrix setupTableFromObservationMatrixValues");
 		setupTableFromObservationMatrixValuesWithTitles(hierarchy,null);
 	}
 	
 	public void setupTableFromObservationMatrixValuesWithTitles(DatabaseObjectHierarchy valueshierarchy, ObservationValueRowTitle titles) {
 		tablepanel.clear();
-		//table.clearRows(true);
 		values = (ObservationMatrixValues) valueshierarchy.getObject(); 
 		DatabaseObjectHierarchy rowvalueshier = valueshierarchy.getSubObject(values.getObservationRowValue());
 		ChemConnectCompoundMultiple multiple = (ChemConnectCompoundMultiple) rowvalueshier.getObject();
@@ -96,11 +90,7 @@ public class SpreadSheetBlockMatrix extends Composite {
 				addColumn(i, name);
 			}
 		} else {
-			Window.alert("SpreadSheetBlockMatrix setupTableFromObservationMatrixValues with Titles:\n"
-					+ titles);
 			ArrayList<String> coltitles = titles.getParameterLabel();
-			Window.alert("SpreadSheetBlockMatrix setupTableFromObservationMatrixValues with Titles:\n"
-					+ coltitles);
 			int count = 0;
 			for(String coltitle : coltitles) {
 				addColumn(count++, coltitle);

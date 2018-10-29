@@ -30,6 +30,7 @@ import info.esblurock.reaction.chemconnect.core.client.device.observations.matri
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.SpreadSheetBlockMatrix;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.SpreadSheetInputInformationHeader;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.SpreadSheetMatrixBlockIsolateHeader;
+import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.StandardDatasetObservationValueRowTitle;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.StandardDatasetObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.StandardDatasetObservationsFromSpreadSheetFull;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.units.StandardDatasetValueUnitsHeader;
@@ -266,7 +267,8 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
-
+			StandardDatasetObservationValueRowTitle title = new StandardDatasetObservationValueRowTitle(item);
+			item.addHeader(title);
 		}
 
 		@Override
@@ -281,8 +283,7 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public boolean isInformation() {
-			// TODO Auto-generated method stub
-			return false;
+			return true;
 		}
 
 		@Override
