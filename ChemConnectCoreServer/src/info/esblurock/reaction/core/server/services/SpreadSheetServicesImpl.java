@@ -13,6 +13,7 @@ import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSInputFileInterpretation;
 import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
+import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetBlockIsolation;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
@@ -158,7 +159,9 @@ public class SpreadSheetServicesImpl extends ServerBase implements SpreadSheetSe
 	public DatabaseObjectHierarchy isolateFromMatrix(DataCatalogID catid,  
 			DatabaseObjectHierarchy matrixhier, 
 			SpreadSheetBlockIsolation blockisolate) throws IOException {
-		DatabaseObjectHierarchy isolated = IsolateBlockFromMatrix.isolateFromMatrix(catid, matrixhier, blockisolate);
+		DatabaseObjectHierarchy isolated = null;
+		isolated = IsolateBlockFromMatrix.isolateFromMatrix(catid, matrixhier, blockisolate);
+		WriteReadDatabaseObjects.deleteObject(isolated.getObject().getIdentifier(), MetaDataKeywords.observationsFromSpreadSheet);
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(isolated);
 		return isolated;
 	}

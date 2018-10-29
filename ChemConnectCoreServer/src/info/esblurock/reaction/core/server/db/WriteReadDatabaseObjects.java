@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.NotFoundException;
 import com.googlecode.objectify.ObjectifyService;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
@@ -18,6 +19,7 @@ import info.esblurock.reaction.chemconnect.core.data.query.QueryPropertyValue;
 import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.data.query.SetOfQueryPropertyValues;
 import info.esblurock.reaction.chemconnect.core.data.query.SetOfQueryResults;
+import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructureObject;
@@ -242,10 +244,18 @@ public class WriteReadDatabaseObjects {
 		return topnode;
 	}
 	
-	public static void deleteObject(String elementType, String identifier) throws IOException {
-		
+	public static void deleteObject(String id, String type) {
+		DatabaseObjectHierarchy hierarchy = ExtractCatalogInformation.getCatalogObject(id, type);
+		if(hierarchy != null) {
+			deleteHierarchy(hierarchy);
+		}
 	}
-	
+	public static void deleteHierarchy(DatabaseObjectHierarchy hierarchy) {
+		for(DatabaseObjectHierarchy sub : hierarchy.getSubobjects()) {
+			deleteHierarchy(sub);
+		}
+		ObjectifyService.ofy().delete().entity(hierarchy.getObject());
+	}
 /*
 	@SuppressWarnings("unchecked")
 	public static void readChemConnectDataStructureObject(String elementType, String identifier) throws IOException {

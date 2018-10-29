@@ -115,4 +115,5 @@ public interface UserImageService  extends RemoteService  {
 	DatabaseObjectHierarchy createObservationBlockFromSpreadSheet(DatabaseObject obj, 
 			String blocktype, DataCatalogID datid);
 	HierarchyNode getIDHierarchyFromDataCatalogAndUser(String datacatalog) throws IOException;
+	void deleteObject(String id, String type) throws IOException;
 }

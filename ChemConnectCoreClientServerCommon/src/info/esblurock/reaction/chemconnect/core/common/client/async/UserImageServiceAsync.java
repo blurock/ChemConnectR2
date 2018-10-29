@@ -105,4 +105,6 @@ public interface UserImageServiceAsync {
 
 	void getIDHierarchyFromDataCatalogAndUser(String datacatalog, AsyncCallback<HierarchyNode> callback);
 
+	void deleteObject(String id, String type, AsyncCallback<Void> callback);
+
 }

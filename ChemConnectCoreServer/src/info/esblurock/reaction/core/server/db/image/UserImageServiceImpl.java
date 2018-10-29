@@ -587,6 +587,12 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		return ConceptParsing.getStructureFromFileType(filetype);
 	}
 
+	public void deleteObject(String id, String type) throws IOException {
+		WriteReadDatabaseObjects.deleteObject(id, type);
+	}
+
+	
+	
 	public static ParsedFilename parseFilename(GCSBlobFileInformation info) throws IOException {
 		ParsedFilename parsed = ParseUtilities.fillFileInformation(info, info.getFilename(), info.getFiletype());
 		return parsed;
@@ -602,7 +608,6 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		BlobId blobId = BlobId.of(gcsinfo.getBucket(), gcsinfo.getGSFilename());
 		storage.delete(blobId);
 	}
-	
 	
 	
 /*
