@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialLink;
+import gwt.material.design.client.ui.MaterialTooltip;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 
@@ -25,20 +26,37 @@ public class DatasetStandardDataCatalogIDHeader extends Composite {
 	MaterialLink catalog;
 	@UiField
 	MaterialLink simpleName;
+	@UiField
+	MaterialTooltip basetooltip;
 	
 	StandardDatasetObjectHierarchyItem item;
 	DataCatalogID object;
 	String defaultSimpleName;
 	String defaultcatalogName;
 	String defaultBaseName;
+	String catalogName;
 
 	public DatasetStandardDataCatalogIDHeader(StandardDatasetObjectHierarchyItem item) {
 		this.item = item;
 		this.object = (DataCatalogID) item.getObject();
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
+		
+		if(object.getCatalogBaseName() != null) {
+			basetooltip.setText(object.getCatalogBaseName());
+		} else {
+			basetooltip.setText(defaultBaseName);
+		}
 		TextUtilities.setText(catalogBase, object.getCatalogBaseName(), defaultBaseName);
-		TextUtilities.setText(catalog, object.getDataCatalog(), defaultcatalogName);
+		if(object.getPath() != null) {
+			int sze = object.getPath().size();
+			if(sze > 0) {
+				String name = object.getPath().get(sze-1);
+				catalogBase.setText(name);
+			}
+		}
+		catalogName = object.getDataCatalog();
+		TextUtilities.setText(catalog, TextUtilities.removeNamespace(catalogName), defaultcatalogName);
 		TextUtilities.setText(simpleName, object.getSimpleCatalogName(), defaultSimpleName);
 	}
 	
@@ -57,7 +75,7 @@ public class DatasetStandardDataCatalogIDHeader extends Composite {
 		if(catalog.getText().compareTo(defaultcatalogName) == 0) {
 			object.setCatalogBaseName("");
 		} else {
-			object.setDataCatalog(catalog.getText());
+			object.setDataCatalog(catalogName);
 		}
 		if(simpleName.getText().compareTo(defaultSimpleName) == 0) {
 			object.setCatalogBaseName("");

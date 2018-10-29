@@ -22,7 +22,9 @@
 	<m:MaterialPanel styleName="{style.panelbox}">
 	<m:MaterialRow margin="0">
 		<m:MaterialColumn grid="s4" styleName="{style.rowbox}">
+			<m:MaterialTooltip ui:field="basetooltip">
 			<m:MaterialLink ui:field="catalogBase" styleName="{style.headertext}"/>
+			</m:MaterialTooltip>
 		</m:MaterialColumn>
 		<m:MaterialColumn grid="s4" styleName="{style.rowbox}">
 			<m:MaterialLink ui:field="catalog" styleName="{style.headertext}"/>
