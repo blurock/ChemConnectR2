@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialLink;
 import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
+import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
 
 public class SpreadSheetInputInformationHeader extends Composite {
@@ -33,8 +34,8 @@ public class SpreadSheetInputInformationHeader extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 		SpreadSheetInputInformation input = (SpreadSheetInputInformation) item.getObject();
 		source.setText(input.getSource());
-		type.setText(input.getType());
-		sourceType.setText(input.getSourceType());
+		type.setText(TextUtilities.removeNamespace(input.getType()));
+		sourceType.setText(TextUtilities.removeNamespace(input.getSourceType()));
 		
 	}
 

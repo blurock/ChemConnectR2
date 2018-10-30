@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -20,6 +21,8 @@ import info.esblurock.reaction.chemconnect.core.client.catalog.choose.SubCatagor
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHeirarchy;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchies;
 import info.esblurock.reaction.chemconnect.core.client.modal.ChooseFromHierarchyNode;
+import info.esblurock.reaction.chemconnect.core.client.modal.InputLineModal;
+import info.esblurock.reaction.chemconnect.core.client.modal.SetLineContentInterface;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServices;
 import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServicesAsync;
@@ -33,7 +36,8 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNod
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 public class SpreadSheetMatrixBlockIsolateHeader extends Composite 
-	implements ChooseFromConceptHeirarchy, HierarchyNodeCallbackInterface, SubCatagoryHierarchyCallbackInterface {
+	implements ChooseFromConceptHeirarchy, HierarchyNodeCallbackInterface, 
+	SubCatagoryHierarchyCallbackInterface, SetLineContentInterface {
 
 	private static SpreadSheetMatrixBlockIsolateHeaderUiBinder uiBinder = GWT
 			.create(SpreadSheetMatrixBlockIsolateHeaderUiBinder.class);
@@ -191,7 +195,7 @@ public class SpreadSheetMatrixBlockIsolateHeader extends Composite
 			spread.setStartRowType(concept);
 			startrow.setText(TextUtilities.removeNamespace(concept));
 		} else if(endrowB) {
-			spread.setEndRowInfo(concept);
+			spread.setEndRowType(concept);
 			endrow.setText(TextUtilities.removeNamespace(concept));			
 		} else if(startcolumnB) {
 			spread.setStartColumnType(concept);
@@ -237,15 +241,30 @@ public class SpreadSheetMatrixBlockIsolateHeader extends Composite
 		ObservationsFromSpreadSheetFull obs = (ObservationsFromSpreadSheetFull) observationsFromSpreadSheet.getObject();
 		DatabaseObjectHierarchy catidhier = observationsFromSpreadSheet.getSubObject(obs.getCatalogDataID());
 		DataCatalogID catid = (DataCatalogID) catidhier.getObject();
+		String id = "IsolateMatrixFrom" + catid.getSimpleCatalogName();
+		InputLineModal inmodal = new InputLineModal("Base name of Isolated matrix",id,this);
+		item.getModalpanel().clear();
+		item.getModalpanel().add(inmodal);
+		inmodal.openModal();
+	}
+	@Override
+	public void setLineContent(String line) {
+		applyMatrixIsolation(line.trim());
+	}
+
+	private void applyMatrixIsolation(String basename) {
+		ObservationsFromSpreadSheetFull obs = (ObservationsFromSpreadSheetFull) observationsFromSpreadSheet.getObject();
+		DatabaseObjectHierarchy catidhier = observationsFromSpreadSheet.getSubObject(obs.getCatalogDataID());
+		DataCatalogID catid = (DataCatalogID) catidhier.getObject();
 		DataCatalogID isolatedcatid = new DataCatalogID(catid);
 		isolatedcatid.nullKey();
-		isolatedcatid.setSimpleCatalogName(catid.getSimpleCatalogName() + "Isolated");
+		isolatedcatid.setSimpleCatalogName(basename);
 		String id = isolatedcatid.getFullName();
 		isolatedcatid.setIdentifier(id);
 		SpreadSheetServicesAsync async = SpreadSheetServices.Util.getInstance();
 		SubCatagoryHierarchyCallback callback = new SubCatagoryHierarchyCallback(this);
 		async.isolateFromMatrix(isolatedcatid, observationsFromSpreadSheet, spread, callback);
-		readoriginalmatrix= false;
+		readoriginalmatrix= false;		
 	}
 
 }

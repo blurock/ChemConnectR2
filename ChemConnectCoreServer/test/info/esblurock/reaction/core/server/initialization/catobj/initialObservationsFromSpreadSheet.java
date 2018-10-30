@@ -35,9 +35,11 @@ import info.esblurock.reaction.chemconnect.core.data.initialization.RegisterInit
 import info.esblurock.reaction.chemconnect.core.data.login.RegisterUserLoginData;
 import info.esblurock.reaction.chemconnect.core.data.methodology.RegisterMethodology;
 import info.esblurock.reaction.chemconnect.core.data.observations.RegisterObservationData;
+import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
 import info.esblurock.reaction.chemconnect.core.data.rdf.RegisterRDFData;
 import info.esblurock.reaction.chemconnect.core.data.transaction.RegisterTransactionData;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
+import info.esblurock.reaction.core.server.db.InterpretData;
 import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.db.image.BlobKeyCorrespondence;
@@ -98,7 +100,10 @@ public class initialObservationsFromSpreadSheet {
 		path.add("First");
 		path.add("Second");
 		DataCatalogID catid = new DataCatalogID(structure, catalogBaseName, dataCatalog, simpleCatalogName, path);
-		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillObservationsFromSpreadSheet(obj, catid, 2,
+		DatabaseObjectHierarchy inputhier = InterpretData.SpreadSheetInputInformation.createEmptyObject(obj);
+		SpreadSheetInputInformation input = (SpreadSheetInputInformation) inputhier.getObject();
+		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillObservationsFromSpreadSheet(obj, 
+				catid, input,2,
 				4);
 		System.out.println(hierarchy);
 		try {

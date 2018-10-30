@@ -186,6 +186,7 @@ public class StandardDatasetMetaData {
 	public static String inputTypeS = "dataset:inputType";
 	public static String outputTypeS = "dataset:outputType";
 
+	public static String chemConnectDataObject = "dataset:ChemConnectDataObject";
 	public static String yamlFileType = "dataset:FileTypeYaml";
 	public static String fileTypeS = "dataset:fileType";
 	public static String delimitorS = "dataset:delimitor";
@@ -245,5 +246,6 @@ public class StandardDatasetMetaData {
 	
 	public static String matrixBlockTitleFirstLine = "dataset:MatrixBlockTitleFirstLine";
 	public static String matrixBlockTitleNone = "dataset:MatrixBlockTitleNone";
+	public static String matrixBlockIsolated = "dataset:MatrixBlockIsolated";
 	
 }

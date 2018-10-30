@@ -19,6 +19,7 @@ public class SpreadSheetInputInformation  extends ChemConnectCompoundDataStructu
 	public static String SpaceTabDelimited = "dataset:SpaceTabDelimited";
 	
 	public static String URL          = "dataset:URLSourceFile";
+	public static String CHEMCONNECT  = "dataset:ChemConnectDataObject";
 	public static String STRINGSOURCE = "dataset:StringSource";
 	public static String BLOBSOURCE   = "dataset:BlobSourceFile";
 	
@@ -48,6 +49,13 @@ public class SpreadSheetInputInformation  extends ChemConnectCompoundDataStructu
 		this.sourceType = sourceType;
 		setDelimitorType(type);
 		this.source = source;
+	}
+	public SpreadSheetInputInformation(SpreadSheetInputInformation input) {
+		super(input);
+		this.type = input.getType();
+		this.sourceType = input.getSourceType();
+		this.delimitor = input.getDelimitor();
+		this.source = input.getSource();
 	}
 
 	public void setDelimitorType(String type) {
@@ -134,10 +142,13 @@ public class SpreadSheetInputInformation  extends ChemConnectCompoundDataStructu
 			build.append("unknown");
 		}
 		build.append(": " + sourceType + "  Delimitor(" + delimitor + ") ");
-		if(isSourceType(URL)) {
-			build.append(source);
-		} else {
+		if(isSourceType(STRINGSOURCE)) {
 			build.append("Source as string");
+			if(source != null) {
+				build.append(":  " + source.length() + " chars");
+			}
+		} else {
+			build.append(source);
 		}
 		return build.toString();
 	}

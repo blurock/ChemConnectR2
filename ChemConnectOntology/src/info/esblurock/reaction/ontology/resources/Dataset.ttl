@@ -1693,6 +1693,11 @@ xsd:date rdf:type rdfs:Datatype .
                            rdfs:subClassOf :ChemConnectConceptProperties .
 
 
+###  http://www.esblurock.info/dataset#ChemConnectDataObject
+:ChemConnectDataObject rdf:type owl:Class ;
+                       rdfs:subClassOf :FileSourceTypes .
+
+
 ###  http://www.esblurock.info/dataset#ChemConnectDataStructure
 :ChemConnectDataStructure rdf:type owl:Class ;
                           rdfs:subClassOf :DatasetCatalogInformation ;
@@ -6421,6 +6426,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#MatrixBlockEndClassification
 :MatrixBlockEndClassification rdf:type owl:Class ;
                               rdfs:subClassOf :SpreadSheetInterpretationClassifications .
+
+
+###  http://www.esblurock.info/dataset#MatrixBlockIsolated
+:MatrixBlockIsolated rdf:type owl:Class ;
+                     rdfs:subClassOf :SpreadSheetInterpretationClassifications .
 
 
 ###  http://www.esblurock.info/dataset#MatrixBlockTitleClassification

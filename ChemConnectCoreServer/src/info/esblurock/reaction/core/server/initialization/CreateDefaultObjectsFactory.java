@@ -293,17 +293,12 @@ public class CreateDefaultObjectsFactory {
 		DatabaseObjectHierarchy hierarchy = InterpretData.ObservationBlockFromSpreadSheet.createEmptyObject(obj);
 		ObservationBlockFromSpreadSheet obsblock = (ObservationBlockFromSpreadSheet) hierarchy.getObject();
 		
-		System.out.println("fillObservationBlockFromSpreadSheet: \n" + obsblock.toString());
-		
 		replaceDataCatalogID(hierarchy,obsblock.getCatalogDataID(),datid);
 		
 		return hierarchy;
 	}
 	
 	private static void replaceDataCatalogID(DatabaseObjectHierarchy hierarchy, String identifier, DataCatalogID catid) {
-		System.out.println("replaceDataCatalogID: " + identifier);
-		System.out.println("replaceDataCatalogID\n" + hierarchy.getSubObjectKeys());
-		
 		DatabaseObjectHierarchy cathierarchy = hierarchy.getSubObject(identifier);
 		DataCatalogID cat = (DataCatalogID) cathierarchy.getObject();
 		cat.setDataCatalog(catid.getDataCatalog());
@@ -350,7 +345,9 @@ public class CreateDefaultObjectsFactory {
 	}
 
 	
-	public static DatabaseObjectHierarchy fillObservationsFromSpreadSheet(DatabaseObject obj, DataCatalogID catid, int numberOfColumns, int numberOfRows) {
+	public static DatabaseObjectHierarchy fillObservationsFromSpreadSheet(DatabaseObject obj, 
+			DataCatalogID catid, SpreadSheetInputInformation spreadinfo,
+			int numberOfColumns, int numberOfRows) {
 		DatabaseObjectHierarchy hierarchy = InterpretData.ObservationsFromSpreadSheet.createEmptyObject(obj);
 		ObservationsFromSpreadSheet observations = (ObservationsFromSpreadSheet) hierarchy.getObject();
 		
@@ -364,6 +361,13 @@ public class CreateDefaultObjectsFactory {
 		ChemConnectCompoundMultiple valuemult = (ChemConnectCompoundMultiple) valuemulthier.getObject();
 		replaceDataCatalogID(hierarchy,observations.getCatalogDataID(),catid);
 		StringBuilder build = new StringBuilder();
+		
+		DatabaseObjectHierarchy infohier = hierarchy.getSubObject(observations.getSpreadSheetInputInformation());
+		SpreadSheetInputInformation info = (SpreadSheetInputInformation) infohier.getObject();
+		info.setSource(spreadinfo.getSource());
+		info.setDelimitor(spreadinfo.getDelimitor());
+		info.setType(spreadinfo.getType());
+		info.setSourceType(spreadinfo.getSourceType());
 		
 		ArrayList<String> defaulttitles = new ArrayList<String>();
 		for(int colcount= 0; colcount < numberOfColumns - 1; colcount++) {
@@ -388,11 +392,6 @@ public class CreateDefaultObjectsFactory {
 			build.append("0\n");
 		}
 		valuemult.setNumberOfElements(numberOfRows);
-		input.setDelimitor(",");
-		input.setDelimitorType(SpreadSheetInputInformation.CSV);
-		input.setSource(build.toString());
-		input.setSourceType(SpreadSheetInputInformation.STRINGSOURCE);
-
 		return hierarchy;
 	}
 

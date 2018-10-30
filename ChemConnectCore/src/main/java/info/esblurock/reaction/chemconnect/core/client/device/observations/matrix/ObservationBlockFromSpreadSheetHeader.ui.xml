@@ -5,23 +5,24 @@
 		background-color: #cfd8dc;
 		border: 1px solid #607d8b;
 		width: 95%;
+		margin: 0px
 	}
 	</ui:style>
 		<m:MaterialPanel>
 			<m:MaterialRow>
-				<m:MaterialColumn grid="s9" styleName="{style.rowbox}">
-					<m:MaterialTooltip ui:field="headertooltip">
-					<m:MaterialLink ui:field="header" />
+				<m:MaterialColumn grid="s3" styleName="{style.rowbox}">
+					<m:MaterialTooltip ui:field="blocktooltip">
+					<m:MaterialLink ui:field="block" />
 					</m:MaterialTooltip>
+				</m:MaterialColumn>
+				<m:MaterialColumn grid="s7" >
+					<m:MaterialLink ui:field="header" iconColor="BLACK"/>
 				</m:MaterialColumn>
 				<m:MaterialColumn grid="s1" >
 					<m:MaterialLink ui:field="delete" iconColor="BLACK" iconType="DELETE" />
 				</m:MaterialColumn>
 				<m:MaterialColumn grid="s1" >
 					<m:MaterialLink ui:field="save" iconColor="BLACK" iconType="SAVE" />
-				</m:MaterialColumn>
-				<m:MaterialColumn grid="s1" >
-					<m:MaterialLink ui:field="info" iconColor="BLACK" iconType="INFO" />
 				</m:MaterialColumn>
 			</m:MaterialRow>
 		</m:MaterialPanel>

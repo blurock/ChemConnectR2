@@ -4,13 +4,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
+import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheetFull;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetBlockIsolation;
+import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationMatrixValues;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRowTitle;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
+import info.esblurock.reaction.core.server.db.InterpretData;
 import info.esblurock.reaction.core.server.db.spreadsheet.CompareObservationValueRowHierarchy;
 import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFactory;
 import info.esblurock.reaction.io.metadata.StandardDatasetMetaData;
@@ -30,7 +33,7 @@ public class IsolateBlockFromMatrix {
 		DatabaseObjectHierarchy rowhier = valueshier.getSubobjects().get(beginrow);
 		ObservationValueRow row = (ObservationValueRow) rowhier.getObject();
 		String titleS = blockisolate.getTitleIncluded();
-		boolean title = titleS.compareTo("dataset:MatrixBlockTitleFirstLine") == 0;
+		boolean title = titleS.compareTo(StandardDatasetMetaData.matrixBlockTitleFirstLine) == 0;
 		System.out.println("Title included: " +  title + ": '" +  titleS + "'");
 		int begincolumn = determineBeginColumn(row,blockisolate);
 		int endcolumn = determineEndColumn(begincolumn, row,blockisolate);
@@ -40,11 +43,17 @@ public class IsolateBlockFromMatrix {
 		if(title) {
 			numberOfRows--;
 		}
+		
+		
+		DatabaseObjectHierarchy infohier = InterpretData.SpreadSheetInputInformation.createEmptyObject(catid);
+		SpreadSheetInputInformation newinput = (SpreadSheetInputInformation) infohier.getObject();
+		newinput.setSourceType(StandardDatasetMetaData.chemConnectDataObject);
+		newinput.setSource(matrix.getIdentifier());
+		newinput.setType(StandardDatasetMetaData.matrixBlockIsolated);
+		newinput.setDelimitor("none");
+
 		DatabaseObjectHierarchy newmatrixhier = CreateDefaultObjectsFactory.fillObservationsFromSpreadSheet(catid, 
-				catid, numberOfColumns, numberOfRows);
-		
-		System.out.println(newmatrixhier.toString());
-		
+				catid, newinput, numberOfColumns, numberOfRows);
 		
 		ObservationsFromSpreadSheet newmatrix = (ObservationsFromSpreadSheet) newmatrixhier.getObject();
 		DatabaseObjectHierarchy newobsmathier = newmatrixhier.getSubObject(newmatrix.getObservationMatrixValues());
