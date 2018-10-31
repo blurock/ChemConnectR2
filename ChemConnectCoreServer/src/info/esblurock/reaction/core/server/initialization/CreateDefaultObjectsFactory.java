@@ -353,8 +353,6 @@ public class CreateDefaultObjectsFactory {
 		
 		DatabaseObjectHierarchy titlehierarchy = hierarchy.getSubObject(observations.getObservationValueRowTitle());
 		ObservationValueRowTitle title = (ObservationValueRowTitle) titlehierarchy.getObject();
-		DatabaseObjectHierarchy inputhierarchy = hierarchy.getSubObject(observations.getSpreadSheetInputInformation());
-		SpreadSheetInputInformation input = (SpreadSheetInputInformation) inputhierarchy.getObject();
 		DatabaseObjectHierarchy observehierarchy = hierarchy.getSubObject(observations.getObservationMatrixValues());
 		ObservationMatrixValues values = (ObservationMatrixValues) observehierarchy.getObject();
 		DatabaseObjectHierarchy valuemulthier = observehierarchy.getSubObject(values.getObservationRowValue());

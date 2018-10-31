@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Set;
 
 import com.googlecode.objectify.Key;
-import com.googlecode.objectify.NotFoundException;
 import com.googlecode.objectify.ObjectifyService;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
@@ -19,7 +18,6 @@ import info.esblurock.reaction.chemconnect.core.data.query.QueryPropertyValue;
 import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.data.query.SetOfQueryPropertyValues;
 import info.esblurock.reaction.chemconnect.core.data.query.SetOfQueryResults;
-import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructureObject;
@@ -88,17 +86,6 @@ public class WriteReadDatabaseObjects {
 	}
 	public static DatabaseObjectHierarchy writeDatabaseObjectHierarchy(DatabaseObjectHierarchy objecthierarchy) {
 		writeDatabaseObjectHierarchyRecursive(objecthierarchy);
-		/*
-		DatabaseObject topobject = objecthierarchy.getObject();
-		try {
-			System.out.println("writeDatabaseObjectHierarchy: " + topobject);
-			QueryBase.getDatabaseObjectFromIdentifier(topobject.getClass().getCanonicalName(),topobject.getIdentifier());
-			updateDatabaseObjectHierarchy(objecthierarchy);
-		} catch (IOException e) {
-			System.out.println("writeDatabaseObjectHierarchy: " + objecthierarchy);
-			writeDatabaseObjectHierarchyRecursive(objecthierarchy);
-		}
-		*/
 		return objecthierarchy;
 	}
 		

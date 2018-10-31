@@ -25,7 +25,6 @@ import info.esblurock.reaction.chemconnect.core.client.catalog.choose.SubCatagor
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHeirarchy;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchies;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.MatrixSpecificationCorrespondenceSetHeader;
-import info.esblurock.reaction.chemconnect.core.client.modal.ChooseFromHierarchyNode;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
@@ -75,8 +74,6 @@ public class StandardDatasetObservationCorrespondenceSpecificationHeader extends
 	DescriptionDataData description;
 	ObservationSpecification obsspec;
 	DatabaseObjectHierarchy attachedObservationsFromSpreadSheet;
-	//StandardDatasetObservationSpecificationHeader specheader;
-	//MatrixSpecificationCorrespondenceSet matspec;
 	
 	String observationType; 
 	
@@ -159,11 +156,7 @@ public class StandardDatasetObservationCorrespondenceSpecificationHeader extends
 		fillInSubItems();
 		if(attachedObservationsFromSpreadSheet == null) {
 			UserImageServiceAsync async = UserImageService.Util.getInstance();
-			String datacatalog = MetaDataKeywords.dataFileMatrixStructure;
 			HierarchyNodeCallback callback = new HierarchyNodeCallback(this);
-			//async.getIDHierarchyFromDataCatalogAndUser(datacatalog,callback);	
-		
-			
 			async.getIDHierarchyFromDataCatalogIDAndClassType(catid.getCatalogBaseName(),
 					MetaDataKeywords.observationsFromSpreadSheet,callback);
 		}
@@ -171,13 +164,6 @@ public class StandardDatasetObservationCorrespondenceSpecificationHeader extends
 
 	@Override
 	public void insertTree(HierarchyNode topnode) {
-		/*
-		ChooseFromHierarchyNode choose = new ChooseFromHierarchyNode(MetaDataKeywords.dataFileMatrixStructure,
-				"Choose a reference Matrix to test isolation", topnode, this);
-		item.getModalpanel().clear();
-		item.getModalpanel().add(choose);
-		choose.open();
-		 */
 		chooseSheet = new ChooseFromHiearchyTree("Choose reference matrix for set of observations",topnode,this);
 		chooseSheet.open();
 		item.getModalpanel().clear();

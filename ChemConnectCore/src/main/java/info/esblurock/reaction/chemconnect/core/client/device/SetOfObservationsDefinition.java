@@ -61,65 +61,6 @@ public class SetOfObservationsDefinition extends Composite implements ObjectVisu
 		choose = new ChooseFullNameFromCatagoryRow(this,user,object,choices,modalpanel);
 		topPanel.add(choose);
 	}
-	
-/*
-	private void chooseConceptHieararchy() {
-		ArrayList<String> choices = new ArrayList<String>();
-		choices.add("dataset:ChemConnectObservable");
-		
-		ChooseFromConceptHierarchies choosedevice = new ChooseFromConceptHierarchies(choices,this);
-		modalpanel.add(choosedevice);
-		choosedevice.open();		
-	}
-	*/
-	/*
-	@Override
-	public void conceptChosen(String topconcept, String concept) {
-		SetUpDatabaseObjectHierarchyCallback callback = new SetUpDatabaseObjectHierarchyCallback(contentcollapsible,modalpanel);
-		UserImageServiceAsync async = UserImageService.Util.getInstance();
-		String id = topname.getText();
-		String user = Cookies.getCookie("user");
-		DatabaseObject obj = new DatabaseObject(id,user,user,"");
-		async.getSetOfObservations(obj,concept,topname.getText(),callback);
-		
-	}
-	*/
-/*
-	public void addChemConnectDataStructure(ChemConnectDataStructure structure) {
-		DatabaseObject topobj = structure.getIdentifier();
-		String id = topname.getText();
-		topobj.setIdentifier(id);
-		topobj.setAccess(access);
-		String defaultObservationID = "Observation";
-		observations = new SetOfObservationsCollapsible(id, defaultObservationID, modalpanel);
-		setofobservables.add(observations);
-		addHierarchialModal(topobj,structure,observations);
-		contentcollapsible.add(observations);
-		setIdentifer(topobj);
-	}
-
-	public void addHierarchialModal(DatabaseObject topobj,ChemConnectDataStructure infoStructure, SetOfObservationsCollapsible obstop) {
-		for(DataElementInformation element : infoStructure.getRecords()) {
-			String subid = topobj.getIdentifier() + "-" + element.getSuffix();
-			DatabaseObject subobj = new DatabaseObject(topobj);
-			subobj.setIdentifier(subid);
-			String type = element.getDataElementName();
-			if(infoStructure.getMapping().getStructure(type) != null) {
-					MainDataStructureCollapsible main = new MainDataStructureCollapsible(subobj,element,infoStructure,modalpanel);
-					obstop.addInfoCollapsible(main);
-			} else {
-				Window.alert("Compound element not found: " + type);
-			}	
-		}
-	}
-	
-	public void setIdentifer(DatabaseObject obj) {
-		baseobj = new DatabaseObject(obj);
-		for(SetOfObservationsCollapsible observe : setofobservables) {
-			observe.setIdentifier(obj);
-		}
-	}
-*/
 	@Override
 	public void createCatalogObject(DatabaseObject obj,DataCatalogID datid) {
 		SetUpDatabaseObjectHierarchyCallback callback = new SetUpDatabaseObjectHierarchyCallback(contentcollapsible,modalpanel);
@@ -127,8 +68,6 @@ public class SetOfObservationsDefinition extends Composite implements ObjectVisu
 		String observation = choose.getObjectType();
 		String title = choose.getObjectName();
 		async.getSetOfObservations(obj,observation,title,datid,callback);
-	
-		
 	}
 
 	@Override
