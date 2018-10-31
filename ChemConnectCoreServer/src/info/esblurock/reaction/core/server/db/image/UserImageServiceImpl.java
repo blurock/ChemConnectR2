@@ -483,7 +483,6 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	 *   MatrixSpecificationCorrespondence hierarchy
 	 * 
 	 * @param corrspechier Hierarchy for MatrixSpecificationCorrespondenceSet
-	 * @param sethier     Hierarchy for SetOfObservationValues
 	 */
 	public DatabaseObjectHierarchy fillMatrixSpecificationCorrespondence(DatabaseObjectHierarchy corrspechier,ArrayList<String> coltitles) {
 		CreateDefaultObjectsFactory.fillMatrixSpecificationCorrespondence(corrspechier, coltitles);

@@ -2202,7 +2202,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                          [ rdf:type owl:Restriction ;
                                            owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                           owl:onClass :SetOfObservationValues
+                                           owl:onClass :ObservationCorrespondenceSpecification
                                          ] ;
                          <http://purl.org/dc/elements/1.1/relation> :DataTypeDataset .
 
@@ -3692,6 +3692,16 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                                  ] .
 
 
+###  http://www.esblurock.info/dataset#FileYamlObservationCorrespondenceSpecification
+:FileYamlObservationCorrespondenceSpecification rdf:type owl:Class ;
+                                                rdfs:subClassOf :FileTypeYamlCatalogObject ,
+                                                                [ rdf:type owl:Restriction ;
+                                                                  owl:onProperty <http://purl.org/linked-data/cube#structure> ;
+                                                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                                  owl:onClass :ObservationCorrespondenceSpecification
+                                                                ] .
+
+
 ###  http://www.esblurock.info/dataset#FileYamlOrganization
 :FileYamlOrganization rdf:type owl:Class ;
                       rdfs:subClassOf :FileTypeYamlCatalogObject ,
@@ -3700,16 +3710,6 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                         owl:onClass :Organization
                                       ] .
-
-
-###  http://www.esblurock.info/dataset#FileYamlSetOfObservationValues
-:FileYamlSetOfObservationValues rdf:type owl:Class ;
-                                rdfs:subClassOf :FileTypeYamlCatalogObject ,
-                                                [ rdf:type owl:Restriction ;
-                                                  owl:onProperty <http://purl.org/linked-data/cube#structure> ;
-                                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                  owl:onClass :SetOfObservationValues
-                                                ] .
 
 
 ###  http://www.esblurock.info/dataset#FileYamlSubSystemDescription
@@ -6896,6 +6896,25 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                  <http://www.w3.org/2004/02/skos/core#altLabel> "block"^^xsd:string .
 
 
+###  http://www.esblurock.info/dataset#ObservationCorrespondenceSpecification
+:ObservationCorrespondenceSpecification rdf:type owl:Class ;
+                                        rdfs:subClassOf :ChemConnectDataStructure ,
+                                                        [ rdf:type owl:Restriction ;
+                                                          owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                          owl:onClass :MatrixSpecificationCorrespondenceSet
+                                                        ] ,
+                                                        [ rdf:type owl:Restriction ;
+                                                          owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                          owl:onClass :ObservationSpecification
+                                                        ] ;
+                                        <http://purl.org/dc/elements/1.1/type> "ObservationCorrespondenceSpecification" ;
+                                        <http://purl.org/dc/terms/identifier> "dataset:ObservationCorrespondenceSpecification" ;
+                                        rdfs:label "Observation Correspondence Specification" ;
+                                        <http://www.w3.org/2004/02/skos/core#altLabel> "matcorrs" .
+
+
 ###  http://www.esblurock.info/dataset#ObservationLabel
 :ObservationLabel rdf:type owl:Class ;
                   rdfs:subClassOf :ShortStringLabel .
@@ -8046,25 +8065,6 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                                       owl:onClass :MatrixOfObservables
                                                     ] ;
                                     rdfs:isDefinedBy :MatrixOfObservables .
-
-
-###  http://www.esblurock.info/dataset#SetOfObservationValues
-:SetOfObservationValues rdf:type owl:Class ;
-                        rdfs:subClassOf :ChemConnectDataStructure ,
-                                        [ rdf:type owl:Restriction ;
-                                          owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                          owl:onClass :MatrixSpecificationCorrespondenceSet
-                                        ] ,
-                                        [ rdf:type owl:Restriction ;
-                                          owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                          owl:onClass :ObservationSpecification
-                                        ] ;
-                        <http://purl.org/dc/elements/1.1/type> "SetOfObservationValues" ;
-                        <http://purl.org/dc/terms/identifier> "qb:ObservationGroup" ;
-                        rdfs:label "Set of Observation Values" ;
-                        <http://www.w3.org/2004/02/skos/core#altLabel> "setofvalues" .
 
 
 ###  http://www.esblurock.info/dataset#SetOfObservationsLinkToActivity

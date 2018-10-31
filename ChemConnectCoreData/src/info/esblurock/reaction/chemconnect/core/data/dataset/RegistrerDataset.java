@@ -20,7 +20,7 @@ public class RegistrerDataset {
 			ObjectifyService.register(DatasetCatalogHierarchy.class);
 			ObjectifyService.register(SubSystemDescription.class);
 			ObjectifyService.register(SetOfKeywords.class);
-			ObjectifyService.register(SetOfObservationValues.class);
+			ObjectifyService.register(ObservationCorrespondenceSpecification.class);
 			ObjectifyService.register(DimensionParameterValue.class);
 			ObjectifyService.register(MeasurementParameterValue.class);
 			ObjectifyService.register(ValueUnits.class);
@@ -42,7 +42,7 @@ public class RegistrerDataset {
 			ResetDatabaseObjects.resetClass(DatasetCatalogHierarchy.class);
 			ResetDatabaseObjects.resetClass(SubSystemDescription.class);
 			ResetDatabaseObjects.resetClass(SetOfKeywords.class);
-			ResetDatabaseObjects.resetClass(SetOfObservationValues.class);
+			ResetDatabaseObjects.resetClass(ObservationCorrespondenceSpecification.class);
 			ResetDatabaseObjects.resetClass(DimensionParameterValue.class);
 			ResetDatabaseObjects.resetClass(MeasurementParameterValue.class);
 			ResetDatabaseObjects.resetClass(ValueUnits.class);

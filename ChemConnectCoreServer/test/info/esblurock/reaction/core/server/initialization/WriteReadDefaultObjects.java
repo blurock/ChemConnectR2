@@ -102,7 +102,7 @@ public class WriteReadDefaultObjects {
 				"Set of burner plate observations","dataset:HeatFluxBurnerObservation","dataset:LaminarFlame");
 		System.out.println("fillSetOfObservations\n" + hierarchy.toString());
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(hierarchy);	
-		DatabaseObjectHierarchy readhierarchy = ExtractCatalogInformation.getCatalogObject("AdministrationCatalog-setofvalues", "dataset:SetOfObservationValues");
+		DatabaseObjectHierarchy readhierarchy = ExtractCatalogInformation.getCatalogObject("AdministrationCatalog-setofvalues", "dataset:ObservationCorrespondenceSpecification");
 		System.out.println(readhierarchy.toString());
 		*/
 		/*

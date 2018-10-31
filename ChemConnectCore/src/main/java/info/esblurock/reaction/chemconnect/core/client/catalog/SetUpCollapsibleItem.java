@@ -23,7 +23,7 @@ import info.esblurock.reaction.chemconnect.core.client.device.observations.Param
 import info.esblurock.reaction.chemconnect.core.client.device.observations.PrimitiveParameterValueRow;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.StandardDatasetObservationSpecificationHeader;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.StandardDatasetParameterSpecificationHeader;
-import info.esblurock.reaction.chemconnect.core.client.device.observations.StandardDatasetSetOfObservationValuesHeader;
+import info.esblurock.reaction.chemconnect.core.client.device.observations.StandardDatasetObservationCorrespondenceSpecificationHeader;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.MatrixSpecificationCorrespondenceHeader;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.MatrixSpecificationCorrespondenceSetHeader;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.ObservationBlockFromSpreadSheetHeader;
@@ -379,11 +379,11 @@ public enum SetUpCollapsibleItem {
 			return true;
 		}
 		
-	}, SetOfObservationValues {
+	}, ObservationCorrespondenceSpecification {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
-			StandardDatasetSetOfObservationValuesHeader header = new StandardDatasetSetOfObservationValuesHeader(item);
+			StandardDatasetObservationCorrespondenceSpecificationHeader header = new StandardDatasetObservationCorrespondenceSpecificationHeader(item);
 			item.addHeader(header);
 			
 		}
@@ -405,7 +405,7 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public boolean update(StandardDatasetObjectHierarchyItem item) {
-			StandardDatasetSetOfObservationValuesHeader header = (StandardDatasetSetOfObservationValuesHeader) item.getHeader();
+			StandardDatasetObservationCorrespondenceSpecificationHeader header = (StandardDatasetObservationCorrespondenceSpecificationHeader) item.getHeader();
 			header.updateData();
 			return true;
 		}

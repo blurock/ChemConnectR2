@@ -38,7 +38,7 @@ import info.esblurock.reaction.chemconnect.core.data.dataset.ObservationSpecific
 import info.esblurock.reaction.chemconnect.core.data.dataset.ParameterSpecification;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ParameterValue;
 import info.esblurock.reaction.chemconnect.core.data.dataset.PurposeConceptPair;
-import info.esblurock.reaction.chemconnect.core.data.dataset.SetOfObservationValues;
+import info.esblurock.reaction.chemconnect.core.data.dataset.ObservationCorrespondenceSpecification;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ValueUnits;
 import info.esblurock.reaction.chemconnect.core.data.dataset.device.SubSystemDescription;
 import info.esblurock.reaction.chemconnect.core.data.description.DescriptionDataData;
@@ -767,8 +767,8 @@ public class CreateDefaultObjectsFactory {
 	public static DatabaseObjectHierarchy fillSetOfObservations(DatabaseObject obj, String parameter, 
 			String oneline,
 			DataCatalogID datid) {
-		DatabaseObjectHierarchy sethier = InterpretData.SetOfObservationValues.createEmptyObject(obj);
-		SetOfObservationValues set = (SetOfObservationValues) sethier.getObject();
+		DatabaseObjectHierarchy sethier = InterpretData.ObservationCorrespondenceSpecification.createEmptyObject(obj);
+		ObservationCorrespondenceSpecification set = (ObservationCorrespondenceSpecification) sethier.getObject();
 		
 		insertDataCatalogID(sethier, datid);
 
@@ -798,7 +798,6 @@ public class CreateDefaultObjectsFactory {
 	 *   MatrixSpecificationCorrespondence hierarchy
 	 * 
 	 * @param colcorrhier Hierarchy for MatrixSpecificationCorrespondenceSet
-	 * @param sethier     Hierarchy for SetOfObservationValues
 	 */
 	public static DatabaseObjectHierarchy fillMatrixSpecificationCorrespondence(DatabaseObjectHierarchy corrspechier,
 			ArrayList<String> coltitles) {

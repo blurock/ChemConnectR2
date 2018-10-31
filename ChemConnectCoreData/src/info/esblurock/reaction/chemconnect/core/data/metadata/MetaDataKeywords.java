@@ -58,7 +58,7 @@ public class MetaDataKeywords {
 	public static String subSystemDescription = "dataset:SubSystemDescription";
 	public static String dataTypeMethodology = "dataset:DataTypeMethodology";
 	public static String methodology = "dataset:Methodology";
-	public static String setOfObservationValues = "dataset:SetOfObservationValues";
+	public static String observationCorrespondenceSpecification = "dataset:ObservationCorrespondenceSpecification";
 	public static String dataFileInformationStructure = "dataset:DataFileInformationStructure";
 	public static String dataTypeFileFormatInterpretation = "dataset:DataTypeFileFormatInterpretation";
 	public static String dataTypeConcept = "dataset:DataTypeConcept";

@@ -57,7 +57,7 @@ public class SetOfObservationsDefinition extends Composite implements ObjectVisu
 		ArrayList<String> choices = new ArrayList<String>();
 		choices.add(MetaDataKeywords.chemConnectObservable);
 		String user = Cookies.getCookie("user");
-		String object = MetaDataKeywords.setOfObservationValues;
+		String object = MetaDataKeywords.observationCorrespondenceSpecification;
 		choose = new ChooseFullNameFromCatagoryRow(this,user,object,choices,modalpanel);
 		topPanel.add(choose);
 	}

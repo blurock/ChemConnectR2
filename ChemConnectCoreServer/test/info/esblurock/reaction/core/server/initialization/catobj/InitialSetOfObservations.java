@@ -28,7 +28,7 @@ import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.contact.RegisterContactData;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.dataset.RegistrerDataset;
-import info.esblurock.reaction.chemconnect.core.data.dataset.SetOfObservationValues;
+import info.esblurock.reaction.chemconnect.core.data.dataset.ObservationCorrespondenceSpecification;
 import info.esblurock.reaction.chemconnect.core.data.description.DescriptionDataData;
 import info.esblurock.reaction.chemconnect.core.data.description.RegisterDescriptionData;
 import info.esblurock.reaction.chemconnect.core.data.gcs.RegisterGCSClasses;
@@ -112,7 +112,7 @@ public class InitialSetOfObservations {
 				+ "laboratories from Eindhoven University of Technology, "
 				+ "Lund University, OWI Oel-Waerme Institut GmbH and "
 				+ "TU Bergakademie Freiberg.";
-		SetOfObservationValues m = (SetOfObservationValues) hierarchy1.getObject();
+		ObservationCorrespondenceSpecification m = (ObservationCorrespondenceSpecification) hierarchy1.getObject();
 		DatabaseObjectHierarchy dhier = hierarchy1.getSubObject(m.getDescriptionDataData());
 		DescriptionDataData dstruct = (DescriptionDataData) dhier.getObject();
 		dstruct.setDescriptionAbstract(descr);
@@ -136,7 +136,7 @@ public class InitialSetOfObservations {
 			WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(hierarchy1);	
 			System.out.println("Hierarchy written");
 			Set<String> ids = WriteReadDatabaseObjects.getIDsOfAllDatabaseObjects("Administration",
-					"dataset:SetOfObservationValues");
+					"dataset:ObservationCorrespondenceSpecification");
 			System.out.println("IDs: " + ids);
 			Set<String> ids1 = WriteReadDatabaseObjects.getIDsOfAllDatabaseObjects("Administration",
 					"dataset:ObservationValueRowTitle");
@@ -145,7 +145,7 @@ public class InitialSetOfObservations {
 			System.out.println("----------------------------------------------------------------");
 			//String uid = DatasetCatalogHierarchy.createFullCatalogName("Catalog", username);
 			String uid = "AdministrationCatalog-setofvalues";
-			DatabaseObjectHierarchy methhier = ExtractCatalogInformation.getCatalogObject(uid, "dataset:SetOfObservationValues");
+			DatabaseObjectHierarchy methhier = ExtractCatalogInformation.getCatalogObject(uid, "dataset:ObservationCorrespondenceSpecification");
 			System.out.println("----------------------------------------------------------------");
 			System.out.println(methhier.toString());
 

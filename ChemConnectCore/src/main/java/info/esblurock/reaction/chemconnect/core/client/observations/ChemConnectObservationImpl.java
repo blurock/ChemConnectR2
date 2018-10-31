@@ -69,7 +69,7 @@ public class ChemConnectObservationImpl extends Composite implements ChemConnect
 		ArrayList<String> choices = new ArrayList<String>();
 		choices.add(MetaDataKeywords.chemConnectObservable);
 		String user = Cookies.getCookie("user");
-		String object = MetaDataKeywords.setOfObservationValues;
+		String object = MetaDataKeywords.observationCorrespondenceSpecification;
 		choose = new ChooseFullNameFromCatagoryRow(this,user,object,choices,toppanel);
 		catagorysetup.add(choose);
 

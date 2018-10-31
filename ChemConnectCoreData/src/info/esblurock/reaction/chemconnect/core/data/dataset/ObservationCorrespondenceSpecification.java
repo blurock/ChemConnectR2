@@ -7,22 +7,22 @@ import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructu
 
 @SuppressWarnings("serial")
 @Entity
-public class SetOfObservationValues extends ChemConnectDataStructure {
+public class ObservationCorrespondenceSpecification extends ChemConnectDataStructure {
 	@Index
 	String observationSpecification;
 	@Index
 	String matrixSpecificationCorrespondenceSet;
 
-	public SetOfObservationValues() {
+	public ObservationCorrespondenceSpecification() {
 		init();
 	}
 	
-	public SetOfObservationValues(ChemConnectDataStructure structure) {
+	public ObservationCorrespondenceSpecification(ChemConnectDataStructure structure) {
 		super(structure);
 		init();
 	}
 	
-	public SetOfObservationValues(ChemConnectDataStructure structure, 
+	public ObservationCorrespondenceSpecification(ChemConnectDataStructure structure, 
 			String observationSpecification, String matrixSpecificationCorrespondenceSet) {
 		super(structure);
 		init();

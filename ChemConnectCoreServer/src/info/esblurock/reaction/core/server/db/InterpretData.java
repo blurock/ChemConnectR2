@@ -42,7 +42,7 @@ import info.esblurock.reaction.chemconnect.core.data.dataset.ParameterSpecificat
 import info.esblurock.reaction.chemconnect.core.data.dataset.MeasureParameterSpecification;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DimensionParameterSpecification;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ValueUnits;
-import info.esblurock.reaction.chemconnect.core.data.dataset.SetOfObservationValues;
+import info.esblurock.reaction.chemconnect.core.data.dataset.ObservationCorrespondenceSpecification;
 import info.esblurock.reaction.chemconnect.core.data.dataset.device.SubSystemDescription;
 import info.esblurock.reaction.chemconnect.core.data.dataset.PurposeConceptPair;
 import info.esblurock.reaction.ontology.OntologyKeys;
@@ -673,13 +673,13 @@ public enum InterpretData {
 			return ObservationsFromSpreadSheet.class.getCanonicalName();
 		}
 		
-	}, SetOfObservationValues {
+	}, ObservationCorrespondenceSpecification {
 
 
 		@Override
 		public Map<String, Object> createYamlFromObject(
 				DatabaseObject object) throws IOException {
-			SetOfObservationValues datastructure = (SetOfObservationValues) object;
+			ObservationCorrespondenceSpecification datastructure = (ObservationCorrespondenceSpecification) object;
 			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
@@ -692,13 +692,13 @@ public enum InterpretData {
 		@Override
 		public DatabaseObject readElementFromDatabase(
 				String identifier) throws IOException {
-			return QueryBase.getDatabaseObjectFromIdentifier(SetOfObservationValues.class.getCanonicalName(),
+			return QueryBase.getDatabaseObjectFromIdentifier(ObservationCorrespondenceSpecification.class.getCanonicalName(),
 					identifier);
 		}
 
 		@Override
 		public String canonicalClassName() {
-			return SetOfObservationValues.class.getCanonicalName();
+			return ObservationCorrespondenceSpecification.class.getCanonicalName();
 		}
 
 		@Override
@@ -706,7 +706,7 @@ public enum InterpretData {
 			DatabaseObject obsobj = new DatabaseObject(obj);
 			obsobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
-					.getSubElementStructureFromIDObject(OntologyKeys.setOfObservationValues);
+					.getSubElementStructureFromIDObject(OntologyKeys.observationCorrespondenceSpecification);
 			String obsid = createSuffix(obj, element);
 			obsobj.setIdentifier(obsid);
 			
@@ -714,7 +714,7 @@ public enum InterpretData {
 			DatabaseObjectHierarchy matrixspecehier = InterpretData.MatrixSpecificationCorrespondenceSet.createEmptyObject(obsobj);
 			DatabaseObjectHierarchy structurehier = InterpretData.ChemConnectDataStructure.createEmptyObject(obsobj);
 			ChemConnectDataStructure structure = (ChemConnectDataStructure) structurehier.getObject();
-			SetOfObservationValues set = new SetOfObservationValues(structure,
+			ObservationCorrespondenceSpecification set = new ObservationCorrespondenceSpecification(structure,
 					obspechier.getObject().getIdentifier(),
 					matrixspecehier.getObject().getIdentifier());
 			set.setIdentifier(obsid);
@@ -728,14 +728,14 @@ public enum InterpretData {
 		@Override
 		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml,
 				String sourceID) throws IOException {
-			SetOfObservationValues set = null;
+			ObservationCorrespondenceSpecification set = null;
 			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
 			ChemConnectDataStructure objdata = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
 					
 			String parameterTypeS = (String) yaml.get(StandardDatasetMetaData.matrixSpecificationCorrespondenceSetID);			
 			String measurementValuesS = (String) yaml.get(StandardDatasetMetaData.observationSpecificationID);			
 
-			set = new SetOfObservationValues(objdata, 
+			set = new ObservationCorrespondenceSpecification(objdata, 
 					parameterTypeS, measurementValuesS);
 			return set;
 		}

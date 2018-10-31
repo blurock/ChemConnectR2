@@ -31,22 +31,22 @@ import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageSer
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ObservationSpecification;
-import info.esblurock.reaction.chemconnect.core.data.dataset.SetOfObservationValues;
+import info.esblurock.reaction.chemconnect.core.data.dataset.ObservationCorrespondenceSpecification;
 import info.esblurock.reaction.chemconnect.core.data.description.DescriptionDataData;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
-public class StandardDatasetSetOfObservationValuesHeader extends Composite 
+public class StandardDatasetObservationCorrespondenceSpecificationHeader extends Composite 
 	implements HierarchyNodeCallbackInterface, ChooseFromHierarchyTreeInterface, 
 		SubCatagoryHierarchyCallbackInterface, UpdateDataObjectHeaderInterface,
 		ChooseFromConceptHeirarchy {
 
-	private static StandardDatasetSetOfObservationValuesHeaderUiBinder uiBinder = GWT
-			.create(StandardDatasetSetOfObservationValuesHeaderUiBinder.class);
+	private static StandardDatasetObservationCorrespondenceSpecificationHeaderUiBinder uiBinder = GWT
+			.create(StandardDatasetObservationCorrespondenceSpecificationHeaderUiBinder.class);
 
-	interface StandardDatasetSetOfObservationValuesHeaderUiBinder
-			extends UiBinder<Widget, StandardDatasetSetOfObservationValuesHeader> {
+	interface StandardDatasetObservationCorrespondenceSpecificationHeaderUiBinder
+			extends UiBinder<Widget, StandardDatasetObservationCorrespondenceSpecificationHeader> {
 	}
 
 	@UiField
@@ -68,7 +68,7 @@ public class StandardDatasetSetOfObservationValuesHeader extends Composite
 	
 	
 	StandardDatasetObjectHierarchyItem item;
-	SetOfObservationValues value;
+	ObservationCorrespondenceSpecification value;
 	MatrixSpecificationCorrespondenceSetHeader matspecheader;
 	DatasetStandardDataCatalogIDHeader catidheader;
 	DataCatalogID catid;
@@ -83,11 +83,11 @@ public class StandardDatasetSetOfObservationValuesHeader extends Composite
 	ChooseFromHiearchyTree chooseSheet;
 	DatabaseObjectHierarchy spechier;
 	
-	public StandardDatasetSetOfObservationValuesHeader() {
+	public StandardDatasetObservationCorrespondenceSpecificationHeader() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
-	public StandardDatasetSetOfObservationValuesHeader(StandardDatasetObjectHierarchyItem item) {
+	public StandardDatasetObservationCorrespondenceSpecificationHeader(StandardDatasetObjectHierarchyItem item) {
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
 		extractFromItem(item);
@@ -104,7 +104,7 @@ public class StandardDatasetSetOfObservationValuesHeader extends Composite
 	private void extractFromItem(StandardDatasetObjectHierarchyItem item) {
 		this.item = item;
 		DatabaseObjectHierarchy hierarchy = item.getHierarchy();
-		value = (SetOfObservationValues) hierarchy.getObject();
+		value = (ObservationCorrespondenceSpecification) hierarchy.getObject();
 		spechier = hierarchy.getSubObject(value.getObservationSpecification());
 		obsspec = (ObservationSpecification) spechier.getObject();
 		String descID = value.getDescriptionDataData();

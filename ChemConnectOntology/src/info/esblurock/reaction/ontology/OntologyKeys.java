@@ -31,7 +31,7 @@ public class OntologyKeys {
 	public static String nameOfPerson = "dataset:NameOfPerson";
 	public static String author = "dataset:Author";
 	public static String subSystemDescription = "dataset:SubSystemDescription";
-	public static String setOfObservationValues = "dataset:SetOfObservationValues";
+	public static String observationCorrespondenceSpecification = "dataset:ObservationCorrespondenceSpecification";
 	public static String contactHasSite = "dataset:ContactHasSite";
 	public static String contactTopSite = "dataset:ContactSiteOf";
 	public static String methodology = "dataset:ChemConnectMethodology";
