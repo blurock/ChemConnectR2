@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import com.google.gwt.user.client.Window;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.io.db.QueryBase;
@@ -656,8 +657,13 @@ public enum InterpretData {
 		}
 
 		@Override
-		public info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject readElementFromDatabase(
-				String identifier) throws IOException {
+		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
+			List<DatabaseObject> lst = QueryBase.getDatabaseObjects(ObservationsFromSpreadSheet.class.getCanonicalName());
+			for(DatabaseObject obj : lst) {
+				System.out.println("readElementFromDatabase: " + obj.getIdentifier() 
+				+ "\nreadElementFromDatabase: " + identifier
+				+ "\ncompare: " + obj.getIdentifier().compareTo(identifier));
+			}
 			return QueryBase.getDatabaseObjectFromIdentifier(ObservationsFromSpreadSheet.class.getCanonicalName(),
 					identifier);
 		}

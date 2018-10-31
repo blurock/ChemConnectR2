@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -24,6 +25,7 @@ import info.esblurock.reaction.chemconnect.core.client.catalog.choose.SubCatagor
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHeirarchy;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchies;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.MatrixSpecificationCorrespondenceSetHeader;
+import info.esblurock.reaction.chemconnect.core.client.modal.ChooseFromHierarchyNode;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
@@ -157,15 +159,26 @@ public class StandardDatasetSetOfObservationValuesHeader extends Composite
 		fillInSubItems();
 		if(attachedObservationsFromSpreadSheet == null) {
 			UserImageServiceAsync async = UserImageService.Util.getInstance();
+			String datacatalog = MetaDataKeywords.dataFileMatrixStructure;
 			HierarchyNodeCallback callback = new HierarchyNodeCallback(this);
+			//async.getIDHierarchyFromDataCatalogAndUser(datacatalog,callback);	
+		
+			
 			async.getIDHierarchyFromDataCatalogIDAndClassType(catid.getCatalogBaseName(),
-				MetaDataKeywords.observationsFromSpreadSheet,callback);
+					MetaDataKeywords.observationsFromSpreadSheet,callback);
 		}
 	}
 
 	@Override
 	public void insertTree(HierarchyNode topnode) {
-		chooseSheet = new ChooseFromHiearchyTree("",topnode,this);
+		/*
+		ChooseFromHierarchyNode choose = new ChooseFromHierarchyNode(MetaDataKeywords.dataFileMatrixStructure,
+				"Choose a reference Matrix to test isolation", topnode, this);
+		item.getModalpanel().clear();
+		item.getModalpanel().add(choose);
+		choose.open();
+		 */
+		chooseSheet = new ChooseFromHiearchyTree("Choose reference matrix for set of observations",topnode,this);
 		chooseSheet.open();
 		item.getModalpanel().clear();
 		item.getModalpanel().add(chooseSheet);
@@ -176,13 +189,17 @@ public class StandardDatasetSetOfObservationValuesHeader extends Composite
 		chooseSheet.close();
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		SubCatagoryHierarchyCallback callback = new SubCatagoryHierarchyCallback(this);
+		Window.alert("treeNodeChosen: " + id);
 		async.getCatalogObject(id,MetaDataKeywords.observationsFromSpreadSheet,callback);
 	}
 
 	@Override
 	public void setInHierarchy(DatabaseObjectHierarchy subs) {
+		Window.alert("StandardDatasetSetOfObservationValuesHeader  setInHierarchy 1");
 		matspecheader.setUpListOfSpecifications(spechier);
+		Window.alert("StandardDatasetSetOfObservationValuesHeader  setInHierarchy 2");
 		matspecheader.setupMatrix(catid,subs);
+		Window.alert("StandardDatasetSetOfObservationValuesHeader  setInHierarchy 3");
 	}
 	
 	@Override

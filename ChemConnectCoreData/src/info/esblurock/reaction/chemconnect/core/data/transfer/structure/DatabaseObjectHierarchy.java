@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 
 public class DatabaseObjectHierarchy implements Serializable {
 
@@ -43,6 +44,11 @@ public class DatabaseObjectHierarchy implements Serializable {
 		ArrayList<DatabaseObjectHierarchy> subs = hierarchy.getSubobjects();
 		for (DatabaseObjectHierarchy sub : subs) {
 			this.addSubobject(sub);
+			DatabaseObject obj = sub.getObject();
+			if(obj instanceof ChemConnectCompoundDataStructure) {
+				ChemConnectCompoundDataStructure structure = (ChemConnectCompoundDataStructure) obj;
+				structure.setParentLink(object.getIdentifier());
+			}
 		}
 	}
 

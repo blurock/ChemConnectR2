@@ -6994,7 +6994,8 @@ Under the general type of is the actual data object referenced by the ChemConnec
                              rdfs:subClassOf :ObservationsFromSpreadSheetFull ,
                                              [ rdf:type owl:Restriction ;
                                                owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                                               owl:someValuesFrom :ObservationValueRowTitle
+                                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                               owl:onClass :ObservationValueRowTitle
                                              ] ;
                              <http://purl.org/dc/elements/1.1/type> "ObservationsFromSpreadSheet" ;
                              <http://purl.org/dc/terms/identifier> "dataset:ObservationsFromSpreadSheet" ;

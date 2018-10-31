@@ -193,20 +193,28 @@ public class MatrixSpecificationCorrespondenceSetHeader extends Composite
 	public void setupMatrix(DataCatalogID catid, DatabaseObjectHierarchy subs) {
 		attachedObservationsFromSpreadSheet = subs;
 		ObservationsFromSpreadSheet observations = (ObservationsFromSpreadSheet) attachedObservationsFromSpreadSheet.getObject();
+		Window.alert("StandardDatasetSetOfObservationValuesHeader: setupMatrix 1");
+		Window.alert("StandardDatasetSetOfObservationValuesHeader: setupMatrix\n" + observations.toString());
 		DatabaseObjectHierarchy matrixhierarchy = attachedObservationsFromSpreadSheet.getSubObject(observations.getObservationValueRowTitle());
+		Window.alert("StandardDatasetSetOfObservationValuesHeader: setupMatrix 2");
 		setInColumnCorrespondences(matrixhierarchy);
+		Window.alert("StandardDatasetSetOfObservationValuesHeader: setupMatrix 3");
 	}
 	
 	public void setUpListOfSpecifications(DatabaseObjectHierarchy spechier) {
 		ObservationSpecification obsspec = (ObservationSpecification) spechier.getObject();
+		Window.alert("StandardDatasetSetOfObservationValuesHeader: setUpListOfSpecifications\n" + obsspec.toString());
 		String dimensionid = obsspec.getDimensionSpecifications();
 		String measureid = obsspec.getMeasureSpecifications();
 		DatabaseObjectHierarchy dimensionhier = spechier.getSubObject(dimensionid);
 		DatabaseObjectHierarchy measurehier = spechier.getSubObject(measureid);
 		orderedlist = new ArrayList<String>();
 		listmap = new HashMap<String, String>();
+		Window.alert("StandardDatasetSetOfObservationValuesHeader: setUpListOfSpecifications 1");
 		fillSpec(dimensionhier.getSubobjects());
+		Window.alert("StandardDatasetSetOfObservationValuesHeader: setUpListOfSpecifications 2");
 		fillSpec(measurehier.getSubobjects());
+		Window.alert("StandardDatasetSetOfObservationValuesHeader: setUpListOfSpecifications 3");
 		
 	}
 
@@ -229,9 +237,10 @@ public class MatrixSpecificationCorrespondenceSetHeader extends Composite
 		}
 	}
 
-	private void setInColumnCorrespondences(DatabaseObjectHierarchy matrixhierarchy) {
-		ObservationsFromSpreadSheet sheet = (ObservationsFromSpreadSheet) matrixhierarchy.getObject();
-		DatabaseObjectHierarchy titlehier = matrixhierarchy.getSubObject(sheet.getObservationValueRowTitle());
+	private void setInColumnCorrespondences(DatabaseObjectHierarchy titlehier) {
+		//ObservationsFromSpreadSheet sheet = (ObservationsFromSpreadSheet) matrixhierarchy.getObject();
+		//DatabaseObjectHierarchy titlehier = matrixhierarchy.getSubObject(sheet.getObservationValueRowTitle());
+		Window.alert("setInColumnCorrespondences: should be ObservationValueRowTitle: " + titlehier.getObject().getClass().getSimpleName());
 		ObservationValueRowTitle titles = (ObservationValueRowTitle) titlehier.getObject();
 		ArrayList<String> coltitles = titles.getParameterLabel();
 		Window.alert("Eliminated Block Information: displayMatrixBlockDefinition();");
