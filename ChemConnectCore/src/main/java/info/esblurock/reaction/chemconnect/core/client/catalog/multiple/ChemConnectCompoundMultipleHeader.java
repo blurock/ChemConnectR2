@@ -21,7 +21,7 @@ import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageSer
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
-public class ChemConnectCompoundMultipleHeader extends Composite {
+public class ChemConnectCompoundMultipleHeader extends Composite implements CreateMultipleItemCallback {
 
 	private static ChemConnectCompoundMultipleHeaderUiBinder uiBinder = GWT
 			.create(ChemConnectCompoundMultipleHeaderUiBinder.class);
@@ -75,12 +75,13 @@ public class ChemConnectCompoundMultipleHeader extends Composite {
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		async.createEmptyMultipleObject(multiple,callback);
 	}
-	public void addMultipleObject(DatabaseObjectHierarchy obj) {
+	public StandardDatasetObjectHierarchyItem addMultipleObject(DatabaseObjectHierarchy obj) {
 		String type = obj.getObject().getClass().getSimpleName();
 		SetUpCollapsibleItem setup = SetUpCollapsibleItem.valueOf(type);
+		StandardDatasetObjectHierarchyItem itemobj = null;
 		if(setup != null) {
 			MaterialPanel modalpanel = item.getModalpanel();
-			StandardDatasetObjectHierarchyItem itemobj = new StandardDatasetObjectHierarchyItem(item,obj,modalpanel);
+			itemobj = new StandardDatasetObjectHierarchyItem(item,obj,modalpanel);
 			multipleItems.add(itemobj);
 			multipleHier.addSubobject(itemobj.getHierarchy());
 			int cnt = multiple.getNumberOfElements() + 1;
@@ -93,6 +94,7 @@ public class ChemConnectCompoundMultipleHeader extends Composite {
 		} else {
 			Window.alert("addMultipleObject:  not setup found");
 		}
+		return itemobj;
 	}
 
 	public void updateObject() {

@@ -224,6 +224,7 @@ public class SpreadSheetMatrixBlockIsolateHeader extends Composite
 					item.getModalpanel());
 			item.addSubItem(matrixitem);
 			apply.setEnabled(true);
+			item.addLinkToCatalogItem("dataset:LinkToReferenceMatrix", subs.getObject().getIdentifier());
 		} else {
 			StandardDatasetObjectHierarchyItem matrixitem = new StandardDatasetObjectHierarchyItem(item,subs,
 					item.getModalpanel());
@@ -232,6 +233,7 @@ public class SpreadSheetMatrixBlockIsolateHeader extends Composite
 			header.addTitles();
 			apply.setEnabled(true);
 			readoriginalmatrix= false;
+			item.addLinkToCatalogItem("dataset:LinkToMatrixBlock", subs.getObject().getIdentifier());
 		}
 	}
 

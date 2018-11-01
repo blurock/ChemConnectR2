@@ -18,15 +18,21 @@ import gwt.material.design.client.ui.MaterialCollapsibleHeader;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import info.esblurock.reaction.chemconnect.core.client.GeneralVoidReturnCallback;
+import info.esblurock.reaction.chemconnect.core.client.catalog.link.PrimitiveDataObjectLinkRow;
+import info.esblurock.reaction.chemconnect.core.client.catalog.multiple.ChemConnectCompoundMultipleCallback;
 import info.esblurock.reaction.chemconnect.core.client.catalog.multiple.ChemConnectCompoundMultipleHeader;
+import info.esblurock.reaction.chemconnect.core.client.catalog.multiple.CreateMultipleItemCallback;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.dataset.DataObjectLink;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
-public class StandardDatasetObjectHierarchyItem extends Composite {
+public class StandardDatasetObjectHierarchyItem extends Composite 
+	implements CreateMultipleItemCallback {
 
 	private static StandardDatasetObjectHierarchyItemUiBinder uiBinder = GWT
 			.create(StandardDatasetObjectHierarchyItemUiBinder.class);
@@ -60,6 +66,10 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 	ArrayList<StandardDatasetRecord> records;
 	Composite headerObject;
 	boolean infovisible;
+	StandardDatasetObjectHierarchyItem parent;
+	
+	String linkConcept;
+	String dataStructure;
 
 	public StandardDatasetObjectHierarchyItem(StandardDatasetObjectHierarchyItem parent, 
 			DatabaseObjectHierarchy hierarchy, MaterialPanel modalpanel) {
@@ -69,6 +79,7 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 		this.modalpanel = modalpanel;
 		init();
 		addSubObjects(this.object);
+		this.parent = parent;
 	}
 
 	void init() {
@@ -276,4 +287,35 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(this,hierarchy, modalpanel);
 		parent.add(item);
 	}
+	public void addLinkToCatalogItem(String linkConcept, String dataStructure) {
+		if(parent == null) {
+			this.linkConcept = linkConcept;
+			this.dataStructure = dataStructure;
+			ChemConnectDataStructure structure = (ChemConnectDataStructure) object;
+			DatabaseObjectHierarchy linkhier = hierarchy.getSubObject(structure.getChemConnectObjectLink());
+			ChemConnectCompoundMultiple multiple = (ChemConnectCompoundMultiple) linkhier.getObject();
+			
+			ChemConnectCompoundMultipleCallback callback = new ChemConnectCompoundMultipleCallback(this);
+			UserImageServiceAsync async = UserImageService.Util.getInstance();
+			async.createEmptyMultipleObject(multiple,callback);
+			
+		} else {
+			parent.addLinkToCatalogItem(linkConcept, dataStructure);
+		}
+	}
+
+	@Override
+	public StandardDatasetObjectHierarchyItem addMultipleObject(DatabaseObjectHierarchy newlinkhier) {
+		ChemConnectDataStructure structure = (ChemConnectDataStructure) object;
+		StandardDatasetObjectHierarchyItem multlinkitem = getItemFromID(structure.getChemConnectObjectLink());
+		ChemConnectCompoundMultipleHeader multlinkheader = (ChemConnectCompoundMultipleHeader) multlinkitem.getHeader();
+		StandardDatasetObjectHierarchyItem linkitem = multlinkheader.addMultipleObject(newlinkhier);
+		PrimitiveDataObjectLinkRow linkheader = (PrimitiveDataObjectLinkRow) linkitem.getHeader();
+		DataObjectLink link = (DataObjectLink) newlinkhier.getObject();
+		link.setLinkConcept(linkConcept);
+		link.setDataStructure(dataStructure);
+		linkheader.setInData(link);
+		return linkitem;
+	}
+	
 }

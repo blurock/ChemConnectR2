@@ -127,8 +127,7 @@ public enum InterpretData {
 
 
 
-	},
-	ChemConnectDataStructure {
+	}, ChemConnectDataStructure {
 
 		@Override
 		public DatabaseObject fillFromYamlString(DatabaseObject top,

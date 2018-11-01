@@ -7,8 +7,8 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.structure.Database
 
 public class ChemConnectCompoundMultipleCallback  implements AsyncCallback<DatabaseObjectHierarchy> {
 
-	ChemConnectCompoundMultipleHeader multiple;
-	public ChemConnectCompoundMultipleCallback(ChemConnectCompoundMultipleHeader multiple) {
+	CreateMultipleItemCallback multiple;
+	public ChemConnectCompoundMultipleCallback(CreateMultipleItemCallback multiple) {
 		this.multiple = multiple;
 	}
 	

@@ -55,10 +55,7 @@ public class PrimitiveDataObjectLinkRow extends Composite implements ChooseFromC
 		init();
 		this.item = item;
 		linkobject = (DataObjectLink) item.getObject();
-		chosenLinkConcept = linkobject.getLinkConcept();
-		chosenObjectID = linkobject.getDataStructure();
-		concept.setText(TextUtilities.removeNamespace(linkobject.getLinkConcept()));
-		link.setText(linkobject.getDataStructure());
+		setInData(linkobject);
 	}
 
 	void init() {
@@ -69,6 +66,13 @@ public class PrimitiveDataObjectLinkRow extends Composite implements ChooseFromC
 		link.setEnabled(false);
 	}
 
+	public void setInData(DataObjectLink linkinfo) {
+		chosenLinkConcept = linkinfo.getLinkConcept();
+		chosenObjectID = linkinfo.getDataStructure();
+		concept.setText(TextUtilities.removeNamespace(linkinfo.getLinkConcept()));
+		link.setText(linkinfo.getDataStructure());		
+	}
+	
 	public boolean updateObject() {
 		linkobject.setLinkConcept(chosenLinkConcept);
 		linkobject.setDataStructure(chosenObjectID);
