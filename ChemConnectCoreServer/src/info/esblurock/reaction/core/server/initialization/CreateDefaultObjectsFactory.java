@@ -437,8 +437,6 @@ public class CreateDefaultObjectsFactory {
 			specification.setIdentifier(specid);
 			fillObservationSpecification(obsspechier,observation,obsspecID,measure);
 			obspecset.addSubobject(obsspechier);
-			
-			System.out.println("fillObservationSpecification:\n" + obsspechier);
 	}
 	public static void fillObservationSpecification(DatabaseObjectHierarchy obsspechier, String observation, String parentID, boolean measure) {
 		fillObservationSpecification(obsspechier,observation,parentID);
@@ -452,18 +450,12 @@ public class CreateDefaultObjectsFactory {
 		ObservationSpecification specification = (ObservationSpecification) obsspechier.getObject();
 		specification.setParentLink(parentID);
 		specification.setSpecificationLabel(observation);
-
-		System.out.println("fillObservationSpecification: \n" + specification);
-		
 		String measurespecid = specification.getMeasureSpecifications();
 		fillMeasurementValues(observation, obsspechier, measurespecid,false,true);
 		String dimensionspecid = specification.getDimensionSpecifications();
 		fillMeasurementValues(observation, obsspechier, dimensionspecid,true,true);
 		String observationParameterType = ConceptParsing.getStructureType(observation);
 		specification.setObservationParameterType(observationParameterType);
-		
-		System.out.println("fillObservationSpecification: " + obsspechier);
-		
 	}
 	
 	public static void setOneLineDescription(DatabaseObjectHierarchy hierarchy, String oneline) {
@@ -513,10 +505,6 @@ public class CreateDefaultObjectsFactory {
 		setPurposeConceptPair(cathierarchy, catagorytype, StandardDatasetMetaData.purposeDefineSubCatagory);
 		
 		connectInCatalogHierarchy(topcatalog, catalog);
-				
-		System.out.println("fillDatasetCatalogHierarchy: cathierarchy\n" + topcatalog.toString());
-		System.out.println("fillDatasetCatalogHierarchy: catagorytype\n" + catalog.toString());
-
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(cathierarchy);
 		return cathierarchy;
 	}
@@ -548,17 +536,10 @@ public class CreateDefaultObjectsFactory {
 		InterpretData multiinterpret = InterpretData.valueOf("ChemConnectCompoundMultiple");
 		ChemConnectCompoundMultiple multi = (ChemConnectCompoundMultiple) multiinterpret.readElementFromDatabase(linkid);
 		
-		System.out.println("connectInCatalogHierarchy: " + childcatalog.getIdentifier());
-		System.out.println("connectInCatalogHierarchy: " + linkid);
-		System.out.println("connectInCatalogHierarchy: \n" + multi.toString());
-		
 		DatabaseObject obj = new DatabaseObject(multi);
 		obj.setSourceID(childcatalog.getSourceID());
 		
 		DatabaseObjectHierarchy subcatalog = addConnectionToMultiple(obj, multi, childcatalog.getIdentifier());
-		
-		System.out.println("connectInCatalogHierarchy: after addConnectionToMultiple\n" + subcatalog.toString());
-		
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(subcatalog);
 		DatabaseWriteBase.writeDatabaseObject(multi);
 	}
@@ -596,7 +577,6 @@ public class CreateDefaultObjectsFactory {
 		dobj.setIdentifier(uid);
 		dobj.nullKey();
 		String onelinedescription = "Catalog of '" + username + "'";
-		System.out.println("fillCataogHierarchyForUser: " + dobj.getIdentifier());
 		DatabaseObjectHierarchy userhierarchy = InterpretData.DatasetCatalogHierarchy.createEmptyObject(dobj);
 		DatasetCatalogHierarchy usercatalog = (DatasetCatalogHierarchy) userhierarchy.getObject();
 		setOneLineDescription(userhierarchy, onelinedescription);
@@ -647,7 +627,6 @@ public class CreateDefaultObjectsFactory {
 		aobj.setIdentifier(orgid);
 		aobj.nullKey();
 		String orgcatdescription = "Catalog of " + organizationid;
-		System.out.println("");
 		DatabaseObjectHierarchy orghierarchy = InterpretData.DatasetCatalogHierarchy.createEmptyObject(aobj);
 		DatasetCatalogHierarchy orgcatalog = (DatasetCatalogHierarchy) orghierarchy.getObject();
 		
@@ -689,7 +668,6 @@ public class CreateDefaultObjectsFactory {
 		NameOfPerson person = new NameOfPerson(usrcatobj, "", "", username);
 		DatabaseObjectHierarchy user = CreateDefaultObjectsFactory.fillMinimalPersonDescription(usrcatobj, username, userrole, person,namecatid);
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(user);
-		//System.out.println(user.toString());
 		
 		String oname = DatasetCatalogHierarchy.createFullCatalogName(username,
 				ChemConnectCompoundDataStructure.removeNamespace(OntologyKeys.organization));
@@ -699,22 +677,15 @@ public class CreateDefaultObjectsFactory {
 		DataCatalogID orgnamecatid = new DataCatalogID(orgstructure,oname,"dataset:OrganizationDataCatagory",orgname,orgPath);
 		DatabaseObjectHierarchy org = CreateDefaultObjectsFactory.fillOrganization(orgobj, orgname, title,orgnamecatid);
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(org);
-		//System.out.println(org.toString());
 
 		String catname = DatasetCatalogHierarchy.createFullCatalogName(username,
 				ChemConnectCompoundDataStructure.removeNamespace(OntologyKeys.datasetCatalogHierarchy));
-		//System.out.println("createAndWriteDefaultUserOrgAndCatagories\n" + namecatid.toString());
 		DatabaseObject catobj = new DatabaseObject(catname, access, owner, sourceID);
-		//System.out.println("before illCataogHierarchyForUser\n" + catobj);
 		DatabaseObjectHierarchy usercat = fillCataogHierarchyForUser(catobj, username,
 				user.getObject().getIdentifier());
-		//System.out.println("createAndWriteDefaultUserOrgAndCatagories: " + usercat.toString());
-
 		DatabaseObject orgcatobj = new DatabaseObject(usercat.getObject());
 		DatabaseObjectHierarchy orgcat = fillCataogHierarchyForOrganization(orgcatobj,
 				orgname, org.getObject().getIdentifier());
-		//System.out.println("createAndWriteDefaultUserOrgAndCatagories: " + orgcat.toString());
-
 		connectInCatalogHierarchy(usercat, orgcat);
 		
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(orgcat);
@@ -816,7 +787,6 @@ public class CreateDefaultObjectsFactory {
 			count++;
 		}
 		multiple.setNumberOfElements(count);
-		System.out.println("fillMatrixSpecificationCorrespondence:\n" + corrspechier);
 		return corrspechier;
 	}
 	
@@ -832,13 +802,9 @@ public class CreateDefaultObjectsFactory {
 			DatabaseObjectHierarchy colcorrhier,
 			DatabaseObjectHierarchy spec) {
 		
-		System.out.println("addMatrixSpecificationCorrespondence: \n" + spec.getSubobjects().size());
-		
 		//ChemConnectCompoundMultiple colcorrset = (ChemConnectCompoundMultiple) colcorrhier.getObject();
 		ChemConnectCompoundMultiple multiple = (ChemConnectCompoundMultiple) spec.getObject();
 		for(DatabaseObjectHierarchy hier: spec.getSubobjects()) {
-			
-			System.out.println("addMatrixSpecificationCorrespondence: " + count);
 			
 			ParameterSpecification pspec = (ParameterSpecification) hier.getObject();
 			String name = pspec.getParameterLabel();
@@ -847,17 +813,12 @@ public class CreateDefaultObjectsFactory {
 			int pos = name.indexOf(":");
 			String corrid = multiple.getIdentifier() + "-" + name.substring(pos+1);
 			corrobj.setIdentifier(corrid);
-			System.out.println("addMatrixSpecificationCorrespondence: \n" + pspec.toString());
-
 			
 			DatabaseObjectHierarchy corrhier = InterpretData.MatrixSpecificationCorrespondence.createEmptyObject(corrobj);
 			MatrixSpecificationCorrespondence corr = (MatrixSpecificationCorrespondence) corrhier.getObject();
 			corr.setMatrixColumn(String.valueOf(count));
 			corr.setSpecificationLabel(name);
 			colcorrhier.addSubobject(corrhier);
-			System.out.println("addMatrixSpecificationCorrespondence: \n" + corr.toString());
-			
-			
 			count++;
 		}
 		return count;
@@ -902,8 +863,6 @@ public class CreateDefaultObjectsFactory {
 		Set<AttributeDescription> measureset = ConceptParsing.propertyInConcept(type, parameter);
 		DatabaseObjectHierarchy measurehier = set.getSubObject(measureid);
 		ChemConnectCompoundMultiple measremul = (ChemConnectCompoundMultiple) measurehier.getObject();
-		
-		System.out.println("fillMeasurementValues: " + measremul.getIdentifier());
 		
 		for (AttributeDescription attr : measureset) {
 			DatabaseObjectHierarchy paramhier = fillParameterValueAndSpecification(measremul, attr.getAttributeName(),
@@ -973,7 +932,6 @@ public class CreateDefaultObjectsFactory {
 		} else {
 			fillParameterValueAndSpecification(valuehier,parameter);			
 		}
-		System.out.println("fillParameterValueAndSpecification: 2\n" + valuehier.getObject());
 		return valuehier;
 	}
 

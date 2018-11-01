@@ -192,7 +192,6 @@ public class ParseUtilities {
 				last = tok.nextToken();
 				path.add(last);
 			}
-			System.out.println("parseIDsToHierarchyNode: " + path);
 			ParseUtilities.fillInHierarchy(topnode, path, id);
 		}
 		if(simplify) {

@@ -81,7 +81,6 @@ public class WriteReadDatabaseObjects {
 
 	public static DatabaseObjectHierarchy writeDatabaseObjectHierarchyWithTransaction(DatabaseObjectHierarchy objecthierarchy) {
 		DatabaseWriteBase.writeTransactionWithoutObjectWrite(objecthierarchy.getObject());
-		System.out.println("writeDatabaseObjectHierarchyWithTransaction");
 		return writeDatabaseObjectHierarchy(objecthierarchy);
 	}
 	public static DatabaseObjectHierarchy writeDatabaseObjectHierarchy(DatabaseObjectHierarchy objecthierarchy) {
@@ -98,18 +97,19 @@ public class WriteReadDatabaseObjects {
 	}
 
 	public static void updateDatabaseObjectHierarchy(DatabaseObjectHierarchy objecthierarchy) {
-		System.out.println("updateDatabaseObjectHierarchy\n" + objecthierarchy);
 		ArrayList<DatabaseObject> lst = new ArrayList<DatabaseObject>();
 		Map<String,DatabaseObject> map = new HashMap<String,DatabaseObject>();
 		ArrayList<DatabaseObject> newobjs = new ArrayList<DatabaseObject>();
 		collectDatabaseObjectsInHierarchy(objecthierarchy,newobjs,lst,map);
 		ObjectifyService.ofy().save().entities(newobjs).now();
+		/*
 		System.out.println("--------------------------------"  + newobjs.size());
 		for(DatabaseObject obj: newobjs) {
 			System.out.println("ID: '" + obj.getIdentifier() + "'  Key: " + obj.getKey());
 		}
 		
 		System.out.println("--------------------------------");
+		*/
 		Map<Key<DatabaseObject>,DatabaseObject> result = ObjectifyService.ofy().load().entities(lst);
 		//System.out.println(result.keySet());
 		ArrayList<DatabaseObject> objs = new ArrayList<DatabaseObject>();
@@ -117,9 +117,6 @@ public class WriteReadDatabaseObjects {
 		for(Key<DatabaseObject> id: result.keySet()) {
 			DatabaseObject dbobj = result.get(id);
 			DatabaseObject update = map.get(dbobj.getIdentifier());
-			System.out.println("updateDatabaseObjectHierarchy: \n" + dbobj.toString());
-			System.out.println("updateDatabaseObjectHierarchy: id=" + id + "  ID: " + dbobj.getIdentifier());
-			System.out.println("updateDatabaseObjectHierarchy: update\n" + update);
 			dbobj.fill(update);
 			objs.add(dbobj);
 		}
@@ -131,7 +128,6 @@ public class WriteReadDatabaseObjects {
 			ArrayList<DatabaseObject> lst, 
 			Map<String,DatabaseObject> map) {
 		DatabaseObject obj = objecthierarchy.getObject();
-		System.out.println("collectDatabaseObjectsInHierarchy: ID: '" + obj.getIdentifier() + "'  Key: " + obj.getKey());
 		if(obj.getKey() == null) {
 			newobjs.add(obj);
 		} else {
@@ -188,14 +184,10 @@ public class WriteReadDatabaseObjects {
 				DataCatalogID datid = (DataCatalogID) obj;
 				ids.add(datid.getParentLink());
 			}
-			System.out.println("getIDHierarchyFromDataCatalogAndUser\n"+ ids);
 			topnode = ParseUtilities.parseIDsToHierarchyNode("Objects",ids,true);
 		} catch (ClassNotFoundException e) {
 			throw new IOException("getIDHierarchyFromDataCatalogIDAndClassType DataCatalog Class not found: " + datacatalog);
 		}
-		
-		System.out.println("getIDHierarchyFromDataCatalogAndUser\n"+ topnode.toString());
-		
 		return topnode;
 		
 	}
@@ -243,112 +235,5 @@ public class WriteReadDatabaseObjects {
 		}
 		ObjectifyService.ofy().delete().entity(hierarchy.getObject());
 	}
-/*
-	@SuppressWarnings("unchecked")
-	public static void readChemConnectDataStructureObject(String elementType, String identifier) throws IOException {
-		System.out.println("------------------------------------------");
-		ChemConnectDataStructure chemconnect = DatasetOntologyParsing.getChemConnectDataStructure(elementType);
-		ClassificationInformation classification = chemconnect.getClassification();
-		InterpretData interpret = InterpretData.valueOf(classification.getDataType());
-		String classname = interpret.canonicalClassName();
-		DatabaseObject object = QueryBase.getDatabaseObjectFromIdentifier(classname, identifier);
-		Map<String, Object> map = interpret.createYamlFromObject(object);
-		DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(object);
-		System.out.println("------------------------------------------");
-		System.out.println(chemconnect.getRecords().size());
-		for (DataElementInformation info : chemconnect.getRecords()) {
-			System.out.println("Information: " + info);
-			System.out.println("Information: " + map);
-			Object mapobject = map.get(info.getIdentifier());
-			System.out.println(mapobject.getClass().getSimpleName());
-			if (mapobject.getClass().getSimpleName().compareTo("String") == 0) {
-				String id = (String) mapobject;
-				String chemstructure = info.getChemconnectStructure();
-				InterpretData subinterpret = InterpretData.valueOf(chemstructure);
-				String canonical = subinterpret.canonicalClassName();
-				DatabaseObject obj = null;
-				try {
-					obj = QueryBase.getDatabaseObjectFromIdentifier(canonical, id);
-					DatabaseObjectHierarchy subhierarchy = new DatabaseObjectHierarchy(obj);
-					hierarchy.addSubobject(subhierarchy);
-					Map<String, Object> submap = subinterpret.createYamlFromObject(obj);
-					System.out.println("\t\tMap: " + submap);
-					readChemConnectCompoundObject(info, submap, subhierarchy);
-				} catch (IOException io) {
 
-				}
-
-			} else {
-				System.out.println("MultipleObject" + mapobject);
-				String chemstructure = info.getChemconnectStructure();
-				InterpretData subinterpret = InterpretData.valueOf(chemstructure);
-				String canonical = subinterpret.canonicalClassName();
-				ArrayList<String> lst = (ArrayList<String>) mapobject;
-				DatabaseObject obj = null;
-				for(String name : lst) {
-					obj = QueryBase.getDatabaseObjectFromIdentifier(canonical, name);
-					DatabaseObjectHierarchy subhierarchy = new DatabaseObjectHierarchy(obj);
-					hierarchy.addSubobject(subhierarchy);
-					Map<String, Object> submap = subinterpret.createYamlFromObject(obj);
-					System.out.println("\t\tMap: " + submap);
-					readChemConnectCompoundObject(info, submap, subhierarchy);
-				}
-			}
-		}
-
-		System.out.println("Hierarchy: \n" + hierarchy);
-	}
-
-	@SuppressWarnings("unchecked")
-	private static void readChemConnectCompoundObject(DataElementInformation info, Map<String, Object> submap,
-			DatabaseObjectHierarchy subhierarchy) {
-		System.out.println("readChemConnectCompoundObject: " + info);
-		System.out.println("readChemConnectCompoundObject: " + info.getDataElementName());
-		ChemConnectCompoundDataStructure subs = DatasetOntologyParsing
-				.subElementsOfStructure(info.getDataElementName());
-		System.out.println(subs);
-		for (DataElementInformation element : subs) {
-			if (DatasetOntologyParsing.isChemConnectPrimitiveDataStructure(element.getDataElementName()) == null) {
-				System.out.println("Compound Object: " + element);
-				if (element.isSinglet()) {
-					String idlabel = element.getIdentifier();
-					String id = (String) submap.get(idlabel);
-					if (id != null) {
-						String chemstructure = element.getChemconnectStructure();
-						InterpretData subinterpret = InterpretData.valueOf(chemstructure);
-						String canonical = subinterpret.canonicalClassName();
-						DatabaseObject obj;
-						try {
-							obj = QueryBase.getDatabaseObjectFromIdentifier(canonical, id);
-							DatabaseObjectHierarchy next = new DatabaseObjectHierarchy(obj);
-							subhierarchy.addSubobject(next);
-						} catch (IOException e) {
-							System.out.println("not found");
-						}
-					}
-				} else {
-					String idlabel = element.getIdentifier();
-					ArrayList<String> lst = (ArrayList<String>) submap.get(idlabel);
-					for(String id : lst) {
-						String chemstructure = element.getChemconnectStructure();
-						InterpretData subinterpret = InterpretData.valueOf(chemstructure);
-						String canonical = subinterpret.canonicalClassName();
-						DatabaseObject obj;
-						try {
-							obj = QueryBase.getDatabaseObjectFromIdentifier(canonical, id);
-							DatabaseObjectHierarchy next = new DatabaseObjectHierarchy(obj);
-							subhierarchy.addSubobject(next);
-						} catch (IOException e) {
-							System.out.println("not found");
-						}						
-					}
-				}
-
-			} else {
-				System.out.println("Simple: " + element.getDataElementName());
-			}
-
-		}
-	}
-*/
 }

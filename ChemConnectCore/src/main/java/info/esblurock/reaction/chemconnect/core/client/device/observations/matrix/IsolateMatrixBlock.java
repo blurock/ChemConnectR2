@@ -52,7 +52,7 @@ public class IsolateMatrixBlock extends Composite implements ObjectVisualization
 		ArrayList<String> choices = new ArrayList<String>();
 		choices.add(MetaDataKeywords.chemConnectIsolateBlockTypes);
 		String user = Cookies.getCookie("user");
-		String object = MetaDataKeywords.spreadSheetBlockIsolation;
+		String object = MetaDataKeywords.observationBlockFromSpreadSheet;
 		choose = new ChooseFullNameFromCatagoryRow(this,user,object,choices,modalpanel);
 		topPanel.add(choose);
 	}

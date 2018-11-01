@@ -35,18 +35,20 @@ public class DatasetStandardDataCatalogIDHeader extends Composite {
 	String defaultcatalogName;
 	String defaultBaseName;
 	String catalogName;
+	String fullBaseName;
 
 	public DatasetStandardDataCatalogIDHeader(StandardDatasetObjectHierarchyItem item) {
 		this.item = item;
 		this.object = (DataCatalogID) item.getObject();
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
-		
+		fullBaseName = object.getCatalogBaseName();
 		if(object.getCatalogBaseName() != null) {
-			basetooltip.setText(object.getCatalogBaseName());
+			basetooltip.setText(fullBaseName);
 		} else {
 			basetooltip.setText(defaultBaseName);
 		}
+		
 		TextUtilities.setText(catalogBase, object.getCatalogBaseName(), defaultBaseName);
 		if(object.getPath() != null) {
 			int sze = object.getPath().size();
@@ -70,7 +72,7 @@ public class DatasetStandardDataCatalogIDHeader extends Composite {
 		if(catalogBase.getText().compareTo(defaultBaseName) == 0) {
 			object.setCatalogBaseName("");
 		} else {
-			object.setCatalogBaseName(catalogBase.getText());
+			object.setCatalogBaseName(fullBaseName);
 		}
 		if(catalog.getText().compareTo(defaultcatalogName) == 0) {
 			object.setCatalogBaseName("");

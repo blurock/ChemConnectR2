@@ -172,27 +172,6 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	}
 
 	@Override
-	public String deleteFromStorage(String blobkey) throws IOException {
-		String ans = "Successful";
-		/*
-		 * System.out.println("deleteFromStorage: (" + blobkeyParameter + "): " +
-		 * blobkey); QueryBase.deleteUsingPropertyValue(UploadedImage.class,
-		 * blobkeyParameter, blobkey); try { String classS =
-		 * BlobKeyCorrespondence.class.getCanonicalName(); BlobKeyCorrespondence corr =
-		 * (BlobKeyCorrespondence) QueryBase
-		 * .getFirstDatabaseObjectsFromSingleProperty(classS, keyAsStringParameter,
-		 * blobkey); BlobstoreService blobstoreService =
-		 * BlobstoreServiceFactory.getBlobstoreService(); BlobKey key =
-		 * corr.getBlobKey(); BlobInfoFactory infofactory = new BlobInfoFactory();
-		 * BlobInfo info = infofactory.loadBlobInfo(key); QueryBase.deleteObject(info);
-		 * blobstoreService.delete(key); QueryBase.deleteObject(corr); } catch
-		 * (BlobstoreFailureException ex) { throw new IOException("Error in deleting: "
-		 * + blobkey); }
-		 */
-		return ans;
-	}
-
-	@Override
 	public String updateImages(ArrayList<UploadedImage> images) throws IOException {
 		String ans = "Successfully updated " + images.size() + " images ";
 		DatabaseWriteBase.writeListOfDatabaseObjects(images);
@@ -436,7 +415,6 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	
 	public DatabaseObjectHierarchy createOrganization(DatabaseObject obj, String shortname, String organizationname, DataCatalogID catid) {
 		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillOrganization(obj, shortname, organizationname,catid);
-		System.out.println("createOrganization\n" + hierarchy.toString());
 		return hierarchy;
 	}
 	
@@ -459,20 +437,11 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 			String blocktype, DataCatalogID datid) {
 		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillObservationBlockFromSpreadSheet(obj,
 				blocktype,datid);
-		
-		System.out.println("createObservationBlockFromSpreadSheet\n" + hierarchy.toString());
-		
 		return hierarchy;
 	}
 	
 	public DatabaseObjectHierarchy getCatalogObject(String id, String dataType) {
-		System.out.println("getCatalogObject: " + dataType);
-		System.out.println("getCatalogObject: " + id);
 		DatabaseObjectHierarchy readhierarchy = ExtractCatalogInformation.getCatalogObject(id,dataType);
-		
-		System.out.println("getCatalogObject: " + readhierarchy);
-
-		
 		return readhierarchy;
 	}
 	
@@ -501,11 +470,6 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 			String onelinedescription, String catagorytype)
 			throws IOException {
 		
-		System.out.println("createNewCatalogHierarchy: ID=     " + id);
-		System.out.println("createNewCatalogHierarchy: oneline=" + onelinedescription);
-		System.out.println("createNewCatalogHierarchy: type=   " + catagorytype);
-		System.out.println("createNewCatalogHierarchy: obj=   \n" + obj.toString());
-		
 		String sourceID = QueryBase.getDataSourceIdentification(obj.getOwner());
 		DatabaseObjectHierarchy subs = ExtractCatalogInformation.createNewCatalogHierarchy(obj, id, onelinedescription, sourceID, catagorytype);
 		return subs;
@@ -513,7 +477,6 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 
 	public DatabaseObjectHierarchy writeDatabaseObjectHierarchy(DatabaseObjectHierarchy hierarchy) throws IOException {
 		DatabaseObjectHierarchy hier = null;
-		System.out.println("writeDatabaseObjectHierarchy begin");
 		try {
 			WriteReadDatabaseObjects.updateSourceID(hierarchy);
 			hier = WriteReadDatabaseObjects.writeDatabaseObjectHierarchyWithTransaction(hierarchy);
@@ -543,8 +506,6 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 			String filename = catalogID.blobFilenameFromCatalogID(extension);
 			String contentType = ConceptParsing.getContentType(StandardDatasetMetaData.yamlFileType);
 	
-			System.out.println("writeYamlObjectHierarchy: " + contentType);
-			//contentType = "text/yaml";
 			String title = structure.getClass().getSimpleName() + ": " + structure.getIdentifier();
 			ContextAndSessionUtilities util = getUtilities();
 			//ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
@@ -566,7 +527,6 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	public HierarchyNode getIDHierarchyFromDataCatalogAndUser(String datacatalog) throws IOException {
 		ContextAndSessionUtilities util = getUtilities();
 		String user = util.getUserName();
-		System.out.println("getIDHierarchyFromDataCatalogAndUser:\n" +  user + ": " + datacatalog);
 		return WriteReadDatabaseObjects.getIDHierarchyFromDataCatalogAndUser(user,datacatalog);
 	}
 	
@@ -660,6 +620,12 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		GCSBlobContent gcs = new GCSBlobContent(urlS, gcsinfo);
 		gcs.setBytes(bytesS);
 		return gcs;
+	}
+
+	@Override
+	public String deleteFromStorage(String blobkey) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
