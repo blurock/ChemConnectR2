@@ -73,8 +73,7 @@ public class ChemConnectCompoundMultipleHeader extends Composite {
 	public void onAddClick(ClickEvent event) {
 		ChemConnectCompoundMultipleCallback callback = new ChemConnectCompoundMultipleCallback(this);
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
-		//DatabaseObject obj = determineSubObjectID();
-		async.createEmptyMultipleObject(multipleHier,callback);
+		async.createEmptyMultipleObject(multiple,callback);
 	}
 	public void addMultipleObject(DatabaseObjectHierarchy obj) {
 		String type = obj.getObject().getClass().getSimpleName();
@@ -83,6 +82,9 @@ public class ChemConnectCompoundMultipleHeader extends Composite {
 			MaterialPanel modalpanel = item.getModalpanel();
 			StandardDatasetObjectHierarchyItem itemobj = new StandardDatasetObjectHierarchyItem(obj,modalpanel);
 			multipleItems.add(itemobj);
+			multipleHier.addSubobject(itemobj.getHierarchy());
+			int cnt = multiple.getNumberOfElements() + 1;
+			multiple.setNumberOfElements(cnt);
 			if(setup.isInformation()) {
 				multiobjects.add(itemobj.getHeader());
 			} else {

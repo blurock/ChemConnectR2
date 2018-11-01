@@ -106,7 +106,6 @@ public class PrimitiveDataObjectLinkRow extends Composite implements ChooseFromC
 		}
 	}
 	private void findLinkObject() {
-		Window.alert("PrimitiveDataObjectLinkRow findLinkObject(): " + chosenLinkConcept);
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		HierarchyNodeCallback callback = new HierarchyNodeCallback(this);
 		async.getIDsFromConceptLink(chosenLinkConcept,callback);
@@ -114,7 +113,6 @@ public class PrimitiveDataObjectLinkRow extends Composite implements ChooseFromC
 
 	@Override
 	public void insertTree(HierarchyNode topnode) {
-		Window.alert("PrimitiveDataObjectLinkRow insertTree: \n" + topnode.toString());
 		chooseConcept = false;
 		ChooseFromConceptHierarchies chooseconcept = new ChooseFromConceptHierarchies(this);
 		chooseconcept.setupTree(topnode);

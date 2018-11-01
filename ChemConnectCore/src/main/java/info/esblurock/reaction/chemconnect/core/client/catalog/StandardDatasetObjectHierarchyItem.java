@@ -8,6 +8,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -223,6 +224,9 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 		boolean includesubs = true;
 		if (setup != null) {
 			includesubs = setup.update(this);
+		} else {
+			String classname = object.getClass().getCanonicalName();
+			Window.alert("StandardDatasetObjectHierarchyItem updateDatabaseObjectHierarchy() no SetUpCollapsibleItem\n" + classname);
 		}
 		if (includesubs) {
 			for (StandardDatasetObjectHierarchyItem sub : subitems) {

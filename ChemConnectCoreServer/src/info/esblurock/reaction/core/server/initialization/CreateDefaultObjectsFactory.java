@@ -408,8 +408,7 @@ public class CreateDefaultObjectsFactory {
 			fillObservationSpecification(observation, measure, obspecmulti,obspecset);
 		}
 	}
-	public static DatabaseObjectHierarchy createEmptyMultipleObject(DatabaseObjectHierarchy multhierarchy) {
-		ChemConnectCompoundMultiple multiple = (ChemConnectCompoundMultiple) multhierarchy.getObject();
+	public static DatabaseObjectHierarchy createEmptyMultipleObject(ChemConnectCompoundMultiple multiple) {
 		String dataType = multiple.getType();
 		String numS = String.valueOf(multiple.getNumberOfElements());
 		DatabaseObject obj = new DatabaseObject(multiple);
@@ -420,7 +419,6 @@ public class CreateDefaultObjectsFactory {
 		DatabaseObjectHierarchy hierarchy = interpret.createEmptyObject(obj);
 		String uid = hierarchy.getObject().getIdentifier() + numS;
 		hierarchy.getObject().setIdentifier(uid);
-		multhierarchy.addSubobject(hierarchy);
 		return hierarchy;
 	}
 	

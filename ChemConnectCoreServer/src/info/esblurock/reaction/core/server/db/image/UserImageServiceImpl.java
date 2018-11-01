@@ -28,6 +28,7 @@ import com.google.cloud.storage.Acl.Role;
 import com.google.cloud.storage.Acl.User;
 
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.base.GoogleCloudStorageConstants;
@@ -409,8 +410,8 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		}
 		return hierarchy;
 	}
-	public DatabaseObjectHierarchy createEmptyMultipleObject(DatabaseObjectHierarchy multiplehier) {
-		return CreateDefaultObjectsFactory.createEmptyMultipleObject(multiplehier);
+	public DatabaseObjectHierarchy createEmptyMultipleObject(ChemConnectCompoundMultiple multiple) {
+		return CreateDefaultObjectsFactory.createEmptyMultipleObject(multiple);
 	}
 	
 	public DatabaseObjectHierarchy createOrganization(DatabaseObject obj, String shortname, String organizationname, DataCatalogID catid) {
