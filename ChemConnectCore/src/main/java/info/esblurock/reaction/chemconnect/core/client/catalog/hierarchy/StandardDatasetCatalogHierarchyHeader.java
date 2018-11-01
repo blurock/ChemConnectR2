@@ -136,7 +136,7 @@ public class StandardDatasetCatalogHierarchyHeader extends Composite
 		}
 	}
 	public void setInHierarchy(DatabaseObjectHierarchy subs) {
-		StandardDatasetObjectHierarchyItem subhiearchy = new StandardDatasetObjectHierarchyItem(subs,modal);
+		StandardDatasetObjectHierarchyItem subhiearchy = new StandardDatasetObjectHierarchyItem(item,subs,modal);
 		item.addSubItem(subhiearchy);
 		DatasetCatalogHierarchy catalog = (DatasetCatalogHierarchy) subs.getObject();
 		String catalogidID = catalog.getCatalogDataID();

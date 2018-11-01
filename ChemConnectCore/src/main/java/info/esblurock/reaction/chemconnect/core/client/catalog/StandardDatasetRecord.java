@@ -56,13 +56,15 @@ public class StandardDatasetRecord extends Composite {
 	ArrayList<PrimitiveDataStructureBase> records;
 	Map<String, PrimitiveDataStructureBase> primitives;
 	ArrayList<StandardDatasetObjectHierarchyItem> items;
+	StandardDatasetObjectHierarchyItem parent;
 	
-	public StandardDatasetRecord(DatabaseObjectHierarchy hierarchy) {
+	public StandardDatasetRecord(StandardDatasetObjectHierarchyItem parent, DatabaseObjectHierarchy hierarchy) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.hierarchy = hierarchy;
 		records = new ArrayList<PrimitiveDataStructureBase>();
 		items = new ArrayList<StandardDatasetObjectHierarchyItem>();
 		getRecordInformation(hierarchy);
+		this.parent = parent;
 	}
 
 	void getRecordInformation(DatabaseObjectHierarchy hierarchy) {
@@ -99,7 +101,7 @@ public class StandardDatasetRecord extends Composite {
 					primitives.put(id,base);
 				}
 			} else {
-				StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(subhierarchy,null);
+				StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(parent,subhierarchy,null);
 				collapsible.add(item);
 				items.add(item);
 			}

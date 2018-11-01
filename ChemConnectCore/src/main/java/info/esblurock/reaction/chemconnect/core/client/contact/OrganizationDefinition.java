@@ -89,7 +89,7 @@ public class OrganizationDefinition extends Composite implements ObjectVisualiza
 	@Override
 	public void setInOjbects(ArrayList<DatabaseObjectHierarchy> objects) {
 		for(DatabaseObjectHierarchy object : objects) {
-			StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(object,modalpanel);			
+			StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(null,object,modalpanel);			
 			existingOrgs.add(item);
 		}
 		
@@ -97,7 +97,7 @@ public class OrganizationDefinition extends Composite implements ObjectVisualiza
 
 	@Override
 	public void insertCatalogObject(DatabaseObjectHierarchy subs) {
-		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(subs,modalpanel);
+		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(null,subs,modalpanel);
 		contentcollapsible.add(item);
 	}
 

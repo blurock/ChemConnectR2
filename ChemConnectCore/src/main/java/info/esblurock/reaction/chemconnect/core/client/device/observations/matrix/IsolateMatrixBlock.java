@@ -67,7 +67,7 @@ public class IsolateMatrixBlock extends Composite implements ObjectVisualization
 
 	@Override
 	public void insertCatalogObject(DatabaseObjectHierarchy subs) {
-		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(subs,modalpanel);
+		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(null,subs,modalpanel);
 		contentcollapsible.add(item);
 	}
 

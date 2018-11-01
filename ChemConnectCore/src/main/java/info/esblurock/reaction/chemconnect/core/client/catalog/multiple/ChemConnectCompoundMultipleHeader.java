@@ -80,7 +80,7 @@ public class ChemConnectCompoundMultipleHeader extends Composite {
 		SetUpCollapsibleItem setup = SetUpCollapsibleItem.valueOf(type);
 		if(setup != null) {
 			MaterialPanel modalpanel = item.getModalpanel();
-			StandardDatasetObjectHierarchyItem itemobj = new StandardDatasetObjectHierarchyItem(obj,modalpanel);
+			StandardDatasetObjectHierarchyItem itemobj = new StandardDatasetObjectHierarchyItem(item,obj,modalpanel);
 			multipleItems.add(itemobj);
 			multipleHier.addSubobject(itemobj.getHierarchy());
 			int cnt = multiple.getNumberOfElements() + 1;

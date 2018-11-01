@@ -220,12 +220,12 @@ public class SpreadSheetMatrixBlockIsolateHeader extends Composite
 	public void setInHierarchy(DatabaseObjectHierarchy subs) {
 		if(readoriginalmatrix) {
 			observationsFromSpreadSheet = subs;
-			StandardDatasetObjectHierarchyItem matrixitem = new StandardDatasetObjectHierarchyItem(subs,
+			StandardDatasetObjectHierarchyItem matrixitem = new StandardDatasetObjectHierarchyItem(item,subs,
 					item.getModalpanel());
 			item.addSubItem(matrixitem);
 			apply.setEnabled(true);
 		} else {
-			StandardDatasetObjectHierarchyItem matrixitem = new StandardDatasetObjectHierarchyItem(subs,
+			StandardDatasetObjectHierarchyItem matrixitem = new StandardDatasetObjectHierarchyItem(item,subs,
 					item.getModalpanel());
 			item.addSubItem(matrixitem);
 			StandardDatasetObservationsFromSpreadSheet header = (StandardDatasetObservationsFromSpreadSheet) matrixitem.getHeader();

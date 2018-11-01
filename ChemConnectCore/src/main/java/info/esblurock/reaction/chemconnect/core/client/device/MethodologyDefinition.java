@@ -68,7 +68,7 @@ public class MethodologyDefinition extends Composite implements  ObjectVisualiza
 
 	@Override
 	public void insertCatalogObject(DatabaseObjectHierarchy subs) {
-		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(subs,modalpanel);
+		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(null,subs,modalpanel);
 		contentcollapsible.add(item);
 	}
 

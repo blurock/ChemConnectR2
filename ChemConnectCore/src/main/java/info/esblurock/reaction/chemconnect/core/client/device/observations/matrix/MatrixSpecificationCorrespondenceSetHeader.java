@@ -117,7 +117,7 @@ public class MatrixSpecificationCorrespondenceSetHeader extends Composite
 	
 	public void displayCorrespondences() {
 		for(DatabaseObjectHierarchy mathier : matspechierarchy.getSubobjects()) {
-			StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(mathier,
+			StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(topitem,mathier,
 					topitem.getModalpanel());
 			SetUpCollapsibleItem.MatrixSpecificationCorrespondence.addInformation(item);
 			MatrixSpecificationCorrespondenceHeader header = (MatrixSpecificationCorrespondenceHeader) item.getHeader();

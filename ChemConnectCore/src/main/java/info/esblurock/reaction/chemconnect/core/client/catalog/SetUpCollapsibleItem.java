@@ -922,7 +922,7 @@ public enum SetUpCollapsibleItem {
 			String purposeconceptID = description.getSourceConcept();
 			DatabaseObjectHierarchy hierarchy = item.getHierarchy();
 			DatabaseObjectHierarchy phierarchy = hierarchy.getSubObject(purposeconceptID);
-			StandardDatasetObjectHierarchyItem subitem = new StandardDatasetObjectHierarchyItem(phierarchy,item.getModalpanel());
+			StandardDatasetObjectHierarchyItem subitem = new StandardDatasetObjectHierarchyItem(item,phierarchy,item.getModalpanel());
 			SetUpCollapsibleItem setup = SetUpCollapsibleItem.valueOf("PurposeConceptPair");
 			setup.addInformation(subitem);
 			PrimitiveConceptRow conceptrow = (PrimitiveConceptRow) subitem.getHeader();

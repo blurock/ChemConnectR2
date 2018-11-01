@@ -294,7 +294,7 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 
 	@Override
 	public void insertCatalogObject(DatabaseObjectHierarchy subs) {
-		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(subs,modalpanel);
+		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(null,subs,modalpanel);
 		objectpanel.add(item);
 		
 	}

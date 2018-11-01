@@ -82,7 +82,7 @@ public class DatabasePersonDefinition extends Composite  implements ObjectVisual
 	@Override
 	public void setInOjbects(ArrayList<DatabaseObjectHierarchy> objects) {
 		for(DatabaseObjectHierarchy object : objects) {
-			StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(object,modalpanel);			
+			StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(null,object,modalpanel);			
 			existingPeople.add(item);
 		}		
 	}
@@ -107,7 +107,7 @@ public class DatabasePersonDefinition extends Composite  implements ObjectVisual
 
 	@Override
 	public void insertCatalogObject(DatabaseObjectHierarchy subs) {
-		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(subs,modalpanel);
+		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(null,subs,modalpanel);
 		existingPeople.add(item);
 	}
 }

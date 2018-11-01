@@ -61,7 +61,8 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 	Composite headerObject;
 	boolean infovisible;
 
-	public StandardDatasetObjectHierarchyItem(DatabaseObjectHierarchy hierarchy, MaterialPanel modalpanel) {
+	public StandardDatasetObjectHierarchyItem(StandardDatasetObjectHierarchyItem parent, 
+			DatabaseObjectHierarchy hierarchy, MaterialPanel modalpanel) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.hierarchy = hierarchy;
 		this.object = hierarchy.getObject();
@@ -129,7 +130,7 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 			} else {
 			}
 		} else {
-			StandardDatasetRecord record = new StandardDatasetRecord(hierarchy);
+			StandardDatasetRecord record = new StandardDatasetRecord(this,hierarchy);
 			infopanel.add(record);
 		}
 
@@ -152,7 +153,7 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 				addMultipleInfoItem(sub);
 			} else {
 				SetUpCollapsibleItem setup = substage.getSetup();
-				StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(sub, modalpanel);
+				StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(this,sub, modalpanel);
 				if (setup != null) {
 					if (setup.isInformation()) {
 						addInfoItem(item);
@@ -173,7 +174,7 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 						}
 					}
 				} else {
-					StandardDatasetRecord record = new StandardDatasetRecord(sub);
+					StandardDatasetRecord record = new StandardDatasetRecord(this,sub);
 					records.add(record);
 					infopanel.add(record);
 				}
@@ -272,7 +273,7 @@ public class StandardDatasetObjectHierarchyItem extends Composite {
 	public void updateHierarchy(DatabaseObjectHierarchy hierarchy) {
 		MaterialCollapsible parent = (MaterialCollapsible) this.getParent();
 		this.removeFromParent();
-		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(hierarchy, modalpanel);
+		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(this,hierarchy, modalpanel);
 		parent.add(item);
 	}
 }
