@@ -159,6 +159,7 @@ public class CreateDefaultObjectsFactory {
 		catid.setCatalogBaseName(datid.getCatalogBaseName());
 		catid.setDataCatalog(datid.getDataCatalog());
 		catid.setSimpleCatalogName(datid.getSimpleCatalogName());
+		catid.setPath(new ArrayList<String>(datid.getPath()));
 	}
 	
 	public static DatabaseObjectHierarchy fillOrganization(DatabaseObject obj, String shortname, String organizationname, DataCatalogID datid) {
@@ -230,6 +231,7 @@ public class CreateDefaultObjectsFactory {
 		catid.setCatalogBaseName(datid.getCatalogBaseName());
 		catid.setDataCatalog(datid.getDataCatalog());
 		catid.setSimpleCatalogName(datid.getSimpleCatalogName());
+		catid.setPath(new ArrayList<String>(datid.getPath()));
 		
 		setOneLineDescription(hierarchy, devicename);
 		

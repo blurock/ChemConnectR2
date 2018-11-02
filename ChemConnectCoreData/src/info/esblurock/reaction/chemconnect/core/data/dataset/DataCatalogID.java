@@ -30,7 +30,7 @@ public class DataCatalogID extends ChemConnectCompoundDataStructure {
 		this.CatalogBaseName = catalogBaseName;
 		this.DataCatalog = dataCatalog;
 		this.SimpleCatalogName = simpleCatalogName;
-		this.path = path;		
+		this.path = path;	
 	}
 	public DataCatalogID(DataCatalogID original) {
 		super(original);
