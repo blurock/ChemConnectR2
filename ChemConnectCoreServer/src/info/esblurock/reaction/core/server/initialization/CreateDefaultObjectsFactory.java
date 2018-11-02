@@ -744,7 +744,6 @@ public class CreateDefaultObjectsFactory {
 		DatabaseObjectHierarchy pairhier = InterpretData.PurposeConceptPair.createEmptyObject(obj);
 		PurposeConceptPair pair =(PurposeConceptPair) pairhier.getObject();
 		ConceptParsing.fillInPurposeConceptPair(parameter, pair);
-
 		setPurposeConceptPair(sethier, pair.getConcept(), pair.getPurpose());
 		setOneLineDescription(sethier, oneline);
 		

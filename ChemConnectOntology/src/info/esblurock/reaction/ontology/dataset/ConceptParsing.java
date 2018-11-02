@@ -485,7 +485,7 @@ public class ConceptParsing {
 			String parameterS = map.get("parameter");
 			if (propS.compareTo("dataset:hasPurpose") == 0) {
 				info.setPurpose(parameterS);
-			} else if (propS.compareTo("skos:concept") == 0) {
+			} else if (propS.compareTo("qb:concept") == 0) {
 				info.setConcept(parameterS);
 			} else if (propS.compareTo("qudt:unitSystem") == 0) {
 				info.setUnitclass(parameterS);
@@ -505,7 +505,7 @@ public class ConceptParsing {
 			String parameterS = map.get("parameter");
 			if (propS.compareTo("dataset:hasPurpose") == 0) {
 				pair.setPurpose(parameterS);
-			} else if (propS.compareTo("skos:concept") == 0) {
+			} else if (propS.compareTo("qb:concept") == 0) {
 				pair.setConcept(parameterS);
 			}
 		}
