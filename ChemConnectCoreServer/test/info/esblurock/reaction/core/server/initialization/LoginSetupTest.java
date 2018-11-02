@@ -35,6 +35,7 @@ import info.esblurock.reaction.chemconnect.core.data.rdf.RegisterRDFData;
 import info.esblurock.reaction.chemconnect.core.data.transaction.RegisterTransactionData;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
+import info.esblurock.reaction.core.server.db.extract.ExtractLinkObjectFromStructure;
 import info.esblurock.reaction.core.server.db.image.BlobKeyCorrespondence;
 import info.esblurock.reaction.io.db.QueryBase;
 
@@ -103,6 +104,10 @@ public class LoginSetupTest {
 			String catid = CreateDefaultObjectsFactory.userCatalogHierarchyID(username);
 			DatabaseObjectHierarchy ucathier = ExtractCatalogInformation.getDatabaseObjectHierarchy(catid);
 			System.out.println(ucathier.toString());
+
+			System.out.println("---------------------------------------------------------------");
+			DatabaseObjectHierarchy objhier = ExtractLinkObjectFromStructure.extract(ucathier, "dataset:ConceptLinkUserInformation");
+			System.out.println(objhier.toString("LinkedUser: "));
 			//System.out.println("---------------------------------------------------------------");
 			//String orgid = "Catalog-Administration-org-sethier";
 			//DatabaseObjectHierarchy ocathier = ExtractCatalogInformation.getCatalogObject(orgid, "dataset:DatasetCatalogHierarchy");
@@ -131,7 +136,9 @@ public class LoginSetupTest {
 			e.printStackTrace();
 		}
 		System.out.println("---------------------------------------------------------------");
-
+		
+		
+		
 	}
 
 }

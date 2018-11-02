@@ -54,6 +54,7 @@ import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
 import info.esblurock.reaction.core.server.db.InterpretData;
 import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
+import info.esblurock.reaction.core.server.db.extract.ExtractLinkObjectFromStructure;
 import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFactory;
 import info.esblurock.reaction.core.server.read.ReadWriteYamlDatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.services.ServerBase;
@@ -489,6 +490,11 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		}
 		return hier;
 	}
+	
+	public DatabaseObjectHierarchy  extractLinkObjectFromStructure(DatabaseObjectHierarchy hierarchy, String linktypeid) throws IOException {
+		return ExtractLinkObjectFromStructure.extract(hierarchy, linktypeid);
+	}
+
 	
 	public void writeYamlObjectHierarchy(DatabaseObjectHierarchy hierarchy) throws IOException {
 		try {

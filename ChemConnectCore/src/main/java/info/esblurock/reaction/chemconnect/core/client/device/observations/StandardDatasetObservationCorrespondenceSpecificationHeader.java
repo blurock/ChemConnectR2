@@ -33,6 +33,7 @@ import info.esblurock.reaction.chemconnect.core.data.dataset.ObservationSpecific
 import info.esblurock.reaction.chemconnect.core.data.dataset.ObservationCorrespondenceSpecification;
 import info.esblurock.reaction.chemconnect.core.data.description.DescriptionDataData;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
+import info.esblurock.reaction.chemconnect.core.data.observations.ObservationBlockFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
@@ -158,13 +159,13 @@ public class StandardDatasetObservationCorrespondenceSpecificationHeader extends
 			UserImageServiceAsync async = UserImageService.Util.getInstance();
 			HierarchyNodeCallback callback = new HierarchyNodeCallback(this);
 			async.getIDHierarchyFromDataCatalogIDAndClassType(catid.getCatalogBaseName(),
-					MetaDataKeywords.observationsFromSpreadSheet,callback);
+					MetaDataKeywords.observationBlockFromSpreadSheet,callback);
 		}
 	}
 
 	@Override
 	public void insertTree(HierarchyNode topnode) {
-		chooseSheet = new ChooseFromHiearchyTree("Choose reference matrix for set of observations",topnode,this);
+		chooseSheet = new ChooseFromHiearchyTree("Choose matrix block isolation for set of observations",topnode,this);
 		chooseSheet.open();
 		item.getModalpanel().clear();
 		item.getModalpanel().add(chooseSheet);
@@ -176,15 +177,19 @@ public class StandardDatasetObservationCorrespondenceSpecificationHeader extends
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		SubCatagoryHierarchyCallback callback = new SubCatagoryHierarchyCallback(this);
 		Window.alert("treeNodeChosen: " + id);
-		async.getCatalogObject(id,MetaDataKeywords.observationsFromSpreadSheet,callback);
+		async.getCatalogObject(id,MetaDataKeywords.observationBlockFromSpreadSheet,callback);
 	}
 
 	@Override
 	public void setInHierarchy(DatabaseObjectHierarchy subs) {
+		ObservationBlockFromSpreadSheet block = (ObservationBlockFromSpreadSheet) subs.getObject();
+	}
+	
+	public void setInReferenceMatrix(DatabaseObjectHierarchy matrixhier) {
 		Window.alert("StandardDatasetSetOfObservationValuesHeader  setInHierarchy 1");
 		matspecheader.setUpListOfSpecifications(spechier);
 		Window.alert("StandardDatasetSetOfObservationValuesHeader  setInHierarchy 2");
-		matspecheader.setupMatrix(catid,subs);
+		matspecheader.setupMatrix(catid,matrixhier);
 		Window.alert("StandardDatasetSetOfObservationValuesHeader  setInHierarchy 3");
 	}
 	

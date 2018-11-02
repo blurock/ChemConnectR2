@@ -13,6 +13,9 @@ public class ObjectTypeFromLink {
 		String concept1 = "dataset:ConceptLinkMethodology";
 		String structure1 = ConceptParsing.findObjectTypeFromLinkConcept(concept1);
 		System.out.println(structure1);
+		String concept2 = "dataset:BlaBlaBla";
+		String structure2 = ConceptParsing.findObjectTypeFromLinkConcept(concept2);
+		System.out.println(structure2);
 	}
 
 }

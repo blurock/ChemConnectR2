@@ -2138,6 +2138,16 @@ Under the general type of is the actual data object referenced by the ChemConnec
                  rdfs:subClassOf :ChemConnectPrimitiveDataStructure .
 
 
+###  http://www.esblurock.info/dataset#ConceptLinkBlockIsolation
+:ConceptLinkBlockIsolation rdf:type owl:Class ;
+                           rdfs:subClassOf :ConceptLinkDataStructures ,
+                                           [ rdf:type owl:Restriction ;
+                                             owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                             owl:onClass :ObservationBlockFromSpreadSheet
+                                           ] .
+
+
 ###  http://www.esblurock.info/dataset#ConceptLinkCatalogHierarchyStructure
 :ConceptLinkCatalogHierarchyStructure rdf:type owl:Class ;
                                       rdfs:subClassOf :ConceptLinkDataStructures ,
@@ -2196,6 +2206,26 @@ Under the general type of is the actual data object referenced by the ChemConnec
                         rdfs:isDefinedBy :ChemConnectMethodology .
 
 
+###  http://www.esblurock.info/dataset#ConceptLinkObservationValues
+:ConceptLinkObservationValues rdf:type owl:Class ;
+                              rdfs:subClassOf :ConceptLinkDataStructures ,
+                                              [ rdf:type owl:Restriction ;
+                                                owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                owl:onClass :ObservationsFromSpreadSheetFull
+                                              ] .
+
+
+###  http://www.esblurock.info/dataset#ConceptLinkObservationValuesWithTitles
+:ConceptLinkObservationValuesWithTitles rdf:type owl:Class ;
+                                        rdfs:subClassOf :ConceptLinkDataStructures ,
+                                                        [ rdf:type owl:Restriction ;
+                                                          owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                          owl:onClass :ObservationsFromSpreadSheet
+                                                        ] .
+
+
 ###  http://www.esblurock.info/dataset#ConceptLinkObservations
 :ConceptLinkObservations rdf:type owl:Class ;
                          rdfs:subClassOf :ConceptLinkDataStructures ,
@@ -2227,6 +2257,16 @@ Under the general type of is the actual data object referenced by the ChemConnec
                          <http://purl.org/dc/elements/1.1/relation> :DataTypeOrganization ;
                          <http://purl.org/dc/elements/1.1/type> "OrganizationLink" ;
                          rdfs:isDefinedBy :Organization .
+
+
+###  http://www.esblurock.info/dataset#ConceptLinkReferenceMatrix
+:ConceptLinkReferenceMatrix rdf:type owl:Class ;
+                            rdfs:subClassOf :ConceptLinkObservationValues .
+
+
+###  http://www.esblurock.info/dataset#ConceptLinkReferenceMatrixIsolatedBlock
+:ConceptLinkReferenceMatrixIsolatedBlock rdf:type owl:Class ;
+                                         rdfs:subClassOf :ConceptLinkObservationValuesWithTitles .
 
 
 ###  http://www.esblurock.info/dataset#ConceptLinkSensor

@@ -108,4 +108,7 @@ public interface UserImageServiceAsync {
 
 	void deleteObject(String id, String type, AsyncCallback<Void> callback);
 
+	void extractLinkObjectFromStructure(DatabaseObjectHierarchy hierarchy, String linktypeid,
+			AsyncCallback<DatabaseObjectHierarchy> callback);
+
 }

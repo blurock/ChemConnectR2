@@ -26,8 +26,15 @@ public class MetaDataKeywords {
 	public static String userReadAccess = "dataset:userReadAccess";
 	
 	public static String linkSubCatalog = "dataset:ConceptLinkCatalogHierarchyStructure";
-	public static String linkUser = "dataset:ChemConnectConceptUser";
-	public static String linkOrganization = "dataset:ChemConnectConceptOrganization";
+	public static String linkUser = "dataset:ConceptLinkUserInformation";
+	public static String linkOrganization = "dataset:ConceptLinkOrganization";
+	public static String conceptLinkReferenceMatrix = "dataset:ConceptLinkReferenceMatrix";
+	public static String conceptLinkReferenceMatrixIsolatedBlock = "dataset:ConceptLinkReferenceMatrixIsolatedBlock";
+	public static String conceptLinkBlockIsolation = "dataset:ConceptLinkBlockIsolation";
+	public static String conceptLinkConsortium = "dataset:ConceptLinkConsortium";
+	public static String conceptLinkMethodology = "dataset:ConceptLinkMethodology";
+	public static String conceptLinkCorrespondenceSpecification = "dataset:ConceptLinkCorrespondenceSpecification";
+	public static String conceptLinkSubsystems = "dataset:ConceptLinkSubsystems";
 	
 	public static String userRoleChoices = "dataset:UserRoleChoices";
 	
@@ -86,5 +93,6 @@ public class MetaDataKeywords {
 	public static String catagoryTypeChoices = "dataset:CatagoryTypeChoices";
 	public static String conceptLinkDataStructures = "dataset:ConceptLinkDataStructures";
 	public static String undefined = "undefined";
+	
 
 }

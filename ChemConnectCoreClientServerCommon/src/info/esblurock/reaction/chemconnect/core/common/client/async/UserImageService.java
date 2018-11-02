@@ -117,4 +117,6 @@ public interface UserImageService  extends RemoteService  {
 			String blocktype, DataCatalogID datid);
 	HierarchyNode getIDHierarchyFromDataCatalogAndUser(String datacatalog) throws IOException;
 	void deleteObject(String id, String type) throws IOException;
+	
+	DatabaseObjectHierarchy  extractLinkObjectFromStructure(DatabaseObjectHierarchy hierarchy, String linktypeid);
 }
