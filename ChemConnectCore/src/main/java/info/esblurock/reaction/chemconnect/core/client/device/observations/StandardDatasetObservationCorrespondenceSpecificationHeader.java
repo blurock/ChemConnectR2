@@ -11,6 +11,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
+import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialTooltip;
@@ -75,6 +76,9 @@ public class StandardDatasetObservationCorrespondenceSpecificationHeader extends
 	DescriptionDataData description;
 	ObservationSpecification obsspec;
 	DatabaseObjectHierarchy attachedObservationsFromSpreadSheet;
+	DatabaseObjectHierarchy attachedObservationBlockFromSpreadSheet;
+	boolean  retrieveObservationBlock;
+	boolean retrieveObservationsFromSpreadSheet;
 	
 	String observationType; 
 	
@@ -109,13 +113,19 @@ public class StandardDatasetObservationCorrespondenceSpecificationHeader extends
 		DatabaseObjectHierarchy  deschier = hierarchy.getSubObject(descID);
 		description = (DescriptionDataData) deschier.getObject();
 		DatabaseObjectHierarchy cathier = hierarchy.getSubObject(value.getCatalogDataID());
-		catid = (DataCatalogID) cathier.getObject();		
+		catid = (DataCatalogID) cathier.getObject();
+		DatabaseObjectHierarchy linkhier = hierarchy.getSubObject(value.getChemConnectObjectLink());
+		if(linkhier.getSubObjectKeys().size() > 0) {
+			attach.setEnabled(false);
+		}
 	}
 	
 	private void init() {
 		attachedObservationsFromSpreadSheet = null;
 		matspecheader = null;
-		catidheader = null;		
+		catidheader = null;
+		retrieveObservationsFromSpreadSheet = false;
+		retrieveObservationBlock = false;
 	}
 	private void setObservationType() {
 		observationType = obsspec.getObservationParameterType();
@@ -161,6 +171,8 @@ public class StandardDatasetObservationCorrespondenceSpecificationHeader extends
 			async.getIDHierarchyFromDataCatalogIDAndClassType(catid.getCatalogBaseName(),
 					MetaDataKeywords.observationBlockFromSpreadSheet,callback);
 		}
+		attach.setEnabled(false);
+		attach.setTextColor(Color.RED);
 	}
 
 	@Override
@@ -176,21 +188,33 @@ public class StandardDatasetObservationCorrespondenceSpecificationHeader extends
 		chooseSheet.close();
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		SubCatagoryHierarchyCallback callback = new SubCatagoryHierarchyCallback(this);
-		Window.alert("treeNodeChosen: " + id);
+		retrieveObservationsFromSpreadSheet = false;
+		retrieveObservationBlock = true;
 		async.getCatalogObject(id,MetaDataKeywords.observationBlockFromSpreadSheet,callback);
 	}
 
 	@Override
 	public void setInHierarchy(DatabaseObjectHierarchy subs) {
-		ObservationBlockFromSpreadSheet block = (ObservationBlockFromSpreadSheet) subs.getObject();
+		if(retrieveObservationBlock) {
+			attachedObservationBlockFromSpreadSheet = subs;
+			ObservationBlockFromSpreadSheet block = (ObservationBlockFromSpreadSheet) subs.getObject();
+			
+			item.addLinkToCatalogItem(MetaDataKeywords.conceptLinkBlockIsolation, block.getIdentifier());
+			UserImageServiceAsync async = UserImageService.Util.getInstance();
+			SubCatagoryHierarchyCallback callback = new SubCatagoryHierarchyCallback(this);
+			retrieveObservationsFromSpreadSheet = true;
+			retrieveObservationBlock = false;
+			async.extractLinkObjectFromStructure(subs,MetaDataKeywords.conceptLinkReferenceMatrixIsolatedBlock,callback);
+		} else if(retrieveObservationsFromSpreadSheet) {
+			attachedObservationsFromSpreadSheet = subs;
+			setInReferenceMatrix(subs);
+		}
 	}
 	
 	public void setInReferenceMatrix(DatabaseObjectHierarchy matrixhier) {
-		Window.alert("StandardDatasetSetOfObservationValuesHeader  setInHierarchy 1");
 		matspecheader.setUpListOfSpecifications(spechier);
-		Window.alert("StandardDatasetSetOfObservationValuesHeader  setInHierarchy 2");
 		matspecheader.setupMatrix(catid,matrixhier);
-		Window.alert("StandardDatasetSetOfObservationValuesHeader  setInHierarchy 3");
+		attach.setTextColor(Color.BLACK);
 	}
 	
 	@Override

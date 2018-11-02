@@ -23,12 +23,12 @@
 				<m:MaterialRow  margin="0">
 					<m:MaterialColumn grid="s5" styleName="{style.rowbox}">
 						<m:MaterialTooltip ui:field="concepttip">
-							<m:MaterialLink ui:field="concept" styleName="{style.box}"/>
+							<m:MaterialLink ui:field="concept" textColor="BLACK"/>
 						</m:MaterialTooltip>
 					</m:MaterialColumn>
 					<m:MaterialColumn grid="s6" styleName="{style.rowbox}">
 						<m:MaterialTooltip ui:field="linktip">
-							<m:MaterialLink ui:field="link" styleName="{style.box}"/>
+							<m:MaterialLink ui:field="link" textColor="BLACK"/>
 						</m:MaterialTooltip>
 					</m:MaterialColumn>
 					<m:MaterialColumn grid="s1" styleName="{style.rowbox}">

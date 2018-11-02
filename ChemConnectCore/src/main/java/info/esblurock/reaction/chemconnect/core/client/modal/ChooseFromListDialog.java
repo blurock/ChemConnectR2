@@ -24,6 +24,8 @@ public class ChooseFromListDialog extends Composite {
 	}
 
 	@UiField
+	MaterialLink header;
+	@UiField
 	MaterialDialog modal;
 	@UiField
 	MaterialPanel rowpanel;
@@ -31,7 +33,6 @@ public class ChooseFromListDialog extends Composite {
 	MaterialLink close;
 			
 	Map<String,String> maplst;
-	String title;
 	ChooseFromListInterface choose;
 	boolean includeCount;
 	ArrayList<String> orderedlist;
@@ -45,7 +46,7 @@ public class ChooseFromListDialog extends Composite {
 
 	public ChooseFromListDialog(String title, ArrayList<String> orderedlist, Map<String,String> maplst, boolean includeCount, ChooseFromListInterface choose) {
 		initWidget(uiBinder.createAndBindUi(this));
-		this.title = title;
+		this.header.setText(title);
 		this.maplst = maplst;
 		this.choose = choose;
 		this.includeCount = includeCount;
@@ -56,6 +57,9 @@ public class ChooseFromListDialog extends Composite {
 		}
 	}
 
+	public void setTitle(String newtitle) {
+		header.setText(newtitle);
+	}
 	public void addRow(String label, String rowText) {
 		orderedlist.add(label);
 		maplst.put(label,rowText);

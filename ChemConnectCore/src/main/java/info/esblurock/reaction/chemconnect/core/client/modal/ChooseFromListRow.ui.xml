@@ -9,14 +9,13 @@
 	}
 	</ui:style>
 	<m:MaterialRow margin="0">
-		<m:MaterialColumn ui:field="labelCountRow" grid="s2"
-			styleName="{style.rowbox}">
-			<m:MaterialLink ui:field="labelCount" margin="5" textColor="BLACK"/>
+		<m:MaterialColumn ui:field="labelCountRow" grid="s2">
+			<m:MaterialLink ui:field="labelCount" textColor="BLACK" text="  "/>
 		</m:MaterialColumn>
-		<m:MaterialColumn grid="s9" styleName="{style.rowbox}">
-			<m:MaterialLink ui:field="specificationLabel"  paddingBottom="10" textColor="BLACK"/>
+		<m:MaterialColumn grid="s9">
+			<m:MaterialLink ui:field="specificationLabel" textColor="BLACK"/>
 		</m:MaterialColumn>
-		<m:MaterialColumn grid="s1" styleName="{style.rowbox}">
+		<m:MaterialColumn grid="s1" >
 			<m:MaterialTooltip ui:field="uncertaintytooltip">
 				<m:MaterialCheckBox ui:field="uncertainty" />
 			</m:MaterialTooltip>

@@ -21,31 +21,9 @@
 	
 	</ui:style>
 	<m:MaterialPanel styleName="{style.panelbox}">
-		<m:MaterialRow ui:field="headerrow">
-			<m:MaterialColumn grid="s6">
-				<m:MaterialLink ui:field="headername" />
-			</m:MaterialColumn>
-			<m:MaterialColumn grid="s6">
-				<m:MaterialLink ui:field="spreadsheetname" />
-			</m:MaterialColumn>
-		</m:MaterialRow>
-		<m:MaterialRow ui:field="blockdefinition">
-			<m:MaterialColumn grid="s3" styleName="{style.rowbox}">
-				<m:MaterialLink ui:field="startrow"  textColor="BLACK" text="0"/>
-			</m:MaterialColumn>
-			<m:MaterialColumn grid="s3" styleName="{style.rowbox}">
-				<m:MaterialLink ui:field="endrow"  textColor="BLACK" text="0"/>
-			</m:MaterialColumn>
-			<m:MaterialColumn grid="s3" styleName="{style.rowbox}">
-				<m:MaterialLink ui:field="startcolumn"  textColor="BLACK" text="0"/>
-			</m:MaterialColumn>
-			<m:MaterialColumn grid="s3" styleName="{style.rowbox}">
-				<m:MaterialLink ui:field="endcolumn"  textColor="BLACK" text="0"/>
-			</m:MaterialColumn>
-		</m:MaterialRow>
 		<m:MaterialRow styleName="{style.rowbox}">
 			<m:MaterialColumn grid="s11">
-				<m:MaterialLink ui:field="corrspecheader" />
+				<m:MaterialLink ui:field="corrspecheader" textColor="BLACK"/>
 			</m:MaterialColumn>
 			<m:MaterialColumn grid="s1">
 				<m:MaterialLink ui:field="addcorr" iconType="ADD" iconColor="BLACK"/>

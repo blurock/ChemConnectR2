@@ -4,11 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -46,34 +43,15 @@ public class MatrixSpecificationCorrespondenceSetHeader extends Composite
 	}
 
 	@UiField
-	MaterialLink headername;
-	/*
-	@UiField
-	MaterialLink startrow;
-	@UiField
-	MaterialLink endrow;
-	@UiField
-	MaterialLink startcolumn;
-	@UiField
-	MaterialLink endcolumn;
-	*/
-	@UiField
 	MaterialLink corrspecheader;
 	@UiField
 	MaterialLink addcorr;
 	@UiField
 	MaterialPanel corrspecpanel;
-	@UiField
-	MaterialLink spreadsheetname;
-	/*
-	boolean startrowB;
-	boolean endrowB;
-	boolean startcolumnB;
-	boolean endcolumnB;
-*/
+
+	
 	MatrixSpecificationCorrespondenceSet speccorrset;
 	DatabaseObjectHierarchy hierarchy;
-	//MatrixBlockDefinition blockdef;
 	DatabaseObjectHierarchy matspechierarchy;
 	ChemConnectCompoundMultiple specmult;
 	StandardDatasetObjectHierarchyItem topitem;
@@ -88,7 +66,6 @@ public class MatrixSpecificationCorrespondenceSetHeader extends Composite
 		this.hierarchy = item.getHierarchy();
 		initMatrixSpecificationCorrespondenceSet();
 		this.topitem = item;
-		//displayMatrixBlockDefinition();
 		displayCorrespondences();
 	}
 	/*
@@ -102,13 +79,7 @@ public class MatrixSpecificationCorrespondenceSetHeader extends Composite
 	}
 	
 	private void init() {
-		headername.setText("Matrix Specification Correspondence Set");
 		corrspecheader.setText("Specification Correspondence Set");
-		spreadsheetname.setText("Spreadsheet Matrix");
-		//startrowB = false;
-		//endrowB = false;
-		//startcolumnB = false;
-		//endcolumnB = false;
 		
 		orderedlist = null;
 		listmap = null;
@@ -128,61 +99,6 @@ public class MatrixSpecificationCorrespondenceSetHeader extends Composite
 			corrspecpanel.add(header);
 		}
 	}
-/*
-	@UiHandler("startrow")
-	public void onStartRowClock(ClickEvent event) {
-		startrowB = true;
-		linemodal = new InputLineModal("Starting row in matrix", "0",InputLineModal.integerField, true, this);
-		topitem.getModalpanel().clear();
-		topitem.getModalpanel().add(linemodal);
-		linemodal.openModal();
-	}
-	@UiHandler("endrow")
-	public void onEndRowClock(ClickEvent event) {
-		endrowB = true;
-		linemodal = new InputLineModal("Last row in matrix", "0",InputLineModal.integerField, true, this);
-		topitem.getModalpanel().clear();
- 		topitem.getModalpanel().add(linemodal);
-		linemodal.openModal();
-	}
-	@UiHandler("startcolumn")
-	public void onStartColumnClock(ClickEvent event) {
-		startcolumnB = true;
-		linemodal = new InputLineModal("Starting column in matrix", "0",InputLineModal.integerField, true, this);
-		topitem.getModalpanel().clear();
-		topitem.getModalpanel().add(linemodal);
-		linemodal.openModal();
-	}
-	@UiHandler("endcolumn")
-	public void onEndColumnClock(ClickEvent event) {
-		endcolumnB = true;
-		linemodal = new InputLineModal("last column in matrix","0",InputLineModal.integerField, true, this);
-		topitem.getModalpanel().clear();
-		topitem.getModalpanel().add(linemodal);
-		linemodal.openModal();
-	}
-	@Override
-	public void setLineContent(String line) {
-		if(startrowB) {
-				startrow.setText(line);
-		} else if(endrowB) {
-				endrow.setText(line);
-		} else if(startcolumnB) {
-				startcolumn.setText(line);
-		} else if(endcolumnB) {
-				endcolumn.setText(line);
-		}
-		startrowB = false;
-		startcolumnB = false;
-		endrowB = false;
-		endcolumnB = false;			
-	}
-	*/
-
-	@UiHandler("spreadsheetname")
-	void addClickEvent(ClickEvent event) {
-		Window.alert("Add Spreadsheet");
-	}
 
 	/**
 	 * @param catid  Catalog ID
@@ -192,29 +108,20 @@ public class MatrixSpecificationCorrespondenceSetHeader extends Composite
 	public void setupMatrix(DataCatalogID catid, DatabaseObjectHierarchy subs) {
 		attachedObservationsFromSpreadSheet = subs;
 		ObservationsFromSpreadSheet observations = (ObservationsFromSpreadSheet) attachedObservationsFromSpreadSheet.getObject();
-		Window.alert("StandardDatasetSetOfObservationValuesHeader: setupMatrix 1");
-		Window.alert("StandardDatasetSetOfObservationValuesHeader: setupMatrix\n" + observations.toString());
 		DatabaseObjectHierarchy matrixhierarchy = attachedObservationsFromSpreadSheet.getSubObject(observations.getObservationValueRowTitle());
-		Window.alert("StandardDatasetSetOfObservationValuesHeader: setupMatrix 2");
 		setInColumnCorrespondences(matrixhierarchy);
-		Window.alert("StandardDatasetSetOfObservationValuesHeader: setupMatrix 3");
 	}
 	
 	public void setUpListOfSpecifications(DatabaseObjectHierarchy spechier) {
 		ObservationSpecification obsspec = (ObservationSpecification) spechier.getObject();
-		Window.alert("StandardDatasetSetOfObservationValuesHeader: setUpListOfSpecifications\n" + obsspec.toString());
 		String dimensionid = obsspec.getDimensionSpecifications();
 		String measureid = obsspec.getMeasureSpecifications();
 		DatabaseObjectHierarchy dimensionhier = spechier.getSubObject(dimensionid);
 		DatabaseObjectHierarchy measurehier = spechier.getSubObject(measureid);
 		orderedlist = new ArrayList<String>();
 		listmap = new HashMap<String, String>();
-		Window.alert("StandardDatasetSetOfObservationValuesHeader: setUpListOfSpecifications 1");
 		fillSpec(dimensionhier.getSubobjects());
-		Window.alert("StandardDatasetSetOfObservationValuesHeader: setUpListOfSpecifications 2");
 		fillSpec(measurehier.getSubobjects());
-		Window.alert("StandardDatasetSetOfObservationValuesHeader: setUpListOfSpecifications 3");
-		
 	}
 
 	private void fillSpec(ArrayList<DatabaseObjectHierarchy> specs) {
@@ -237,21 +144,8 @@ public class MatrixSpecificationCorrespondenceSetHeader extends Composite
 	}
 
 	private void setInColumnCorrespondences(DatabaseObjectHierarchy titlehier) {
-		//ObservationsFromSpreadSheet sheet = (ObservationsFromSpreadSheet) matrixhierarchy.getObject();
-		//DatabaseObjectHierarchy titlehier = matrixhierarchy.getSubObject(sheet.getObservationValueRowTitle());
-		Window.alert("setInColumnCorrespondences: should be ObservationValueRowTitle: " + titlehier.getObject().getClass().getSimpleName());
 		ObservationValueRowTitle titles = (ObservationValueRowTitle) titlehier.getObject();
 		ArrayList<String> coltitles = titles.getParameterLabel();
-		Window.alert("Eliminated Block Information: displayMatrixBlockDefinition();");
-		/*
-		DatabaseObjectHierarchy interprethier = matrixhierarchy.getSubObject(sheet.getSpreadSheetInterpretation());
-		SpreadSheetBlockIsolation interpret = (SpreadSheetBlockIsolation) interprethier.getObject();
-			blockdef.setStartRowInMatrix(interpret.getStartRow());
-			blockdef.setLastRowInMatrix(interpret.getEndRow());
-			blockdef.setStartColumnInMatrix(interpret.getStartColumn());
-			blockdef.setLastColumnInMatrix(interpret.getEndColumn());
-		displayMatrixBlockDefinition();
-		*/
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		FillMatrixSpecificationCorrespondenceCallback callback = new FillMatrixSpecificationCorrespondenceCallback(this);
 		async.fillMatrixSpecificationCorrespondence(hierarchy,coltitles,callback);
@@ -269,45 +163,7 @@ public class MatrixSpecificationCorrespondenceSetHeader extends Composite
 			MatrixSpecificationCorrespondenceHeader header = (MatrixSpecificationCorrespondenceHeader) widget;
 			header.updateData();
 		}
-		/*
-		if(startcolumn.getText().compareTo(MetaDataKeywords.undefined) != 0) {
-			blockdef.setStartColumnInMatrix(startcolumn.getText());
-			blockdef.setLastColumnInMatrix(endcolumn.getText());
-		} else {
-			blockdef.setStartColumnInMatrix(null);
-			blockdef.setLastColumnInMatrix(null);			
-		}
-		if(startrow.getText().compareTo(MetaDataKeywords.undefined) != 0) {		
-			blockdef.setStartRowInMatrix(startrow.getText());
-			blockdef.setLastRowInMatrix(endrow.getText());
-		} else {
-			blockdef.setStartRowInMatrix(null);
-			blockdef.setLastRowInMatrix(null);			
-		}
-		*/
 		return true;
 	}
-	
-	/*
-	
-	public void displayMatrixBlockDefinition() {
-		if(blockdef.getStartRowInMatrix() != null) {
-			startrow.setText(blockdef.getStartRowInMatrix());
-			endrow.setText(blockdef.getLastRowInMatrix());
-		} else {
-			startrow.setText(MetaDataKeywords.undefined);
-			endrow.setText(MetaDataKeywords.undefined);
-			
-		}
-		if(blockdef.getStartColumnInMatrix() != null) {
-			startcolumn.setText(blockdef.getStartColumnInMatrix());
-			endcolumn.setText(blockdef.getLastColumnInMatrix());
-		} else {
-			startcolumn.setText(MetaDataKeywords.undefined);
-			endcolumn.setText(MetaDataKeywords.undefined);
-			
-		}
-	}
-	*/
 
 }

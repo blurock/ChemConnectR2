@@ -16,6 +16,7 @@ import gwt.material.design.client.ui.MaterialLink;
 import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.client.modal.ChooseFromListDialog;
 import info.esblurock.reaction.chemconnect.core.client.modal.ChooseFromListInterface;
+import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.MatrixSpecificationCorrespondence;
 
 public class MatrixSpecificationCorrespondenceHeader extends Composite implements ChooseFromListInterface {
@@ -38,6 +39,8 @@ public class MatrixSpecificationCorrespondenceHeader extends Composite implement
 	@UiField
 	MaterialCheckBox includesUncertainty;
 	
+	String fullSpecificationLabel;
+	
 	ChooseFromListDialog choose;
 	StandardDatasetObjectHierarchyItem item;
 	MatrixSpecificationCorrespondence matcorr;
@@ -48,17 +51,19 @@ public class MatrixSpecificationCorrespondenceHeader extends Composite implement
 		this.item = item;
 		matcorr = (MatrixSpecificationCorrespondence) item.getObject();
 		matrixcolumn.setText(matcorr.getMatrixColumn());
-		specificationLabel.setText(matcorr.getSpecificationLabel());
+		fullSpecificationLabel = matcorr.getSpecificationLabel();
+		specificationLabel.setText(TextUtilities.removeNamespace(fullSpecificationLabel));
+		includesUncertainty.setValue(matcorr.isIncludesUncertaintyParameter());
 		choose = null;
 	}
 	
 	public void addChoices(String title, ArrayList<String> orderedlist, Map<String,String> maplst, boolean includeCount) {
-		choose = new ChooseFromListDialog(title,orderedlist,maplst,includeCount,this);
+		choose = new ChooseFromListDialog(matrixcolumn.getText(),orderedlist,maplst,includeCount,this);
 	}
 	
 	public void updateData() {
 		matcorr.setMatrixColumn(matrixcolumn.getText());
-		matcorr.setSpecificationLabel(specificationLabel.getText());
+		matcorr.setSpecificationLabel(fullSpecificationLabel);
 		boolean uncertainty = includesUncertainty.getValue().booleanValue();
 		matcorr.setIncludesUncertaintyParameter(uncertainty);
 	}
@@ -77,7 +82,8 @@ public class MatrixSpecificationCorrespondenceHeader extends Composite implement
 
 	@Override
 	public void chosenLabel(String choice, boolean uncertainty) {
-		specificationLabel.setText(choice);
+		fullSpecificationLabel = choice;
+		specificationLabel.setText(TextUtilities.removeNamespace(choice));
 		includesUncertainty.setValue(uncertainty);
 		choose.close();
 	}

@@ -12,13 +12,13 @@
 	<m:MaterialPanel>
 		<m:MaterialRow margin="0">
 			<m:MaterialColumn grid="s6" styleName="{style.rowbox}">
-				<m:MaterialLink ui:field="matrixcolumn" />
+				<m:MaterialLink ui:field="matrixcolumn" textColor="BLACK"/>
 			</m:MaterialColumn>
 			<m:MaterialColumn grid="s5" styleName="{style.rowbox}">
-				<m:MaterialLink ui:field="specificationLabel" />
+				<m:MaterialLink ui:field="specificationLabel" textColor="BLACK"/>
 			</m:MaterialColumn>
 			<m:MaterialColumn grid="s1" styleName="{style.rowbox}">
-				<m:MaterialCheckBox ui:field="includesUncertainty" />
+				<m:MaterialCheckBox ui:field="includesUncertainty"/>
 			</m:MaterialColumn>
 		</m:MaterialRow>
 	</m:MaterialPanel>
