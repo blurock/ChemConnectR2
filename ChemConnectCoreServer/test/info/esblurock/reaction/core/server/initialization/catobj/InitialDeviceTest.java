@@ -35,7 +35,7 @@ import info.esblurock.reaction.chemconnect.core.data.gcs.RegisterGCSClasses;
 import info.esblurock.reaction.chemconnect.core.data.image.RegisterImageInformation;
 import info.esblurock.reaction.chemconnect.core.data.initialization.RegisterInitializationData;
 import info.esblurock.reaction.chemconnect.core.data.login.RegisterUserLoginData;
-import info.esblurock.reaction.chemconnect.core.data.methodology.RegisterMethodology;
+import info.esblurock.reaction.chemconnect.core.data.methodology.RegisterProtocol;
 import info.esblurock.reaction.chemconnect.core.data.observations.RegisterObservationData;
 import info.esblurock.reaction.chemconnect.core.data.rdf.RegisterRDFData;
 import info.esblurock.reaction.chemconnect.core.data.transaction.RegisterTransactionData;
@@ -70,7 +70,7 @@ public class InitialDeviceTest {
 		RegisterImageInformation.register();
 		RegisterGCSClasses.register();
 		RegisterObservationData.register();
-		RegisterMethodology.register();
+		RegisterProtocol.register();
 		ObjectifyService.register(BlobKeyCorrespondence.class);
 		ObjectifyService.register(DatabaseObject.class);
 		ObjectifyService.register(ChemConnectCompoundMultiple.class);

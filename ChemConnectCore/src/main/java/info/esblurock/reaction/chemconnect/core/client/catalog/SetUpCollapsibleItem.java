@@ -3,7 +3,7 @@ package info.esblurock.reaction.chemconnect.core.client.catalog;
 import info.esblurock.reaction.chemconnect.core.client.catalog.description.StandardDatasetDescriptionDataDataHeader;
 import info.esblurock.reaction.chemconnect.core.client.catalog.hierarchy.StandardDatasetCatalogHierarchyHeader;
 import info.esblurock.reaction.chemconnect.core.client.catalog.link.PrimitiveDataObjectLinkRow;
-import info.esblurock.reaction.chemconnect.core.client.catalog.methodology.StandardDatasetMethodologyHeader;
+import info.esblurock.reaction.chemconnect.core.client.catalog.methodology.StandardDatasetProtocolHeader;
 import info.esblurock.reaction.chemconnect.core.client.catalog.multiple.ChemConnectCompoundMultipleHeader;
 import info.esblurock.reaction.chemconnect.core.client.catalog.reference.StandardDatasetDataSetReferenceHeader;
 import info.esblurock.reaction.chemconnect.core.client.concept.PrimitiveConceptRow;
@@ -527,18 +527,18 @@ public enum SetUpCollapsibleItem {
 			return false;
 		}
 		
-	}, ChemConnectMethodology {
+	}, ChemConnectProtocol {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
-			StandardDatasetMethodologyHeader header = new StandardDatasetMethodologyHeader(item);
+			StandardDatasetProtocolHeader header = new StandardDatasetProtocolHeader(item);
 			item.addHeader(header);
 		}
 
 		@Override
 		public boolean update(StandardDatasetObjectHierarchyItem item) {
-			StandardDatasetMethodologyHeader header = (StandardDatasetMethodologyHeader) item.getHeader();
-			return header.updateMethodology();
+			StandardDatasetProtocolHeader header = (StandardDatasetProtocolHeader) item.getHeader();
+			return header.updateProtocol();
 		}
 
 		@Override

@@ -7,42 +7,42 @@ import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructu
 
 @Entity
 @SuppressWarnings("serial")
-public class ChemConnectMethodology extends ChemConnectDataStructure  {
+public class ChemConnectProtocol extends ChemConnectDataStructure  {
 	
 	@Index
-	String methodologyType;
+	String protocolType;
 	@Index
 	String parameterValues;
 	@Index
 	String observationSpecs;
 
-	public ChemConnectMethodology() {
+	public ChemConnectProtocol() {
 		super();
-		this.methodologyType = null;
+		this.protocolType = null;
 		this.parameterValues = null;
 		this.observationSpecs = null;
 		}
 
-	public ChemConnectMethodology(ChemConnectMethodology methodology) {
+	public ChemConnectProtocol(ChemConnectProtocol methodology) {
 		super(methodology);
 		this.parameterValues = methodology.getParameterValues();
 		this.observationSpecs = methodology.getParameterValues();
 	}
 	
-	public ChemConnectMethodology(ChemConnectDataStructure datastructure, String methodology,
+	public ChemConnectProtocol(ChemConnectDataStructure datastructure, String methodology,
 			String observationSpecs, String parameters) {
 		super(datastructure);
-		this.methodologyType = methodology;
+		this.protocolType = methodology;
 		this.parameterValues = parameters;
 		this.observationSpecs = observationSpecs;
 	}
 
-	public String getMethodologyType() {
-		return methodologyType;
+	public String getProtocolType() {
+		return protocolType;
 	}
 
-	public void setMethodologyType(String methodologyType) {
-		this.methodologyType = methodologyType;
+	public void setProtocolType(String methodologyType) {
+		this.protocolType = methodologyType;
 	}
 
 	public String getParameterValues() {
@@ -68,7 +68,7 @@ public class ChemConnectMethodology extends ChemConnectDataStructure  {
 	public String toString(String prefix) {
 		StringBuilder build = new StringBuilder();
 		build.append(super.toString(prefix));
-		build.append("Methodology:               " + methodologyType + "\n"); 
+		build.append("Protocol:               " + protocolType + "\n"); 
 		build.append("Parameter Values:          " + parameterValues + "\n"); 
 		build.append("Observation Specification: " + observationSpecs + "\n"); 
 		return build.toString();

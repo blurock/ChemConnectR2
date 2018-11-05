@@ -32,7 +32,7 @@ public class MetaDataKeywords {
 	public static String conceptLinkReferenceMatrixIsolatedBlock = "dataset:ConceptLinkReferenceMatrixIsolatedBlock";
 	public static String conceptLinkBlockIsolation = "dataset:ConceptLinkBlockIsolation";
 	public static String conceptLinkConsortium = "dataset:ConceptLinkConsortium";
-	public static String conceptLinkMethodology = "dataset:ConceptLinkMethodology";
+	public static String conceptLinkProtocol = "dataset:ConceptLinkProtocol";
 	public static String conceptLinkCorrespondenceSpecification = "dataset:ConceptLinkCorrespondenceSpecification";
 	public static String conceptLinkSubsystems = "dataset:ConceptLinkSubsystems";
 	
@@ -63,8 +63,8 @@ public class MetaDataKeywords {
 	public static String dataTypeComponent = "dataset:DataTypeComponent";
 	
 	public static String subSystemDescription = "dataset:SubSystemDescription";
-	public static String dataTypeMethodology = "dataset:DataTypeMethodology";
-	public static String methodology = "dataset:Methodology";
+	public static String dataTypeProtocol = "dataset:DataTypeProtocol";
+	public static String protocol = "dataset:Protocol";
 	public static String observationCorrespondenceSpecification = "dataset:ObservationCorrespondenceSpecification";
 	public static String dataFileInformationStructure = "dataset:DataFileInformationStructure";
 	public static String dataTypeFileFormatInterpretation = "dataset:DataTypeFileFormatInterpretation";

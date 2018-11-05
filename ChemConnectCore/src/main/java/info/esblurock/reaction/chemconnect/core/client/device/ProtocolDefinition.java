@@ -22,11 +22,11 @@ import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
-public class MethodologyDefinition extends Composite implements  ObjectVisualizationInterface {
+public class ProtocolDefinition extends Composite implements  ObjectVisualizationInterface {
 
-	private static MethodologyDefinitionUiBinder uiBinder = GWT.create(MethodologyDefinitionUiBinder.class);
+	private static ProtocolDefinitionUiBinder uiBinder = GWT.create(ProtocolDefinitionUiBinder.class);
 
-	interface MethodologyDefinitionUiBinder extends UiBinder<Widget, MethodologyDefinition> {
+	interface ProtocolDefinitionUiBinder extends UiBinder<Widget, ProtocolDefinition> {
 	}
 
 	@UiField
@@ -38,21 +38,21 @@ public class MethodologyDefinition extends Composite implements  ObjectVisualiza
 	
 	ChooseFullNameFromCatagoryRow choose;
 
-	public MethodologyDefinition() {
+	public ProtocolDefinition() {
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
 	}
 
-	public MethodologyDefinition(String firstName) {
+	public ProtocolDefinition(String firstName) {
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
 	}
 	
 	private void init() {
 		ArrayList<String> choices = new ArrayList<String>();
-		choices.add(MetaDataKeywords.dataTypeMethodology);
+		choices.add(MetaDataKeywords.dataTypeProtocol);
 		String user = Cookies.getCookie("user");
-		String object = MetaDataKeywords.methodology;
+		String object = MetaDataKeywords.protocol;
 		choose = new ChooseFullNameFromCatagoryRow(this,user,object,choices,modalpanel);
 		topPanel.add(choose);
 	}
@@ -63,7 +63,7 @@ public class MethodologyDefinition extends Composite implements  ObjectVisualiza
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		String deviceType = choose.getObjectType();
 		String title = choose.getObjectName();
-		async.getMethodology(obj,deviceType,title, datid, callback);
+		async.getProtocol(obj,deviceType,title, datid, callback);
 	}
 
 	@Override

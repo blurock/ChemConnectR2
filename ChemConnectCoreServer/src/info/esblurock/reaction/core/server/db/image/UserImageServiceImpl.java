@@ -460,12 +460,12 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		return corrspechier;
 	}
 
-	public DatabaseObjectHierarchy getMethodology(DatabaseObject obj, String methodology, String title, DataCatalogID catid) {
+	public DatabaseObjectHierarchy getProtocol(DatabaseObject obj, String methodology, String title, DataCatalogID catid) {
 		String sourceID = QueryBase.getDataSourceIdentification(obj.getOwner());
 		obj.setSourceID(sourceID);
 		obj.nullKey();
 		
-		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillMethodologyDefinition(obj, methodology, title, catid);
+		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillProtocolDefinition(obj, methodology, title, catid);
 		return hierarchy;
 	}
 	public DatabaseObjectHierarchy createNewCatalogHierarchy(DatabaseObject obj, String id, 

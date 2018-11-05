@@ -8,7 +8,7 @@ import info.esblurock.reaction.chemconnect.core.client.catalog.ManageCatalogHier
 import info.esblurock.reaction.chemconnect.core.client.contact.DatabasePersonDefinition;
 import info.esblurock.reaction.chemconnect.core.client.contact.OrganizationDefinition;
 import info.esblurock.reaction.chemconnect.core.client.device.DeviceWithSubystemsDefinition;
-import info.esblurock.reaction.chemconnect.core.client.device.MethodologyDefinition;
+import info.esblurock.reaction.chemconnect.core.client.device.ProtocolDefinition;
 import info.esblurock.reaction.chemconnect.core.client.device.SetOfObservationsDefinition;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.IsolateMatrixBlock;
 import info.esblurock.reaction.chemconnect.core.client.gcs.UploadFileToBlobStorage;
@@ -85,21 +85,21 @@ public enum DataStructurePages implements Serializable {
 		
 	},
 	
-	Methodology {
+	Protocol {
 
 		@Override
 		public String getTitle() {
-			return "Methodology";
+			return "Protocol";
 		}
 
 		@Override
 		public String getDescription() {
-			return "Fields for defining methodologies";
+			return "Fields for defining a protocol";
 		}
 
 		@Override
 		public Widget getContent() {
-			return methodology;
+			return protocol;
 		}
 		
 	}, ManageCatalog {
@@ -180,7 +180,7 @@ public enum DataStructurePages implements Serializable {
 	static IsolateMatrixBlock block = new IsolateMatrixBlock();
 	static DeviceWithSubystemsDefinition subsystems = new DeviceWithSubystemsDefinition();
 	static SetOfObservationsDefinition setofobservations = new SetOfObservationsDefinition();
-	static MethodologyDefinition methodology = new MethodologyDefinition();
+	static ProtocolDefinition protocol = new ProtocolDefinition();
 	static UploadFileToBlobStorage blobstorage = new UploadFileToBlobStorage();
 	static ManageCatalogHierarchy managecatalog = new ManageCatalogHierarchy();
 	static OrganizationDefinition organizations = new OrganizationDefinition();

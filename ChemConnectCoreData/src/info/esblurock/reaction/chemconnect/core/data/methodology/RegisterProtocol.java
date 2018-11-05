@@ -4,12 +4,12 @@ import com.googlecode.objectify.ObjectifyService;
 
 import info.esblurock.reaction.chemconnect.core.data.base.ResetDatabaseObjects;
 
-public class RegisterMethodology {
+public class RegisterProtocol {
 	public static void register() {
-		ObjectifyService.register(ChemConnectMethodology.class);
+		ObjectifyService.register(ChemConnectProtocol.class);
 	}
 	
 	public static void reset() {
-		ResetDatabaseObjects.resetClass(ChemConnectMethodology.class);
+		ResetDatabaseObjects.resetClass(ChemConnectProtocol.class);
 	}
 }

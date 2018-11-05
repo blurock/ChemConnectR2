@@ -43,7 +43,7 @@ import info.esblurock.reaction.chemconnect.core.data.dataset.ValueUnits;
 import info.esblurock.reaction.chemconnect.core.data.dataset.device.SubSystemDescription;
 import info.esblurock.reaction.chemconnect.core.data.description.DescriptionDataData;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
-import info.esblurock.reaction.chemconnect.core.data.methodology.ChemConnectMethodology;
+import info.esblurock.reaction.chemconnect.core.data.methodology.ChemConnectProtocol;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationBlockFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheetFull;
@@ -183,11 +183,11 @@ public class CreateDefaultObjectsFactory {
 		return orghier;
 	}
 
-	public static DatabaseObjectHierarchy fillMethodologyDefinition(DatabaseObject obj, 
+	public static DatabaseObjectHierarchy fillProtocolDefinition(DatabaseObject obj, 
 			String methodologyS, String title, DataCatalogID datid) {
-		DatabaseObjectHierarchy methodhier = InterpretData.ChemConnectMethodology.createEmptyObject(obj);
-		ChemConnectMethodology methodology = (ChemConnectMethodology) methodhier.getObject();
-		methodology.setMethodologyType(methodologyS);
+		DatabaseObjectHierarchy methodhier = InterpretData.ChemConnectProtocol.createEmptyObject(obj);
+		ChemConnectProtocol methodology = (ChemConnectProtocol) methodhier.getObject();
+		methodology.setProtocolType(methodologyS);
 		
 		insertDataCatalogID(methodhier,datid);
 				

@@ -33,8 +33,8 @@ import info.esblurock.reaction.chemconnect.core.data.gcs.RegisterGCSClasses;
 import info.esblurock.reaction.chemconnect.core.data.image.RegisterImageInformation;
 import info.esblurock.reaction.chemconnect.core.data.initialization.RegisterInitializationData;
 import info.esblurock.reaction.chemconnect.core.data.login.RegisterUserLoginData;
-import info.esblurock.reaction.chemconnect.core.data.methodology.ChemConnectMethodology;
-import info.esblurock.reaction.chemconnect.core.data.methodology.RegisterMethodology;
+import info.esblurock.reaction.chemconnect.core.data.methodology.ChemConnectProtocol;
+import info.esblurock.reaction.chemconnect.core.data.methodology.RegisterProtocol;
 import info.esblurock.reaction.chemconnect.core.data.observations.RegisterObservationData;
 import info.esblurock.reaction.chemconnect.core.data.rdf.RegisterRDFData;
 import info.esblurock.reaction.chemconnect.core.data.transaction.RegisterTransactionData;
@@ -68,7 +68,7 @@ public class InitialMethodologyTest {
 		RegisterImageInformation.register();
 		RegisterGCSClasses.register();
 		RegisterObservationData.register();
-		RegisterMethodology.register();
+		RegisterProtocol.register();
 		ObjectifyService.register(BlobKeyCorrespondence.class);
 		ObjectifyService.register(DatabaseObject.class);
 		ObjectifyService.register(ChemConnectCompoundMultiple.class);
@@ -96,7 +96,7 @@ public class InitialMethodologyTest {
 		ArrayList<String> path = new ArrayList<String>();
 		path.add("First");
 		DataCatalogID name = new DataCatalogID(structure,"Catalog-Base","Catalog","Simple",path);
-		DatabaseObjectHierarchy hierarchy1 = CreateDefaultObjectsFactory.fillMethodologyDefinition(obj, methodology, title,name);
+		DatabaseObjectHierarchy hierarchy1 = CreateDefaultObjectsFactory.fillProtocolDefinition(obj, methodology, title,name);
 		
 		String descr = "The Heat Flux method is one of the most recent "
 				+ "experimental methods, which allow measuring laminar burning "
@@ -110,7 +110,7 @@ public class InitialMethodologyTest {
 				+ "laboratories from Eindhoven University of Technology, "
 				+ "Lund University, OWI Oel-Waerme Institut GmbH and "
 				+ "TU Bergakademie Freiberg.";
-		ChemConnectMethodology m = (ChemConnectMethodology) hierarchy1.getObject();
+		ChemConnectProtocol m = (ChemConnectProtocol) hierarchy1.getObject();
 		DatabaseObjectHierarchy dhier = hierarchy1.getSubObject(m.getDescriptionDataData());
 		DescriptionDataData dstruct = (DescriptionDataData) dhier.getObject();
 		dstruct.setDescriptionAbstract(descr);

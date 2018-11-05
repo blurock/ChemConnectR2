@@ -53,7 +53,7 @@ import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHiera
 import info.esblurock.reaction.chemconnect.core.data.dataset.MeasurementParameterValue;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DimensionParameterValue;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ObservationSpecification;
-import info.esblurock.reaction.chemconnect.core.data.methodology.ChemConnectMethodology;
+import info.esblurock.reaction.chemconnect.core.data.methodology.ChemConnectProtocol;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.MatrixSpecificationCorrespondenceSet;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.MatrixSpecificationCorrespondence;
@@ -815,28 +815,28 @@ public enum InterpretData {
 			return hierarchy;
 		}
 		
-	}, ChemConnectMethodology {
+	}, ChemConnectProtocol {
 
 		@Override
 		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml,String sourceID) throws IOException {
-			ChemConnectMethodology methodology = null;
+			ChemConnectProtocol methodology = null;
 			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
 			ChemConnectDataStructure objdata = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);					
-			String methodologyTypeS = (String) yaml.get(StandardDatasetMetaData.methodologyTypeS);			
+			String methodologyTypeS = (String) yaml.get(StandardDatasetMetaData.protocolTypeS);			
 			String parameterValuesS = (String) yaml.get(StandardDatasetMetaData.parameterValueS);			
 			String observationSpecS = (String) yaml.get(StandardDatasetMetaData.observationSpecs);			
 			
-			methodology = new ChemConnectMethodology(objdata,methodologyTypeS,
+			methodology = new ChemConnectProtocol(objdata,methodologyTypeS,
 					observationSpecS, parameterValuesS);
 			return methodology;
 		}
 
 		@Override
 		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
-			ChemConnectMethodology methodology = (ChemConnectMethodology) object;
+			ChemConnectProtocol methodology = (ChemConnectProtocol) object;
 			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
-			map.put(StandardDatasetMetaData.methodologyTypeS, methodology.getMethodologyType());
+			map.put(StandardDatasetMetaData.protocolTypeS, methodology.getProtocolType());
 			map.put(StandardDatasetMetaData.parameterValueS, methodology.getParameterValues());
 			map.put(StandardDatasetMetaData.observationSpecs, methodology.getObservationSpecs());
 			return map;
@@ -844,13 +844,13 @@ public enum InterpretData {
 
 		@Override
 		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
-			return QueryBase.getDatabaseObjectFromIdentifier(ChemConnectMethodology.class.getCanonicalName(),
+			return QueryBase.getDatabaseObjectFromIdentifier(ChemConnectProtocol.class.getCanonicalName(),
 					identifier);
 		}
 
 		@Override
 		public String canonicalClassName() {
-			return ChemConnectMethodology.class.getCanonicalName();
+			return ChemConnectProtocol.class.getCanonicalName();
 		}
 
 		@Override
@@ -859,7 +859,7 @@ public enum InterpretData {
 			DatabaseObject methobj = new DatabaseObject(obj);
 			methobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
-					.getSubElementStructureFromIDObject(OntologyKeys.methodology);
+					.getSubElementStructureFromIDObject(OntologyKeys.protocol);
 			String methid = createSuffix(obj, element);
 			methobj.setIdentifier(methid);
 
@@ -872,8 +872,8 @@ public enum InterpretData {
 			DatabaseObjectHierarchy paramhier = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(methobj);
 			setChemConnectCompoundMultipleType(paramhier,OntologyKeys.parameterValue);
 			
-			ChemConnectMethodology methodology = new ChemConnectMethodology(structure,
-					"Methodology Type",
+			ChemConnectProtocol methodology = new ChemConnectProtocol(structure,
+					"Protocol Type",
 					obshier.getObject().getIdentifier(),
 					paramhier.getObject().getIdentifier()
 					);

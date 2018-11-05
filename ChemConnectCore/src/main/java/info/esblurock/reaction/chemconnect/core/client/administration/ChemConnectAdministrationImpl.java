@@ -173,9 +173,9 @@ public class ChemConnectAdministrationImpl extends Composite implements ChemConn
 	}
 	
 	@UiHandler("methodologydeclaration")
-	public void onMethodology(ClickEvent event) {
-		MaterialToast.fireToast("Methodology");
-		handleHistoryToken("Methodology");
+	public void onProtocol(ClickEvent event) {
+		MaterialToast.fireToast("Protocol");
+		handleHistoryToken("Protocol");
 		}
 	
 	@UiHandler("observationsdeclaration")

@@ -13,17 +13,17 @@ import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialTooltip;
 import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
-import info.esblurock.reaction.chemconnect.core.data.methodology.ChemConnectMethodology;
+import info.esblurock.reaction.chemconnect.core.data.methodology.ChemConnectProtocol;
 
-public class StandardDatasetMethodologyHeader extends Composite {
+public class StandardDatasetProtocolHeader extends Composite {
 
-	private static StandardDatasetMethodologyHeaderUiBinder uiBinder = GWT
-			.create(StandardDatasetMethodologyHeaderUiBinder.class);
+	private static StandardDatasetProtocolHeaderUiBinder uiBinder = GWT
+			.create(StandardDatasetProtocolHeaderUiBinder.class);
 
-	interface StandardDatasetMethodologyHeaderUiBinder extends UiBinder<Widget, StandardDatasetMethodologyHeader> {
+	interface StandardDatasetProtocolHeaderUiBinder extends UiBinder<Widget, StandardDatasetProtocolHeader> {
 	}
 
-	public StandardDatasetMethodologyHeader() {
+	public StandardDatasetProtocolHeader() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
@@ -38,11 +38,11 @@ public class StandardDatasetMethodologyHeader extends Composite {
 	
 	StandardDatasetObjectHierarchyItem item;
 
-	public StandardDatasetMethodologyHeader(StandardDatasetObjectHierarchyItem item) {
+	public StandardDatasetProtocolHeader(StandardDatasetObjectHierarchyItem item) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.item = item;
-		ChemConnectMethodology methodology = (ChemConnectMethodology) item.getObject();
-		title.setText(TextUtilities.removeNamespace(methodology.getMethodologyType()));
+		ChemConnectProtocol methodology = (ChemConnectProtocol) item.getObject();
+		title.setText(TextUtilities.removeNamespace(methodology.getProtocolType()));
 		devicetooltip.setText(methodology.getIdentifier());
 		save.setEnabled(true);		
 	}
@@ -57,9 +57,9 @@ public class StandardDatasetMethodologyHeader extends Composite {
 		Window.alert("Delete Object not implemented");
 	}
 
-	public boolean updateMethodology() {
-		ChemConnectMethodology methodology = (ChemConnectMethodology) item.getObject();
-		methodology.setMethodologyType(title.getText());
+	public boolean updateProtocol() {
+		ChemConnectProtocol methodology = (ChemConnectProtocol) item.getObject();
+		methodology.setProtocolType(title.getText());
 		return true;
 	}
 }

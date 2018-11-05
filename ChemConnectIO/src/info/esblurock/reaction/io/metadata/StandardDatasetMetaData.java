@@ -144,7 +144,7 @@ public class StandardDatasetMetaData {
 	public static String parameterValueS = "qb:ComponentProperty";
 	public static String parameterSpecificationS = "qb:ComponentSpecification";
 	public static String deviceTypeS = "dataset:SubSystemType";
-	public static String methodologyTypeS = "dataset:MethodologyType";
+	public static String protocolTypeS = "dataset:ProtocolType";
 	public static String subSystems = "ssn:hasSubSystem";
 	public static String valueAsStringS = "dataset:ValueAsString";
 	public static String valueUncertaintyS = "qudt:standardUncertainty";
