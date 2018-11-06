@@ -1160,22 +1160,30 @@ xsd:date rdf:type rdfs:Datatype .
 
 ###  http://www.esblurock.info/dataset#BeginMatrixAfterSpecifiedIdentifier
 :BeginMatrixAfterSpecifiedIdentifier rdf:type owl:Class ;
-                                     rdfs:subClassOf :MatrixBlockBeginClassification .
+                                     rdfs:subClassOf :MatrixBlockBeginClassification ;
+                                     rdfs:comment "Begin matrix after a specified identifier" ;
+                                     rdfs:label "Before After Identifier" .
 
 
 ###  http://www.esblurock.info/dataset#BeginMatrixAtSpecifiedIdentifier
 :BeginMatrixAtSpecifiedIdentifier rdf:type owl:Class ;
-                                  rdfs:subClassOf :MatrixBlockBeginClassification .
+                                  rdfs:subClassOf :MatrixBlockBeginClassification ;
+                                  rdfs:comment "Begin matrix at specified identifier" ;
+                                  rdfs:label "Begin at Identifier" .
 
 
 ###  http://www.esblurock.info/dataset#BeginMatrixAtSpecifiedRow
 :BeginMatrixAtSpecifiedRow rdf:type owl:Class ;
-                           rdfs:subClassOf :MatrixBlockBeginClassification .
+                           rdfs:subClassOf :MatrixBlockBeginClassification ;
+                           rdfs:comment "Begin matrix at specified row" ;
+                           rdfs:label "Begin at position" .
 
 
 ###  http://www.esblurock.info/dataset#BeginMatrixTopOfSpreadSheet
 :BeginMatrixTopOfSpreadSheet rdf:type owl:Class ;
-                             rdfs:subClassOf :MatrixBlockBeginClassification .
+                             rdfs:subClassOf :MatrixBlockBeginClassification ;
+                             rdfs:comment "Begin matrix at top" ;
+                             rdfs:label "Top of Matrix" .
 
 
 ###  http://www.esblurock.info/dataset#BensonTable
@@ -1798,7 +1806,9 @@ xsd:date rdf:type rdfs:Datatype .
                                                      owl:onProperty :matrixBlockTitle ;
                                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                      owl:onClass :MatrixBlockTitleFirstLine
-                                                   ] .
+                                                   ] ;
+                                   rdfs:comment "Matrix Block isolation, begin of block at identifier" ;
+                                   rdfs:label "Begin at identifier" .
 
 
 ###  http://www.esblurock.info/dataset#ChemConnectIsolateBlockBeginEndSpecified
@@ -1810,14 +1820,14 @@ xsd:date rdf:type rdfs:Datatype .
                                                             owl:onClass :MatrixBlockColumnBeginLeft
                                                           ] ,
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty :matrixBlockColumnBegin ;
+                                                            owl:onProperty :matrixBlockColumnEnd ;
                                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                             owl:onClass :MatrixBlockColumnEndMaximum
                                                           ] ,
                                                           [ rdf:type owl:Restriction ;
                                                             owl:onProperty :matrixBlockRowBegin ;
                                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                            owl:onClass :BeginMatrixAtSpecifiedIdentifier
+                                                            owl:onClass :BeginMatrixAtSpecifiedRow
                                                           ] ,
                                                           [ rdf:type owl:Restriction ;
                                                             owl:onProperty :matrixBlockRowEnd ;
@@ -1828,42 +1838,75 @@ xsd:date rdf:type rdfs:Datatype .
                                                             owl:onProperty :matrixBlockTitle ;
                                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                             owl:onClass :MatrixBlockTitleFirstLine
-                                                          ] .
+                                                          ] ;
+                                          rdfs:comment "Isolate Block: begin row at position" ;
+                                          rdfs:label "Begin at row position" .
 
 
-###  http://www.esblurock.info/dataset#ChemConnectIsolateBlockEntireMatrix
-:ChemConnectIsolateBlockEntireMatrix rdf:type owl:Class ;
-                                     rdfs:subClassOf :ChemConnectIsolateBlockTypes ,
-                                                     [ rdf:type owl:Restriction ;
-                                                       owl:onProperty :matrixBlockColumnBegin ;
-                                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                       owl:onClass :MatrixBlockColumnBeginLeft
-                                                     ] ,
-                                                     [ rdf:type owl:Restriction ;
-                                                       owl:onProperty :matrixBlockColumnEnd ;
-                                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                       owl:onClass :MatrixBlockColumnEndMaximum
-                                                     ] ,
-                                                     [ rdf:type owl:Restriction ;
-                                                       owl:onProperty :matrixBlockRowBegin ;
-                                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                       owl:onClass :BeginMatrixTopOfSpreadSheet
-                                                     ] ,
-                                                     [ rdf:type owl:Restriction ;
-                                                       owl:onProperty :matrixBlockRowEnd ;
-                                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                       owl:onClass :MatrixBlockEndAtFileEndOrBlankLine
-                                                     ] ,
-                                                     [ rdf:type owl:Restriction ;
-                                                       owl:onProperty :matrixBlockTitle ;
-                                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                       owl:onClass :MatrixBlockTitleFirstLine
-                                                     ] .
+###  http://www.esblurock.info/dataset#ChemConnectIsolateBlockFull
+:ChemConnectIsolateBlockFull rdf:type owl:Class ;
+                             rdfs:subClassOf :ChemConnectIsolateBlockTypes ,
+                                             [ rdf:type owl:Restriction ;
+                                               owl:onProperty :matrixBlockColumnBegin ;
+                                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                               owl:onClass :MatrixBlockColumnBeginLeft
+                                             ] ,
+                                             [ rdf:type owl:Restriction ;
+                                               owl:onProperty :matrixBlockColumnEnd ;
+                                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                               owl:onClass :MatrixBlockColumnEndMaximum
+                                             ] ,
+                                             [ rdf:type owl:Restriction ;
+                                               owl:onProperty :matrixBlockRowBegin ;
+                                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                               owl:onClass :BeginMatrixTopOfSpreadSheet
+                                             ] ,
+                                             [ rdf:type owl:Restriction ;
+                                               owl:onProperty :matrixBlockRowEnd ;
+                                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                               owl:onClass :MatrixBlockEndAtFileEnd
+                                             ] ;
+                             rdfs:comment "Isolate Block: use full matrix" ;
+                             rdfs:label "Entire Block" .
 
 
 ###  http://www.esblurock.info/dataset#ChemConnectIsolateBlockTypes
 :ChemConnectIsolateBlockTypes rdf:type owl:Class ;
-                              rdfs:subClassOf :SpreadSheetInterpretationClassifications .
+                              rdfs:subClassOf :SpreadSheetInterpretationClassifications ;
+                              rdfs:comment "Parameters that determine matrix block isolation" ;
+                              rdfs:label "Isolate Matrix Block Types" .
+
+
+###  http://www.esblurock.info/dataset#ChemConnectIsolateBlockUntilBlankLine
+:ChemConnectIsolateBlockUntilBlankLine rdf:type owl:Class ;
+                                       rdfs:subClassOf :ChemConnectIsolateBlockTypes ,
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty :matrixBlockColumnBegin ;
+                                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                         owl:onClass :MatrixBlockColumnBeginLeft
+                                                       ] ,
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty :matrixBlockColumnEnd ;
+                                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                         owl:onClass :MatrixBlockColumnEndMaximum
+                                                       ] ,
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty :matrixBlockRowBegin ;
+                                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                         owl:onClass :BeginMatrixTopOfSpreadSheet
+                                                       ] ,
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty :matrixBlockRowEnd ;
+                                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                         owl:onClass :MatrixBlockEndAtFileEndOrBlankLine
+                                                       ] ,
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty :matrixBlockTitle ;
+                                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                         owl:onClass :MatrixBlockTitleFirstLine
+                                                       ] ;
+                                       rdfs:comment "Isolate Block Matrix: end at blank line" ;
+                                       rdfs:label "Isolate until blank line" .
 
 
 ###  http://www.esblurock.info/dataset#ChemConnectLinkType
@@ -2065,7 +2108,6 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#CombustionInstrument
 :CombustionInstrument rdf:type owl:Class ;
                       rdfs:subClassOf :DataTypeDevice ;
-                      <http://purl.org/dc/elements/1.1/type> "CombustionInstrument" ;
                       rdfs:label "Combustion Instrument" .
 
 
@@ -2150,7 +2192,9 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                              owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                              owl:onClass :ObservationBlockFromSpreadSheet
-                                           ] .
+                                           ] ;
+                           rdfs:comment "The definition of isolating a block from a matrix" ;
+                           rdfs:label "Block Definition" .
 
 
 ###  http://www.esblurock.info/dataset#ConceptLinkCatalogHierarchyStructure
@@ -2160,7 +2204,10 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                                         owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                         owl:onClass :DatasetCatalogHierarchy
-                                                      ] .
+                                                      ] ;
+                                      rdfs:comment "Catalog" ,
+                                                   "The link to a sub catalog structure" ;
+                                      rdfs:label "" .
 
 
 ###  http://www.esblurock.info/dataset#ConceptLinkConsortium
@@ -2171,8 +2218,8 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                          owl:onClass :Consortium
                                        ] ;
-                       <http://purl.org/dc/elements/1.1/relation> :DataTypeConsortium ;
-                       rdfs:isDefinedBy :Consortium .
+                       rdfs:comment "The consortium" ;
+                       rdfs:label "Consortium" .
 
 
 ###  http://www.esblurock.info/dataset#ConceptLinkCorrespondenceSpecification
@@ -2183,13 +2230,19 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                           owl:onClass :ObservationCorrespondenceSpecification
                                                         ] ;
-                                        <http://purl.org/dc/elements/1.1/relation> :DataTypeDataset .
+                                        rdfs:comment "The correspondence of the matrix titles to the data object" ;
+                                        rdfs:label "Correspondence Specification" .
 
 
 ###  http://www.esblurock.info/dataset#ConceptLinkDataStructures
 :ConceptLinkDataStructures rdf:type owl:Class ;
                            rdfs:subClassOf :ChemConnectLinkType ;
                            rdfs:isDefinedBy :ChemConnectDataStructure .
+
+
+###  http://www.esblurock.info/dataset#ConceptLinkDevice
+:ConceptLinkDevice rdf:type owl:Class ;
+                   rdfs:subClassOf :ConceptLinkSubsystems .
 
 
 ###  http://www.esblurock.info/dataset#ConceptLinkFileFormat
@@ -2210,7 +2263,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                               [ rdf:type owl:Restriction ;
                                                 owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                owl:onClass :DataTypeMatrixFullMatrixBlock
+                                                owl:onClass :ObservationsFromSpreadSheetFull
                                               ] .
 
 
@@ -2220,7 +2273,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                                         [ rdf:type owl:Restriction ;
                                                           owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                          owl:onClass :DataTypeMatrixWithColumnTitles
+                                                          owl:onClass :ObservationsFromSpreadSheet
                                                         ] .
 
 
@@ -2253,18 +2306,21 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                        owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                        owl:onClass :ChemConnectProtocol
-                                     ] ;
-                     rdfs:isDefinedBy :ChemConnectMethodology .
+                                     ] .
 
 
 ###  http://www.esblurock.info/dataset#ConceptLinkReferenceMatrix
 :ConceptLinkReferenceMatrix rdf:type owl:Class ;
-                            rdfs:subClassOf :ConceptLinkObservationValues .
+                            rdfs:subClassOf :ConceptLinkObservationValues ;
+                            rdfs:comment "The matrix to be used as a reference" ;
+                            rdfs:label "Reference Label" .
 
 
 ###  http://www.esblurock.info/dataset#ConceptLinkReferenceMatrixIsolatedBlock
 :ConceptLinkReferenceMatrixIsolatedBlock rdf:type owl:Class ;
-                                         rdfs:subClassOf :ConceptLinkObservationValuesWithTitles .
+                                         rdfs:subClassOf :ConceptLinkObservationValuesWithTitles ;
+                                         rdfs:comment "The isolated matrix derived from the reference matrix" ;
+                                         rdfs:label "Matrix Block" .
 
 
 ###  http://www.esblurock.info/dataset#ConceptLinkSensor
@@ -2275,7 +2331,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#ConceptLinkSubsystems
 :ConceptLinkSubsystems rdf:type owl:Class ;
-                       rdfs:subClassOf :ConceptLinkDataStructures .
+                       rdfs:subClassOf :ConceptLinkDataStructures ,
+                                       [ rdf:type owl:Restriction ;
+                                         owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                                         owl:someValuesFrom :SubSystemDescription
+                                       ] .
 
 
 ###  http://www.esblurock.info/dataset#ConceptLinkUserAccount
@@ -2670,7 +2730,8 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#DataTypeComponent
 :DataTypeComponent rdf:type owl:Class ;
-                   rdfs:subClassOf :DataTypeSystem .
+                   rdfs:subClassOf :DataTypeSystem ;
+                   rdfs:label "Component" .
 
 
 ###  http://www.esblurock.info/dataset#DataTypeConcept
@@ -2720,7 +2781,8 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                   owl:onProperty <http://purl.org/linked-data/cube#structure> ;
                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                   owl:onClass :SubSystemDescription
-                                ] .
+                                ] ;
+                rdfs:label "Device" .
 
 
 ###  http://www.esblurock.info/dataset#DataTypeExtractionProtocol
@@ -2814,7 +2876,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#DataTypePressureSensor
 :DataTypePressureSensor rdf:type owl:Class ;
                         rdfs:subClassOf :DataTypeSensor ;
-                        <http://purl.org/dc/elements/1.1/type> "PressureSensor" .
+                        rdfs:label "Pressure Sensor" .
 
 
 ###  http://www.esblurock.info/dataset#DataTypeProtocol
@@ -2843,24 +2905,26 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#DataTypeSensor
 :DataTypeSensor rdf:type owl:Class ;
                 rdfs:subClassOf :DataTypeComponent ;
-                <http://purl.org/dc/elements/1.1/relation> :ConceptLinkSensor ;
-                <http://purl.org/dc/elements/1.1/type> "Sensor" .
+                rdfs:label "Sensor" .
 
 
 ###  http://www.esblurock.info/dataset#DataTypeSubSystem
 :DataTypeSubSystem rdf:type owl:Class ;
-                   rdfs:subClassOf :DataTypeSystem .
+                   rdfs:subClassOf :DataTypeSystem ;
+                   rdfs:label "Subsystem" .
 
 
 ###  http://www.esblurock.info/dataset#DataTypeSystem
 :DataTypeSystem rdf:type owl:Class ;
-                rdfs:subClassOf :DataTypeDataStructure .
+                rdfs:subClassOf :ConceptLinkDataStructures ,
+                                :DataTypeDataStructure ;
+                rdfs:label "SubSystem" .
 
 
 ###  http://www.esblurock.info/dataset#DataTypeTemperatureSensor
 :DataTypeTemperatureSensor rdf:type owl:Class ;
                            rdfs:subClassOf :DataTypeSensor ;
-                           <http://purl.org/dc/elements/1.1/type> "TemperatureSensor" .
+                           rdfs:label "Temperature Sensor" .
 
 
 ###  http://www.esblurock.info/dataset#DataTypeUserInformation
@@ -3305,7 +3369,8 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                         owl:onProperty <http://purl.org/linked-data/cube#attribute> ;
                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                         owl:onClass :EvaporatorManufacturer
-                                      ] .
+                                      ] ;
+                      rdfs:label "Evaportation Component" .
 
 
 ###  http://www.esblurock.info/dataset#EvaporationModel
@@ -3835,7 +3900,9 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#FlameBurner
 :FlameBurner rdf:type owl:Class ;
-             rdfs:subClassOf :CombustionInstrument .
+             rdfs:subClassOf :CombustionInstrument ;
+             rdfs:comment "Flame Burner" ;
+             rdfs:label "Flame Burner" .
 
 
 ###  http://www.esblurock.info/dataset#FlameConcept
@@ -3885,7 +3952,8 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                        owl:onProperty <http://purl.org/linked-data/cube#attribute> ;
                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                        owl:onClass :ProbeWallThickness
-                                     ] .
+                                     ] ;
+                     rdfs:label "Flame Probe Component" .
 
 
 ###  http://www.esblurock.info/dataset#FlameProbeDistance
@@ -4366,7 +4434,8 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                                   owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                   owl:onClass :SingleMassFlowControllerObservable
-                                                ] .
+                                                ] ;
+                                rdfs:label "Gas Mass Flow Controller" .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :GasMassFlowControllerComponent ;
@@ -4505,7 +4574,9 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                   owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                   owl:onClass :HeatFluxBurnerThermalConditioning
-                                ] .
+                                ] ;
+                rdfs:comment "Heat Flux Burner" ;
+                rdfs:label "Heat Flux Burner" .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :HeatFluxBurner ;
@@ -4783,7 +4854,8 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                              owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                              owl:onClass :HeatFluxBurnerCoolingSystemObservations
-                                           ] .
+                                           ] ;
+                           rdfs:label "Heat Flux Burner Cooling Bath" .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :HeatFluxBurnerCoolingBath ;
@@ -4957,7 +5029,8 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                              owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                              owl:onClass :HeatFluxBurnerHeatingSystemObservations
-                                           ] .
+                                           ] ;
+                           rdfs:label "Heat Flux Burner Heating Bath" .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :HeatFluxBurnerHeatingBath ;
@@ -5363,7 +5436,8 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                               owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                               owl:onClass :HeatFluxBurnerThermocoupleObservations
-                                            ] .
+                                            ] ;
+                            rdfs:label "Heat Flux Burner Thermocouple" .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :HeatFluxBurnerThermocouple ;
@@ -5434,7 +5508,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#IRSpectrometer
 :IRSpectrometer rdf:type owl:Class ;
                 rdfs:subClassOf :Spectrometer ;
-                <http://purl.org/dc/elements/1.1/type> "IRSpectrometer" ;
+                rdfs:comment "Infared Spectrometer" ;
                 rdfs:label "IR Spectrometer" .
 
 
@@ -5792,7 +5866,8 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                                      owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                      owl:onClass :SingleMassFlowControllerObservable
-                                                   ] .
+                                                   ] ;
+                                   rdfs:label "Liquid Mass Flow Component" .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :LiquidMassFlowControllerComponent ;
@@ -6089,7 +6164,9 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#MSMBMassSpectrometer
 :MSMBMassSpectrometer rdf:type owl:Class ;
-                      rdfs:subClassOf :MassSpectrometer .
+                      rdfs:subClassOf :MassSpectrometer ;
+                      rdfs:comment "Molecular Beam Mass Spectrometer" ;
+                      rdfs:label "MSMB Spectrometer" .
 
 
 ###  http://www.esblurock.info/dataset#MSMBMoleculeBeamDevice
@@ -6109,7 +6186,9 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                           owl:onProperty <http://purl.org/linked-data/cube#attribute> ;
                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                           owl:onClass :MoleculeBeamSource
-                                        ] .
+                                        ] ;
+                        rdfs:comment "Mass Spectrometer Molecular Beam Device" ;
+                        rdfs:label "Molecule Beam" .
 
 
 ###  http://www.esblurock.info/dataset#MSMBPremixedFlameBurner
@@ -6128,7 +6207,9 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                            owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                            owl:onClass :PremixedFlameFuelPreparation
-                                         ] .
+                                         ] ;
+                         rdfs:comment "Mass Spectroscopy Molecule Beam Flame Burner" ;
+                         rdfs:label "MSMB Premixed Flame Burner" .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :MSMBPremixedFlameBurner ;
@@ -6196,7 +6277,8 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#MassFlowController
 :MassFlowController rdf:type owl:Class ;
-                    rdfs:subClassOf :DataTypeComponent .
+                    rdfs:subClassOf :DataTypeComponent ;
+                    rdfs:label "Mass Flow Controller" .
 
 
 ###  http://www.esblurock.info/dataset#MassFlowControllerCalibration
@@ -6373,7 +6455,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#MassSpectrometer
 :MassSpectrometer rdf:type owl:Class ;
                   rdfs:subClassOf :Spectrometer ;
-                  <http://purl.org/dc/elements/1.1/type> "MassSpectrometer" ;
+                  rdfs:comment "Mass Spectrometer" ;
                   rdfs:label "Mass Spectrometer" .
 
 
@@ -6399,7 +6481,9 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#MassSpectrometryMolecularBeam
 :MassSpectrometryMolecularBeam rdf:type owl:Class ;
-                               rdfs:subClassOf :Spectrometer .
+                               rdfs:subClassOf :Spectrometer ;
+                               rdfs:comment "Mass Spectrometry Molecular Beam" ;
+                               rdfs:label "Mass Spectrometry Molecular Beam" .
 
 
 ###  http://www.esblurock.info/dataset#MatrixBlockBeginClassification
@@ -6849,7 +6933,9 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#MoleculeBeamDevice
 :MoleculeBeamDevice rdf:type owl:Class ;
-                    rdfs:subClassOf :Spectrometer .
+                    rdfs:subClassOf :Spectrometer ;
+                    rdfs:comment "Molecular Beam" ;
+                    rdfs:label "Molecule Beam Device" .
 
 
 ###  http://www.esblurock.info/dataset#MoleculeBeamElectronFlow
@@ -7323,7 +7409,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#PerfectlyStirredReactor
 :PerfectlyStirredReactor rdf:type owl:Class ;
                          rdfs:subClassOf :CombustionInstrument ;
-                         <http://purl.org/dc/elements/1.1/type> "PerfectlyStirredReactor" ;
+                         rdfs:comment "Perfectly Stirred Reactor" ;
                          rdfs:label "Perfectly Stirred Reactor" .
 
 
@@ -7921,8 +8007,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#RapidCompressionMachine
 :RapidCompressionMachine rdf:type owl:Class ;
                          rdfs:subClassOf :CombustionInstrument ;
-                         <http://purl.org/dc/elements/1.1/type> "RapdCompressionMachine" ;
-                         <http://purl.org/dc/terms/requires> :IgnitionDelayTimeFromPressureTrace ;
+                         rdfs:comment "Rapid Compression Machine" ;
                          rdfs:label "Rapid Compression Machine" .
 
 
@@ -8176,7 +8261,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#ShockTube
 :ShockTube rdf:type owl:Class ;
            rdfs:subClassOf :CombustionInstrument ;
-           <http://purl.org/dc/elements/1.1/type> "ShockTube" ;
+           rdfs:comment "Shock Tube" ;
            rdfs:label "Shock Tube" .
 
 
@@ -8424,7 +8509,8 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#Spectrometer
 :Spectrometer rdf:type owl:Class ;
               rdfs:subClassOf :DataTypeDevice ;
-              <http://purl.org/dc/elements/1.1/type> "Spectrometer" .
+              rdfs:comment "Spectroscopy" ;
+              rdfs:label "Spectrometer" .
 
 
 ###  http://www.esblurock.info/dataset#SpreadSheetBlockIsolation
@@ -8714,7 +8800,8 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#ThermalComponent
 :ThermalComponent rdf:type owl:Class ;
-                  rdfs:subClassOf :DataTypeComponent .
+                  rdfs:subClassOf :DataTypeComponent ;
+                  rdfs:label "Thermal Component" .
 
 
 ###  http://www.esblurock.info/dataset#ThermalSubsystems
@@ -8729,7 +8816,8 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                 owl:onProperty <http://purl.org/linked-data/cube#attribute> ;
                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                 owl:onClass :ThermocoupleType
-                              ] .
+                              ] ;
+              rdfs:label "Thermocouple" .
 
 
 ###  http://www.esblurock.info/dataset#ThermocoupleAbsoluteAccuracy
@@ -8915,7 +9003,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#UVSpectrometer
 :UVSpectrometer rdf:type owl:Class ;
                 rdfs:subClassOf :Spectrometer ;
-                <http://purl.org/dc/elements/1.1/type> "UVSpectrometer" ;
+                rdfs:comment "Ultrviolet Spectrometer" ;
                 rdfs:label "UV Spectrometer" .
 
 
@@ -9128,7 +9216,8 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#WaterBathComponent
 :WaterBathComponent rdf:type owl:Class ;
-                    rdfs:subClassOf :ThermalComponent .
+                    rdfs:subClassOf :ThermalComponent ;
+                    rdfs:label "Water Bath" .
 
 
 ###  http://www.esblurock.info/dataset#WaterBathTemperatureControl

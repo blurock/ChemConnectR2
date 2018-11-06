@@ -46,7 +46,6 @@ public class ExtractCatalogInformation {
 		ClassificationInformation classify = DatasetOntologyParsing.getIdentificationInformation(null, dataelement);
 		String type = dataelement.getDataElementName();
 		List<DataElementInformation> substructures = DatasetOntologyParsing.subElementsOfStructure(type);
-		
 		DatabaseObjectHierarchy hierarchy = null;
 		try {
 			InterpretData interpret = InterpretData.valueOf(classify.getDataType());
@@ -93,7 +92,8 @@ public class ExtractCatalogInformation {
 		return hierarchy;
 	}
 
-	private static DatabaseObjectHierarchy readSingletInformation(DatabaseObject obj, InterpretData interpret,
+	private static DatabaseObjectHierarchy readSingletInformation(DatabaseObject obj, 
+			InterpretData interpret,
 			List<DataElementInformation> substructures) throws IOException {
 		DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(obj);
 		Map<String,Object> mapping = interpret.createYamlFromObject(obj);
@@ -112,7 +112,10 @@ public class ExtractCatalogInformation {
 				} else {
 					System.out.println("getDatabaseObjectAndSubElements: obj\n" + obj.toString());
 					System.out.println("getDatabaseObjectAndSubElements: element\n" + element.toString());
-					System.out.println("getDatabaseObjectAndSubElements: elementobj\n" + elementobj.toString());
+					System.out.println("getDatabaseObjectAndSubElements: elementobj\n" 
+							+ elementobj.getClass().getCanonicalName());
+					System.out.println("getDatabaseObjectAndSubElements: elementobj\n" 
+							+ elementobj.toString());
 				}
 			} else {
 				System.out.println("--------------------------------------");

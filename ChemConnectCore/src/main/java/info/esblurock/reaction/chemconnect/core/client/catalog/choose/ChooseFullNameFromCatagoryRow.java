@@ -157,7 +157,7 @@ public class ChooseFullNameFromCatagoryRow extends Composite
 	public void catagoryChosen(String id, MaterialTreeItem item) {
 		MaterialTreeItemWithPath withpath = (MaterialTreeItemWithPath) item;
 		ArrayList<String> lst = withpath.getPath();
-		lst.add(item.getText());
+		lst.add(withpath.getIdentifier());
 		chosenPath = lst;
 		catalogtypeid.setText(id);
 		catalog.setText(item.getText());

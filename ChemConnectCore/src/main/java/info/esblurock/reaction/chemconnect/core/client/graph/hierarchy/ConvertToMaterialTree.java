@@ -15,7 +15,7 @@ public class ConvertToMaterialTree {
 	
 	public static MaterialTree addHierarchyTop(HierarchyNode hierarchy, MaterialTree tree) {
 		ArrayList<String> path = new ArrayList<String>();
-		MaterialTreeItemWithPath item = new MaterialTreeItemWithPath(hierarchy.getIdentifier(), path);
+		MaterialTreeItemWithPath item = new MaterialTreeItemWithPath(hierarchy.getIdentifier(), determineLabel(hierarchy), path);
 		item.setTextColor(Color.BLACK);
 		item.setTextAlign(TextAlign.LEFT);
 		item.setIconType(IconType.FOLDER);
@@ -29,7 +29,7 @@ public class ConvertToMaterialTree {
 	}
 		
 	public static void addHierarchy(HierarchyNode hierarchy, ArrayList<String> path, MaterialTreeItem item) {
-		MaterialTreeItemWithPath next = new MaterialTreeItemWithPath(hierarchy.getIdentifier(),path);
+		MaterialTreeItemWithPath next = new MaterialTreeItemWithPath(hierarchy.getIdentifier(), determineLabel(hierarchy),path);
 		next.setTextColor(Color.BLACK);
 		next.setTextAlign(TextAlign.LEFT);
 		if(hierarchy.getSubNodes().size() > 0) {
@@ -40,10 +40,17 @@ public class ConvertToMaterialTree {
 		}
 		item.add(next);
 		ArrayList<String> nextpath = new ArrayList<String>(path);
-		nextpath.add(next.getText());
+		nextpath.add(next.getIdentifier());
 		for(HierarchyNode sub : hierarchy.getSubNodes() ) {
 			addHierarchy(sub,nextpath,next);
 		}
 	}
 
+	private static String determineLabel(HierarchyNode hierarchy) {
+		String id = hierarchy.getLabel();
+		if(hierarchy.getLabel().compareTo(hierarchy.getComment()) != 0) {
+			id = hierarchy.getLabel() + ": (" + hierarchy.getComment() + ")";
+		}
+		return id;
+	}
 }

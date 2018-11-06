@@ -72,7 +72,7 @@ public class ChooseFromHierarchyNode extends Composite {
 	public void onSelected(SelectionEvent<MaterialTreeItem> event) {
 		MaterialTreeItemWithPath item = (MaterialTreeItemWithPath) event.getSelectedItem();
 		if (item.getTreeItems().size() == 0) {
-			chosen.conceptChosen(topconcept, item.getText(),item.getPath());
+			chosen.conceptChosen(topconcept, item.getIdentifier(),item.getPath());
 			modal.close();
 		}
 	}

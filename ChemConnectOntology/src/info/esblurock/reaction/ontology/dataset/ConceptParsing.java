@@ -9,6 +9,7 @@ import java.util.Set;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.vocabulary.ReasonerVocabulary;
 
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectPrimitiveDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.concepts.AttributeDescription;
@@ -126,6 +127,40 @@ public class ConceptParsing {
 		return subsystems;
 	}
 
+	public static String getComment(String concept) {
+		String ans = ChemConnectCompoundDataStructure.removeNamespace(concept);
+		String query = "SELECT ?comment\n"
+				+ "WHERE {\n"
+				+ concept + " rdfs:comment ?comment\n"
+				+ "}";
+		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
+		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
+		for (Map<String, String> map : stringlst) {
+			String subcomment = map.get("comment");
+			if(subcomment != null) {
+				ans = subcomment;
+			}
+		}
+		return ans;
+	}
+	
+	public static String getLabel(String concept) {
+		String ans = ChemConnectCompoundDataStructure.removeNamespace(concept);
+		String query = "SELECT ?label\n"
+				+ "WHERE {\n"
+				+ concept + " rdfs:label ?label\n"
+				+ "}";
+		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
+		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
+		for (Map<String, String> map : stringlst) {
+			String sublabel = map.get("label");
+			if(sublabel != null) {
+				ans = sublabel;
+			}
+		}
+		return ans;
+	}
+	
 	public static Set<SubSystemConceptLink> immediateLinks(String topclassS) {
 		String query = "SELECT ?target ?type\n" + "	WHERE {\n" + "             ?identifier  owl:annotatedSource "
 				+ topclassS + " .\n" + "             ?identifier owl:annotatedTarget ?sub .\n"
@@ -190,8 +225,10 @@ public class ConceptParsing {
 	}
 
 	public static HierarchyNode conceptHierarchy(String topnode, int maxlevel) {
-		HierarchyNode node = new HierarchyNode(topnode);
-
+		String comment = getComment(topnode);
+		String label = getLabel(topnode);
+		HierarchyNode node = new HierarchyNode(topnode,label,comment);
+		
 		String query = "SELECT ?subsystem { ?subsystem <" + ReasonerVocabulary.directSubClassOf + "> " + topnode
 				+ " .\n" + "FILTER (?subsystem != " + topnode + ") .\n" + "}";
 

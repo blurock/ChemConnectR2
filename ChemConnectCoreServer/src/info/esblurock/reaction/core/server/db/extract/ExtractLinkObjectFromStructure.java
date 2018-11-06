@@ -27,12 +27,12 @@ public class ExtractLinkObjectFromStructure {
 			}
 		}
 		if(id != null) {
+			
 			String structuretype = ConceptParsing.findObjectTypeFromLinkConcept(linktypeid);
 			if(structuretype != null) {
 				objecthierarchy = ExtractCatalogInformation.getCatalogObject(id, structuretype);
 			} else {
-				throw new IOException("Link structure type='" + linktypeid + "' not found");
-				
+				throw new IOException("Link structure type='" + linktypeid + "' not found");				
 			}
 		} else {
 			throw new IOException("Link structure (type=" + linktypeid + ") not found in links");

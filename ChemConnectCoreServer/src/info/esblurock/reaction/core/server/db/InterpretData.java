@@ -655,12 +655,6 @@ public enum InterpretData {
 
 		@Override
 		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
-			List<DatabaseObject> lst = QueryBase.getDatabaseObjects(ObservationsFromSpreadSheet.class.getCanonicalName());
-			for(DatabaseObject obj : lst) {
-				System.out.println("readElementFromDatabase: " + obj.getIdentifier() 
-				+ "\nreadElementFromDatabase: " + identifier
-				+ "\ncompare: " + obj.getIdentifier().compareTo(identifier));
-			}
 			return QueryBase.getDatabaseObjectFromIdentifier(ObservationsFromSpreadSheet.class.getCanonicalName(),
 					identifier);
 		}
@@ -1900,7 +1894,8 @@ public enum InterpretData {
 			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
-			map.put(StandardDatasetMetaData.position, row.getRowNumber());
+			int pos = row.getRowNumber();
+			map.put(StandardDatasetMetaData.position, String.valueOf(pos));
 			putMultipleInYamlList(StandardDatasetMetaData.listOfValuesAsString,map,row.getRow());
 
 			return map;

@@ -3,12 +3,16 @@ package info.esblurock.reaction.chemconnect.core.data.transfer.graph;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 
 public class HierarchyNode implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	String identifier;
+	String label;
+	String comment;
+	
 	ClassificationInformation info;
 	ArrayList<HierarchyNode> subNodes;
 	
@@ -17,10 +21,38 @@ public class HierarchyNode implements Serializable {
 	}
 	public HierarchyNode(String identifier) {
 		super();
-		this.identifier = identifier;
 		subNodes = new ArrayList<HierarchyNode>();
 		info = null;
+		this.identifier = identifier;
+		this.label = ChemConnectCompoundDataStructure.removeNamespace(identifier);
+		this.comment = ChemConnectCompoundDataStructure.removeNamespace(identifier);
 	}
+	public HierarchyNode(String identifier, String label) {
+		super();
+		subNodes = new ArrayList<HierarchyNode>();
+		info = null;
+		this.identifier = identifier;
+		this.label = label;
+		this.comment = label;
+	}
+	public HierarchyNode(String identifier, String label, String comment) {
+		super();
+		subNodes = new ArrayList<HierarchyNode>();
+		info = null;
+		this.identifier = identifier;
+		this.label = label;
+		this.comment = comment;
+	}
+
+	public HierarchyNode(String identifier, String label, String comment,ClassificationInformation info) {
+		super();
+		subNodes = new ArrayList<HierarchyNode>();
+		this.info = info;
+		this.identifier = identifier;
+		this.label = label;
+		this.comment = comment;
+	}
+
 	public HierarchyNode(String identifier,ClassificationInformation info) {
 		super();
 		this.identifier = identifier;
@@ -46,12 +78,19 @@ public class HierarchyNode implements Serializable {
 	public ClassificationInformation getInfo() {
 		return info;
 	}
+	public String getLabel() {
+		return label;
+	}
+	public String getComment() {
+		return comment;
+	}
 	public String toString() {
 		return toString("");
 	}
 	public String toString(String prefix) {
 		StringBuilder build = new StringBuilder();
 		build.append(prefix + identifier);
+		build.append("  (" + label + ") " + comment);
 		build.append(":\n");
 		build.append(stringInfo(prefix));
 		prefix += "\t";

@@ -50,7 +50,7 @@ public class ChooseFromHiearchyTree extends Composite {
 	public void onSelected(SelectionEvent<MaterialTreeItem> event) {
 		MaterialTreeItemWithPath item = (MaterialTreeItemWithPath) event.getSelectedItem();
 		if (item.getTreeItems().size() == 0) {
-			source.treeNodeChosen(item.getText(), item.getPath());
+			source.treeNodeChosen(item.getIdentifier(), item.getPath());
 		} else {
 			item.expand();
 		}

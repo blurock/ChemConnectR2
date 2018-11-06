@@ -28,15 +28,12 @@ public class IsolateBlockFromMatrix {
 		DatabaseObjectHierarchy valueshier = obsmathier.getSubObject(obsvalues.getObservationRowValue());
 		int beginrow = determineBeginRow(valueshier, blockisolate);
 		int endrow = determineEndRow(beginrow,valueshier,blockisolate);
-		System.out.println("Rows: " + beginrow + " - " + endrow);
 		DatabaseObjectHierarchy rowhier = valueshier.getSubobjects().get(beginrow);
 		ObservationValueRow row = (ObservationValueRow) rowhier.getObject();
 		String titleS = blockisolate.getTitleIncluded();
 		boolean title = titleS.compareTo(StandardDatasetMetaData.matrixBlockTitleFirstLine) == 0;
-		System.out.println("Title included: " +  title + ": '" +  titleS + "'");
 		int begincolumn = determineBeginColumn(row,blockisolate);
 		int endcolumn = determineEndColumn(begincolumn, row,blockisolate);
-		System.out.println("Columns: " + begincolumn + " - " + endcolumn);
 		int numberOfColumns = endcolumn - begincolumn+1;
 		int numberOfRows = endrow - beginrow+1;
 		if(title) {
@@ -73,7 +70,6 @@ public class IsolateBlockFromMatrix {
 		}
 
 		fillNewMatrix(beginrow, endrow, begincolumn, endcolumn,values,newvalues);
-		System.out.println(newmatrixhier.toString("Isolated: "));
 		return newmatrixhier;
 	}
 	
@@ -85,7 +81,6 @@ public class IsolateBlockFromMatrix {
 			DatabaseObjectHierarchy rowhier = values.get(rowcount);
 			ObservationValueRow row = (ObservationValueRow) rowhier.getObject();
 			ArrayList<String> rowvalues = row.getRow();
-			System.out.println(rowvalues);
 			DatabaseObjectHierarchy newrowhier = newvalues.get(newrowcount);
 			ObservationValueRow newrow = (ObservationValueRow) newrowhier.getObject();
 			ArrayList<String> newrowvalues = newrow.getRow();

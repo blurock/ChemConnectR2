@@ -83,6 +83,10 @@ public class OntologyBase {
 					datasetmodel.read(str, "http://esblurock.info", "TURTLE");
 				} catch (Exception ex) {
 					System.out.println("Error in reading Ontology:   " + filename + "\n" + ex.toString());
+				} catch (java.lang.NoClassDefFoundError ex) {
+					System.out.println("Error in reading Ontology:   " + filename + "\n" + ex.toString());
+				} catch (java.lang.NoSuchFieldError ex) {
+					System.out.println("Error in reading Ontology:   " + filename + "\n" + ex.toString());
 				}
 			}
 			return datasetmodel;
