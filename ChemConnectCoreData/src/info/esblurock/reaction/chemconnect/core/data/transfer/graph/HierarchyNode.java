@@ -49,8 +49,8 @@ public class HierarchyNode implements Serializable {
 		subNodes = new ArrayList<HierarchyNode>();
 		this.info = info;
 		this.identifier = identifier;
-		this.label = label;
-		this.comment = comment;
+		this.label = ChemConnectCompoundDataStructure.removeNamespace(identifier);
+		this.comment = ChemConnectCompoundDataStructure.removeNamespace(identifier);
 	}
 
 	public HierarchyNode(String identifier,ClassificationInformation info) {
@@ -58,6 +58,8 @@ public class HierarchyNode implements Serializable {
 		this.identifier = identifier;
 		subNodes = new ArrayList<HierarchyNode>();
 		this.info = info;
+		this.identifier = identifier;
+		this.label = label;
 	}
 	
 	public void addSubNode(HierarchyNode subnode) {
@@ -83,6 +85,13 @@ public class HierarchyNode implements Serializable {
 	}
 	public String getComment() {
 		return comment;
+	}
+	
+	public void setLabel(String label) {
+		this.label = label;
+	}
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 	public String toString() {
 		return toString("");

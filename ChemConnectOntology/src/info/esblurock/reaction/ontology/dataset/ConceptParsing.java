@@ -552,7 +552,7 @@ public class ConceptParsing {
 	public static String getStructureType(String observation) {
 		String query = "SELECT ?propertyname \n" + " WHERE {"
 				+  observation + " rdfs:subClassOf   ?obj .\n"
-				+ "              ?obj  owl:onProperty qb:structure .\n"
+				+ "              ?obj  owl:onProperty qb:sliceStructure .\n"
 				+ "              ?obj owl:onClass ?propertyname\n" 
 				+ "         }";
 		

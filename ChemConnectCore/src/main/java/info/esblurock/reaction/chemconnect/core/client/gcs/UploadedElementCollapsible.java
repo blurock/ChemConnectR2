@@ -237,15 +237,20 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 	public void askForInterpretationType(HierarchyNode hierarchy) {
 		interpretmap = new HashMap<String, ClassificationInformation>();
 		findClassifications(hierarchy,interpretmap);
+		Window.alert("askForInterpretationType -- findClassifications: done");
 		ChooseFromConceptHierarchies choose = new ChooseFromConceptHierarchies(this);
+		Window.alert("askForInterpretationType -- findClassifications: done");
 		choose.setupTree(hierarchy);
+		Window.alert("askForInterpretationType -- setupTree");
 		modalpanel.add(choose);
+		Window.alert("askForInterpretationType -- modalpanel.add");
 		choose.open();
+		Window.alert("askForInterpretationType -- choose.open()");
 	}
 
 	// dataset:   ....  16 characters
 	private void findClassifications(HierarchyNode hierarchy, Map<String, ClassificationInformation> interpretmap) {
-		String name = hierarchy.getIdentifier();
+		String name = hierarchy.getLabel();
 		String shortname = name;
 		if(name.startsWith("dataset:")) {
 			shortname = name.substring(8);
@@ -253,7 +258,7 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 		if(shortname.startsWith("FileType")) {
 			shortname = shortname.substring(8);
 		}
-		hierarchy.setIdentifier(shortname);
+		hierarchy.setLabel(shortname);
 		if(hierarchy.getInfo() != null) {
 			interpretmap.put(shortname,hierarchy.getInfo());
 		}

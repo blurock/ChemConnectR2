@@ -123,7 +123,6 @@ public enum VisualizeMedia {
 			GCSBlobFileInformation info,
 			SpreadSheetInputInformation spread, 
 			VisualizationOfBlobStorage visual) {
-		Window.alert("interpretSpreadSheetAsMatrix: catid\n" + catid.toString());
 		VisualizeMediaCallback callback = new VisualizeMediaCallback(type, info.getGSFilename(), visual);
 		SpreadSheetServicesAsync async = SpreadSheetServices.Util.getInstance();
 		async.interpretSpreadSheetGCS(info, spread, catid, true, callback);		

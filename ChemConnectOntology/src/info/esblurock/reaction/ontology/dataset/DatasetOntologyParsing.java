@@ -79,8 +79,16 @@ dataset:ChemConnectPrimitiveDataStructure:
 		.
 	 */
 	public static HierarchyNode findClassHierarchy(String topNode) {
-		ClassificationInformation info = DatasetOntologyParsing.getIdentificationInformation(topNode);		
-		HierarchyNode top = new HierarchyNode(topNode,info);
+		ClassificationInformation info = DatasetOntologyParsing.getIdentificationInformation(topNode);	
+		String comment = ConceptParsing.getComment(topNode);
+		if(comment == null) {
+			comment = topNode;
+		}
+		String label = ConceptParsing.getLabel(topNode);
+		if(label == null) {
+			label = topNode;
+		}
+		HierarchyNode top = new HierarchyNode(topNode,label, comment, info);
 		List<String> structurelst = getSubClasses(topNode);
 		for (String subclass : structurelst) {
 			HierarchyNode node = findClassHierarchy(subclass);

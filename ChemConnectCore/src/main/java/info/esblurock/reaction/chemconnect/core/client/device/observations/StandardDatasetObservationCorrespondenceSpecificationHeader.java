@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -100,7 +101,6 @@ public class StandardDatasetObservationCorrespondenceSpecificationHeader extends
 		observationhead.setText(description.getOnlinedescription());
 		titletooltip.setText(TextUtilities.removeNamespace(catid.getCatalogBaseName()));
 		attachtooltip.setText("Attach a observations from spreadsheet");
-		
 	}
 	private void extractFromItem(StandardDatasetObjectHierarchyItem item) {
 		this.item = item;
@@ -128,7 +128,11 @@ public class StandardDatasetObservationCorrespondenceSpecificationHeader extends
 	}
 	private void setObservationType() {
 		observationType = obsspec.getObservationParameterType();
-		observationtype.setText(TextUtilities.removeNamespace(observationType));
+		if(observationType != null) {
+			observationtype.setText(TextUtilities.removeNamespace(observationType));
+		} else {
+			observationtype.setText("unspecified");
+		}
 	}
 
 	@UiHandler("observationtype")
