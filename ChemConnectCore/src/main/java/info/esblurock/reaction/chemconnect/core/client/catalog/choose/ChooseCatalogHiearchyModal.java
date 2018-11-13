@@ -96,6 +96,8 @@ public class ChooseCatalogHiearchyModal extends Composite implements SubCatagory
 			String id = item.getText();
 			chosen.catagoryChosen(mapping.get(id), item);
 			close();
+		} else {
+			item.expand();
 		}
 		
 	}

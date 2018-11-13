@@ -117,6 +117,8 @@ public class ChooseFromConceptHierarchies extends Composite {
 		if (item.getTreeItems().size() == 0) {
 			chosen.conceptChosen(topconcept, item.getIdentifier(),item.getPath());
 			close();
+		} else {
+			item.expand();
 		}
 	}
 

@@ -5,12 +5,12 @@
 	
 	</ui:style>
 	<m:MaterialPanel>
-	<m:MaterialRow>
-		<m:MaterialColumn grid="s12">
-			<m:MaterialTooltip ui:field="titletooltip">
-				<m:MaterialLink ui:field="title" />
-			</m:MaterialTooltip>
-		</m:MaterialColumn>
-	</m:MaterialRow>
+		<m:MaterialRow>
+			<m:MaterialColumn grid="s12">
+				<m:MaterialTooltip ui:field="titletooltip">
+					<m:MaterialLink ui:field="title" />
+				</m:MaterialTooltip>
+			</m:MaterialColumn>
+		</m:MaterialRow>
 	</m:MaterialPanel>
 </ui:UiBinder> 

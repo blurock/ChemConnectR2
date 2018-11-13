@@ -20,6 +20,7 @@ public class ConvertToMaterialTree {
 		item.setTextAlign(TextAlign.LEFT);
 		item.setIconType(IconType.FOLDER);
 		tree.add(item);
+		item.collapse();
 		ArrayList<String> nextpath = new ArrayList<String>(path);
 		nextpath.add(item.getText());
 		for(HierarchyNode sub : hierarchy.getSubNodes()) {

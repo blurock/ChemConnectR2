@@ -50,6 +50,7 @@ public class ChooseFromHierarchyNode extends Composite {
 		ArrayList<String> path = new ArrayList<String>();
 		path.add("First");
 		ConvertToMaterialTree.addHierarchyTop(topnode, tree);
+		tree.collapse();
 		this.title.setText(title);
 		this.topconcept = topconcept;
 		this.chosen = chosen;
@@ -74,6 +75,8 @@ public class ChooseFromHierarchyNode extends Composite {
 		if (item.getTreeItems().size() == 0) {
 			chosen.conceptChosen(topconcept, item.getIdentifier(),item.getPath());
 			modal.close();
+		} else {
+			item.expand();
 		}
 	}
 

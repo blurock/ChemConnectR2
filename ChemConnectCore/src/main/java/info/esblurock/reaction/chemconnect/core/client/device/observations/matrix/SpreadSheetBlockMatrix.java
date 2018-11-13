@@ -19,7 +19,6 @@ import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observabl
 import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServices;
 import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServicesAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
-import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheetFull;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationMatrixValues;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
@@ -111,8 +110,6 @@ public class SpreadSheetBlockMatrix extends Composite {
 		} catch(Exception e) {
 			Window.alert("Problem in setting up Matrix:\n" + e.toString());
 		}
-	
-
 	}
 	void addColumn(int columnnumber, String columnname) {
 		int number = columnnumber;

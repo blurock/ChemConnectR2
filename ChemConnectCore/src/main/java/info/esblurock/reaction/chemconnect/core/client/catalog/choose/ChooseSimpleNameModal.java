@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -19,6 +21,7 @@ import gwt.material.design.client.ui.MaterialTextBox;
 import info.esblurock.reaction.chemconnect.core.client.catalog.HierarchyNodeCallback;
 import info.esblurock.reaction.chemconnect.core.client.catalog.HierarchyNodeCallbackInterface;
 import info.esblurock.reaction.chemconnect.core.client.graph.hierarchy.ConvertToMaterialTree;
+import info.esblurock.reaction.chemconnect.core.client.graph.hierarchy.MaterialTreeItemWithPath;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
@@ -94,14 +97,23 @@ public class ChooseSimpleNameModal extends Composite implements HierarchyNodeCal
 		return textbox.getText();
 	}
 	@UiHandler("tree")
+	public void onClose(CloseEvent<MaterialTreeItem> event) {
+	}
+
+	@UiHandler("tree")
+	public void onOpen(OpenEvent<MaterialTreeItem> event) {
+	}
+
+	@UiHandler("tree")
 	public void onSelected(SelectionEvent<MaterialTreeItem> event) {
-		MaterialTreeItem item = (MaterialTreeItem) event.getSelectedItem();
+		MaterialTreeItemWithPath item = (MaterialTreeItemWithPath) event.getSelectedItem();
 		if (item.getTreeItems().size() == 0) {
-			answer.objectChosen(item.getText());
+			answer.objectChosen(item.getIdentifier());
+			modal.close();
 		} else {
 			item.expand();
 		}
-		modal.close();
+		
 	}
 
 
@@ -111,6 +123,7 @@ public class ChooseSimpleNameModal extends Composite implements HierarchyNodeCal
 		ArrayList<String> path = new ArrayList<String>();
 		path.add("First");
 		ConvertToMaterialTree.addHierarchyTop(topnode, tree);
+		tree.collapse();
 	}
 
 
