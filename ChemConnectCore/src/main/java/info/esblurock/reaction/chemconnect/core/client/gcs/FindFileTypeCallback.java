@@ -21,7 +21,6 @@ public class FindFileTypeCallback implements AsyncCallback<HierarchyNode> {
 
 	@Override
 	public void onSuccess(HierarchyNode hierarchy) {
-		Window.alert("FindFileTypeCallback\n" + hierarchy);
 		top.askForInterpretationType(hierarchy);
 	}
 

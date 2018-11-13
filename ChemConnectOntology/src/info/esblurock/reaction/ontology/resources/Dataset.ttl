@@ -1298,7 +1298,8 @@ xsd:date rdf:type rdfs:Datatype .
                                                                    owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                                                    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                                    owl:onClass :FlameVelocityParabolicParameterPlot
-                                                                 ] .
+                                                                 ] ;
+                                                 rdfs:comment "Burner Plate Observation Interpretation Protocol" .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :BurnerPlateObservationInterpretationMethodology ;
@@ -1413,7 +1414,8 @@ xsd:date rdf:type rdfs:Datatype .
                                                        owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                        owl:onClass :FlameVelocityObservable
-                                                     ] .
+                                                     ] ;
+                                     rdfs:comment "Burner Plate Thermocouple Measurements" .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :BurnerPlateThermocoupleMeasurements ;
@@ -1567,7 +1569,8 @@ xsd:date rdf:type rdfs:Datatype .
 
 ###  http://www.esblurock.info/dataset#CalibrationProtocol
 :CalibrationProtocol rdf:type owl:Class ;
-                     rdfs:subClassOf :DataTypeProtocol .
+                     rdfs:subClassOf :DataTypeProtocol ;
+                     rdfs:comment "Calibration Protocol" .
 
 
 ###  http://www.esblurock.info/dataset#CanteraFormat
@@ -5931,6 +5934,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
               rdfs:subClassOf :ArrayListDataObject .
 
 
+###  http://www.esblurock.info/dataset#ListOfUnits
+:ListOfUnits rdf:type owl:Class ;
+             rdfs:subClassOf :ArrayListDataObject .
+
+
 ###  http://www.esblurock.info/dataset#ListOfValuesAsString
 :ListOfValuesAsString rdf:type owl:Class ;
                       rdfs:subClassOf :ArrayListDataObject .
@@ -6751,6 +6759,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                           rdfs:subClassOf :DeviceMeasurementProtocol ;
                           <http://purl.org/dc/elements/1.1/type> "InputFromSensor" ;
                           <http://purl.org/dc/terms/requires> :DataTypeSensor ;
+                          rdfs:comment "Input from Sensor" ;
                           rdfs:label "input from sensor" .
 
 
@@ -7156,6 +7165,20 @@ Under the general type of is the actual data object referenced by the ChemConnec
                           <http://purl.org/dc/terms/identifier> "dataset:observationParameterType" ;
                           rdfs:label "Parameter Type" ;
                           <http://www.w3.org/2004/02/skos/core#altLabel> "ptype" .
+
+
+###  http://www.esblurock.info/dataset#ObservationRowUnits
+:ObservationRowUnits rdf:type owl:Class ;
+                     rdfs:subClassOf :ChemConnectCompoundDataStructure ,
+                                     [ rdf:type owl:Restriction ;
+                                       owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                       owl:onClass :ListOfUnits
+                                     ] ;
+                     <http://purl.org/dc/elements/1.1/type> "ChemConnectRowUnit" ;
+                     <http://purl.org/dc/terms/identifier> "dataset:ObservationRowUnits" ;
+                     rdfs:label "List of Units" ;
+                     <http://www.w3.org/2004/02/skos/core#altLabel> "vecofunits" .
 
 
 ###  http://www.esblurock.info/dataset#ObservationSpecification
@@ -8113,7 +8136,8 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                                             owl:onProperty <http://www.w3.org/ns/ssn/hasOutput> ;
                                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                             owl:onClass :RCMPublishedResults
-                                                          ] .
+                                                          ] ;
+                                          rdfs:comment "Rapid Compression Machine Reporting Protocol" .
 
 
 ###  http://www.esblurock.info/dataset#RapidCompressionMachineSubsystems
@@ -8404,7 +8428,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                           rdfs:subClassOf :ChemConnectDataStructure ,
                                           [ rdf:type owl:Restriction ;
                                             owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                                            owl:someValuesFrom :ParameterValue
+                                            owl:someValuesFrom :ObservationValueRow
                                           ] ,
                                           [ rdf:type owl:Restriction ;
                                             owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
@@ -8415,6 +8439,16 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                             owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                             owl:onClass :ConceptLinkObservationMatrix
+                                          ] ,
+                                          [ rdf:type owl:Restriction ;
+                                            owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                            owl:onClass :ObservationRowUnits
+                                          ] ,
+                                          [ rdf:type owl:Restriction ;
+                                            owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                            owl:onClass :ObservationValueRowTitle
                                           ] ;
                           <http://purl.org/dc/elements/1.1/type> "SingleObservationDataset" ;
                           <http://purl.org/dc/terms/identifier> "dataset:SingleObservationDataset" ;

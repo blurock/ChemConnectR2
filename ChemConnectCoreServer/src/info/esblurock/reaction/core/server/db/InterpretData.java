@@ -66,6 +66,8 @@ import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInp
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationBlockFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheetFull;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
+import info.esblurock.reaction.chemconnect.core.data.dataset.SingleObservationDataset;
+import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationRowUnits;
 
 public enum InterpretData {
 
@@ -731,7 +733,79 @@ public enum InterpretData {
 			return set;
 		}
 		
-	}, SubSystemDescription {
+	}, SingleObservationDataset {
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
+			DatabaseObject obsobj = new DatabaseObject(obj);
+			obsobj.nullKey();
+			DataElementInformation element = DatasetOntologyParsing
+					.getSubElementStructureFromIDObject(OntologyKeys.observationCorrespondenceSpecification);
+			String obsid = createSuffix(obj, element);
+			obsobj.setIdentifier(obsid);
+
+			SingleObservationDataset single = null;
+			DatabaseObjectHierarchy titleshier = InterpretData.ObservationValueRowTitle.createEmptyObject(obsobj);
+			DatabaseObjectHierarchy unitshier = InterpretData.ObservationRowUnits.createEmptyObject(obsobj);
+			DatabaseObjectHierarchy valueshier = InterpretData.ObservationValueRow.createEmptyObject(obsobj);
+			DatabaseObjectHierarchy structurehier = InterpretData.ChemConnectDataStructure.createEmptyObject(obsobj);
+			ChemConnectDataStructure structure = (ChemConnectDataStructure) structurehier.getObject();
+			
+			single = new SingleObservationDataset(structure,
+					titleshier.getObject().getIdentifier(),
+					unitshier.getObject().getIdentifier(),
+					valueshier.getObject().getIdentifier()
+					);
+			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(single);
+			hierarchy.addSubobject(titleshier);
+			hierarchy.addSubobject(unitshier);
+			hierarchy.addSubobject(valueshier);
+			hierarchy.transferSubObjects(structurehier);
+			return hierarchy;
+		}
+
+		@Override
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml,
+				String sourceID) throws IOException {
+			SingleObservationDataset set = null;
+			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
+			ChemConnectDataStructure objdata = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
+					
+			String observationValueRowTitleID = (String) yaml.get(StandardDatasetMetaData.observationValueRowTitleID);			
+			String observationRowUnitsID = (String) yaml.get(StandardDatasetMetaData.observationRowUnitsID);			
+			String observationValueRowID = (String) yaml.get(StandardDatasetMetaData.observationValueRowID);			
+
+			set = new SingleObservationDataset(objdata, observationValueRowTitleID,observationRowUnitsID,observationValueRowID);
+			return set;
+		}
+
+		@Override
+		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
+			SingleObservationDataset datastructure = (SingleObservationDataset) object;
+			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
+			Map<String, Object> map = interpret.createYamlFromObject(object);
+
+			map.put(StandardDatasetMetaData.observationValueRowTitleID, datastructure.getObservationValueRowTitle());
+			map.put(StandardDatasetMetaData.observationRowUnitsID, datastructure.getChemConnectRowUnit());
+			map.put(StandardDatasetMetaData.observationSpecificationID, datastructure.getObservationValueRowTitle());
+			
+			return map;
+		}
+
+		@Override
+		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(SingleObservationDataset.class.getCanonicalName(),
+					identifier);
+		}
+
+		@Override
+		public String canonicalClassName() {
+			return SingleObservationDataset.class.getCanonicalName();
+		}
+		
+	}, 
+	
+	SubSystemDescription {
 
 		@Override
 		public DatabaseObject fillFromYamlString(
@@ -816,12 +890,9 @@ public enum InterpretData {
 			ChemConnectProtocol methodology = null;
 			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
 			ChemConnectDataStructure objdata = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);					
-			String methodologyTypeS = (String) yaml.get(StandardDatasetMetaData.protocolTypeS);			
 			String parameterValuesS = (String) yaml.get(StandardDatasetMetaData.parameterValueS);			
-			String observationSpecS = (String) yaml.get(StandardDatasetMetaData.observationSpecs);			
 			
-			methodology = new ChemConnectProtocol(objdata,methodologyTypeS,
-					observationSpecS, parameterValuesS);
+			methodology = new ChemConnectProtocol(objdata,parameterValuesS);
 			return methodology;
 		}
 
@@ -830,9 +901,7 @@ public enum InterpretData {
 			ChemConnectProtocol methodology = (ChemConnectProtocol) object;
 			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
-			map.put(StandardDatasetMetaData.protocolTypeS, methodology.getProtocolType());
 			map.put(StandardDatasetMetaData.parameterValueS, methodology.getParameterValues());
-			map.put(StandardDatasetMetaData.observationSpecs, methodology.getObservationSpecs());
 			return map;
 		}
 
@@ -861,20 +930,15 @@ public enum InterpretData {
 			DatabaseObjectHierarchy structhier = InterpretData.ChemConnectDataStructure.createEmptyObject(methobj);
 			ChemConnectDataStructure structure = (ChemConnectDataStructure) structhier.getObject();
 
-			DatabaseObjectHierarchy obshier = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(methobj);
-			setChemConnectCompoundMultipleType(obshier,OntologyKeys.observationSpecs);
 			DatabaseObjectHierarchy paramhier = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(methobj);
 			setChemConnectCompoundMultipleType(paramhier,OntologyKeys.parameterValue);
 			
 			ChemConnectProtocol methodology = new ChemConnectProtocol(structure,
-					"Protocol Type",
-					obshier.getObject().getIdentifier(),
 					paramhier.getObject().getIdentifier()
 					);
 			methodology.setIdentifier(obj.getIdentifier());
 			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(methodology);
 			hierarchy.transferSubObjects(structhier);
-			hierarchy.addSubobject(obshier);
 			hierarchy.addSubobject(paramhier);
 			return hierarchy;
 		}
@@ -1961,6 +2025,58 @@ public enum InterpretData {
 		@Override
 		public String canonicalClassName() {
 			return ObservationValueRowTitle.class.getCanonicalName();
+		}
+		
+	}, ObservationRowUnits {
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+			DatabaseObject rowobj = new DatabaseObject(obj);
+			rowobj.nullKey();
+			DataElementInformation element = DatasetOntologyParsing
+					.getSubElementStructureFromIDObject(StandardDatasetMetaData.observationRowUnits);
+			String rowid = createSuffix(obj, element);
+			rowobj.setIdentifier(rowid);
+			
+			DatabaseObjectHierarchy compoundhier = InterpretData.ChemConnectCompoundDataStructure.createEmptyObject(obj);
+			ChemConnectCompoundDataStructure structure = (ChemConnectCompoundDataStructure) compoundhier.getObject();
+			ObservationRowUnits unitsrow = new ObservationRowUnits(structure,new ArrayList<String>());
+			unitsrow.setIdentifier(rowid);
+			DatabaseObjectHierarchy hier = new DatabaseObjectHierarchy(unitsrow);
+			return hier;
+		}
+
+		@Override
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml,
+				String sourceID) throws IOException {
+			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
+			ChemConnectCompoundDataStructure objdata = (ChemConnectCompoundDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
+			ArrayList<String> units = interpretMultipleYamlList(StandardDatasetMetaData.listOfUnits,yaml);
+			ObservationRowUnits row = new ObservationRowUnits(objdata, units);
+			return row;
+		}
+
+		@Override
+		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
+			ObservationRowUnits rowtitles = (ObservationRowUnits) object;
+
+			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
+			Map<String, Object> map = interpret.createYamlFromObject(object);
+
+			putMultipleInYamlList(StandardDatasetMetaData.listOfUnits,map,rowtitles.getUnits());
+
+			return map;
+		}
+
+		@Override
+		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(ObservationRowUnits.class.getCanonicalName(), identifier);
+		}
+
+		@Override
+		public String canonicalClassName() {
+			return ObservationRowUnits.class.getCanonicalName();
 		}
 		
 	}, ContactHasSite {

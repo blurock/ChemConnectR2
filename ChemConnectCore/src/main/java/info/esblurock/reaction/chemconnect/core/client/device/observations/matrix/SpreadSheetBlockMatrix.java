@@ -20,6 +20,7 @@ import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetS
 import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServicesAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
+import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheetFull;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationMatrixValues;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRowTitle;
@@ -62,12 +63,12 @@ public class SpreadSheetBlockMatrix extends Composite {
 		setupTableFromObservationsFromSpreadSheet(hierarchy);
 	}
 	private void setupTableFromObservationsFromSpreadSheet(DatabaseObjectHierarchy hierarchy) {
-		ObservationsFromSpreadSheet sheet = (ObservationsFromSpreadSheet) hierarchy.getObject(); 
+		ObservationsFromSpreadSheetFull sheet = (ObservationsFromSpreadSheetFull) hierarchy.getObject(); 
 		DatabaseObjectHierarchy valueshierarchy = hierarchy.getSubObject(sheet.getObservationMatrixValues());
 		setupTableFromObservationMatrixValues(valueshierarchy);
 	}
 	private void setupTableFromObservationMatrixValues(DatabaseObjectHierarchy valueshierarchy) {
-		setupTableFromObservationMatrixValuesWithTitles(hierarchy,null);
+		setupTableFromObservationMatrixValuesWithTitles(valueshierarchy,null);
 	}
 	
 	public void setupTableFromObservationMatrixValuesWithTitles(DatabaseObjectHierarchy valueshierarchy, ObservationValueRowTitle titles) {
@@ -75,7 +76,6 @@ public class SpreadSheetBlockMatrix extends Composite {
 		values = (ObservationMatrixValues) valueshierarchy.getObject(); 
 		DatabaseObjectHierarchy rowvalueshier = valueshierarchy.getSubObject(values.getObservationRowValue());
 		ChemConnectCompoundMultiple multiple = (ChemConnectCompoundMultiple) rowvalueshier.getObject();
-	
 		table = new MaterialDataTable<ObservationValueRow>();
 		matrix = new ArrayList<ObservationValueRow>();
 		if(titles == null) {

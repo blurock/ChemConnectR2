@@ -35,6 +35,9 @@ public class MetaDataKeywords {
 	public static String conceptLinkProtocol = "dataset:ConceptLinkProtocol";
 	public static String conceptLinkCorrespondenceSpecification = "dataset:ConceptLinkCorrespondenceSpecification";
 	public static String conceptLinkSubsystems = "dataset:ConceptLinkSubsystems";
+	public static String conceptLinkObservationMatrix = "dataset:ConceptLinkObservationMatrix";
+	public static String conceptLinkObservationsFromSpreadSheet = "dataset:ConceptLinkObservationsFromSpreadSheet";
+	public static String conceptLinkObservationsFromSpreadSheetFull = "dataset:ConceptLinkObservationsFromSpreadSheetFull";
 	
 	public static String userRoleChoices = "dataset:UserRoleChoices";
 	
@@ -45,6 +48,7 @@ public class MetaDataKeywords {
 	public static String chemConnectObservable = "dataset:ChemConnectObservable";
 	public static String observationsFromSpreadSheet = "dataset:ObservationsFromSpreadSheet";
 	public static String observationsFromSpreadSheetFull = "dataset:ObservationsFromSpreadSheetFull";
+	public static String observationMatrix = "dataset:ObservationsMatrix";
 	public static String observationBlockFromSpreadSheet = "dataset:ObservationBlockFromSpreadSheet";
 	
 	public static String chemConnectPrimitiveDataStructure = "dataset:ChemConnectPrimitiveDataStructure";

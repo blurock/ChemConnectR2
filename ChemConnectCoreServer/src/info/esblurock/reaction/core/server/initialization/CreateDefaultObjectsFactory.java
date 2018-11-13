@@ -26,7 +26,9 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInforma
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
 import info.esblurock.reaction.core.server.db.InterpretData;
+import info.esblurock.reaction.core.server.db.ReadWriteDatabaseCatalog;
 import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
+import info.esblurock.reaction.core.server.db.spreadsheet.block.IsolateBlockFromMatrix;
 import info.esblurock.reaction.io.db.QueryBase;
 import info.esblurock.reaction.io.metadata.StandardDatasetMetaData;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
@@ -38,6 +40,7 @@ import info.esblurock.reaction.chemconnect.core.data.dataset.ObservationSpecific
 import info.esblurock.reaction.chemconnect.core.data.dataset.ParameterSpecification;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ParameterValue;
 import info.esblurock.reaction.chemconnect.core.data.dataset.PurposeConceptPair;
+import info.esblurock.reaction.chemconnect.core.data.dataset.SingleObservationDataset;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ObservationCorrespondenceSpecification;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ValueUnits;
 import info.esblurock.reaction.chemconnect.core.data.dataset.device.SubSystemDescription;
@@ -47,6 +50,7 @@ import info.esblurock.reaction.chemconnect.core.data.methodology.ChemConnectProt
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationBlockFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheetFull;
+import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetBlockIsolation;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.MatrixSpecificationCorrespondence;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.MatrixSpecificationCorrespondenceSet;
@@ -187,13 +191,8 @@ public class CreateDefaultObjectsFactory {
 			String methodologyS, String title, DataCatalogID datid) {
 		DatabaseObjectHierarchy methodhier = InterpretData.ChemConnectProtocol.createEmptyObject(obj);
 		ChemConnectProtocol methodology = (ChemConnectProtocol) methodhier.getObject();
-		methodology.setProtocolType(methodologyS);
 		
 		insertDataCatalogID(methodhier,datid);
-				
-		String obssetid = methodology.getObservationSpecs();
-		DatabaseObjectHierarchy obssethier = methodhier.getSubObject(obssetid);
-		fillInputOutputObservationSpecifications(methodologyS,obssethier);
 		
 		String paramid = methodology.getParameterValues();
 		DatabaseObjectHierarchy paramsethier = methodhier.getSubObject(paramid);
@@ -202,7 +201,12 @@ public class CreateDefaultObjectsFactory {
 		PurposeConceptPair pair = new PurposeConceptPair();
 		ConceptParsing.fillInPurposeConceptPair(methodologyS, pair);
 		setPurposeConceptPair(methodhier, pair.getConcept(), pair.getPurpose());
-		setOneLineDescription(methodhier, title);
+		
+		String description = ConceptParsing.getComment(methodologyS);
+		if(description == null) {
+			description = "Protocol: " + ChemConnectCompoundDataStructure.removeNamespace(methodologyS);
+		}
+		setOneLineDescriptionAndAbstract(methodhier, title, description);
 		
 		Set<AttributeDescription> attrs = ConceptParsing.attributesInConcept(methodologyS);
 		for (AttributeDescription attr : attrs) {
@@ -346,6 +350,48 @@ public class CreateDefaultObjectsFactory {
 		return hierarchy;
 	}
 
+	public static DatabaseObjectHierarchy fillSingleObservationDataset(DatabaseObject obj, String observationS,
+			String correspondenceSpecification,
+			String observationMatrix,
+			DataCatalogID catid) throws IOException {
+		DatabaseObjectHierarchy hierarchy = InterpretData.SingleObservationDataset.createEmptyObject(obj);
+		SingleObservationDataset single = (SingleObservationDataset) hierarchy.getObject();
+		
+		DatabaseObjectHierarchy multihierarchy = hierarchy.getSubObject(single.getChemConnectObjectLink());
+		ChemConnectCompoundMultiple multilnk = (ChemConnectCompoundMultiple) multihierarchy.getObject();
+		int numlinks = multilnk.getNumberOfElements();
+		numlinks = linkStructure(obj,multihierarchy,numlinks,
+				MetaDataKeywords.conceptLinkCorrespondenceSpecification,
+				correspondenceSpecification);
+		numlinks = linkStructure(obj,multihierarchy,numlinks,
+				MetaDataKeywords.conceptLinkObservationsFromSpreadSheetFull,
+				observationMatrix);
+		multilnk.setNumberOfElements(numlinks+1);
+		
+		DatabaseObjectHierarchy corrshierarchy = ReadWriteDatabaseCatalog.getCatalogObject(correspondenceSpecification, 
+				MetaDataKeywords.observationCorrespondenceSpecification);
+		ObservationCorrespondenceSpecification corrspec = (ObservationCorrespondenceSpecification) corrshierarchy.getObject();
+		DatabaseObjectHierarchy observationhierarchy = ReadWriteDatabaseCatalog.getCatalogObject(observationMatrix,
+				MetaDataKeywords.observationsFromSpreadSheetFull);
+		ObservationsFromSpreadSheetFull sheet = (ObservationsFromSpreadSheetFull) observationhierarchy.getObject();
+		
+		SpreadSheetBlockIsolation blockisolate = null;
+		
+		DatabaseObjectHierarchy obs = IsolateBlockFromMatrix.isolateFromMatrix(catid, observationhierarchy, blockisolate);
+		
+		
+		return hierarchy;
+	}
+	
+	public static int linkStructure(DatabaseObject obj,DatabaseObjectHierarchy multihierarchy, 
+			int numlinks, String linkconcept, String id) {
+		numlinks++;
+		String numlinkS = Integer.toString(numlinks);
+		DatabaseObjectHierarchy link = fillDataObjectLink(obj, numlinkS, 
+				linkconcept,id);
+		multihierarchy.addSubobject(link);
+		return numlinks;
+	}
 	
 	public static DatabaseObjectHierarchy fillObservationsFromSpreadSheet(DatabaseObject obj, 
 			DataCatalogID catid, SpreadSheetInputInformation spreadinfo,
@@ -394,7 +440,7 @@ public class CreateDefaultObjectsFactory {
 		valuemult.setNumberOfElements(numberOfRows);
 		return hierarchy;
 	}
-
+	
 	
 	public static void fillInputOutputObservationSpecifications(String setofobservationsS,
 			DatabaseObjectHierarchy obspecset) {
@@ -463,6 +509,14 @@ public class CreateDefaultObjectsFactory {
 		DatabaseObjectHierarchy descrhierarchy = hierarchy.getSubObject(structure.getDescriptionDataData());
 		DescriptionDataData descr = (DescriptionDataData) descrhierarchy.getObject();
 		descr.setOnlinedescription(oneline);
+	}
+
+	public static void setOneLineDescriptionAndAbstract(DatabaseObjectHierarchy hierarchy, String oneline, String description) {
+		ChemConnectDataStructure structure = (ChemConnectDataStructure) hierarchy.getObject();
+		DatabaseObjectHierarchy descrhierarchy = hierarchy.getSubObject(structure.getDescriptionDataData());
+		DescriptionDataData descr = (DescriptionDataData) descrhierarchy.getObject();
+		descr.setOnlinedescription(oneline);
+		descr.setDescriptionAbstract(description);
 	}
 
 	public static void setPurposeConceptPair(DatabaseObjectHierarchy hierarchy, String concept, String purpose) {
@@ -748,15 +802,10 @@ public class CreateDefaultObjectsFactory {
 		setOneLineDescription(sethier, oneline);
 		
 		DatabaseObjectHierarchy obsspechier = sethier.getSubObject(set.getObservationSpecification());
-		//ObservationSpecification spec = (ObservationSpecification) obsspechier.getObject();
 		fillObservationSpecification(obsspechier, parameter, set.getIdentifier());
-		//DatabaseObjectHierarchy measure = obsspechier.getSubObject(spec.getMeasureSpecifications());
-		//DatabaseObjectHierarchy dimension = obsspechier.getSubObject(spec.getDimensionSpecifications());
 		
-		//DatabaseObjectHierarchy corrspechier = sethier.getSubObject(set.getMatrixSpecificationCorrespondenceSet());
-		//MatrixSpecificationCorrespondenceSet corrspec = (MatrixSpecificationCorrespondenceSet) corrspechier.getObject();
-		//DatabaseObjectHierarchy colcorrhier = corrspechier.getSubObject(corrspec.getMatrixSpecificationCorrespondence());
-		//fillMatrixSpecificationCorrespondence(colcorrhier,measure,dimension);
+		
+		
 		return sethier;
 	}
 	/** fillMatrixSpecificationCorrespondence

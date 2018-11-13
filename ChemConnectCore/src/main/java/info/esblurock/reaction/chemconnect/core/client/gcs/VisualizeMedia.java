@@ -12,7 +12,7 @@ import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInp
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 public enum VisualizeMedia {
-	SpreadSheetTabDelimited {
+	FileTypeSpreadSheetTabDelimited {
 
 		@Override
 		public void getInterpretedBlob(GCSBlobFileInformation info, 
@@ -24,14 +24,14 @@ public enum VisualizeMedia {
 			SpreadSheetInputInformation modified = new SpreadSheetInputInformation(spread,
 					SpreadSheetInputInformation.TabDelimited,
 					spread.getSourceType(),spread.getSource());
-			interpretSpreadSheetAsMatrix("SpreadSheetTabDelimited",catid, info,modified,visual);
+			interpretSpreadSheetAsMatrix("FileTypeSpreadSheetTabDelimited",catid, info,modified,visual);
 		}
 		@Override
 		public void insertVisualization(DatabaseObjectHierarchy object, String title, VisualizationOfBlobStorage visual) {
 				insertSpreadSheetVisualization(object,title,visual);
 		}
 		
-	}, SpreadSheetSpaceDelimited {
+	}, FileTypeSpreadSheetSpaceDelimited {
 
 		@Override
 		public void getInterpretedBlob(GCSBlobFileInformation info, 
@@ -43,14 +43,14 @@ public enum VisualizeMedia {
 			SpreadSheetInputInformation modified = new SpreadSheetInputInformation(spread,
 					SpreadSheetInputInformation.SpaceDelimited,
 					spread.getSourceType(),spread.getSource());
-			interpretSpreadSheetAsMatrix("SpreadSheetSpaceDelimited",catid, info,modified,visual);
+			interpretSpreadSheetAsMatrix("FileTypeSpreadSheetSpaceDelimited",catid, info,modified,visual);
 		}
 		@Override
 		public void insertVisualization(DatabaseObjectHierarchy object, String title, VisualizationOfBlobStorage visual) {
 			insertSpreadSheetVisualization(object,title,visual);
 		}
 		
-	}, SpreadSheetCSV {
+	}, FileTypeSpreadSheetCSV {
 
 		@Override
 		public void getInterpretedBlob(GCSBlobFileInformation info, 
@@ -63,14 +63,14 @@ public enum VisualizeMedia {
 					SpreadSheetInputInformation.CSV,
 					spread.getSourceType(),
 					spread.getSource());
-			interpretSpreadSheetAsMatrix("SpreadSheetCSV",catid, info,modified,visual);
+			interpretSpreadSheetAsMatrix("FileTypeSpreadSheetCSV",catid, info,modified,visual);
 		}
 		@Override
 		public void insertVisualization(DatabaseObjectHierarchy object, String title, VisualizationOfBlobStorage visual) {
 			insertSpreadSheetVisualization(object,title,visual);
 		}
 		
-	}, MSExcel {
+	}, FileTypeMSExcel {
 
 		@Override
 		public void getInterpretedBlob(GCSBlobFileInformation info, 
@@ -82,14 +82,14 @@ public enum VisualizeMedia {
 			SpreadSheetInputInformation modified = new SpreadSheetInputInformation(spread,
 					SpreadSheetInputInformation.XLS,
 					spread.getSourceType(),spread.getSource());
-			interpretSpreadSheetAsMatrix("MSExcel",catid, info,modified,visual);
+			interpretSpreadSheetAsMatrix("FileTypeMSExcel",catid, info,modified,visual);
 		}
 		@Override
 		public void insertVisualization(DatabaseObjectHierarchy object, String title, VisualizationOfBlobStorage visual) {
 			insertSpreadSheetVisualization(object,title,visual);
 		}
 		
-	}, ExcelOffice {
+	}, FileTypeExcelOffice {
 
 		@Override
 		public void getInterpretedBlob(GCSBlobFileInformation info, 
@@ -101,7 +101,7 @@ public enum VisualizeMedia {
 			SpreadSheetInputInformation modified = new SpreadSheetInputInformation(spread,
 					SpreadSheetInputInformation.XLS,
 					spread.getSourceType(),spread.getSource());
-			interpretSpreadSheetAsMatrix("ExcelOffice", catid, info,modified,visual);
+			interpretSpreadSheetAsMatrix("FileTypeExcelOffice", catid, info,modified,visual);
 		}
 		@Override
 		public void insertVisualization(DatabaseObjectHierarchy object, String title, VisualizationOfBlobStorage visual) {

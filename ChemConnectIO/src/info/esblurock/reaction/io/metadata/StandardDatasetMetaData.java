@@ -51,8 +51,10 @@ public class StandardDatasetMetaData {
 	
 	public static String matrixColumn = "dataset:matrixColumn";
 	public static String observationValueRowTitleID = "qb:SliceKey";
+	public static String observationRowUnitsID = "dataset:ObservationRowUnits";
 	public static String observationValueRowID = "qb:Slice";
 	public static String observationValueRowTitle = "dataset:ObservationValueRowTitle";
+	public static String observationRowUnits = "dataset:ObservationRowUnits";
 	public static String observationValueRow = "dataset:ObservationValueRow";
 	public static String position = "qb:order";
 	
@@ -211,6 +213,7 @@ public class StandardDatasetMetaData {
 	public static String spreadSheetBlockIsolationID = "dataset:SpreadSheetBlockIsolation";
 	public static String listOfValuesAsString = "dataset:ListOfValuesAsString";
 	public static String listOfTitles = "dataset:ListOfTitles";
+	public static String listOfUnits = "dataset:ListOfUnits";
 	public static String observationBlockFromSpreadSheet = "dataset:ObservationBlockFromSpreadSheet";
 	public static String observationBlockFromSpreadSheetID = "dataset:SpreadSheetBlock";
 	

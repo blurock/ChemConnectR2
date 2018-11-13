@@ -100,10 +100,9 @@ public class SpreadSheetServicesImpl extends ServerBase implements SpreadSheetSe
 		DatabaseObjectHierarchy hierarchy = null;
 		
 		DataElementInformation element = DatasetOntologyParsing
-				.getSubElementStructureFromIDObject(MetaDataKeywords.observationsFromSpreadSheet);
+				.getSubElementStructureFromIDObject(MetaDataKeywords.observationsFromSpreadSheetFull);
 		String obsid = InterpretData.createSuffix(catid, element);
-		
-		
+
 		try {
 			SingleQueryResult result = QueryBase.StandardQueryResult(query);
 			String originalid = null;
@@ -121,10 +120,8 @@ public class SpreadSheetServicesImpl extends ServerBase implements SpreadSheetSe
 				}
 			} 
 			if(originalid != null) {
-				System.out.println("interpretSpreadSheetGCS: Extract: " + originalid);
-				ExtractCatalogInformation.getCatalogObject(originalid, MetaDataKeywords.observationsFromSpreadSheet);
+				hierarchy = ExtractCatalogInformation.getCatalogObject(originalid, MetaDataKeywords.observationsFromSpreadSheetFull);
 			} else {
-				System.out.println("interpretSpreadSheetGCS: Create: " + obsid);
 				hierarchy = InterpretSpreadSheet.readSpreadSheetFromGCS(gcsinfo, input,catid);
 			}
 
@@ -142,7 +139,6 @@ public class SpreadSheetServicesImpl extends ServerBase implements SpreadSheetSe
 					hierarchy.getObject().getClass().getCanonicalName());
 			DatabaseWriteBase.writeObjectWithTransaction(transaction);
 		}
-		//System.out.println("interpretSpreadSheetGCS: \n" + hierarchy.toString());
 		return hierarchy;
 	}
 	

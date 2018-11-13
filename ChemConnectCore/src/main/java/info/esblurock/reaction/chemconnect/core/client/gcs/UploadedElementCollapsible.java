@@ -106,7 +106,7 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 		ArrayList<String> choices = new ArrayList<String>();
 		choices.add(MetaDataKeywords.dataFileInformationStructure);
 		String user = Cookies.getCookie("user");
-		String object = null;
+		String object = MetaDataKeywords.observationsFromSpreadSheetFull;
 		choose = new ChooseFullNameFromCatagoryRow(this,user,object,choices,modalpanel);
 		catidpanel.add(choose);
 		typeClass = null;
@@ -237,15 +237,10 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 	public void askForInterpretationType(HierarchyNode hierarchy) {
 		interpretmap = new HashMap<String, ClassificationInformation>();
 		findClassifications(hierarchy,interpretmap);
-		Window.alert("askForInterpretationType -- findClassifications: done");
 		ChooseFromConceptHierarchies choose = new ChooseFromConceptHierarchies(this);
-		Window.alert("askForInterpretationType -- findClassifications: done");
 		choose.setupTree(hierarchy);
-		Window.alert("askForInterpretationType -- setupTree");
 		modalpanel.add(choose);
-		Window.alert("askForInterpretationType -- modalpanel.add");
 		choose.open();
-		Window.alert("askForInterpretationType -- choose.open()");
 	}
 
 	// dataset:   ....  16 characters
@@ -286,7 +281,7 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 			MaterialToast.fireToast("Specify exact file type for interpretation and press Submit again");
 			askForType();
 		}
-		VisualizeMedia visual = VisualizeMedia.valueOf(visualType);
+		VisualizeMedia visual = VisualizeMedia.valueOf(ChemConnectCompoundDataStructure.removeNamespace(visualType));
 		String sourceType = SpreadSheetInputInformation.BLOBSOURCE;
 		String source = info.getGSFilename();
 		obj.setIdentifier(catid.getFullName());
@@ -299,6 +294,7 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 
 	@Override
 	public void insertCatalogObject(DatabaseObjectHierarchy subs) {
+		Window.alert("UploadedElementCollapsible  insertCatalogObject:\n" + subs.toString());
 		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(null,subs,modalpanel);
 		objectpanel.add(item);
 		
