@@ -119,4 +119,7 @@ public interface UserImageService  extends RemoteService  {
 	void deleteObject(String id, String type) throws IOException;
 	
 	DatabaseObjectHierarchy  extractLinkObjectFromStructure(DatabaseObjectHierarchy hierarchy, String linktypeid) throws IOException;
+	
+	public void writeBlobContent(GCSBlobContent gcs) throws IOException;
+	
 }

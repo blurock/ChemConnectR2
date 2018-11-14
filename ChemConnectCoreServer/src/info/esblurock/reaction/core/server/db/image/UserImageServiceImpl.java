@@ -207,6 +207,9 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	public GCSBlobContent getBlobContent(GCSBlobFileInformation gcsinfo) {
 		return getContent(gcsinfo);
 	}
+	public void writeBlobContent(GCSBlobContent gcs) throws IOException {
+		GCSServiceRoutines.writeBlobContent(gcs);
+	}
 
 	public ArrayList<String> getBlobAsLines(GCSBlobContent info) {
 		GCSBlobContent gcs = getBlobContent(info.getInfo());
@@ -232,7 +235,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		writeBlobContent(gcs);
 	}
 */
-	/*
+/*
 	public void writeBlobContent(GCSBlobContent gcs) throws IOException {
 		GCSBlobFileInformation info = gcs.getInfo();
 		String contentS = gcs.getBytes();

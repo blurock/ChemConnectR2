@@ -111,4 +111,6 @@ public interface UserImageServiceAsync {
 	void extractLinkObjectFromStructure(DatabaseObjectHierarchy hierarchy, String linktypeid,
 			AsyncCallback<DatabaseObjectHierarchy> callback);
 
+	void writeBlobContent(GCSBlobContent gcs, AsyncCallback<Void> callback);
+
 }

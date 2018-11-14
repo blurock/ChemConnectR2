@@ -151,21 +151,25 @@ public class WriteReadDatabaseObjects {
 		values.add(value2);
 		ListOfQueries queries = QueryFactory.accessQueryForUser(classname, user, values);
 		SetOfQueryResults results;
-		Set<String> ids = new HashSet<String>();
 		HierarchyNode topnode = null;
 		try {
 			results = QueryBase.StandardSetOfQueries(queries);
 			List<DatabaseObject> objs = results.retrieveAndClear();
-			for(DatabaseObject obj : objs) {
-				DataCatalogID datid = (DataCatalogID) obj;
-				ids.add(datid.getParentLink());
-			}
-			topnode = ParseUtilities.parseIDsToHierarchyNode("Objects",ids,true);
+			topnode = hierarchialList(objs);
 		} catch (ClassNotFoundException e) {
 			throw new IOException("getIDHierarchyFromDataCatalogID Class not found: " + classname);
 		}
 		return topnode;
-	}	
+	}
+	private static HierarchyNode hierarchialList(List<DatabaseObject> objs) {
+		HierarchyNode topnode = new HierarchyNode("Database Objects");
+		for(DatabaseObject obj : objs) {
+			DataCatalogID datid = (DataCatalogID) obj;
+			HierarchyNode subnode = new HierarchyNode(datid.getParentLink(),datid.getSimpleCatalogName());
+			topnode.addSubNode(subnode);
+		}
+		return topnode;
+	}
 	
 	public static HierarchyNode getIDHierarchyFromDataCatalogAndUser(String user,String datacatalog) throws IOException {
 		String classname = DataCatalogID.class.getCanonicalName();

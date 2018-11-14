@@ -17,38 +17,44 @@
 	<m:MaterialCollapsibleItem>
 		<m:MaterialCollapsibleHeader
 			backgroundColor="GREY" textAlign="LEFT">
-					<m:MaterialTooltip ui:field="identifiertooltip">
-						<m:MaterialLink ui:field="path"  text="Image"
-							textColor="BLACK" />
-					</m:MaterialTooltip>
+			<m:MaterialTooltip ui:field="identifiertooltip">
+				<m:MaterialLink ui:field="path" text="Image"
+					textColor="BLACK" />
+			</m:MaterialTooltip>
 		</m:MaterialCollapsibleHeader>
 		<m:MaterialCollapsibleBody>
-		<m:MaterialRow padding="0">
-		<m:MaterialColumn grid="s12">
-		<m:MaterialPanel ui:field="catidpanel"/>
-		</m:MaterialColumn>
-		</m:MaterialRow>
+			<m:MaterialRow padding="0">
+				<m:MaterialColumn grid="s12">
+					<m:MaterialPanel ui:field="catidpanel" />
+				</m:MaterialColumn>
+			</m:MaterialRow>
 			<m:MaterialRow padding="0">
 				<m:MaterialColumn grid="s4">
 					<m:MaterialTooltip ui:field="typetooltip">
-					<m:MaterialLink ui:field="type" textAlign="LEFT" truncate="true" textColor="BLACK" />
+						<m:MaterialLink ui:field="type" text="             " textAlign="LEFT"
+							truncate="true" textColor="BLACK" />
 					</m:MaterialTooltip>
 				</m:MaterialColumn>
-				<m:MaterialColumn grid="s6">
-					<m:MaterialLink ui:field="filetype" textAlign="LEFT" truncate="true" textColor="BLACK" />
+				<m:MaterialColumn grid="s5">
+					<m:MaterialLink ui:field="filetype" textAlign="LEFT"
+						truncate="true" textColor="BLACK" />
 				</m:MaterialColumn>
 				<m:MaterialColumn grid="s1">
 					<m:MaterialTooltip ui:field="urltooltip">
-						<m:MaterialLink ui:field="url"  iconType="SAVE"
+						<m:MaterialLink ui:field="url" iconType="FILE_DOWNLOAD"
 							iconColor="BLACK" iconPosition="RIGHT" />
 					</m:MaterialTooltip>
 				</m:MaterialColumn>
-				<m:MaterialColumn grid="s1" >
-					<m:MaterialLink ui:field="delete"  iconType="CLEAR"
+				<m:MaterialColumn grid="s1">
+					<m:MaterialLink ui:field="save" iconType="SAVE"
+						iconColor="BLACK" iconPosition="RIGHT" />
+				</m:MaterialColumn>
+				<m:MaterialColumn grid="s1">
+					<m:MaterialLink ui:field="delete" iconType="CLEAR"
 						iconColor="BLACK" iconPosition="RIGHT" />
 				</m:MaterialColumn>
 			</m:MaterialRow>
-				<m:MaterialDivider/>
+			<m:MaterialDivider />
 			<m:MaterialRow padding="0">
 				<m:MaterialColumn grid="s12">
 					<g:HTMLPanel ui:field="imagepanel" />
@@ -56,13 +62,13 @@
 			</m:MaterialRow>
 			<m:MaterialRow>
 				<m:MaterialColumn grid="s12">
-				<m:MaterialPanel ui:field="objectpanel"/>
+					<m:MaterialPanel ui:field="objectpanel" />
 				</m:MaterialColumn>
 			</m:MaterialRow>
 			<m:MaterialRow padding="0">
 				<m:MaterialColumn grid="s12">
 					<m:MaterialTextArea ui:field="textDescription"
-						placeholder="Description" styleName="{style.panel}" padding="0"/>
+						placeholder="Description" styleName="{style.panel}" padding="0" />
 				</m:MaterialColumn>
 			</m:MaterialRow>
 		</m:MaterialCollapsibleBody>

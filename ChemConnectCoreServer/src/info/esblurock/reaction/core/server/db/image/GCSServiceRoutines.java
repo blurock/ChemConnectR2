@@ -74,6 +74,7 @@ public class GCSServiceRoutines {
 		}
 		DatabaseWriteBase.writeObjectWithTransaction(gcs.getInfo());
 	}
+
 	public static GCSBlobContent moveBlob(GCSBlobFileInformation fileinfo, GCSBlobFileInformation source) {
 		Storage storage = StorageOptions.getDefaultInstance().getService();
 

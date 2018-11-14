@@ -21,6 +21,7 @@ import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTextArea;
 import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.MaterialTooltip;
+import info.esblurock.reaction.chemconnect.core.client.GeneralVoidReturnCallback;
 import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.client.catalog.choose.ChooseFullNameFromCatagoryRow;
 import info.esblurock.reaction.chemconnect.core.client.catalog.choose.ObjectVisualizationInterface;
@@ -69,6 +70,8 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 	@UiField
 	MaterialLink url;
 	@UiField
+	MaterialLink save;
+	@UiField
 	MaterialTooltip identifiertooltip;
 	@UiField
 	MaterialTooltip urltooltip;
@@ -90,6 +93,8 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 	GCSBlobContent content;
 	MaterialPanel modalpanel;
 	String visualType;
+	MaterialImage image;
+	UploadedTextObject textobject;
 	
 	DataCatalogID catid;
 	ChooseFullNameFromCatagoryRow choose;
@@ -147,10 +152,10 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 	
 	public void setContentVisual() {
 			if(isImage()) {
-				MaterialImage image = new MaterialImage(linkUrl);				
+				image = new MaterialImage(linkUrl);				
 				imagepanel.add(image);
 			} else if(isText()) {
-				UploadedTextObject textobject = new UploadedTextObject(this.content,modalpanel);
+				textobject = new UploadedTextObject(this.content,modalpanel);
 				imagepanel.add(textobject);
 			}
 	}
@@ -208,6 +213,20 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 	@UiHandler("url")
 	void onClickUrl(ClickEvent e) {
 		Window.open(linkUrl, "Download", "");
+	}
+	@UiHandler("save")
+	void onClickSave(ClickEvent e) {
+		info.setDescription(textDescription.getText());
+		if(isText()) {
+			textobject.updateData();
+		} else if(isImage()) {
+			
+		}
+		
+		UserImageServiceAsync async = UserImageService.Util.getInstance();
+		String message = "Text file updated";
+		GeneralVoidReturnCallback callback = new GeneralVoidReturnCallback(message);
+		async.writeBlobContent(content,callback);
 	}
 	
 	public String setIdentifier(String identifierRoot) {
@@ -271,7 +290,6 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 		imagepanel.clear();
 		MaterialImage image = new MaterialImage(linkUrl);				
 		imagepanel.add(image);
-		
 	}
 	}
 

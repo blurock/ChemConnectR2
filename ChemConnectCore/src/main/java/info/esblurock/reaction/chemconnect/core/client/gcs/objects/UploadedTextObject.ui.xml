@@ -15,37 +15,9 @@
 	</ui:style>
 	<g:HTMLPanel>
 		<m:MaterialRow>
-			<m:MaterialColumn grid="s3">
-				<m:MaterialTooltip ui:field="parsetooltip">
-					<m:MaterialLink ui:field="parse" textColor="BLACK" />
-				</m:MaterialTooltip>
-			</m:MaterialColumn>
-			<m:MaterialColumn grid="s3">
-				<m:MaterialTooltip ui:field="totaltooltip">
-					<m:MaterialLink ui:field="total" textColor="BLACK" />
-				</m:MaterialTooltip>
-			</m:MaterialColumn>
-			<m:MaterialColumn grid="s3">
-						<m:MaterialLink ui:field="dropdown" text="Dropdown"
-							iconType="ARROW_DROP_DOWN" iconColor="BLACK" iconPosition="RIGHT"
-							textColor="BLACK" activates="dp-2" />
-						<m:MaterialDropDown ui:field="numlinesdrop"
-							activator="dp-2" constrainWidth="true">
-							<m:MaterialLink text="10" />
-							<m:MaterialLink text="50" />
-							<m:MaterialLink text="100" />
-							<m:MaterialLink text="200" />
-						</m:MaterialDropDown>
-						<!-- -/m:MaterialTooltip -->
-			</m:MaterialColumn>
-			<m:MaterialColumn grid="s3">
-				<m:MaterialLink ui:field="beginline" textColor="BLACK"/>
-			</m:MaterialColumn>
-		</m:MaterialRow>
-		<m:MaterialRow>
 			<m:MaterialColumn grid="s12">
 				<m:MaterialTextArea ui:field="textFile"
-					textColor="BLACK"     styleName="{style.panel}"/>
+					textColor="BLACK" styleName="{style.panel}" />
 			</m:MaterialColumn>
 		</m:MaterialRow>
 	</g:HTMLPanel>
