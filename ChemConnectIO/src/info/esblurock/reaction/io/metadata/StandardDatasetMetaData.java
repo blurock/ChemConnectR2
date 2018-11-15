@@ -229,14 +229,16 @@ public class StandardDatasetMetaData {
 	public static String chemConnectIsolateBlockBeginAtRow = "ChemConnectIsolateBlockBeginAtRow";
 	
 	public static String matrixBlockColumnBeginAtIdentifier = "dataset:MatrixBlockColumnBeginAtIdentifier";
-	public static String matrixBlockColumnAtPosition = "dataset:MatrixBlockColumnAtPosition";
+	public static String matrixBlockColumnBeginAtPosition = "dataset:MatrixBlockColumnBeginAtPosition";
 	public static String matrixBlockColumnBeginLeft = "dataset:MatrixBlockColumnBeginLeft";
 	
 	public static String matrixBlockColumnEndFromTitles = "dataset:MatrixBlockColumnEndFromTitles";
 	public static String matrixBlockColumnEndAtPosition = "dataset:MatrixBlockColumnEndAtPosition";
 	public static String matrixBlockColumnEndMaximum = "dataset:MatrixBlockColumnEndMaximum";
+	public static String matrixBlockColumnEndNumberOfColumns = "dataset:MatrixBlockColumnEndNumberOfColumns";
 	
 	public static String beginMatrixAtSpecifiedIdentifier = "dataset:BeginMatrixAtSpecifiedIdentifier";
+	public static String beginMatrixAtStartsWithSpecifiedIdentifier = "dataset:BeginMatrixAtStartsWithSpecifiedIdentifier";
 	public static String beginMatrixAfterSpecifiedIdentifier = "dataset:BeginMatrixAfterSpecifiedIdentifier";
 	public static String beginMatrixTopOfSpreadSheet = "dataset:BeginMatrixTopOfSpreadSheet";
 	public static String beginMatrixAtSpecified = "dataset:BeginMatrixAtSpecified";	

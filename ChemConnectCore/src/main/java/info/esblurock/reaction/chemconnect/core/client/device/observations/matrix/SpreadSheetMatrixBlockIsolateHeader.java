@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -87,6 +88,8 @@ public class SpreadSheetMatrixBlockIsolateHeader extends Composite
 	DatabaseObjectHierarchy observationsFromSpreadSheet;
 	DatabaseObjectHierarchy observationMatrixValues;
 	
+	String noValue;
+	
 	public SpreadSheetMatrixBlockIsolateHeader() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
@@ -102,12 +105,10 @@ public class SpreadSheetMatrixBlockIsolateHeader extends Composite
 		endrow.setText(TextUtilities.removeNamespace(spread.getEndRowType()));
 		startcolumn.setText(TextUtilities.removeNamespace(spread.getStartColumnType()));
 		endcolumn.setText(TextUtilities.removeNamespace(spread.getEndColumnType()));
-
-		startrowtext.setText(spread.getStartRowInfo());
-		endrowtext.setText(spread.getEndRowInfo());
-		startcolumntext.setText(spread.getStartColumnInfo());
-		endcolumntext.setText(spread.getEndColumnInfo());
-
+		TextUtilities.setText(startrowtext, spread.getStartRowInfo(), noValue);
+		TextUtilities.setText(endrowtext, spread.getStartRowInfo(), noValue);
+		TextUtilities.setText(startcolumntext, spread.getStartRowInfo(), noValue);
+		TextUtilities.setText(endcolumntext, spread.getStartRowInfo(), noValue);
 	}
 	
 	void init() {
@@ -116,6 +117,8 @@ public class SpreadSheetMatrixBlockIsolateHeader extends Composite
 		startcolumnB = false;
 		endcolumnB = false;
 		originalmatrixB = false;
+		
+		noValue = "no identifier";
 		
 		startrowChoice = new ArrayList<String>();
 		startrowChoice.add("dataset:MatrixBlockBeginClassification");
@@ -133,6 +136,38 @@ public class SpreadSheetMatrixBlockIsolateHeader extends Composite
 		apply.setEnabled(false);
 	}
 	
+	@UiHandler("startrowtext")
+	public void onStartRowText(ClickEvent event) {
+		startrowB = true;
+		InputLineModal inmodal = new InputLineModal("Start Row Identifier","",this);
+		item.getModalpanel().clear();
+		item.getModalpanel().add(inmodal);
+		inmodal.openModal();		
+	}
+	@UiHandler("endrowtext")
+	public void onEndRowText(ClickEvent event) {
+		endrowB = true;
+		InputLineModal inmodal = new InputLineModal("End Row Identifier","",this);
+		item.getModalpanel().clear();
+		item.getModalpanel().add(inmodal);
+		inmodal.openModal();		
+	}
+	@UiHandler("startcolumntext")
+	public void onStartColumnText(ClickEvent event) {
+		startcolumnB = true;
+		InputLineModal inmodal = new InputLineModal("Start Column Identifier","",this);
+		item.getModalpanel().clear();
+		item.getModalpanel().add(inmodal);
+		inmodal.openModal();		
+	}
+	@UiHandler("endcolumntext")
+	public void onEndColumnText(ClickEvent event) {
+		endcolumnB = true;
+		InputLineModal inmodal = new InputLineModal("End Column Identifier","",this);
+		item.getModalpanel().clear();
+		item.getModalpanel().add(inmodal);
+		inmodal.openModal();		
+	}
 	
 	@UiHandler("startrow")
 	public void onStartRowClick(ClickEvent event) {
@@ -250,7 +285,26 @@ public class SpreadSheetMatrixBlockIsolateHeader extends Composite
 	}
 	@Override
 	public void setLineContent(String line) {
-		applyMatrixIsolation(line.trim());
+		if(startrowB) {
+			startrowtext.setText(line);
+			spread.setStartRowInfo(line);
+		} else if(endrowB) {
+			endrowtext.setText(line);
+			spread.setEndRowInfo(line);
+		} else if(startcolumnB) {
+			startcolumntext.setText(line);
+			spread.setStartColumnInfo(line);
+		} else if(endcolumnB) {
+			endcolumntext.setText(line);
+			spread.setEndColumnInfo(line);
+		} else {
+			applyMatrixIsolation(line.trim());
+		}
+		startrowB = false;
+		endrowB = false;
+		startcolumnB = false;
+		endcolumnB = false;
+		Window.alert("setLineContent\n" + spread.toString());
 	}
 
 	private void applyMatrixIsolation(String basename) {
@@ -268,4 +322,7 @@ public class SpreadSheetMatrixBlockIsolateHeader extends Composite
 		readoriginalmatrix= false;		
 	}
 
+	public void updateData() {
+		
+	}
 }

@@ -1811,7 +1811,6 @@ public enum InterpretData {
 			String matid = createSuffix(obj, element);
 			matobj.setIdentifier(matid);
 			
-			DatabaseObjectHierarchy titleshier = InterpretData.ObservationValueRowTitle.createEmptyObject(matobj);
 			DatabaseObjectHierarchy matspechier = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(matobj);
 			setChemConnectCompoundMultipleType(matspechier,StandardDatasetMetaData.observationValueRow);
 			DatabaseObjectHierarchy comphier =  
@@ -1821,7 +1820,6 @@ public enum InterpretData {
 					matspechier.getObject().getIdentifier());
 			obsmat.setIdentifier(matid);
 			DatabaseObjectHierarchy hier = new DatabaseObjectHierarchy(obsmat);
-			hier.addSubobject(titleshier);
 			hier.addSubobject(matspechier);
 			hier.transferSubObjects(comphier);
 			

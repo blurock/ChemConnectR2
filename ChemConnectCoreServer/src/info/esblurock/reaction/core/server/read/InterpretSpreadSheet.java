@@ -138,8 +138,8 @@ public class InterpretSpreadSheet {
 				StringTokenizer tok = new StringTokenizer(line, delimiter,true);
 				while (tok.hasMoreTokens()) {
 					String cell = tok.nextToken();
-					if(cell.compareTo("\t") == 0) {
-						lst.add(" ");
+					if(cell.compareTo(delimiter) == 0) {
+						lst.add("");
 					} else {
 						lst.add(cell);
 						if(tok.hasMoreTokens()) {

@@ -44,17 +44,17 @@ public class ConvertToMatrixOfObjects extends ConvertInputDataBase {
 	@Override
 	public InterpretInputDataObject process(DatabaseObject object, InterpretInputDataObject input) {
 		InterpretInputDataString stringinput = (InterpretInputDataString) input;
-		
 		Scanner scan = new Scanner(stringinput.getStringObject());
 		ArrayList<ArrayList<String>> matrix = new ArrayList<ArrayList<String>>();
 		while(scan.hasNextLine()) {
 			String line = scan.nextLine();
+			line = line.replaceAll(",", " , ");
 			Scanner linescan = new Scanner(line);
 			linescan.useDelimiter(delimitor);
 			ArrayList<String> vector = new ArrayList<String>();
 			while(linescan.hasNext()) {
 				String element = linescan.next();
-				vector.add(element);
+				vector.add(element.trim());
 			}
 			matrix.add(vector);
 			linescan.close();

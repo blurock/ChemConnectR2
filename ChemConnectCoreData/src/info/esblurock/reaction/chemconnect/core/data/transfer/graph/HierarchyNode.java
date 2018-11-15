@@ -59,7 +59,6 @@ public class HierarchyNode implements Serializable {
 		subNodes = new ArrayList<HierarchyNode>();
 		this.info = info;
 		this.identifier = identifier;
-		this.label = label;
 	}
 	
 	public void addSubNode(HierarchyNode subnode) {

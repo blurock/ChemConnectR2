@@ -13,7 +13,6 @@ import gwt.material.design.client.ui.MaterialTextArea;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobContent;
-import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 
 public class UploadedTextObject extends Composite implements InsertBlobTextContentInterface {
 

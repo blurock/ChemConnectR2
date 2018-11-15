@@ -1161,22 +1161,29 @@ xsd:date rdf:type rdfs:Datatype .
 ###  http://www.esblurock.info/dataset#BeginMatrixAfterSpecifiedIdentifier
 :BeginMatrixAfterSpecifiedIdentifier rdf:type owl:Class ;
                                      rdfs:subClassOf :MatrixBlockBeginClassification ;
-                                     rdfs:comment "Begin matrix after a specified identifier" ;
+                                     rdfs:comment "Starts with row after the first column has the specified identifier (whole string)" ;
                                      rdfs:label "Before After Identifier" .
 
 
 ###  http://www.esblurock.info/dataset#BeginMatrixAtSpecifiedIdentifier
 :BeginMatrixAtSpecifiedIdentifier rdf:type owl:Class ;
                                   rdfs:subClassOf :MatrixBlockBeginClassification ;
-                                  rdfs:comment "Begin matrix at specified identifier" ;
+                                  rdfs:comment "Starts with row in which the first column has the specified identifier (whole string)" ;
                                   rdfs:label "Begin at Identifier" .
 
 
 ###  http://www.esblurock.info/dataset#BeginMatrixAtSpecifiedRow
 :BeginMatrixAtSpecifiedRow rdf:type owl:Class ;
                            rdfs:subClassOf :MatrixBlockBeginClassification ;
-                           rdfs:comment "Begin matrix at specified row" ;
+                           rdfs:comment "Begin matrix at specified row number (numbering starting with 0)" ;
                            rdfs:label "Begin at position" .
+
+
+###  http://www.esblurock.info/dataset#BeginMatrixAtStartsWithSpecifiedIdentifier
+:BeginMatrixAtStartsWithSpecifiedIdentifier rdf:type owl:Class ;
+                                            rdfs:subClassOf :MatrixBlockBeginClassification ;
+                                            rdfs:comment "Find row in which the first column starts with the identifier characters"^^xsd:string ;
+                                            rdfs:label "starts with identifier"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#BeginMatrixTopOfSpreadSheet
@@ -1844,6 +1851,38 @@ xsd:date rdf:type rdfs:Datatype .
                                                           ] ;
                                           rdfs:comment "Isolate Block: begin row at position" ;
                                           rdfs:label "Begin at row position" .
+
+
+###  http://www.esblurock.info/dataset#ChemConnectIsolateBlockCustom
+:ChemConnectIsolateBlockCustom rdf:type owl:Class ;
+                               rdfs:subClassOf :ChemConnectIsolateBlockTypes ,
+                                               [ rdf:type owl:Restriction ;
+                                                 owl:onProperty :matrixBlockColumnBegin ;
+                                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                 owl:onClass :MatrixBlockColumnBeginLeft
+                                               ] ,
+                                               [ rdf:type owl:Restriction ;
+                                                 owl:onProperty :matrixBlockColumnEnd ;
+                                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                 owl:onClass :MatrixBlockColumnEndMaximum
+                                               ] ,
+                                               [ rdf:type owl:Restriction ;
+                                                 owl:onProperty :matrixBlockRowBegin ;
+                                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                 owl:onClass :BeginMatrixTopOfSpreadSheet
+                                               ] ,
+                                               [ rdf:type owl:Restriction ;
+                                                 owl:onProperty :matrixBlockRowEnd ;
+                                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                 owl:onClass :MatrixBlockEndAtFileEndOrBlankLine
+                                               ] ,
+                                               [ rdf:type owl:Restriction ;
+                                                 owl:onProperty :matrixBlockTitle ;
+                                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                 owl:onClass :MatrixBlockTitleFirstLine
+                                               ] ;
+                               rdfs:comment "Costumize Block Isolation"^^xsd:string ;
+                               rdfs:label "Custom"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#ChemConnectIsolateBlockFull
@@ -6587,6 +6626,13 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#MatrixBlockColumnEndMaximum
 :MatrixBlockColumnEndMaximum rdf:type owl:Class ;
                              rdfs:subClassOf :MatrixBlockColumnEndClassification .
+
+
+###  http://www.esblurock.info/dataset#MatrixBlockColumnEndNumberOfColumns
+:MatrixBlockColumnEndNumberOfColumns rdf:type owl:Class ;
+                                     rdfs:subClassOf :MatrixBlockColumnEndClassification ;
+                                     rdfs:comment "Number of Columns of the table (from start column)"^^xsd:string ;
+                                     rdfs:label "Number of Columns"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#MatrixBlockDefinition

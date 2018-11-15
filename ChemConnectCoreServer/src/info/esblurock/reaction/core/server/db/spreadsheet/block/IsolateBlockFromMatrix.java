@@ -39,7 +39,13 @@ public class IsolateBlockFromMatrix {
 		if(title) {
 			numberOfRows--;
 		}
-		
+		/*
+		System.out.println("blockisolate:\n " + blockisolate.toString());
+		System.out.println("begincolumn: " + begincolumn);
+		System.out.println("endcolumn:   " + endcolumn);
+		System.out.println("beginrow:    " + beginrow);
+		System.out.println("endrow:      " + endrow);
+		*/
 		
 		DatabaseObjectHierarchy infohier = InterpretData.SpreadSheetInputInformation.createEmptyObject(catid);
 		SpreadSheetInputInformation newinput = (SpreadSheetInputInformation) infohier.getObject();
@@ -59,14 +65,25 @@ public class IsolateBlockFromMatrix {
 		ArrayList<DatabaseObjectHierarchy> newvalues = newvalueshier.getSubobjects();
 		values.sort(new CompareObservationValueRowHierarchy());
 		newvalues.sort(new CompareObservationValueRowHierarchy());
+		DatabaseObjectHierarchy titleshier = newmatrixhier.getSubObject(newmatrix.getObservationValueRowTitle());
+		ObservationValueRowTitle titles = (ObservationValueRowTitle) titleshier.getObject();
 		if(title) {
-			DatabaseObjectHierarchy titleshier = newmatrixhier.getSubObject(newmatrix.getObservationValueRowTitle());
-			ObservationValueRowTitle titles = (ObservationValueRowTitle) titleshier.getObject();
-			DatabaseObjectHierarchy rowelementhier = values.get(0);
+			DatabaseObjectHierarchy rowelementhier = values.get(beginrow);
 			ObservationValueRow rowelement = (ObservationValueRow) rowelementhier.getObject();
-			ArrayList<String> rowvalues = new ArrayList<String>(rowelement.getRow());
+			ArrayList<String> rowvalues = new ArrayList<String>(numberOfColumns);
+			ArrayList<String> originalvalues = rowelement.getRow();
+			for(int i=begincolumn; i<=endcolumn;i++) {
+				rowvalues.add(originalvalues.get(i));
+			}
 			titles.setParameterLabel(rowvalues);
 			beginrow++;
+		} else {
+			ArrayList<String> rowvalues = new ArrayList<String>(numberOfColumns);
+			for(int i=0; i<numberOfColumns; i++) {
+				String coltitle = "col: " + i;
+				rowvalues.add(coltitle);
+			}
+			titles.setParameterLabel(rowvalues);
 		}
 
 		fillNewMatrix(beginrow, endrow, begincolumn, endcolumn,values,newvalues);
@@ -105,7 +122,17 @@ public class IsolateBlockFromMatrix {
 			endcolumn = row.getRow().size()-1;
 		} else if(endtype.compareTo(StandardDatasetMetaData.matrixBlockColumnEndAtPosition) == 0) {
 			try {
-				begincolumn = Integer.valueOf(endinfo).intValue();
+				endcolumn = Integer.valueOf(endinfo).intValue();
+			} catch(NumberFormatException ex) {
+				throw new IOException("Column begin position not a number: '" + endinfo + "'");
+			}			
+		} else if(endtype.compareTo(StandardDatasetMetaData.matrixBlockColumnEndNumberOfColumns) == 0) {
+			try {
+				int count = Integer.valueOf(endinfo).intValue();
+				endcolumn = begincolumn + count -1;
+				if(endcolumn > row.getRow().size()-1) {
+					endcolumn = row.getRow().size()-1;
+				}
 			} catch(NumberFormatException ex) {
 				throw new IOException("Column begin position not a number: '" + endinfo + "'");
 			}			
@@ -119,7 +146,7 @@ public class IsolateBlockFromMatrix {
 		String begininfo = blockisolate.getStartColumnInfo();
 		if(begintype.compareTo(StandardDatasetMetaData.matrixBlockColumnBeginLeft) == 0) {
 			begincolumn = 0;
-		} else if(begintype.compareTo(StandardDatasetMetaData.matrixBlockColumnAtPosition) == 0) {
+		} else if(begintype.compareTo(StandardDatasetMetaData.matrixBlockColumnBeginAtPosition) == 0) {
 			try {
 				begincolumn = Integer.valueOf(begininfo).intValue();
 			} catch(NumberFormatException ex) {
@@ -172,9 +199,9 @@ public class IsolateBlockFromMatrix {
 				endrow = multhier.getSubobjects().size()-1;
 			}
 		} else if(endtype.compareTo(StandardDatasetMetaData.matrixBlockEndAtIdentifierExclusive) == 0) {
-			endrow = findIdentifierInRows(0,endinfo,multhier)-1;
+			endrow = findIdentifierInRows(0,endinfo,multhier,false)-1;
 		} else if(endtype.compareTo(StandardDatasetMetaData.matrixBlockEndAtIdentifierInclusive) == 0) {
-			endrow = findIdentifierInRows(0,endinfo,multhier);
+			endrow = findIdentifierInRows(0,endinfo,multhier,false);
 		}
 		return endrow;
 	}
@@ -186,11 +213,13 @@ public class IsolateBlockFromMatrix {
 		}
 		int beginrow = 0;
 		if(begintype.compareTo(StandardDatasetMetaData.beginMatrixAfterSpecifiedIdentifier) == 0) {
-			beginrow = findIdentifierInRows(0,begininfo,multhier);
+			beginrow = findIdentifierInRows(0,begininfo,multhier,false);
 		} else if(begintype.compareTo(StandardDatasetMetaData.beginMatrixAtSpecified) == 0) {
 			beginrow = Integer.valueOf(begininfo).intValue();
 		} else if(begintype.compareTo(StandardDatasetMetaData.beginMatrixTopOfSpreadSheet) == 0) {
 			beginrow = 0;
+		} else if(begintype.compareTo(StandardDatasetMetaData.beginMatrixAtStartsWithSpecifiedIdentifier) == 0) {
+			beginrow = findIdentifierInRows(0,begininfo,multhier,true);			
 		}
 		return beginrow;
 	}
@@ -220,14 +249,14 @@ public class IsolateBlockFromMatrix {
 		int count = 0;
 		ArrayList<String> labels = row.getRow();
 		while(count < labels.size() && blank) {
-			if(labels.get(count).compareTo(",") != 0) {
+			if(labels.get(count).length() > 0) {
 				blank = false;
 			}
 			count++;
 		}
 		return blank;
 	}
-	private static int findIdentifierInRows(int start, String identifier, DatabaseObjectHierarchy multhier) throws IOException {
+	private static int findIdentifierInRows(int start, String identifier, DatabaseObjectHierarchy multhier, boolean startsWith) throws IOException {
 		boolean notfound = true;
 		int endrow = start;
 		ArrayList<DatabaseObjectHierarchy> lst = multhier.getSubobjects();
@@ -238,10 +267,18 @@ public class IsolateBlockFromMatrix {
 			ArrayList<String> rowvalues = row.getRow();
 				if(rowvalues.size() > 0) {
 				String rowS = rowvalues.get(0);
-				if(rowS.compareTo(identifier) == 0) {
-					notfound = false;
+				if(startsWith) {
+					if(rowS.startsWith(identifier)) {
+						notfound = false;
+					} else {
+						endrow++;
+					}				
 				} else {
-					endrow++;
+					if(rowS.compareTo(identifier) == 0) {
+						notfound = false;
+					} else {
+						endrow++;
+					}
 				}
 			} else {
 				endrow++;
