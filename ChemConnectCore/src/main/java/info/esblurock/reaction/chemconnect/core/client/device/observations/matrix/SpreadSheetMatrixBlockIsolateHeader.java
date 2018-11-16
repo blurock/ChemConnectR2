@@ -63,6 +63,8 @@ public class SpreadSheetMatrixBlockIsolateHeader extends Composite
 	@UiField
 	MaterialLink endcolumntext;
 	@UiField
+	MaterialLink titlechoose;
+	@UiField
 	MaterialTooltip originaltooltip;
 	@UiField
 	MaterialLink originalmatrix;
@@ -74,10 +76,12 @@ public class SpreadSheetMatrixBlockIsolateHeader extends Composite
 	boolean endrowB;
 	boolean startcolumnB;
 	boolean endcolumnB;
+	boolean titlesB;
 	ArrayList<String> startrowChoice;
 	ArrayList<String> endrowChoice;
 	ArrayList<String> startcolumnChoice;
 	ArrayList<String> endcolumnChoice;
+	ArrayList<String> titlesChoice;
 	
 	boolean readoriginalmatrix;
 	
@@ -101,14 +105,17 @@ public class SpreadSheetMatrixBlockIsolateHeader extends Composite
 		spread = (SpreadSheetBlockIsolation) item.getObject();
 		this.item = item;
 		observationsFromSpreadSheet = null;
+
 		startrow.setText(TextUtilities.removeNamespace(spread.getStartRowType()));
 		endrow.setText(TextUtilities.removeNamespace(spread.getEndRowType()));
 		startcolumn.setText(TextUtilities.removeNamespace(spread.getStartColumnType()));
 		endcolumn.setText(TextUtilities.removeNamespace(spread.getEndColumnType()));
+		titlechoose.setText(TextUtilities.removeNamespace(spread.getTitleIncluded()));
+
 		TextUtilities.setText(startrowtext, spread.getStartRowInfo(), noValue);
-		TextUtilities.setText(endrowtext, spread.getStartRowInfo(), noValue);
-		TextUtilities.setText(startcolumntext, spread.getStartRowInfo(), noValue);
-		TextUtilities.setText(endcolumntext, spread.getStartRowInfo(), noValue);
+		TextUtilities.setText(endrowtext, spread.getEndRowInfo(), noValue);
+		TextUtilities.setText(startcolumntext, spread.getStartColumnInfo(), noValue);
+		TextUtilities.setText(endcolumntext, spread.getEndColumnInfo(), noValue);
 	}
 	
 	void init() {
@@ -117,7 +124,8 @@ public class SpreadSheetMatrixBlockIsolateHeader extends Composite
 		startcolumnB = false;
 		endcolumnB = false;
 		originalmatrixB = false;
-		
+		titlesB = false;
+
 		noValue = "no identifier";
 		
 		startrowChoice = new ArrayList<String>();
@@ -128,6 +136,8 @@ public class SpreadSheetMatrixBlockIsolateHeader extends Composite
 		startcolumnChoice.add("dataset:MatrixBlockColumnBeginClassification");
 		endcolumnChoice = new ArrayList<String>();
 		endcolumnChoice.add("dataset:MatrixBlockColumnEndClassification");
+		titlesChoice = new ArrayList<String>();
+		titlesChoice.add("dataset:MatrixBlockTitleClassification");
 		
 		originaltooltip.setText("The reference matrix (the pattern on which to base the block)");
 		originalmatrix.setText("Choose Reference Matrix");
@@ -205,14 +215,23 @@ public class SpreadSheetMatrixBlockIsolateHeader extends Composite
 		choose.open();				
 	}
 	
+	@UiHandler("titlechoose")
+	public void onTitlesClick(ClickEvent event) {
+		titlesB = true;
+		ChooseFromConceptHierarchies choose = new ChooseFromConceptHierarchies(titlesChoice,this);
+		item.getModalpanel().clear();
+		item.getModalpanel().add(choose);
+		choose.open();				
+	}
+	
 	@UiHandler("originalmatrix")
 	public void originalmatrixClick(ClickEvent event) {
 		String datacatalog = MetaDataKeywords.dataFileMatrixStructure;
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		HierarchyNodeCallback callback = new HierarchyNodeCallback(this);
 		async.getIDHierarchyFromDataCatalogAndUser(datacatalog,callback);	
-		
 	}
+	
 	@Override
 	public void insertTree(HierarchyNode topnode) {
 		ChooseFromHierarchyNode choose = new ChooseFromHierarchyNode(MetaDataKeywords.dataFileMatrixStructure,
@@ -237,18 +256,21 @@ public class SpreadSheetMatrixBlockIsolateHeader extends Composite
 		} else if(endcolumnB) {
 			spread.setEndColumnType(concept);
 			endcolumn.setText(TextUtilities.removeNamespace(concept));			
+		}  else if(titlesB) {
+			spread.setTitleIncluded(concept);
+			titlechoose.setText(TextUtilities.removeNamespace(concept));			
 		} else if(originalmatrixB) {
 			UserImageServiceAsync async = UserImageService.Util.getInstance();
 			SubCatagoryHierarchyCallback callback = new SubCatagoryHierarchyCallback(this);
 			readoriginalmatrix = true;
 			async.getCatalogObject(concept,MetaDataKeywords.observationsFromSpreadSheetFull,callback);
-			
 		}
 		startrowB = false;
 		endrowB = false;
 		startcolumnB = false;
 		endcolumnB = false;
 		originalmatrixB = false;
+		titlesB = false;
 	}
 
 	@Override

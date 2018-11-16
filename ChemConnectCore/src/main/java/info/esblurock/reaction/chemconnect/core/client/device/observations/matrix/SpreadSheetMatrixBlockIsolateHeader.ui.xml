@@ -52,6 +52,12 @@
 				</m:MaterialColumn>
 			</m:MaterialRow>
 			<m:MaterialRow margin="0">
+				<m:MaterialColumn grid="s12" styleName="{style.rowbox}">
+					<m:MaterialLink ui:field="titlechoose" textColor="BLACK"
+						text="Choose Title" />
+				</m:MaterialColumn>
+			</m:MaterialRow>
+			<m:MaterialRow margin="0">
 				<m:MaterialColumn grid="s6" styleName="{style.rowbox}">
 				<m:MaterialTooltip ui:field="originaltooltip">
 					<m:MaterialLink ui:field="originalmatrix" textColor="BLACK"
