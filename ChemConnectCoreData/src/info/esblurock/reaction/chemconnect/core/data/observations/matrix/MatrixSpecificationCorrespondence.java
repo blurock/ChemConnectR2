@@ -10,6 +10,8 @@ import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDat
 public class MatrixSpecificationCorrespondence extends ChemConnectCompoundDataStructure {
 	
 	@Index
+	int columnNumber;
+	@Index
 	String matrixColumn;
 	@Index
 	String specificationLabel;
@@ -46,6 +48,14 @@ public class MatrixSpecificationCorrespondence extends ChemConnectCompoundDataSt
 	public void setIncludesUncertaintyParameter(boolean includesUncertaintyParameter) {
 		this.includesUncertaintyParameter = includesUncertaintyParameter;
 	}
+	
+	
+	public int getColumnNumber() {
+		return columnNumber;
+	}
+	public void setColumnNumber(int columnNumber) {
+		this.columnNumber = columnNumber;
+	}
 	public String toString() {
 		return toString("");
 	}
@@ -55,9 +65,13 @@ public class MatrixSpecificationCorrespondence extends ChemConnectCompoundDataSt
 		build.append(super.toString(prefix));
 		build.append(prefix);
 		build.append("(");
+		build.append(columnNumber + ": ");
 		build.append(matrixColumn);
 		build.append(", ");
 		build.append(specificationLabel);
+		if(includesUncertaintyParameter) {
+			build.append(", with uncertainty");
+		}
 		build.append(")\n");
 		return build.toString();
 	}

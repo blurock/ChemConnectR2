@@ -68,6 +68,7 @@ import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFr
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.dataset.SingleObservationDataset;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationRowUnits;
+import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ValueParameterComponents;
 
 public enum InterpretData {
 
@@ -745,20 +746,19 @@ public enum InterpretData {
 			obsobj.setIdentifier(obsid);
 
 			SingleObservationDataset single = null;
-			DatabaseObjectHierarchy titleshier = InterpretData.ObservationValueRowTitle.createEmptyObject(obsobj);
-			DatabaseObjectHierarchy unitshier = InterpretData.ObservationRowUnits.createEmptyObject(obsobj);
-			DatabaseObjectHierarchy valueshier = InterpretData.ObservationValueRow.createEmptyObject(obsobj);
+			DatabaseObjectHierarchy comphier = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(obsobj);
+			setChemConnectCompoundMultipleType(comphier,StandardDatasetMetaData.valueParameterComponents);
+			DatabaseObjectHierarchy valueshier = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(obsobj);
+			setChemConnectCompoundMultipleType(valueshier,StandardDatasetMetaData.observationValueRow);
 			DatabaseObjectHierarchy structurehier = InterpretData.ChemConnectDataStructure.createEmptyObject(obsobj);
 			ChemConnectDataStructure structure = (ChemConnectDataStructure) structurehier.getObject();
 			
 			single = new SingleObservationDataset(structure,
-					titleshier.getObject().getIdentifier(),
-					unitshier.getObject().getIdentifier(),
+					comphier.getObject().getIdentifier(),
 					valueshier.getObject().getIdentifier()
 					);
 			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(single);
-			hierarchy.addSubobject(titleshier);
-			hierarchy.addSubobject(unitshier);
+			hierarchy.addSubobject(comphier);
 			hierarchy.addSubobject(valueshier);
 			hierarchy.transferSubObjects(structurehier);
 			return hierarchy;
@@ -771,11 +771,10 @@ public enum InterpretData {
 			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
 			ChemConnectDataStructure objdata = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
 					
-			String observationValueRowTitleID = (String) yaml.get(StandardDatasetMetaData.observationValueRowTitleID);			
-			String observationRowUnitsID = (String) yaml.get(StandardDatasetMetaData.observationRowUnitsID);			
+			String valueParameterComponentsID = (String) yaml.get(StandardDatasetMetaData.valueParameterComponentsID);			
 			String observationValueRowID = (String) yaml.get(StandardDatasetMetaData.observationValueRowID);			
 
-			set = new SingleObservationDataset(objdata, observationValueRowTitleID,observationRowUnitsID,observationValueRowID);
+			set = new SingleObservationDataset(objdata, valueParameterComponentsID,observationValueRowID);
 			return set;
 		}
 
@@ -785,9 +784,8 @@ public enum InterpretData {
 			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
-			map.put(StandardDatasetMetaData.observationValueRowTitleID, datastructure.getObservationValueRowTitle());
-			map.put(StandardDatasetMetaData.observationRowUnitsID, datastructure.getChemConnectRowUnit());
-			map.put(StandardDatasetMetaData.observationSpecificationID, datastructure.getObservationValueRowTitle());
+			map.put(StandardDatasetMetaData.valueParameterComponentsID, datastructure.getParameterValueComponents());
+			map.put(StandardDatasetMetaData.observationValueRowID, datastructure.getObservationValueRows());
 			
 			return map;
 		}
@@ -1858,6 +1856,69 @@ public enum InterpretData {
 		@Override
 		public String canonicalClassName() {
 			return ObservationMatrixValues.class.getCanonicalName();
+		}
+		
+	}, ValueParameterComponents {
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
+				DatabaseObject valcomp = new DatabaseObject(obj);
+				valcomp.nullKey();
+				DataElementInformation element = DatasetOntologyParsing
+						.getSubElementStructureFromIDObject(StandardDatasetMetaData.valueParameterComponents);
+				String valid = createSuffix(obj, element);
+				valcomp.setIdentifier(valid);
+				String parameterLabel = "label";
+				String unitOfValue = "unit";
+				boolean isUncertaintyValue = false;
+				DatabaseObjectHierarchy comphier =  
+						InterpretData.ChemConnectCompoundDataStructure.createEmptyObject(obj);
+				ChemConnectCompoundDataStructure structure = (ChemConnectCompoundDataStructure) comphier.getObject();
+				ValueParameterComponents components = new ValueParameterComponents(structure,
+						parameterLabel, unitOfValue, isUncertaintyValue);
+				components.setIdentifier(valid);
+				DatabaseObjectHierarchy hier = new DatabaseObjectHierarchy(components);
+				hier.transferSubObjects(comphier);				
+				return hier;
+		}
+
+		@Override
+		public info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject fillFromYamlString(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject top, Map<String, Object> yaml,
+				String sourceID) throws IOException {
+			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
+			ChemConnectCompoundDataStructure compound = (ChemConnectCompoundDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
+			String parameterLabel = (String) yaml.get(StandardDatasetMetaData.parameterLabelS);
+			String unitsOfValue = (String) yaml.get(StandardDatasetMetaData.unitsOfValueS);
+			String isUncertainty = (String) yaml.get(StandardDatasetMetaData.includesUncertaintyParameter);
+			boolean isUncertaintyB = Boolean.valueOf(isUncertainty);
+			ValueParameterComponents components = new ValueParameterComponents(compound,parameterLabel, unitsOfValue,isUncertaintyB);
+			return components;
+		}
+
+		@Override
+		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
+			ValueParameterComponents components = (ValueParameterComponents) object;
+
+			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
+			Map<String, Object> map = interpret.createYamlFromObject(object);
+
+			map.put(StandardDatasetMetaData.parameterLabelS, components.getParameterLabel());
+			map.put(StandardDatasetMetaData.unitsOfValueS, components.getUnitsOfValue());
+			boolean isUncertainty = components.isUncertaintyValue();
+			map.put(StandardDatasetMetaData.includesUncertaintyParameter, String.valueOf(isUncertainty));
+			
+			return map;
+		}
+
+		@Override
+		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(ValueParameterComponents.class.getCanonicalName(), identifier);
+		}
+
+		@Override
+		public String canonicalClassName() {
+			return ValueParameterComponents.class.getCanonicalName();
 		}
 		
 	}, ObservationBlockFromSpreadSheet {
@@ -3077,7 +3138,6 @@ public enum InterpretData {
 		@Override
 		public DatabaseObjectHierarchy createEmptyObject(
 				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
-			// TODO Auto-generated method stub
 			return null;
 		}
 		

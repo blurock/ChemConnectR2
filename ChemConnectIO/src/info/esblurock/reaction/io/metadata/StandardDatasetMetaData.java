@@ -42,6 +42,7 @@ public class StandardDatasetMetaData {
 	public static String matrixSpecificationCorrespondenceSetID = "dataset:matrixcorr";
 	public static String matrixSpecificationCorrespondenceSet = "dataset:MatrixSpecificationCorrespondenceSet";
 	public static String observationMatrixValues = "dataset:ObservationMatrixValues";
+	public static String valueParameterComponents = "dataset:ValueParameterComponents";
 	public static String observationMatrixValuesID = "dataset:matrix";
 	public static String observationSpecificationID = "dataset:ObservationSpecs";
 	public static String matrixBlockDefinitionID = "qb:sliceStructure";
@@ -52,6 +53,7 @@ public class StandardDatasetMetaData {
 	public static String matrixColumn = "dataset:matrixColumn";
 	public static String observationValueRowTitleID = "qb:SliceKey";
 	public static String observationRowUnitsID = "dataset:ObservationRowUnits";
+	public static String valueParameterComponentsID = "dataset:ValueParameterComponents";
 	public static String observationValueRowID = "qb:Slice";
 	public static String observationValueRowTitle = "dataset:ObservationValueRowTitle";
 	public static String observationRowUnits = "dataset:ObservationRowUnits";

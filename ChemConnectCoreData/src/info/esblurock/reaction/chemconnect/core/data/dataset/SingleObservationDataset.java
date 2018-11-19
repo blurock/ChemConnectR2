@@ -10,9 +10,7 @@ import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructu
 public class SingleObservationDataset extends ChemConnectDataStructure {
 
 	@Index
-	String chemConnectRowUnit;
-	@Index
-	String observationValueRowTitle;
+	String parameterValueComponents;
 	@Index
 	String observationValueRows;
 
@@ -26,36 +24,25 @@ public class SingleObservationDataset extends ChemConnectDataStructure {
 	}
 	
 	public SingleObservationDataset(ChemConnectDataStructure structure, 
-			String observationValueRowTitle, String chemConnectRowUnit, String observationValueRows) {
+			String parameterValueComponents, String observationValueRows) {
 		super(structure);
 		init();
-		this.chemConnectRowUnit = chemConnectRowUnit;
-		this.observationValueRowTitle = observationValueRowTitle;
+		this.parameterValueComponents = parameterValueComponents;
 		this.observationValueRows = observationValueRows;
-		init();
 	}
 	
 	public void init() {
-		this.chemConnectRowUnit = null;
-		this.observationValueRowTitle = null;
+		this.parameterValueComponents = null;
 		this.observationValueRows = null;
 	}
 	
 
-	public String getChemConnectRowUnit() {
-		return chemConnectRowUnit;
+	public String getParameterValueComponents() {
+		return parameterValueComponents;
 	}
 
-	public void setChemConnectRowUnit(String chemConnectRowUnit) {
-		this.chemConnectRowUnit = chemConnectRowUnit;
-	}
-
-	public String getObservationValueRowTitle() {
-		return observationValueRowTitle;
-	}
-
-	public void setObservationValueRowTitle(String observationValueRowTitle) {
-		this.observationValueRowTitle = observationValueRowTitle;
+	public void setParameterValueComponents(String parameterValueComponents) {
+		this.parameterValueComponents = parameterValueComponents;
 	}
 
 	public String getObservationValueRows() {
@@ -72,9 +59,8 @@ public class SingleObservationDataset extends ChemConnectDataStructure {
 	public String toString(String prefix) {
 		StringBuilder build = new StringBuilder();
 		build.append(super.toString(prefix));
-		build.append(prefix + "Units    : " + chemConnectRowUnit + "\n");
-		build.append(prefix + "Titles   : " + observationValueRowTitle + "\n");
-		build.append(prefix + "ValueRows: " + observationValueRows + "\n");
+		build.append(prefix + "Components: " + parameterValueComponents + "\n");
+		build.append(prefix + "ValueRows : " + observationValueRows + "\n");
 		return build.toString();
 	}
 

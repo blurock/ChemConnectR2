@@ -38,12 +38,12 @@ public class ObservationRowUnits extends ChemConnectCompoundDataStructure {
 		build.append(super.toString(prefix));
 		build.append(prefix + ": ");
 		if (units != null) {
-			build.append(units.size() + "  Titles: ");
+			build.append(units.size() + "  Units: ");
 			for (String cell : units) {
 				build.append("'" + cell + "' \t");
 			}
 		} else {
-			build.append(" no titles");
+			build.append(" no units");
 		}
 		build.append("\n");
 		return build.toString();

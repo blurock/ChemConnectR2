@@ -2337,7 +2337,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                                         [ rdf:type owl:Restriction ;
                                                           owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                          owl:onClass :ObservationsFromSpreadSheet
+                                                          owl:onClass :ObservationBlockFromSpreadSheet
                                                         ] .
 
 
@@ -7169,7 +7169,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                                         [ rdf:type owl:Restriction ;
                                                           owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                          owl:onClass :ConceptLinkReferenceMatrixIsolatedBlock
+                                                          owl:onClass :ConceptLinkBlockIsolation
                                                         ] ,
                                                         [ rdf:type owl:Restriction ;
                                                           owl:onProperty <http://www.w3.org/ns/dcat#record> ;
@@ -8477,6 +8477,10 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                             owl:someValuesFrom :ObservationValueRow
                                           ] ,
                                           [ rdf:type owl:Restriction ;
+                                            owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                            owl:someValuesFrom :ValueParameterComponents
+                                          ] ,
+                                          [ rdf:type owl:Restriction ;
                                             owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                             owl:onClass :ConceptLinkCorrespondenceSpecification
@@ -8485,16 +8489,6 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                             owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                             owl:onClass :ConceptLinkObservationMatrix
-                                          ] ,
-                                          [ rdf:type owl:Restriction ;
-                                            owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                            owl:onClass :ObservationRowUnits
-                                          ] ,
-                                          [ rdf:type owl:Restriction ;
-                                            owl:onProperty <http://www.w3.org/ns/dcat#record> ;
-                                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                            owl:onClass :ObservationValueRowTitle
                                           ] ;
                           <http://purl.org/dc/elements/1.1/type> "SingleObservationDataset" ;
                           <http://purl.org/dc/terms/identifier> "dataset:SingleObservationDataset" ;
@@ -9331,6 +9325,30 @@ Under the general type of is the actual data object referenced by the ChemConnec
                <http://www.w3.org/2004/02/skos/core#altLabel> "str"^^xsd:string .
 
 
+###  http://www.esblurock.info/dataset#ValueParameterComponents
+:ValueParameterComponents rdf:type owl:Class ;
+                          rdfs:subClassOf :ChemConnectCompoundDataStructure ,
+                                          [ rdf:type owl:Restriction ;
+                                            owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                            owl:onClass :ParameterLabel
+                                          ] ,
+                                          [ rdf:type owl:Restriction ;
+                                            owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                            owl:onClass :UnitsOfValue
+                                          ] ,
+                                          [ rdf:type owl:Restriction ;
+                                            owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                            owl:onClass :isUncertaintyValue
+                                          ] ;
+                          <http://purl.org/dc/elements/1.1/type> "ValueParameterComponents"^^xsd:string ;
+                          <http://purl.org/dc/terms/identifier> "dataset:ValueParameterComponents"^^xsd:string ;
+                          rdfs:label "Value Parameter Components"^^xsd:string ;
+                          <http://www.w3.org/2004/02/skos/core#altLabel> "paramcomponents"^^xsd:string .
+
+
 ###  http://www.esblurock.info/dataset#ValueUncertainty
 :ValueUncertainty rdf:type owl:Class ;
                   rdfs:subClassOf :ShortStringLabel ;
@@ -9424,6 +9442,14 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#givenName
 :givenName rdf:type owl:Class ;
            rdfs:subClassOf :ShortStringLabel .
+
+
+###  http://www.esblurock.info/dataset#isUncertaintyValue
+:isUncertaintyValue rdf:type owl:Class ;
+                    rdfs:subClassOf :Classification ;
+                    <http://purl.org/dc/elements/1.1/type> "Boolean"^^xsd:string ,
+                                                           "dataset:IsUncertaintyValue"^^xsd:string ;
+                    <http://www.w3.org/2004/02/skos/core#altLabel> "isUncertainty"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#username

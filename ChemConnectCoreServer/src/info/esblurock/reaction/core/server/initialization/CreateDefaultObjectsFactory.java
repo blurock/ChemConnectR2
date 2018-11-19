@@ -2,7 +2,9 @@ package info.esblurock.reaction.core.server.initialization;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -22,12 +24,14 @@ import info.esblurock.reaction.chemconnect.core.data.contact.Organization;
 import info.esblurock.reaction.chemconnect.core.data.contact.OrganizationDescription;
 import info.esblurock.reaction.chemconnect.core.data.contact.PersonalDescription;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.CompoundDataStructureInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
 import info.esblurock.reaction.core.server.db.InterpretData;
 import info.esblurock.reaction.core.server.db.ReadWriteDatabaseCatalog;
 import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
+import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.db.spreadsheet.block.IsolateBlockFromMatrix;
 import info.esblurock.reaction.io.db.QueryBase;
 import info.esblurock.reaction.io.metadata.StandardDatasetMetaData;
@@ -55,8 +59,10 @@ import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInp
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.MatrixSpecificationCorrespondence;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.MatrixSpecificationCorrespondenceSet;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationMatrixValues;
+import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationRowUnits;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRowTitle;
+import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ValueParameterComponents;
 import info.esblurock.reaction.ontology.OntologyKeys;
 import info.esblurock.reaction.ontology.dataset.ConceptParsing;
 import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
@@ -350,7 +356,8 @@ public class CreateDefaultObjectsFactory {
 		return hierarchy;
 	}
 
-	public static DatabaseObjectHierarchy fillSingleObservationDataset(DatabaseObject obj, String observationS,
+	public static DatabaseObjectHierarchy fillSingleObservationDataset(DatabaseObject obj, 
+			String observationS,
 			String correspondenceSpecification,
 			String observationMatrix,
 			DataCatalogID catid) throws IOException {
@@ -368,20 +375,124 @@ public class CreateDefaultObjectsFactory {
 				observationMatrix);
 		multilnk.setNumberOfElements(numlinks+1);
 		
-		DatabaseObjectHierarchy corrshierarchy = ReadWriteDatabaseCatalog.getCatalogObject(correspondenceSpecification, 
-				MetaDataKeywords.observationCorrespondenceSpecification);
+		DatabaseObjectHierarchy corrshierarchy = ExtractCatalogInformation.getCatalogObject(correspondenceSpecification, 
+				MetaDataKeywords.observationCorrespondenceSpecification );
+		System.out.println(corrshierarchy.toString("corrshierarchy: "));
 		ObservationCorrespondenceSpecification corrspec = (ObservationCorrespondenceSpecification) corrshierarchy.getObject();
-		DatabaseObjectHierarchy observationhierarchy = ReadWriteDatabaseCatalog.getCatalogObject(observationMatrix,
+
+		DatabaseObjectHierarchy observationhierarchy = ExtractCatalogInformation.getCatalogObject(observationMatrix,
 				MetaDataKeywords.observationsFromSpreadSheetFull);
-		ObservationsFromSpreadSheetFull sheet = (ObservationsFromSpreadSheetFull) observationhierarchy.getObject();
 		
-		SpreadSheetBlockIsolation blockisolate = null;
-		
+		ObservationCorrespondenceSpecification obsspec = (ObservationCorrespondenceSpecification) corrshierarchy.getObject();
+		String links = obsspec.getChemConnectObjectLink();
+		DatabaseObjectHierarchy speclinks = corrshierarchy.getSubObject(links);
+		String isolateID = findDataObjectLink(speclinks,MetaDataKeywords.conceptLinkBlockIsolation);
+		DatabaseObjectHierarchy isolatehierarchy = ExtractCatalogInformation.getCatalogObject(isolateID,
+				MetaDataKeywords.spreadSheetBlockIsolation);
+		SpreadSheetBlockIsolation blockisolate = (SpreadSheetBlockIsolation) isolatehierarchy.getObject();		
 		DatabaseObjectHierarchy obs = IsolateBlockFromMatrix.isolateFromMatrix(catid, observationhierarchy, blockisolate);
+		ObservationsFromSpreadSheetFull matrix = (ObservationsFromSpreadSheetFull) obs.getObject();
 		
+		DatabaseObjectHierarchy singlevalueshier = hierarchy.getSubObject(single.getObservationValueRows());
+		ChemConnectCompoundMultiple singlevaluesmultiple = (ChemConnectCompoundMultiple) singlevalueshier.getObject();
+		DatabaseObjectHierarchy isolatedvalues = obs.getSubObject(matrix.getObservationMatrixValues());
+		ArrayList<DatabaseObjectHierarchy> valueset = isolatedvalues.getSubobjects();
+		singlevaluesmultiple.setNumberOfElements(valueset.size());
+		for(DatabaseObjectHierarchy valuehier : valueset) {
+			singlevalueshier.addSubobject(valuehier);
+		}
+		
+		DatabaseObjectHierarchy specsethier = corrshierarchy.getSubObject(corrspec.getMatrixSpecificationCorrespondenceSet());
+		MatrixSpecificationCorrespondenceSet specset = (MatrixSpecificationCorrespondenceSet) specsethier.getObject();
+		
+		DatabaseObjectHierarchy multiplespec = specsethier.getSubObject(specset.getMatrixSpecificationCorrespondence());
+		ArrayList<DatabaseObjectHierarchy> spechierset = multiplespec.getSubobjects();
+		ArrayList<String> titles = new ArrayList<String>();
+		ArrayList<String> uncertain = new ArrayList<String>();
+		
+		spechierset.sort(new Comparator<DatabaseObjectHierarchy>() {
+
+			@Override
+			public int compare(DatabaseObjectHierarchy o1, DatabaseObjectHierarchy o2) {
+				MatrixSpecificationCorrespondence spec1 = (MatrixSpecificationCorrespondence) o1.getObject();
+				MatrixSpecificationCorrespondence spec2 = (MatrixSpecificationCorrespondence) o2.getObject();
+				return spec1.getColumnNumber() - spec2.getColumnNumber();
+			}
+		});
+		for(DatabaseObjectHierarchy spechier : spechierset) {
+			MatrixSpecificationCorrespondence spec = (MatrixSpecificationCorrespondence) spechier.getObject();
+			titles.add(spec.getSpecificationLabel());
+			uncertain.add(String.valueOf(spec.isIncludesUncertaintyParameter()));
+		}
+		
+		DatabaseObjectHierarchy obsspechier = corrshierarchy.getSubObject(corrspec.getObservationSpecification());
+		ObservationSpecification spec = (ObservationSpecification) obsspechier.getObject();
+		DatabaseObjectHierarchy dimensionspec = obsspechier.getSubObject(spec.getDimensionSpecifications());
+		DatabaseObjectHierarchy measurespec = obsspechier.getSubObject(spec.getMeasureSpecifications());
+		
+		DatabaseObjectHierarchy compmulthier = hierarchy.getSubObject(single.getParameterValueComponents());
+		ChemConnectCompoundMultiple compmult = (ChemConnectCompoundMultiple) compmulthier.getObject();
+		
+		setInParameterValueComponents(dimensionspec,titles,uncertain,compmult,compmulthier);
+		setInParameterValueComponents(measurespec,titles,uncertain,compmult,compmulthier);
+		compmult.setNumberOfElements(titles.size());
 		
 		return hierarchy;
 	}
+	
+	public static void setInParameterValueComponents(
+			DatabaseObjectHierarchy spec,
+			ArrayList<String> titles, ArrayList<String> uncertain,
+			ChemConnectCompoundMultiple compmult, DatabaseObjectHierarchy compmulthier) {
+		int count = 0;
+		Iterator<String> iter = uncertain.iterator();
+		for(String col : titles) {
+			ParameterSpecification pspec = findParameterSpecification(spec,col);
+			String uncertainS = iter.next();
+			if(pspec != null) {
+				DatabaseObjectHierarchy comphier = InterpretData.ValueParameterComponents.createEmptyObject(compmult);
+				ValueParameterComponents components = (ValueParameterComponents) comphier.getObject();
+				String id = components.getIdentifier();
+				String compid = id + "-" + ChemConnectCompoundDataStructure.removeNamespace(col)+"-"+count;
+				components.setIdentifier(compid);
+				components.setParameterLabel(col);
+				components.setUnitsOfValue(pspec.getUnits());
+				boolean uncertainB = Boolean.valueOf(uncertainS);
+				components.setUncertaintyValue(uncertainB);
+				compmulthier.addSubobject(comphier);
+			}
+			count++;
+		}
+
+	}
+	
+	public static ParameterSpecification findParameterSpecification(DatabaseObjectHierarchy specs, String id) {
+		ParameterSpecification parameterspec = null;
+		Iterator<DatabaseObjectHierarchy> iter = specs.getSubobjects().iterator();
+		while(iter.hasNext() && parameterspec == null) {
+			DatabaseObjectHierarchy spechier = iter.next();
+			ParameterSpecification spec = (ParameterSpecification) spechier.getObject();
+			if(id.compareTo(spec.getParameterLabel()) == 0) {
+				parameterspec = spec;
+			}
+		}
+		return parameterspec;
+		
+	}
+	
+	public static String findDataObjectLink(DatabaseObjectHierarchy links, String id) {
+		String datalink = null;
+		Iterator<DatabaseObjectHierarchy> iter = links.getSubobjects().iterator();
+		while(iter.hasNext() && datalink == null) {
+			DatabaseObjectHierarchy linkhier = iter.next();
+			DataObjectLink link = (DataObjectLink) linkhier.getObject();
+			if(id.compareTo(link.getLinkConcept()) == 0) {
+				datalink = link.getDataStructure();
+			}
+		}
+		return datalink;
+	}
+	
 	
 	public static int linkStructure(DatabaseObject obj,DatabaseObjectHierarchy multihierarchy, 
 			int numlinks, String linkconcept, String id) {
@@ -825,10 +936,14 @@ public class CreateDefaultObjectsFactory {
 		DatabaseObject corrobj = new DatabaseObject(multiple);
 		int count = 0;
 		for(String coltitle : coltitles) {
+			System.out.println("fillMatrixSpecificationCorrespondence: " + count + ": "+ coltitle);
+			
+			
 			DatabaseObjectHierarchy corrhier = InterpretData.MatrixSpecificationCorrespondence.createEmptyObject(corrobj);
 			MatrixSpecificationCorrespondence corr = (MatrixSpecificationCorrespondence) corrhier.getObject();
 			String corrid = multiple.getIdentifier() + "-" + count + "-" + coltitle;
 			corr.setIdentifier(corrid);
+			corr.setColumnNumber(count);
 			corr.setMatrixColumn(coltitle);
 			corr.setSpecificationLabel(MetaDataKeywords.undefined);
 			colcorrhier.addSubobject(corrhier);
@@ -841,9 +956,9 @@ public class CreateDefaultObjectsFactory {
 	public static void fillMatrixSpecificationCorrespondence(DatabaseObjectHierarchy colcorrhier,
 			DatabaseObjectHierarchy measure,
 			DatabaseObjectHierarchy dimension) {
-		int count = addMatrixSpecificationCorrespondence(0,colcorrhier,dimension);
-		addMatrixSpecificationCorrespondence(count,colcorrhier,measure);
+		int count = addMatrixSpecificationCorrespondence(0,colcorrhier,measure);
 		addMatrixSpecificationCorrespondence(count,colcorrhier,dimension);
+		//addMatrixSpecificationCorrespondence(count,colcorrhier,dimension);
 	}
 	
 	public static int addMatrixSpecificationCorrespondence(int count,
@@ -857,13 +972,15 @@ public class CreateDefaultObjectsFactory {
 			ParameterSpecification pspec = (ParameterSpecification) hier.getObject();
 			String name = pspec.getParameterLabel();
 			
-			DatabaseObject corrobj = new DatabaseObject(multiple);
+			//DatabaseObject corrobj = new DatabaseObject(multiple);
 			int pos = name.indexOf(":");
 			String corrid = multiple.getIdentifier() + "-" + name.substring(pos+1);
-			corrobj.setIdentifier(corrid);
+			//corrobj.setIdentifier(corrid);
 			
-			DatabaseObjectHierarchy corrhier = InterpretData.MatrixSpecificationCorrespondence.createEmptyObject(corrobj);
+			DatabaseObjectHierarchy corrhier = InterpretData.MatrixSpecificationCorrespondence.createEmptyObject(colcorrhier.getObject());
 			MatrixSpecificationCorrespondence corr = (MatrixSpecificationCorrespondence) corrhier.getObject();
+			corr.setIdentifier(corrid);
+			corr.setColumnNumber(count);
 			corr.setMatrixColumn(String.valueOf(count));
 			corr.setSpecificationLabel(name);
 			colcorrhier.addSubobject(corrhier);
