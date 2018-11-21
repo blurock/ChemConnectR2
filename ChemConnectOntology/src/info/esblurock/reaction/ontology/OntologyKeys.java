@@ -32,9 +32,11 @@ public class OntologyKeys {
 	public static String author = "dataset:Author";
 	public static String subSystemDescription = "dataset:SubSystemDescription";
 	public static String observationCorrespondenceSpecification = "dataset:ObservationCorrespondenceSpecification";
+	public static String singleObservationDataset = "dataset:SingleObservationDataset";
 	public static String contactHasSite = "dataset:ContactHasSite";
 	public static String contactTopSite = "dataset:ContactSiteOf";
 	public static String protocol = "dataset:ChemConnectProtocol";
+	public static String observationDatasetFromProtocol = "dataset:ObservationDatasetFromProtocol";
 	public static String datacatalogid = "dataset:DataCatalogID";
 	public static String useraccountid = "dataset:UserAccountID";
 	public static String useraccount = "prov:SoftwareAgent";

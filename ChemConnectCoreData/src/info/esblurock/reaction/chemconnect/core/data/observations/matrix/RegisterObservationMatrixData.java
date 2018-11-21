@@ -11,6 +11,7 @@ public class RegisterObservationMatrixData {
 		ObjectifyService.register(ObservationValueRow.class);
 		ObjectifyService.register(ObservationValueRowTitle.class);
 		ObjectifyService.register(ObservationMatrixValues.class);
+		ObjectifyService.register(ValueParameterComponents.class);
 	}
 	
 	public static void reset() {
@@ -19,5 +20,6 @@ public class RegisterObservationMatrixData {
 		ResetDatabaseObjects.resetClass(ObservationValueRow.class);
 		ResetDatabaseObjects.resetClass(ObservationValueRowTitle.class);
 		ResetDatabaseObjects.resetClass(ObservationMatrixValues.class);
+		ResetDatabaseObjects.resetClass(ValueParameterComponents.class);
 	}
 }

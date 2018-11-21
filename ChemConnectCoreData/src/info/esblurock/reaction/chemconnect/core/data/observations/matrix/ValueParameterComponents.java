@@ -11,16 +11,20 @@ import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDat
 public class ValueParameterComponents  extends ChemConnectCompoundDataStructure {
 
 	@Index
+	int position;
+	@Index
 	String parameterLabel;
 	@Index
 	String unitsOfValue;
 	@Index
 	boolean isUncertaintyValue;
-	public ValueParameterComponents(ChemConnectCompoundDataStructure structure, String parameterLabel, String unitsOfValue, boolean isUncertaintyValue) {
+	
+	public ValueParameterComponents(ChemConnectCompoundDataStructure structure, int position, String parameterLabel, String unitsOfValue, boolean isUncertaintyValue) {
 		super(structure);
 		this.parameterLabel = parameterLabel;
 		this.unitsOfValue = unitsOfValue;
 		this.isUncertaintyValue = isUncertaintyValue;
+		this.position = position;
 	}
 	public String getParameterLabel() {
 		return parameterLabel;
@@ -40,15 +44,28 @@ public class ValueParameterComponents  extends ChemConnectCompoundDataStructure 
 	public void setUncertaintyValue(boolean isUncertaintyValue) {
 		this.isUncertaintyValue = isUncertaintyValue;
 	}
+	
+	public int getPosition() {
+		return position;
+	}
+	public void setPostion(int postion) {
+		this.position = postion;
+	}
 	public String toString() {
 		return toString("");
 	}
 	public String toString(String prefix) {
 		StringBuilder build = new StringBuilder();
 		build.append(super.toString(prefix));
-		build.append(prefix + "Parameter Label    : " + parameterLabel + "\n");
-		build.append(prefix + "Units              : " + unitsOfValue + "\n");
-		build.append(prefix + "isUncertaintyValue : " + isUncertaintyValue + "\n");
+		build.append(prefix + position + ": ");
+		build.append(parameterLabel);
+		build.append(" (" + unitsOfValue + ")");
+		if(isUncertaintyValue) {
+			build.append(" uncertainty");
+		} else {
+			build.append(" value");
+		}
+		build.append("\n");
 		return build.toString();
 	}
 	

@@ -34,6 +34,8 @@ public class MetaDataKeywords {
 	public static String conceptLinkConsortium = "dataset:ConceptLinkConsortium";
 	public static String conceptLinkProtocol = "dataset:ConceptLinkProtocol";
 	public static String conceptLinkCorrespondenceSpecification = "dataset:ConceptLinkCorrespondenceSpecification";
+	public static String conceptLinkCorrespondenceSpecificationInput = "dataset:ConceptLinkCorrespondenceSpecificationInput";
+	public static String conceptLinkCorrespondenceSpecificationOutput = "dataset:ConceptLinkCorrespondenceSpecificationOutput";
 	public static String conceptLinkSubsystems = "dataset:ConceptLinkSubsystems";
 	public static String conceptLinkObservationMatrix = "dataset:ConceptLinkObservationMatrix";
 	public static String conceptLinkObservationsFromSpreadSheet = "dataset:ConceptLinkObservationsFromSpreadSheet";
@@ -69,11 +71,15 @@ public class MetaDataKeywords {
 	public static String subSystemDescription = "dataset:SubSystemDescription";
 	public static String dataTypeProtocol = "dataset:DataTypeProtocol";
 	public static String protocol = "dataset:Protocol";
+	
 	public static String observationCorrespondenceSpecification = "dataset:ObservationCorrespondenceSpecification";
 	public static String dataFileInformationStructure = "dataset:DataFileInformationStructure";
 	public static String dataTypeFileFormatInterpretation = "dataset:DataTypeFileFormatInterpretation";
 	public static String dataTypeConcept = "dataset:DataTypeConcept";
 	public static String purposeKeyword = "dataset:PurposeKeyword";
+	public static String conceptLinkSingleObservationInput = "dataset:ConceptLinkSingleObservationInput";
+	public static String conceptLinkSingleObservationOutput = "dataset:ConceptLinkSingleObservationOutput";
+	
 	
 	public static String dataFileImageStructure = "dataset:DataFileImageStructure";
 	public static String dataFileYamlStructure = "dataset:DataFileYamlStructure";

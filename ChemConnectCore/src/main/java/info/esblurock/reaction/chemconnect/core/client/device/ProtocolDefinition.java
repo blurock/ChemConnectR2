@@ -63,7 +63,8 @@ public class ProtocolDefinition extends Composite implements  ObjectVisualizatio
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		String deviceType = choose.getObjectType();
 		String title = choose.getObjectName();
-		async.getProtocol(obj,deviceType,title, datid, callback);
+		ArrayList<String> obsid = new ArrayList<String>();
+		async.getProtocol(obj,obsid,deviceType,title, datid, callback);
 	}
 
 	@Override

@@ -84,11 +84,12 @@ public class ExtractCatalogInformation {
 			System.out.println("IOException: '" + classify.getDataType() + "' with ID: '" + id + "' singlet(" + asSinglet + ")");
 			System.out.println(ex.toString());
 			
-		} catch(Exception ex) {
+		}
+		/*catch(Exception ex) {
 			System.out.println("Unknown Exception: " + classify.getDataType());
 			System.out.println("Unknown Exception: \n" + ex.toString());
 		}
-		
+		*/
 		return hierarchy;
 	}
 

@@ -445,6 +445,30 @@ public class ConceptParsing {
 		}
 		return obsset;
 	}
+	
+	public static Set<String> setOfObservationsForProtocol(String protocol, boolean measure) {
+		String query = "SELECT ?propertyname \n" + " WHERE {"
+				+  protocol + " rdfs:subClassOf   ?obj .\n"
+				+ "              ?obj  owl:onProperty <http://www.w3.org/ns/ssn/hasInput> .\n"
+				+ "              ?obj owl:onClass ?propertyname\n" 
+				+ "         }";
+			if(measure) {
+				query = "SELECT ?propertyname \n" + " WHERE {"
+						+  protocol + " rdfs:subClassOf   ?obj .\n"
+						+ "              ?obj  owl:onProperty <http://www.w3.org/ns/ssn/hasOutput> .\n"
+						+ "              ?obj owl:onClass ?propertyname\n" 
+						+ "         }";
+		}
+		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
+		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
+		Set<String> obsset = new HashSet<String>();
+		for (Map<String, String> map : stringlst) {
+			String obs = map.get("propertyname");
+			obsset.add(obs);
+		}
+		return obsset;
+	}
+
 
 	public static Set<String> subsystemsForSubsystem(String subsystem) {
 		String query = "SELECT ?object ?sub2 ?sub1\n" + "	WHERE {\n" + " ?sub1 owl:annotatedTarget ?sub2 . \n"
@@ -475,7 +499,8 @@ public class ConceptParsing {
 	}
 
 	public static Set<String> subsystemsOfObservations(String observations) {
-		String query = "SELECT ?obj\n" + "	WHERE {\n" + "          ?obj <" + ReasonerVocabulary.directSubClassOf
+		String query = "SELECT ?obj\n" 
+				+ "	WHERE {\n" + "          ?obj <" + ReasonerVocabulary.directSubClassOf
 				+ "> ?sub .\n" + "          ?obj rdfs:subClassOf dataset:DataTypeDataStructure .\n"
 				+ "          ?sub owl:onProperty <http://www.w3.org/2004/02/skos/core#related> .\n"
 				+ "          ?sub owl:onClass " + observations + "\n" + "	      }";
@@ -532,8 +557,10 @@ public class ConceptParsing {
 	}
 
 	public static void fillInPurposeConceptPair(String parameter, PurposeConceptPair pair) {
-		String query2 = "SELECT  ?prop ?parameter\n" + "        WHERE {\n" + "	                " + parameter
-				+ " rdfs:subClassOf ?sub .\n" + "                  ?sub owl:onProperty ?prop .\n"
+		String query2 = "SELECT  ?prop ?parameter\n" 
+				+ "        WHERE {\n" + "	                " + parameter
+				+ " rdfs:subClassOf ?sub .\n" 
+				+ "                  ?sub owl:onProperty ?prop .\n"
 				+ "                  ?sub owl:onClass ?parameter\n" + "              }";
 		List<Map<String, RDFNode>> lst2 = OntologyBase.resultSetToMap(query2);
 		List<Map<String, String>> stringlst2 = OntologyBase.resultmapToStrings(lst2);
@@ -635,6 +662,7 @@ public class ConceptParsing {
 				+ "		?object owl:onProperty <http://www.w3.org/2004/02/skos/core#related> .\n"
 				+ "		?object owl:onClass ?objecttype }";
 
+		System.out.println("findObjectTypeFromLinkConcept:\n" + query);
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
 		String structuretype = null;

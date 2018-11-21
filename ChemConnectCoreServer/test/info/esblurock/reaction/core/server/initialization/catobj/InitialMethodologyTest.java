@@ -96,7 +96,8 @@ public class InitialMethodologyTest {
 		ArrayList<String> path = new ArrayList<String>();
 		path.add("First");
 		DataCatalogID name = new DataCatalogID(structure,"Catalog-Base","Catalog","Simple",path);
-		DatabaseObjectHierarchy hierarchy1 = CreateDefaultObjectsFactory.fillProtocolDefinition(obj, methodology, title,name);
+		ArrayList<String> obsid = new ArrayList<String>();
+		DatabaseObjectHierarchy hierarchy1 = CreateDefaultObjectsFactory.fillProtocolDefinition(obj, obsid,methodology, title,name);
 		
 		String descr = "The Heat Flux method is one of the most recent "
 				+ "experimental methods, which allow measuring laminar burning "

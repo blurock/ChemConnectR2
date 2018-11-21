@@ -29,7 +29,11 @@ public class Observations {
 		}
 		
 		Set<String> set2 = ConceptParsing.subsystemsForSubsystem("dataset:HeatFluxBurner");
-		System.out.println(set2);
+		System.out.println("dataset:HeatFluxBurner\n" + set2);
+		Set<String> set3 = ConceptParsing.setOfObservationsForProtocol("dataset:RapidCompressionMachineReportingProtocol",false);
+		System.out.println("dataset:RapidCompressionMachineReportingProtocol input\n" + set3);
+		Set<String> set4 = ConceptParsing.setOfObservationsForProtocol("dataset:RapidCompressionMachineReportingProtocol",true);
+		System.out.println("dataset:RapidCompressionMachineReportingProtocol output\n" + set4);
 	}
 
 }

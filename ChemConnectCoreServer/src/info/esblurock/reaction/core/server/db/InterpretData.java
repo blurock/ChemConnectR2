@@ -69,6 +69,7 @@ import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFr
 import info.esblurock.reaction.chemconnect.core.data.dataset.SingleObservationDataset;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationRowUnits;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ValueParameterComponents;
+import info.esblurock.reaction.chemconnect.core.data.observations.ObservationDatasetFromProtocol;
 
 public enum InterpretData {
 
@@ -741,7 +742,7 @@ public enum InterpretData {
 			DatabaseObject obsobj = new DatabaseObject(obj);
 			obsobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
-					.getSubElementStructureFromIDObject(OntologyKeys.observationCorrespondenceSpecification);
+					.getSubElementStructureFromIDObject(OntologyKeys.singleObservationDataset);
 			String obsid = createSuffix(obj, element);
 			obsobj.setIdentifier(obsid);
 
@@ -941,7 +942,61 @@ public enum InterpretData {
 			return hierarchy;
 		}
 		
-	}, DatasetCatalogHierarchy {
+	}, ObservationDatasetFromProtocol {
+
+		@Override
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml,String sourceID) throws IOException {
+			ObservationDatasetFromProtocol methodology = null;
+			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
+			ChemConnectDataStructure objdata = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);					
+			methodology = new ObservationDatasetFromProtocol(objdata);
+			return methodology;
+		}
+
+		@Override
+		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
+			//ObservationDatasetFromProtocol methodology = (ObservationDatasetFromProtocol) object;
+			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
+			Map<String, Object> map = interpret.createYamlFromObject(object);
+			return map;
+		}
+
+		@Override
+		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(ObservationDatasetFromProtocol.class.getCanonicalName(),
+					identifier);
+		}
+
+		@Override
+		public String canonicalClassName() {
+			return ObservationDatasetFromProtocol.class.getCanonicalName();
+		}
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(
+				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+			DatabaseObject methobj = new DatabaseObject(obj);
+			methobj.nullKey();
+			DataElementInformation element = DatasetOntologyParsing
+					.getSubElementStructureFromIDObject(OntologyKeys.observationDatasetFromProtocol);
+			String methid = createSuffix(obj, element);
+			methobj.setIdentifier(methid);
+
+			
+			DatabaseObjectHierarchy structhier = InterpretData.ChemConnectDataStructure.createEmptyObject(methobj);
+			ChemConnectDataStructure structure = (ChemConnectDataStructure) structhier.getObject();
+
+			ObservationDatasetFromProtocol methodology = new ObservationDatasetFromProtocol(structure);
+			methodology.setIdentifier(obj.getIdentifier());
+			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(methodology);
+			hierarchy.transferSubObjects(structhier);
+			return hierarchy;
+		}
+		
+	},
+	
+	
+	DatasetCatalogHierarchy {
 
 		@Override
 		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml,
@@ -1458,7 +1513,6 @@ public enum InterpretData {
 
 			InterpretData interpret = InterpretData.valueOf("ParameterSpecification");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
-			System.out.println("MeasureParameterSpecification: \n" + map);
 			return map;
 		}
 
@@ -1507,7 +1561,6 @@ public enum InterpretData {
 				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject object) throws IOException {
 			InterpretData interpret = InterpretData.valueOf("ParameterSpecification");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
-			System.out.println("DimensionParameterSpecification: \n" + map);
 			return map;
 		}
 
@@ -1875,7 +1928,7 @@ public enum InterpretData {
 						InterpretData.ChemConnectCompoundDataStructure.createEmptyObject(obj);
 				ChemConnectCompoundDataStructure structure = (ChemConnectCompoundDataStructure) comphier.getObject();
 				ValueParameterComponents components = new ValueParameterComponents(structure,
-						parameterLabel, unitOfValue, isUncertaintyValue);
+						0,parameterLabel, unitOfValue, isUncertaintyValue);
 				components.setIdentifier(valid);
 				DatabaseObjectHierarchy hier = new DatabaseObjectHierarchy(components);
 				hier.transferSubObjects(comphier);				
@@ -1888,11 +1941,13 @@ public enum InterpretData {
 				String sourceID) throws IOException {
 			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
 			ChemConnectCompoundDataStructure compound = (ChemConnectCompoundDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
+			String positionS = (String) yaml.get(StandardDatasetMetaData.parameterposition);
+			int position = Integer.valueOf(positionS).intValue();
 			String parameterLabel = (String) yaml.get(StandardDatasetMetaData.parameterLabelS);
 			String unitsOfValue = (String) yaml.get(StandardDatasetMetaData.unitsOfValueS);
 			String isUncertainty = (String) yaml.get(StandardDatasetMetaData.includesUncertaintyParameter);
 			boolean isUncertaintyB = Boolean.valueOf(isUncertainty);
-			ValueParameterComponents components = new ValueParameterComponents(compound,parameterLabel, unitsOfValue,isUncertaintyB);
+			ValueParameterComponents components = new ValueParameterComponents(compound,position, parameterLabel, unitsOfValue,isUncertaintyB);
 			return components;
 		}
 
@@ -1900,9 +1955,11 @@ public enum InterpretData {
 		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
 			ValueParameterComponents components = (ValueParameterComponents) object;
 
-			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
+			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
+			String positionS = String.valueOf(components.getPosition());
+			map.put(StandardDatasetMetaData.parameterposition, positionS);
 			map.put(StandardDatasetMetaData.parameterLabelS, components.getParameterLabel());
 			map.put(StandardDatasetMetaData.unitsOfValueS, components.getUnitsOfValue());
 			boolean isUncertainty = components.isUncertaintyValue();
@@ -3236,9 +3293,6 @@ public enum InterpretData {
 		//System.out.println("interpretMultipleYamlList: \n" + yaml.toString());
 		ArrayList<String> answers = new ArrayList<String>();
 		Object yamlobj = yaml.get(key);
-		//System.out.println("interpretMultipleYamlList: " + key);
-		//System.out.println("interpretMultipleYamlList: \n" + yamlobj);
-		//System.out.println("interpretMultipleYamlList: \n" + yaml.toString());
 		@SuppressWarnings("unchecked")
 		List<String> lst = (List<String>) yamlobj;
 		for (String answer : lst) {

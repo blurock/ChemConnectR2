@@ -24,7 +24,6 @@ import info.esblurock.reaction.chemconnect.core.data.contact.RegisterContactData
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataObjectLink;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ObservationCorrespondenceSpecification;
-import info.esblurock.reaction.chemconnect.core.data.dataset.ObservationSpecification;
 import info.esblurock.reaction.chemconnect.core.data.dataset.RegistrerDataset;
 import info.esblurock.reaction.chemconnect.core.data.description.RegisterDescriptionData;
 import info.esblurock.reaction.chemconnect.core.data.gcs.RegisterGCSClasses;
@@ -32,6 +31,7 @@ import info.esblurock.reaction.chemconnect.core.data.image.RegisterImageInformat
 import info.esblurock.reaction.chemconnect.core.data.initialization.RegisterInitializationData;
 import info.esblurock.reaction.chemconnect.core.data.login.RegisterUserLoginData;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
+import info.esblurock.reaction.chemconnect.core.data.methodology.RegisterProtocol;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationBlockFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.RegisterObservationData;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetBlockIsolation;
@@ -75,12 +75,14 @@ public class SingleObservationFillTest {
 		RegisterObservationData.register();
 		RegisterObservationMatrixData.register();
 		RegisterObservationData.register();
+		RegisterProtocol.register();
 		ObjectifyService.register(BlobKeyCorrespondence.class);
 		ObjectifyService.register(DatabaseObject.class);
 		ObjectifyService.register(ChemConnectCompoundMultiple.class);
 		ObjectifyService.register(ChemConnectDataStructure.class);
 		ObjectifyService.register(ChemConnectCompoundDataStructure.class);
 		ObjectifyService.register(ChemConnectCompoundMultiple.class);
+		
 		System.out.println("Classes Registered");
 		this.helper.setUp();
 	}
@@ -129,16 +131,48 @@ public class SingleObservationFillTest {
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(obsspechier);
 		
 		String specID = obsspechier.getObject().getIdentifier();
-		System.out.println("correspondenceSpecification:  " + specID);
-		System.out.println(obsspechier.toString("Specification: "));
 		
 		String observationS = "dataset:RCMPublishedResults";
 		String spreadsheetID = spreadhier.getObject().getIdentifier();
 		
 		try {
-			DatabaseObjectHierarchy singlehier = CreateDefaultObjectsFactory.fillSingleObservationDataset(obj, observationS, 
-					specID, spreadsheetID, catid);
+			DataCatalogID singlecatid = new DataCatalogID(catid);
+			singlecatid.setDataCatalog("dataset:RCMPublishedResults");
+			singlecatid.setSimpleCatalogName("IgnitionDelayTimes");
+			DatabaseObject singleobj = new DatabaseObject(obj);
+			singleobj.setIdentifier(singlecatid.getFullName());
+			DatabaseObjectHierarchy singlehier = CreateDefaultObjectsFactory.fillSingleObservationDataset(singleobj, observationS, 
+					specID, spreadsheetID, singlecatid);
 			System.out.println(singlehier.toString("single: "));
+			WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(singlehier);
+			
+			ArrayList<String> specificationIDs = new ArrayList<String>();
+			DataCatalogID protocoldatid = new DataCatalogID(catid);
+			protocoldatid.setDataCatalog("dataset:RapidCompressionMachineReportingProtocol");
+			protocoldatid.setSimpleCatalogName("RCMResultsProtocol");
+			String protocolS = "dataset:RapidCompressionMachineReportingProtocol";
+			specificationIDs.add(obsspechier.getObject().getIdentifier());
+			DatabaseObject protocolobj = new DatabaseObject(obj);
+			protocolobj.setIdentifier(protocoldatid.getFullName());
+			DatabaseObjectHierarchy protocol = CreateDefaultObjectsFactory.fillProtocolDefinition(protocolobj,
+					specificationIDs,protocolS,
+					"Testing the reporting Final Rapid Compression Results",
+					protocoldatid);
+			WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(protocol);
+			System.out.println(protocol.toString("Protocol: "));
+			String protocolID = protocol.getObject().getIdentifier();
+			String title = "Test result of reporting actual values for Rapid Compression Machine";
+			DataCatalogID fromprotocoldatid = new DataCatalogID(catid);
+			fromprotocoldatid.setDataCatalog("dataset:RapidCompressionMachineReportingProtocol");
+			fromprotocoldatid.setSimpleCatalogName("ResultObservationsFromRCM");
+			ArrayList<String> observationIDs = new ArrayList<String>();
+			observationIDs.add(singlehier.getObject().getIdentifier());
+			DatabaseObject fromprotoobj = new DatabaseObject(obj);
+			fromprotoobj.setIdentifier(fromprotocoldatid.getFullName());
+			DatabaseObjectHierarchy fromprotocol = CreateDefaultObjectsFactory.fillObservationSetFromProtocol(fromprotoobj, observationIDs, 
+					protocolS, protocolID, title, fromprotocoldatid);
+			System.out.println(fromprotocol.toString("From Protocol: "));
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -148,7 +182,12 @@ public class SingleObservationFillTest {
 	private DatabaseObjectHierarchy createObservationCorrespondenceSpecification(DatabaseObject obj, DataCatalogID datid) {
 		String parameter = "dataset:RCMPublishedResults";
 		String oneline = "The published results of a rapid compression machine";
-		DatabaseObjectHierarchy corrshierarchy = CreateDefaultObjectsFactory.fillSetOfObservations(obj, parameter, oneline, datid);
+		DataCatalogID specdatid = new DataCatalogID(datid);
+		specdatid.setDataCatalog(parameter);
+		specdatid.setSimpleCatalogName("RCMResults");
+		DatabaseObject specobj = new DatabaseObject(obj);
+		specobj.setIdentifier(specdatid.getFullName());
+		DatabaseObjectHierarchy corrshierarchy = CreateDefaultObjectsFactory.fillSetOfObservations(specobj, parameter, oneline, specdatid);
 		ObservationCorrespondenceSpecification corrspec = (ObservationCorrespondenceSpecification) corrshierarchy.getObject();
 		DatabaseObjectHierarchy specsethier = corrshierarchy.getSubObject(corrspec.getMatrixSpecificationCorrespondenceSet());
 		MatrixSpecificationCorrespondenceSet specset = (MatrixSpecificationCorrespondenceSet) specsethier.getObject();
@@ -212,7 +251,9 @@ public class SingleObservationFillTest {
 	}
 	
 	private SpreadSheetInputInformation setUpInfo(DatabaseObject obj) {
-		DatabaseObjectHierarchy hierarchy = InterpretData.SpreadSheetInputInformation.createEmptyObject(obj);
+		DatabaseObject spreadobj = new DatabaseObject(obj);
+		spreadobj.setIdentifier("SpreadSheetFromString");
+		DatabaseObjectHierarchy hierarchy = InterpretData.SpreadSheetInputInformation.createEmptyObject(spreadobj);
 		SpreadSheetInputInformation info = (SpreadSheetInputInformation) hierarchy.getObject();
 		info.setSourceType(SpreadSheetInputInformation.STRINGSOURCE);
 		String source = "Initial Temperature (K),Initial Pressure (bar),Compression Time (ms),Compressed Temperature (K),1000/Tc (1/K),Compressed Pressure (bar),Ignition Delay (msec),Ignition Delay Unc (msec)\n" + 
@@ -242,7 +283,9 @@ public class SingleObservationFillTest {
 		return spreadhier;
 	}
 	private DatabaseObjectHierarchy createIsolateFirstblock(DatabaseObject obj) {
-		DatabaseObjectHierarchy obsblockhierarchy = InterpretData.ObservationBlockFromSpreadSheet.createEmptyObject(obj);
+		DatabaseObject blockobj = new DatabaseObject(obj);
+		blockobj.setIdentifier("IsolateFirstBlockSpecification");
+		DatabaseObjectHierarchy obsblockhierarchy = InterpretData.ObservationBlockFromSpreadSheet.createEmptyObject(blockobj);
 		ObservationBlockFromSpreadSheet obsblock = (ObservationBlockFromSpreadSheet) obsblockhierarchy.getObject();
 		DatabaseObjectHierarchy blockhier = obsblockhierarchy.getSubObject(obsblock.getSpreadBlockIsolation());
 		SpreadSheetBlockIsolation isolate = (SpreadSheetBlockIsolation) blockhier.getObject();
@@ -253,9 +296,11 @@ public class SingleObservationFillTest {
 		isolate.setTitleIncluded(StandardDatasetMetaData.matrixBlockTitleFirstLine);
 		return obsblockhierarchy;
 	}
-	
+	/*
 	private SpreadSheetBlockIsolation createIsolate2ndblock(DatabaseObject obj) {
-		DatabaseObjectHierarchy blockhier = InterpretData.SpreadSheetBlockIsolation.createEmptyObject(obj);
+		DatabaseObject isolateobj = new DatabaseObject(obj);
+		isolateobj.setIdentifier("FirstBlockIsolated");
+		DatabaseObjectHierarchy blockhier = InterpretData.SpreadSheetBlockIsolation.createEmptyObject(isolateobj);
 		SpreadSheetBlockIsolation isolate = (SpreadSheetBlockIsolation) blockhier.getObject();
 		isolate.setStartColumnType(StandardDatasetMetaData.matrixBlockColumnBeginAtPosition);
 		isolate.setStartColumnInfo("3");
@@ -267,12 +312,16 @@ public class SingleObservationFillTest {
 		isolate.setTitleIncluded(Boolean.FALSE.toString());
 		return isolate;
 	}
+	*/
 	private DatabaseObjectHierarchy writeIsolatedBlock(DataCatalogID catid, SpreadSheetBlockIsolation isolate, DatabaseObjectHierarchy spreadhier) {
 		DatabaseObjectHierarchy newhier1 = null;
+		DataCatalogID isocatid = new DataCatalogID(catid);
+		
 		try {
 			System.out.println("Full until blank line======================================================");
-			catid.setSimpleCatalogName("UntilBlankLine");
-			newhier1 = IsolateBlockFromMatrix.isolateFromMatrix(catid, spreadhier, isolate);
+			isocatid.setSimpleCatalogName("UntilBlankLine");
+			isocatid.setIdentifier(isocatid.getFullName());
+			newhier1 = IsolateBlockFromMatrix.isolateFromMatrix(isocatid, spreadhier, isolate);
 		} catch (IOException e) {
 			System.out.println(e);
 			e.printStackTrace();

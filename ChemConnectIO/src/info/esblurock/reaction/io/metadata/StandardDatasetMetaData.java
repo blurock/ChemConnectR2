@@ -152,6 +152,8 @@ public class StandardDatasetMetaData {
 	public static String subSystems = "ssn:hasSubSystem";
 	public static String valueAsStringS = "dataset:ValueAsString";
 	public static String valueUncertaintyS = "qudt:standardUncertainty";
+	
+	public static String parameterposition = "dataset:position";
 	public static String parameterLabelS = "skos:prefLabel";
 	public static String dataPointUncertaintyS = "dataset:uncertainty";
 	public static String unitClassS = "qudt:SystemOfQuantities";

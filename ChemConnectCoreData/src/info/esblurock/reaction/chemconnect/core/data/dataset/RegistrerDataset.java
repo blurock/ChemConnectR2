@@ -26,6 +26,7 @@ public class RegistrerDataset {
 			ObjectifyService.register(ValueUnits.class);
 			ObjectifyService.register(ObservationSpecification.class);
 			ObjectifyService.register(DataCatalogID.class);
+			ObjectifyService.register(SingleObservationDataset.class);
 		}
 		
 		public static void reset() {
@@ -48,5 +49,6 @@ public class RegistrerDataset {
 			ResetDatabaseObjects.resetClass(ValueUnits.class);
 			ResetDatabaseObjects.resetClass(ObservationSpecification.class);
 			ResetDatabaseObjects.resetClass(DataCatalogID.class);
+			ResetDatabaseObjects.resetClass(SingleObservationDataset.class);
 		}	
 }

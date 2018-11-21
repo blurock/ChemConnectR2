@@ -42,7 +42,7 @@ public class ChemConnectProtocol extends ChemConnectDataStructure  {
 	public String toString(String prefix) {
 		StringBuilder build = new StringBuilder();
 		build.append(super.toString(prefix));
-		build.append("Parameter Values:          " + parameterValues + "\n"); 
+		build.append(prefix + "Parameter Values:          " + parameterValues + "\n"); 
 		return build.toString();
 	}
 }

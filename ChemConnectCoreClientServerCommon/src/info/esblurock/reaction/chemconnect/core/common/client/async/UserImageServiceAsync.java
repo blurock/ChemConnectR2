@@ -65,7 +65,7 @@ public interface UserImageServiceAsync {
 	void writeDatabaseObjectHierarchy(DatabaseObjectHierarchy hierarchy,
 			AsyncCallback<DatabaseObjectHierarchy> callback);
 
-	void getProtocol(DatabaseObject obj, String methodology, String title, DataCatalogID catid,
+	void getProtocol(DatabaseObject obj, ArrayList<String> obsid, String methodology, String title, DataCatalogID catid,
 			AsyncCallback<DatabaseObjectHierarchy> callback);
 
 	void getUploadedFilesHiearchy(ArrayList<String> fileTypes,AsyncCallback<HierarchyNode> callback);
