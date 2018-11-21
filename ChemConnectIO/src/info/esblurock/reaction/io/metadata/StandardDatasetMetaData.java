@@ -253,6 +253,7 @@ public class StandardDatasetMetaData {
 	public static String matrixBlockEndAtBlankLine = "dataset:MatrixBlockEndAtBlankLine";
 	public static String matrixBlockEndAtFileEnd = "dataset:MatrixBlockEndAtFileEnd";
 	
+	public static String matrixBlockTitlesFirstColumnTranspose = "dataset:MatrixBlockTitlesFirstColumnTranspose";
 	public static String matrixBlockTitleFirstLine = "dataset:MatrixBlockTitleFirstLine";
 	public static String matrixBlockTitleNone = "dataset:MatrixBlockTitleNone";
 	public static String matrixBlockIsolated = "dataset:MatrixBlockIsolated";

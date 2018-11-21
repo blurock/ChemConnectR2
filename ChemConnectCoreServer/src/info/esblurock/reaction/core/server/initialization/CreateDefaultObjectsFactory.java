@@ -225,11 +225,6 @@ public class CreateDefaultObjectsFactory {
 		DatabaseObjectHierarchy hierarchy = ExtractCatalogInformation.getCatalogObject(protocolID, 
 				OntologyKeys.protocol);
 		
-		//ChemConnectProtocol protocol = (ChemConnectProtocol) hierarchy.getObject();
-		//DatabaseObjectHierarchy links = hierarchy.getSubObject(protocol.getChemConnectObjectLink());
-		//ArrayList<String> inputlinks = findDataObjectLink(links, MetaDataKeywords.conceptLinkCorrespondenceSpecificationInput);
-		//ArrayList<String> outputlinks = findDataObjectLink(links, MetaDataKeywords.conceptLinkCorrespondenceSpecificationOutput);
-		
 		DatabaseObjectHierarchy linkhier = obssethier.getSubObject(obsset.getChemConnectObjectLink());
 		ChemConnectCompoundMultiple linkmultiple = (ChemConnectCompoundMultiple) linkhier.getObject();
 		linkStructure(linkmultiple, linkhier, 0, MetaDataKeywords.conceptLinkProtocol, hierarchy.getObject().getIdentifier());
@@ -1058,7 +1053,6 @@ public class CreateDefaultObjectsFactory {
 			DatabaseObjectHierarchy dimension) {
 		int count = addMatrixSpecificationCorrespondence(0,colcorrhier,measure);
 		addMatrixSpecificationCorrespondence(count,colcorrhier,dimension);
-		//addMatrixSpecificationCorrespondence(count,colcorrhier,dimension);
 	}
 	
 	public static int addMatrixSpecificationCorrespondence(int count,

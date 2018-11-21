@@ -2020,11 +2020,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                      rdfs:subClassOf :ChemConnectDataStructure ,
                                      [ rdf:type owl:Restriction ;
                                        owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
-                                       owl:someValuesFrom :ConceptLinkCorrespondenceSpecificationInput
+                                       owl:someValuesFrom :ConceptLinkSingleObservationInput
                                      ] ,
                                      [ rdf:type owl:Restriction ;
                                        owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
-                                       owl:someValuesFrom :ConceptLinkCorrespondenceSpecificationOutput
+                                       owl:someValuesFrom :ConceptLinkSingleObservationOutput
                                      ] ,
                                      [ rdf:type owl:Restriction ;
                                        owl:onProperty <http://www.w3.org/ns/dcat#record> ;
@@ -6770,6 +6770,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#MatrixBlockTitleNone
 :MatrixBlockTitleNone rdf:type owl:Class ;
                       rdfs:subClassOf :MatrixBlockTitleClassification .
+
+
+###  http://www.esblurock.info/dataset#MatrixBlockTitlesFirstColumnTranspose
+:MatrixBlockTitlesFirstColumnTranspose rdf:type owl:Class ;
+                                       rdfs:subClassOf :MatrixBlockTitleClassification .
 
 
 ###  http://www.esblurock.info/dataset#MatrixColumn
