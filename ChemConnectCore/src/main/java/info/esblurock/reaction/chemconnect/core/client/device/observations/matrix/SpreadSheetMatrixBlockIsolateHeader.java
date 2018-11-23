@@ -326,7 +326,6 @@ public class SpreadSheetMatrixBlockIsolateHeader extends Composite
 		endrowB = false;
 		startcolumnB = false;
 		endcolumnB = false;
-		Window.alert("setLineContent\n" + spread.toString());
 	}
 
 	private void applyMatrixIsolation(String basename) {

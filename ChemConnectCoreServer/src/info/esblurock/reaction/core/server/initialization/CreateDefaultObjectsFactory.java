@@ -190,6 +190,8 @@ public class CreateDefaultObjectsFactory {
 
 		return orghier;
 	}
+	
+	
 
 	public static DatabaseObjectHierarchy fillObservationSetFromProtocol(DatabaseObject obj,
 			ArrayList<String> observationIDs,
@@ -236,27 +238,38 @@ public class CreateDefaultObjectsFactory {
 		
 		return obssethier;
 	}
-	public static DatabaseObjectHierarchy fillProtocolDefinition(DatabaseObject obj,
-			ArrayList<String> specificationIDs,
-			String protocolS, String title, DataCatalogID datid) {
+	
+	
+	public static DatabaseObjectHierarchy protocolDefinitionSetup(DatabaseObject obj,
+			String title, DataCatalogID datid) {
 		DatabaseObjectHierarchy methodhier = InterpretData.ChemConnectProtocol.createEmptyObject(obj);
-		ChemConnectProtocol methodology = (ChemConnectProtocol) methodhier.getObject();
-		
+		String protocolS = datid.getDataCatalog();
 		insertDataCatalogID(methodhier,datid);
-		
-		String paramid = methodology.getParameterValues();
-		DatabaseObjectHierarchy paramsethier = methodhier.getSubObject(paramid);
-		ChemConnectCompoundMultiple parammulti = (ChemConnectCompoundMultiple) paramsethier.getObject();
-		
 		PurposeConceptPair pair = new PurposeConceptPair();
 		ConceptParsing.fillInPurposeConceptPair(protocolS, pair);
 		setPurposeConceptPair(methodhier, pair.getConcept(), pair.getPurpose());
-		
+
 		String description = ConceptParsing.getComment(protocolS);
 		if(description == null) {
 			description = "Protocol: " + ChemConnectCompoundDataStructure.removeNamespace(protocolS);
 		}
 		setOneLineDescriptionAndAbstract(methodhier, title, description);
+
+		
+		return methodhier;
+	}
+	
+	
+	public static DatabaseObjectHierarchy fillProtocolDefinition(DatabaseObjectHierarchy methodhier,
+			ArrayList<String> specificationIDs) {
+		ChemConnectProtocol methodology = (ChemConnectProtocol) methodhier.getObject();
+		DatabaseObjectHierarchy datidhier = methodhier.getSubObject(methodology.getCatalogDataID());
+		DataCatalogID datid = (DataCatalogID) datidhier.getObject();
+		String protocolS = datid.getDataCatalog();
+
+		String paramid = methodology.getParameterValues();
+		DatabaseObjectHierarchy paramsethier = methodhier.getSubObject(paramid);
+		ChemConnectCompoundMultiple parammulti = (ChemConnectCompoundMultiple) paramsethier.getObject();
 		
 		Set<AttributeDescription> attrs = ConceptParsing.attributesInConcept(protocolS);
 		for (AttributeDescription attr : attrs) {
@@ -1248,6 +1261,7 @@ public class CreateDefaultObjectsFactory {
 		}
 		return elementmap;
 	}
+
 
 	
 	/*

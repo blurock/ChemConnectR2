@@ -291,6 +291,10 @@ public class StandardDatasetObjectHierarchyItem extends Composite
 	public MaterialPanel getInfoPanel() {
 		return infopanel;
 	}
+	
+	public StandardDatasetObjectHierarchyItem getParentItem() {
+		return parent;
+	}
 
 	public void updateHierarchy(DatabaseObjectHierarchy hierarchy) {
 		MaterialCollapsible parent = (MaterialCollapsible) this.getParent();

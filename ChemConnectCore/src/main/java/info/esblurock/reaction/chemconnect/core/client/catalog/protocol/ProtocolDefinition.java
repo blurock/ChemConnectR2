@@ -1,4 +1,4 @@
-package info.esblurock.reaction.chemconnect.core.client.device;
+package info.esblurock.reaction.chemconnect.core.client.catalog.protocol;
 
 import java.util.ArrayList;
 
@@ -6,6 +6,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -20,9 +21,10 @@ import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageSer
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
+import info.esblurock.reaction.chemconnect.core.data.transfer.ProtocolSetupTransfer;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
-public class ProtocolDefinition extends Composite implements  ObjectVisualizationInterface {
+public class ProtocolDefinition extends Composite implements ObjectVisualizationInterface {
 
 	private static ProtocolDefinitionUiBinder uiBinder = GWT.create(ProtocolDefinitionUiBinder.class);
 
@@ -37,6 +39,7 @@ public class ProtocolDefinition extends Composite implements  ObjectVisualizatio
 	MaterialPanel topPanel;
 	
 	ChooseFullNameFromCatagoryRow choose;
+	ProtocolSetupTransfer transfer;
 
 	public ProtocolDefinition() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -58,19 +61,20 @@ public class ProtocolDefinition extends Composite implements  ObjectVisualizatio
 	}
 
 	@Override
-	public void createCatalogObject(DatabaseObject obj,DataCatalogID datid) {
-		SetUpDatabaseObjectHierarchyCallback callback = new SetUpDatabaseObjectHierarchyCallback(contentcollapsible,modalpanel);
-		UserImageServiceAsync async = UserImageService.Util.getInstance();
-		String deviceType = choose.getObjectType();
-		String title = choose.getObjectName();
-		ArrayList<String> obsid = new ArrayList<String>();
-		async.getProtocol(obj,obsid,deviceType,title, datid, callback);
+	public void insertCatalogObject(DatabaseObjectHierarchy subs) {
+		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(null, subs,modalpanel);
+		contentcollapsible.add(item);
 	}
 
 	@Override
-	public void insertCatalogObject(DatabaseObjectHierarchy subs) {
-		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(null,subs,modalpanel);
-		contentcollapsible.add(item);
+	public void createCatalogObject(DatabaseObject obj, DataCatalogID catid) {
+		String protocolS = choose.getObjectType();
+		UserImageServiceAsync async = UserImageService.Util.getInstance();
+		SetUpDatabaseObjectHierarchyCallback callback = new SetUpDatabaseObjectHierarchyCallback(contentcollapsible,modalpanel);
+		String title = "Protocol: " + protocolS;
+		async.getInitialProtocol(obj,title,catid,callback);
+		
 	}
+
 
 }

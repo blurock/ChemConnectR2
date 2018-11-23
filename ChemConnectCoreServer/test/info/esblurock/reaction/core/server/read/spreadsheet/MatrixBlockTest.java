@@ -20,16 +20,24 @@ public class MatrixBlockTest {
 
 	@Test
 	public void test() {
-		//String fileS = "";
-		//InputStream in = this.getClass().getClassLoader().getResourceAsStream(fileS);
-		
 		DatabaseObject obj = new DatabaseObject("id", "Public", "Administration", "1");		
 		DatabaseObjectHierarchy hierarchy = InterpretData.SpreadSheetInputInformation.createEmptyObject(obj);
-		SpreadSheetInputInformation info = (SpreadSheetInputInformation) hierarchy.getObject();
-		info.setSourceType(SpreadSheetInputInformation.URL);
-		info.setSource("https://www.googleapis.com/download/storage/v1/b/chemconnect/o/upload%2FAdministration%2FIgnition%20Delays.csv?generation=1539951597894015&alt=media");
-		info.setType(SpreadSheetInputInformation.CSV);
 		
+		SpreadSheetInputInformation info = (SpreadSheetInputInformation) hierarchy.getObject();
+		info.setSourceType(SpreadSheetInputInformation.STRINGSOURCE);
+		String source = "Initial Temperature (K),Initial Pressure (bar),Compression Time (ms),Compressed Temperature (K),1000/Tc (1/K),Compressed Pressure (bar),Ignition Delay (msec),Ignition Delay Unc (msec)\n" + 
+				"413,0.8043,28.7,816,1.2262,14.95,112.55,5.35\n" + 
+				"413,0.7689,30.4,824,1.2129,15.05,73.52,3.51\n" + 
+				"413,0.7240,31.25,835,1.1974,14.97,49.79,3.07\n" + 
+				"413,0.6810,32.7,846,1.1816,14.98,34.60,1.21\n" + 
+				"413,0.6427,33.9,855,1.1692,14.95,24.49,1.53\n" + 
+				",,,,,,,\n" + 
+				"phi = 1.0,O2:N2 = 1:3.76 (Air),Mole Fractions:,Fuel,0.0338,,,\n" + 
+				",,,O2,0.2030,,,\n" + 
+				",,,N2,0.7632,,,\n" + 
+				",,,,,,,";
+		info.setSource(source);
+		info.setType(SpreadSheetInputInformation.CSV);
 		DatabaseObjectHierarchy blockhier = InterpretData.SpreadSheetBlockIsolation.createEmptyObject(obj);
 		SpreadSheetBlockIsolation isolate = (SpreadSheetBlockIsolation) blockhier.getObject();
 		isolate.setStartColumnType(StandardDatasetMetaData.matrixBlockColumnBeginLeft);
@@ -37,7 +45,7 @@ public class MatrixBlockTest {
 		isolate.setStartRowType(StandardDatasetMetaData.beginMatrixTopOfSpreadSheet);
 		isolate.setEndRowType(StandardDatasetMetaData.matrixBlockEndAtBlankLine);
 		
-		isolate.setTitleIncluded(Boolean.TRUE.toString());
+		isolate.setTitleIncluded(StandardDatasetMetaData.matrixBlockTitleFirstLine);
 		System.out.println("Block test isolate:" + isolate.toString());
 		DatabaseObjectHierarchy catidhier = InterpretData.DataCatalogID.createEmptyObject(obj);
 		DataCatalogID catid = (DataCatalogID) catidhier.getObject();

@@ -5,10 +5,10 @@ import java.io.Serializable;
 import com.google.gwt.user.client.ui.Widget;
 
 import info.esblurock.reaction.chemconnect.core.client.catalog.ManageCatalogHierarchy;
+import info.esblurock.reaction.chemconnect.core.client.catalog.protocol.ProtocolDefinition;
 import info.esblurock.reaction.chemconnect.core.client.contact.DatabasePersonDefinition;
 import info.esblurock.reaction.chemconnect.core.client.contact.OrganizationDefinition;
 import info.esblurock.reaction.chemconnect.core.client.device.DeviceWithSubystemsDefinition;
-import info.esblurock.reaction.chemconnect.core.client.device.ProtocolDefinition;
 import info.esblurock.reaction.chemconnect.core.client.device.SetOfObservationsDefinition;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.IsolateMatrixBlock;
 import info.esblurock.reaction.chemconnect.core.client.gcs.UploadFileToBlobStorage;

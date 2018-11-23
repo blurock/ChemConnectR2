@@ -29,6 +29,7 @@ public class ExtractLinkObjectFromStructure {
 		if(id != null) {
 			
 			String structuretype = ConceptParsing.findObjectTypeFromLinkConcept(linktypeid);
+			System.out.println("ExtractLinkObjectFromStructure structuretype=" + structuretype);
 			if(structuretype != null) {
 				objecthierarchy = ExtractCatalogInformation.getCatalogObject(id, structuretype);
 			} else {

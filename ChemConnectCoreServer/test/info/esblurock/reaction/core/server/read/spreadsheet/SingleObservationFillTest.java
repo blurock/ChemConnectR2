@@ -154,10 +154,10 @@ public class SingleObservationFillTest {
 			specificationIDs.add(obsspechier.getObject().getIdentifier());
 			DatabaseObject protocolobj = new DatabaseObject(obj);
 			protocolobj.setIdentifier(protocoldatid.getFullName());
-			DatabaseObjectHierarchy protocol = CreateDefaultObjectsFactory.fillProtocolDefinition(protocolobj,
-					specificationIDs,protocolS,
-					"Testing the reporting Final Rapid Compression Results",
+			DatabaseObjectHierarchy protocol = CreateDefaultObjectsFactory.protocolDefinitionSetup(protocolobj, 
+					"Testing the reporting Final Rapid Compression Results", 
 					protocoldatid);
+			CreateDefaultObjectsFactory.fillProtocolDefinition(protocol,specificationIDs);
 			WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(protocol);
 			System.out.println(protocol.toString("Protocol: "));
 			String protocolID = protocol.getObject().getIdentifier();

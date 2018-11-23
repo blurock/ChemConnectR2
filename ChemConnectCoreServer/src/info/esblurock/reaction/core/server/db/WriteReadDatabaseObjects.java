@@ -171,8 +171,13 @@ public class WriteReadDatabaseObjects {
 		return topnode;
 	}
 	
-	public static HierarchyNode getIDHierarchyFromDataCatalogAndUser(String user,String datacatalog) throws IOException {
+	public static HierarchyNode getIDHierarchyFromDataCatalogAndUser(String user,String datacatalog, String classtype) throws IOException {
 		String classname = DataCatalogID.class.getCanonicalName();
+		String suffix = null;
+		if(classtype != null) {
+			DataElementInformation info = DatasetOntologyParsing.getSubElementStructureFromIDObject(classtype);
+			suffix = info.getSuffix();
+		}
 		SetOfQueryPropertyValues values = new SetOfQueryPropertyValues();
 		QueryPropertyValue value1 = new QueryPropertyValue("owner",user);
 		values.add(value1);
@@ -186,7 +191,14 @@ public class WriteReadDatabaseObjects {
 			List<DatabaseObject> objs = result.getResults();
 			for(DatabaseObject obj : objs) {
 				DataCatalogID datid = (DataCatalogID) obj;
-				ids.add(datid.getParentLink());
+				String parent = datid.getParentLink();
+				if(suffix == null) {
+					ids.add(parent);
+				} else {
+					if(parent.endsWith(suffix)) {
+						ids.add(parent);
+					}					
+				}
 			}
 			topnode = ParseUtilities.parseIDsToHierarchyNode("Objects",ids,true);
 		} catch (ClassNotFoundException e) {

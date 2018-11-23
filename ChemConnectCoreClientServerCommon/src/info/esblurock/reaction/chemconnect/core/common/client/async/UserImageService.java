@@ -15,6 +15,7 @@ import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.data.image.ImageServiceInformation;
 import info.esblurock.reaction.chemconnect.core.data.image.UploadedImage;
+import info.esblurock.reaction.chemconnect.core.data.transfer.ProtocolSetupTransfer;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
@@ -84,8 +85,6 @@ public interface UserImageService  extends RemoteService  {
 	
 	DatabaseObjectHierarchy writeDatabaseObjectHierarchy(DatabaseObjectHierarchy hierarchy) throws IOException;
 	
-	public DatabaseObjectHierarchy getProtocol(DatabaseObject obj, ArrayList<String> obsid, String methodology, String title, DataCatalogID catid);
-	
 	HierarchyNode getUploadedFilesHiearchy(ArrayList<String> fileTypes) throws IOException;
 	
 	ArrayList<DatabaseObjectHierarchy> getSetOfDatabaseObjectHierarchyForUser(String classType) throws IOException;
@@ -121,5 +120,13 @@ public interface UserImageService  extends RemoteService  {
 	DatabaseObjectHierarchy  extractLinkObjectFromStructure(DatabaseObjectHierarchy hierarchy, String linktypeid) throws IOException;
 	
 	public void writeBlobContent(GCSBlobContent gcs) throws IOException;
+	
+	public ProtocolSetupTransfer protocolDefinitionSetup(String protocolS, String user) throws IOException;
+	
+	public DatabaseObjectHierarchy fillProtocolDefinition(DatabaseObjectHierarchy hierarchy, ArrayList<String> obsid);
+
+	public DatabaseObjectHierarchy getInitialProtocol(DatabaseObject obj, String title, DataCatalogID catid);
+	
+
 	
 }

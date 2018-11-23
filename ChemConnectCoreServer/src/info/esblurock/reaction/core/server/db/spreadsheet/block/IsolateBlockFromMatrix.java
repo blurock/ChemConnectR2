@@ -43,13 +43,14 @@ public class IsolateBlockFromMatrix {
 			numberOfColumns -= 1;
 		}
 		/*
-		 * System.out.println("blockisolate:\n " + blockisolate.toString());
-		 * System.out.println("begincolumn: " + begincolumn);
-		 * System.out.println("endcolumn:   " + endcolumn);
-		 * System.out.println("beginrow:    " + beginrow);
-		 * System.out.println("endrow:      " + endrow);
+		 System.out.println("blockisolate:\n " + blockisolate.toString());
+		 System.out.println("begincolumn: " + begincolumn);
+		 System.out.println("endcolumn:   " + endcolumn);
+		 System.out.println("beginrow:    " + beginrow);
+		 System.out.println("endrow:      " + endrow);
+		 System.out.println("title:       " + title);
+		 System.out.println("firstcolumn: " + firstcolumn);
 		 */
-
 		DatabaseObjectHierarchy infohier = InterpretData.SpreadSheetInputInformation.createEmptyObject(catid);
 		SpreadSheetInputInformation newinput = (SpreadSheetInputInformation) infohier.getObject();
 		newinput.setSourceType(StandardDatasetMetaData.chemConnectDataObject);
@@ -77,6 +78,7 @@ public class IsolateBlockFromMatrix {
 		ObservationValueRowTitle titles = (ObservationValueRowTitle) titleshier.getObject();
 		if (title) {
 			DatabaseObjectHierarchy rowelementhier = values.get(beginrow);
+			//System.out.println(rowelementhier.toString("TitleRow: "));
 			ObservationValueRow rowelement = (ObservationValueRow) rowelementhier.getObject();
 			ArrayList<String> rowvalues = new ArrayList<String>(numberOfColumns);
 			ArrayList<String> originalvalues = rowelement.getRow();
@@ -98,12 +100,14 @@ public class IsolateBlockFromMatrix {
 			titles.setParameterLabel(rowvalues);
 			begincolumn += 1;
 		} else {
-			ArrayList<String> rowvalues = new ArrayList<String>(numberOfColumns);
-			for (int i = 0; i < numberOfColumns; i++) {
-				String coltitle = "col: " + i;
-				rowvalues.add(coltitle);
+			if(!title) {
+				ArrayList<String> rowvalues = new ArrayList<String>(numberOfColumns);
+				for (int i = 0; i < numberOfColumns; i++) {
+					String coltitle = "col: " + i;
+					rowvalues.add(coltitle);
+				}
+				titles.setParameterLabel(rowvalues);
 			}
-			titles.setParameterLabel(rowvalues);
 		}
 		if (firstcolumn) {
 			fillNewMatrixTranspose(beginrow, endrow, begincolumn, endcolumn, values, newvalues);

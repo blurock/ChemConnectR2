@@ -662,7 +662,6 @@ public class ConceptParsing {
 				+ "		?object owl:onProperty <http://www.w3.org/2004/02/skos/core#related> .\n"
 				+ "		?object owl:onClass ?objecttype }";
 
-		System.out.println("findObjectTypeFromLinkConcept:\n" + query);
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
 		String structuretype = null;
@@ -678,7 +677,6 @@ public class ConceptParsing {
 		String query = "SELECT ?objecttype ?datatype \n" + "     WHERE {\n" + "	    " + unit
 				+ " rdfs:subClassOf ?objectype .\n" + "	    " + unit
 				+ " <http://purl.org/dc/elements/1.1/type> ?datatype\n" + "      }";
-		System.out.println(query);
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
 		String objecttype = null;

@@ -12,6 +12,7 @@ import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.data.image.ImageServiceInformation;
 import info.esblurock.reaction.chemconnect.core.data.image.UploadedImage;
+import info.esblurock.reaction.chemconnect.core.data.transfer.ProtocolSetupTransfer;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
@@ -65,9 +66,6 @@ public interface UserImageServiceAsync {
 	void writeDatabaseObjectHierarchy(DatabaseObjectHierarchy hierarchy,
 			AsyncCallback<DatabaseObjectHierarchy> callback);
 
-	void getProtocol(DatabaseObject obj, ArrayList<String> obsid, String methodology, String title, DataCatalogID catid,
-			AsyncCallback<DatabaseObjectHierarchy> callback);
-
 	void getUploadedFilesHiearchy(ArrayList<String> fileTypes,AsyncCallback<HierarchyNode> callback);
 
 	void getSetOfDatabaseObjectHierarchyForUser(String classType,
@@ -112,5 +110,13 @@ public interface UserImageServiceAsync {
 			AsyncCallback<DatabaseObjectHierarchy> callback);
 
 	void writeBlobContent(GCSBlobContent gcs, AsyncCallback<Void> callback);
+
+	void protocolDefinitionSetup(String protocolS, String user, AsyncCallback<ProtocolSetupTransfer> callback);
+
+	void fillProtocolDefinition(DatabaseObjectHierarchy hierarchy, ArrayList<String> obsid,
+			AsyncCallback<DatabaseObjectHierarchy> callback);
+
+	void getInitialProtocol(DatabaseObject obj, String title, DataCatalogID catid,
+			AsyncCallback<DatabaseObjectHierarchy> callback);
 
 }

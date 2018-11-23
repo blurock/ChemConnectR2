@@ -1,0 +1,31 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:m="urn:import:gwt.material.design.client.ui">
+	<ui:style>
+	.box {
+		background-color: #bdbdbd;
+		border: 1px solid #607d8b;
+		margin: 0px;
+	}
+	</ui:style>
+	<m:MaterialPanel styleName="{style.box}">
+		<m:MaterialRow margin="0">
+			<m:MaterialColumn grid="s4">
+				<m:MaterialLink ui:field="measure" textColor="BLACK"/>
+			</m:MaterialColumn>
+			<m:MaterialColumn grid="s6">
+				<m:MaterialTooltip ui:field="measuretooltip">
+					<m:MaterialLink ui:field="measurespec" textColor="BLACK" />
+				</m:MaterialTooltip>
+			</m:MaterialColumn>
+			<m:MaterialColumn>
+				<m:MaterialLink ui:field="viewspec" iconColor="BLACK"
+					iconType="VISIBILITY" />
+			</m:MaterialColumn>
+			<m:MaterialColumn>
+				<m:MaterialLink ui:field="deletespec" iconColor="BLACK"
+					iconType="DELETE" />
+			</m:MaterialColumn>
+		</m:MaterialRow>
+	</m:MaterialPanel>
+</ui:UiBinder> 

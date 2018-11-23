@@ -6,6 +6,7 @@ import java.util.HashMap;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -87,6 +88,7 @@ public class MatrixSpecificationCorrespondenceSetHeader extends Composite
 	}
 	
 	public void displayCorrespondences() {
+		Window.alert("displayCorrespondences() begin");
 		for(DatabaseObjectHierarchy mathier : matspechierarchy.getSubobjects()) {
 			StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(topitem,mathier,
 					topitem.getModalpanel());
@@ -98,6 +100,7 @@ public class MatrixSpecificationCorrespondenceSetHeader extends Composite
 			}
 			corrspecpanel.add(header);
 		}
+		Window.alert("displayCorrespondences() finish");
 	}
 
 	/**
@@ -106,10 +109,15 @@ public class MatrixSpecificationCorrespondenceSetHeader extends Composite
 	 * @param subs Hierachy for ObservationsFromSpreadSheet
 	 */
 	public void setupMatrix(DataCatalogID catid, DatabaseObjectHierarchy subs) {
+		Window.alert("setupMatrix begin\n" + subs);
 		attachedObservationsFromSpreadSheet = subs;
+		Window.alert(attachedObservationsFromSpreadSheet.getObject().toString("attached"));
 		ObservationsFromSpreadSheet observations = (ObservationsFromSpreadSheet) attachedObservationsFromSpreadSheet.getObject();
+		Window.alert("setupMatrix 1");
 		DatabaseObjectHierarchy matrixhierarchy = attachedObservationsFromSpreadSheet.getSubObject(observations.getObservationValueRowTitle());
+		Window.alert("setupMatrix 2");
 		setInColumnCorrespondences(matrixhierarchy);
+		Window.alert("setupMatrix end");
 	}
 	
 	public void setUpListOfSpecifications(DatabaseObjectHierarchy spechier) {
@@ -122,6 +130,7 @@ public class MatrixSpecificationCorrespondenceSetHeader extends Composite
 		listmap = new HashMap<String, String>();
 		fillSpec(dimensionhier.getSubobjects());
 		fillSpec(measurehier.getSubobjects());
+		Window.alert("List map\n" + listmap.toString());
 	}
 
 	private void fillSpec(ArrayList<DatabaseObjectHierarchy> specs) {

@@ -4,6 +4,19 @@ package info.esblurock.reaction.chemconnect.core.client.resources;
 import gwt.material.design.client.ui.MaterialLink;
 
 public class TextUtilities {
+	
+	public static String extractSimpleNameFromCatalog(String name) {
+		int pos = name.indexOf("-");
+		String simple = null;
+		while(pos > 0) {
+			name = name.substring(pos+1);
+			pos = name.indexOf("-");
+			if(pos > 0) {
+				simple = name.substring(0,pos);
+			}
+		}
+		return simple;
+	}
 
 	public static String removeNamespace(String name) {
 		int pos = name.indexOf(":");

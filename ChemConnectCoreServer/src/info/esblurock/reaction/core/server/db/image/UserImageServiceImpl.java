@@ -48,6 +48,7 @@ import info.esblurock.reaction.chemconnect.core.data.query.SetOfQueryPropertyVal
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.data.transaction.TransactionInfo;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
+import info.esblurock.reaction.chemconnect.core.data.transfer.ProtocolSetupTransfer;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
@@ -55,6 +56,7 @@ import info.esblurock.reaction.core.server.db.InterpretData;
 import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.db.extract.ExtractLinkObjectFromStructure;
+import info.esblurock.reaction.core.server.db.protocol.ProtocolSetupUtilities;
 import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFactory;
 import info.esblurock.reaction.core.server.read.ReadWriteYamlDatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.services.ServerBase;
@@ -463,11 +465,19 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		return corrspechier;
 	}
 
-	public DatabaseObjectHierarchy getProtocol(DatabaseObject obj, ArrayList<String> obsid, String methodology, String title, DataCatalogID catid) {
+	public DatabaseObjectHierarchy getInitialProtocol(DatabaseObject obj, String title, DataCatalogID catid) {
 		String sourceID = QueryBase.getDataSourceIdentification(obj.getOwner());
 		obj.setSourceID(sourceID);
 		obj.nullKey();
-		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillProtocolDefinition(obj, obsid,methodology, title, catid);
+		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.protocolDefinitionSetup(obj, title, catid);
+		return hierarchy;
+	}
+	public ProtocolSetupTransfer protocolDefinitionSetup(String protocolS, String user) throws IOException {
+		ProtocolSetupTransfer transfer = ProtocolSetupUtilities.observationsForProtocol(protocolS, user);
+		return transfer;
+	}
+	public DatabaseObjectHierarchy fillProtocolDefinition(DatabaseObjectHierarchy hierarchy, ArrayList<String> obsid) {
+		CreateDefaultObjectsFactory.fillProtocolDefinition(hierarchy, obsid);
 		return hierarchy;
 	}
 	public DatabaseObjectHierarchy createNewCatalogHierarchy(DatabaseObject obj, String id, 
@@ -536,7 +546,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	public HierarchyNode getIDHierarchyFromDataCatalogAndUser(String datacatalog) throws IOException {
 		ContextAndSessionUtilities util = getUtilities();
 		String user = util.getUserName();
-		return WriteReadDatabaseObjects.getIDHierarchyFromDataCatalogAndUser(user,datacatalog);
+		return WriteReadDatabaseObjects.getIDHierarchyFromDataCatalogAndUser(user,datacatalog,null);
 	}
 	
 	public HierarchyNode getIDHierarchyFromDataCatalogIDAndClassType(String catalogbasename, String classtype) throws IOException {
