@@ -11,24 +11,18 @@ public class UnverifiedUserAccount extends DatabaseObject {
     @Index
     String username;
     @Index
-    String password;
-    @Index
     String email;
     
     public UnverifiedUserAccount() {
     	
     }
-	public UnverifiedUserAccount(String username, String password, String email) {
+	public UnverifiedUserAccount(String username, String email) {
 		super();
 		this.username = username;
-		this.password = password;
 		this.email = email;
 	}
 	public String getUsername() {
 		return username;
-	}
-	public String getPassword() {
-		return password;
 	}
 	public String getEmail() {
 		return email;

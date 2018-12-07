@@ -6,7 +6,6 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-
 import info.esblurock.reaction.chemconnect.core.common.client.async.LoginService;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.contact.IndividualInformation;
@@ -16,6 +15,7 @@ import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.rdf.KeywordRDF;
 import info.esblurock.reaction.chemconnect.core.data.transaction.EventCount;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
 import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFactory;
 import info.esblurock.reaction.core.server.mail.SendMail;
@@ -32,44 +32,30 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 
 	public static String login = "Login";
 
+	String guest = "Guest";
+	String guestpass = "laguna";
 	String admin = "Administration";
 	String adminpass = "laguna";
-	String level = MetaDataKeywords.accessTypeSuperUser;
+	String guestlevel = MetaDataKeywords.accessTypeQuery;
+	String adminlevel = MetaDataKeywords.accessTypeSuperUser;
 
 	@Override
-	public UserDTO loginServer(String name, String password) throws IOException {
+	public UserDTO loginServer(String name) throws IOException {
 		ContextAndSessionUtilities util = getUtilities();
-		String passwd = null;
 		String lvl = null;
-		if (admin.equals(name)) {
-			System.out.println("Login: System Administrator");
-			passwd = adminpass;
-			lvl = level;
+		if (guest.equals(name)) {
+			System.out.println("Login: Guest Login");
+			lvl = guestlevel;
 			QueryBase.getNextEventCount(name);
-
-			try {
-				IndividualInformation person = (IndividualInformation) QueryBase
-						.getFirstDatabaseObjectsFromSingleProperty(IndividualInformation.class.getCanonicalName(),
-								"owner", "Administration");
-				System.out.println("Already Created: " + person.getIdentifier());
-			} catch (IOException ex) {
-				String sourceID = QueryBase.getDataSourceIdentification("Administration");
-				String username = "Administration";
-				String access = "Administration";
-				String owner = "Administration";
-				String orgname = "BlurockConsultingAB";
-				String title = "Blurock Consulting AB";
-				String userrole = MetaDataKeywords.accessTypeAdministrator;
-				CreateDefaultObjectsFactory.createAndWriteDefaultUserOrgAndCatagories(username, userrole, access, owner, orgname,
-						title, sourceID);
+			DatabaseObjectHierarchy hierarchy = LoginAuthorization.findOrCreateIndividual("Guest", "CHEMCONNECT",
+					"CHEMCONNECT", lvl);
+			if (hierarchy != null) {
+				UserAccountInformation info = (UserAccountInformation) hierarchy.getObject();
 			}
-
 		} else {
-			System.out.println("Login: Normal user: " + name);
-
+			System.out.println("Login: user: " + name);
 			UserAccountInformation account = getAccount(name);
 			if (account != null) {
-				passwd = account.getPassword();
 				lvl = account.getUserrole();
 			} else {
 				System.out.println("User not found");
@@ -78,36 +64,14 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 		}
 
 		UserDTO user = null;
-		if (passwd != null) {
-			if (password.equals(passwd)) {
-				System.out.println("Password matches");
-				String sessionid = util.getId();
-				String ip = getThreadLocalRequest().getRemoteAddr();
-				System.out.println("IP=" + ip);
-				String host = getThreadLocalRequest().getRemoteHost();
-				System.out.println("Host=" + host);
-				user = new UserDTO(name, sessionid, ip, host, lvl, standardMaxTransitions);
-				addAccessKeys(user);
-				user.setPrivledges(getPrivledges(lvl));
-				util.setUserInfo(user);
-				System.out.println("Verifying user: " + login);
-				verify(login, login);
-				//String directory = "upload/" + user.getName() + "/";
-				//String directory = "upload/";
-				//System.out.println("----------------------------------------------------------");
-				/*
-				System.out.println("Blob list: '" + directory + "'");
-				System.out.println("----------------------------------------------------------");
-				DatabaseObject obj = new DatabaseObject("chemconnect",user.getName(),user.getName(),"1");
-				HierarchyNode topnode = GoogleCloudStorageBase.getBlobHierarchy(obj,"chemconnect",directory);
-				System.out.println(topnode.toString("getBlobHierarchy blobs: "));
-				*/
-			} else {
-				throw new IOException("name mismatch; " + name);
-			}
-		} else {
-			throw new IOException("name mismatch; " + name);
-		}
+		String sessionid = util.getId();
+		String ip = getThreadLocalRequest().getRemoteAddr();
+		String host = getThreadLocalRequest().getRemoteHost();
+		user = new UserDTO(name, sessionid, ip, host, lvl, standardMaxTransitions);
+		addAccessKeys(user);
+		user.setPrivledges(getPrivledges(lvl));
+		util.setUserInfo(user);
+		verify(login, login);
 		return user;
 	}
 
@@ -144,10 +108,8 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 		System.out.println("loginVerification: " + unverified);
 		String email = unverified.getEmail();
 		if (unverified.getUsername().equals(username)) {
-			String password = unverified.getPassword();
-			// Date creation = unverified.getCreationDate();
 			String userrole = MetaDataKeywords.accessTypeStandardUser;
-			DatabaseWriteBase.initializeIndividualInformation(username, password, email, userrole);
+			DatabaseWriteBase.initializeIndividualInformation(username, email, userrole);
 			String subject = "Welcome to MolConnect";
 			String msg = "Your account has been verified<br>" + "This account is under a limited usage agreement <br>"
 					+ "Have fun.<br>" + "<br>" + "Updates and instructions will be posted on the website<br>" + "<br>"
@@ -165,7 +127,7 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 	@Override
 	public String firstLoginToServer(String username) throws IOException {
 		UnverifiedUserAccount unverified = getUnverifiedAccount(username);
-		loginServer(unverified.getUsername(), unverified.getPassword());
+		loginServer(unverified.getUsername());
 		QueryBase.deleteUsingPropertyValue(UnverifiedUserAccount.class, "username", username);
 		return username;
 	}
@@ -197,7 +159,7 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 			if (userexists == null) {
 
 				UnverifiedUserAccount unverified = new UnverifiedUserAccount(account.getIdentifier(),
-						account.getPassword(), account.getEmail());
+						account.getEmail());
 				DatabaseWriteBase.writeDatabaseObject(unverified);
 
 				// String host = "http://127.0.0.1:8080/";

@@ -176,14 +176,14 @@ public enum DataStructurePages implements Serializable {
 	public abstract String getDescription();
 	public abstract Widget getContent();
 	
-	static MainDataStructureVisualization dataStructures = new MainDataStructureVisualization();
-	static IsolateMatrixBlock block = new IsolateMatrixBlock();
-	static DeviceWithSubystemsDefinition subsystems = new DeviceWithSubystemsDefinition();
-	static SetOfObservationsDefinition setofobservations = new SetOfObservationsDefinition();
-	static ProtocolDefinition protocol = new ProtocolDefinition();
-	static UploadFileToBlobStorage blobstorage = new UploadFileToBlobStorage();
-	static ManageCatalogHierarchy managecatalog = new ManageCatalogHierarchy();
-	static OrganizationDefinition organizations = new OrganizationDefinition();
-	static DatabasePersonDefinition people = new DatabasePersonDefinition();
+	public static MainDataStructureVisualization dataStructures = new MainDataStructureVisualization();
+	public static IsolateMatrixBlock block = new IsolateMatrixBlock();
+	public static DeviceWithSubystemsDefinition subsystems = new DeviceWithSubystemsDefinition();
+	public static SetOfObservationsDefinition setofobservations = new SetOfObservationsDefinition();
+	public static ProtocolDefinition protocol = new ProtocolDefinition();
+	public static UploadFileToBlobStorage blobstorage = new UploadFileToBlobStorage();
+	public static ManageCatalogHierarchy managecatalog = new ManageCatalogHierarchy();
+	public static OrganizationDefinition organizations = new OrganizationDefinition();
+	public static DatabasePersonDefinition people = new DatabasePersonDefinition();
 	
 }

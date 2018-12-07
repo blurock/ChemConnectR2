@@ -1,0 +1,29 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
+	xmlns:m="urn:import:gwt.material.design.client.ui"
+	xmlns:ma="urn:import:gwt.material.design.addins.client">
+
+	<ui:style>
+	.important {
+		font-weight: bold;
+	}
+	.panel {
+		font-family: monospace;
+		color: black;
+		background: white;
+	}
+	</ui:style>
+	<m:MaterialPanel ui:field="panel" width="100%" >
+		<m:MaterialPanel ui:field="modalpanel"/>
+		<m:MaterialRow>
+		<m:MaterialColumn grid="s12">
+			<m:MaterialLink ui:field="loginButton" textColor="BLACK"
+				width="100%" backgroundColor="BLUE_GREY_LIGHTEN_2" fontSize="1.5em" text="Login"/>
+				</m:MaterialColumn>
+		</m:MaterialRow>
+		<m:MaterialRow>
+			<m:MaterialPanel ui:field="footerpanel" />
+		</m:MaterialRow>
+	</m:MaterialPanel>
+</ui:UiBinder> 

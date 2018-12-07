@@ -6,7 +6,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Cookies;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -16,6 +15,7 @@ import info.esblurock.reaction.chemconnect.core.client.catalog.SetUpDatabaseObje
 import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.client.catalog.choose.ChooseFullNameFromCatagoryRow;
 import info.esblurock.reaction.chemconnect.core.client.catalog.choose.ObjectVisualizationInterface;
+import info.esblurock.reaction.chemconnect.core.client.ui.view.ProtocolDefinitionView;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
@@ -24,13 +24,15 @@ import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ProtocolSetupTransfer;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
-public class ProtocolDefinition extends Composite implements ObjectVisualizationInterface {
+public class ProtocolDefinition extends Composite implements ObjectVisualizationInterface, ProtocolDefinitionView {
 
 	private static ProtocolDefinitionUiBinder uiBinder = GWT.create(ProtocolDefinitionUiBinder.class);
 
 	interface ProtocolDefinitionUiBinder extends UiBinder<Widget, ProtocolDefinition> {
 	}
 
+	Presenter listener;
+	
 	@UiField
 	MaterialCollapsible contentcollapsible;
 	@UiField
@@ -74,6 +76,14 @@ public class ProtocolDefinition extends Composite implements ObjectVisualization
 		String title = "Protocol: " + protocolS;
 		async.getInitialProtocol(obj,title,catid,callback);
 		
+	}
+	@Override
+	public void setName(String titleName) {
+	}
+
+	@Override
+	public void setPresenter(Presenter listener) {
+		this.listener = listener;
 	}
 
 

@@ -29,7 +29,7 @@ public interface LoginService extends RemoteService {
        }
    }
 
-   public UserDTO loginServer(String name, String password) throws IOException;
+   public UserDTO loginServer(String name) throws IOException;
 
    public UserDTO loginFromSessionServer();
     

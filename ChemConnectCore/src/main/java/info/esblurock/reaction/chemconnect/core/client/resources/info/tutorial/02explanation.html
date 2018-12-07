@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+</head>
+<body>
+	<p style="font-size: 30px">
+		<i>Overview with examples</i>
+	</p>
+	<br>
+	<p style="font-size: 20px">
+		<b>File Staging</b>
+	</p>
+	<p>CHEMCONNECT allows and interprets multiple formats (File
+		Staging). The file could be a (formatted) text file, a spreadsheet
+		(regardless of whether it be csv, xsl, xslx or delimited in some other
+		way) or XML.</p>
+	<p>A single data file can contain several blocks of information,
+		where a block can be view as a set of rows staring with a title. The
+		CHEMCONNECT interface, in conjunction with the knowledge base, helps
+		isolate these blocks so can be later interpreted (Data Block
+		Recognition).</p>
+	<br>
+	<p style="font-size: 20px">
+		<b>Parameter Recognition</b>
+	</p>
+	<p>In a block of data, for example in a spreadsheet, each column
+		represents a parameter. Within the CHEMCONNECT knowledge base this
+		block is considered one observation set, for example, a set of
+		experimental conditions, a pressure, volume or temperature curve, or a
+		set of experimental measurements (under the given conditions). The
+		CHEMCONNECT interface assists in determining how the block is to be
+		interpreted (Parameter Recognition). For example, the first line
+		usually specifies the parameter name and implicit (sometimes given
+		with the parameter name) with the parameter is its units. Through the
+		CHEMCONNECT interface, a correspondence between the data file
+		parameter and the ‘standard’ parameter specification within the
+		knowledge base is made. An important part of the specification is the
+		choice of units. In the CHEMCONNECT specification, only the class of
+		parameter, such as temperature, pressure, time, etc., is specified.
+		Within this class, a choice of specific units can be made that
+		corresponds to units of the data set. Thus, for example, for an energy
+		parameter, the data set parameter can be specified to be joules,
+		calories, kilocalories, etc.. Within the knowledge base are the
+		conversions between the different units.</p>
+	<br>
+	<p style="font-size: 20px">
+		<b>Protocol Specification</b>
+	</p>
+	<p>A given protocol specifies (Protocol Specification) which sets
+		of data should be reported for a given experiment or device. Within
+		CHEMCONNECT there are protocol associated with calibration (such as a
+		mass spectrometer calibration for species), measurement (meaning the
+		‘raw’ data coming from the sensors or device) interpretation and data
+		manipulation (such as converting a pressure curve to an ignition delay
+		time), or published data reporting. In terms of data observations, a
+		protocol specifies for each block, a set of parameter specifications
+		(from the Parameter Specification step) within the block and how the
+		block was isolated from the data (from the Data Block Recognition
+		step). Typically, a laboratory or a given experimental community has
+		their own ‘standard’ way of reporting data, the data files used, the
+		parameters reported and even the units used. Therefore, this protocol
+		specification need only be set up once. It is re-used for each
+		experimental set within the laboratory or community.</p>
+	<br>
+	<p style="font-size: 20px">
+		<b>Data entry</b>
+	</p>
+	<p>Since the data reporting for a particular lab has, for the most
+		part, the same form, the preliminary steps just outlined is done just
+		once. The actual data to report, representing set of experiments using
+		a particular device within the lab, are collected as data files. The
+		data files are interpreted by the protocol specification (Data Entry).
+		A protocol specification can refer to several data file sources. A
+		correspondence between the data file and the appropriate part of the
+		protocol specification is made to determine where in the file the data
+		is found and how the parameters are interpreted. The data file is
+		stored in its original form, linked with the protocol specification
+		and the data extracted for use in the CHEMCONNECT database.</p>
+</body>
+</html>

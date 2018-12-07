@@ -15,6 +15,7 @@ import info.esblurock.reaction.chemconnect.core.client.catalog.SetUpDatabaseObje
 import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.client.catalog.choose.ChooseFullNameFromCatagoryRow;
 import info.esblurock.reaction.chemconnect.core.client.catalog.choose.ObjectVisualizationInterface;
+import info.esblurock.reaction.chemconnect.core.client.ui.view.DeviceWithSubystemsDefinitionView;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
@@ -23,7 +24,7 @@ import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 public class DeviceWithSubystemsDefinition extends Composite 
-	implements  ObjectVisualizationInterface
+	implements  DeviceWithSubystemsDefinitionView, ObjectVisualizationInterface
 	{
 
 	private static DeviceWithSubystemsDefinitionUiBinder uiBinder = GWT
@@ -31,6 +32,8 @@ public class DeviceWithSubystemsDefinition extends Composite
 
 	interface DeviceWithSubystemsDefinitionUiBinder extends UiBinder<Widget, DeviceWithSubystemsDefinition> {
 	}
+
+	Presenter listener;
 
 	String enterkeyS;
 	String keynameS;
@@ -68,8 +71,14 @@ public class DeviceWithSubystemsDefinition extends Composite
 	public void insertCatalogObject(DatabaseObjectHierarchy subs) {
 		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(null,subs,modalpanel);
 		contentcollapsible.add(item);
-		
-		
+	}
+	@Override
+	public void setName(String titleName) {
+	}
+
+	@Override
+	public void setPresenter(Presenter listener) {
+		this.listener = listener;
 	}
 
 

@@ -106,7 +106,7 @@ public class DatabaseWriteBase {
 	
 	
 	
-	static public void initializeIndividualInformation(String username, String password, String email, String userrole) {
+	static public void initializeIndividualInformation(String username, String email, String userrole) {
 /*
 		String sourceID = QueryBase.getDataSourceIdentification(username);
 		String id = username;

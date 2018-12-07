@@ -37,5 +37,4 @@ public class ChemConnectAdministrationActivity extends AbstractActivity implemen
 		clientFactory.getPlaceController().goTo(place);
 	}
 
-
 }

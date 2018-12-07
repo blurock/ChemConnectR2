@@ -1,0 +1,76 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:m="urn:import:gwt.material.design.client.ui"
+	xmlns:ma="urn:import:gwt.material.design.addins.client">
+	<ui:style>
+	.important {
+		font-weight: bold;
+	}
+	</ui:style>
+	<m:MaterialPanel>
+		<m:MaterialRow margin="0" backgroundColor="WHITE">
+			<m:MaterialColumn grid="l2" backgroundColor="PURPLE"
+				height="100%" textAlign="CENTER" padding="60">
+				<m:MaterialIcon iconType="CHAT" opacity="0.8"
+					iconColor="WHITE" />
+			</m:MaterialColumn>
+			<m:MaterialColumn grid="l10">
+				<m:MaterialLabel ui:field="title" text="ChemConnect: The Intelligent Repository" fontSize="2em"
+					padding="12" />
+				<m:MaterialLabel ui:field="subtitle" text="backed by a knowledge base" fontSize="1.5em"/>
+				<!-- MenuBar component -->
+				<ma:menubar.MaterialMenuBar
+					backgroundColor="PURPLE">
+					<m:MaterialLink padding="12" waves="DEFAULT" text="Mission"
+						textColor="WHITE" />
+					<m:MaterialLink padding="12" waves="DEFAULT" text="Create"
+						textColor="WHITE" activates="dp-create" />
+					<m:MaterialLink padding="12" waves="DEFAULT" text="Tutorial"
+						textColor="WHITE" activates="dp-tutorial" />
+					<m:MaterialLink padding="12" waves="DEFAULT" text="Information"
+						textColor="WHITE" activates="dp-info" />
+					<m:MaterialLink padding="12" waves="DEFAULT" text="about"
+						textColor="WHITE" activates="dp-info" />
+
+					<m:MaterialDropDown ui:field="dpCreate"
+						activator="dp-create" belowOrigin="true">
+						<m:MaterialLink ui:field="catalog" separator="true"
+							textColor="BLACK" />
+						<m:MaterialLink ui:field="upload" separator="true"
+							textColor="BLACK" />
+						<m:MaterialLink ui:field="isolate" separator="true"
+							textColor="BLACK" />
+						<m:MaterialLink ui:field="specification" separator="true"
+							textColor="BLACK" />
+						<m:MaterialLink ui:field="protocol" separator="true"
+							textColor="BLACK" />
+						<m:MaterialLink ui:field="dataSet" separator="true"
+							textColor="BLACK" />
+						<m:MaterialLink ui:field="devices" separator="true"
+							textColor="BLACK" />
+						<m:MaterialLink ui:field="people" separator="true"
+							textColor="BLACK" />
+						<m:MaterialLink ui:field="organizations" separator="true"
+							textColor="BLACK" />
+					</m:MaterialDropDown>
+					<m:MaterialDropDown ui:field="dpTutorial"
+						activator="dp-tutorial" belowOrigin="true">
+						<m:MaterialLink text="Start" separator="true"
+							textColor="BLACK" />
+						<m:MaterialLink ui:field="tutorialreadfile" separator="true"
+							textColor="BLACK" />
+					</m:MaterialDropDown>
+					<m:MaterialDropDown ui:field="dpInfo" activator="dp-info"
+						belowOrigin="true">
+						<m:MaterialLink text="About" separator="true"
+							textColor="BLACK" />
+					</m:MaterialDropDown>
+				</ma:menubar.MaterialMenuBar>
+			</m:MaterialColumn>
+		</m:MaterialRow>
+	<m:MaterialRow>
+		<g:SimplePanel ui:field="contentPanel" />
+		</m:MaterialRow>
+	</m:MaterialPanel>
+
+</ui:UiBinder> 

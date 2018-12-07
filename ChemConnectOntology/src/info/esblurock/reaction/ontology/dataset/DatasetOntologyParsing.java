@@ -605,9 +605,10 @@ dataset:ChemConnectPrimitiveDataStructure:
 	 * 
 	 */
 	public static String getChemConnectDirectTypeHierarchy(String name) {
-		String direct = "SELECT ?type\n" + "	WHERE {\n" + name + " <http://purl.org/dc/elements/1.1/type> ?type .\n"
+		String direct = "SELECT ?type\n" 
+				+ "	WHERE {\n" 
+				+ name + " <http://purl.org/dc/elements/1.1/type> ?type .\n"
 				+ "	}";
-		
 		String objname = getHierarchString(direct);
 		if (objname == null) {
 

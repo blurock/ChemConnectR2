@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+</head>
+<body>
+	<p style="font-size: 30px">
+		<i>File Staging</i>
+	</p>
+	<br>
+	<p style="font-size: 20px">
+		<b>Uploading</b>
+	</p>
+	<p>The first step in data entry is to upload the file, either from
+		the local filesystem, a web address or with typing in directly with an
+		entry field. The upload file is first stored in its entirety in the
+		file staging area. There are no restrictions as to the type of file
+		that is uploaded, but no interpretation of the file has been made.</p>
+	<p>
+		<br>
+	<p style="font-size: 20px">
+		<b>File Type</b>
+	</p>
+	<p>The next (semi-automatic) step is to determine which class, as
+		interpreted by the knowledge base, the data file belongs to. Some clue
+		of the data type is given by the MIME type extracted and associated
+		with the file. For example, a csv spreadsheet file has a MIME type of
+		‘text/csv’, meaning that a csv file is a text file with the form of a
+		‘comma separated values’ text. From the MIME type, the knowledge
+		further refines the file type. Two sets of choices are offered, one
+		based on the MIME type and one based on the extension of the file. For
+		a csv file, these are the same, meaning a ‘SpreadSheetCSV’ classified
+		file within the database. However, for other types of files, for
+		example, simple text files, the choice can be automated and the user
+		must supply more information. For example, is could be a spreadsheet
+		with another delimitor (space or tab) or even a ‘chemical’ file such
+		as a chemkin mechanism, thermodynamic file or transport data file.</p>
+	<p>
+		<br>
+	<p style="font-size: 20px">
+		<b>File Catalog Type</b>
+	</p>
+	<p>The second classification is the ‘catalog’ classification type.
+		For example, spreadsheets, no matter what source type they have, all
+		represent matrices. A matrix can also be defined through a yaml or XML
+		file. So whether the original source file was a spreadsheet, a yaml
+		file or an XML file, the way the data is stored and interpreted is as
+		a matrix (a CHEMCONNECT ‘DataFileMatrixStructure’). In all further
+		specifications and manipulations, when a matrix file is called for,
+		these structures will come forth, once again, regardless of its
+		original source form.</p>
+	<p>
+		<br>
+	<p style="font-size: 20px">
+		<b>File Identification and Accessibility</b>
+	</p>
+	<p>Thus the first stage to interpret the file format, the data
+		source identification is formed. This consists of several parts
+		(common to all CHEMCONNECT data objects: see tutorial on catalog
+		identification for more details: 
+		<ul>
+		<li><b>Base Catalog Location:</b> The location
+		of the data within the user’s catalog system. 
+		<li><b>File Type:</b> The
+		identification of the data type that the source file represents. For
+		example, a spreadsheet is, usually, of type ‘DataFileMatrixStructure’.
+		<li><b>Data source name:</b> This is the free text identifying this file,
+		basically a unique filename. 
+		<li><b>Accessibility:</b> This is a pull-down list
+		of who (and how) the data source can be accessed. It can be public,
+		the user or a member of a consortium. 
+		</ul>
+		In addition, unique to file
+		staging is how to read the information in the file. In the example
+		above, the csv file is read and interpreted as a ‘SpreadSheetCSV’. If
+		the file is a text file, the field below these choices shows the text.
+		Before the source text file is submitted, the text can be modified in
+		case the source differs from the expected source type.
+		</p>
+	<p>
+		<br>
+	<p style="font-size: 20px">
+		<b>Interpreting to the database</b>
+	</p>
+	<p>Upon clicking ‘SUBMIT’ the file source is read in an interpreted
+		appropriately. After successful interpretation, a catalog object is
+		created and the file information is visualized. In the case of a
+		matrix of data (‘DataFileMatrixStructure’), the catalog information is
+		a ‘ObservationsFromSpreadSheetFull’ (transparent to the user,
+		actually) with the standard catalog object information such as title,
+		description, concept, purpose, time stamps, etc. In addition,
+		references (paper or web site references) or links (for example to
+		other associated data objects, pictures, references to the device,
+		association with a lab or person who produced or entered the data,
+		etc.). These fields can be modified and updated. Updating is done the
+		the SAVE button.</p>
+
+
+</body>
+</html>

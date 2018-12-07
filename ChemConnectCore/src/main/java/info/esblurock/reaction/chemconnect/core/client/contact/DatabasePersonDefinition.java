@@ -18,6 +18,7 @@ import info.esblurock.reaction.chemconnect.core.client.catalog.SetUpDatabaseObje
 import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.client.catalog.choose.ChooseFullNameFromCatagoryRow;
 import info.esblurock.reaction.chemconnect.core.client.catalog.choose.ObjectVisualizationInterface;
+import info.esblurock.reaction.chemconnect.core.client.ui.view.DatabasePersonDefinitionView;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
@@ -26,7 +27,7 @@ import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
-public class DatabasePersonDefinition extends Composite  implements ObjectVisualizationInterface, SetOfObjectsCallbackInterface, QueryNameOfPersonInterface {
+public class DatabasePersonDefinition extends Composite  implements ObjectVisualizationInterface, SetOfObjectsCallbackInterface, QueryNameOfPersonInterface, DatabasePersonDefinitionView {
 
 	private static DatabasePersonDefinitionUiBinder uiBinder = GWT.create(DatabasePersonDefinitionUiBinder.class);
 
@@ -48,6 +49,7 @@ public class DatabasePersonDefinition extends Composite  implements ObjectVisual
 	@UiField
 	MaterialCollapsible createdPeople;
 
+	Presenter listener;
 	ChooseFullNameFromCatagoryRow choose;
 	String access;
 	NameOfPerson person;
@@ -110,4 +112,13 @@ public class DatabasePersonDefinition extends Composite  implements ObjectVisual
 		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(null,subs,modalpanel);
 		existingPeople.add(item);
 	}
+	@Override
+	public void setName(String titleName) {
+	}
+
+	@Override
+	public void setPresenter(Presenter listener) {
+		this.listener = listener;
+	}
+
 }

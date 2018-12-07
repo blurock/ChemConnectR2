@@ -15,13 +15,15 @@ import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTitle;
 import gwt.material.design.client.ui.MaterialTooltip;
+import info.esblurock.reaction.chemconnect.core.client.ui.view.ManageCatalogHierarchyView;
+import info.esblurock.reaction.chemconnect.core.client.ui.view.UploadFileToBlobStorageView.Presenter;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
 
-public class ManageCatalogHierarchy extends Composite {
+public class ManageCatalogHierarchy extends Composite implements ManageCatalogHierarchyView {
 
 	private static ManageCatalogHierarchyUiBinder uiBinder = GWT.create(ManageCatalogHierarchyUiBinder.class);
 
@@ -43,6 +45,7 @@ public class ManageCatalogHierarchy extends Composite {
 	@UiField
 	MaterialIcon save;
 	
+	Presenter listener;
 	String userName;
 	ChemConnectDataStructure infoStructure;
 	DatabaseObject obj;
@@ -93,6 +96,14 @@ public class ManageCatalogHierarchy extends Composite {
 
 	public MaterialPanel getModalPanel() {
 		return modalpanel;
+	}
+	@Override
+	public void setName(String titleName) {
+	}
+
+	@Override
+	public void setPresenter(Presenter listener) {
+		this.listener = listener;
 	}
 
 }

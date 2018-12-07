@@ -6,6 +6,16 @@ import com.google.gwt.place.shared.PlaceHistoryMapper;
 import com.google.gwt.place.shared.WithTokenizers;
 
 import info.esblurock.reaction.chemconnect.core.client.place.ChemConnectAdministrationPlace;
+import info.esblurock.reaction.chemconnect.core.client.place.ChemConnectObservationPlace;
+import info.esblurock.reaction.chemconnect.core.client.place.DeviceWithSubystemsDefinitionPlace;
+import info.esblurock.reaction.chemconnect.core.client.place.IsolateMatrixBlockPlace;
+import info.esblurock.reaction.chemconnect.core.client.place.UploadFileToBlobStoragePlace;
+import info.esblurock.reaction.chemconnect.core.client.place.DatabasePersonDefinitionPlace;
+import info.esblurock.reaction.chemconnect.core.client.place.ManageCatalogHierarchyPlace;
+import info.esblurock.reaction.chemconnect.core.client.place.OrganizationDefinitionPlace;
+import info.esblurock.reaction.chemconnect.core.client.place.TutorialExamplePlace;
+import info.esblurock.reaction.chemconnect.core.client.place.FirstPagePlace;
+import info.esblurock.reaction.chemconnect.core.client.place.FirstSiteLandingPagePlace;
 
 /**
  * PlaceHistoryMapper interface is used to attach all places which the
@@ -14,7 +24,20 @@ import info.esblurock.reaction.chemconnect.core.client.place.ChemConnectAdminist
  * separate TokenizerFactory.
  */
 //@WithTokenizers( { HelloPlace.Tokenizer.class, GoodbyePlace.Tokenizer.class })
-@WithTokenizers( { ChemConnectAdministrationPlace.Tokenizer.class}
+@WithTokenizers( { ChemConnectAdministrationPlace.Tokenizer.class,
+	IsolateMatrixBlockPlace.Tokenizer.class,
+	DeviceWithSubystemsDefinitionPlace.Tokenizer.class,
+	ChemConnectObservationPlace.Tokenizer.class,
+	DatabasePersonDefinitionPlace.Tokenizer.class,
+	UploadFileToBlobStoragePlace.Tokenizer.class,
+	ManageCatalogHierarchyPlace.Tokenizer.class,
+	OrganizationDefinitionPlace.Tokenizer.class,
+	DatabasePersonDefinitionPlace.Tokenizer.class,
+	TutorialExamplePlace.Tokenizer.class,
+	FirstPagePlace.Tokenizer.class,
+	FirstSiteLandingPagePlace.Tokenizer.class,
+	}
+
 )
 
 public interface AppPlaceHistoryMapper extends PlaceHistoryMapper {

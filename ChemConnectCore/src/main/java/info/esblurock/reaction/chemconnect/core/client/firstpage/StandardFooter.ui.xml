@@ -1,0 +1,53 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:m="urn:import:gwt.material.design.client.ui"
+	xmlns:ma="urn:import:gwt.material.design.addins.client">
+	<ui:style>
+	
+	</ui:style>
+	<m:MaterialFooter backgroundColor="BLUE_GREY_DARKEN_1">
+		<m:MaterialRow>
+			<m:MaterialColumn grid="s12 m4 l4">
+				<m:MaterialTitle textColor="BLACK" title="CHEMCONNECT Partners"
+					description="CHEMCONNECT is a multidisciplinary project requiring state of the art 
+						knowledge and methodologies from combustion, chemistry and computer science. 
+						CHEMCONNECT is continually searching for partners at all levels and disciplines. " />
+			</m:MaterialColumn>
+			<m:MaterialColumn grid="s12 m4 l4">
+				<m:MaterialTitle textColor="BLACK" title="Contact Information"
+					description="We act as a liaison between the database developer
+					community and the combustion community.
+					Having expertise in both fields allows interaction
+					in the community’s respective languages. Being
+					abreast with the latest technologies in computer
+					science facilitates implementations satisfying the
+					needs of the combustion community." />
+			</m:MaterialColumn>
+			<m:MaterialColumn grid="s12 m4 l4">
+				<m:MaterialTitle textColor="BLACK" title="Data Management"
+					description="Blurock Consulting AB provides consulting services
+					for the development and implementation of data
+					management plans in national and EU projects." />
+			</m:MaterialColumn>
+		</m:MaterialRow>
+		<m:MaterialRow>
+			<m:MaterialColumn grid="s12 m4 l4">
+				<m:MaterialButton ui:field="btnPartners" text="Partners" shadow="2"
+					waves="LIGHT" />
+			</m:MaterialColumn>
+			<m:MaterialColumn grid="s12 m4 l4">
+				<m:MaterialButton ui:field="btnContact" text="Contact" shadow="2"
+					waves="LIGHT" />
+			</m:MaterialColumn>
+			<m:MaterialColumn grid="s12 m4 l4">
+				<m:MaterialButton ui:field="btnManagement" text="Data Management" shadow="2"
+					waves="LIGHT" />
+			</m:MaterialColumn>
+		</m:MaterialRow>
+		
+		<m:MaterialFooterCopyright>
+			<m:MaterialLabel text="© 2019 Copyright Blurock Consulting AB"
+				textColor="BLACK" />
+		</m:MaterialFooterCopyright>
+	</m:MaterialFooter>
+</ui:UiBinder> 

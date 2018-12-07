@@ -38,8 +38,8 @@ public class OntologyKeys {
 	public static String protocol = "dataset:ChemConnectProtocol";
 	public static String observationDatasetFromProtocol = "dataset:ObservationDatasetFromProtocol";
 	public static String datacatalogid = "dataset:DataCatalogID";
-	public static String useraccountid = "dataset:UserAccountID";
-	public static String useraccount = "prov:SoftwareAgent";
+	public static String useraccount = "dataset:UserAccountInformation";
+	public static String useraccountid = "prov:SoftwareAgent";
 	public static String databaseperson = "vcard:Individual";
 	
 	public static String hasPurpose = "dataset:hasPurpose";

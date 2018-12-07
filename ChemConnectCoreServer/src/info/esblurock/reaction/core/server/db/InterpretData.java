@@ -2923,14 +2923,12 @@ public enum InterpretData {
 			UserAccountInformation account = null;
 			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
 			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);
-
-			String password = (String) yaml.get(StandardDatasetMetaData.password);
+			ChemConnectCompoundDataStructure compound = (ChemConnectCompoundDataStructure) objdata;
 			String emailS = (String) yaml.get(StandardDatasetMetaData.emailKeyS);
 			String userrole = (String) yaml.get(StandardDatasetMetaData.userrole);
 
-			account = new UserAccountInformation(objdata.getIdentifier(), objdata.getAccess(), 
-					objdata.getOwner(), sourceID, 
-					emailS, password, userrole);
+			account = new UserAccountInformation(compound, 
+					emailS, userrole);
 			return account;
 		}
 
@@ -2941,7 +2939,6 @@ public enum InterpretData {
 
 			UserAccountInformation account = (UserAccountInformation) object;
 
-			map.put(StandardDatasetMetaData.password, account.getPassword());
 			map.put(StandardDatasetMetaData.emailKeyS, account.getEmail());
 			map.put(StandardDatasetMetaData.userrole, account.getUserrole());
 
@@ -2966,14 +2963,14 @@ public enum InterpretData {
 			DatabaseObject userobj = new DatabaseObject(obj);
 			userobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
-					.getSubElementStructureFromIDObject(OntologyKeys.useraccountid);
+					.getSubElementStructureFromIDObject(OntologyKeys.useraccount);
 			String userid = createSuffix(obj, element);
 			userobj.setIdentifier(userid);
 			
-			DatabaseObjectHierarchy compoundhier = InterpretData.ChemConnectDataStructure.createEmptyObject(userobj);
+			DatabaseObjectHierarchy compoundhier = InterpretData.ChemConnectCompoundDataStructure.createEmptyObject(userobj);
 			ChemConnectCompoundDataStructure structure = (ChemConnectCompoundDataStructure) compoundhier.getObject();
 			UserAccountInformation useraccount = new UserAccountInformation(structure,
-					"email@comp.com", "password",MetaDataKeywords.accessTypeQuery);
+					"email@comp.com",MetaDataKeywords.accessTypeQuery);
 			DatabaseObjectHierarchy top = new DatabaseObjectHierarchy(useraccount);
 			return top;
 		}

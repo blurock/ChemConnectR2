@@ -15,6 +15,7 @@ import info.esblurock.reaction.chemconnect.core.client.catalog.SetUpDatabaseObje
 import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.client.catalog.choose.ChooseFullNameFromCatagoryRow;
 import info.esblurock.reaction.chemconnect.core.client.catalog.choose.ObjectVisualizationInterface;
+import info.esblurock.reaction.chemconnect.core.client.ui.view.ChemConnectObservationView;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
@@ -22,13 +23,15 @@ import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
-public class SetOfObservationsDefinition extends Composite implements ObjectVisualizationInterface {
+public class SetOfObservationsDefinition extends Composite implements ChemConnectObservationView, ObjectVisualizationInterface {
 
 	private static SetOfObservationsDefinitionUiBinder uiBinder = GWT.create(SetOfObservationsDefinitionUiBinder.class);
 
 	interface SetOfObservationsDefinitionUiBinder extends UiBinder<Widget, SetOfObservationsDefinition> {
 	}
 
+	Presenter listener;
+	
 	String defaultCatagory;
 	String enterkeyS;
 	String keynameS;
@@ -74,6 +77,15 @@ public class SetOfObservationsDefinition extends Composite implements ObjectVisu
 	public void insertCatalogObject(DatabaseObjectHierarchy subs) {
 		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(null,subs,modalpanel);
 		contentcollapsible.add(item);
+	}
+
+	@Override
+	public void setName(String titleName) {
+	}
+
+	@Override
+	public void setPresenter(Presenter listener) {
+		this.listener = listener;
 	}
 
 

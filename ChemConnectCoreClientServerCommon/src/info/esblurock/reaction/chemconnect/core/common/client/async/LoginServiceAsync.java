@@ -6,8 +6,7 @@ import info.esblurock.reaction.chemconnect.core.data.login.UserAccountInformatio
 import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
 
 public interface LoginServiceAsync {
-	public void loginServer(String name, String password,
-			AsyncCallback<UserDTO> callback);
+	public void loginServer(String name, AsyncCallback<UserDTO> callback);
 
 	public void loginFromSessionServer(AsyncCallback<UserDTO> callback);
 	public void changePassword(String name, String newPassword,

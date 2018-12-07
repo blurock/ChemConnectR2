@@ -11,7 +11,6 @@ import info.esblurock.reaction.chemconnect.core.client.ui.view.ChemConnectObserv
 public class ChemConnectObservationActivity extends AbstractActivity implements ChemConnectObservationView.Presenter {
 	private ClientFactory clientFactory;
 	private String name;
-
 	
 	public ChemConnectObservationActivity() {
 		
@@ -20,7 +19,6 @@ public class ChemConnectObservationActivity extends AbstractActivity implements 
 		this.name = place.getTitleName();
 		this.clientFactory = clientFactory;
 	}
-	
 	
 	@Override
 	public void start(AcceptsOneWidget containerWidget, EventBus eventBus) {
