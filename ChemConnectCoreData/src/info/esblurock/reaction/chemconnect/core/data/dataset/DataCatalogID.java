@@ -97,6 +97,28 @@ public class DataCatalogID extends ChemConnectCompoundDataStructure {
 		return build.toString();
 	}
 
+	public String getFullPath(String delimitor) {
+		StringBuilder build = new StringBuilder();
+		if (path != null) {
+			boolean pathdelimitor = false;
+			for (String pathelement : path) {
+				if(pathdelimitor) {
+					build.append(delimitor);
+				}
+				pathdelimitor = true;
+				build.append(pathelement);
+			}
+		}
+		
+		if (DataCatalog != null) {
+			if (DataCatalog.length() > 0) {
+				build.append(delimitor);
+				build.append(ChemConnectCompoundDataStructure.removeNamespace(DataCatalog));
+			}
+		}
+		return build.toString();
+	}
+
 	public String toString() {
 		return toString("");
 	}

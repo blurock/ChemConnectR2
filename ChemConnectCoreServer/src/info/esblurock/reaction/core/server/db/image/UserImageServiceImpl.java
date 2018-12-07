@@ -523,12 +523,18 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 			DataCatalogID catalogID = (DataCatalogID) catalogHier.getObject();
 			String extension = ConceptParsing.getFileExtension(StandardDatasetMetaData.yamlFileType);
 			String filename = catalogID.blobFilenameFromCatalogID(extension);
-			String contentType = ConceptParsing.getContentType(StandardDatasetMetaData.yamlFileType);
-	
+			String contentType = ConceptParsing.getContentType(StandardDatasetMetaData.textFileType);
+			contentType = "text/plain";
+			System.out.println("writeYamlObjectHierarchy: extension:   " + extension);
+			System.out.println("writeYamlObjectHierarchy: filename:    " + filename);
+			System.out.println("writeYamlObjectHierarchy: contentType: " + contentType);
+			
+			String path = catalogID.getFullPath("/");
+			
 			String title = structure.getClass().getSimpleName() + ": " + structure.getIdentifier();
 			ContextAndSessionUtilities util = getUtilities();
 			//ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
-			String path = "";
+			
 			GCSServiceRoutines.uploadFileBlob(hierarchy.getObject().getIdentifier(),
 					GoogleCloudStorageConstants.storageBucket, 
 					util.getId(),util.getUserName(),

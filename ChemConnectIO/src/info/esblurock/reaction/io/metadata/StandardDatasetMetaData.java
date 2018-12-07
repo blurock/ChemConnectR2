@@ -194,6 +194,7 @@ public class StandardDatasetMetaData {
 
 	public static String chemConnectDataObject = "dataset:ChemConnectDataObject";
 	public static String yamlFileType = "dataset:FileTypeYaml";
+	public static String textFileType = "dataset:FileTypeText";
 	public static String fileTypeS = "dataset:fileType";
 	public static String delimitorS = "dataset:delimitor";
 	public static String observationSpecs = "dataset:ObservationSpecs";

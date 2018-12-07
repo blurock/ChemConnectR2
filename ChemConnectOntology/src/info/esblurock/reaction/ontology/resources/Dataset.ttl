@@ -3922,6 +3922,16 @@ Under the general type of is the actual data object referenced by the ChemConnec
              rdfs:label "XML" .
 
 
+###  http://www.esblurock.info/dataset#FileTypeYaml
+:FileTypeYaml rdf:type owl:Class ;
+              rdfs:subClassOf :FileTypeText ;
+              <http://purl.org/dc/elements/1.1/type> "YAML"^^xsd:string ;
+              <http://purl.org/dc/terms/identifier> "text/yaml"^^xsd:string ;
+              :fileextension "yaml"^^xsd:string ;
+              rdfs:comment "yaml file type"^^xsd:string ;
+              rdfs:label "Yaml"^^xsd:string .
+
+
 ###  http://www.esblurock.info/dataset#FileTypeYamlCatalogObject
 :FileTypeYamlCatalogObject rdf:type owl:Class ;
                            rdfs:subClassOf :DataTypeFileFormat ;
