@@ -1,10 +1,20 @@
 package info.esblurock.reaction.core.server.read;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
+import org.apache.commons.io.IOUtils;
+
+import com.esotericsoftware.yamlbeans.YamlReader;
 
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
@@ -95,4 +105,38 @@ public class ReadWriteYamlDatabaseObjectHierarchy {
 		return hierarchy;
 	}
 
+	public static DatabaseObjectHierarchy initializeFromYamlDatabaseObjectHierarchy(String addr,
+			String newuser, String sourceID) throws IOException {
+		URL url = null;
+		DatabaseObjectHierarchy hierarchy = null;
+		try {
+			url = new URL(addr);
+			InputStream in = url.openStream();			
+			BufferedReader breader = new BufferedReader(new InputStreamReader(url.openStream()));
+			StringBuilder builder = new StringBuilder();
+			String line;
+			while ((line = breader.readLine()) != null) {
+		      builder.append(line + "\n");
+		    }
+			String modified0 = builder.toString().replaceAll("Guest", newuser);
+			InputStream modin = IOUtils.toInputStream(modified0);
+			DatabaseObject top = null;
+			Reader targetReader = new InputStreamReader(modin);
+			YamlReader reader = new YamlReader(targetReader);
+			Object object = reader.read();
+			@SuppressWarnings("unchecked")
+			Map<String, Object> mapping = (Map<String, Object>) object;
+			hierarchy = ReadWriteYamlDatabaseObjectHierarchy.readYamlDatabaseObjectHierarchy(top, mapping, sourceID);
+			System.out.println(hierarchy.toString());
+		} catch (MalformedURLException e) {
+			System.out.println(e.toString());
+			e.printStackTrace();
+		} catch (IOException e) {
+			System.out.println(e.toString());
+			e.printStackTrace();
+		}
+		return hierarchy;
+	}
+	
+	
 }

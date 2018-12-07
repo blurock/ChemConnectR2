@@ -81,7 +81,8 @@ public enum InterpretData {
 			String identifierS = (String) yaml.get(StandardDatasetMetaData.identifierKeyS);
 			String ownerS = (String) yaml.get(StandardDatasetMetaData.ownerKeyS);
 			String accessS = (String) yaml.get(StandardDatasetMetaData.accessKeyS);
-
+			String sourceIDS = (String) yaml.get(StandardDatasetMetaData.sourceIDS);
+			
 			if (top != null) {
 				if (identifierS == null) {
 					identifierS = top.getIdentifier();
@@ -93,6 +94,15 @@ public enum InterpretData {
 					accessS = top.getAccess();
 				}
 			}
+			if(sourceID == null) {
+				if(sourceIDS == null) {
+					sourceID = top.getSourceID();
+				} else {
+					sourceID = sourceIDS;
+				}
+			}
+
+			
 			DatabaseObject obj = new DatabaseObject(identifierS, ownerS, accessS, sourceID);
 
 			return obj;
