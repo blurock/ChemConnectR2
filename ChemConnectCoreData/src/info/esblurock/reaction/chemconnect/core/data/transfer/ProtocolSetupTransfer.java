@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.HashMap;
 
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
-import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 public class ProtocolSetupTransfer implements Serializable {
 	private static final long serialVersionUID = 1L;

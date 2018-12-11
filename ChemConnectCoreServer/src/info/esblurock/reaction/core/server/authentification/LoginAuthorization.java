@@ -11,7 +11,6 @@ import info.esblurock.reaction.core.server.db.InterpretData;
 import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFactory;
 import info.esblurock.reaction.io.db.QueryBase;
-import info.esblurock.reaction.ontology.OntologyBase;
 import info.esblurock.reaction.ontology.OntologyKeys;
 
 public class LoginAuthorization {

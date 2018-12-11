@@ -9,17 +9,11 @@ import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.place.shared.PlaceHistoryHandler;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
 
 import info.esblurock.reaction.chemconnect.core.client.activity.ClientFactory;
-import info.esblurock.reaction.chemconnect.core.client.firstpage.FirstSiteLandingPage;
-import info.esblurock.reaction.chemconnect.core.client.info.tutorial.TutorialExample;
 import info.esblurock.reaction.chemconnect.core.client.mvp.AppActivityMapper;
 import info.esblurock.reaction.chemconnect.core.client.mvp.AppPlaceHistoryMapper;
-import info.esblurock.reaction.chemconnect.core.client.place.ChemConnectAdministrationPlace;
-import info.esblurock.reaction.chemconnect.core.client.place.ChemConnectObservationPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.FirstSiteLandingPagePlace;
-import info.esblurock.reaction.chemconnect.core.client.place.TutorialExamplePlace;
 import info.esblurock.reaction.chemconnect.core.common.client.async.LoginService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.LoginServiceAsync;
 

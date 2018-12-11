@@ -1,0 +1,125 @@
+package info.esblurock.reaction.core.server.yaml;
+
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
+import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
+import com.googlecode.objectify.ObjectifyFactory;
+import com.googlecode.objectify.ObjectifyService;
+import com.googlecode.objectify.cache.AsyncCacheFilter;
+import com.googlecode.objectify.util.Closeable;
+
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.contact.RegisterContactData;
+import info.esblurock.reaction.chemconnect.core.data.dataset.DataObjectLink;
+import info.esblurock.reaction.chemconnect.core.data.dataset.RegistrerDataset;
+import info.esblurock.reaction.chemconnect.core.data.description.RegisterDescriptionData;
+import info.esblurock.reaction.chemconnect.core.data.gcs.RegisterGCSClasses;
+import info.esblurock.reaction.chemconnect.core.data.image.RegisterImageInformation;
+import info.esblurock.reaction.chemconnect.core.data.initialization.RegisterInitializationData;
+import info.esblurock.reaction.chemconnect.core.data.login.RegisterUserLoginData;
+import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
+import info.esblurock.reaction.chemconnect.core.data.observations.RegisterObservationData;
+import info.esblurock.reaction.chemconnect.core.data.rdf.RegisterRDFData;
+import info.esblurock.reaction.chemconnect.core.data.transaction.RegisterTransactionData;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
+import info.esblurock.reaction.core.server.db.image.BlobKeyCorrespondence;
+import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFactory;
+import info.esblurock.reaction.core.server.read.ReadWriteYamlDatabaseObjectHierarchy;
+import info.esblurock.reaction.io.db.QueryBase;
+
+public class DatabaseCatalogHierarchyYamlTest {
+	protected Closeable session;
+	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
+
+	@BeforeClass
+	public static void setUpBeforeClass() {
+		// Reset the Factory so that all translators work properly.
+		ObjectifyService.setFactory(new ObjectifyFactory());
+	}
+
+	@Before
+	public void setUp() {
+		this.session = ObjectifyService.begin();
+		RegisterContactData.register();
+		RegisterDescriptionData.register();
+		RegisterInitializationData.register();
+		RegisterRDFData.register();
+		RegisterTransactionData.register();
+		RegistrerDataset.register();
+		RegisterUserLoginData.register();
+		RegisterImageInformation.register();
+		RegisterGCSClasses.register();
+		RegisterObservationData.register();
+		ObjectifyService.register(BlobKeyCorrespondence.class);
+		ObjectifyService.register(DatabaseObject.class);
+		ObjectifyService.register(ChemConnectCompoundMultiple.class);
+		ObjectifyService.register(ChemConnectDataStructure.class);
+		ObjectifyService.register(ChemConnectCompoundDataStructure.class);
+		ObjectifyService.register(ChemConnectCompoundMultiple.class);
+		System.out.println("Classes Registered");
+		this.helper.setUp();
+	}
+
+	@After
+	public void tearDown() {
+		AsyncCacheFilter.complete();
+		this.session.close();
+		this.helper.tearDown();
+	}
+
+
+	@Test
+	public void test() {
+		String sourceID = "1";
+
+		String username = "Administration";
+		String access = "Administration";
+		String owner = "Administration";
+		String orgname = "BlurockConsultingAB";
+		String title = "Blurock Consulting AB";
+		String userrole = MetaDataKeywords.accessTypeStandardUser;
+		CreateDefaultObjectsFactory.createAndWriteDefaultUserOrgAndCatagories(username, userrole, access, owner,
+				orgname, title, sourceID);
+
+		System.out.println("---------------------------------------------------------------");
+		String id = "Administration-UserDataCatagory-Administration-sethier";
+		
+		try {
+			ArrayList<String> yamlset = new ArrayList<String>();
+			ArrayList<DatabaseObjectHierarchy> hierarchies = new ArrayList<DatabaseObjectHierarchy>();
+			ReadWriteYamlDatabaseObjectHierarchy.writeDatasetCatalogHierarchyAsYaml(id, hierarchies, yamlset);
+			System.out.println("" + hierarchies.size());
+			Iterator<DatabaseObjectHierarchy> hieriter = hierarchies.iterator();
+			for(String yaml : yamlset) {
+				DatabaseObjectHierarchy hierarchy = hieriter.next();
+				System.out.println(hierarchy.toString("writeDatasetCatalogHierarchyAsYaml: "));
+				System.out.println("-----------------------------------------------------------------------------------");
+				System.out.println(yaml);
+				System.out.println("-----------------------------------------------------------------------------------");
+				DatabaseObject top = null;
+				Map<String, Object> mapping = ReadWriteYamlDatabaseObjectHierarchy.stringToYamlMap(yaml);
+				DatabaseObjectHierarchy subhier = ReadWriteYamlDatabaseObjectHierarchy.readYamlDatabaseObjectHierarchy(top, mapping, sourceID);
+				System.out.println(subhier.toString("fromYaml: "));
+			}
+		} catch (IOException e) {
+			System.out.println(e);
+			e.printStackTrace();
+		}
+		
+		
+	}
+
+}

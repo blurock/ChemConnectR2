@@ -27,8 +27,6 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson.JacksonFactory;
 
 import info.esblurock.reaction.chemconnect.core.data.contact.IndividualInformation;
-import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
-import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFactory;
 import info.esblurock.reaction.io.db.QueryBase;
 
 @SuppressWarnings("serial")

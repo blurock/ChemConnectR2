@@ -1,6 +1,5 @@
 package info.esblurock.reaction.core.server.read.spreadsheet;
 
-import static org.junit.Assert.*;
 
 import java.io.IOException;
 

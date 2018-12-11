@@ -3,17 +3,14 @@ package info.esblurock.reaction.core.server.db.image;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
-import com.esotericsoftware.yamlbeans.YamlWriter;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.blobstore.UploadOptions;
@@ -29,7 +26,6 @@ import com.google.cloud.storage.Acl.User;
 
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
-import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.base.GoogleCloudStorageConstants;
 import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
@@ -510,35 +506,10 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	
 	public void writeYamlObjectHierarchy(DatabaseObjectHierarchy hierarchy) throws IOException {
 		try {
-			WriteReadDatabaseObjects.updateSourceID(hierarchy);
-			Map<String,Object> map1 = ReadWriteYamlDatabaseObjectHierarchy.yamlDatabaseObjectHierarchy(hierarchy);
-			StringWriter wS = new StringWriter(1000000);
-			YamlWriter writer = new YamlWriter(wS);
-			writer.write(map1);
-			writer.close();
-
-			ChemConnectDataStructure structure = (ChemConnectDataStructure) hierarchy.getObject();
-			String idS = structure.getCatalogDataID();
-			DatabaseObjectHierarchy catalogHier = hierarchy.getSubObject(idS);
-			DataCatalogID catalogID = (DataCatalogID) catalogHier.getObject();
-			String extension = ConceptParsing.getFileExtension(StandardDatasetMetaData.yamlFileType);
-			String filename = catalogID.blobFilenameFromCatalogID(extension);
-			String contentType = ConceptParsing.getContentType(StandardDatasetMetaData.textFileType);
-			contentType = "text/plain";
-			System.out.println("writeYamlObjectHierarchy: extension:   " + extension);
-			System.out.println("writeYamlObjectHierarchy: filename:    " + filename);
-			System.out.println("writeYamlObjectHierarchy: contentType: " + contentType);
-			
-			String path = catalogID.getFullPath("/");
-			
-			String title = structure.getClass().getSimpleName() + ": " + structure.getIdentifier();
 			ContextAndSessionUtilities util = getUtilities();
-			//ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
-			
-			GCSServiceRoutines.uploadFileBlob(hierarchy.getObject().getIdentifier(),
-					GoogleCloudStorageConstants.storageBucket, 
-					util.getId(),util.getUserName(),
-					path, filename,contentType,title,wS.toString());
+			String username = util.getUserName();
+			String sessionid = util.getId();
+			ReadWriteYamlDatabaseObjectHierarchy.writeAsYamlToGCS(hierarchy,username,sessionid);
 		} catch (Exception ex) {
 			System.out.println("writeYamlObjectHierarchy  error in writing");
 			System.out.println(ex.toString());
