@@ -240,7 +240,7 @@ public class StandardDatasetObjectHierarchyItem extends Composite
 	public void writeYamlObjectHierarchy() {
 		updateDatabaseObjectHierarchy();
 		if(hierarchy.getObject().getClass().getCanonicalName().compareTo(DatasetCatalogHierarchy.class.getCanonicalName()) == 0) {
-			MaterialToast.fireToast("writing also to database");
+			MaterialToast.fireToast("updating also to database");
 			writeDatabaseObjectHierarchy();
 		}
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
