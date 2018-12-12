@@ -4,13 +4,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.URL;
 import java.util.Map;
 
 import com.esotericsoftware.yamlbeans.YamlException;
 import com.esotericsoftware.yamlbeans.YamlReader;
 
 import info.esblurock.reaction.chemconnect.core.data.initialization.InitializationFile;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
+import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
+import info.esblurock.reaction.core.server.read.ReadWriteYamlDatabaseObjectHierarchy;
 import info.esblurock.reaction.io.db.QueryBase;
 
 public class DatabaseInterpretBase {
@@ -32,7 +36,22 @@ public class DatabaseInterpretBase {
 		return answer;
 	}
 	
-	
+	public void readInitializationYamlFromURL(String urlS) throws IOException {
+		URL url = new URL(urlS);
+		InputStream in = url.openStream();
+		Reader targetReader = new InputStreamReader(in);
+		YamlReader reader = new YamlReader(targetReader);
+		Object object = reader.read();
+		@SuppressWarnings("unchecked")
+		Map<String, Object> mapping = (Map<String, Object>) object;
+		DatabaseObjectHierarchy hierarchy = ReadWriteYamlDatabaseObjectHierarchy.readYamlDatabaseObjectHierarchy(null, mapping, null);
+
+		System.out.println(urlS + "\n\n" + hierarchy.toString("Hierarchy") + "\n");
+		
+		WriteReadDatabaseObjects.writeDatabaseObjectHierarchyWithTransaction(hierarchy);
+		InitializationFile filetowrite = new InitializationFile(urlS);
+		DatabaseWriteBase.writeDatabaseObject(filetowrite);
+	}
 	
 	public void readInitializationFile(String fileS, String filetypeS) throws IOException {
 		InputStream in = this.getClass().getClassLoader().getResourceAsStream(fileS);

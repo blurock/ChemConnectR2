@@ -1,6 +1,10 @@
 package info.esblurock.reaction.chemconnect.core.client.catalog;
 
 
+import java.util.ArrayList;
+
+import com.google.gwt.user.client.Window;
+
 import info.esblurock.reaction.chemconnect.core.client.catalog.description.StandardDatasetDescriptionDataDataHeader;
 import info.esblurock.reaction.chemconnect.core.client.catalog.hierarchy.StandardDatasetCatalogHierarchyHeader;
 import info.esblurock.reaction.chemconnect.core.client.catalog.link.PrimitiveDataObjectLinkRow;
@@ -36,6 +40,8 @@ import info.esblurock.reaction.chemconnect.core.client.device.observations.units
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.description.DescriptionDataData;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
+import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHierarchy;
+import info.esblurock.reaction.chemconnect.core.data.dataset.DataObjectLink;
 
 public enum SetUpCollapsibleItem {
 	
@@ -59,7 +65,7 @@ public enum SetUpCollapsibleItem {
 			return true;
 		}
 		@Override
-		public boolean update(StandardDatasetObjectHierarchyItem item) {
+		public boolean update(StandardDatasetObjectHierarchyItem item) {			
 			return true;
 		}
 	}, Organization {

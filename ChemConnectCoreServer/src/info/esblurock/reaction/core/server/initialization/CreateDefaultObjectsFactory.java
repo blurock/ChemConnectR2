@@ -774,10 +774,13 @@ public class CreateDefaultObjectsFactory {
 		
 		DatabaseObjectHierarchy idhier = cathierarchy.getSubObject(catalog.getCatalogDataID());
 		DataCatalogID catid = (DataCatalogID) idhier.getObject();
+		ArrayList<String> catPath = new ArrayList<String>();
+		catPath.add(obj.getOwner());
+		catPath.add(ChemConnectCompoundDataStructure.removeNamespace(OntologyKeys.datasetCatalogHierarchy));
 		catid.setCatalogBaseName(obj.getIdentifier());
 		catid.setDataCatalog(catagorytype);
 		catid.setSimpleCatalogName(id);
-
+		catid.setPath(catPath);
 		setPurposeConceptPair(cathierarchy, catagorytype, StandardDatasetMetaData.purposeDefineSubCatagory);
 		
 		connectInCatalogHierarchy(topcatalog, catalog);
@@ -865,10 +868,8 @@ public class CreateDefaultObjectsFactory {
 		catid.setSimpleCatalogName(username);
 		ArrayList<String> userPath = new ArrayList<String>();
 		userPath.add(username);
-		userPath.add(ChemConnectCompoundDataStructure.removeNamespace(StandardDatasetMetaData.conceptUserDataCatagory));
+		userPath.add(ChemConnectCompoundDataStructure.removeNamespace(OntologyKeys.datasetCatalogHierarchy));
 		catid.setPath(userPath);
-		
-		System.out.println(catid.toString("fillCataogHierarchyForUser:  "));
 		
 		setDescriptionInHierarchy(userhierarchy, usercatalog.getDescriptionDataData(),userdescription, username);
 
@@ -945,9 +946,8 @@ public class CreateDefaultObjectsFactory {
 		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(usrcatobj,"");
 		ArrayList<String> userPath = new ArrayList<String>();
 		userPath.add(username);
-		userPath.add(indtype);
 		DataCatalogID namecatid = new DataCatalogID(structure,indname,
-				StandardDatasetMetaData.conceptUserDataCatagory,username,userPath);
+				MetaDataKeywords.databasePerson,username,userPath);
 		NameOfPerson person = new NameOfPerson(usrcatobj, "", "", username);
 		DatabaseObjectHierarchy user = CreateDefaultObjectsFactory.fillMinimalPersonDescription(usrcatobj, username, userrole, person,namecatid);
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(user);
@@ -958,9 +958,8 @@ public class CreateDefaultObjectsFactory {
 		ChemConnectCompoundDataStructure orgstructure = new ChemConnectCompoundDataStructure(orgobj,"");
 		ArrayList<String> orgPath = new ArrayList<String>();
 		orgPath.add(username);
-		orgPath.add(orgtype);
 		DataCatalogID orgnamecatid = new DataCatalogID(orgstructure,oname,
-				StandardDatasetMetaData.conceptOrgDataCatagory,orgname,orgPath);
+				OntologyKeys.organization,orgname,orgPath);
 		DatabaseObjectHierarchy org = CreateDefaultObjectsFactory.fillOrganization(orgobj, orgname, title,orgnamecatid);
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(org);
 
@@ -971,10 +970,9 @@ public class CreateDefaultObjectsFactory {
 		ChemConnectCompoundDataStructure usercatstructure = new ChemConnectCompoundDataStructure(usercatobj,"");
 		ArrayList<String> usercatPath = new ArrayList<String>();
 		usercatPath.add(username);
-		usercatPath.add(usercattype);
+		usercatPath.add(MetaDataKeywords.datasetCatalogHierarchy);
 		DataCatalogID usercatid = new DataCatalogID(usercatstructure,usercatname,
 				StandardDatasetMetaData.conceptUserDataCatagory,username,usercatPath);
-
 		
 		DatabaseObjectHierarchy usercat = fillCataogHierarchyForUser(usercatobj, username,
 				user.getObject().getIdentifier(),usercatid);
@@ -986,9 +984,10 @@ public class CreateDefaultObjectsFactory {
 		ChemConnectCompoundDataStructure orgcatstructure = new ChemConnectCompoundDataStructure(orgcatobj,"");
 		ArrayList<String> orgcatPath = new ArrayList<String>();
 		orgcatPath.add(username);
-		orgcatPath.add(orgcattype);
+		orgcatPath.add(ChemConnectCompoundDataStructure.removeNamespace(MetaDataKeywords.datasetCatalogHierarchy));
 		DataCatalogID orgcatid = new DataCatalogID(orgcatstructure,orgcatname,
-				StandardDatasetMetaData.conceptOrgDataCatagory,orgname,orgcatPath);
+				orgcattype,orgname,orgcatPath);
+	
 
 		DatabaseObjectHierarchy orgcat = fillCataogHierarchyForOrganization(orgcatobj,
 				orgname, org.getObject().getIdentifier(),orgcatid);

@@ -3,7 +3,10 @@ package info.esblurock.reaction.core.server.db.image;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
 
+import com.google.cloud.Role;
 import com.google.cloud.WriteChannel;
 import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.BlobId;
@@ -11,6 +14,8 @@ import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.CopyWriter;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
+import com.google.cloud.storage.Acl;
+import com.google.cloud.storage.Acl.User;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.base.GoogleCloudStorageConstants;
@@ -62,7 +67,19 @@ public class GCSServiceRoutines {
 		BlobId blobId = BlobId.of(info.getBucket(), info.getGSFilename());
 
 		byte[] content = contentS.getBytes(StandardCharsets.UTF_8);
-		BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(info.getFiletype()).build();
+		
+		BlobInfo blobInfo = BlobInfo
+        .newBuilder(blobId)
+        .setContentType(info.getFiletype())
+        // Modify access list to allow all users with link to read file
+        .setAcl(new ArrayList<>(Arrays.asList(
+        		Acl.of(User.ofAllUsers(), Acl.Role.READER)
+        		//,Acl.of(User.ofAllAuthenticatedUsers(), Acl.Role.OWNER)
+        		))).build();
+        
+		//Acl.of(User.ofAllAuthenticatedUsers(), Acl.Role.OWNER)
+		
+		
 		try (WriteChannel writer = storage.writer(blobInfo)) {
 			writer.write(ByteBuffer.wrap(content, 0, content.length));
 		} catch (Exception ex) {

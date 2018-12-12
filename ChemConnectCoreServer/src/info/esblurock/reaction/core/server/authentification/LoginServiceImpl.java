@@ -8,16 +8,14 @@ import java.util.List;
 
 import info.esblurock.reaction.chemconnect.core.common.client.async.LoginService;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
-import info.esblurock.reaction.chemconnect.core.data.contact.IndividualInformation;
 import info.esblurock.reaction.chemconnect.core.data.login.UnverifiedUserAccount;
 import info.esblurock.reaction.chemconnect.core.data.login.UserAccountInformation;
 import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.rdf.KeywordRDF;
 import info.esblurock.reaction.chemconnect.core.data.transaction.EventCount;
-import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
-import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFactory;
+import info.esblurock.reaction.core.server.initialization.InitializeFromGCSURL;
 import info.esblurock.reaction.core.server.mail.SendMail;
 import info.esblurock.reaction.core.server.services.ServerBase;
 import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
@@ -41,17 +39,13 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 
 	@Override
 	public UserDTO loginServer(String name) throws IOException {
+		InitializeFromGCSURL.initialize();
 		ContextAndSessionUtilities util = getUtilities();
 		String lvl = null;
 		if (guest.equals(name)) {
 			System.out.println("Login: Guest Login");
 			lvl = guestlevel;
 			QueryBase.getNextEventCount(name);
-			DatabaseObjectHierarchy hierarchy = LoginAuthorization.findOrCreateIndividual("Guest", "CHEMCONNECT",
-					"CHEMCONNECT", lvl);
-			if (hierarchy != null) {
-				UserAccountInformation info = (UserAccountInformation) hierarchy.getObject();
-			}
 		} else {
 			System.out.println("Login: user: " + name);
 			UserAccountInformation account = getAccount(name);

@@ -16,6 +16,8 @@ import info.esblurock.reaction.chemconnect.core.client.mvp.AppPlaceHistoryMapper
 import info.esblurock.reaction.chemconnect.core.client.place.FirstSiteLandingPagePlace;
 import info.esblurock.reaction.chemconnect.core.common.client.async.LoginService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.LoginServiceAsync;
+import info.esblurock.reaction.chemconnect.core.common.client.async.InitializationService;
+import info.esblurock.reaction.chemconnect.core.common.client.async.InitializationServiceAsync;
 
 public class ChemConnectCore implements EntryPoint {
 	//private Place defaultPlace = new ChemConnectObservationPlace("Top");
@@ -26,7 +28,11 @@ public class ChemConnectCore implements EntryPoint {
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onModuleLoad() {
-		
+		/*
+		InitializationServiceAsync initialize = GWT.create(InitializationService.class);
+		GeneralVoidReturnCallback initialcallback = new GeneralVoidReturnCallback("Initialization completed");
+		initialize.initializeDatabaseObjects(initialcallback);
+		*/
 		LoginServiceAsync async = LoginService.Util.getInstance();
 		SimpleLoginCallback callback = new SimpleLoginCallback();
 		async.loginServer("Guest", callback);
