@@ -1,12 +1,12 @@
 package info.esblurock.reaction.chemconnect.core.client.catalog;
 
 
-import java.util.ArrayList;
 
-import com.google.gwt.user.client.Window;
 
 import info.esblurock.reaction.chemconnect.core.client.catalog.description.StandardDatasetDescriptionDataDataHeader;
 import info.esblurock.reaction.chemconnect.core.client.catalog.hierarchy.StandardDatasetCatalogHierarchyHeader;
+import info.esblurock.reaction.chemconnect.core.client.catalog.image.DatasetImageHeader;
+import info.esblurock.reaction.chemconnect.core.client.catalog.image.ImageInformationHeader;
 import info.esblurock.reaction.chemconnect.core.client.catalog.link.PrimitiveDataObjectLinkRow;
 import info.esblurock.reaction.chemconnect.core.client.catalog.multiple.ChemConnectCompoundMultipleHeader;
 import info.esblurock.reaction.chemconnect.core.client.catalog.protocol.StandardDatasetProtocolHeader;
@@ -534,6 +534,62 @@ public enum SetUpCollapsibleItem {
 			return false;
 		}
 		
+	}, DatasetImage {
+
+		@Override
+		public void addInformation(StandardDatasetObjectHierarchyItem item) {
+			DatasetImageHeader header = new DatasetImageHeader(item);
+			item.addHeader(header);
+		}
+
+		@Override
+		public boolean update(StandardDatasetObjectHierarchyItem item) {
+			return false;
+		}
+
+		@Override
+		public int priority() {
+			return 0;
+		}
+
+		@Override
+		public boolean isInformation() {
+			return false;
+		}
+
+		@Override
+		public boolean addSubitems() {
+			return true;
+		}
+		
+	}, ImageInformation {
+
+		@Override
+		public void addInformation(StandardDatasetObjectHierarchyItem item) {
+			ImageInformationHeader header = new ImageInformationHeader(item);
+			item.addHeader(header);
+		}
+
+		@Override
+		public boolean update(StandardDatasetObjectHierarchyItem item) {
+			return false;
+		}
+
+		@Override
+		public int priority() {
+			return 0;
+		}
+
+		@Override
+		public boolean isInformation() {
+			return true;
+		}
+
+		@Override
+		public boolean addSubitems() {
+			return false;
+		}
+		
 	}, ChemConnectProtocol {
 
 		@Override
@@ -568,7 +624,6 @@ public enum SetUpCollapsibleItem {
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
 			ParameterValueHeader header = new ParameterValueHeader(item.getHierarchy());
-			//PrimitiveParameterValueRow header = new PrimitiveParameterValueRow(item.getHierarchy());
 			item.addHeader(header);
 		}
 
@@ -598,7 +653,6 @@ public enum SetUpCollapsibleItem {
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
 			ParameterValueHeader header = new ParameterValueHeader(item.getHierarchy());
-			//PrimitiveParameterValueRow header = new PrimitiveParameterValueRow(item.getHierarchy());
 			item.addHeader(header);
 			
 		}

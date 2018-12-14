@@ -79,6 +79,7 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 
 	private UnverifiedUserAccount getUnverifiedAccount(String username) throws IOException {
 		UnverifiedUserAccount unverified = null;
+		/*
 		List<DatabaseObject> lst = QueryBase.getDatabaseObjectsFromSingleProperty(UnverifiedUserAccount.class.getName(),
 				"username", username);
 		if (lst.size() > 0) {
@@ -87,6 +88,7 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 			throw new IOException("Account not available to be activated for " + username);
 		}
 		System.out.println("loginVerification: " + unverified);
+		*/
 		return unverified;
 	}
 

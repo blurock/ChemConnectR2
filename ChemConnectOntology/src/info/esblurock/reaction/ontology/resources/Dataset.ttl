@@ -3141,6 +3141,21 @@ Under the general type of is the actual data object referenced by the ChemConnec
                            <http://www.w3.org/2004/02/skos/core#altLabel> "comp"^^xsd:string .
 
 
+###  http://www.esblurock.info/dataset#DatasetImage
+:DatasetImage rdf:type owl:Class ;
+              rdfs:subClassOf :ChemConnectDataStructure ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                owl:onClass :ImageInformation
+                              ] ;
+              <http://purl.org/dc/elements/1.1/type> "DatasetImage"^^xsd:string ;
+              <http://purl.org/dc/terms/identifier> "foaf:Image"^^xsd:string ;
+              rdfs:isDefinedBy <http://purl.org/dc/dcmitype/StillImage> ;
+              rdfs:label "Image"^^xsd:string ;
+              <http://www.w3.org/2004/02/skos/core#altLabel> "img"^^xsd:string .
+
+
 ###  http://www.esblurock.info/dataset#DateCreated
 :DateCreated rdf:type owl:Class ;
              rdfs:subClassOf :DateElement .
@@ -3823,6 +3838,56 @@ Under the general type of is the actual data object referenced by the ChemConnec
                rdfs:subClassOf :DataTypeFileFormat ;
                rdfs:comment "image file" ;
                rdfs:label "image" .
+
+
+###  http://www.esblurock.info/dataset#FileTypeImageBMP
+:FileTypeImageBMP rdf:type owl:Class ;
+                  rdfs:subClassOf :FileTypeImage ;
+                  <http://purl.org/dc/elements/1.1/type> "Image"^^xsd:string ;
+                  <http://purl.org/dc/terms/identifier> "image/bmp"^^xsd:string ;
+                  :fileextension "bmp"^^xsd:string ;
+                  rdfs:comment "BMP Image"^^xsd:string ;
+                  rdfs:label "BMP"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#FileTypeImageGIF
+:FileTypeImageGIF rdf:type owl:Class ;
+                  rdfs:subClassOf :FileTypeImage ;
+                  <http://purl.org/dc/elements/1.1/type> "Image"^^xsd:string ;
+                  <http://purl.org/dc/terms/identifier> "image/gif"^^xsd:string ;
+                  :fileextension "gif"^^xsd:string ;
+                  rdfs:comment "GIF Image"^^xsd:string ;
+                  rdfs:label "GIF"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#FileTypeImageJPEG
+:FileTypeImageJPEG rdf:type owl:Class ;
+                   rdfs:subClassOf :FileTypeImage ;
+                   <http://purl.org/dc/elements/1.1/type> "Image"^^xsd:string ;
+                   <http://purl.org/dc/terms/identifier> "image/jpeg"^^xsd:string ;
+                   :fileextension "jpeg"^^xsd:string ;
+                   rdfs:comment "JPEG Image"^^xsd:string ;
+                   rdfs:label "JPEG"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#FileTypeImageJPG
+:FileTypeImageJPG rdf:type owl:Class ;
+                  rdfs:subClassOf :FileTypeImage ;
+                  <http://purl.org/dc/elements/1.1/type> "Image"^^xsd:string ;
+                  <http://purl.org/dc/terms/identifier> "image/jpeg"^^xsd:string ;
+                  :fileextension "jpg"^^xsd:string ;
+                  rdfs:comment "JPEG Image"^^xsd:string ;
+                  rdfs:label "JPEG"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#FileTypeImagePNG
+:FileTypeImagePNG rdf:type owl:Class ;
+                  rdfs:subClassOf :FileTypeImage ;
+                  <http://purl.org/dc/elements/1.1/type> "Image"^^xsd:string ;
+                  <http://purl.org/dc/terms/identifier> "image/png"^^xsd:string ;
+                  :fileextension "png"^^xsd:string ;
+                  rdfs:comment "JPEG Image"^^xsd:string ;
+                  rdfs:label "PNG"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#FileTypeMSExcel
@@ -5708,6 +5773,44 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#IgnitionDelayTimeResults
 :IgnitionDelayTimeResults rdf:type owl:Class ;
                           rdfs:subClassOf :ExperimentalResult .
+
+
+###  http://www.esblurock.info/dataset#ImageInformation
+:ImageInformation rdf:type owl:Class ;
+                  rdfs:subClassOf :ChemConnectCompoundDataStructure ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                    owl:onClass :ImageType
+                                  ] ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                    owl:onClass :ImageURL
+                                  ] ;
+                  <http://purl.org/dc/elements/1.1/type> "ImageInformation"^^xsd:string ;
+                  <http://purl.org/dc/terms/identifier> "dataset:ImageInformation"^^xsd:string ;
+                  rdfs:comment "Information about the stored image"^^xsd:string ;
+                  rdfs:label "Image Information"^^xsd:string ;
+                  <http://www.w3.org/2004/02/skos/core#altLabel> "imginfo"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#ImageType
+:ImageType rdf:type owl:Class ;
+           rdfs:subClassOf :Classification ;
+           <http://purl.org/dc/elements/1.1/identifier> "imgtype"^^xsd:string ;
+           <http://purl.org/dc/terms/identifier> "dataset:ImageType"^^xsd:string ;
+           rdfs:comment "The type of image stored"^^xsd:string ;
+           rdfs:label "Image Type"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#ImageURL
+:ImageURL rdf:type owl:Class ;
+          rdfs:subClassOf :HTTPAddress ;
+          <http://purl.org/dc/elements/1.1/identifier> "dataset:ImageURL"^^xsd:string ;
+          rdfs:comment "The URL of the image source (could be in BLOB storage or external)"^^xsd:string ;
+          rdfs:label "Image URL"^^xsd:string ;
+          <http://www.w3.org/2004/02/skos/core#altLabel> "imgurl"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#IncludesUncertaintyParameter

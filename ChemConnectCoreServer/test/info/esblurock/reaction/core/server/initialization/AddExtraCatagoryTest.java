@@ -89,7 +89,7 @@ public class AddExtraCatagoryTest {
 				orgname, title, sourceID);
 		
 		
-		String uid = "Catalog-Administration-sethier";
+		String uid = "Administration-UserDataCatagory-Administration-sethier";
 		try {
 			DatabaseObjectHierarchy cathier = ExtractCatalogInformation.getDatabaseObjectHierarchy(uid);
 			System.out.println("----------------------------------------------------------------");

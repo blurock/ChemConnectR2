@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.appengine.api.datastore.Cursor;
-import com.googlecode.objectify.Key;
+//import com.google.cloud.datastore.Cursor;
 import com.googlecode.objectify.cmd.Query;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
@@ -38,12 +38,12 @@ public class QueryBase {
 		ofy().save().entity(count).now();
 		return count.getCount();
 	}
-
+/*
 	public static DatabaseObject getDatabaseObjectWith(Class<?> cls, Long id) {
 		DatabaseObject obj = (DatabaseObject) ofy().load().key(Key.create(cls, id)).now();
 		return obj;
 	}
-
+*/
 	public static String getDataSourceIdentification(String username) {
 		DataSourceIdentification sourceID = ofy().load().type(DataSourceIdentification.class).id(username).now();
 		if(sourceID != null) {
@@ -85,7 +85,7 @@ public class QueryBase {
 		try {
 			objClass = Class.forName(classname);
 			
-			Object o = ofy().load().type(objClass).filter(propertyname, propertyvalue).first().now();
+			Object o = ofy().load().type(objClass).filter(propertyname, propertyvalue).list();
 			set = (List<DatabaseObject>) o;
 		} catch (ClassNotFoundException e) {
 			throw new IOException("getDatabaseObjectsFromSingleProperty  Class not found: " + classname);
@@ -102,6 +102,7 @@ public class QueryBase {
 		DatabaseObject obj = null;
 		try {
 			objClass = Class.forName(classname);
+			@SuppressWarnings("unchecked")
 			Object o = ofy().load().type(objClass).filter(propertyname, propertyvalue).first().now();
 			if(o == null) {
 				throw new IOException("No results found: " + classname + "(" + propertyname + "=" + propertyvalue + ")");				

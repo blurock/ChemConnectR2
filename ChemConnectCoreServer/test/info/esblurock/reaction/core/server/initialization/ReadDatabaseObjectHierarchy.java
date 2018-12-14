@@ -108,7 +108,7 @@ public class ReadDatabaseObjectHierarchy {
 			
 			System.out.println("----------------------------------------------------------------");
 			//String uid = DatasetCatalogHierarchy.createFullCatalogName("Catalog", username);
-			String uid = "Catalog-Administration-usrinfo-sethier";
+			String uid = "Administration-UserDataCatagory-Administration-sethier";
 			DatabaseObjectHierarchy hierarchy = ExtractCatalogInformation.getDatabaseObjectHierarchy(uid);
 			System.out.println("----------------------------------------------------------------");
 			System.out.println(hierarchy.toString());

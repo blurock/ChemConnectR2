@@ -70,6 +70,8 @@ import info.esblurock.reaction.chemconnect.core.data.dataset.SingleObservationDa
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationRowUnits;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ValueParameterComponents;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationDatasetFromProtocol;
+import info.esblurock.reaction.chemconnect.core.data.image.ImageInformation;
+import info.esblurock.reaction.chemconnect.core.data.image.DatasetImage;
 
 public enum InterpretData {
 
@@ -229,8 +231,7 @@ public enum InterpretData {
 		}
 
 
-	},
-	ChemConnectCompoundDataStructure {
+	}, ChemConnectCompoundDataStructure {
 
 		@Override
 		public DatabaseObject fillFromYamlString(
@@ -678,8 +679,123 @@ public enum InterpretData {
 			return ObservationsFromSpreadSheet.class.getCanonicalName();
 		}
 		
-	}, ObservationCorrespondenceSpecification {
+	}, ImageInformation {
 
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
+			DatabaseObject imageobj = new DatabaseObject(obj);
+			imageobj.nullKey();
+			DataElementInformation element = DatasetOntologyParsing
+					.getSubElementStructureFromIDObject(StandardDatasetMetaData.imageInformation);
+			String catid = createSuffix(obj, element);
+			imageobj.setIdentifier(catid);
+
+			
+			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
+			DatabaseObjectHierarchy structurehierarchy = interpret.createEmptyObject(imageobj);
+			ChemConnectCompoundDataStructure structure = (ChemConnectCompoundDataStructure) structurehierarchy.getObject();
+			ImageInformation image = new ImageInformation(structure);
+			image.setIdentifier(catid);
+			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(image);
+			return hierarchy;
+		}
+
+		@Override
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml,
+				String sourceID) throws IOException {
+			ImageInformation image = null;
+			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
+			ChemConnectCompoundDataStructure structure = (ChemConnectCompoundDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
+			String imageType = (String) yaml.get(StandardDatasetMetaData.imageType);
+			String imageURL = (String) yaml.get(StandardDatasetMetaData.imageURL);
+			image = new ImageInformation(structure,imageType,imageURL);
+			return image;
+		}
+
+		@Override
+		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
+			ImageInformation imageinformation = (ImageInformation) object;
+			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
+			Map<String, Object> map = interpret.createYamlFromObject(object);
+
+			map.put(StandardDatasetMetaData.imageType, imageinformation.getImageType());
+			map.put(StandardDatasetMetaData.imageURL, imageinformation.getImageURL());
+			
+			return map;
+		}
+
+		@Override
+		public DatabaseObject readElementFromDatabase(
+				String identifier) throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(ImageInformation.class.getCanonicalName(),
+					identifier);
+		}
+
+		@Override
+		public String canonicalClassName() {
+			return ImageInformation.class.getCanonicalName();
+		}
+		
+	}, DatasetImage {
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
+			DatabaseObject imageobj = new DatabaseObject(obj);
+			imageobj.nullKey();
+			DataElementInformation element = DatasetOntologyParsing
+					.getSubElementStructureFromIDObject(StandardDatasetMetaData.datasetImage);
+			String catid = createSuffix(obj, element);
+			imageobj.setIdentifier(catid);
+			
+			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
+			DatabaseObjectHierarchy structurehierarchy = interpret.createEmptyObject(imageobj);
+			
+			InterpretData infointerpret = InterpretData.valueOf("ImageInformation");
+			DatabaseObjectHierarchy infohierarchy = infointerpret.createEmptyObject(imageobj);
+			
+			ChemConnectDataStructure structure = (ChemConnectDataStructure) structurehierarchy.getObject();
+			DatasetImage image = new DatasetImage(structure, infohierarchy.getObject().getIdentifier());
+			image.setIdentifier(catid);
+			
+			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(image);
+			hierarchy.addSubobject(infohierarchy);
+			hierarchy.transferSubObjects(structurehierarchy);
+			
+		return hierarchy;
+		}
+
+		@Override
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml,
+				String sourceID) throws IOException {
+			DatasetImage image = null;
+			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
+			ChemConnectDataStructure structure = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
+			String imageInformationID = (String) yaml.get(StandardDatasetMetaData.imageInformationID);			
+			image = new DatasetImage(structure,imageInformationID);
+			return image;
+		}
+
+		@Override
+		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
+			DatasetImage datasetImage = (DatasetImage) object;
+			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
+			Map<String, Object> map = interpret.createYamlFromObject(object);
+			map.put(StandardDatasetMetaData.imageInformationID, datasetImage.getImageInformation());
+			return map;
+		}
+
+		@Override
+		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(DatasetImage.class.getCanonicalName(),
+					identifier);
+		}
+
+		@Override
+		public String canonicalClassName() {
+			return DatasetImage.class.getCanonicalName();
+		}
+		
+	}, ObservationCorrespondenceSpecification {
 
 		@Override
 		public Map<String, Object> createYamlFromObject(

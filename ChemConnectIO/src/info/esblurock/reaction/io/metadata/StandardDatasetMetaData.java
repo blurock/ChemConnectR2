@@ -50,6 +50,13 @@ public class StandardDatasetMetaData {
 	public static String matrixBlockDefinition = "dataset:MatrixBlockDefinition";
 	public static String matrixSpecificationCorrespondence = "dataset:MatrixSpecificationCorrespondence";
 	
+	public static String imageType = "dataset:ImageType";
+	public static String imageURL = "dataset:ImageURL";
+	public static String imageInformationID = "foaf:Image";
+	public static String imageInformation = "dataset:ImageInformation";
+	public static String datasetImage = "dataset:DatasetImage";
+	public static String datasetImageID = "dataset:DatasetImage";
+	
 	public static String matrixColumn = "dataset:matrixColumn";
 	public static String observationValueRowTitleID = "qb:SliceKey";
 	public static String observationRowUnitsID = "dataset:ObservationRowUnits";

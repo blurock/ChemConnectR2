@@ -127,6 +127,7 @@ public interface UserImageService  extends RemoteService  {
 
 	public DatabaseObjectHierarchy getInitialProtocol(DatabaseObject obj, String title, DataCatalogID catid);
 	
-
+	public DatabaseObjectHierarchy createDatasetImage(DatabaseObject obj,DataCatalogID catid,
+			String imageType, String imageURL);
 	
 }

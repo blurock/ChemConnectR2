@@ -37,7 +37,6 @@ import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
-import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
@@ -299,21 +298,21 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 			MaterialToast.fireToast("Specify exact file type for interpretation and press Submit again");
 			askForType();
 		}
-		VisualizeMedia visual = VisualizeMedia.valueOf(ChemConnectCompoundDataStructure.removeNamespace(visualType));
-		String sourceType = SpreadSheetInputInformation.BLOBSOURCE;
-		String source = info.getGSFilename();
-		obj.setIdentifier(catid.getFullName());
-		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(catid,catid.getIdentifier());
-		SpreadSheetInputInformation spread = new SpreadSheetInputInformation(structure," ",sourceType,source);
-		if(visual != null) {
-			visual.getInterpretedBlob(info, spread, catid,true,this);
-		}
+		InterpretUploadedFile interpret = InterpretUploadedFile.valueOf(ChemConnectCompoundDataStructure.removeNamespace(catid.getDataCatalog()));
+		interpret.interpretStructure(obj,catid,visualType,info,this);
 	}
 
 	@Override
 	public void insertCatalogObject(DatabaseObjectHierarchy subs) {
 		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(null,subs,modalpanel);
 		objectpanel.add(item);
-		
+	}
+	
+	public MaterialPanel getObjectPanel() {
+		return objectpanel;
+	}
+
+	public MaterialPanel getModalPanel() {
+		return modalpanel;
 	}
 }

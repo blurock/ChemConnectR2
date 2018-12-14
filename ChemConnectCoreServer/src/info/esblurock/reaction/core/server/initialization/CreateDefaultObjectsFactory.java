@@ -47,6 +47,8 @@ import info.esblurock.reaction.chemconnect.core.data.dataset.ObservationCorrespo
 import info.esblurock.reaction.chemconnect.core.data.dataset.ValueUnits;
 import info.esblurock.reaction.chemconnect.core.data.dataset.device.SubSystemDescription;
 import info.esblurock.reaction.chemconnect.core.data.description.DescriptionDataData;
+import info.esblurock.reaction.chemconnect.core.data.image.DatasetImage;
+import info.esblurock.reaction.chemconnect.core.data.image.ImageInformation;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.methodology.ChemConnectProtocol;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationBlockFromSpreadSheet;
@@ -314,6 +316,25 @@ public class CreateDefaultObjectsFactory {
 		}
 		return count;
 	}
+	
+	public static DatabaseObjectHierarchy fillDatasetImage(DatabaseObject obj, DataCatalogID catid,
+			String imageType, String imageURL) {
+		DatabaseObjectHierarchy hierarchy = InterpretData.DatasetImage.createEmptyObject(obj);
+		System.out.println(hierarchy.toString("fillDatasetImage: "));
+		
+		
+		DatasetImage image = (DatasetImage) hierarchy.getObject();
+		System.out.println("fillDatasetImage: " + image.getImageInformation());
+		DatabaseObjectHierarchy infohierarchy = hierarchy.getSubObject(image.getImageInformation());
+		ImageInformation information = (ImageInformation) infohierarchy.getObject();
+		information.setImageType(imageType);
+		information.setImageURL(imageURL);
+		
+		insertDataCatalogID(hierarchy, catid);
+		
+		return hierarchy;
+	}
+	
 	
 	public static DatabaseObjectHierarchy fillSubSystemDescription(DatabaseObject obj, String devicename,
 			DataCatalogID datid) {

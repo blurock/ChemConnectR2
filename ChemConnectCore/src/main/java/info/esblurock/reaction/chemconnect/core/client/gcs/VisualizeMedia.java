@@ -107,13 +107,73 @@ public enum VisualizeMedia {
 			insertSpreadSheetVisualization(object,title,visual);
 		}
 		
-	};
+	}, FileTypeImageJPEG {
+
+		@Override
+		public void getInterpretedBlob(GCSBlobFileInformation info, DatabaseObject interpret, DataCatalogID catid,
+				boolean titleGiven, VisualizationOfBlobStorage visual) {
+			getInterpretedBlobImage(info,interpret,catid,titleGiven,visual);
+		}
+
+		@Override
+		public void insertVisualization(DatabaseObjectHierarchy object, String title,
+				VisualizationOfBlobStorage visual) {
+		}
+		
+	}, FileTypeImageJPG {
+
+		@Override
+		public void getInterpretedBlob(GCSBlobFileInformation info, DatabaseObject interpret, DataCatalogID catid,
+				boolean titleGiven, VisualizationOfBlobStorage visual) {
+			getInterpretedBlobImage(info,interpret,catid,titleGiven,visual);
+		}
+
+		@Override
+		public void insertVisualization(DatabaseObjectHierarchy object, String title,
+				VisualizationOfBlobStorage visual) {
+		}
+		
+	}, FileTypeImageBMP {
+
+		@Override
+		public void getInterpretedBlob(GCSBlobFileInformation info, DatabaseObject interpret, DataCatalogID catid,
+				boolean titleGiven, VisualizationOfBlobStorage visual) {
+			getInterpretedBlobImage(info,interpret,catid,titleGiven,visual);
+		}
+
+		@Override
+		public void insertVisualization(DatabaseObjectHierarchy object, String title,
+				VisualizationOfBlobStorage visual) {
+		}
+		
+	}, FileTypeImageGIF {
+
+		@Override
+		public void getInterpretedBlob(GCSBlobFileInformation info, DatabaseObject interpret, DataCatalogID catid,
+				boolean titleGiven, VisualizationOfBlobStorage visual) {
+			getInterpretedBlobImage(info,interpret,catid,titleGiven,visual);
+		}
+
+		@Override
+		public void insertVisualization(DatabaseObjectHierarchy object, String title,
+				VisualizationOfBlobStorage visual) {
+		}
+		
+	}
+	;
 	
 	abstract public void getInterpretedBlob(GCSBlobFileInformation info, 
 			DatabaseObject interpret, 
 			DataCatalogID catid, 
 			boolean titleGiven,
 			VisualizationOfBlobStorage visual);
+	
+	
+	protected void getInterpretedBlobImage(GCSBlobFileInformation info, DatabaseObject interpret, DataCatalogID catid,
+			boolean titleGiven, VisualizationOfBlobStorage visual) {
+		// TODO Auto-generated method stub
+		
+	}
 	abstract public void insertVisualization(DatabaseObjectHierarchy object, String title, VisualizationOfBlobStorage visual);
 	
 	

@@ -98,6 +98,7 @@ public class ExtractCatalogInformation {
 			List<DataElementInformation> substructures) throws IOException {
 		DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(obj);
 		Map<String,Object> mapping = interpret.createYamlFromObject(obj);
+		
 		for(DataElementInformation element : substructures) {
 			String identifier = element.getIdentifier();
 			Object elementobj = mapping.get(identifier);
@@ -339,9 +340,7 @@ public class ExtractCatalogInformation {
 		//Set<String> keys = mapping.keySet();
 		String objlinkid = (String) mapping.get(StandardDatasetMetaData.parameterObjectLinkS);
 		DatabaseObjectHierarchy multihier = hierarchy.getSubObject(objlinkid);
-		//ChemConnectCompoundMultiple multi = (ChemConnectCompoundMultiple) multihier.getObject();
 		for(DatabaseObjectHierarchy subhier : multihier.getSubobjects()) {
-			if(subhier != null) {
 				DataObjectLink lnk = (DataObjectLink) subhier.getObject();
 				String type = lnk.getLinkConcept();
 				if(type.compareTo(MetaDataKeywords.linkSubCatalog) == 0) {
@@ -349,9 +348,6 @@ public class ExtractCatalogInformation {
 					DatabaseObjectHierarchy subhierarchy = getDatabaseObjectHierarchy(subid);
 					hierarchy.addSubobject(subhierarchy);
 				}
-			} else {
-				System.out.println("getDatabaseObjectHierarchy: catalog " + catid);
-			}
 		}
 		} else {
 			throw new IOException("DatasetCatalogHierarchy not found: " + catid);

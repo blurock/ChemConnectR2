@@ -427,6 +427,12 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		return hierarchy;
 	}
 	
+	public DatabaseObjectHierarchy createDatasetImage(DatabaseObject obj,DataCatalogID catid,
+			String imageType, String imageURL) {
+		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillDatasetImage(obj, catid, imageType, imageURL);
+		return hierarchy;
+	}
+	
 	public DatabaseObjectHierarchy getSetOfObservations(DatabaseObject obj, String observation, String title,DataCatalogID datid) {
 		String sourceID = QueryBase.getDataSourceIdentification(obj.getOwner());
 		obj.setSourceID(sourceID);
