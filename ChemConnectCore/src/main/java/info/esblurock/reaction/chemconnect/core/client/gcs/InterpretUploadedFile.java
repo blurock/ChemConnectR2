@@ -36,14 +36,15 @@ public enum InterpretUploadedFile {
 				GCSBlobFileInformation info, UploadedElementCollapsible uploaded) {
 			Window.alert("InterpretUploadedFile: DataFileImageStructure: \n" + info.toString("DataFileImageStructure:"));
 			Window.alert("InterpretUploadedFile: DataFileImageStructure: " + visualType);
-			Window.alert("InterpretUploadedFile: DataFileImageStructure: " + visualType);
+			
 			String source = info.getGSFilename();
+			Window.alert("InterpretUploadedFile: DataFileImageStructure source: " + source);
 			MaterialCollapsible collapsible = new MaterialCollapsible();
 			uploaded.getObjectPanel().add(collapsible);
-			SetUpDatabaseObjectHierarchyCallback callback = 
+			SetUpDatabaseObjectHierarchyCallback createcallback = 
 					new SetUpDatabaseObjectHierarchyCallback(collapsible, uploaded.getModalPanel());
-			UserImageServiceAsync async = UserImageService.Util.getInstance();
-			async.createDatasetImage(obj,catid,visualType, source,callback);
+			UserImageServiceAsync createasync = UserImageService.Util.getInstance();
+			createasync.createDatasetImage(obj,catid,visualType, info,createcallback);			
 		}
 		
 	};

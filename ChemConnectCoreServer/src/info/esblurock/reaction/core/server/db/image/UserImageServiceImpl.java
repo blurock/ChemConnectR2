@@ -178,28 +178,28 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		return ans;
 	}
 
-	public GCSBlobContent moveBlobFromUpload(GCSBlobFileInformation fileinfo) {
+	public GCSBlobContent moveBlobFromUpload(GCSBlobFileInformation target) throws IOException {
 		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
 		UserDTO user = util.getUserInfo();
 
 		String path = GCSServiceRoutines.createUploadPath(util.getUserName());
 
-		String id = fileinfo.getIdentifier();
+		String id = target.getIdentifier();
 		String access = user.getName();
 		String owner = user.getName();
 		String sourceID = QueryBase.getDataSourceIdentification(user.getName());
 		DatabaseObject obj = new DatabaseObject(id, access, owner, sourceID);
 
 		GCSBlobFileInformation source = new GCSBlobFileInformation(obj, GoogleCloudStorageConstants.uploadBucket, path,
-				fileinfo.getFilename(), fileinfo.getFiletype(), fileinfo.getDescription());
+				target.getFilename(), target.getFiletype(), target.getDescription());
 
-		fileinfo.setSourceID(source.getSourceID());
+		target.setSourceID(source.getSourceID());
 
-		return moveBlob(fileinfo, source);
+		return moveBlob(target, source);
 	}
 
-	public GCSBlobContent moveBlob(GCSBlobFileInformation fileinfo, GCSBlobFileInformation source) {
-		return GCSServiceRoutines.moveBlob(fileinfo, source);
+	public GCSBlobContent moveBlob(GCSBlobFileInformation target, GCSBlobFileInformation source) throws IOException {
+		return GCSServiceRoutines.moveBlob(target, source);
 	}
 
 	public GCSBlobContent getBlobContent(GCSBlobFileInformation gcsinfo) {
@@ -428,8 +428,15 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	}
 	
 	public DatabaseObjectHierarchy createDatasetImage(DatabaseObject obj,DataCatalogID catid,
-			String imageType, String imageURL) {
-		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillDatasetImage(obj, catid, imageType, imageURL);
+			String imageType, GCSBlobFileInformation info) throws IOException {
+		String path = catid.getFullPath("/");
+		GCSBlobFileInformation target = new GCSBlobFileInformation(obj, GoogleCloudStorageConstants.storageBucket, path,
+				info.getFilename(), info.getFiletype(), info.getDescription());
+		info.setSourceID(target.getSourceID());
+
+		GCSBlobContent content = moveBlob(target,info);
+
+		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillDatasetImage(obj, catid, imageType, content.getUrl());
 		return hierarchy;
 	}
 	

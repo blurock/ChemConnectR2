@@ -1,18 +1,27 @@
 package info.esblurock.reaction.core.server.db.image;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.Reader;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
+import com.fasterxml.jackson.core.util.ByteArrayBuilder;
+import com.google.cloud.ReadChannel;
 import com.google.cloud.Role;
 import com.google.cloud.WriteChannel;
 import com.google.cloud.storage.Blob;
+import com.google.cloud.storage.Blob.BlobSourceOption;
 import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
+import com.google.cloud.storage.Bucket.BlobTargetOption;
+import com.google.cloud.storage.Bucket.BlobWriteOption;
 import com.google.cloud.storage.CopyWriter;
 import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.Storage.CopyRequest;
 import com.google.cloud.storage.StorageOptions;
 import com.google.cloud.storage.Acl;
 import com.google.cloud.storage.Acl.User;
@@ -30,6 +39,7 @@ public class GCSServiceRoutines {
 		storage = StorageOptions.getDefaultInstance().getService();
 	}
 
+	static Long longGeneration = (long) 42.0;
 	public static String createUploadPath(String username) {
 		String path = GoogleCloudStorageConstants.uploadPathPrefix + "/" + username;
 		return path;
@@ -76,10 +86,9 @@ public class GCSServiceRoutines {
         		Acl.of(User.ofAllUsers(), Acl.Role.READER)
         		//,Acl.of(User.ofAllAuthenticatedUsers(), Acl.Role.OWNER)
         		))).build();
-        
+
 		//Acl.of(User.ofAllAuthenticatedUsers(), Acl.Role.OWNER)
-		
-		
+	
 		try (WriteChannel writer = storage.writer(blobInfo)) {
 			writer.write(ByteBuffer.wrap(content, 0, content.length));
 		} catch (Exception ex) {
@@ -92,27 +101,40 @@ public class GCSServiceRoutines {
 		DatabaseWriteBase.writeObjectWithTransaction(gcs.getInfo());
 	}
 
-	public static GCSBlobContent moveBlob(GCSBlobFileInformation fileinfo, GCSBlobFileInformation source) {
+	public static GCSBlobContent moveBlob(GCSBlobFileInformation target, GCSBlobFileInformation source) throws IOException {
+		/*
 		Storage storage = StorageOptions.getDefaultInstance().getService();
-
 		String sourcefilename = source.getGSFilename();
 		String sourcebucket = source.getBucket();
-		String targetfilename = fileinfo.getGSFilename();
-		String targetbucket = fileinfo.getBucket();
+		
+	    BlobId blobId = BlobId.of(sourcebucket, sourcefilename);
+	    ByteArrayOutputStream bbuilder = new ByteArrayOutputStream();
+	    Blob blob1 = storage.get(blobId);
+	    Blob blob2 = storage.cop
+	    try (ReadChannel reader = storage.reader(blobId)) {
+	      ByteBuffer bytes = ByteBuffer.allocate(64 * 1024);
+	      while (reader.read(bytes) > 0) {
+	        bytes.flip();
+	        bbuilder.write(bytes.array());
+	        bytes.clear();
+	      }
+	    }
+	    bbuilder.close();
+	    */
+	    CopyRequest request = CopyRequest.newBuilder()
+	        .setSource(BlobId.of(source.getBucket(), source.getGSFilename()))
+	        .setTarget(BlobId.of(target.getBucket(), target.getGSFilename()))
+	        .build();
+	    Blob blob = storage.copy(request).getResult();
+	    blob.createAcl(Acl.of(User.ofAllUsers(), Acl.Role.READER));
 
-		BlobId blobId = BlobId.of(sourcebucket, sourcefilename);
-
-		Blob blob = storage.get(blobId);
-
-		CopyWriter copyWriter = blob.copyTo(BlobId.of(targetbucket, targetfilename));
-
-		Blob copiedBlob = copyWriter.getResult();
-		GCSBlobContent content = new GCSBlobContent(copiedBlob.getMediaLink(), fileinfo);
-		String sourceID = QueryBase.getDataSourceIdentification(fileinfo.getOwner());
-		fileinfo.setSourceID(sourceID);
-		fileinfo.nullKey();
-		DatabaseWriteBase.writeObjectWithTransaction(fileinfo);
-		return content;
+	    String url = "https://storage.googleapis.com/" + target.getBucket() + "/" + target.getGSFilename();
+		GCSBlobContent gcscontent = new GCSBlobContent(url, target);
+		String sourceID = QueryBase.getDataSourceIdentification(target.getOwner());
+		target.setSourceID(sourceID);
+		target.nullKey();
+		DatabaseWriteBase.writeObjectWithTransaction(target);
+		return gcscontent;
 	}
 
 

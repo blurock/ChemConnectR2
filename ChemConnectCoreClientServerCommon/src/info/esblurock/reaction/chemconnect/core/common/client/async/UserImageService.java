@@ -52,9 +52,9 @@ public interface UserImageService  extends RemoteService  {
 
 	String updateImages(ArrayList<UploadedImage> images) throws IOException;
 	
-	GCSBlobContent moveBlobFromUpload(GCSBlobFileInformation fileinfo);
+	GCSBlobContent moveBlobFromUpload(GCSBlobFileInformation fileinfo)  throws IOException;
 	
-	GCSBlobContent moveBlob(GCSBlobFileInformation fileinfo, GCSBlobFileInformation source);
+	GCSBlobContent moveBlob(GCSBlobFileInformation fileinfo, GCSBlobFileInformation source) throws IOException;
 	
 	GCSBlobContent getBlobContent(GCSBlobFileInformation gcsinfo);
 	
@@ -128,6 +128,6 @@ public interface UserImageService  extends RemoteService  {
 	public DatabaseObjectHierarchy getInitialProtocol(DatabaseObject obj, String title, DataCatalogID catid);
 	
 	public DatabaseObjectHierarchy createDatasetImage(DatabaseObject obj,DataCatalogID catid,
-			String imageType, String imageURL);
+			String imageType, GCSBlobFileInformation info) throws IOException;
 	
 }

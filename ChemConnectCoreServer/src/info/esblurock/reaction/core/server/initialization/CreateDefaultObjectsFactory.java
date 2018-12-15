@@ -320,11 +320,7 @@ public class CreateDefaultObjectsFactory {
 	public static DatabaseObjectHierarchy fillDatasetImage(DatabaseObject obj, DataCatalogID catid,
 			String imageType, String imageURL) {
 		DatabaseObjectHierarchy hierarchy = InterpretData.DatasetImage.createEmptyObject(obj);
-		System.out.println(hierarchy.toString("fillDatasetImage: "));
-		
-		
 		DatasetImage image = (DatasetImage) hierarchy.getObject();
-		System.out.println("fillDatasetImage: " + image.getImageInformation());
 		DatabaseObjectHierarchy infohierarchy = hierarchy.getSubObject(image.getImageInformation());
 		ImageInformation information = (ImageInformation) infohierarchy.getObject();
 		information.setImageType(imageType);

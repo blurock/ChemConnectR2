@@ -119,7 +119,7 @@ public interface UserImageServiceAsync {
 	void getInitialProtocol(DatabaseObject obj, String title, DataCatalogID catid,
 			AsyncCallback<DatabaseObjectHierarchy> callback);
 
-	void createDatasetImage(DatabaseObject obj, DataCatalogID catid, String imageType, String imageURL,
+	void createDatasetImage(DatabaseObject obj, DataCatalogID catid, String imageType, GCSBlobFileInformation info,
 			AsyncCallback<DatabaseObjectHierarchy> callback);
 
 }

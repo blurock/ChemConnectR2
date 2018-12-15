@@ -1,9 +1,15 @@
 package info.esblurock.reaction.chemconnect.core.client.gcs;
 
+import com.google.gwt.user.client.Window;
+
+import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialPanel;
+import info.esblurock.reaction.chemconnect.core.client.catalog.SetUpDatabaseObjectHierarchyCallback;
 import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServices;
 import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServicesAsync;
+import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
+import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
@@ -171,7 +177,7 @@ public enum VisualizeMedia {
 	
 	protected void getInterpretedBlobImage(GCSBlobFileInformation info, DatabaseObject interpret, DataCatalogID catid,
 			boolean titleGiven, VisualizationOfBlobStorage visual) {
-		// TODO Auto-generated method stub
+				
 		
 	}
 	abstract public void insertVisualization(DatabaseObjectHierarchy object, String title, VisualizationOfBlobStorage visual);

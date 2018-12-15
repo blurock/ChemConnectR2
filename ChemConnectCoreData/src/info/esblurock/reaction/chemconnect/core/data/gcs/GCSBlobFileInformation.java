@@ -88,8 +88,8 @@ public class GCSBlobFileInformation extends DatabaseObject {
 	public String toString(String prefix) {
 		StringBuilder build = new StringBuilder();
 		build.append(super.toString(prefix));
-		build.append(prefix + getGSFilename() + "\n");
-		build.append(prefix + "Type: " + filetype + "\n" + description + "\n");
+		build.append(prefix + bucket + ":   " + getGSFilename() + "\n");
+		build.append("    (Type: " + filetype + "        " + description + ")\n");
 		return build.toString();
 	}
 	
