@@ -8,10 +8,14 @@ public class RegisterImageInformation {
 	public static void register() {
 		ObjectifyService.register(UploadedImage.class);
 		ObjectifyService.register(ImageUploadTransaction.class);
+		ObjectifyService.register(ImageInformation.class);
+		ObjectifyService.register(DatasetImage.class);
 	}
 	public static void reset() {
 		ResetDatabaseObjects.resetClass(UploadedImage.class);
 		ResetDatabaseObjects.resetClass(ImageUploadTransaction.class);
+		ResetDatabaseObjects.resetClass(ImageInformation.class);
+		ResetDatabaseObjects.resetClass(DatasetImage.class);
 	}
 
 }

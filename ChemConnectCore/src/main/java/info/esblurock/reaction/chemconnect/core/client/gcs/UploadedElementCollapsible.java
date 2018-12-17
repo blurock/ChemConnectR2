@@ -21,7 +21,6 @@ import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTextArea;
 import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.MaterialTooltip;
-import info.esblurock.reaction.chemconnect.core.client.GeneralVoidReturnCallback;
 import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.client.catalog.choose.ChooseFullNameFromCatagoryRow;
 import info.esblurock.reaction.chemconnect.core.client.catalog.choose.ObjectVisualizationInterface;
@@ -39,6 +38,7 @@ import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
+import info.esblurock.reaction.io.metadata.StandardDatasetMetaData;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 
 public class UploadedElementCollapsible extends Composite implements ObjectVisualizationInterface, VisualizationOfBlobStorage, ChooseFromConceptHeirarchy, InsertBlobContentInterface {
@@ -68,8 +68,6 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 	MaterialTextArea textDescription;
 	@UiField
 	MaterialLink url;
-	@UiField
-	MaterialLink save;
 	@UiField
 	MaterialTooltip identifiertooltip;
 	@UiField
@@ -104,15 +102,21 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 		this.content = content;
 		init();
 		fill(content);
-	}
-	
-	void init() {
+		String object = null;
+		if(isText()) {
+			object = MetaDataKeywords.observationsFromSpreadSheetFull;
+		}
+		if(isImage()) {
+			object = MetaDataKeywords.datasetImage;
+		}
 		ArrayList<String> choices = new ArrayList<String>();
 		choices.add(MetaDataKeywords.dataFileInformationStructure);
 		String user = Cookies.getCookie("user");
-		String object = MetaDataKeywords.observationsFromSpreadSheetFull;
 		choose = new ChooseFullNameFromCatagoryRow(this,user,object,choices,modalpanel);
 		catidpanel.add(choose);
+	}
+	
+	void init() {
 		typeClass = null;
 		typeInstance = null;
 		identifier = null;
@@ -130,9 +134,6 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 			UserImageServiceAsync async = UserImageService.Util.getInstance();
 			GCSContentCallback callback = new GCSContentCallback(this);
 			async.getBlobContent(info,callback);
-
-			
-			
 			urltooltip.setText("");
 		}
 		
@@ -213,21 +214,6 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 	void onClickUrl(ClickEvent e) {
 		Window.open(linkUrl, "Download", "");
 	}
-	@UiHandler("save")
-	void onClickSave(ClickEvent e) {
-		info.setDescription(textDescription.getText());
-		if(isText()) {
-			textobject.updateData();
-		} else if(isImage()) {
-			
-		}
-		
-		UserImageServiceAsync async = UserImageService.Util.getInstance();
-		String message = "Text file updated";
-		GeneralVoidReturnCallback callback = new GeneralVoidReturnCallback(message);
-		async.writeBlobContent(content,callback);
-	}
-	
 	public String setIdentifier(String identifierRoot) {
 		this.identifierRoot = identifierRoot;
 		this.identifier = this.identifierRoot;
@@ -260,8 +246,7 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 		modalpanel.add(choose);
 		choose.open();
 	}
-
-	// dataset:   ....  16 characters
+	
 	private void findClassifications(HierarchyNode hierarchy, Map<String, ClassificationInformation> interpretmap) {
 		String name = hierarchy.getLabel();
 		String shortname = name;

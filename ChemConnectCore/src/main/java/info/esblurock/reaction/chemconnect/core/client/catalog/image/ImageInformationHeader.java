@@ -40,6 +40,9 @@ public class ImageInformationHeader extends Composite {
 	StandardDatasetObjectHierarchyItem item;
 	DatabaseObjectHierarchy hierarchy;
 	ImageInformation image;
+	
+	String imageType;
+	String imageURL;
 
 	public ImageInformationHeader() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -51,10 +54,11 @@ public class ImageInformationHeader extends Composite {
 		init();
 		hierarchy = item.getHierarchy();
 		image = (ImageInformation) hierarchy.getObject();
-		type.setText(TextUtilities.removeNamespace(image.getImageType()));
+		imageType = image.getImageType();
+		type.setText(TextUtilities.removeNamespace(imageType));
 		typetooltip.setText(image.getImageURL());
-		String urlS = image.getImageURL();
-		MaterialImage image = new MaterialImage(urlS);
+		imageURL = image.getImageURL();
+		MaterialImage image = new MaterialImage(imageURL);
 		imagePanel.add(image);
 	}
 	
@@ -81,4 +85,8 @@ public class ImageInformationHeader extends Composite {
 		Window.alert("type!");
 	}
 
+	public void updateData() {
+		image.setImageType(imageType);
+		image.setImageURL(imageURL);
+	}
 }

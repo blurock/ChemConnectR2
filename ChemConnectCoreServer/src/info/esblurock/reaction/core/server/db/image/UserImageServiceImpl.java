@@ -220,36 +220,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		tok.close();
 		return lines;
 	}
-/*
-	public void uploadFileBlob(String id, String bucket, String filename, String contentType, String description, String contentS)
-			throws IOException {
-		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
-		GCSBlobFileInformation info = GCSServiceRoutines.createInitialUploadInfo(
-				bucket,
-				filename, contentType, description, util);
-		System.out.println("uploadFileBlob: " + info.toString());
-		String url = null;
-		GCSBlobContent gcs = new GCSBlobContent(url, info);
-		writeBlobContent(gcs);
-	}
-*/
-/*
-	public void writeBlobContent(GCSBlobContent gcs) throws IOException {
-		GCSBlobFileInformation info = gcs.getInfo();
-		String contentS = gcs.getBytes();
-		BlobId blobId = BlobId.of(info.getBucket(), info.getGSFilename());
 
-		byte[] content = contentS.getBytes(StandardCharsets.UTF_8);
-		BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(info.getFiletype()).build();
-		try (WriteChannel writer = storage.writer(blobInfo)) {
-			writer.write(ByteBuffer.wrap(content, 0, content.length));
-		} catch (Exception ex) {
-			throw new IOException("Failure to write blob: " + info.getBucket() + ": " + info.getGSFilename()
-					+ " with size " + contentS.length() + "bytes");
-		}
-		DatabaseWriteBase.writeObjectWithTransaction(gcs.getInfo());
-	}
-*/
 	public void deleteUploadedFile(GCSBlobFileInformation gcsinfo) {
 		deleteBlob(gcsinfo);
 	}
@@ -430,11 +401,25 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	public DatabaseObjectHierarchy createDatasetImage(DatabaseObject obj,DataCatalogID catid,
 			String imageType, GCSBlobFileInformation info) throws IOException {
 		String path = catid.getFullPath("/");
+		System.out.println(info.toString("createDatasetImage  info: "));
+		System.out.println(catid.toString("createDatasetImage catid: "));
+		String extension = ConceptParsing.getFileExtension(imageType);
+		System.out.println("createDatasetImage extension: " + imageType + ":" + extension);
+		
+		String filename = null;
+		if(extension != null) {
+			filename = catid.getSimpleCatalogName() + "." + extension;
+		} else {
+			filename = info.getFilename();
+		}
+		
 		GCSBlobFileInformation target = new GCSBlobFileInformation(obj, GoogleCloudStorageConstants.storageBucket, path,
-				info.getFilename(), info.getFiletype(), info.getDescription());
+				filename, info.getFiletype(), info.getDescription());
+		System.out.println(target.toString("createDatasetImage  target: "));
 		info.setSourceID(target.getSourceID());
 
 		GCSBlobContent content = moveBlob(target,info);
+		System.out.println(content.toString("createDatasetImage  content: "));
 
 		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillDatasetImage(obj, catid, imageType, content.getUrl());
 		return hierarchy;

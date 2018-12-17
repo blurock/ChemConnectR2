@@ -686,16 +686,16 @@ public enum InterpretData {
 			DatabaseObject imageobj = new DatabaseObject(obj);
 			imageobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
-					.getSubElementStructureFromIDObject(StandardDatasetMetaData.imageInformation);
+					.getSubElementStructureFromIDObject(MetaDataKeywords.imageInformation);
 			String catid = createSuffix(obj, element);
 			imageobj.setIdentifier(catid);
 
-			
 			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
 			DatabaseObjectHierarchy structurehierarchy = interpret.createEmptyObject(imageobj);
 			ChemConnectCompoundDataStructure structure = (ChemConnectCompoundDataStructure) structurehierarchy.getObject();
 			ImageInformation image = new ImageInformation(structure);
 			image.setIdentifier(catid);
+			
 			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(image);
 			return hierarchy;
 		}
@@ -743,7 +743,7 @@ public enum InterpretData {
 			DatabaseObject imageobj = new DatabaseObject(obj);
 			imageobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
-					.getSubElementStructureFromIDObject(StandardDatasetMetaData.datasetImage);
+					.getSubElementStructureFromIDObject(MetaDataKeywords.datasetImage);
 			String catid = createSuffix(obj, element);
 			imageobj.setIdentifier(catid);
 			
@@ -760,6 +760,8 @@ public enum InterpretData {
 			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(image);
 			hierarchy.addSubobject(infohierarchy);
 			hierarchy.transferSubObjects(structurehierarchy);
+			
+			System.out.println(hierarchy.toString("Create DatasetImage: "));
 			
 		return hierarchy;
 		}

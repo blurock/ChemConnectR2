@@ -52,10 +52,8 @@ public class StandardDatasetMetaData {
 	
 	public static String imageType = "dataset:ImageType";
 	public static String imageURL = "dataset:ImageURL";
-	public static String imageInformationID = "foaf:Image";
-	public static String imageInformation = "dataset:ImageInformation";
-	public static String datasetImage = "dataset:DatasetImage";
-	public static String datasetImageID = "dataset:DatasetImage";
+	public static String imageInformationID = "dataset:ImageInformation";
+	public static String datasetImageID = "foaf:Image";
 	
 	public static String matrixColumn = "dataset:matrixColumn";
 	public static String observationValueRowTitleID = "qb:SliceKey";

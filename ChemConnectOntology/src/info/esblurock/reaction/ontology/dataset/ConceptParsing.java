@@ -716,10 +716,10 @@ public class ConceptParsing {
 		}
 		return type;
 	}
-	public static String getFileExtension(String yamlFileType) {
+	public static String getFileExtension(String fileType) {
 		String query = "SELECT ?type\n" + 
 				"	WHERE {\n" + 
-				"   dataset:FileTypeYaml dataset:fileextension ?type }";
+				"   " + fileType + " dataset:fileextension ?type }";
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
 		String type = null;

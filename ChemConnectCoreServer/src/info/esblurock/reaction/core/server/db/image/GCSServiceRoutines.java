@@ -129,6 +129,7 @@ public class GCSServiceRoutines {
 	    blob.createAcl(Acl.of(User.ofAllUsers(), Acl.Role.READER));
 
 	    String url = "https://storage.googleapis.com/" + target.getBucket() + "/" + target.getGSFilename();
+	    System.out.println("URL: " + url);
 		GCSBlobContent gcscontent = new GCSBlobContent(url, target);
 		String sourceID = QueryBase.getDataSourceIdentification(target.getOwner());
 		target.setSourceID(sourceID);

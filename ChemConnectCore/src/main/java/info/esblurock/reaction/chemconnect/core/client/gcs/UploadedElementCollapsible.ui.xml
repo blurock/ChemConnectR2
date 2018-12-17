@@ -35,7 +35,7 @@
 							truncate="true" textColor="BLACK" />
 					</m:MaterialTooltip>
 				</m:MaterialColumn>
-				<m:MaterialColumn grid="s5">
+				<m:MaterialColumn grid="s6">
 					<m:MaterialLink ui:field="filetype" textAlign="LEFT"
 						truncate="true" textColor="BLACK" />
 				</m:MaterialColumn>
@@ -44,10 +44,6 @@
 						<m:MaterialLink ui:field="url" iconType="FILE_DOWNLOAD"
 							iconColor="BLACK" iconPosition="RIGHT" />
 					</m:MaterialTooltip>
-				</m:MaterialColumn>
-				<m:MaterialColumn grid="s1">
-					<m:MaterialLink ui:field="save" iconType="SAVE"
-						iconColor="BLACK" iconPosition="RIGHT" />
 				</m:MaterialColumn>
 				<m:MaterialColumn grid="s1">
 					<m:MaterialLink ui:field="delete" iconType="CLEAR"

@@ -544,7 +544,7 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public boolean update(StandardDatasetObjectHierarchyItem item) {
-			return false;
+			return true;
 		}
 
 		@Override
@@ -572,12 +572,14 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public boolean update(StandardDatasetObjectHierarchyItem item) {
+			ImageInformationHeader image = (ImageInformationHeader) item.getHeader();
+			image.updateData();
 			return false;
 		}
 
 		@Override
 		public int priority() {
-			return 0;
+			return 700;
 		}
 
 		@Override

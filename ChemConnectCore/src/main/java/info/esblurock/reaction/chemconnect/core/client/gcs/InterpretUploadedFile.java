@@ -1,6 +1,5 @@
 package info.esblurock.reaction.chemconnect.core.client.gcs;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 
 import gwt.material.design.client.ui.MaterialCollapsible;
@@ -34,9 +33,6 @@ public enum InterpretUploadedFile {
 		@Override
 		public void interpretStructure(DatabaseObject obj, DataCatalogID catid, String visualType, 
 				GCSBlobFileInformation info, UploadedElementCollapsible uploaded) {
-			Window.alert("InterpretUploadedFile: DataFileImageStructure: \n" + info.toString("DataFileImageStructure:"));
-			Window.alert("InterpretUploadedFile: DataFileImageStructure: " + visualType);
-			
 			String source = info.getGSFilename();
 			Window.alert("InterpretUploadedFile: DataFileImageStructure source: " + source);
 			MaterialCollapsible collapsible = new MaterialCollapsible();

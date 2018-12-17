@@ -103,6 +103,8 @@ public class MetaDataKeywords {
 	public static String catagoryTypeChoices = "dataset:CatagoryTypeChoices";
 	public static String conceptLinkDataStructures = "dataset:ConceptLinkDataStructures";
 	public static String undefined = "undefined";
+	public static String imageInformation = "dataset:ImageInformation";
+	public static String datasetImage = "dataset:DatasetImage";
 	
 
 }
