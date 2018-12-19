@@ -122,4 +122,6 @@ public interface UserImageServiceAsync {
 	void createDatasetImage(DatabaseObject obj, DataCatalogID catid, String imageType, GCSBlobFileInformation info,
 			AsyncCallback<DatabaseObjectHierarchy> callback);
 
+	void getIDHierarchyFromFamilyNameAndUser(String familyname, AsyncCallback<ArrayList<NameOfPerson>> callback);
+
 }

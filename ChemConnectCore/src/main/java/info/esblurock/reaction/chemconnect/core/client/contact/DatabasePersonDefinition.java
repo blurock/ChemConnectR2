@@ -21,6 +21,7 @@ import info.esblurock.reaction.chemconnect.core.client.catalog.choose.ObjectVisu
 import info.esblurock.reaction.chemconnect.core.client.ui.view.DatabasePersonDefinitionView;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
@@ -92,7 +93,10 @@ public class DatabasePersonDefinition extends Composite  implements ObjectVisual
 	@Override
 	public void createCatalogObject(DatabaseObject obj,DataCatalogID datid) {
 		this.datid = datid;
-		person = new NameOfPerson(obj,"title","name", "familyname");
+		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(obj,null);
+		
+		
+		person = new NameOfPerson(structure,"title","name", "familyname");
 		QueryNameOfPersonModal modal = new QueryNameOfPersonModal(person, this);
 		modalpanel.clear();
 		modalpanel.add(modal);

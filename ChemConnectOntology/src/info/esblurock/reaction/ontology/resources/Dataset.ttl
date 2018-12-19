@@ -7289,6 +7289,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                               [ rdf:type owl:Restriction ;
                                 owl:onProperty <http://purl.org/dc/terms/hasPart> ;
                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                owl:onClass :ObjectLinkToContact
+                              ] ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                 owl:onClass :UserTitle
                               ] ,
                               [ rdf:type owl:Restriction ;
@@ -7329,6 +7334,15 @@ Under the general type of is the actual data object referenced by the ChemConnec
    owl:annotatedTarget <http://data.nasa.gov/qudt/owl/qudt#CountingUnit> ;
    <http://www.w3.org/2004/02/skos/core#example> 8
  ] .
+
+
+###  http://www.esblurock.info/dataset#ObjectLinkToContact
+:ObjectLinkToContact rdf:type owl:Class ;
+                     rdfs:subClassOf :LinkToDataStructure ;
+                     <http://purl.org/dc/terms/identifier> "dataset:ObjectLinkToContact" ;
+                     rdfs:comment "Link to the contact" ;
+                     rdfs:label "Contact Link" ;
+                     <http://www.w3.org/2004/02/skos/core#altLabel> "contactlink" .
 
 
 ###  http://www.esblurock.info/dataset#ObjectLinkToDataStructure
@@ -11232,8 +11246,8 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
                                     <http://purl.org/dc/terms/issued> "2000-07-11"^^xsd:date .
 
 
-<http://purl.org/dc/terms/rights> <http://purl.org/dc/terms/issued> "2008-01-14"^^xsd:date ;
-                                  rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
+<http://purl.org/dc/terms/rights> rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
+                                  <http://purl.org/dc/terms/issued> "2008-01-14"^^xsd:date ;
                                   rdfs:label "Rights"@en ;
                                   rdfs:comment "Information about rights held in and over the resource."@en ;
                                   <http://purl.org/dc/terms/modified> "2008-01-14"^^xsd:date ;
@@ -11241,8 +11255,8 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
                                   <http://purl.org/dc/terms/description> "Typically, rights information includes a statement about various property rights associated with the resource, including intellectual property rights."@en .
 
 
-<http://purl.org/dc/terms/rightsHolder> rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
-                                        <http://purl.org/dc/terms/hasVersion> <http://dublincore.org/usage/terms/history/#rightsHolder-002> ;
+<http://purl.org/dc/terms/rightsHolder> <http://purl.org/dc/terms/hasVersion> <http://dublincore.org/usage/terms/history/#rightsHolder-002> ;
+                                        rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
                                         <http://purl.org/dc/terms/modified> "2008-01-14"^^xsd:date ;
                                         rdfs:comment "A person or organization owning or managing rights over the resource."@en ;
                                         <http://purl.org/dc/terms/issued> "2004-06-14"^^xsd:date ;

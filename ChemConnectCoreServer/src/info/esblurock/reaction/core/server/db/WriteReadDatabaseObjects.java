@@ -2,6 +2,7 @@ package info.esblurock.reaction.core.server.db;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -12,6 +13,7 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.query.ListOfQueries;
 import info.esblurock.reaction.chemconnect.core.data.query.QueryPropertyValue;
@@ -170,7 +172,36 @@ public class WriteReadDatabaseObjects {
 		}
 		return topnode;
 	}
-	
+
+	public static ArrayList<NameOfPerson> getIDHierarchyFromFamilyNameAndUser(String user,
+			String familyname) throws IOException {
+		String classname = NameOfPerson.class.getCanonicalName();
+		SetOfQueryPropertyValues values = new SetOfQueryPropertyValues();
+		QueryPropertyValue value1 = new QueryPropertyValue("owner",user);
+		values.add(value1);
+		QuerySetupBase ownerquery = new QuerySetupBase(user,classname, values);
+		System.out.println(ownerquery.toString("getIDHierarchyFromFamilyNameAndUser: "));
+		SingleQueryResult result;
+		ArrayList<NameOfPerson> namelst = new ArrayList<NameOfPerson>();
+		try {
+			result = QueryBase.StandardQueryResult(ownerquery);
+			List<DatabaseObject> objs = result.getResults();
+			StringCompareElement[] lst = new StringCompareElement[objs.size()];
+			int count = 0;
+			for(DatabaseObject obj : objs) {
+				NameOfPerson name = (NameOfPerson) obj;
+				StringCompareElement element = new StringCompareElement(familyname,name);
+				lst[count++] = element;
+			}
+			Arrays.sort(lst);
+			for(int i=0; i<lst.length;i++) {
+				namelst.add(lst[i].getNameOfPerson());
+			}
+		} catch (ClassNotFoundException e) {
+			throw new IOException(e.toString());
+		}
+		return namelst;
+	}
 	public static HierarchyNode getIDHierarchyFromDataCatalogAndUser(String user,String datacatalog, String classtype) throws IOException {
 		String classname = DataCatalogID.class.getCanonicalName();
 		String suffix = null;

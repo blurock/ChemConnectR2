@@ -51,5 +51,10 @@
 				<m:MaterialLink ui:field="referenceText" text="reference" styleName="{style.box}"/>
 			</m:MaterialColumn>
 		</m:MaterialRow>
+		<m:MaterialRow margin="1">
+			<m:MaterialColumn grid="s12" styleName="{style.rowbox}">
+				<m:MaterialPanel ui:field="authorpanel" styleName="{style.box}"/>
+			</m:MaterialColumn>
+		</m:MaterialRow>
 	</m:MaterialPanel>
 </ui:UiBinder> 

@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialTooltip;
+import info.esblurock.reaction.chemconnect.core.client.catalog.SaveDatasetCatalogHierarchy;
 import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.data.contact.IndividualInformation;
 import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
@@ -69,6 +70,14 @@ public class StandardDatasetIndividualInformation extends Composite implements Q
 		
 	}
 
+	@UiHandler("save")
+	public void clickSave(ClickEvent event) {
+		SaveDatasetCatalogHierarchy savemodal = new SaveDatasetCatalogHierarchy(item);
+		item.getModalpanel().clear();
+		item.getModalpanel().add(savemodal);
+		savemodal.openModal();
+	}
+	
 	@Override
 	public void insertNameOfPerson(NameOfPerson person) {
 		this.personname = person;

@@ -1,5 +1,6 @@
 package info.esblurock.reaction.chemconnect.core.data.contact;
 
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 
 import com.googlecode.objectify.annotation.Entity;
@@ -7,7 +8,7 @@ import com.googlecode.objectify.annotation.Index;
 
 @SuppressWarnings("serial")
 @Entity
-public class NameOfPerson extends DatabaseObject {
+public class NameOfPerson extends ChemConnectCompoundDataStructure {
 
 	@Index
 	String title;
@@ -22,6 +23,13 @@ public class NameOfPerson extends DatabaseObject {
 		this.familyName = "";
 	}
 	
+	public NameOfPerson(NameOfPerson person) {
+		super(person);
+		this.title = person.getTitle();
+		this.givenName = person.getGivenName();
+		this.familyName = person.getFamilyName();
+	}
+	
 	public NameOfPerson(String identifier, String sourceID) {
 		super(identifier,sourceID);
 		this.title = "";
@@ -29,29 +37,19 @@ public class NameOfPerson extends DatabaseObject {
 		this.familyName = "";		
 	}
 	
-	public NameOfPerson(String identifier, String access, String owner, String sourceID,
+	public NameOfPerson(ChemConnectCompoundDataStructure structure,
 			String title, String givenName, String familyName) {
-		this.fill(identifier, access, owner,sourceID,title,givenName,familyName);
-	}
-	public NameOfPerson(DatabaseObject obj,
-			String title, String givenName, String familyName) {
-		this.fill(obj,title,givenName,familyName);
+		this.fill(structure,title,givenName,familyName);
 	}
 
-	public void fill(String identifier, String access, String owner, String sourceID,
+	public void fill(ChemConnectCompoundDataStructure structure,
 			String title, String givenName, String familyName) {
-		super.fill(identifier, access, owner,sourceID);
+		super.fill(structure);
 		this.title = title;
 		this.givenName = givenName;
 		this.familyName = familyName;
 	}
-	public void fill(DatabaseObject obj,
-			String title, String givenName, String familyName) {
-		super.fill(obj);
-		this.title = title;
-		this.givenName = givenName;
-		this.familyName = familyName;
-	}
+	
 	@Override
 	public void fill(DatabaseObject object) {
 		super.fill(object);
@@ -73,6 +71,18 @@ public class NameOfPerson extends DatabaseObject {
 		return familyName;
 	}
 	
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public void setGivenName(String givenName) {
+		this.givenName = givenName;
+	}
+
+	public void setFamilyName(String familyName) {
+		this.familyName = familyName;
+	}
+
 	public String nameAsString() {
 		StringBuilder build = new StringBuilder();
 		build.append(fillText(title,"Prof.,Dr.,Mr.,Ms...",""));

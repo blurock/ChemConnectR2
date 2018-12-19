@@ -29,6 +29,7 @@ public class OntologyKeys {
 	public static String organizationDescription = "dataset:OrganizationDescription";
 	public static String individualInformation = "dataset:DatabasePerson";
 	public static String nameOfPerson = "dataset:NameOfPerson";
+	public static String authorInformation = "dataset:AuthorInformation";
 	public static String author = "dataset:Author";
 	public static String subSystemDescription = "dataset:SubSystemDescription";
 	public static String observationCorrespondenceSpecification = "dataset:ObservationCorrespondenceSpecification";

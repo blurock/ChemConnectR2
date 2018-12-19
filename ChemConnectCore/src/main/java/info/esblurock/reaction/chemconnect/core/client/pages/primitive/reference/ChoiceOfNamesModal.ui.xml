@@ -1,0 +1,25 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:m="urn:import:gwt.material.design.client.ui">
+	<ui:style>
+	.important {
+		font-weight: bold;
+	}
+	</ui:style>
+	<m:MaterialDialog ui:field="modal" type="DEFAULT" dismissible="false"
+		inDuration="500" outDuration="500">
+		<m:MaterialDialogContent>
+			<m:MaterialTitle title="Choose Person Link"
+				description="" />
+			<m:MaterialLink text="DropdownNames"
+				activates="dp-names" textColor="BLACK" iconType="ARROW_DROP_DOWN"
+				iconPosition="RIGHT" />
+			<m:MaterialDropDown ui:field="dropdown" activator="dp-names"
+				constrainWidth="true" />
+		</m:MaterialDialogContent>
+		<m:MaterialDialogFooter>
+			<m:MaterialButton ui:field="close" text="Close Dialog" type="FLAT" />
+		</m:MaterialDialogFooter>
+	</m:MaterialDialog>
+</ui:UiBinder> 

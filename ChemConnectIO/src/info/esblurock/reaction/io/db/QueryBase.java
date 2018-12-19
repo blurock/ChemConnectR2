@@ -102,7 +102,6 @@ public class QueryBase {
 		DatabaseObject obj = null;
 		try {
 			objClass = Class.forName(classname);
-			@SuppressWarnings("unchecked")
 			Object o = ofy().load().type(objClass).filter(propertyname, propertyvalue).first().now();
 			if(o == null) {
 				throw new IOException("No results found: " + classname + "(" + propertyname + "=" + propertyvalue + ")");				

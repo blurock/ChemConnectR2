@@ -102,7 +102,8 @@ public class InitialDatabasePersonTest {
 		String givenName = "Homer";
 		String familyName = "Simpson";
 		String username = "simpson";
-		NameOfPerson person = new NameOfPerson(obj, title, givenName, familyName);
+		ChemConnectCompoundDataStructure pstructure = new ChemConnectCompoundDataStructure(obj,null);
+		NameOfPerson person = new NameOfPerson(pstructure, title, givenName, familyName);
 		DatabaseObjectHierarchy hierarchy1 = 
 				CreateDefaultObjectsFactory.fillMinimalPersonDescription(obj, username,userClassification, person, datid);
 		try {

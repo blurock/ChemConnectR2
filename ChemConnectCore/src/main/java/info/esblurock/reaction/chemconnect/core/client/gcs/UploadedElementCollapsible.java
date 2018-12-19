@@ -38,7 +38,6 @@ import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
-import info.esblurock.reaction.io.metadata.StandardDatasetMetaData;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 
 public class UploadedElementCollapsible extends Composite implements ObjectVisualizationInterface, VisualizationOfBlobStorage, ChooseFromConceptHeirarchy, InsertBlobContentInterface {

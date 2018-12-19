@@ -2,10 +2,8 @@ package info.esblurock.reaction.core.server.authentification;
 
 import java.io.IOException;
 import java.net.InetAddress;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;

@@ -1,0 +1,53 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
+	xmlns:m="urn:import:gwt.material.design.client.ui">
+	<ui:style>
+	.columnbox {
+		background-color: #cfd8dc;
+		margin: 3px;
+		width: 100%;
+	}
+	.box {
+		color: black;
+		margin: 0px;
+	}
+	.rowbox {
+		background-color: #cfd8dc;
+		margin: 0px;
+		width: 100%;
+	}
+	.panelbox {
+		border: 3px solid #607d8b;
+		background-color: white;
+		margin: 3px;
+	}
+	.button {
+		color: black;
+		background-color: #cfd8dc;
+		margin: 0px;
+		width: 100%;
+	}
+	
+	</ui:style>
+			<m:MaterialDialog ui:field="authorModal" 
+				type="FIXED_FOOTER" dismissable="true" inDuration="500" outDuration="500">
+			<m:MaterialDialogContent>
+				<m:MaterialRow>
+					<m:MaterialColumn grid="s3">
+						<m:MaterialTextBox ui:field="nameText"  text="new author" placeholder="Name" />
+					</m:MaterialColumn>
+					<m:MaterialColumn grid="s3">
+						<m:MaterialTextBox ui:field="lastNameText"  text="new author" placeholder="Last Name" />
+					</m:MaterialColumn>
+					<m:MaterialColumn grid="s6">
+						<m:MaterialTextBox ui:field="link"  text="link to author" placeholder="Link" />
+					</m:MaterialColumn>
+				</m:MaterialRow>
+			</m:MaterialDialogContent>>
+			<m:MaterialDialogFooter>
+				<m:MaterialButton ui:field="newAuthorButton"   text="Add new author"/>
+				<m:MaterialButton ui:field="authorCloseButton" text="Close"/>
+			</m:MaterialDialogFooter>>		
+			</m:MaterialDialog>
+</ui:UiBinder> 

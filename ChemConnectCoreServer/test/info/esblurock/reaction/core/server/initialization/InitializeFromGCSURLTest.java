@@ -1,13 +1,7 @@
 package info.esblurock.reaction.core.server.initialization;
 
-import static org.junit.Assert.*;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.After;
@@ -115,7 +109,6 @@ public class InitializeFromGCSURLTest {
 			System.out.println("---------------------------------------------------------------");
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

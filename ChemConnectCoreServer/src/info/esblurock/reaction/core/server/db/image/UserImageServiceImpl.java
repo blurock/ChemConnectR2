@@ -59,7 +59,6 @@ import info.esblurock.reaction.core.server.services.ServerBase;
 import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
 import info.esblurock.reaction.core.server.services.util.ParseUtilities;
 import info.esblurock.reaction.io.db.QueryBase;
-import info.esblurock.reaction.io.metadata.StandardDatasetMetaData;
 import info.esblurock.reaction.ontology.dataset.ConceptParsing;
 import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 
@@ -517,6 +516,12 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 
 	}
 	
+	
+	public ArrayList<NameOfPerson> getIDHierarchyFromFamilyNameAndUser(String familyname) throws IOException {
+		ContextAndSessionUtilities util = getUtilities();
+		String user = util.getUserName();
+		return WriteReadDatabaseObjects.getIDHierarchyFromFamilyNameAndUser(user,familyname);
+	}
 	
 	public HierarchyNode getIDHierarchyFromDataCatalogAndUser(String datacatalog) throws IOException {
 		ContextAndSessionUtilities util = getUtilities();

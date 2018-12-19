@@ -20,6 +20,7 @@ import info.esblurock.reaction.chemconnect.core.data.description.DescriptionData
 import info.esblurock.reaction.chemconnect.core.data.contact.ContactInfoData;
 import info.esblurock.reaction.chemconnect.core.data.contact.ContactLocationInformation;
 import info.esblurock.reaction.chemconnect.core.data.contact.OrganizationDescription;
+import info.esblurock.reaction.chemconnect.core.data.description.AuthorInformation;
 import info.esblurock.reaction.chemconnect.core.data.description.DataSetReference;
 import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
 import info.esblurock.reaction.chemconnect.core.data.contact.PersonalDescription;
@@ -2699,6 +2700,7 @@ public enum InterpretData {
 					"DOI","Article Title","Reference String",authormult.getObject().getIdentifier());
 			reference.setIdentifier(refobj.getIdentifier());
 			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(reference);
+			hierarchy.addSubobject(authormult);
 			return hierarchy;
 		}
 
@@ -2834,21 +2836,20 @@ public enum InterpretData {
 				throws IOException {
 
 			NameOfPerson person = null;
-			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
-			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);
+			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
+			ChemConnectCompoundDataStructure structure = (ChemConnectCompoundDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
 
 			String nameTitleS = (String) yaml.get(StandardDatasetMetaData.titleName);
 			String givenNameS = (String) yaml.get(StandardDatasetMetaData.givenName);
 			String familyNameS = (String) yaml.get(StandardDatasetMetaData.familyName);
 
-			person = new NameOfPerson(objdata.getIdentifier(), objdata.getAccess(), objdata.getOwner(), sourceID,
-					nameTitleS, givenNameS, familyNameS);
+			person = new NameOfPerson(structure, nameTitleS, givenNameS, familyNameS);
 			return person;
 		}
 
 		@Override
 		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
-			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
+			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
 			NameOfPerson name = (NameOfPerson) object;
@@ -2870,8 +2871,7 @@ public enum InterpretData {
 		}
 
 		@Override
-		public DatabaseObjectHierarchy createEmptyObject(
-				info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject obj) {
+		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
 			DatabaseObject personobj = new DatabaseObject(obj);
 			personobj.nullKey();
 			DataElementInformation element = DatasetOntologyParsing
@@ -2879,12 +2879,68 @@ public enum InterpretData {
 			String personid = createSuffix(obj, element);
 			personobj.setIdentifier(personid);
 
-			NameOfPerson person = new NameOfPerson(personobj, "title", "firstname", "lastname");
+			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
+			DatabaseObjectHierarchy structurehier = interpret.createEmptyObject(personobj);
+			ChemConnectCompoundDataStructure structure = (ChemConnectCompoundDataStructure) structurehier.getObject();
+			NameOfPerson person = new NameOfPerson(structure, "title", "firstname", "lastname");
+			person.setIdentifier(personid);
 			DatabaseObjectHierarchy personhier = new DatabaseObjectHierarchy(person);
 
 			return personhier;
 		}
 
+	}, AuthorInformation {
+
+		@Override
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml, String sourceID)
+				throws IOException {
+
+			AuthorInformation author = null;
+			InterpretData interpret = InterpretData.valueOf("NameOfPerson");
+			NameOfPerson person = (NameOfPerson) interpret.fillFromYamlString(top, yaml, sourceID);
+			String linkS = (String) yaml.get(StandardDatasetMetaData.linkToContact);
+			author = new AuthorInformation(person, linkS);
+			return author;
+		}
+
+		@Override
+		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
+			InterpretData interpret = InterpretData.valueOf("NameOfPerson");
+			Map<String, Object> map = interpret.createYamlFromObject(object);
+			AuthorInformation author = (AuthorInformation) object;
+			map.put(StandardDatasetMetaData.linkToContact, author.getLinkToContact());
+			return map;
+		}
+
+		@Override
+		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(AuthorInformation.class.getCanonicalName(), identifier);
+		}
+
+		@Override
+		public String canonicalClassName() {
+			return AuthorInformation.class.getCanonicalName();
+		}
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
+			DatabaseObject personobj = new DatabaseObject(obj);
+			personobj.nullKey();
+			DataElementInformation element = DatasetOntologyParsing
+					.getSubElementStructureFromIDObject(OntologyKeys.authorInformation);
+			String authorid = createSuffix(obj, element);
+			personobj.setIdentifier(authorid);
+
+			InterpretData interpret = InterpretData.valueOf("NameOfPerson");
+			DatabaseObjectHierarchy personhier = interpret.createEmptyObject(personobj);
+			NameOfPerson person = (NameOfPerson) personhier.getObject();
+			AuthorInformation author = new AuthorInformation(person, "no link");
+			person.setIdentifier(authorid);
+			DatabaseObjectHierarchy authorhier = new DatabaseObjectHierarchy(author);
+
+			return authorhier;
+		}
+		
 	},
 	IndividualInformation {
 

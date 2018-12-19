@@ -2,7 +2,6 @@ package info.esblurock.reaction.chemconnect.core.client;
 
 import java.util.Date;
 
-import com.google.api.gax.batching.RequestBuilder;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;

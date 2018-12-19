@@ -1,25 +1,15 @@
 package info.esblurock.reaction.core.server.db.image;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.Reader;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
-import com.fasterxml.jackson.core.util.ByteArrayBuilder;
-import com.google.cloud.ReadChannel;
-import com.google.cloud.Role;
 import com.google.cloud.WriteChannel;
 import com.google.cloud.storage.Blob;
-import com.google.cloud.storage.Blob.BlobSourceOption;
 import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
-import com.google.cloud.storage.Bucket.BlobTargetOption;
-import com.google.cloud.storage.Bucket.BlobWriteOption;
-import com.google.cloud.storage.CopyWriter;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.Storage.CopyRequest;
 import com.google.cloud.storage.StorageOptions;

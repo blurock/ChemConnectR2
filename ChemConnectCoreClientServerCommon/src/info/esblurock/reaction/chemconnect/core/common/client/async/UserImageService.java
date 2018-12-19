@@ -130,4 +130,6 @@ public interface UserImageService  extends RemoteService  {
 	public DatabaseObjectHierarchy createDatasetImage(DatabaseObject obj,DataCatalogID catid,
 			String imageType, GCSBlobFileInformation info) throws IOException;
 	
+	public ArrayList<NameOfPerson> getIDHierarchyFromFamilyNameAndUser(String familyname) throws IOException;
+	
 }

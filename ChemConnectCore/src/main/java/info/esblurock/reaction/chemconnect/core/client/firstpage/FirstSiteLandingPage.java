@@ -1,14 +1,10 @@
 package info.esblurock.reaction.chemconnect.core.client.firstpage;
 
-import org.json.JSONObject;
-
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dev.resource.Resource;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
-import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;

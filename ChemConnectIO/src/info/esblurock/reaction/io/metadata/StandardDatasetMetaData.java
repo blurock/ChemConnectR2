@@ -130,6 +130,7 @@ public class StandardDatasetMetaData {
 	public static String titleName = "foaf:title";
 	public static String givenName = "foaf:givenName";
 	public static String familyName = "foaf:familyName";
+	public static String linkToContact = "dataset:linkToContact";
 	
 	public static String userClassification = "vcard:role";
 	public static String userNameID = "foaf:name";

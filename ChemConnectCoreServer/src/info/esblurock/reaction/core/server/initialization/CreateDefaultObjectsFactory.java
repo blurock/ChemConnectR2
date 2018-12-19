@@ -106,7 +106,9 @@ public class CreateDefaultObjectsFactory {
 		String nameID = personal.getNameOfPersonIdentifier();
 		DatabaseObjectHierarchy namehier = personalhier.getSubObject(nameID);
 		NameOfPerson name = (NameOfPerson) namehier.getObject();
-		name.fill(name, person.getTitle(), person.getGivenName(), person.getFamilyName());
+		name.setTitle(person.getTitle());
+		name.setGivenName(person.getGivenName());
+		name.setFamilyName(person.getFamilyName());
 
 		String onlinedescription = person.getGivenName() + " " + person.getFamilyName();
 		setOneLineDescription(infohier, onlinedescription);
@@ -965,7 +967,9 @@ public class CreateDefaultObjectsFactory {
 		userPath.add(username);
 		DataCatalogID namecatid = new DataCatalogID(structure,indname,
 				MetaDataKeywords.databasePerson,username,userPath);
-		NameOfPerson person = new NameOfPerson(usrcatobj, "", "", username);
+		InterpretData personinterpret = InterpretData.valueOf("NameOfPerson");
+		DatabaseObjectHierarchy hierarchy = personinterpret.createEmptyObject(usrcatobj);
+		NameOfPerson person = (NameOfPerson) hierarchy.getObject();
 		DatabaseObjectHierarchy user = CreateDefaultObjectsFactory.fillMinimalPersonDescription(usrcatobj, username, userrole, person,namecatid);
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(user);
 		
@@ -1049,8 +1053,10 @@ public class CreateDefaultObjectsFactory {
 		PersonalDescription description = (PersonalDescription) descrhier.getObject();
 
 		DatabaseObjectHierarchy personhier = descrhier.getSubObject(description.getNameOfPersonIdentifier());
-		NameOfPerson subperson = (NameOfPerson) personhier.getObject();
-		subperson.fill(subperson, person.getTitle(), person.getGivenName(), person.getFamilyName());
+		NameOfPerson name = (NameOfPerson) personhier.getObject();
+		name.setTitle(person.getTitle());
+		name.setGivenName(person.getGivenName());
+		name.setFamilyName(person.getFamilyName());
 
 		description.setUserClassification(userClassification);
 		return descrhier;

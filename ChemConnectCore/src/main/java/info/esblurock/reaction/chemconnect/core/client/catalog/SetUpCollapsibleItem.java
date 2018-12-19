@@ -3,6 +3,7 @@ package info.esblurock.reaction.chemconnect.core.client.catalog;
 
 
 
+
 import info.esblurock.reaction.chemconnect.core.client.catalog.description.StandardDatasetDescriptionDataDataHeader;
 import info.esblurock.reaction.chemconnect.core.client.catalog.hierarchy.StandardDatasetCatalogHierarchyHeader;
 import info.esblurock.reaction.chemconnect.core.client.catalog.image.DatasetImageHeader;
@@ -10,6 +11,7 @@ import info.esblurock.reaction.chemconnect.core.client.catalog.image.ImageInform
 import info.esblurock.reaction.chemconnect.core.client.catalog.link.PrimitiveDataObjectLinkRow;
 import info.esblurock.reaction.chemconnect.core.client.catalog.multiple.ChemConnectCompoundMultipleHeader;
 import info.esblurock.reaction.chemconnect.core.client.catalog.protocol.StandardDatasetProtocolHeader;
+import info.esblurock.reaction.chemconnect.core.client.catalog.reference.AuthorInformationHeader;
 import info.esblurock.reaction.chemconnect.core.client.catalog.reference.StandardDatasetDataSetReferenceHeader;
 import info.esblurock.reaction.chemconnect.core.client.concept.PrimitiveConceptRow;
 import info.esblurock.reaction.chemconnect.core.client.contact.StandardDatabasePersonalDescriptionHeader;
@@ -40,8 +42,6 @@ import info.esblurock.reaction.chemconnect.core.client.device.observations.units
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.description.DescriptionDataData;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
-import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHierarchy;
-import info.esblurock.reaction.chemconnect.core.data.dataset.DataObjectLink;
 
 public enum SetUpCollapsibleItem {
 	
@@ -1041,9 +1041,40 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public boolean addSubitems() {
+			return false;
+		}
+	}, AuthorInformation {
+
+		@Override
+		public void addInformation(StandardDatasetObjectHierarchyItem item) {
+			AuthorInformationHeader header = new AuthorInformationHeader(item);
+			item.addHeader(header);
+		}
+
+		@Override
+		public boolean update(StandardDatasetObjectHierarchyItem item) {
+			return false;
+		}
+
+		@Override
+		public int priority() {
+			return 0;
+		}
+
+		@Override
+		public boolean isInformation() {
 			return true;
 		}
-	},ContactLocationInformation {
+
+		@Override
+		public boolean addSubitems() {
+			return false;
+		}
+		
+	},
+	
+	
+	ContactLocationInformation {
 
 		@Override
 		public void addInformation(StandardDatasetObjectHierarchyItem item) {
@@ -1128,7 +1159,7 @@ public enum SetUpCollapsibleItem {
 
 		@Override
 		public boolean addSubitems() {
-			return true;
+			return false;
 		}
 		
 	}, ValueUnits {

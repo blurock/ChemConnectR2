@@ -67,7 +67,8 @@ public class GCSTest {
 		DataCatalogID namecatid = new DataCatalogID(structure1,catname,"dataset:UserDataCatagory",username,userPath);
 
 		DatabaseObject obj = new DatabaseObject(username, access, owner, sourceID);
-		NameOfPerson person = new NameOfPerson(obj, "", "", username);
+		ChemConnectCompoundDataStructure pstructure = new ChemConnectCompoundDataStructure(obj,null);
+		NameOfPerson person = new NameOfPerson(pstructure, "", "", username);
 		
 		
 		DatabaseObjectHierarchy user = CreateDefaultObjectsFactory.fillMinimalPersonDescription(obj, username, userrole, person,namecatid);
