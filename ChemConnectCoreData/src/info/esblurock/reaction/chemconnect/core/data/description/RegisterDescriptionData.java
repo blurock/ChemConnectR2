@@ -9,9 +9,11 @@ public class RegisterDescriptionData {
 		
 		ObjectifyService.register(DataSetReference.class);
 		ObjectifyService.register(DescriptionDataData.class);
+		ObjectifyService.register(AuthorInformation.class);
 	}
 	public static void reset() {
 		ResetDatabaseObjects.resetClass(DataSetReference.class);
 		ResetDatabaseObjects.resetClass(DescriptionDataData.class);
+		ResetDatabaseObjects.resetClass(AuthorInformation.class);
 	}
 }

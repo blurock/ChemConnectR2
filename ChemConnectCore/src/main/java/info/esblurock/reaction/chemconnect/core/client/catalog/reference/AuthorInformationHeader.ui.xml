@@ -18,6 +18,7 @@
 		background-color: #cfd8dc;
 		margin: 0px;
 		width: 100%;
+		shadow: 3
 	}
 	
 	.panelbox {
@@ -34,14 +35,14 @@
 	}
 	</ui:style>
 	<m:MaterialRow styleName="{style.rowbox}">
-		<m:MaterialColumn grid="s6" styleName="{style.button}">
+		<m:MaterialColumn grid="s6" margin="0">
 		<m:MaterialTooltip ui:field="title">
-			<m:MaterialLink ui:field="givenname" />
+			<m:MaterialLink ui:field="givenname" styleName="{style.button}"/>
 			</m:MaterialTooltip>
 		</m:MaterialColumn>
-		<m:MaterialColumn grid="s6" styleName="{style.button}">
+		<m:MaterialColumn grid="s6" margin="0">
 			<m:MaterialTooltip ui:field="contactLink">
-				<m:MaterialLink ui:field="familyname" />
+				<m:MaterialLink ui:field="familyname" styleName="{style.button}"/>
 			</m:MaterialTooltip>
 		</m:MaterialColumn>
 	</m:MaterialRow>

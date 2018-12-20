@@ -15,8 +15,7 @@
 			<m:MaterialLink text="DropdownNames"
 				activates="dp-names" textColor="BLACK" iconType="ARROW_DROP_DOWN"
 				iconPosition="RIGHT" />
-			<m:MaterialDropDown ui:field="dropdown" activator="dp-names"
-				constrainWidth="true" />
+			<m:MaterialDropDown ui:field="dropdown" activator="dp-names" width="100%"/>
 		</m:MaterialDialogContent>
 		<m:MaterialDialogFooter>
 			<m:MaterialButton ui:field="close" text="Close Dialog" type="FLAT" />

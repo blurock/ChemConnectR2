@@ -2880,7 +2880,7 @@ public enum InterpretData {
 			personobj.setIdentifier(personid);
 
 			InterpretData interpret = InterpretData.valueOf("ChemConnectCompoundDataStructure");
-			DatabaseObjectHierarchy structurehier = interpret.createEmptyObject(personobj);
+			DatabaseObjectHierarchy structurehier = interpret.createEmptyObject(obj);
 			ChemConnectCompoundDataStructure structure = (ChemConnectCompoundDataStructure) structurehier.getObject();
 			NameOfPerson person = new NameOfPerson(structure, "title", "firstname", "lastname");
 			person.setIdentifier(personid);
@@ -2932,7 +2932,7 @@ public enum InterpretData {
 			personobj.setIdentifier(authorid);
 
 			InterpretData interpret = InterpretData.valueOf("NameOfPerson");
-			DatabaseObjectHierarchy personhier = interpret.createEmptyObject(personobj);
+			DatabaseObjectHierarchy personhier = interpret.createEmptyObject(obj);
 			NameOfPerson person = (NameOfPerson) personhier.getObject();
 			AuthorInformation author = new AuthorInformation(person, "no link");
 			person.setIdentifier(authorid);

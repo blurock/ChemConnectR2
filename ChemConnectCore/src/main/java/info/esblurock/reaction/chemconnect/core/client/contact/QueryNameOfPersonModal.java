@@ -89,11 +89,8 @@ public class QueryNameOfPersonModal extends Composite {
 	}
 	@UiHandler("ok")
 	void onClickOK(ClickEvent e) {
-		Window.alert("onClickOK 1");
 		NameOfPerson changedperson = new NameOfPerson(person,personTitle.getText(),personName.getText(),personeFamilyName.getText());
-		Window.alert("onClickOK 2");
 		queryInterface.insertNameOfPerson(changedperson);
-		Window.alert("onClickOK 3");
 		personmodal.close();
 	}
 	@UiHandler("close")

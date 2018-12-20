@@ -1149,13 +1149,19 @@ xsd:date rdf:type rdfs:Datatype .
                      rdfs:subClassOf :ChemConnectPrimitiveDataStructure .
 
 
-###  http://www.esblurock.info/dataset#Author
-:Author rdf:type owl:Class ;
-        rdfs:subClassOf :NameOfPerson ;
-        <http://purl.org/dc/elements/1.1/type> "NameOfPerson"^^xsd:string ;
-        <http://purl.org/dc/terms/identifier> "foaf:name" ;
-        rdfs:label "Author" ;
-        <http://www.w3.org/2004/02/skos/core#altLabel> "author" .
+###  http://www.esblurock.info/dataset#AuthorInformation
+:AuthorInformation rdf:type owl:Class ;
+                   rdfs:subClassOf :NameOfPerson ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                     owl:onClass :ObjectLinkToContact
+                                   ] ;
+                   <http://purl.org/dc/elements/1.1/type> "AuthorInformation"^^xsd:string ;
+                   <http://purl.org/dc/terms/identifier> "Author of the publication" ,
+                                                         "dc:creator"^^xsd:string ;
+                   rdfs:label "Author" ;
+                   <http://www.w3.org/2004/02/skos/core#altLabel> "author" .
 
 
 ###  http://www.esblurock.info/dataset#BeginMatrixAfterSpecifiedIdentifier
@@ -2795,7 +2801,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                   rdfs:subClassOf :ChemConnectCompoundDataStructure ,
                                   [ rdf:type owl:Restriction ;
                                     owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                    owl:someValuesFrom :Author
+                                    owl:someValuesFrom :AuthorInformation
                                   ] ,
                                   [ rdf:type owl:Restriction ;
                                     owl:onProperty <http://purl.org/dc/terms/hasPart> ;
@@ -7286,11 +7292,6 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#NameOfPerson
 :NameOfPerson rdf:type owl:Class ;
               rdfs:subClassOf :Name ,
-                              [ rdf:type owl:Restriction ;
-                                owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                owl:onClass :ObjectLinkToContact
-                              ] ,
                               [ rdf:type owl:Restriction ;
                                 owl:onProperty <http://purl.org/dc/terms/hasPart> ;
                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;

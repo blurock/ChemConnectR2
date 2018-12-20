@@ -15,10 +15,12 @@ import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.MaterialTooltip;
 import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
+import info.esblurock.reaction.chemconnect.core.client.catalog.VisualizeCatalogObjectWindow;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.reference.ChoiceOfNamesModal;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
+import info.esblurock.reaction.chemconnect.core.data.contact.PersonalDescription;
 import info.esblurock.reaction.chemconnect.core.data.description.AuthorInformation;
 
 public class AuthorInformationHeader extends Composite {
@@ -43,6 +45,7 @@ public class AuthorInformationHeader extends Composite {
 	
 	AuthorInformation info;
 	MaterialPanel modal;
+	boolean contactSetB;
 
 	public AuthorInformationHeader(StandardDatasetObjectHierarchyItem item) {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -58,7 +61,8 @@ public class AuthorInformationHeader extends Composite {
 	}
 	
 	public void init() {
-		familyname.setVisible(true);
+		
+		contactSetB = false;
 	}
 	
 	public void init(AuthorInformation info) {
@@ -86,10 +90,16 @@ public class AuthorInformationHeader extends Composite {
 	
 	@UiHandler("familyname")
 	public void clickFamily(ClickEvent event) {
-		UserImageServiceAsync async = UserImageService.Util.getInstance();
-		FamilyNameCallback callback = new FamilyNameCallback(this);
-		async.getIDHierarchyFromFamilyNameAndUser(familyname.getText(),callback);
-		MaterialToast.fireToast("Set up contact");
+		if(!contactSetB) {
+			UserImageServiceAsync async = UserImageService.Util.getInstance();
+			FamilyNameCallback callback = new FamilyNameCallback(this);
+			async.getIDHierarchyFromFamilyNameAndUser(familyname.getText(),callback);
+		} else {
+			VisualizeCatalogObjectWindow window = new VisualizeCatalogObjectWindow(contactLink.getText(),
+					PersonalDescription.class.getCanonicalName());
+			modal.add(window);
+			window.open();
+		}
 	}
 	public void setInNames(ArrayList<NameOfPerson> names) {
 		ChoiceOfNamesModal choice = new ChoiceOfNamesModal(names,this);
@@ -98,6 +108,10 @@ public class AuthorInformationHeader extends Composite {
 		choice.open();
 	}
 	public void setFamilyName(NameOfPerson nameOfPerson) {
-		contactLink.setText("Name: " + nameOfPerson.getIdentifier());
+		contactLink.setText(nameOfPerson.getParentLink());
+		contactSetB = true;
+	}
+	public boolean isContactLinkSet() {
+		return contactSetB;
 	}
 }

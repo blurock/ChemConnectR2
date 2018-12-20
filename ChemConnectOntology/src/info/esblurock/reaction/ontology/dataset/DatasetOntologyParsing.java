@@ -97,6 +97,40 @@ dataset:ChemConnectPrimitiveDataStructure:
 
 		return top;
 	}
+	
+	
+	
+	public static ArrayList<String> asSubObject(String object) {
+		
+		String query = "SELECT ?object ?sub ?type\n" + 
+				"	WHERE { ?sub <http://purl.org/dc/elements/1.1/type> \""+ object +"\"^^xsd:string .\n" + 
+				"        ?object <http://purl.org/dc/elements/1.1/type> ?type .\n" +
+				"		?object rdfs:subClassOf ?subobject .\n" + 
+				"		{ \n" + 
+				"		  {?subobject  owl:onProperty <http://purl.org/dc/terms/hasPart> }\n" + 
+				"                                            UNION \n" + 
+				"		  {?subobject  owl:onProperty dcat:record }\n" + 
+				"		} .\n" + 
+				"		{\n" + 
+				"		  { ?subobject  owl:onClass ?sub }\n" + 
+				"                                             UNION\n" + 
+				"		  { ?subobject  owl:someValuesFrom ?sub }\n" + 
+				"                                   }\n" + 
+				"}";
+		
+
+		//System.out.println(query);
+		
+		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
+		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
+		
+		ArrayList<String> supers = new ArrayList<String>();
+		for(Map<String, String> map : stringlst) {
+			String sup = map.get("type");
+			supers.add(sup);
+		}
+		return supers;
+	}
 
 	/*
 	 * Finds all subclasses: based on that rdfs:subClassOf returns all subclasses
@@ -342,6 +376,7 @@ dataset:ChemConnectPrimitiveDataStructure:
 				+ "UNION\n" + "	{ " + id
 				+ " <" + ReasonerVocabulary.directSubClassOf + "> ?subclass .\n"
 				+ "	   ?subclass <http://purl.org/dc/elements/1.1/type>  ?datatype\n" + "	}" + "  }";
+		
 		ClassificationInformation classification = null;
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		if (lst.size() > 0) {
@@ -354,6 +389,21 @@ dataset:ChemConnectPrimitiveDataStructure:
 		return classification;
 	}
 
+	public static String getTypeFromDataType(String datatype) {
+		String query = "SELECT ?type\n" + 
+				"	WHERE { ?type <http://purl.org/dc/elements/1.1/type> \"" + datatype + "\"^^xsd:string\n" + 
+				"}";
+		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
+		String type = null;
+		if (lst.size() > 0) {
+			List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
+			Map<String, String> map = stringlst.get(0);
+			type = map.get("type");
+		}
+		return type;
+		
+	}
+	
 	/**
 	 * @param structure
 	 *            The ID structure object (subclass of ID)

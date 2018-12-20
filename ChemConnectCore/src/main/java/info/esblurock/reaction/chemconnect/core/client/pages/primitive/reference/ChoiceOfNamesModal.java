@@ -60,6 +60,7 @@ public class ChoiceOfNamesModal extends Composite {
 	void onDropdown(SelectionEvent<Widget> callback) {
 		String name = ((MaterialLink)callback.getSelectedItem()).getText();
 		header.setFamilyName(map.get(name));
+		close();
 	 }
 
 	@UiHandler("close")

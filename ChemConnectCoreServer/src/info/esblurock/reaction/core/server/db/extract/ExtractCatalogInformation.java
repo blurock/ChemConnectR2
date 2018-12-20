@@ -1,6 +1,7 @@
 package info.esblurock.reaction.core.server.db.extract;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -35,20 +36,59 @@ import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 
 public class ExtractCatalogInformation {
 	
-	
-	public static DatabaseObjectHierarchy getCatalogObject(String id, String type) {
+	public static DatabaseObjectHierarchy getTopCatalogObject(String id, String type) throws IOException {
 		DataElementInformation element = new DataElementInformation(type, 
 				null, true, 0, null, null,null);
+		ClassificationInformation classify = DatasetOntologyParsing.getIdentificationInformation(null, element);
+		InterpretData interpret = InterpretData.valueOf(classify.getDataType());
+		DatabaseObject subobj = interpret.readElementFromDatabase(id);
+		DatabaseObject obj = findTopObject(subobj);
+		String dtype = DatasetOntologyParsing.getTypeFromDataType(obj.getClass().getSimpleName());
+		DatabaseObjectHierarchy hierarchy = getObjectHierarchy(obj.getIdentifier(),dtype, obj.getClass().getSimpleName(),true);
+		return hierarchy;
+	}
+	
+	public static DatabaseObject findTopObject(DatabaseObject subobject) throws IOException {
+		DatabaseObject ans = subobject;
+		boolean assignable = info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure.class.isAssignableFrom(subobject.getClass());
+		if(assignable) {
+			info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure compound 
+				= (info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure) subobject;
+			String classname = subobject.getClass().getSimpleName();
+			ArrayList<String> lst = DatasetOntologyParsing.asSubObject(classname);
+			DatabaseObject parent = null;
+			for(String name : lst ) {
+				if(parent == null) {
+					try {
+						InterpretData interpret = InterpretData.valueOf(name);
+						if(interpret != null) {
+							parent = interpret.readElementFromDatabase(compound.getParentLink());
+						}
+					} catch(Exception ex) {
+						
+					}
+
+				}
+			}
+			ans = findTopObject(parent);
+		}
+		return ans;
+	}
+	
+	public static DatabaseObjectHierarchy getCatalogObject(String id, String type) {
+		DataElementInformation element = DatasetOntologyParsing.getSubElementStructureFromIDObject(type);
 		return getDatabaseObjectAndSubElements(id,element,true);
 	}
+	
 	public static DatabaseObjectHierarchy getDatabaseObjectAndSubElements(String id, 
 			DataElementInformation dataelement, boolean asSinglet) {
-		ClassificationInformation classify = DatasetOntologyParsing.getIdentificationInformation(null, dataelement);
-		String type = dataelement.getDataElementName();
-		List<DataElementInformation> substructures = DatasetOntologyParsing.subElementsOfStructure(type);
+		return getObjectHierarchy(id,dataelement.getDataElementName(),dataelement.getChemconnectStructure(),asSinglet);
+	}
+	public static DatabaseObjectHierarchy getObjectHierarchy(String id, String t, String type, boolean asSinglet) {
+		List<DataElementInformation> substructures = DatasetOntologyParsing.subElementsOfStructure(t);
 		DatabaseObjectHierarchy hierarchy = null;
 		try {
-			InterpretData interpret = InterpretData.valueOf(classify.getDataType());
+			InterpretData interpret = InterpretData.valueOf(type);
 			if(asSinglet) {
 				DatabaseObject obj = interpret.readElementFromDatabase(id);
 				hierarchy = readSingletInformation(obj, interpret, substructures);
@@ -58,7 +98,7 @@ public class ExtractCatalogInformation {
 				hierarchy = new DatabaseObjectHierarchy(multi);
 				String parentid = multi.getIdentifier();
 				ClassificationInformation classification = DatasetOntologyParsing.getIdentificationInformation(multi.getType());
-				List<DataElementInformation> mulitsubstructures = DatasetOntologyParsing.subElementsOfStructure(type);
+				List<DataElementInformation> mulitsubstructures = DatasetOntologyParsing.subElementsOfStructure(t);
 				InterpretData clsinterpret = InterpretData.valueOf(classification.getDataType());
 				String classtype = clsinterpret.canonicalClassName();
 				SetOfQueryPropertyValues values = new SetOfQueryPropertyValues();
@@ -81,7 +121,7 @@ public class ExtractCatalogInformation {
 			//System.out.println("No interpret: " + classify.getDataType());
 			//System.out.println(ex.getClass().getSimpleName());
 		} catch(IOException ex) {
-			System.out.println("IOException: '" + classify.getDataType() + "' with ID: '" + id + "' singlet(" + asSinglet + ")");
+			System.out.println("IOException: '" + type + "' with ID: '" + id + "' singlet(" + asSinglet + ")");
 			System.out.println(ex.toString());
 			
 		}
