@@ -39,6 +39,8 @@ import info.esblurock.reaction.chemconnect.core.client.device.observations.matri
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.StandardDatasetObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.StandardDatasetObservationsFromSpreadSheetFull;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.units.StandardDatasetValueUnitsHeader;
+import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
+import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.description.DescriptionDataData;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
@@ -65,7 +67,11 @@ public enum SetUpCollapsibleItem {
 			return true;
 		}
 		@Override
-		public boolean update(StandardDatasetObjectHierarchyItem item) {			
+		public boolean update(StandardDatasetObjectHierarchyItem item) {
+			//item.updateDatabaseObjectHierarchy();
+			UserImageServiceAsync async = UserImageService.Util.getInstance();
+			WriteDatasetObjectHierarchyCallback callback = new WriteDatasetObjectHierarchyCallback(item);
+			async.writeDatabaseObjectHierarchy(item.getHierarchy(), callback);
 			return true;
 		}
 	}, Organization {

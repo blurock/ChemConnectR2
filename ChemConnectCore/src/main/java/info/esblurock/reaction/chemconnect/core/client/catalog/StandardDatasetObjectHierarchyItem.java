@@ -8,7 +8,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-//import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -30,7 +29,6 @@ import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMul
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataObjectLink;
-import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHierarchy;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 public class StandardDatasetObjectHierarchyItem extends Composite 
@@ -237,26 +235,19 @@ public class StandardDatasetObjectHierarchyItem extends Composite
 		WriteDatasetObjectHierarchyCallback callback = new WriteDatasetObjectHierarchyCallback(this);
 		async.writeDatabaseObjectHierarchy(hierarchy, callback);
 	}
+
 	public void writeYamlObjectHierarchy() {
 		updateDatabaseObjectHierarchy();
-		if(hierarchy.getObject().getClass().getCanonicalName().compareTo(DatasetCatalogHierarchy.class.getCanonicalName()) == 0) {
-			MaterialToast.fireToast("updating also to database");
-			writeDatabaseObjectHierarchy();
-		}
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		GeneralVoidReturnCallback callback = new GeneralVoidReturnCallback("Successful YAML save");
-		async.writeYamlObjectHierarchy(hierarchy, callback);
+		String canonicalclass = hierarchy.getObject().getClass().getCanonicalName();
+		String id = hierarchy.getObject().getIdentifier();
+		async.writeYamlObjectHierarchy(id, canonicalclass, callback);
 	}
 
 	public void updateDatabaseObjectHierarchy() {
 		SetUpCollapsibleItem setup = DatasetHierarchyStaging.getSetup(object);
 		boolean includesubs = true;
-		if (setup != null) {
-			includesubs = setup.update(this);
-		} else {
-			String classname = object.getClass().getCanonicalName();
-			MaterialToast.fireToast("StandardDatasetObjectHierarchyItem updateDatabaseObjectHierarchy() no SetUpCollapsibleItem\n" + classname);
-		}
 		if (includesubs) {
 			for (StandardDatasetObjectHierarchyItem sub : subitems) {
 				sub.updateDatabaseObjectHierarchy();
@@ -266,6 +257,12 @@ public class StandardDatasetObjectHierarchyItem extends Composite
 			}
 		}
 		updateRecords();
+		if (setup != null) {
+			includesubs = setup.update(this);
+		} else {
+			String classname = object.getClass().getCanonicalName();
+			MaterialToast.fireToast("StandardDatasetObjectHierarchyItem updateDatabaseObjectHierarchy() no SetUpCollapsibleItem\n" + classname);
+		}
 	}
 
 	private void updateRecords() {

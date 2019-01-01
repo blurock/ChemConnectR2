@@ -8,7 +8,6 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.Cookies;
-import com.google.gwt.user.client.Window;
 
 import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialIcon;
@@ -71,8 +70,6 @@ public class ManageCatalogHierarchy extends Composite implements ManageCatalogHi
 			UserImageServiceAsync async = UserImageService.Util.getInstance();
 			SetUpDatabaseObjectHierarchyCallback callback = new SetUpDatabaseObjectHierarchyCallback(panel,modalpanel);
 			async.getUserDatasetCatalogHierarchy(userName,callback);	
-		} else {
-			Window.alert("Not logged in");
 		}
 	}
 	@UiHandler("refresh")

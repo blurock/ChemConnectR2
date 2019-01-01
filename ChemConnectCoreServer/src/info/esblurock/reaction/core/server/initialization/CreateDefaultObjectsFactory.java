@@ -780,10 +780,11 @@ public class CreateDefaultObjectsFactory {
  *  6. Create an object link (linkhier -> lnk)
  */
 	public static DatabaseObjectHierarchy fillDatasetCatalogHierarchy(DatasetCatalogHierarchy topcatalog,
-			DatabaseObject obj, String id, String onelinedescription, String catagorytype) throws IOException {
-
+			String simpleName, 
+			DatabaseObject obj, String onelinedescription, String catagorytype) throws IOException {
 		DatabaseObject aobj = new DatabaseObject(obj);
-		String aid = DatasetCatalogHierarchy.createFullCatalogName(obj.getIdentifier(), id);
+		String id = topcatalog.getIdentifier();
+		String aid = DatasetCatalogHierarchy.createFullCatalogName(id, simpleName);
 		aobj.setIdentifier(aid);
 		aobj.nullKey();
 
@@ -798,7 +799,7 @@ public class CreateDefaultObjectsFactory {
 		catPath.add(ChemConnectCompoundDataStructure.removeNamespace(OntologyKeys.datasetCatalogHierarchy));
 		catid.setCatalogBaseName(obj.getIdentifier());
 		catid.setDataCatalog(catagorytype);
-		catid.setSimpleCatalogName(id);
+		catid.setSimpleCatalogName(simpleName);
 		catid.setPath(catPath);
 		setPurposeConceptPair(cathierarchy, catagorytype, StandardDatasetMetaData.purposeDefineSubCatagory);
 		
@@ -834,10 +835,8 @@ public class CreateDefaultObjectsFactory {
 		InterpretData multiinterpret = InterpretData.valueOf("ChemConnectCompoundMultiple");
 		ChemConnectCompoundMultiple multi = (ChemConnectCompoundMultiple) multiinterpret.readElementFromDatabase(linkid);
 		
-		DatabaseObject obj = new DatabaseObject(multi);
-		obj.setSourceID(childcatalog.getSourceID());
-		
-		DatabaseObjectHierarchy subcatalog = addConnectionToMultiple(obj, multi, childcatalog.getIdentifier());
+		String sourceID = childcatalog.getSourceID();
+		DatabaseObjectHierarchy subcatalog = addConnectionToMultiple(multi, sourceID, childcatalog.getIdentifier());
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(subcatalog);
 		DatabaseWriteBase.writeDatabaseObject(multi);
 	}
@@ -847,23 +846,27 @@ public class CreateDefaultObjectsFactory {
 	public static void connectInCatalogHierarchy(DatabaseObjectHierarchy parent, DatabaseObjectHierarchy child) {
 		DatasetCatalogHierarchy parentcatalog = (DatasetCatalogHierarchy) parent.getObject();
 		DatasetCatalogHierarchy childcatalog = (DatasetCatalogHierarchy) child.getObject();
+		String sourceID = childcatalog.getSourceID();
 
 		DatabaseObjectHierarchy multilnkhier = parent.getSubObject(parentcatalog.getChemConnectObjectLink());
 		ChemConnectCompoundMultiple multilnk = (ChemConnectCompoundMultiple) multilnkhier.getObject();
-		DatabaseObjectHierarchy subcatalog = addConnectionToMultiple(multilnk, multilnk, childcatalog.getIdentifier());
+		DatabaseObjectHierarchy subcatalog = addConnectionToMultiple(multilnk, sourceID, childcatalog.getIdentifier());
 		multilnkhier.addSubobject(subcatalog);
 		multilnk.setNumberOfElements(multilnk.getNumberOfElements() + 1);
 	}
 	
 	public static DatabaseObjectHierarchy addConnectionToMultiple(
-			DatabaseObject obj,
 			ChemConnectCompoundMultiple multilnk,
+			String sourceID,
 			String childid) {
 		int numlinks = multilnk.getNumberOfElements();
 		String numlinkS = Integer.toString(numlinks);
 		multilnk.setNumberOfElements(numlinks+1);
-
-		DatabaseObjectHierarchy subcatalog = fillDataObjectLink(obj, numlinkS, MetaDataKeywords.linkSubCatalog,
+		DatabaseObject obj = new DatabaseObject(multilnk);
+		obj.setSourceID(sourceID);
+		
+		
+		DatabaseObjectHierarchy subcatalog = fillDataObjectLink(multilnk, numlinkS, MetaDataKeywords.linkSubCatalog,
 				childid);
 
 		return subcatalog;
@@ -953,6 +956,7 @@ public class CreateDefaultObjectsFactory {
 				orglinkid);
 		multiorghier.addSubobject(orglink);
 		multiorg.setNumberOfElements(1);
+		
 		return orghierarchy;
 	}
 	
@@ -1016,7 +1020,6 @@ public class CreateDefaultObjectsFactory {
 		
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(orgcat);
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(usercat);
-		System.out.println(usercat.toString("usercat: "));
 	}
 
 	static DatabaseObjectHierarchy fillOrganizationDescription(DatabaseObject obj, String organizationname) {

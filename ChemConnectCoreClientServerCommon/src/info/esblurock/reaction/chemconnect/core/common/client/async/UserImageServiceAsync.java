@@ -54,7 +54,7 @@ public interface UserImageServiceAsync {
 
 	void getUserDatasetCatalogHierarchy(String username, AsyncCallback<DatabaseObjectHierarchy> callback);
 
-	void createNewCatalogHierarchy(DatabaseObject obj, 
+	void createNewCatalogHierarchy(DatabaseObject obj, String newSimpleName, 
 			String id, String onelinedescription, String catagorytype, AsyncCallback<DatabaseObjectHierarchy> callback);
 
 	void getDevice(DatabaseObject obj, String devicename, DataCatalogID catid,
@@ -85,7 +85,7 @@ public interface UserImageServiceAsync {
 
 	void getCatalogObject(String id, String dataType, AsyncCallback<DatabaseObjectHierarchy> callback);
 
-	void writeYamlObjectHierarchy(DatabaseObjectHierarchy hierarchy, AsyncCallback<Void> callback);
+	void writeYamlObjectHierarchy(String id, String canonicalclass, AsyncCallback<Void> callback);
 
 	void createEmptyMultipleObject(ChemConnectCompoundMultiple multiple,
 			AsyncCallback<DatabaseObjectHierarchy> callback);
@@ -123,5 +123,7 @@ public interface UserImageServiceAsync {
 			AsyncCallback<DatabaseObjectHierarchy> callback);
 
 	void getIDHierarchyFromFamilyNameAndUser(String familyname, AsyncCallback<ArrayList<NameOfPerson>> callback);
+
+	void getTopCatalogObject(String id, String dataType, AsyncCallback<DatabaseObjectHierarchy> callback);
 
 }

@@ -81,14 +81,13 @@ public class LoginSetupTest {
 
 	@Test
 	public void test() {
-		String sourceID = "1";
-
-		String username = "Administration";
-		String access = "Administration";
-		String owner = "Administration";
-		String orgname = "BlurockConsultingAB";
-		String title = "Blurock Consulting AB";
+		String username = "GUEST";
+		String access = "GUEST";
 		String userrole = MetaDataKeywords.accessTypeStandardUser;
+		String owner = "GUEST";
+		String orgname = "CHEMCONNECT";
+		String title = "CHEMCONNECT";
+		String sourceID = "0";
 		CreateDefaultObjectsFactory.createAndWriteDefaultUserOrgAndCatagories(username, userrole, access, owner,
 				orgname, title, sourceID);
 

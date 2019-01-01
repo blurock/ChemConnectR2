@@ -10,7 +10,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -38,43 +37,59 @@ import info.esblurock.reaction.ontology.dataset.ConceptParsing;
 
 public class ReadWriteYamlDatabaseObjectHierarchy {
 	
-	public static void writeAsYamlToGCS(DatabaseObjectHierarchy tophierarchy, String username,String sessionid) throws IOException {
-		String yaml = null;
-		ArrayList<String> yamlset = new ArrayList<String>();
-		ArrayList<DatabaseObjectHierarchy> hierarchies = new ArrayList<DatabaseObjectHierarchy>();
-		String topclass = tophierarchy.getObject().getClass().getCanonicalName();
+	public static void writeAsYamlToGCS(String id, String topclass, String username,String sessionid) throws IOException {
+		DatabaseObjectHierarchy tophierarchy = null;
 		if(topclass.compareTo(DatasetCatalogHierarchy.class.getCanonicalName()) == 0) {
-			writeDatasetCatalogHierarchyAsYaml(tophierarchy,hierarchies,yamlset);
+			tophierarchy = collectDatasetCatalogHierarchy(id);
 		} else {
-			yaml = ReadWriteYamlDatabaseObjectHierarchy.yamlStringFromDatabaseObjectHierarchy(tophierarchy);
-			yamlset.add(yaml);
-			hierarchies.add(tophierarchy);
+			tophierarchy = ExtractCatalogInformation.getCatalogObject(id, topclass);
 		}
-		Iterator<String> yamliter = yamlset.iterator();
-		for(DatabaseObjectHierarchy hierarchy : hierarchies) {
-			yaml = yamliter.next();
-			ChemConnectDataStructure structure = (ChemConnectDataStructure) hierarchy.getObject();
-			String idS = structure.getCatalogDataID();
-			DatabaseObjectHierarchy catalogHier = hierarchy.getSubObject(idS);
-			DataCatalogID catalogID = (DataCatalogID) catalogHier.getObject();
-			String extension = ConceptParsing.getFileExtension(StandardDatasetMetaData.yamlFileType);
-			String filename = catalogID.blobFilenameFromCatalogID(extension);
-			String contentType = ConceptParsing.getContentType(StandardDatasetMetaData.textFileType);
-			contentType = "text/plain";
-			System.out.println("writeYamlObjectHierarchy: extension:   " + extension);
-			System.out.println("writeYamlObjectHierarchy: filename:    " + filename);
-			System.out.println("writeYamlObjectHierarchy: contentType: " + contentType);
 		
-			String path = catalogID.getFullPath("/");
+		System.out.println(tophierarchy.toString("writeAsYamlToGCS: "));
 		
-			String title = structure.getClass().getSimpleName() + ": " + structure.getIdentifier();
-			GCSServiceRoutines.uploadFileBlob(hierarchy.getObject().getIdentifier(),
-				GoogleCloudStorageConstants.storageBucket, 
-				sessionid,username,
-				path, filename,contentType,title,yaml);
-		}
+		String yaml = yamlStringFromDatabaseObjectHierarchy(tophierarchy);
 
+		ChemConnectDataStructure structure = (ChemConnectDataStructure) tophierarchy.getObject();
+		String idS = structure.getCatalogDataID();
+		DatabaseObjectHierarchy catalogHier = tophierarchy.getSubObject(idS);
+		DataCatalogID catalogID = (DataCatalogID) catalogHier.getObject();
+		String extension = ConceptParsing.getFileExtension(StandardDatasetMetaData.yamlFileType);
+		String filename = catalogID.blobFilenameFromCatalogID(extension);
+		String contentType = ConceptParsing.getContentType(StandardDatasetMetaData.textFileType);
+		contentType = "text/plain";
+		System.out.println("writeYamlObjectHierarchy: extension:   " + extension);
+		System.out.println("writeYamlObjectHierarchy: filename:    " + filename);
+		System.out.println("writeYamlObjectHierarchy: contentType: " + contentType);
+		
+		String path = catalogID.getFullPath("/");
+		
+		String title = structure.getClass().getSimpleName() + ": " + structure.getIdentifier();
+		GCSServiceRoutines.uploadFileBlob(tophierarchy.getObject().getIdentifier(),
+			GoogleCloudStorageConstants.storageBucket, 
+			sessionid,username,
+			path, filename,contentType,title,yaml);
 	}
+	
+	public static DatabaseObjectHierarchy  collectDatasetCatalogHierarchy(String id) {
+		String dataType = MetaDataKeywords.datasetCatalogHierarchy;
+		DatabaseObjectHierarchy hierarchy = ExtractCatalogInformation.getCatalogObject(id,dataType);
+		collectDatasetCatalogHierarchy(hierarchy);
+		return hierarchy;
+		
+	}
+		public static void collectDatasetCatalogHierarchy(DatabaseObjectHierarchy hierarchy) {
+		DatasetCatalogHierarchy catalog = (DatasetCatalogHierarchy) hierarchy.getObject();
+		DatabaseObjectHierarchy linkhier = hierarchy.getSubObject(catalog.getChemConnectObjectLink());
+		ArrayList<DatabaseObjectHierarchy> subs = linkhier.getSubobjects();
+		for(DatabaseObjectHierarchy sub : subs) {
+			DataObjectLink link = (DataObjectLink) sub.getObject();
+			if(link.getLinkConcept().compareTo(MetaDataKeywords.linkSubCatalog) == 0) {
+				DatabaseObjectHierarchy subhier = collectDatasetCatalogHierarchy(link.getDataStructure());
+				hierarchy.addSubobject(subhier);
+			}
+		}		
+	}
+
 	
 	public static String yamlStringFromDatabaseObjectHierarchy(DatabaseObjectHierarchy hierarchy) throws IOException {
 		WriteReadDatabaseObjects.updateSourceID(hierarchy);
@@ -253,31 +268,7 @@ public class ReadWriteYamlDatabaseObjectHierarchy {
 		return hierarchy;
 	}
 
-	public static void writeDatasetCatalogHierarchyAsYaml(String id, 
-			ArrayList<DatabaseObjectHierarchy> hierarchies,
-			ArrayList<String> yamlset) throws IOException {
-		DatabaseObjectHierarchy hierarchy = ExtractCatalogInformation.getCatalogObject(id,
-				MetaDataKeywords.datasetCatalogHierarchy);
-				
-		writeDatasetCatalogHierarchyAsYaml(hierarchy,hierarchies,yamlset);
-	}
-	public static void writeDatasetCatalogHierarchyAsYaml(DatabaseObjectHierarchy hierarchy,
-			ArrayList<DatabaseObjectHierarchy> hierarchies,
-			ArrayList<String> yamlset) throws IOException {
-		hierarchies.add(hierarchy);
-		Map<String,Object> map1 = yamlDatabaseObjectHierarchy(hierarchy);
-		String topyampl = yamlMapToString(map1);
-		yamlset.add(topyampl);
-		DatasetCatalogHierarchy catalog = (DatasetCatalogHierarchy) hierarchy.getObject();
-		DatabaseObjectHierarchy linkhier = hierarchy.getSubObject(catalog.getChemConnectObjectLink());
-		ArrayList<DatabaseObjectHierarchy> subs = linkhier.getSubobjects();
-		for(DatabaseObjectHierarchy sub : subs) {
-			DataObjectLink link = (DataObjectLink) sub.getObject();
-			if(link.getLinkConcept().compareTo(MetaDataKeywords.linkSubCatalog) == 0) {
-				writeDatasetCatalogHierarchyAsYaml(link.getDataStructure(),hierarchies,yamlset);
-			}
-		}
-	}
+	
 	
 	public static String yamlMapToString(Map<String,Object> map) throws YamlException {
 		StringWriter wS = new StringWriter(1000000);

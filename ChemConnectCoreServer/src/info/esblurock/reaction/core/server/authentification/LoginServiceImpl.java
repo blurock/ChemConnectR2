@@ -45,6 +45,18 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 			System.out.println("Login: Guest Login");
 			lvl = guestlevel;
 			QueryBase.getNextEventCount(name);
+			/*
+			String username = "Guest";
+			String access = "Guest";
+			String userrole = MetaDataKeywords.accessTypeStandardUser;
+			String owner = "Guest";
+			String orgname = "CHEMCONNECT";
+			String title = "CHEMCONNECT";
+			String sourceID = "0";
+			CreateDefaultObjectsFactory.createAndWriteDefaultUserOrgAndCatagories(username, userrole, access, owner,
+					orgname, title, sourceID);
+			 */
+
 		} else {
 			System.out.println("Login: user: " + name);
 			UserAccountInformation account = getAccount(name);

@@ -2,7 +2,6 @@ package info.esblurock.reaction.io.metadata;
 
 public class StandardDatasetMetaData {
 	
-	
 	public static String identifierKeyS = "dc:identifier";
 	public static String ownerKeyS = "dcterms:publisher";
 	public static String accessKeyS = "dataset:accessibility";

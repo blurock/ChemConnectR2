@@ -394,15 +394,24 @@ public class ExtractCatalogInformation {
 		}
 		return hierarchy;
 	}
-	public static DatabaseObjectHierarchy createNewCatalogHierarchy(DatabaseObject obj, 
+	
+	/*
+	 * id: The id of the super catagory hierarchy
+	 * obj: The base class, used to get new id
+	 * catagorytype: The type of catalog hierarchy
+	 * sourceID: The new source ID (overrides sourceID of obj)
+	 * onelinedescription: Goes into the title.
+	 */
+	public static DatabaseObjectHierarchy createNewCatalogHierarchy(DatabaseObject obj,
+			String simpleName,
 			String id, String onelinedescription,String sourceID, String catagorytype)
 			throws IOException {
 		DatabaseObject newobj = new DatabaseObject(obj);
 		newobj.setSourceID(sourceID);
 		String classname = DatasetCatalogHierarchy.class.getCanonicalName();
 		DatasetCatalogHierarchy catalog = (DatasetCatalogHierarchy) QueryBase.getDatabaseObjectFromIdentifier(classname,
-				obj.getIdentifier());
-		DatabaseObjectHierarchy subs = CreateDefaultObjectsFactory.fillDatasetCatalogHierarchy(catalog, newobj, id,
+				id);
+		DatabaseObjectHierarchy subs = CreateDefaultObjectsFactory.fillDatasetCatalogHierarchy(catalog, simpleName, newobj,
 				onelinedescription,catagorytype);
 		return subs;
 	}

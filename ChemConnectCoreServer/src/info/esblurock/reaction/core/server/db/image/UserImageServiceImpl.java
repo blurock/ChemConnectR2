@@ -445,6 +445,11 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		return readhierarchy;
 	}
 	
+	public DatabaseObjectHierarchy getTopCatalogObject(String id, String dataType) throws IOException {
+		DatabaseObjectHierarchy readhierarchy = ExtractCatalogInformation.getTopCatalogObject(id,dataType);
+		return readhierarchy;
+	}
+	
 	/** fillMatrixSpecificationCorrespondence
 	 * 
 	 * Fill in matrix correspondence from matrix and specification
@@ -473,12 +478,12 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		CreateDefaultObjectsFactory.fillProtocolDefinition(hierarchy, obsid);
 		return hierarchy;
 	}
-	public DatabaseObjectHierarchy createNewCatalogHierarchy(DatabaseObject obj, String id, 
+	public DatabaseObjectHierarchy createNewCatalogHierarchy(DatabaseObject obj, String newSimpleName, String id, 
 			String onelinedescription, String catagorytype)
 			throws IOException {
 		
 		String sourceID = QueryBase.getDataSourceIdentification(obj.getOwner());
-		DatabaseObjectHierarchy subs = ExtractCatalogInformation.createNewCatalogHierarchy(obj, id, onelinedescription, sourceID, catagorytype);
+		DatabaseObjectHierarchy subs = ExtractCatalogInformation.createNewCatalogHierarchy(obj,newSimpleName, id, onelinedescription, sourceID, catagorytype);
 		return subs;
 	}
 
@@ -501,12 +506,13 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	}
 
 	
-	public void writeYamlObjectHierarchy(DatabaseObjectHierarchy hierarchy) throws IOException {
+	public void writeYamlObjectHierarchy(String id, String canonicalclass) throws IOException {
 		try {
+			System.out.println("writeYamlObjectHierarchy: " + canonicalclass + ": " + id);
 			ContextAndSessionUtilities util = getUtilities();
 			String username = util.getUserName();
 			String sessionid = util.getId();
-			ReadWriteYamlDatabaseObjectHierarchy.writeAsYamlToGCS(hierarchy,username,sessionid);
+			ReadWriteYamlDatabaseObjectHierarchy.writeAsYamlToGCS(id,canonicalclass,username,sessionid);
 		} catch (Exception ex) {
 			System.out.println("writeYamlObjectHierarchy  error in writing");
 			System.out.println(ex.toString());

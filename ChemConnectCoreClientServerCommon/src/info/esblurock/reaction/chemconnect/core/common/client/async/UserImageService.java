@@ -76,7 +76,7 @@ public interface UserImageService  extends RemoteService  {
 	
 	DatabaseObjectHierarchy getUserDatasetCatalogHierarchy(String username) throws IOException;
 	
-	DatabaseObjectHierarchy createNewCatalogHierarchy(DatabaseObject obj, String id, 
+	DatabaseObjectHierarchy createNewCatalogHierarchy(DatabaseObject obj, String newSimpleName, String id, 
 			String onelinedescription, String catagorytype) throws IOException;
 
 	DatabaseObjectHierarchy getDevice(DatabaseObject obj, String devicename, DataCatalogID catid);
@@ -101,7 +101,7 @@ public interface UserImageService  extends RemoteService  {
 	
 	DatabaseObjectHierarchy getCatalogObject(String id, String dataType);
 	
-	void writeYamlObjectHierarchy(DatabaseObjectHierarchy hierarchy) throws IOException;
+	void writeYamlObjectHierarchy(String id, String canonicalclass) throws IOException;
 	
 	DatabaseObjectHierarchy createEmptyMultipleObject(ChemConnectCompoundMultiple multiple);
 	
@@ -132,4 +132,5 @@ public interface UserImageService  extends RemoteService  {
 	
 	public ArrayList<NameOfPerson> getIDHierarchyFromFamilyNameAndUser(String familyname) throws IOException;
 	
+	public DatabaseObjectHierarchy getTopCatalogObject(String id, String dataType) throws IOException;
 }

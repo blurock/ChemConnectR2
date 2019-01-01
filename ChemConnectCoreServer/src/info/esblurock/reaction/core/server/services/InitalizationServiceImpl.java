@@ -6,7 +6,7 @@ import info.esblurock.reaction.chemconnect.core.common.client.async.Initializati
 import info.esblurock.reaction.chemconnect.core.data.base.ResetDatabaseObjects;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.core.server.db.image.BlobKeyCorrespondence;
-import info.esblurock.reaction.core.server.initialization.InitializeDatabaseObjectImpl;
+import info.esblurock.reaction.core.server.initialization.InitializeFromGCSURL;
 import info.esblurock.reaction.core.server.services.util.RegisterEvent;
 
 @SuppressWarnings("serial")
@@ -15,7 +15,7 @@ public class InitalizationServiceImpl  extends ServerBase implements Initializat
 	@Override
 	public void initializeDatabaseObjects() throws IOException {
 		verify("Read in initialization files", MetaDataKeywords.accessDataInput);
-		InitializeDatabaseObjectImpl.initializeDatabaseObjects();
+		InitializeFromGCSURL.initialize();
 		register("Initialize", "Read in initialization files", RegisterEvent.checkLevel3);
 	}
 	public void clearDatabaseObjects() throws IOException {

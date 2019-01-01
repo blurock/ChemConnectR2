@@ -3,7 +3,6 @@ package info.esblurock.reaction.core.server.yaml;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.junit.After;
@@ -34,6 +33,8 @@ import info.esblurock.reaction.chemconnect.core.data.observations.RegisterObserv
 import info.esblurock.reaction.chemconnect.core.data.rdf.RegisterRDFData;
 import info.esblurock.reaction.chemconnect.core.data.transaction.RegisterTransactionData;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
+import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
+import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.db.image.BlobKeyCorrespondence;
 import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFactory;
 import info.esblurock.reaction.core.server.read.ReadWriteYamlDatabaseObjectHierarchy;
@@ -82,42 +83,60 @@ public class DatabaseCatalogHierarchyYamlTest {
 	@Test
 	public void test() {
 		String sourceID = "1";
-
 		String username = "Administration";
 		String access = "Administration";
 		String owner = "Administration";
 		String orgname = "BlurockConsultingAB";
 		String title = "Blurock Consulting AB";
+
 		String userrole = MetaDataKeywords.accessTypeStandardUser;
 		CreateDefaultObjectsFactory.createAndWriteDefaultUserOrgAndCatagories(username, userrole, access, owner,
 				orgname, title, sourceID);
 
 		System.out.println("---------------------------------------------------------------");
 		String id = "Administration-UserDataCatagory-Administration-sethier";
-		
+		DatabaseObjectHierarchy hierarchy = ExtractCatalogInformation.getCatalogObject(id, MetaDataKeywords.datasetCatalogHierarchy);
+		System.out.println("---------------------------------------------------------------");
+		System.out.println(hierarchy.toString("Single Hierarchy: "));
+		System.out.println("---------------------------------------------------------------");
 		try {
-			ArrayList<String> yamlset = new ArrayList<String>();
-			ArrayList<DatabaseObjectHierarchy> hierarchies = new ArrayList<DatabaseObjectHierarchy>();
-			ReadWriteYamlDatabaseObjectHierarchy.writeDatasetCatalogHierarchyAsYaml(id, hierarchies, yamlset);
-			System.out.println("" + hierarchies.size());
-			Iterator<DatabaseObjectHierarchy> hieriter = hierarchies.iterator();
-			for(String yaml : yamlset) {
-				DatabaseObjectHierarchy hierarchy = hieriter.next();
-				System.out.println(hierarchy.toString("writeDatasetCatalogHierarchyAsYaml: "));
-				System.out.println("-----------------------------------------------------------------------------------");
-				System.out.println(yaml);
-				System.out.println("-----------------------------------------------------------------------------------");
-				DatabaseObject top = null;
-				Map<String, Object> mapping = ReadWriteYamlDatabaseObjectHierarchy.stringToYamlMap(yaml);
-				DatabaseObjectHierarchy subhier = ReadWriteYamlDatabaseObjectHierarchy.readYamlDatabaseObjectHierarchy(top, mapping, sourceID);
-				System.out.println(subhier.toString("fromYaml: "));
+			DatabaseObject obj = hierarchy.getObject();
+			id = obj.getIdentifier();
+			String simpleName = "NewCatagory";
+			String onelinedescription = "New added catagory";
+			String catagorytype = MetaDataKeywords.linkSubCatalog;
+			DatabaseObjectHierarchy newhierarchy = ExtractCatalogInformation.createNewCatalogHierarchy(obj, 
+					simpleName,
+					id, onelinedescription,sourceID, catagorytype);
+			String dataType = "dataset:DataObjectLink";
+			System.out.println("======================================================================");
+			System.out.println(dataType + " ---------------------------------------------------------------------------");
+			ArrayList<DatabaseObjectHierarchy> objects = WriteReadDatabaseObjects.getAllDatabaseObjectHierarchyForUser(owner,dataType);
+			for(DatabaseObjectHierarchy hier : objects) {
+				System.out.println(hier.toString());
 			}
+			System.out.println(dataType + " ---------------------------------------------------------------------------");
+			System.out.println("======================================================================");
+
+			System.out.println(newhierarchy.toString("NewHierarchy: "));
+			DatabaseObjectHierarchy collected= 
+					ReadWriteYamlDatabaseObjectHierarchy.collectDatasetCatalogHierarchy(hierarchy.getObject().getIdentifier());
+			System.out.println("-----------------------------------------------------------------------------------");
+			System.out.println(collected.toString("collected: "));
+			System.out.println("-----------------------------------------------------------------------------------");
+			String yaml = ReadWriteYamlDatabaseObjectHierarchy.yamlStringFromDatabaseObjectHierarchy(collected);
+			System.out.println(hierarchy.toString("writeDatasetCatalogHierarchyAsYaml: "));
+			System.out.println("-----------------------------------------------------------------------------------");
+			System.out.println(yaml);
+			System.out.println("-----------------------------------------------------------------------------------");
+			DatabaseObject top = null;
+			Map<String, Object> mapping = ReadWriteYamlDatabaseObjectHierarchy.stringToYamlMap(yaml);
+			DatabaseObjectHierarchy subhier = ReadWriteYamlDatabaseObjectHierarchy.readYamlDatabaseObjectHierarchy(top, mapping, sourceID);
+			System.out.println(subhier.toString("fromYaml: "));
 		} catch (IOException e) {
 			System.out.println(e);
 			e.printStackTrace();
 		}
-		
-		
 	}
 
 }

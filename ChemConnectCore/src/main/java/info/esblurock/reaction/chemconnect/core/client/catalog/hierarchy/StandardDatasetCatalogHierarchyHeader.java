@@ -129,7 +129,7 @@ public class StandardDatasetCatalogHierarchyHeader extends Composite
 			DatabaseObject subobj = new DatabaseObject(item.getObject());
 			UserImageServiceAsync async = UserImageService.Util.getInstance();
 			SubCatagoryHierarchyCallback callback = new SubCatagoryHierarchyCallback(this);
-			async.createNewCatalogHierarchy(subobj,newSimpleName,oneline,newChosenCatalogConcept,callback);	
+			async.createNewCatalogHierarchy(subobj,newSimpleName,subobj.getIdentifier(),oneline,newChosenCatalogConcept,callback);	
 		} else {
 			MaterialToast.fireToast("Name already being used in another sub-catagory");
 			addCatagory();

@@ -102,8 +102,8 @@ public class AddExtraCatagoryTest {
 			String catagorytype = StandardDatasetMetaData.conceptPublishedResultsCatagory;
 			
 			DatabaseObjectHierarchy orghier = cathier.getSubObject("Catalog-Administration-sethier-BlurockConsultingAB-sethier");
-			
-			DatabaseObjectHierarchy newhier = ExtractCatalogInformation.createNewCatalogHierarchy(orghier.getObject(), 
+			String simpleName = "simpleName";
+			DatabaseObjectHierarchy newhier = ExtractCatalogInformation.createNewCatalogHierarchy(orghier.getObject(), simpleName,
 					id, onelinedescription, newsourceID,catagorytype);
 			System.out.println("----------------------------------------------------------------");
 			System.out.println(newhier.toString());

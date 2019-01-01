@@ -1154,12 +1154,10 @@ xsd:date rdf:type rdfs:Datatype .
                    rdfs:subClassOf :NameOfPerson ,
                                    [ rdf:type owl:Restriction ;
                                      owl:onProperty <http://purl.org/dc/terms/hasPart> ;
-                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                     owl:onClass :ObjectLinkToContact
+                                     owl:someValuesFrom :ObjectLinkToContact
                                    ] ;
                    <http://purl.org/dc/elements/1.1/type> "AuthorInformation"^^xsd:string ;
-                   <http://purl.org/dc/terms/identifier> "Author of the publication" ,
-                                                         "dc:creator"^^xsd:string ;
+                   <http://purl.org/dc/terms/identifier> "dc:creator"^^xsd:string ;
                    rdfs:label "Author" ;
                    <http://www.w3.org/2004/02/skos/core#altLabel> "author" .
 
