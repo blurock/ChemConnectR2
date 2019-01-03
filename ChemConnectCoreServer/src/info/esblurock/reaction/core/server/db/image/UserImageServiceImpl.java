@@ -506,13 +506,13 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	}
 
 	
-	public void writeYamlObjectHierarchy(String id, String canonicalclass) throws IOException {
+	public void writeYamlObjectHierarchy(String id, String simpleclass) throws IOException {
 		try {
-			System.out.println("writeYamlObjectHierarchy: " + canonicalclass + ": " + id);
+			System.out.println("writeYamlObjectHierarchy: " + simpleclass + ": " + id);
 			ContextAndSessionUtilities util = getUtilities();
 			String username = util.getUserName();
 			String sessionid = util.getId();
-			ReadWriteYamlDatabaseObjectHierarchy.writeAsYamlToGCS(id,canonicalclass,username,sessionid);
+			ReadWriteYamlDatabaseObjectHierarchy.writeAsYamlToGCS(id,simpleclass,username,sessionid);
 		} catch (Exception ex) {
 			System.out.println("writeYamlObjectHierarchy  error in writing");
 			System.out.println(ex.toString());

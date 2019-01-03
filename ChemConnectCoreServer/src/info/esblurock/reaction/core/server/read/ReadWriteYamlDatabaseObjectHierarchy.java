@@ -34,18 +34,18 @@ import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.db.image.GCSServiceRoutines;
 import info.esblurock.reaction.io.metadata.StandardDatasetMetaData;
 import info.esblurock.reaction.ontology.dataset.ConceptParsing;
+import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 
 public class ReadWriteYamlDatabaseObjectHierarchy {
 	
 	public static void writeAsYamlToGCS(String id, String topclass, String username,String sessionid) throws IOException {
 		DatabaseObjectHierarchy tophierarchy = null;
-		if(topclass.compareTo(DatasetCatalogHierarchy.class.getCanonicalName()) == 0) {
+		String toptype = DatasetOntologyParsing.getStructureFromDataStructure(topclass);
+		if(toptype.compareTo(MetaDataKeywords.datasetCatalogHierarchy) == 0) {
 			tophierarchy = collectDatasetCatalogHierarchy(id);
 		} else {
-			tophierarchy = ExtractCatalogInformation.getCatalogObject(id, topclass);
+			tophierarchy = ExtractCatalogInformation.getCatalogObject(id, toptype);
 		}
-		
-		System.out.println(tophierarchy.toString("writeAsYamlToGCS: "));
 		
 		String yaml = yamlStringFromDatabaseObjectHierarchy(tophierarchy);
 

@@ -91,13 +91,17 @@ public class LoginSetupTest {
 		CreateDefaultObjectsFactory.createAndWriteDefaultUserOrgAndCatagories(username, userrole, access, owner,
 				orgname, title, sourceID);
 
-		System.out.println("---------------------------------------------------------------");
 		List<DatabaseObject> lstcat;
 		try {
+			System.out.println("---------------------------------------------------------------");
+			DatabaseObjectHierarchy cat = ExtractCatalogInformation.getDatabaseObjectHierarchy("GUEST-UserDataCatagory-GUEST-sethier");
+			System.out.println(cat.toString("Catalog: "));
+			
 			lstcat = QueryBase.getDatabaseObjects(DatasetCatalogHierarchy.class.getCanonicalName());
 			for (DatabaseObject object : lstcat) {
-				System.out.println(object.toString());
+				System.out.println(object.getIdentifier().toString());
 			}
+			/*
 			System.out.println("---------------------------------------------------------------");
 			
 			String catid = CreateDefaultObjectsFactory.userCatalogHierarchyID(username);
@@ -111,7 +115,7 @@ public class LoginSetupTest {
 			//String orgid = "Catalog-Administration-org-sethier";
 			//DatabaseObjectHierarchy ocathier = ExtractCatalogInformation.getCatalogObject(orgid, "dataset:DatasetCatalogHierarchy");
 			//System.out.println(ocathier.toString());
-			
+			*/
 			
 			/*
 			System.out.println("---------------------------------------------------------------");

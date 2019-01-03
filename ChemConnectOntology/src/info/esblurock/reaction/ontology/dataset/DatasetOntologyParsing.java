@@ -802,8 +802,9 @@ dataset:ChemConnectPrimitiveDataStructure:
 
 	public static String getStructureFromDataStructure(String object) {
 		String query = "SELECT ?ref\n" + "	WHERE {\n" 
-				+ "	 " + object + " <http://purl.org/dc/elements/1.1/type> ?ref\n" 
+				+ "?ref <http://purl.org/dc/elements/1.1/type> \"" + object + "\"^^xsd:string   \n" 
 				+ "  }";
+		
 		String structure = null;
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);

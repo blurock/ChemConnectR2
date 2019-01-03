@@ -14,6 +14,7 @@ import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.rdf.KeywordRDF;
 import info.esblurock.reaction.chemconnect.core.data.transaction.EventCount;
 import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
+import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFactory;
 import info.esblurock.reaction.core.server.initialization.InitializeFromGCSURL;
 import info.esblurock.reaction.core.server.mail.SendMail;
 import info.esblurock.reaction.core.server.services.ServerBase;
@@ -38,14 +39,13 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 
 	@Override
 	public UserDTO loginServer(String name) throws IOException {
-		InitializeFromGCSURL.initialize();
+		//InitializeFromGCSURL.initialize();
 		ContextAndSessionUtilities util = getUtilities();
 		String lvl = null;
 		if (guest.equals(name)) {
 			System.out.println("Login: Guest Login");
 			lvl = guestlevel;
 			QueryBase.getNextEventCount(name);
-			/*
 			String username = "Guest";
 			String access = "Guest";
 			String userrole = MetaDataKeywords.accessTypeStandardUser;
@@ -55,7 +55,6 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 			String sourceID = "0";
 			CreateDefaultObjectsFactory.createAndWriteDefaultUserOrgAndCatagories(username, userrole, access, owner,
 					orgname, title, sourceID);
-			 */
 
 		} else {
 			System.out.println("Login: user: " + name);

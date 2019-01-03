@@ -41,6 +41,8 @@ public class MetaDataKeywords {
 	public static String conceptLinkObservationsFromSpreadSheet = "dataset:ConceptLinkObservationsFromSpreadSheet";
 	public static String conceptLinkObservationsFromSpreadSheetFull = "dataset:ConceptLinkObservationsFromSpreadSheetFull";
 	
+	
+	
 	public static String userRoleChoices = "dataset:UserRoleChoices";
 	
 	public static String chemConnectPurpose = "dataset:ChemConnectPurpose";
@@ -100,11 +102,18 @@ public class MetaDataKeywords {
 	public static String observationStructureChoice = "dataset:ObservationStructureChoice";
 	public static String chemConnectProperties = "dataset:ChemConnectProperties";
 	public static String datasetCatalogHierarchy = "dataset:DatasetCatalogHierarchy";
-	public static String catagoryTypeChoices = "dataset:CatagoryTypeChoices";
 	public static String conceptLinkDataStructures = "dataset:ConceptLinkDataStructures";
 	public static String undefined = "undefined";
 	public static String imageInformation = "dataset:ImageInformation";
 	public static String datasetImage = "dataset:DatasetImage";
 	
-
+	public static String catagoryTypeChoices = "dataset:CatagoryTypeChoices";
+	public static String dataOrigincatagory = "dataset:DataOrigincatagory";
+	public static String deviceCatagory = "dataset:DeviceCatagory";
+	public static String experimentalSetDataCatagory = "dataset:ExperimentalSetDataCatagory";
+	public static String experimentalTypeCatagory = "dataset:ExperimentalTypeCatagory";
+	public static String organizationDataCatagory = "dataset:OrganizationDataCatagory";
+	public static String publishedResultsCatagory = "dataset:PublishedResultsCatagory";
+	public static String singleExperimentDataCatagory = "dataset:SingleExperimentDataCatagory";
+	public static String userDataCatagory = "dataset:UserDataCatagory";
 }

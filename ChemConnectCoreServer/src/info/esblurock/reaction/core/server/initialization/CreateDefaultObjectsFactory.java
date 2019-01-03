@@ -752,6 +752,13 @@ public class CreateDefaultObjectsFactory {
 		descr.setOnlinedescription(oneline);
 	}
 
+	public static void setAbstract(DatabaseObjectHierarchy hierarchy, String description) {
+		ChemConnectDataStructure structure = (ChemConnectDataStructure) hierarchy.getObject();
+		DatabaseObjectHierarchy descrhierarchy = hierarchy.getSubObject(structure.getDescriptionDataData());
+		DescriptionDataData descr = (DescriptionDataData) descrhierarchy.getObject();
+		descr.setDescriptionAbstract(description);
+	}
+
 	public static void setOneLineDescriptionAndAbstract(DatabaseObjectHierarchy hierarchy, String oneline, String description) {
 		ChemConnectDataStructure structure = (ChemConnectDataStructure) hierarchy.getObject();
 		DatabaseObjectHierarchy descrhierarchy = hierarchy.getSubObject(structure.getDescriptionDataData());
@@ -1020,6 +1027,32 @@ public class CreateDefaultObjectsFactory {
 		
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(orgcat);
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(usercat);
+		
+		connectSubCatagory("Devices","Catagory for all defined devices",
+				MetaDataKeywords.deviceCatagory, orgcat);
+		connectSubCatagory("PublishedResults","Catagory for published results",
+				MetaDataKeywords.publishedResultsCatagory, orgcat);
+		DatabaseObjectHierarchy expcat = connectSubCatagory("ExperimentalDataSets","Catagory for experimental data sets",
+				MetaDataKeywords.experimentalSetDataCatagory, orgcat);
+		connectSubCatagory("ExampleData","Catagory for example data",
+				MetaDataKeywords.experimentalSetDataCatagory, expcat);
+	}
+	
+	static DatabaseObjectHierarchy connectSubCatagory(String simpleName,
+			String oneLineDescription, String catagorytype,
+			DatabaseObjectHierarchy supercat) {
+		DatabaseObjectHierarchy cat = null;
+		try {
+			DatabaseObject obj = new DatabaseObject(supercat.getObject());
+			DatasetCatalogHierarchy orgcathier = (DatasetCatalogHierarchy) supercat.getObject();
+			cat = CreateDefaultObjectsFactory.fillDatasetCatalogHierarchy(orgcathier, 
+					simpleName, obj,oneLineDescription,catagorytype);
+			setAbstract(cat, oneLineDescription);
+			
+		} catch(Exception ex) {
+			System.out.println(ex.toString());
+		}
+		return cat;
 	}
 
 	static DatabaseObjectHierarchy fillOrganizationDescription(DatabaseObject obj, String organizationname) {

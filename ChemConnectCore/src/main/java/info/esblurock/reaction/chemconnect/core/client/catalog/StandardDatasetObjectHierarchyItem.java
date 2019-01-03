@@ -240,9 +240,9 @@ public class StandardDatasetObjectHierarchyItem extends Composite
 		updateDatabaseObjectHierarchy();
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		GeneralVoidReturnCallback callback = new GeneralVoidReturnCallback("Successful YAML save");
-		String canonicalclass = hierarchy.getObject().getClass().getCanonicalName();
+		String simpleclass = hierarchy.getObject().getClass().getSimpleName();
 		String id = hierarchy.getObject().getIdentifier();
-		async.writeYamlObjectHierarchy(id, canonicalclass, callback);
+		async.writeYamlObjectHierarchy(id, simpleclass, callback);
 	}
 
 	public void updateDatabaseObjectHierarchy() {

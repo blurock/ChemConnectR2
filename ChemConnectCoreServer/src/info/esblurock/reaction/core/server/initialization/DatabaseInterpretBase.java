@@ -1,5 +1,6 @@
 package info.esblurock.reaction.core.server.initialization;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -18,54 +19,68 @@ import info.esblurock.reaction.core.server.read.ReadWriteYamlDatabaseObjectHiera
 import info.esblurock.reaction.io.db.QueryBase;
 
 public class DatabaseInterpretBase {
-	
+
 	static String fileInterpreterClassS = "interpreter";
 
 	protected Object object;
-	
+
 	public boolean alreadyRead(String fileS) {
 		boolean answer = true;
 		try {
-			InitializationFile init = (InitializationFile) QueryBase.getFirstDatabaseObjectsFromSingleProperty(InitializationFile.class.getName(), 
-					"fileName", fileS);
-			if(init == null)
+			InitializationFile init = (InitializationFile) QueryBase
+					.getFirstDatabaseObjectsFromSingleProperty(InitializationFile.class.getName(), "fileName", fileS);
+			if (init == null)
 				answer = false;
 		} catch (IOException e) {
 			answer = false;
 		}
 		return answer;
 	}
-	
+
 	public void readInitializationYamlFromURL(String urlS) throws IOException {
 		URL url = new URL(urlS);
 		InputStream in = url.openStream();
+		System.out.println(in);
 		Reader targetReader = new InputStreamReader(in);
-		YamlReader reader = new YamlReader(targetReader);
-		Object object = reader.read();
-		@SuppressWarnings("unchecked")
-		Map<String, Object> mapping = (Map<String, Object>) object;
-		DatabaseObjectHierarchy hierarchy = ReadWriteYamlDatabaseObjectHierarchy.readYamlDatabaseObjectHierarchy(null, mapping, null);
+			YamlReader reader = new YamlReader(targetReader);
+			Object object = null;
+			try {
+				object = reader.read();
+			} catch (YamlException ex) {
+				InputStream exin = url.openStream();
+				Reader extargetReader = new InputStreamReader(exin);
+				BufferedReader br = new BufferedReader(extargetReader);
+				String line;
+				while((line = br.readLine()) != null) {
+					System.out.println(line);
+				}
+				throw new IOException("Error in parsing YAML file:\n" + ex.getMessage() + "\n" + ex.getLocalizedMessage() + "\n" + ex.getCause());
+			}
+			@SuppressWarnings("unchecked")
+			Map<String, Object> mapping = (Map<String, Object>) object;
+			DatabaseObjectHierarchy hierarchy = ReadWriteYamlDatabaseObjectHierarchy
+					.readYamlDatabaseObjectHierarchy(null, mapping, null);
 
-		System.out.println(urlS + "\n\n" + hierarchy.toString("Hierarchy") + "\n");
-		
-		WriteReadDatabaseObjects.writeDatabaseObjectHierarchyWithTransaction(hierarchy);
-		InitializationFile filetowrite = new InitializationFile(urlS);
-		DatabaseWriteBase.writeDatabaseObject(filetowrite);
+			System.out.println(urlS + "\n\n" + hierarchy.toString("Hierarchy") + "\n");
+
+			WriteReadDatabaseObjects.writeDatabaseObjectHierarchyWithTransaction(hierarchy);
+			InitializationFile filetowrite = new InitializationFile(urlS);
+			DatabaseWriteBase.writeDatabaseObject(filetowrite);
 	}
-	
+
 	public void readInitializationFile(String fileS, String filetypeS) throws IOException {
 		InputStream in = this.getClass().getClassLoader().getResourceAsStream(fileS);
-		
+
 		InitializationFile filetowrite = new InitializationFile(fileS);
 		DatabaseWriteBase.writeDatabaseObject(filetowrite);
 		System.out.println("readInitializationFile: '" + filetypeS + "' " + filetypeS.compareToIgnoreCase("yaml"));
-		if(filetypeS.compareToIgnoreCase("yaml") == 0) {
+		if (filetypeS.compareToIgnoreCase("yaml") == 0) {
 			readInitializationYamlFile(in);
 		} else {
 			throw new IOException("Initialization file not found: " + filetypeS);
 		}
 	}
-	
+
 	@SuppressWarnings("rawtypes")
 	public void readInitializationYamlFile(InputStream in) throws IOException {
 		Reader targetReader = new InputStreamReader(in);
