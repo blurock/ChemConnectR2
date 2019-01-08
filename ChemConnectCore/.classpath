@@ -54,5 +54,8 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="jar/commons-codec-1.11.jar"/>
+	<classpathentry kind="lib" path="jar/scribejava-apis-6.2.0.jar"/>
+	<classpathentry kind="lib" path="jar/scribejava-core-6.2.0.jar"/>
 	<classpathentry kind="output" path="src/main/webapp/WEB-INF/classes"/>
 </classpath>

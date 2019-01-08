@@ -1,14 +1,12 @@
 package info.esblurock.reaction.chemconnect.core.client.firstpage;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
-import gwt.material.design.client.ui.MaterialLink;
+import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialPanel;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.FirstPageView;
 
@@ -22,9 +20,13 @@ public class FirstPage extends Composite implements FirstPageView {
 	Presenter listener;
 
 	@UiField
+	MaterialPanel modalPanel;
+	@UiField
 	MaterialPanel footerpanel;
 	@UiField
-	MaterialLink sessionButton;
+	MaterialPanel mainPanel;
+	@UiField
+	MaterialCollapsible mainCollapsible;
 
 	public FirstPage() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -36,11 +38,6 @@ public class FirstPage extends Composite implements FirstPageView {
 		footerpanel.add(footer);
 	}
 
-	@UiHandler("sessionButton")
-	public void onClickSession(ClickEvent event) {
-	
-	}
-	
 	@Override
 	public void setName(String helloName) {
 	}
@@ -49,5 +46,20 @@ public class FirstPage extends Composite implements FirstPageView {
 	public void setPresenter(Presenter listener) {
 		this.listener = listener;
 	}
+	
+	public void asNewUser() {
+		CreateNewUserWizard wizard = new CreateNewUserWizard(mainPanel,mainCollapsible,modalPanel);
+		mainPanel.clear();
+		mainPanel.add(wizard);
+	}
+	public void asExistingUser() {
+		
+	}
+
+
+	MaterialPanel getMainPanel() {
+		return mainPanel;
+	}
+
 
 }

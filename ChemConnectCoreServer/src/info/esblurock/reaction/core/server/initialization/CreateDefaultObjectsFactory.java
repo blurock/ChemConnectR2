@@ -49,6 +49,7 @@ import info.esblurock.reaction.chemconnect.core.data.dataset.device.SubSystemDes
 import info.esblurock.reaction.chemconnect.core.data.description.DescriptionDataData;
 import info.esblurock.reaction.chemconnect.core.data.image.DatasetImage;
 import info.esblurock.reaction.chemconnect.core.data.image.ImageInformation;
+import info.esblurock.reaction.chemconnect.core.data.login.UserAccount;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.methodology.ChemConnectProtocol;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationBlockFromSpreadSheet;
@@ -89,6 +90,37 @@ public class CreateDefaultObjectsFactory {
 
 		return descrhier;
 	}
+	
+	public static DatabaseObjectHierarchy createNewUser(UserAccount uaccount,
+			NameOfPerson person) {
+		String account = uaccount.getAccountUserName();
+		String accountClassification = uaccount.getAuthorizationType();
+		String sourceID = QueryBase.getDataSourceIdentification(account);
+		String id = "User-" + uaccount.getAccountUserName();
+		DatabaseObject object = new DatabaseObject(id, account, account, sourceID);
+		
+		ArrayList<String> path = new ArrayList<String>();
+		path.add(account);
+		String catalogBaseName = account;
+		String dataCatalog = ChemConnectCompoundDataStructure.removeNamespace(StandardDatasetMetaData.conceptUserDataCatagory);
+		String simpleCatalogName = "User";
+		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure();
+		DataCatalogID datid = new DataCatalogID(structure, catalogBaseName, dataCatalog, simpleCatalogName, path);
+
+		DatabaseObjectHierarchy hierarchy = fillMinimalPersonDescription(object,account,accountClassification,person,datid);
+		
+		InterpretData accinterpret = InterpretData.valueOf("UserAccount");
+		DatabaseObjectHierarchy acchier = accinterpret.createEmptyObject(object);
+		UserAccount useraccount = (UserAccount) acchier.getObject();
+		useraccount.setAccountUserName(account);
+		useraccount.setAuthorizationName(uaccount.getAccountUserName());
+		useraccount.setAuthorizationType(uaccount.getAuthorizationType());
+		
+		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(hierarchy);
+		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(acchier);
+		return hierarchy;
+	}
+	
 
 	public static DatabaseObjectHierarchy fillMinimalPersonDescription(DatabaseObject obj, String username, String userClassification,
 			NameOfPerson person, DataCatalogID datid) {

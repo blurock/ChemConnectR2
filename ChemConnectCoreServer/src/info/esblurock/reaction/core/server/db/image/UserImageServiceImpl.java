@@ -231,27 +231,26 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	}
 
 	public ArrayList<GCSBlobFileInformation> getUploadedFiles() throws IOException {
+		ArrayList<GCSBlobFileInformation> fileset = new ArrayList<GCSBlobFileInformation>();
 		SingleQueryResult result = null;
 		SetOfQueryPropertyValues values = new SetOfQueryPropertyValues();
 		ContextAndSessionUtilities context = getUtilities();
 		UserDTO user = context.getUserInfo();
-		if(user == null) {
-			throw new IOException("User information not available: try logging in again");
-		}
-		String username = user.getName();
-		values.add("owner", username);
-		values.add("bucket", GoogleCloudStorageConstants.uploadBucket);
+		if(user != null) {
+			String username = user.getName();
+			values.add("owner", username);
+			values.add("bucket", GoogleCloudStorageConstants.uploadBucket);
 		
-		QuerySetupBase query = new QuerySetupBase(GCSBlobFileInformation.class.getCanonicalName(), values);
-		query.setAccess(username);
-		try {
-			result = QueryBase.StandardQueryResult(query);
-		} catch (ClassNotFoundException e) {
-			throw new IOException("Class Not found: " + GCSBlobFileInformation.class.getCanonicalName());
-		}
-		ArrayList<GCSBlobFileInformation> fileset = new ArrayList<GCSBlobFileInformation>();
-		for (DatabaseObject obj : result.getResults()) {
-			fileset.add((GCSBlobFileInformation) obj);
+			QuerySetupBase query = new QuerySetupBase(GCSBlobFileInformation.class.getCanonicalName(), values);
+			query.setAccess(username);
+			try {
+				result = QueryBase.StandardQueryResult(query);
+			} catch (ClassNotFoundException e) {
+				throw new IOException("Class Not found: " + GCSBlobFileInformation.class.getCanonicalName());
+			}
+			for (DatabaseObject obj : result.getResults()) {
+				fileset.add((GCSBlobFileInformation) obj);
+			}
 		}
 		return fileset;
 	}
@@ -291,7 +290,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 
 		URL urlstream = new URL(requestUrl);
 		InputStream in = urlstream.openStream();
-		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
+		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), this.getThreadLocalRequest().getSession());
 		String path = GCSServiceRoutines.createUploadPath(util.getUserName());
 		GCSBlobFileInformation source = GCSServiceRoutines.createInitialUploadInfo(
 				GoogleCloudStorageConstants.uploadBucket,
@@ -334,18 +333,20 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 
 	public ArrayList<DatabaseObjectHierarchy> getSetOfDatabaseObjectHierarchyForUser(String classType) throws IOException {
 		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
+		ArrayList<DatabaseObjectHierarchy> objects = null;
 		UserDTO user = util.getUserInfo();
-		if(user == null) {
-			throw new IOException("User information not available: try logging in again");
+		if(user != null) {
+			objects = WriteReadDatabaseObjects.getAllDatabaseObjectHierarchyForUser(user.getName(), classType);
+			/*
+			for(DatabaseObjectHierarchy hierarchy : objects) {
+				System.out.println(classType + ": -----------------------------------------------------------");
+				System.out.println(hierarchy.toString());
+				System.out.println(classType + ": -----------------------------------------------------------");
+			}
+			*/
+		} else {
+			objects = new ArrayList<DatabaseObjectHierarchy>();
 		}
-		ArrayList<DatabaseObjectHierarchy> objects = WriteReadDatabaseObjects.getAllDatabaseObjectHierarchyForUser(user.getName(), classType);
-/*
-		for(DatabaseObjectHierarchy hierarchy : objects) {
-			System.out.println(classType + ": -----------------------------------------------------------");
-			System.out.println(hierarchy.toString());
-			System.out.println(classType + ": -----------------------------------------------------------");
-		}
-		*/
 		return objects;
 	}
 	

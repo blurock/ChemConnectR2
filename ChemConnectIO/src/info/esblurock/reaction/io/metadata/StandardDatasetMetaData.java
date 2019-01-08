@@ -264,4 +264,10 @@ public class StandardDatasetMetaData {
 	public static String matrixBlockTitleNone = "dataset:MatrixBlockTitleNone";
 	public static String matrixBlockIsolated = "dataset:MatrixBlockIsolated";
 	
+	public static String accountUserName = "foaf:account";
+	public static String authorizationName = "dataset:AuthorizationName";
+	public static String authorizationType = "dataset:AuthorizationType";
+	public static String accountPrivilege = "dataet:AccountPrivilege";
+	
+	
 }

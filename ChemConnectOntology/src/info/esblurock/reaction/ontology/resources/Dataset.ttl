@@ -1162,6 +1162,25 @@ xsd:date rdf:type rdfs:Datatype .
                    <http://www.w3.org/2004/02/skos/core#altLabel> "author" .
 
 
+###  http://www.esblurock.info/dataset#AuthorizationName
+:AuthorizationName rdf:type owl:Class ;
+                   rdfs:subClassOf :ShortStringLabel ;
+                   <http://purl.org/dc/elements/1.1/type> "ShortString" ;
+                   <http://purl.org/dc/terms/identifier> "dataset:AuthorizationName" ;
+                   rdfs:comment "This is the name used by the authorization service" ;
+                   rdfs:label "Authorization Name" ;
+                   <http://www.w3.org/2004/02/skos/core#altLabel> "authname" .
+
+
+###  http://www.esblurock.info/dataset#AuthorizationType
+:AuthorizationType rdf:type owl:Class ;
+                   rdfs:subClassOf :ShortStringLabel ;
+                   <http://purl.org/dc/terms/identifier> "dataset:AuthorizationType" ;
+                   rdfs:comment "This is the service that does the authorization for the user" ;
+                   rdfs:label "Authorization Type" ;
+                   <http://www.w3.org/2004/02/skos/core#altLabel> "authtype" .
+
+
 ###  http://www.esblurock.info/dataset#BeginMatrixAfterSpecifiedIdentifier
 :BeginMatrixAfterSpecifiedIdentifier rdf:type owl:Class ;
                                      rdfs:subClassOf :MatrixBlockBeginClassification ;
@@ -9493,12 +9512,17 @@ Under the general type of is the actual data object referenced by the ChemConnec
                              [ rdf:type owl:Restriction ;
                                owl:onProperty <http://www.w3.org/ns/dcat#record> ;
                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                               owl:onClass :DatabasePerson
+                               owl:onClass :AuthorizationName
                              ] ,
                              [ rdf:type owl:Restriction ;
                                owl:onProperty <http://www.w3.org/ns/dcat#record> ;
                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                               owl:onClass :UserAccountInformation
+                               owl:onClass :AuthorizationType
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty <http://www.w3.org/ns/dcat#record> ;
+                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                               owl:onClass :username
                              ] ;
              <http://purl.org/dc/elements/1.1/type> "UserAccount"^^xsd:string ;
              <http://purl.org/dc/terms/identifier> "prov:SoftwareAgent"^^xsd:string ;
@@ -9702,6 +9726,8 @@ Under the general type of is the actual data object referenced by the ChemConnec
           rdfs:subClassOf :ShortStringLabel ;
           <http://purl.org/dc/elements/1.1/type> "ShortString" ;
           <http://purl.org/dc/terms/identifier> "foaf:account"^^xsd:string ;
+          rdfs:comment "This is the account name used by CHEMCONNECT" ;
+          rdfs:label "User Name" ;
           <http://www.w3.org/2004/02/skos/core#altLabel> "uname"^^xsd:string .
 
 
@@ -11245,8 +11271,8 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
                                     <http://purl.org/dc/terms/issued> "2000-07-11"^^xsd:date .
 
 
-<http://purl.org/dc/terms/rights> rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
-                                  <http://purl.org/dc/terms/issued> "2008-01-14"^^xsd:date ;
+<http://purl.org/dc/terms/rights> <http://purl.org/dc/terms/issued> "2008-01-14"^^xsd:date ;
+                                  rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
                                   rdfs:label "Rights"@en ;
                                   rdfs:comment "Information about rights held in and over the resource."@en ;
                                   <http://purl.org/dc/terms/modified> "2008-01-14"^^xsd:date ;
@@ -11254,8 +11280,8 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
                                   <http://purl.org/dc/terms/description> "Typically, rights information includes a statement about various property rights associated with the resource, including intellectual property rights."@en .
 
 
-<http://purl.org/dc/terms/rightsHolder> <http://purl.org/dc/terms/hasVersion> <http://dublincore.org/usage/terms/history/#rightsHolder-002> ;
-                                        rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
+<http://purl.org/dc/terms/rightsHolder> rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
+                                        <http://purl.org/dc/terms/hasVersion> <http://dublincore.org/usage/terms/history/#rightsHolder-002> ;
                                         <http://purl.org/dc/terms/modified> "2008-01-14"^^xsd:date ;
                                         rdfs:comment "A person or organization owning or managing rights over the resource."@en ;
                                         <http://purl.org/dc/terms/issued> "2004-06-14"^^xsd:date ;
@@ -11655,6 +11681,42 @@ basic geo vocab
 #################################################################
 #    General axioms
 #################################################################
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :AuthorizationName
+                :AuthorizationType
+                :CatalogBaseName
+                :CatalogPathElement
+                :ContactKey
+                :DOI
+                :DescriptionKeyword
+                :FileSourceIdentifier
+                :IntegerOrder
+                :LastColumnInMatrix
+                :LastRowInMatrix
+                :LocationPostcode
+                :MatrixColumn
+                :ObservationLabel
+                :OrganizationName
+                :OrganizationalUnit
+                :ParameterLabel
+                :Position
+                :SimpleCatalogName
+                :SpeciesName
+                :SpecificationLabel
+                :SpreadSheetBlockIsolationType
+                :StartColumnInMatrix
+                :StartRowInMatrix
+                :SubOrganizationOf
+                :TitleSearchKey
+                :ValueAsString
+                :ValueUncertainty
+                :familyName
+                :givenName
+                :username
+              )
+] .
+
 
 [ rdf:type owl:AllDisjointClasses ;
   owl:members ( :CHEMKINMechanism

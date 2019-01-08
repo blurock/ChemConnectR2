@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.io.IOUtils;
 
 import com.esotericsoftware.yamlbeans.YamlException;
@@ -94,11 +95,14 @@ public class ReadWriteYamlDatabaseObjectHierarchy {
 	public static String yamlStringFromDatabaseObjectHierarchy(DatabaseObjectHierarchy hierarchy) throws IOException {
 		WriteReadDatabaseObjects.updateSourceID(hierarchy);
 		Map<String,Object> map1 = yamlDatabaseObjectHierarchy(hierarchy);
+		System.out.println(map1);
+		MapUtils.debugPrint(System.out, "Map: ", map1);
 		StringWriter wS = new StringWriter(1000000);
 		YamlWriter writer = new YamlWriter(wS);
 		writer.write(map1);
 		writer.close();
 		String yaml = wS.toString();
+		
 		return yaml;
 	}
 

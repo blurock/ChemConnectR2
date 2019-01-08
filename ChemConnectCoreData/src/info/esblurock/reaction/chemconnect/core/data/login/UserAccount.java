@@ -11,49 +11,71 @@ import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 public class UserAccount extends ChemConnectDataStructure {
 
 	@Index
-	String databaseUser;
+	String accountUserName;
 	@Index
-	String userAccountInformation;
+	String authorizationName;
+	@Index
+	String authorizationType;
+	@Index
+	String accountPrivilege;
 	
 	public UserAccount() {
-		databaseUser = "";
-		userAccountInformation = "";
-	}
-	
-	public UserAccount(String identifier, String sourceID) {
-		super(identifier,sourceID);
-		databaseUser = "";
-		userAccountInformation = "";
+		accountUserName = "";
+		authorizationName = "";
+		authorizationType = "";
 	}
 	
 	public UserAccount(ChemConnectDataStructure datastructure,
-			String databaseUser, String userAccountInformation) {
-		super(datastructure);
-		this.databaseUser = databaseUser;
-		this.userAccountInformation = userAccountInformation;		
+			String accountUserName, String authorizationName, String authorizationType,
+			String accountPrivilege) {
+		fill(datastructure,accountUserName,authorizationName,authorizationType,accountPrivilege);
 	}
 		
 	public void fill(ChemConnectDataStructure datastructure,
-			String databaseUser, String userAccountInformation) {
+			String accountUserName, String authorizationName, String authorizationType,
+			String accountPrivilege) {
 		super.fill(datastructure);
-		this.databaseUser = databaseUser;
-		this.userAccountInformation = userAccountInformation;		
+		this.accountUserName = accountUserName;
+		this.authorizationName = authorizationName;		
+		this.authorizationType = authorizationType;	
+		this.accountPrivilege = accountPrivilege;
 	}
+	
 	@Override
 	public void fill(DatabaseObject object) {
 		super.fill(object);
-		UserAccount user = (UserAccount) object;
-		this.databaseUser = user.getDatabaseUser();
-		this.userAccountInformation = user.getUserAccountInformation();		
 	}
 
-	public String getDatabaseUser() {
-		return databaseUser;
+	public String getAccountUserName() {
+		return accountUserName;
 	}
-	public String getUserAccountInformation() {
-		return userAccountInformation;
+
+	public void setAccountUserName(String accountUserName) {
+		this.accountUserName = accountUserName;
 	}
-	
-	
-	
+
+	public String getAuthorizationName() {
+		return authorizationName;
+	}
+
+	public void setAuthorizationName(String authorizationName) {
+		this.authorizationName = authorizationName;
+	}
+
+	public String getAuthorizationType() {
+		return authorizationType;
+	}
+
+	public void setAuthorizationType(String authorizationType) {
+		this.authorizationType = authorizationType;
+	}
+
+	public String getAccountPrivilege() {
+		return accountPrivilege;
+	}
+
+	public void setAccountPrivilege(String accountPrivilege) {
+		this.accountPrivilege = accountPrivilege;
+	}
+
 }

@@ -126,4 +126,5 @@ public interface UserImageServiceAsync {
 
 	void getTopCatalogObject(String id, String dataType, AsyncCallback<DatabaseObjectHierarchy> callback);
 
+
 }

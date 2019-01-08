@@ -4,7 +4,9 @@ package info.esblurock.reaction.core.server.initialization;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.collections.MapUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -35,8 +37,8 @@ import info.esblurock.reaction.chemconnect.core.data.rdf.RegisterRDFData;
 import info.esblurock.reaction.chemconnect.core.data.transaction.RegisterTransactionData;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
-import info.esblurock.reaction.core.server.db.extract.ExtractLinkObjectFromStructure;
 import info.esblurock.reaction.core.server.db.image.BlobKeyCorrespondence;
+import info.esblurock.reaction.core.server.read.ReadWriteYamlDatabaseObjectHierarchy;
 import info.esblurock.reaction.io.db.QueryBase;
 
 public class LoginSetupTest {
@@ -93,10 +95,22 @@ public class LoginSetupTest {
 
 		List<DatabaseObject> lstcat;
 		try {
+			lstcat = QueryBase.getDatabaseObjects(DatasetCatalogHierarchy.class.getCanonicalName());
+			for (DatabaseObject object : lstcat) {
+				System.out.println(object.getIdentifier().toString());
+			}
 			System.out.println("---------------------------------------------------------------");
-			DatabaseObjectHierarchy cat = ExtractCatalogInformation.getDatabaseObjectHierarchy("GUEST-UserDataCatagory-GUEST-sethier");
+			String id = "GUEST-UserDataCatagory-GUEST-sethier";
+			DatabaseObjectHierarchy cat = ExtractCatalogInformation.getDatabaseObjectHierarchy(id);
 			System.out.println(cat.toString("Catalog: "));
 			
+			String yaml = ReadWriteYamlDatabaseObjectHierarchy.yamlStringFromDatabaseObjectHierarchy(cat);
+			System.out.println(yaml);
+			
+			Map<String, Object> readmap = ReadWriteYamlDatabaseObjectHierarchy.stringToYamlMap(yaml);
+			MapUtils	.debugPrint(System.out, "Map: ", readmap);
+			DatabaseObjectHierarchy newhier = ReadWriteYamlDatabaseObjectHierarchy.readYamlDatabaseObjectHierarchy(cat.getObject(), readmap, "999");
+			System.out.println(newhier.toString("fromYaml: "));
 			lstcat = QueryBase.getDatabaseObjects(DatasetCatalogHierarchy.class.getCanonicalName());
 			for (DatabaseObject object : lstcat) {
 				System.out.println(object.getIdentifier().toString());

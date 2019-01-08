@@ -133,4 +133,5 @@ public interface UserImageService  extends RemoteService  {
 	public ArrayList<NameOfPerson> getIDHierarchyFromFamilyNameAndUser(String familyname) throws IOException;
 	
 	public DatabaseObjectHierarchy getTopCatalogObject(String id, String dataType) throws IOException;
+	
 }

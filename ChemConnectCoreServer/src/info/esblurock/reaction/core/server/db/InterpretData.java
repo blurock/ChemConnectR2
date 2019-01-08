@@ -3169,11 +3169,13 @@ public enum InterpretData {
 			ChemConnectDataStructure datastructure = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml,
 					sourceID);
 
-			String DatabaseUserID = (String) yaml.get(StandardDatasetMetaData.databaseUserS);
-			String UserAccountInformationID = (String) yaml.get(StandardDatasetMetaData.UserAccountInformation);
+			String accountUserName = (String) yaml.get(StandardDatasetMetaData.accountUserName);
+			String authorizationName = (String) yaml.get(StandardDatasetMetaData.authorizationName);
+			String authorizationType = (String) yaml.get(StandardDatasetMetaData.authorizationType);
+			String accountPrivilege = (String) yaml.get(StandardDatasetMetaData.accountPrivilege);
 
 			account = new UserAccount(datastructure,
-					DatabaseUserID, UserAccountInformationID);
+					accountUserName,authorizationName,authorizationType,accountPrivilege);
 			return account;
 		}
 
@@ -3184,8 +3186,10 @@ public enum InterpretData {
 
 			UserAccount account = (UserAccount) object;
 
-			map.put(StandardDatasetMetaData.databaseUserS, account.getDatabaseUser());
-			map.put(StandardDatasetMetaData.UserAccountInformation, account.getUserAccountInformation());
+			map.put(StandardDatasetMetaData.accountUserName, account.getAccountUserName());
+			map.put(StandardDatasetMetaData.authorizationName, account.getAuthorizationName());
+			map.put(StandardDatasetMetaData.authorizationType, account.getAuthorizationType());
+			map.put(StandardDatasetMetaData.accountPrivilege, account.getAccountPrivilege());
 
 			return map;
 		}
@@ -3210,20 +3214,13 @@ public enum InterpretData {
 			String userid = createSuffix(obj, element);
 			userobj.setIdentifier(userid);
 			
-			DatabaseObjectHierarchy usraccid = InterpretData.UserAccountInformation.createEmptyObject(userobj);
-			//DatabaseObjectHierarchy personid = InterpretData.DatabasePerson.createEmptyObject(userobj);
-			
 			DatabaseObjectHierarchy compoundhier = InterpretData.ChemConnectDataStructure.createEmptyObject(userobj);
 			ChemConnectDataStructure structure = (ChemConnectDataStructure) compoundhier.getObject();
-			UserAccount useraccount = new UserAccount(structure,
-					"",
-					usraccid.getObject().getIdentifier());
+			UserAccount useraccount = new UserAccount(structure,"Prof:","Phineas","Fogg",MetaDataKeywords.accessTypeStandardUser);
 			DatabaseObjectHierarchy userhier = new DatabaseObjectHierarchy(useraccount);
-			userhier.addSubobject(usraccid);
 			userhier.transferSubObjects(compoundhier);
 			return userhier;
 		}
-
 	},
 	
 	Consortium {

@@ -24,20 +24,18 @@ public class FirstPageActivity  extends AbstractActivity implements FirstPageVie
 	
 	@Override
 	public void start(AcceptsOneWidget containerWidget, EventBus eventBus) {
-		Window.alert("Sign in: " + Cookies.getCookie("hasAccount"));
-		String inSystemS = Cookies.getCookie("hasAccount");
-		if(Boolean.parseBoolean(inSystemS)) {
-			Window.alert("In System");
-		} else {
-			Window.alert("New User");			
-		}
-		
-		
-		
 		FirstPageView firstPageView = clientFactory.getFirstPageView();
 		firstPageView.setName(name);
 		firstPageView.setPresenter(this);
 		containerWidget.setWidget(firstPageView.asWidget());
+
+		String inSystemS = Cookies.getCookie("hasAccount");
+		if(Boolean.parseBoolean(inSystemS)) {
+			Window.alert("In System");
+			firstPageView.asExistingUser();
+		} else {
+			firstPageView.asNewUser();
+		}
 	}
 	   @Override
 	    public String mayStop() {

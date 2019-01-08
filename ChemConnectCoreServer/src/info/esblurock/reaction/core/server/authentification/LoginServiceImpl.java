@@ -1,21 +1,37 @@
 package info.esblurock.reaction.core.server.authentification;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Random;
 
 import info.esblurock.reaction.chemconnect.core.common.client.async.LoginService;
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
+import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.contact.IndividualInformation;
+import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
+import info.esblurock.reaction.chemconnect.core.data.contact.PersonalDescription;
+import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.login.UnverifiedUserAccount;
+import info.esblurock.reaction.chemconnect.core.data.login.UserAccount;
 import info.esblurock.reaction.chemconnect.core.data.login.UserAccountInformation;
 import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.rdf.KeywordRDF;
 import info.esblurock.reaction.chemconnect.core.data.transaction.EventCount;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
+import info.esblurock.reaction.core.server.db.InterpretData;
+import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFactory;
-import info.esblurock.reaction.core.server.initialization.InitializeFromGCSURL;
 import info.esblurock.reaction.core.server.mail.SendMail;
 import info.esblurock.reaction.core.server.services.ServerBase;
 import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
@@ -23,6 +39,8 @@ import info.esblurock.reaction.io.db.QueryBase;
 
 public class LoginServiceImpl extends ServerBase implements LoginService {
 	private static final long serialVersionUID = 4456105400553118785L;
+    //private static final String NETWORK_NAME = "G+";
+    //private static final String PROTECTED_RESOURCE_URL = "https://www.googleapis.com/plus/v1/people/me";
 
 	public static int standardMaxTransitions = 1000;
 
@@ -38,35 +56,32 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 	String adminlevel = MetaDataKeywords.accessTypeSuperUser;
 
 	@Override
-	public UserDTO loginServer(String name) throws IOException {
-		//InitializeFromGCSURL.initialize();
+	public UserDTO loginGuestServer() throws IOException {
 		ContextAndSessionUtilities util = getUtilities();
-		String lvl = null;
-		if (guest.equals(name)) {
-			System.out.println("Login: Guest Login");
-			lvl = guestlevel;
-			QueryBase.getNextEventCount(name);
-			String username = "Guest";
-			String access = "Guest";
-			String userrole = MetaDataKeywords.accessTypeStandardUser;
-			String owner = "Guest";
-			String orgname = "CHEMCONNECT";
-			String title = "CHEMCONNECT";
-			String sourceID = "0";
-			CreateDefaultObjectsFactory.createAndWriteDefaultUserOrgAndCatagories(username, userrole, access, owner,
-					orgname, title, sourceID);
-
+		String name = "Guest";
+		UserAccount account = getAccount(name);
+		String lvl = guestlevel;
+		if(account == null) {
+			String accountUserName = name;
+			String authorizationName = name;
+			String authorizationType = "Default";
+			String accountPrivilege = MetaDataKeywords.accessTypeQuery;
+			ChemConnectDataStructure datastructure = new ChemConnectDataStructure();
+			account = new UserAccount(datastructure, accountUserName, authorizationName, authorizationType, accountPrivilege);
+			ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure();
+			NameOfPerson person = new NameOfPerson(structure, "", "", name);
+			createNewUser(account, person);
 		} else {
-			System.out.println("Login: user: " + name);
-			UserAccountInformation account = getAccount(name);
-			if (account != null) {
-				lvl = account.getUserrole();
-			} else {
-				System.out.println("User not found");
-				throw new IOException("User not found");
-			}
+			setUpSessionUser(account);
 		}
-
+		UserDTO user = util.getUserInfoFromContext();
+		return user;
+	}
+	
+	private void setUpSessionUser(UserAccount uaccount) throws IOException {
+		String name = uaccount.getAccountUserName();
+		String lvl = uaccount.getAccountPrivilege();
+		ContextAndSessionUtilities util = getUtilities();
 		UserDTO user = null;
 		String sessionid = util.getId();
 		String ip = getThreadLocalRequest().getRemoteAddr();
@@ -76,9 +91,15 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 		user.setPrivledges(getPrivledges(lvl));
 		util.setUserInfo(user);
 		verify(login, login);
-		return user;
 	}
-
+	
+	public DatabaseObjectHierarchy createNewUser(UserAccount uaccount,
+			NameOfPerson person) throws IOException {
+		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.createNewUser(uaccount,person);
+		setUpSessionUser(uaccount);
+		return hierarchy;
+	}
+	
 	private void addAccessKeys(UserDTO user) {
 		String username = user.getName();
 		List<KeywordRDF> lst = QueryBase.findRDF(null, MetaDataKeywords.userReadAccess, username);
@@ -87,150 +108,22 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 		}
 	}
 
-	private UnverifiedUserAccount getUnverifiedAccount(String username) throws IOException {
-		UnverifiedUserAccount unverified = null;
-		/*
-		List<DatabaseObject> lst = QueryBase.getDatabaseObjectsFromSingleProperty(UnverifiedUserAccount.class.getName(),
-				"username", username);
-		if (lst.size() > 0) {
-			unverified = (UnverifiedUserAccount) lst.get(0);
-		} else {
-			throw new IOException("Account not available to be activated for " + username);
-		}
-		System.out.println("loginVerification: " + unverified);
-		*/
-		return unverified;
-	}
-
-	@Override
-	public String loginVerification(String username, String key) throws IOException {
-		System.out.println("loginVerification: " + username);
-		System.out.println("loginVerification: " + key);
-		// UnverifiedUserAccount unverified = (UnverifiedUserAccount)
-		// QueryBase.getObjectById(UnverifiedUserAccount.class, key);
-		// List<DatabaseObject> lst =
-		// QueryBase.getDatabaseObjectsFromSingleProperty(UnverifiedUserAccount.class.getName(),"username",username);
-		UnverifiedUserAccount unverified = getUnverifiedAccount(username);
-		System.out.println("loginVerification: " + unverified);
-		String email = unverified.getEmail();
-		if (unverified.getUsername().equals(username)) {
-			String userrole = MetaDataKeywords.accessTypeStandardUser;
-			DatabaseWriteBase.initializeIndividualInformation(username, email, userrole);
-			String subject = "Welcome to MolConnect";
-			String msg = "Your account has been verified<br>" + "This account is under a limited usage agreement <br>"
-					+ "Have fun.<br>" + "<br>" + "Updates and instructions will be posted on the website<br>" + "<br>"
-					+ "If you have any questions, don't hesitate to email me<br>" + "Regards<br>"
-					+ "Edward Blurock<br>";
-			SendMail send = new SendMail();
-			send.sendMail(email, from, subject, msg);
-
-		} else {
-			throw new IOException("'" + username + "' does not match authorization key");
-		}
-		return email;
-	}
-
-	@Override
-	public String firstLoginToServer(String username) throws IOException {
-		UnverifiedUserAccount unverified = getUnverifiedAccount(username);
-		loginServer(unverified.getUsername());
-		QueryBase.deleteUsingPropertyValue(UnverifiedUserAccount.class, "username", username);
-		return username;
-	}
-
-	@Override
-	public UserDTO loginFromSessionServer() {
-		ContextAndSessionUtilities util = getUtilities();
-		UserDTO user = util.getUserInfoFromContext();
-		return user;
-	}
-
 	@Override
 	public void logout() {
 		ContextAndSessionUtilities util = getUtilities();
 		util.removeUser();
 	}
 
-	@Override
-	public Boolean changePassword(String name, String newPassword) {
-		return false;
-		// change password logic
-	}
-
-	public String storeUserAccount(UserAccountInformation account) {
-		UserAccountInformation userexists = getAccount(account.getIdentifier());
-		String useremail = null;
-		if (userexists == null) {
-			userexists = getAccountFromEmail(account.getEmail());
-			if (userexists == null) {
-
-				UnverifiedUserAccount unverified = new UnverifiedUserAccount(account.getIdentifier(),
-						account.getEmail());
-				DatabaseWriteBase.writeDatabaseObject(unverified);
-
-				// String host = "http://127.0.0.1:8080/";
-				String host = "http://blurock-reaction.appspot.com/";
-				String webappS = "ChemConnectCloud.html";
-				String page = "ReactionLoginValidationPlace:validate";
-				String charset = StandardCharsets.UTF_8.name();
-
-				String id;
-				try {
-					String keyS = Long.toString(unverified.getKey());
-					id = "id=" + URLEncoder.encode(keyS, charset);
-					String name = "name=" + URLEncoder.encode(account.getIdentifier(), charset);
-					String vlink = host + webappS + "?" + id + "&" + name + "#" + page;
-
-					String message = "Thank you for registering for an account in MolConnect. "
-							+ "<br>To activate your account, just follow the following link:" + "<br><a href=\"" + vlink
-							+ "\">MolConnect email Validation</a>" + "<br><br>Regards" + "<br><b>MolConnect<b> at"
-							+ "<br><it>Blurock Consulting AB<it>";
-
-					System.out.println("Send Message: (" + account.getEmail() + ")\n" + message);
-					SendMail mail = new SendMail();
-					String subject = "MolConnect: account email validation";
-					mail.sendMail(account.getEmail(), from, subject, message);
-				} catch (UnsupportedEncodingException e) {
-					e.printStackTrace();
-				}
-				// pm.makePersistent(account);
-				EventCount count = new EventCount(account.getIdentifier());
-				DatabaseWriteBase.writeEntity(count);
-				useremail = account.getEmail();
-			} else {
-				System.out.println("ERROR: email already exists");
-			}
-		} else {
-			System.out.println("ERROR: user name already exists");
-		}
-		return useremail;
-	}
-
-	public UserAccountInformation getAccount(String username) {
-		UserAccountInformation account = null;
-
+	public UserAccount getAccount(String username) {
+		UserAccount account = null;
 		try {
-			account = (UserAccountInformation) QueryBase.getFirstDatabaseObjectsFromSingleProperty(
-					UserAccountInformation.class.getCanonicalName(), "username", username);
+			account = (UserAccount) QueryBase.getFirstDatabaseObjectsFromSingleProperty(
+					UserAccount.class.getCanonicalName(), "username", username);
 		} catch (IOException e) {
 		}
 		return account;
 	}
 
-	/**
-	 * @param email
-	 * @return the user account
-	 */
-	public UserAccountInformation getAccountFromEmail(String email) {
-		UserAccountInformation account = null;
-
-		try {
-			account = (UserAccountInformation) QueryBase.getFirstDatabaseObjectsFromSingleProperty(
-					UserAccountInformation.class.getCanonicalName(), "email", email);
-		} catch (IOException e) {
-		}
-		return account;
-	}
 
 	/**
 	 * @param username
@@ -242,4 +135,6 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 		return ans;
 	}
 
+
+	
 }

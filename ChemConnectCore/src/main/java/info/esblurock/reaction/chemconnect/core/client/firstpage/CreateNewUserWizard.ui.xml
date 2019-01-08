@@ -1,0 +1,54 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:m="urn:import:gwt.material.design.client.ui"
+	xmlns:ma="urn:import:gwt.material.design.addins.client">
+
+	<ui:style>
+	.important {
+		font-weight: bold;
+	}
+	
+	.panel {
+		font-family: monospace;
+		color: black;
+		background: white;
+	}
+	</ui:style>
+	<m:MaterialPanel>
+		<m:MaterialRow>
+			<m:MaterialColumn grid="s12">
+				<m:MaterialTitle ui:field="title"
+					title="New User Wizard" textAlign="CENTER" width="100%"/>
+			</m:MaterialColumn>
+		</m:MaterialRow>
+		<m:MaterialRow>
+			<m:MaterialColumn grid="s12">
+				<m:MaterialLabel ui:field="titletext" width="100%"/>
+			</m:MaterialColumn>
+		</m:MaterialRow>
+		<m:MaterialRow>
+			<m:MaterialColumn grid="s12">
+				<m:MaterialButton ui:field="submit" width="100%"/>
+			</m:MaterialColumn>
+		</m:MaterialRow>
+		<m:MaterialRow>
+			<m:MaterialColumn grid="s12">
+				<m:MaterialTextBox ui:field="accountname" />
+			</m:MaterialColumn>
+		</m:MaterialRow>
+		<m:MaterialRow>
+			<m:MaterialColumn grid="s3">
+				<m:MaterialTextBox ui:field="persontitle" />
+			</m:MaterialColumn>
+			<m:MaterialColumn grid="s4">
+				<m:MaterialTextBox ui:field="personfirstname" />
+			</m:MaterialColumn>
+			<m:MaterialColumn grid="s5">
+				<m:MaterialTextBox ui:field="personlastname" />
+			</m:MaterialColumn>
+		</m:MaterialRow>
+
+
+	</m:MaterialPanel>
+</ui:UiBinder> 

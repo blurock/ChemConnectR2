@@ -7,6 +7,9 @@ import com.google.gwt.user.client.ui.IsWidget;
 public interface FirstPageView extends IsWidget {
 	void setName(String helloName);
 	void setPresenter(Presenter listener);
+	
+	public void asNewUser();
+	public void asExistingUser();
 
 	public interface Presenter {
 		void goTo(Place place);

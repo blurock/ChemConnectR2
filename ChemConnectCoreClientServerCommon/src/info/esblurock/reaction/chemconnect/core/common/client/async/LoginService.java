@@ -6,8 +6,13 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
+import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
+import info.esblurock.reaction.chemconnect.core.data.login.UserAccount;
 import info.esblurock.reaction.chemconnect.core.data.login.UserAccountInformation;
 import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 
 @RemoteServiceRelativePath("loginservice")
@@ -29,21 +34,15 @@ public interface LoginService extends RemoteService {
        }
    }
 
-   public UserDTO loginServer(String name) throws IOException;
-
-   public UserDTO loginFromSessionServer();
-    
-   public Boolean changePassword(String name, String newPassword);
+   public UserDTO loginGuestServer() throws IOException;
 
    public void logout();
    
-   public String storeUserAccount(UserAccountInformation account);
-
    public String removeUser(String key);
    
-   public UserAccountInformation getAccount(String key);
+   public UserAccount getAccount(String key);
 
-String loginVerification(String username, String key) throws IOException;
-
-String firstLoginToServer(String name) throws IOException;
+String googleAuthorization();
+DatabaseObjectHierarchy createNewUser(UserAccount uaccount,
+		NameOfPerson person) throws IOException;
 }
