@@ -5,6 +5,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -13,6 +15,7 @@ import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialDialog;
 import gwt.material.design.client.ui.MaterialToast;
+import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 
 public class SaveDatasetCatalogHierarchy extends Composite {
 
@@ -54,7 +57,28 @@ public class SaveDatasetCatalogHierarchy extends Composite {
 	}
 
 	public void openModal() {
-		modal.open();
+		Window.alert("SaveDatasetCatalogHierarchy");
+		boolean vInput = Cookies.getCookie(MetaDataKeywords.accessDataInput).compareTo(Boolean.TRUE.toString()) == 0;
+		Window.alert("SaveDatasetCatalogHierarchy accessDataInput " + vInput);
+		boolean vUserInput = Cookies.getCookie(MetaDataKeywords.accessUserDataInput).compareTo(Boolean.TRUE.toString()) == 0;
+		Window.alert("SaveDatasetCatalogHierarchy accessUserDataInput " + vUserInput);
+		boolean allowed = false;
+		if(vInput) {
+			allowed = Boolean.TRUE;
+		}
+		if(vUserInput) {
+			String owner = topitem.getHierarchy().getObject().getOwner();
+			String account = Cookies.getCookie("account_name");
+			if(owner.compareTo(account) == 0) {
+				allowed = Boolean.TRUE;
+			}
+		}
+		Window.alert("SaveDatasetCatalogHierarchy accessUserDataInput " + allowed);
+		if(!allowed) {
+			MaterialToast.fireToast("Have to be signed in (and have authorization) to save");
+		} else {
+			modal.open();
+		}
 	}
 	
 	@UiHandler("close")

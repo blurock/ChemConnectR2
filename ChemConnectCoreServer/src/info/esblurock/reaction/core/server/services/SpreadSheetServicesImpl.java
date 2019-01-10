@@ -38,7 +38,8 @@ import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 public class SpreadSheetServicesImpl extends ServerBase implements SpreadSheetServices {
 
 	public ArrayList<ObservationValueRow> getSpreadSheetRows(String parent, int start, int limit) throws IOException {
-		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
+		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), 
+				getThreadLocalRequest().getSession());
 		UserDTO user = util.getUserInfo();
 		ArrayList<ObservationValueRow> lst = new ArrayList<ObservationValueRow>();
 		SetOfQueryPropertyValues queryvalues = new SetOfQueryPropertyValues();
@@ -89,7 +90,8 @@ public class SpreadSheetServicesImpl extends ServerBase implements SpreadSheetSe
 			SpreadSheetInputInformation input,
 			DataCatalogID catid, boolean writeObjects) throws IOException {
 
-		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
+		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(),
+				getThreadLocalRequest().getSession());
 		UserDTO user = util.getUserInfo();
 		SetOfQueryPropertyValues queryvalues = new SetOfQueryPropertyValues();
 		QueryPropertyValue filequery = new QueryPropertyValue("source", gcsinfo.getGSFilename());
