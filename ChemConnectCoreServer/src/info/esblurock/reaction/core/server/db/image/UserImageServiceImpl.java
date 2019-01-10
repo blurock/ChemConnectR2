@@ -88,7 +88,9 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	public ImageServiceInformation getBlobstoreUploadUrl(String keywordName, boolean uploadService) {
 		BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
 
-		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
+		
+		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), 
+				this.getThreadLocalRequest().getSession());
 		UserDTO user = util.getUserInfo();
 
 		String outputSourceCode = null;
@@ -143,7 +145,8 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	public ArrayList<UploadedImage> getUploadedImageSetFromKeywordAndUser(String keyword) throws IOException {
 		ArrayList<UploadedImage> imagelst = new ArrayList<UploadedImage>();
 
-		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
+		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), 
+				this.getThreadLocalRequest().getSession());
 		UserDTO user = util.getUserInfo();
 
 		SetOfQueryPropertyValues values = new SetOfQueryPropertyValues();
@@ -178,7 +181,8 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	}
 
 	public GCSBlobContent moveBlobFromUpload(GCSBlobFileInformation target) throws IOException {
-		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
+		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), 
+				this.getThreadLocalRequest().getSession());
 		UserDTO user = util.getUserInfo();
 
 		String path = GCSServiceRoutines.createUploadPath(util.getUserName());
@@ -266,7 +270,8 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		return hierarchy;
 	}
 	public HierarchyNode getIDsFromConceptLink(String concept) throws IOException {
-		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
+		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(),
+				this.getThreadLocalRequest().getSession());
 		UserDTO user = util.getUserInfo();
 		String classType = ConceptParsing.findObjectTypeFromLinkConcept(concept);
 		Set<String> ids = WriteReadDatabaseObjects.getIDsOfAllDatabaseObjects(user.getName(),classType);
@@ -275,7 +280,8 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	}
 	
 	public HierarchyNode getIDHierarchyFromDataCatalogID(String basecatalog, String catalog) throws IOException {
-		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
+		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(),
+				this.getThreadLocalRequest().getSession());
 		UserDTO user = util.getUserInfo();
 		return WriteReadDatabaseObjects.getIDHierarchyFromDataCatalogID(user.getName(), basecatalog, catalog);
 		
@@ -302,7 +308,8 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	}
 
 	public GCSBlobFileInformation retrieveBlobFromContent(String filename, String content) throws IOException {
-		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
+		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), 
+				this.getThreadLocalRequest().getSession());
 		String path = GCSServiceRoutines.createUploadPath(util.getUserName());
 		String contentType = "text/plain";
 		String uploadDescriptionText = "Uploaded File from text input";
@@ -332,7 +339,8 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	}
 
 	public ArrayList<DatabaseObjectHierarchy> getSetOfDatabaseObjectHierarchyForUser(String classType) throws IOException {
-		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), null);
+		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), 
+				this.getThreadLocalRequest().getSession());
 		ArrayList<DatabaseObjectHierarchy> objects = null;
 		UserDTO user = util.getUserInfo();
 		if(user != null) {

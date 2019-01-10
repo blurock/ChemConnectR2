@@ -39,7 +39,11 @@
 	<classpathentry exported="true" kind="lib" path="src/main/webapp/WEB-INF/lib/jena-shaded-guava-3.3.0.jar"/>
 	<classpathentry kind="lib" path="jar/poi-3.17.jar"/>
 	<classpathentry kind="lib" path="jar/javax.inject-1.jar"/>
-	<classpathentry exported="true" kind="lib" path="jar/gwt-material-2.1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="jar/gwt-material-2.1.1.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="jar/gwt-material-addins-2.1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="jar/gwt-material-jquery-2.1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="jar/gwt-material-table-2.1.1.jar"/>

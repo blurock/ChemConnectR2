@@ -6,6 +6,8 @@ import com.google.gwt.user.client.ui.IsWidget;
 public interface ManageCatalogHierarchyView extends IsWidget {
 	void setName(String helloName);
 	void setPresenter(Presenter listener);
+	
+	public void setUpHierarchyFromDatabase();
 
 	public interface Presenter {
 		void goTo(Place place);

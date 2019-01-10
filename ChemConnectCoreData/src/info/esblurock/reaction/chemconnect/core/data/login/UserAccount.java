@@ -78,4 +78,20 @@ public class UserAccount extends ChemConnectDataStructure {
 		this.accountPrivilege = accountPrivilege;
 	}
 
+	@Override
+	public String toString() {
+		return toString("");
+	}
+	@Override
+	public String toString(String prefix) {
+		StringBuilder build = new StringBuilder();
+		build.append(super.toString(prefix));
+
+		build.append(prefix + " accountUserName  :" + accountUserName + "\n");	
+		build.append(prefix + " authorizationName:" + authorizationName + "\n");	
+		build.append(prefix + " authorizationType:" + authorizationType + "\n");	
+		build.append(prefix + " accountPrivilege :" + accountPrivilege + "\n");	
+		return build.toString();
+	}
+	
 }

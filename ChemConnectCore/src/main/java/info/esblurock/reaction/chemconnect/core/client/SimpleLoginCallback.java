@@ -1,5 +1,6 @@
 package info.esblurock.reaction.chemconnect.core.client;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import com.google.gwt.user.client.Cookies;
@@ -8,6 +9,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
+import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 
 public class SimpleLoginCallback implements AsyncCallback<UserDTO> {
 
@@ -29,7 +31,25 @@ public class SimpleLoginCallback implements AsyncCallback<UserDTO> {
 				expires, null, "/", false);
 		Cookies.setCookie("level", result.getUserLevel(),
 				expires, null, "/", false);
-
+		
+		ArrayList<String> lst = result.getPrivledges();
+		setCookie(MetaDataKeywords.accessQuery,lst);
+		setCookie(MetaDataKeywords.accessUserDataInput,lst);
+		setCookie(MetaDataKeywords.accessUserDataDelete,lst);
+		setCookie(MetaDataKeywords.accessDataInput,lst);
+		setCookie(MetaDataKeywords.accessDataDelete,lst);
+	}
+	
+	private void setCookie(String access, ArrayList<String> accesslist) {
+		final long DURATION = 1000 * 60 * 60;
+		Date expires = new Date(System.currentTimeMillis()
+				+ DURATION);
+		String ansB = Boolean.FALSE.toString();
+		if(accesslist.contains(access)) {
+			ansB = Boolean.TRUE.toString();
+		}
+		Cookies.setCookie(access, ansB, expires, null, "/", false);
+		
 	}
 
 }

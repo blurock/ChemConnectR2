@@ -64,6 +64,11 @@ public class UserDTO implements Serializable {
 	public void setPrivledges(ArrayList<String> privledges) {
 		this.privledges = privledges;
 	}
+	
+	public ArrayList<String> getPrivledges() {
+		return privledges;
+	}
+
 	public boolean underMaximumTransactions(int count) {
 		return count < maximumTransactions;
 	}

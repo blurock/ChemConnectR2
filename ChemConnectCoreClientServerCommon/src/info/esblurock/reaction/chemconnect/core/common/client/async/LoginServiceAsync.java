@@ -14,10 +14,10 @@ public interface LoginServiceAsync {
 
 	void getAccount(String key, AsyncCallback<UserAccount> callback);
 
-	void googleAuthorization(AsyncCallback<String> callback);
-
 	void createNewUser(UserAccount uaccount, NameOfPerson person, AsyncCallback<DatabaseObjectHierarchy> callback);
 
 	void loginGuestServer(AsyncCallback<UserDTO> callback);
+
+	void getUserInfo(AsyncCallback<UserDTO> callback);
 }
 

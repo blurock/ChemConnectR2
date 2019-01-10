@@ -28,8 +28,7 @@ public class ContextAndSessionUtilities {
 	}
 
 	public UserDTO getUserInfo() {
-		//UserDTO sessiondto = getUserAlreadyFromSession();
-		UserDTO dto = getUserInfoFromContext();
+		UserDTO dto = getUserInfoFromSession();
 		return dto;
 	}
 	public String getUserName() {
@@ -46,7 +45,10 @@ public class ContextAndSessionUtilities {
 	}
 
 	public void setUserInfoInContext(UserDTO dto) {
-		context.setAttribute(userattribute, dto);
+		Object obj = context.getAttribute(userattribute);
+		if(obj == null) {
+			context.setAttribute(userattribute, dto);
+		}
 	}
 	public String getUserNameFromContext() {
 		UserDTO user = getUserInfo();
@@ -65,19 +67,21 @@ public class ContextAndSessionUtilities {
 	public void removeUserFromContext() {
 		context.removeAttribute(userattribute);
 	}
-/*
-	private UserDTO getUserAlreadyFromSession() {
 
+	private UserDTO getUserInfoFromSession() {
 		UserDTO user = null;
-		Object userObj = session.getAttribute("user");
+		Object userObj = session.getAttribute(userattribute);
 		if (userObj != null && userObj instanceof UserDTO) {
 			user = (UserDTO) userObj;
 		}
 		return user;
 	}
-*/
+
 	private void storeUserInSession(UserDTO user) {
-		session.setAttribute(userattribute, user);
+		Object userObj = session.getAttribute(userattribute);
+		if(userObj == null) {
+			session.setAttribute(userattribute, user);
+		}
 	}
 
 	private void deleteUserFromSession() {

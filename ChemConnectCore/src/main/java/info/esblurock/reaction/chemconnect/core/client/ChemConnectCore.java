@@ -33,7 +33,7 @@ public class ChemConnectCore implements EntryPoint {
 		*/
 		LoginServiceAsync async = LoginService.Util.getInstance();
 		SimpleLoginCallback callback = new SimpleLoginCallback();
-		async.loginServer("Guest", callback);
+		async.loginGuestServer(callback);
 		
 		ClientFactory clientFactory = GWT.create(ClientFactory.class);
 		EventBus eventBus = clientFactory.getEventBus();

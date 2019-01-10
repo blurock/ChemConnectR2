@@ -66,6 +66,8 @@ public class ManageCatalogHierarchy extends Composite implements ManageCatalogHi
 	 * Callback calls insertCatalog
 	 */
 	public void setUpHierarchyFromDatabase() {
+		userName = Cookies.getCookie("user");
+		panel.clear();
 		if(userName != null) {
 			UserImageServiceAsync async = UserImageService.Util.getInstance();
 			SetUpDatabaseObjectHierarchyCallback callback = new SetUpDatabaseObjectHierarchyCallback(panel,modalpanel);

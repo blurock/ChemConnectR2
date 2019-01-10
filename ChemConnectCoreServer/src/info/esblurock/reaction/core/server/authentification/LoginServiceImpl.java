@@ -1,38 +1,20 @@
 package info.esblurock.reaction.core.server.authentification;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.Random;
+
+import javax.servlet.http.Cookie;
 
 import info.esblurock.reaction.chemconnect.core.common.client.async.LoginService;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
-import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
-import info.esblurock.reaction.chemconnect.core.data.contact.IndividualInformation;
 import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
-import info.esblurock.reaction.chemconnect.core.data.contact.PersonalDescription;
-import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
-import info.esblurock.reaction.chemconnect.core.data.login.UnverifiedUserAccount;
 import info.esblurock.reaction.chemconnect.core.data.login.UserAccount;
-import info.esblurock.reaction.chemconnect.core.data.login.UserAccountInformation;
 import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.rdf.KeywordRDF;
-import info.esblurock.reaction.chemconnect.core.data.transaction.EventCount;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
-import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
-import info.esblurock.reaction.core.server.db.InterpretData;
-import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFactory;
-import info.esblurock.reaction.core.server.mail.SendMail;
 import info.esblurock.reaction.core.server.services.ServerBase;
 import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
 import info.esblurock.reaction.io.db.QueryBase;
@@ -60,7 +42,6 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 		ContextAndSessionUtilities util = getUtilities();
 		String name = "Guest";
 		UserAccount account = getAccount(name);
-		String lvl = guestlevel;
 		if(account == null) {
 			String accountUserName = name;
 			String authorizationName = name;
@@ -73,7 +54,14 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 			createNewUser(account, person);
 		} else {
 			setUpSessionUser(account);
+			verify(login, login);
 		}
+		UserDTO user = util.getUserInfoFromContext();
+		return user;
+	}
+	
+	public UserDTO getUserInfo() {
+		ContextAndSessionUtilities util = getUtilities();
 		UserDTO user = util.getUserInfoFromContext();
 		return user;
 	}
@@ -90,13 +78,13 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 		addAccessKeys(user);
 		user.setPrivledges(getPrivledges(lvl));
 		util.setUserInfo(user);
-		verify(login, login);
 	}
 	
 	public DatabaseObjectHierarchy createNewUser(UserAccount uaccount,
 			NameOfPerson person) throws IOException {
 		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.createNewUser(uaccount,person);
 		setUpSessionUser(uaccount);
+		verify(login, login);
 		return hierarchy;
 	}
 	
@@ -107,7 +95,6 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 			user.addAccess(rdf.getIdentifier());
 		}
 	}
-
 	@Override
 	public void logout() {
 		ContextAndSessionUtilities util = getUtilities();
@@ -118,7 +105,7 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 		UserAccount account = null;
 		try {
 			account = (UserAccount) QueryBase.getFirstDatabaseObjectsFromSingleProperty(
-					UserAccount.class.getCanonicalName(), "username", username);
+					UserAccount.class.getCanonicalName(), "accountUserName", username);
 		} catch (IOException e) {
 		}
 		return account;
@@ -130,11 +117,8 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 	 * @return
 	 */
 	public String removeUser(String username) {
-		QueryBase.deleteUsingPropertyValue(UserAccountInformation.class, "username", username);
+		QueryBase.deleteUsingPropertyValue(UserAccount.class, "accountUserName", username);
 		String ans = "SUCCESS";
 		return ans;
 	}
-
-
-	
 }

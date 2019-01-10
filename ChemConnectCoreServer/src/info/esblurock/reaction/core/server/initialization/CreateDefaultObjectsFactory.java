@@ -96,32 +96,47 @@ public class CreateDefaultObjectsFactory {
 		String account = uaccount.getAccountUserName();
 		String accountClassification = uaccount.getAuthorizationType();
 		String sourceID = QueryBase.getDataSourceIdentification(account);
-		String id = "User-" + uaccount.getAccountUserName();
+		String id = "User";
 		DatabaseObject object = new DatabaseObject(id, account, account, sourceID);
 		
 		ArrayList<String> path = new ArrayList<String>();
+		path.add("User");
 		path.add(account);
-		String catalogBaseName = account;
+		String catalogBaseName = "User";
 		String dataCatalog = ChemConnectCompoundDataStructure.removeNamespace(StandardDatasetMetaData.conceptUserDataCatagory);
 		String simpleCatalogName = "User";
 		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure();
 		DataCatalogID datid = new DataCatalogID(structure, catalogBaseName, dataCatalog, simpleCatalogName, path);
-
-		DatabaseObjectHierarchy hierarchy = fillMinimalPersonDescription(object,account,accountClassification,person,datid);
+		
+		DatabaseObjectHierarchy user = fillMinimalPersonDescription(object,account,accountClassification,person,datid);
+		
+		DatabaseObjectHierarchy usercat = fillCataogHierarchyForUser(object, account,
+				user.getObject().getIdentifier(),datid);
+		
+		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(usercat);
+		
+		connectSubCatagory("PublishedResults","Catagory for published results",
+				MetaDataKeywords.publishedResultsCatagory, usercat);
+		DatabaseObjectHierarchy expcat = connectSubCatagory("ExperimentalDataSets","Catagory for experimental data sets",
+				MetaDataKeywords.experimentalSetDataCatagory, usercat);
+		connectSubCatagory("ExampleData","Catagory for example data",
+				MetaDataKeywords.experimentalSetDataCatagory, expcat);
+		
 		
 		InterpretData accinterpret = InterpretData.valueOf("UserAccount");
 		DatabaseObjectHierarchy acchier = accinterpret.createEmptyObject(object);
 		UserAccount useraccount = (UserAccount) acchier.getObject();
 		useraccount.setAccountUserName(account);
-		useraccount.setAuthorizationName(uaccount.getAccountUserName());
+		useraccount.setAuthorizationName(uaccount.getAuthorizationName());
 		useraccount.setAuthorizationType(uaccount.getAuthorizationType());
+		useraccount.setAccountPrivilege(uaccount.getAccountPrivilege());
+		System.out.println("New UserAccount: " + useraccount.toString());
 		
-		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(hierarchy);
+		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(user);
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(acchier);
-		return hierarchy;
+		return user;
 	}
 	
-
 	public static DatabaseObjectHierarchy fillMinimalPersonDescription(DatabaseObject obj, String username, String userClassification,
 			NameOfPerson person, DataCatalogID datid) {
 		String uid = obj.getIdentifier() + "-" + username;
@@ -849,9 +864,7 @@ public class CreateDefaultObjectsFactory {
 
 
 	public static String userCatalogHierarchyID(String username) {
-		String uid = DatasetCatalogHierarchy.createFullCatalogName(username,
-				ChemConnectCompoundDataStructure.removeNamespace(StandardDatasetMetaData.conceptUserDataCatagory));
-		String uidcat = uid + "-" + username;
+		String uidcat = "User-" + username;
 		DatabaseObject catobj = new DatabaseObject(uidcat,username,username,"");
 		DataElementInformation element = DatasetOntologyParsing
 				.getSubElementStructureFromIDObject(OntologyKeys.datasetCatalogHierarchy);
@@ -914,7 +927,7 @@ public class CreateDefaultObjectsFactory {
 	public static DatabaseObjectHierarchy fillCataogHierarchyForUser(DatabaseObject obj, 
 			String username, String userid, DataCatalogID usercatid) {
 		DatabaseObject dobj = new DatabaseObject(obj);
-		String uid = dobj.getIdentifier() + "-" + username;
+		String uid = dobj.getIdentifier();
 		dobj.setIdentifier(uid);
 		dobj.nullKey();
 		String onelinedescription = "Catalog of '" + username + "'";
@@ -998,78 +1011,40 @@ public class CreateDefaultObjectsFactory {
 		
 		return orghierarchy;
 	}
-	
-	static public void createAndWriteDefaultUserOrgAndCatagories(	String username, String userrole, String access, String owner,
-			String orgname, String title, String sourceID) {
+	/*
+	static public void createAndWriteDefaultUserOrgAndCatagories(NameOfPerson person, UserAccount account,
+			DataCatalogID catid,String sourceID) {
 
-		String indtype = ChemConnectCompoundDataStructure.removeNamespace(OntologyKeys.individualInformation);
-		String indname = DatasetCatalogHierarchy.createFullCatalogName(username,indtype);
-		DatabaseObject usrcatobj = new DatabaseObject(indname,access,username,sourceID);
-		ChemConnectCompoundDataStructure structure = new ChemConnectCompoundDataStructure(usrcatobj,"");
-		ArrayList<String> userPath = new ArrayList<String>();
-		userPath.add(username);
-		DataCatalogID namecatid = new DataCatalogID(structure,indname,
-				MetaDataKeywords.databasePerson,username,userPath);
-		InterpretData personinterpret = InterpretData.valueOf("NameOfPerson");
-		DatabaseObjectHierarchy hierarchy = personinterpret.createEmptyObject(usrcatobj);
-		NameOfPerson person = (NameOfPerson) hierarchy.getObject();
-		DatabaseObjectHierarchy user = CreateDefaultObjectsFactory.fillMinimalPersonDescription(usrcatobj, username, userrole, person,namecatid);
-		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(user);
 		
-		String orgtype = ChemConnectCompoundDataStructure.removeNamespace(OntologyKeys.organization);
-		String oname = DatasetCatalogHierarchy.createFullCatalogName(username,orgtype);
-		DatabaseObject orgobj = new DatabaseObject(oname, access, owner, sourceID);
-		ChemConnectCompoundDataStructure orgstructure = new ChemConnectCompoundDataStructure(orgobj,"");
-		ArrayList<String> orgPath = new ArrayList<String>();
-		orgPath.add(username);
-		DataCatalogID orgnamecatid = new DataCatalogID(orgstructure,oname,
-				OntologyKeys.organization,orgname,orgPath);
-		DatabaseObjectHierarchy org = CreateDefaultObjectsFactory.fillOrganization(orgobj, orgname, title,orgnamecatid);
-		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(org);
-
+		String indtype = ChemConnectCompoundDataStructure.removeNamespace(OntologyKeys.individualInformation);
+		String indname = DatasetCatalogHierarchy.createFullCatalogName(account.getAccountUserName(),indtype);
+		DatabaseObject usrcatobj = new DatabaseObject(indname,account.getAccountUserName(),account.getAccountUserName(),sourceID);
+		
+		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(user);
 		String usercattype = ChemConnectCompoundDataStructure.removeNamespace(StandardDatasetMetaData.conceptUserDataCatagory);
-		String usercatname = DatasetCatalogHierarchy.createFullCatalogName(username,usercattype);
-		DatabaseObject usercatobj = new DatabaseObject(usercatname, access, owner, sourceID);
+		String usercatname = DatasetCatalogHierarchy.createFullCatalogName(account.getAccountUserName(),usercattype);
+		DatabaseObject usercatobj = new DatabaseObject(usercatname, account.getAccountUserName(), account.getAccountUserName(), sourceID);
 
 		ChemConnectCompoundDataStructure usercatstructure = new ChemConnectCompoundDataStructure(usercatobj,"");
 		ArrayList<String> usercatPath = new ArrayList<String>();
-		usercatPath.add(username);
+		usercatPath.add(account.getAccountUserName());
 		usercatPath.add(MetaDataKeywords.datasetCatalogHierarchy);
 		DataCatalogID usercatid = new DataCatalogID(usercatstructure,usercatname,
-				StandardDatasetMetaData.conceptUserDataCatagory,username,usercatPath);
+				StandardDatasetMetaData.conceptUserDataCatagory,account.getAccountUserName(),usercatPath);
 		
-		DatabaseObjectHierarchy usercat = fillCataogHierarchyForUser(usercatobj, username,
+		DatabaseObjectHierarchy usercat = fillCataogHierarchyForUser(usercatobj, account.getAccountUserName(),
 				user.getObject().getIdentifier(),usercatid);
 		
-		String orgcattype = ChemConnectCompoundDataStructure.removeNamespace(StandardDatasetMetaData.conceptOrgDataCatagory);
-		String orgcatname = DatasetCatalogHierarchy.createFullCatalogName(username,orgcattype);
-		DatabaseObject orgcatobj = new DatabaseObject(orgcatname, access, owner, sourceID);
-		
-		ChemConnectCompoundDataStructure orgcatstructure = new ChemConnectCompoundDataStructure(orgcatobj,"");
-		ArrayList<String> orgcatPath = new ArrayList<String>();
-		orgcatPath.add(username);
-		orgcatPath.add(ChemConnectCompoundDataStructure.removeNamespace(MetaDataKeywords.datasetCatalogHierarchy));
-		DataCatalogID orgcatid = new DataCatalogID(orgcatstructure,orgcatname,
-				orgcattype,orgname,orgcatPath);
-	
-
-		DatabaseObjectHierarchy orgcat = fillCataogHierarchyForOrganization(orgcatobj,
-				orgname, org.getObject().getIdentifier(),orgcatid);
-		connectInCatalogHierarchy(usercat, orgcat);
-		
-		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(orgcat);
 		WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(usercat);
 		
-		connectSubCatagory("Devices","Catagory for all defined devices",
-				MetaDataKeywords.deviceCatagory, orgcat);
 		connectSubCatagory("PublishedResults","Catagory for published results",
-				MetaDataKeywords.publishedResultsCatagory, orgcat);
+				MetaDataKeywords.publishedResultsCatagory, usercat);
 		DatabaseObjectHierarchy expcat = connectSubCatagory("ExperimentalDataSets","Catagory for experimental data sets",
-				MetaDataKeywords.experimentalSetDataCatagory, orgcat);
+				MetaDataKeywords.experimentalSetDataCatagory, usercat);
 		connectSubCatagory("ExampleData","Catagory for example data",
 				MetaDataKeywords.experimentalSetDataCatagory, expcat);
 	}
-	
+	*/
 	static DatabaseObjectHierarchy connectSubCatagory(String simpleName,
 			String oneLineDescription, String catagorytype,
 			DatabaseObjectHierarchy supercat) {

@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import java.util.Collection;
@@ -13,11 +14,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 
@@ -32,11 +35,13 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson.JacksonFactory;
-import com.google.api.client.util.Base64;
-import com.google.appengine.repackaged.org.apache.commons.httpclient.HttpConnection;
-import com.google.appengine.repackaged.org.apache.http.client.utils.URLEncodedUtils;
 
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.contact.IndividualInformation;
+import info.esblurock.reaction.chemconnect.core.data.login.UserAccount;
+import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
+import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
+import info.esblurock.reaction.core.server.services.util.VerifyServerTransaction;
 import info.esblurock.reaction.io.db.QueryBase;
 
 @SuppressWarnings("serial")
@@ -205,12 +210,35 @@ public class Oauth2CallbackServlet extends HttpServlet {
 		inSystemC.setMaxAge(60 * 60);
 		String suggestion = "";
 		try {
-			QueryBase.getFirstDatabaseObjectsFromSingleProperty(IndividualInformation.class.getCanonicalName(),
-					"owner", auth_id);
-			suggestion = "";
+			System.out.println("accountUserName: " + auth_id);
+			DatabaseObject obj = QueryBase.getFirstDatabaseObjectsFromSingleProperty(UserAccount.class.getCanonicalName(),
+					"authorizationName", auth_id);
+			UserAccount account = (UserAccount) obj;
+			System.out.println("authorizationName: TRUE\n" + account.toString());
+			suggestion = account.getAccountUserName();
+			String ip = req.getRemoteAddr();
+			String host = req.getRemoteHost();
+			HttpSession session = req.getSession();
+			System.out.println("SessionID: " + session.getId());
+			ContextAndSessionUtilities util 
+			= new ContextAndSessionUtilities(getServletContext(), session);
+			UserDTO user = new UserDTO(account.getAccountUserName(), session.getId(), ip, host,
+					account.getAccountPrivilege(), LoginServiceImpl.standardMaxTransitions);
+			ArrayList<String> privs = VerifyServerTransaction.getPrivledges(account.getAccountPrivilege());
+			user.setPrivledges(privs);
+			System.out.println("Oauth2CallbackServlet\n" + user.toString());
+			util.removeUser();
+			
+			System.out.println("After Remove: " + util.getUserInfo());
+			
+			util.setUserInfo(user);
+			
+			System.out.println("Oauth2CallbackServlet from context\n" + util.getUserInfo());
+
 		} catch (IOException ex) {
 			inSystemC.setValue(Boolean.FALSE.toString());
 			suggestion = suggestALoginName(firstname, lastname);
+			System.out.println("authorizationName: FALSE\n" + suggestion);
 		}
 		resp.addCookie(inSystemC);
 
@@ -256,7 +284,7 @@ public class Oauth2CallbackServlet extends HttpServlet {
 			int count = 0;
 			suggestion = firstname + "_" + lastname;
 			while (trySuggestion(suggestion) != null) {
-				suggestion = firstname + "_" + lastname + "_" + Integer.toString(count);
+				suggestion = firstname + "_" + lastname + "_" + Integer.toString(count++);
 			}
 		}
 		return suggestion;
@@ -265,7 +293,7 @@ public class Oauth2CallbackServlet extends HttpServlet {
 	private String trySuggestion(String name) {
 		String answer = name;
 		try {
-			QueryBase.getFirstDatabaseObjectsFromSingleProperty(IndividualInformation.class.getCanonicalName(), "owner",
+			QueryBase.getFirstDatabaseObjectsFromSingleProperty(UserAccount.class.getCanonicalName(), "accountUserName",
 					name);
 		} catch (IOException ex) {
 			answer = null;

@@ -25,6 +25,7 @@ public class ManageCatalogHierarchyActivity extends AbstractActivity implements 
 		ManageCatalogHierarchyView ManageCatalogHierarchyView = clientFactory.getManageCatalogHierarchyView();
 		ManageCatalogHierarchyView.setName(name);
 		ManageCatalogHierarchyView.setPresenter(this);
+		ManageCatalogHierarchyView.setUpHierarchyFromDatabase();
 		containerWidget.setWidget(ManageCatalogHierarchyView.asWidget());
 	}
 	   @Override
