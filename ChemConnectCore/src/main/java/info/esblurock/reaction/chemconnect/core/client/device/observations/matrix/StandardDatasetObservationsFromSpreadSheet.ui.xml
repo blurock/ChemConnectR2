@@ -5,10 +5,18 @@
 	
 	</ui:style>
 	<m:MaterialRow>
-		<m:MaterialColumn grid="s12">
+		<m:MaterialColumn grid="s10">
 			<m:MaterialTooltip ui:field="titletooltip">
 				<m:MaterialLink ui:field="title" />
 			</m:MaterialTooltip>
+		</m:MaterialColumn>
+		<m:MaterialColumn grid="s1">
+			<m:MaterialLink ui:field="save" iconType="SAVE"
+				iconColor="BLACK" iconPosition="RIGHT" textColor="BLACK" />
+		</m:MaterialColumn>
+		<m:MaterialColumn grid="s1">
+			<m:MaterialLink ui:field="delete" iconType="DELETE"
+				iconColor="BLACK" iconPosition="RIGHT" textColor="BLACK" />
 		</m:MaterialColumn>
 	</m:MaterialRow>
 </ui:UiBinder> 

@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
@@ -47,10 +48,6 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 	interface UploadedElementCollapsibleUiBinder extends UiBinder<Widget, UploadedElementCollapsible> {
 	}
 
-	public UploadedElementCollapsible() {
-		initWidget(uiBinder.createAndBindUi(this));
-	}
-
 	public static String imageClassS = "image";
 	public static String textClassS = "text";
 	@UiField
@@ -63,8 +60,8 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 	MaterialLink delete;
 	@UiField
 	HTMLPanel imagepanel;
-	@UiField
-	MaterialTextArea textDescription;
+	//@UiField
+	//MaterialTextArea textDescription;
 	@UiField
 	MaterialLink url;
 	@UiField
@@ -76,7 +73,7 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 	@UiField
 	MaterialPanel catidpanel;
 	@UiField
-	MaterialPanel objectpanel;
+	MaterialCollapsible objectpanel;
 	
 	GCSBlobFileInformation info;
 	Map<String, ClassificationInformation> interpretmap;
@@ -119,7 +116,7 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 		typeClass = null;
 		typeInstance = null;
 		identifier = null;
-		textDescription.setLabel("Description");
+		//textDescription.setLabel("Description");
 		urltooltip.setText("Download File");
 	}
 	
@@ -142,7 +139,7 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 			typetooltip.setText(info.getFiletype());
 			identifiertooltip.setText(info.getGSFilename());
 			path.setText(info.getFilename());
-			textDescription.setText(info.getDescription());
+			//textDescription.setText(info.getDescription());
 			setContentVisual();
 		}
 		
@@ -292,7 +289,7 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 		objectpanel.add(item);
 	}
 	
-	public MaterialPanel getObjectPanel() {
+	public MaterialCollapsible getObjectPanel() {
 		return objectpanel;
 	}
 

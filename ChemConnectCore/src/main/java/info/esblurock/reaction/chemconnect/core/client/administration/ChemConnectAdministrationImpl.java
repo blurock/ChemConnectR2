@@ -22,8 +22,10 @@ import gwt.material.design.client.ui.MaterialTitle;
 import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.chemconnect.core.client.GeneralVoidReturnCallback;
 import info.esblurock.reaction.chemconnect.core.client.pages.DataStructurePages;
+import info.esblurock.reaction.chemconnect.core.client.place.DeviceWithSubystemsDefinitionPlace;
 import info.esblurock.reaction.chemconnect.core.client.resources.BaseText;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.ChemConnectAdministrationView;
+import info.esblurock.reaction.chemconnect.core.client.ui.view.DeviceWithSubystemsDefinitionView;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccess;
 import info.esblurock.reaction.chemconnect.core.common.client.async.ContactDatabaseAccessAsync;
 import info.esblurock.reaction.chemconnect.core.common.client.async.InitializationService;
@@ -169,7 +171,7 @@ public class ChemConnectAdministrationImpl extends Composite implements ChemConn
 	
 	@UiHandler("devicedeclaration")
 	public void onDevicedDclaration(ClickEvent event) {
-		handleHistoryToken("DeviceDefinition");
+	listener.goTo(new DeviceWithSubystemsDefinitionPlace("Device"));
 	}
 	
 	@UiHandler("methodologydeclaration")

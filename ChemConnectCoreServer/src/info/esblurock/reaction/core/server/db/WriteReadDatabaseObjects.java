@@ -15,6 +15,7 @@ import com.googlecode.objectify.ObjectifyService;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
+import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.query.ListOfQueries;
 import info.esblurock.reaction.chemconnect.core.data.query.QueryPropertyValue;
 import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
@@ -144,6 +145,12 @@ public class WriteReadDatabaseObjects {
 	
 	public static HierarchyNode getIDHierarchyFromDataCatalogID(String user,
 			String basecatalog, String catalog) throws IOException {
+		System.out.println("getIDHierarchyFromDataCatalogID user" + user);
+		System.out.println("getIDHierarchyFromDataCatalogID basecatalog" + basecatalog);
+		System.out.println("getIDHierarchyFromDataCatalogID catalog" + catalog);
+		
+		
+		
 		String classname = DataCatalogID.class.getCanonicalName();
 		SetOfQueryPropertyValues values = new SetOfQueryPropertyValues();
 
@@ -157,6 +164,8 @@ public class WriteReadDatabaseObjects {
 		try {
 			results = QueryBase.StandardSetOfQueries(queries);
 			List<DatabaseObject> objs = results.retrieveAndClear();
+			System.out.println("getIDHierarchyFromDataCatalogID results:\n" + objs);
+			
 			topnode = hierarchialList(objs);
 		} catch (ClassNotFoundException e) {
 			throw new IOException("getIDHierarchyFromDataCatalogID Class not found: " + classname);
@@ -203,24 +212,39 @@ public class WriteReadDatabaseObjects {
 		return namelst;
 	}
 	public static HierarchyNode getIDHierarchyFromDataCatalogAndUser(String user,String datacatalog, String classtype) throws IOException {
+
+		System.out.println("getIDHierarchyFromDataCatalogAndUser: user: " + user);
+		System.out.println("getIDHierarchyFromDataCatalogAndUser: datacatalog: " + datacatalog);
+		
 		String classname = DataCatalogID.class.getCanonicalName();
 		String suffix = null;
 		if(classtype != null) {
 			DataElementInformation info = DatasetOntologyParsing.getSubElementStructureFromIDObject(classtype);
 			suffix = info.getSuffix();
 		}
+		System.out.println("getIDHierarchyFromDataCatalogAndUser: suffix: " + suffix);
 		SetOfQueryPropertyValues values = new SetOfQueryPropertyValues();
 		QueryPropertyValue value1 = new QueryPropertyValue("owner",user);
 		values.add(value1);
 		QueryPropertyValue value2 = new QueryPropertyValue("DataCatalog",datacatalog);
 		values.add(value2);
 		QuerySetupBase ownerquery = new QuerySetupBase(user,classname, values);
+		System.out.println(ownerquery.toString("getIDHierarchyFromDataCatalogAndUser: "));
 		Set<String> ids = new HashSet<String>();
 		HierarchyNode topnode = null;
 		try {
-			SingleQueryResult result = QueryBase.StandardQueryResult(ownerquery);
-			List<DatabaseObject> objs = result.getResults();
-			for(DatabaseObject obj : objs) {
+			ownerquery.setAccess(user);
+			SingleQueryResult result1 = QueryBase.StandardQueryResult(ownerquery);
+			ownerquery.setAccess(MetaDataKeywords.publicAccess);
+			SingleQueryResult result2 = QueryBase.StandardQueryResult(ownerquery);
+			
+			List<DatabaseObject> objs1 = result1.getResults();
+			List<DatabaseObject> objs2 = result2.getResults();
+			System.out.println("getIDHierarchyFromDataCatalogAndUser: result: \n" + objs1);
+			System.out.println("getIDHierarchyFromDataCatalogAndUser: result: \n" + objs2);
+			
+			
+			for(DatabaseObject obj : objs1) {
 				DataCatalogID datid = (DataCatalogID) obj;
 				String parent = datid.getParentLink();
 				if(suffix == null) {
@@ -231,6 +255,19 @@ public class WriteReadDatabaseObjects {
 					}					
 				}
 			}
+			for(DatabaseObject obj : objs2) {
+				DataCatalogID datid = (DataCatalogID) obj;
+				String parent = datid.getParentLink();
+				if(suffix == null) {
+					ids.add(parent);
+				} else {
+					if(parent.endsWith(suffix)) {
+						ids.add(parent);
+					}					
+				}
+			}
+			
+			
 			topnode = ParseUtilities.parseIDsToHierarchyNode("Objects",ids,true);
 		} catch (ClassNotFoundException e) {
 			throw new IOException("getIDHierarchyFromDataCatalogIDAndClassType DataCatalog Class not found: " + datacatalog);
@@ -247,6 +284,7 @@ public class WriteReadDatabaseObjects {
 		SetOfQueryPropertyValues values = new SetOfQueryPropertyValues();
 		DataElementInformation info = DatasetOntologyParsing.getSubElementStructureFromIDObject(classtype);
 		String suffix = info.getSuffix();
+		System.out.println("getIDHierarchyFromDataCatalogIDAndClassType suffix: " + suffix);
 		QueryPropertyValue value2 = new QueryPropertyValue("CatalogBaseName",catalogbasename);
 		values.add(value2);
 		ListOfQueries queries = QueryFactory.accessQueryForUser(classname, user, values);
@@ -255,6 +293,7 @@ public class WriteReadDatabaseObjects {
 		HierarchyNode topnode = null;
 		try {
 			results = QueryBase.StandardSetOfQueries(queries);
+			System.out.println("getIDHierarchyFromDataCatalogIDAndClassType results: \n" + results);
 			List<DatabaseObject> objs = results.retrieveAndClear();
 			for(DatabaseObject obj : objs) {
 				DataCatalogID datid = (DataCatalogID) obj;

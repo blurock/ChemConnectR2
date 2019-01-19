@@ -21,10 +21,10 @@ public class TutorialExampleActivity  extends AbstractActivity implements Tutori
 	
 	@Override
 	public void start(AcceptsOneWidget containerWidget, EventBus eventBus) {
-		TutorialExampleView TutorialExampleView = clientFactory.getTutorialExampleView();
-		TutorialExampleView.setName(name);
-		TutorialExampleView.setPresenter(this);
-		containerWidget.setWidget(TutorialExampleView.asWidget());
+		TutorialExampleView tutorialExampleView = clientFactory.getTutorialExampleView();
+		tutorialExampleView.setName(name);
+		tutorialExampleView.setPresenter(this);
+		containerWidget.setWidget(tutorialExampleView.asWidget());
 	}
 	   @Override
 	    public String mayStop() {

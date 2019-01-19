@@ -38,6 +38,7 @@ public class SimpleLoginCallback implements AsyncCallback<UserDTO> {
 		setCookie(MetaDataKeywords.accessUserDataDelete,lst);
 		setCookie(MetaDataKeywords.accessDataInput,lst);
 		setCookie(MetaDataKeywords.accessDataDelete,lst);
+		MaterialToast.fireToast("Welcome: " + result.getName() + "(" + result.getHostname() + ")");
 	}
 	
 	private void setCookie(String access, ArrayList<String> accesslist) {

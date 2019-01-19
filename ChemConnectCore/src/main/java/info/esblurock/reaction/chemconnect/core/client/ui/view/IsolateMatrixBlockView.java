@@ -11,5 +11,5 @@ public interface IsolateMatrixBlockView extends IsWidget {
 	public interface Presenter {
 		void goTo(Place place);
 	}
-
+	public void refresh();
 }

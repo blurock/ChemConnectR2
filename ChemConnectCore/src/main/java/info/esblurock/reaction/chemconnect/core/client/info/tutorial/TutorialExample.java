@@ -40,7 +40,8 @@ public class TutorialExample extends Composite implements TutorialExampleView {
 	}
 
 	void init() {
-		HTML intoductionhtml = new HTML(tutorial.Introdction().getText());
+		//HTML intoductionhtml = new HTML(tutorial.Introdction().getText());
+		HTML intoductionhtml = new HTML(" Text Example Summary");
 		introductiontext.add(intoductionhtml);
 		introductionlink.setText("Outline");
 		HTML explanationhtml = new HTML(tutorial.explanation().getText());

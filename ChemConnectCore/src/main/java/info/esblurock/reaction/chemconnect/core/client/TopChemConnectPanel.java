@@ -13,11 +13,14 @@ import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
 import info.esblurock.reaction.chemconnect.core.client.activity.ClientFactory;
+import info.esblurock.reaction.chemconnect.core.client.firstpage.StandardFooter;
+import info.esblurock.reaction.chemconnect.core.client.place.AboutSummaryPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.ChemConnectObservationPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.DatabasePersonDefinitionPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.DeviceWithSubystemsDefinitionPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.IsolateMatrixBlockPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.ManageCatalogHierarchyPlace;
+import info.esblurock.reaction.chemconnect.core.client.place.MissionStatementPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.OrganizationDefinitionPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.ProtocolDefinitionPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.TutorialExamplePlace;
@@ -30,12 +33,15 @@ public class TopChemConnectPanel extends Composite {
 	interface TopChemConnectPanelUiBinder extends UiBinder<Widget, TopChemConnectPanel> {
 	}
 
+	
 	@UiField
 	MaterialLabel title;
 	@UiField
 	MaterialLabel subtitle;
 	@UiField
 	SimplePanel contentPanel;
+	@UiField
+	SimplePanel footerpanel;
 	@UiField
 	MaterialLink catalog;
 	@UiField
@@ -56,13 +62,21 @@ public class TopChemConnectPanel extends Composite {
 	MaterialLink organizations;
 	@UiField
 	MaterialLink tutorialreadfile;
+	@UiField
+	MaterialLink mission;
+	@UiField
+	MaterialLink about;
 
 	ClientFactory clientFactory;
+	String hosturl;
 	
 	public TopChemConnectPanel(ClientFactory clientFactory) {
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
 		this.clientFactory = clientFactory;
+		hosturl = GWT.getHostPageBaseURL();
+		StandardFooter footer = new StandardFooter(this.clientFactory);
+		footerpanel.add(footer);		
 	}
 	
 	void init() {
@@ -127,6 +141,17 @@ public class TopChemConnectPanel extends Composite {
 	public void onTutorialReadFileClick(ClickEvent event) {
 		subtitle.setText("Tutorial: Reading and Interpreting data files");
 		goTo(new TutorialExamplePlace("Tutorial: Reading and Interpreting data files"));
+	}
+	
+	@UiHandler("mission")
+	public void onMissionClick(ClickEvent event) {
+		subtitle.setText("Mission Statement");
+		goTo(new MissionStatementPlace("Mission Statement"));
+	}
+	@UiHandler("about")
+	public void onAboutClick(ClickEvent event) {
+		subtitle.setText("About ChemConnect");
+		goTo(new AboutSummaryPlace("About ChemConnect"));
 	}
 
 	public SimplePanel getContentPanel() {

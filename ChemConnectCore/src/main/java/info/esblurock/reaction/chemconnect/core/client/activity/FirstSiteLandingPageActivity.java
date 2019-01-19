@@ -29,7 +29,7 @@ public class FirstSiteLandingPageActivity extends AbstractActivity implements Fi
 	}
 	   @Override
 	    public String mayStop() {
-			return null;
+			return "This will cause the user to be logged out and window information lost";
 	    }
 
 	@Override

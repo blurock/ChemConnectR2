@@ -81,5 +81,8 @@ public class IsolateMatrixBlock extends Composite implements IsolateMatrixBlockV
 		this.listener = listener;
 	}
 
+	public void refresh() {
+		
+	}
 
 }

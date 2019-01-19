@@ -2737,6 +2737,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                              rdfs:subClassOf :DataFileInformationStructure .
 
 
+###  http://www.esblurock.info/dataset#DataFileHierarchyStructure
+:DataFileHierarchyStructure rdf:type owl:Class ;
+                            rdfs:subClassOf :DataFileInformationStructure .
+
+
 ###  http://www.esblurock.info/dataset#DataFileImageStructure
 :DataFileImageStructure rdf:type owl:Class ;
                         rdfs:subClassOf :DataFileInformationStructure .
@@ -2750,11 +2755,6 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#DataFileMatrixStructure
 :DataFileMatrixStructure rdf:type owl:Class ;
                          rdfs:subClassOf :DataFileInformationStructure .
-
-
-###  http://www.esblurock.info/dataset#DataFileYamlStructure
-:DataFileYamlStructure rdf:type owl:Class ;
-                       rdfs:subClassOf :DataFileInformationStructure .
 
 
 ###  http://www.esblurock.info/dataset#DataInterpretationProtocol
@@ -3002,12 +3002,6 @@ Under the general type of is the actual data object referenced by the ChemConnec
                       rdfs:label "Organization" .
 
 
-###  http://www.esblurock.info/dataset#DataTypePistonConfiguration
-:DataTypePistonConfiguration rdf:type owl:Class ;
-                             rdfs:subClassOf :DataTypeRCMPiston ;
-                             <http://purl.org/dc/elements/1.1/type> "PistonConfiguration" .
-
-
 ###  http://www.esblurock.info/dataset#DataTypePressureSensor
 :DataTypePressureSensor rdf:type owl:Class ;
                         rdfs:subClassOf :DataTypeSensor ;
@@ -3023,18 +3017,6 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                     owl:onClass :ChemConnectProtocol
                                   ] ;
                   rdfs:label "Protocol" .
-
-
-###  http://www.esblurock.info/dataset#DataTypeRCMMixingChamber
-:DataTypeRCMMixingChamber rdf:type owl:Class ;
-                          rdfs:subClassOf :RapidCompressionMachineSubsystems ;
-                          <http://purl.org/dc/elements/1.1/type> "RapidCompressionMachineMixingChamber" .
-
-
-###  http://www.esblurock.info/dataset#DataTypeRCMPiston
-:DataTypeRCMPiston rdf:type owl:Class ;
-                   rdfs:subClassOf :RapidCompressionMachineSubsystems ;
-                   <http://purl.org/dc/elements/1.1/type> "RapidCompressionMachinePiston" .
 
 
 ###  http://www.esblurock.info/dataset#DataTypeSensor
@@ -7817,6 +7799,21 @@ Under the general type of is the actual data object referenced by the ChemConnec
                   rdfs:subClassOf :SiteClassifications .
 
 
+###  http://www.esblurock.info/dataset#PistonBoreDiameter
+:PistonBoreDiameter rdf:type owl:Class ;
+                    rdfs:subClassOf :DistanceParameter ,
+                                    [ rdf:type owl:Restriction ;
+                                      owl:onProperty <http://purl.org/linked-data/cube#concept> ;
+                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                      owl:onClass :RapidCompressionMachineConfiguration
+                                    ] ,
+                                    [ rdf:type owl:Restriction ;
+                                      owl:onProperty :hasPurpose ;
+                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                      owl:onClass :SubsystemGeometryAndConfiguration
+                                    ] .
+
+
 ###  http://www.esblurock.info/dataset#PlenumChamberHeight
 :PlenumChamberHeight rdf:type owl:Class ;
                      rdfs:subClassOf :HeatFluxBurnerPlenumChamberGeometry ,
@@ -8034,13 +8031,14 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :ProbeMaterial rdf:type owl:Class ;
                rdfs:subClassOf :ProbeKeywordParameters ,
                                [ rdf:type owl:Restriction ;
-                                 owl:onProperty <http://purl.org/linked-data/cube#concept> ;
-                                 owl:someValuesFrom :ProbeConfiguration
-                               ] ,
-                               [ rdf:type owl:Restriction ;
                                  owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                  owl:onClass :ProbeMaterialClassification
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty <http://purl.org/linked-data/cube#concept> ;
+                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                 owl:onClass :ProbeConfiguration
                                ] ;
                <http://www.w3.org/2004/02/skos/core#example> :ProbeMaterialClassification .
 
@@ -8210,6 +8208,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
        rdfs:subClassOf :UserRoleChoices .
 
 
+###  http://www.esblurock.info/dataset#RCMCompressedAirTank
+:RCMCompressedAirTank rdf:type owl:Class ;
+                      rdfs:subClassOf :RapidCompressionMachineSubsystems .
+
+
 ###  http://www.esblurock.info/dataset#RCMCompressionPressure
 :RCMCompressionPressure rdf:type owl:Class ;
                         rdfs:subClassOf :RCMPressureMeasurements ,
@@ -8279,6 +8282,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
  ] .
 
 
+###  http://www.esblurock.info/dataset#RCMDriverPiston
+:RCMDriverPiston rdf:type owl:Class ;
+                 rdfs:subClassOf :RapidCompressionMachineSubsystems .
+
+
 ###  http://www.esblurock.info/dataset#RCMExperimentalMeasurement
 :RCMExperimentalMeasurement rdf:type owl:Class ;
                             rdfs:subClassOf :ChemConnectConceptInstrument .
@@ -8295,6 +8303,42 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                            owl:onProperty :hasPurpose ;
                                            owl:someValuesFrom :ExperimentalCondition
                                          ] .
+
+
+###  http://www.esblurock.info/dataset#RCMFirstDriverSubSystem
+:RCMFirstDriverSubSystem rdf:type owl:Class ;
+                         rdfs:subClassOf :RapidCompressionMachineSubsystems ,
+                                         [ rdf:type owl:Restriction ;
+                                           owl:onProperty <http://purl.org/linked-data/cube#attribute> ;
+                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                           owl:onClass :PistonBoreDiameter
+                                         ] .
+
+
+###  http://www.esblurock.info/dataset#RCMHydraulicDriverSubSystem
+:RCMHydraulicDriverSubSystem rdf:type owl:Class ;
+                             rdfs:subClassOf :RapidCompressionMachineSubsystems ,
+                                             [ rdf:type owl:Restriction ;
+                                               owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                               owl:onClass :RCMCompressedAirTank
+                                             ] ,
+                                             [ rdf:type owl:Restriction ;
+                                               owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                               owl:onClass :RCMFirstDriverSubSystem
+                                             ] ,
+                                             [ rdf:type owl:Restriction ;
+                                               owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                               owl:onClass :RCMSecondDriverSubSystem
+                                             ] .
+
+
+###  http://www.esblurock.info/dataset#RCMMixingChamber
+:RCMMixingChamber rdf:type owl:Class ;
+                  rdfs:subClassOf :RapidCompressionMachineSubsystems ;
+                  <http://purl.org/dc/elements/1.1/type> "RapidCompressionMachineMixingChamber" .
 
 
 ###  http://www.esblurock.info/dataset#RCMPressureMeasurements
@@ -8364,6 +8408,101 @@ Under the general type of is the actual data object referenced by the ChemConnec
                      rdfs:label "RCM results reporting"^^xsd:string .
 
 
+###  http://www.esblurock.info/dataset#RCMReactorChamberGasPort
+:RCMReactorChamberGasPort rdf:type owl:Class ;
+                          rdfs:subClassOf :RapidCompressionMachineSubsystems .
+
+
+###  http://www.esblurock.info/dataset#RCMReactorChamberViewPort
+:RCMReactorChamberViewPort rdf:type owl:Class ;
+                           rdfs:subClassOf :RapidCompressionMachineSubsystems .
+
+
+###  http://www.esblurock.info/dataset#RCMReactorPistonSystem
+:RCMReactorPistonSystem rdf:type owl:Class ;
+                        rdfs:subClassOf :RapidCompressionMachineSubsystems ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onClass :DataTypePressureSensor
+                                        ] ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onClass :RCMReactorChamberGasPort
+                                        ] ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onClass :RCMReactorChamberViewPort
+                                        ] ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onClass :Thermocouple
+                                        ] ;
+                        <http://purl.org/dc/elements/1.1/type> "RapidCompressionMachinePiston" .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :RCMReactorPistonSystem ;
+   owl:annotatedProperty rdfs:subClassOf ;
+   owl:annotatedTarget [ rdf:type owl:Restriction ;
+                         owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                         owl:onClass :DataTypePressureSensor
+                       ] ;
+   <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
+ ] .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :RCMReactorPistonSystem ;
+   owl:annotatedProperty rdfs:subClassOf ;
+   owl:annotatedTarget [ rdf:type owl:Restriction ;
+                         owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                         owl:onClass :RCMReactorChamberGasPort
+                       ] ;
+   <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
+ ] .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :RCMReactorPistonSystem ;
+   owl:annotatedProperty rdfs:subClassOf ;
+   owl:annotatedTarget [ rdf:type owl:Restriction ;
+                         owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                         owl:onClass :RCMReactorChamberViewPort
+                       ] ;
+   <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
+ ] .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :RCMReactorPistonSystem ;
+   owl:annotatedProperty rdfs:subClassOf ;
+   owl:annotatedTarget [ rdf:type owl:Restriction ;
+                         owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                         owl:onClass :Thermocouple
+                       ] ;
+   <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
+ ] .
+
+
+###  http://www.esblurock.info/dataset#RCMSecondDriverSubSystem
+:RCMSecondDriverSubSystem rdf:type owl:Class ;
+                          rdfs:subClassOf :RapidCompressionMachineSubsystems ,
+                                          [ rdf:type owl:Restriction ;
+                                            owl:onProperty <http://purl.org/linked-data/cube#attribute> ;
+                                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                            owl:onClass :PistonBoreDiameter
+                                          ] .
+
+
+###  http://www.esblurock.info/dataset#RCMSpeciesSupply
+:RCMSpeciesSupply rdf:type owl:Class ;
+                  rdfs:subClassOf :RapidCompressionMachineSubsystems .
+
+
 ###  http://www.esblurock.info/dataset#REACTIONMolecularInformationSet
 :REACTIONMolecularInformationSet rdf:type owl:Class ;
                                  rdfs:subClassOf :SpeciesProperties .
@@ -8414,9 +8553,62 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#RapidCompressionMachine
 :RapidCompressionMachine rdf:type owl:Class ;
-                         rdfs:subClassOf :CombustionInstrument ;
+                         rdfs:subClassOf :CombustionInstrument ,
+                                         [ rdf:type owl:Restriction ;
+                                           owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                           owl:onClass :RCMMixingChamber
+                                         ] ,
+                                         [ rdf:type owl:Restriction ;
+                                           owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                           owl:onClass :RCMReactorPistonSystem
+                                         ] ,
+                                         [ rdf:type owl:Restriction ;
+                                           owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                           owl:onClass :RCMSpeciesSupply
+                                         ] ;
                          rdfs:comment "Rapid Compression Machine" ;
                          rdfs:label "Rapid Compression Machine" .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :RapidCompressionMachine ;
+   owl:annotatedProperty rdfs:subClassOf ;
+   owl:annotatedTarget [ rdf:type owl:Restriction ;
+                         owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                         owl:onClass :RCMMixingChamber
+                       ] ;
+   <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
+ ] .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :RapidCompressionMachine ;
+   owl:annotatedProperty rdfs:subClassOf ;
+   owl:annotatedTarget [ rdf:type owl:Restriction ;
+                         owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                         owl:onClass :RCMReactorPistonSystem
+                       ] ;
+   <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
+ ] .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :RapidCompressionMachine ;
+   owl:annotatedProperty rdfs:subClassOf ;
+   owl:annotatedTarget [ rdf:type owl:Restriction ;
+                         owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                         owl:onClass :RCMSpeciesSupply
+                       ] ;
+   <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
+ ] .
+
+
+###  http://www.esblurock.info/dataset#RapidCompressionMachineConfiguration
+:RapidCompressionMachineConfiguration rdf:type owl:Class ;
+                                      rdfs:subClassOf :DeviceConfigurationConcept .
 
 
 ###  http://www.esblurock.info/dataset#RapidCompressionMachineIgnitionDelayTime
@@ -8462,7 +8654,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#RapidCompressionMachineSubsystems
 :RapidCompressionMachineSubsystems rdf:type owl:Class ;
-                                   rdfs:subClassOf :CombustionFlameSubsystems .
+                                   rdfs:subClassOf :DataTypeSubSystem .
 
 
 ###  http://www.esblurock.info/dataset#ReactionChambers
@@ -9670,6 +9862,26 @@ Under the general type of is the actual data object referenced by the ChemConnec
                      rdfs:comment "These are the specific values described by the the SetOfObservations specification."^^xsd:string ;
                      rdfs:label "vector of values"^^xsd:string ;
                      <http://www.w3.org/2004/02/skos/core#altLabel> "values"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#ViewPortWindow
+:ViewPortWindow rdf:type owl:Class ;
+                rdfs:subClassOf :ProbeKeywordParameters ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
+                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                  owl:onClass :ProbeMaterialTypeChoice
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty <http://purl.org/linked-data/cube#concept> ;
+                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                  owl:onClass :RapidCompressionMachineConfiguration
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty :hasPurpose ;
+                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                  owl:onClass :SubsystemGeometryAndConfiguration
+                                ] .
 
 
 ###  http://www.esblurock.info/dataset#WaterBath
@@ -11271,8 +11483,8 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
                                     <http://purl.org/dc/terms/issued> "2000-07-11"^^xsd:date .
 
 
-<http://purl.org/dc/terms/rights> <http://purl.org/dc/terms/issued> "2008-01-14"^^xsd:date ;
-                                  rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
+<http://purl.org/dc/terms/rights> rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
+                                  <http://purl.org/dc/terms/issued> "2008-01-14"^^xsd:date ;
                                   rdfs:label "Rights"@en ;
                                   rdfs:comment "Information about rights held in and over the resource."@en ;
                                   <http://purl.org/dc/terms/modified> "2008-01-14"^^xsd:date ;
@@ -11280,8 +11492,8 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
                                   <http://purl.org/dc/terms/description> "Typically, rights information includes a statement about various property rights associated with the resource, including intellectual property rights."@en .
 
 
-<http://purl.org/dc/terms/rightsHolder> rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
-                                        <http://purl.org/dc/terms/hasVersion> <http://dublincore.org/usage/terms/history/#rightsHolder-002> ;
+<http://purl.org/dc/terms/rightsHolder> <http://purl.org/dc/terms/hasVersion> <http://dublincore.org/usage/terms/history/#rightsHolder-002> ;
+                                        rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
                                         <http://purl.org/dc/terms/modified> "2008-01-14"^^xsd:date ;
                                         rdfs:comment "A person or organization owning or managing rights over the resource."@en ;
                                         <http://purl.org/dc/terms/issued> "2004-06-14"^^xsd:date ;

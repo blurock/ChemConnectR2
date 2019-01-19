@@ -21,7 +21,7 @@
 				<!-- MenuBar component -->
 				<ma:menubar.MaterialMenuBar
 					backgroundColor="PURPLE">
-					<m:MaterialLink padding="12" waves="DEFAULT" text="Mission"
+					<m:MaterialLink ui:field="mission" padding="12" waves="DEFAULT" text="Mission"
 						textColor="WHITE" />
 					<m:MaterialLink padding="12" waves="DEFAULT" text="Create"
 						textColor="WHITE" activates="dp-create" />
@@ -29,8 +29,8 @@
 						textColor="WHITE" activates="dp-tutorial" />
 					<m:MaterialLink padding="12" waves="DEFAULT" text="Information"
 						textColor="WHITE" activates="dp-info" />
-					<m:MaterialLink padding="12" waves="DEFAULT" text="about"
-						textColor="WHITE" activates="dp-info" />
+					<m:MaterialLink ui:field="about" padding="12" waves="DEFAULT" text="About"
+						textColor="WHITE" />
 
 					<m:MaterialDropDown ui:field="dpCreate"
 						activator="dp-create" belowOrigin="true">
@@ -62,7 +62,7 @@
 					</m:MaterialDropDown>
 					<m:MaterialDropDown ui:field="dpInfo" activator="dp-info"
 						belowOrigin="true">
-						<m:MaterialLink text="About" separator="true"
+						<m:MaterialLink text="General" separator="true"
 							textColor="BLACK" />
 					</m:MaterialDropDown>
 				</ma:menubar.MaterialMenuBar>
@@ -70,6 +70,9 @@
 		</m:MaterialRow>
 	<m:MaterialRow>
 		<g:SimplePanel ui:field="contentPanel" />
+		</m:MaterialRow>
+	<m:MaterialRow>
+		<g:SimplePanel ui:field="footerpanel" />
 		</m:MaterialRow>
 	</m:MaterialPanel>
 

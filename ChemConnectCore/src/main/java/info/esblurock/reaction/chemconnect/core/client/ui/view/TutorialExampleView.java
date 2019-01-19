@@ -11,5 +11,4 @@ public interface TutorialExampleView  extends IsWidget {
 		void goTo(Place place);
 	}
 
-
 }

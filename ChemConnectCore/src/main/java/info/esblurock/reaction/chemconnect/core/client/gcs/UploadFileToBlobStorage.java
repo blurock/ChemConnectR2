@@ -135,6 +135,8 @@ public class UploadFileToBlobStorage extends Composite implements DetermineBlobT
 		modalpanel.add(modal);
 		modal.openModal();		
 	}
+	
+	@Override
 	public void refresh() {
 		collapsible.clear();
 		getUploadedFiles();		
@@ -208,6 +210,5 @@ public class UploadFileToBlobStorage extends Composite implements DetermineBlobT
 	public void setPresenter(Presenter listener) {
 		this.listener = listener;
 	}
-
 
 }

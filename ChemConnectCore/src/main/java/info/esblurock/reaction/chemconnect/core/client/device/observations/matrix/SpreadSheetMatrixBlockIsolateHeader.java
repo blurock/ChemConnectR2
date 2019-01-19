@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -228,6 +229,7 @@ public class SpreadSheetMatrixBlockIsolateHeader extends Composite
 		String datacatalog = MetaDataKeywords.dataFileMatrixStructure;
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		HierarchyNodeCallback callback = new HierarchyNodeCallback(this);
+		Window.alert("SpreadSheetMatrixBlockIsolateHeader: " + datacatalog);
 		async.getIDHierarchyFromDataCatalogAndUser(datacatalog,callback);	
 	}
 	

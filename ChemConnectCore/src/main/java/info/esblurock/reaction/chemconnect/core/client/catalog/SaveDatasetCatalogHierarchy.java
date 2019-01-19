@@ -24,10 +24,6 @@ public class SaveDatasetCatalogHierarchy extends Composite {
 	interface SaveDatasetCatalogHierarchyUiBinder extends UiBinder<Widget, SaveDatasetCatalogHierarchy> {
 	}
 
-	public SaveDatasetCatalogHierarchy() {
-		initWidget(uiBinder.createAndBindUi(this));
-	}
-
 	@UiField
 	MaterialDialog modal;
 	@UiField
@@ -42,45 +38,54 @@ public class SaveDatasetCatalogHierarchy extends Composite {
 	MaterialLink close;
 	@UiField
 	MaterialLink done;
-	
+
 	StandardDatasetObjectHierarchyItem topitem;
-	
+
 	public SaveDatasetCatalogHierarchy(StandardDatasetObjectHierarchyItem topitem) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.topitem = topitem;
 		init();
 	}
-	
+
 	void init() {
 		databasetextbox.setText("Save to database");
 		yamltextbox.setText("Save as yaml string");
 	}
 
 	public void openModal() {
-		Window.alert("SaveDatasetCatalogHierarchy");
-		boolean vInput = Cookies.getCookie(MetaDataKeywords.accessDataInput).compareTo(Boolean.TRUE.toString()) == 0;
-		Window.alert("SaveDatasetCatalogHierarchy accessDataInput " + vInput);
-		boolean vUserInput = Cookies.getCookie(MetaDataKeywords.accessUserDataInput).compareTo(Boolean.TRUE.toString()) == 0;
-		Window.alert("SaveDatasetCatalogHierarchy accessUserDataInput " + vUserInput);
-		boolean allowed = false;
-		if(vInput) {
+		String owner = topitem.getHierarchy().getObject().getOwner();
+		String account = Cookies.getCookie("account_name");
+		MaterialToast.fireToast("Saving under user: '" + account + "'   (" + owner + ")");
+
+		String accessInput = Cookies.getCookie(MetaDataKeywords.accessDataInput);
+		String userInput = Cookies.getCookie(MetaDataKeywords.accessUserDataInput);
+		boolean vInput = Boolean.FALSE;
+		boolean vUserInput = Boolean.FALSE;
+
+		if (accessInput != null) {
+			vInput = accessInput.compareTo(Boolean.TRUE.toString()) == 0;
+		}
+		if (accessInput != null) {
+			vUserInput = userInput.compareTo(Boolean.TRUE.toString()) == 0;
+		}
+		boolean allowed = Boolean.FALSE;
+		if (vInput) {
 			allowed = Boolean.TRUE;
 		}
-		if(vUserInput) {
-			String owner = topitem.getHierarchy().getObject().getOwner();
-			String account = Cookies.getCookie("account_name");
-			if(owner.compareTo(account) == 0) {
+		if (vUserInput && owner != null) {
+			if (owner.compareTo(account) == 0) {
 				allowed = Boolean.TRUE;
+			} else {
+				MaterialToast.fireToast("Owner: " + owner + " and log in: " + account + " don't match");
 			}
 		}
-		Window.alert("SaveDatasetCatalogHierarchy accessUserDataInput " + allowed);
-		if(!allowed) {
-			MaterialToast.fireToast("Have to be signed in (and have authorization) to save");
+		if (!allowed) {
+			MaterialToast.fireToast("Have to have write authorization to save: not allowed for user: " + account);
 		} else {
 			modal.open();
 		}
 	}
-	
+
 	@UiHandler("close")
 	void onClickClose(ClickEvent e) {
 		MaterialToast.fireToast("Cancel Save");
@@ -90,15 +95,14 @@ public class SaveDatasetCatalogHierarchy extends Composite {
 	@UiHandler("done")
 	void onClickDone(ClickEvent e) {
 		modal.close();
-		if(databasecheckbox.getValue()) {
+		if (databasecheckbox.getValue()) {
 			MaterialToast.fireToast("Save into database");
 			topitem.writeDatabaseObjectHierarchy();
 		}
-		if(yamlcheckbox.getValue()) {
+		if (yamlcheckbox.getValue()) {
 			MaterialToast.fireToast("Save into Yaml");
 			topitem.writeYamlObjectHierarchy();
 		}
 	}
-	
-	
+
 }

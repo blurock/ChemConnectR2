@@ -16,13 +16,14 @@ import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialPanel;
+import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.FirstSiteLandingPageView;
 
 public class FirstSiteLandingPage extends Composite implements FirstSiteLandingPageView {
 
 	private static FirstSiteLandingPageUiBinder uiBinder = GWT.create(FirstSiteLandingPageUiBinder.class);
 	
-	private static String REDIRECT_URI = "oauth2callback";
+	//private static String REDIRECT_URI = "oauth2callback";
 
 
 	interface FirstSiteLandingPageUiBinder extends UiBinder<Widget, FirstSiteLandingPage> {
@@ -48,14 +49,7 @@ public class FirstSiteLandingPage extends Composite implements FirstSiteLandingP
 	MaterialPanel panel;
 
 
-	public FirstSiteLandingPage(String firstName) {
-		initWidget(uiBinder.createAndBindUi(this));
-		init();
-	}
-	
 	void init() {
-		StandardFooter footer = new StandardFooter();
-		footerpanel.add(footer);
 	}
 	/*
 	@UiHandler("facebookLogin")
@@ -96,21 +90,27 @@ public class FirstSiteLandingPage extends Composite implements FirstSiteLandingP
 
 		String authurl = "https://www.linkedin.com/oauth/v2/authorization?";
 		String redirect = callbackWithServer();
-
+		MaterialToast.fireToast("Redirect: " + redirect);
 		String reststr = "response_type=code&"
 				+ "client_id=" + CLIENT_ID + "&"
 				+ "redirect_uri=" + redirect + "&"
 				+ "state=" + secretState + "&"
 				+ "scope=r_basicprofile%20r_emailaddress";
 		String urlS = authurl + reststr;
+		MaterialToast.fireToast("URL: " + redirect);
 
 		Window.open(urlS, "_blank", "");
 	
 	}
 	
 	private String callbackWithServer() {
-		String server = "http://localhost:8080";
-		String redirect = server + "/" + REDIRECT_URI;
+		MaterialToast.fireToast("callbackWithServer()");
+		MaterialToast.fireToast("callbackWithServer(): '" + Window.Location.getHostName() + "'");
+		String redirect = "http://blurock-reaction.appspot.com/oauth2callback";
+		if(Window.Location.getHostName().compareTo("localhost") == 0) {
+			redirect = "http://localhost:8080/oauth2callback";
+		}
+		MaterialToast.fireToast("callbackWithServer(): " + redirect);
 		return redirect;
 	}
 	

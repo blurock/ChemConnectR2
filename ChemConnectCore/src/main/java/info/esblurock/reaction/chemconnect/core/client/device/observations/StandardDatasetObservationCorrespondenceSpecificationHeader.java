@@ -193,16 +193,11 @@ public class StandardDatasetObservationCorrespondenceSpecificationHeader extends
 		SubCatagoryHierarchyCallback callback = new SubCatagoryHierarchyCallback(this);
 		retrieveObservationsFromSpreadSheet = false;
 		retrieveObservationBlock = true;
-		Window.alert("StandardDatasetObservationCorrespondenceSpecificationHeader  treeNodeChosen" + MetaDataKeywords.observationBlockFromSpreadSheet);
-		Window.alert("StandardDatasetObservationCorrespondenceSpecificationHeader  treeNodeChosen" + id);
 		async.getCatalogObject(id,MetaDataKeywords.observationBlockFromSpreadSheet,callback);
 	}
 
 	@Override
 	public void setInHierarchy(DatabaseObjectHierarchy subs) {
-		Window.alert("setInHierarchy(DatabaseObjectHierarchy:" + subs);
-		Window.alert("setInHierarchy(DatabaseObjectHierarchy retrieveObservationBlock:" + retrieveObservationBlock);
-		Window.alert("setInHierarchy(DatabaseObjectHierarchy retrieveObservationsFromSpreadSheet:" + retrieveObservationsFromSpreadSheet);
 		if(retrieveObservationBlock) {
 			attachedObservationBlockFromSpreadSheet = subs;
 			ObservationBlockFromSpreadSheet block = (ObservationBlockFromSpreadSheet) subs.getObject();
@@ -212,7 +207,6 @@ public class StandardDatasetObservationCorrespondenceSpecificationHeader extends
 			SubCatagoryHierarchyCallback callback = new SubCatagoryHierarchyCallback(this);
 			retrieveObservationsFromSpreadSheet = true;
 			retrieveObservationBlock = false;
-			Window.alert("extractLinkObjectFromStructure");
 			async.extractLinkObjectFromStructure(subs,MetaDataKeywords.conceptLinkReferenceMatrixIsolatedBlock,callback);
 		} else if(retrieveObservationsFromSpreadSheet) {
 			attachedObservationsFromSpreadSheet = subs;

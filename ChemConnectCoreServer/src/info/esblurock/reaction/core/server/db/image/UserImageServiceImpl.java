@@ -541,12 +541,16 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	public HierarchyNode getIDHierarchyFromDataCatalogAndUser(String datacatalog) throws IOException {
 		ContextAndSessionUtilities util = getUtilities();
 		String user = util.getUserName();
+		System.out.println("getIDHierarchyFromDataCatalogAndUser user: " + user);
 		return WriteReadDatabaseObjects.getIDHierarchyFromDataCatalogAndUser(user,datacatalog,null);
 	}
 	
 	public HierarchyNode getIDHierarchyFromDataCatalogIDAndClassType(String catalogbasename, String classtype) throws IOException {
 		ContextAndSessionUtilities util = getUtilities();
 		String user = util.getUserName();
+		System.out.println("getIDHierarchyFromDataCatalogIDAndClassType: user           " + user);
+		System.out.println("getIDHierarchyFromDataCatalogIDAndClassType: catalogbasename" + catalogbasename);
+		System.out.println("getIDHierarchyFromDataCatalogIDAndClassType: classtype      " + classtype);
 		return WriteReadDatabaseObjects.getIDHierarchyFromDataCatalogIDAndClassType(user, 
 				catalogbasename,classtype);
 	}

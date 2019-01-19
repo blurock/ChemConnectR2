@@ -32,15 +32,13 @@ public class FirstPage extends Composite implements FirstPageView {
 	MaterialPanel mainPanel;
 	@UiField
 	MaterialCollapsible mainCollapsible;
-
+	
 	public FirstPage() {
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
 	}
 	
 	void init() {
-		StandardFooter footer = new StandardFooter();
-		footerpanel.add(footer);
 	}
 
 	@Override
@@ -59,12 +57,10 @@ public class FirstPage extends Composite implements FirstPageView {
 	}
 	public void asExistingUser() {
 		String account = Cookies.getCookie("account_name");
-		Window.alert("asExistingUser: " + account);
 		Cookies.setCookie("user", account);
 		LoginServiceAsync async = LoginService.Util.getInstance();
 		SimpleLoginCallback callback = new SimpleLoginCallback();
 		async.getUserInfo(callback);
-		
 	}
 
 

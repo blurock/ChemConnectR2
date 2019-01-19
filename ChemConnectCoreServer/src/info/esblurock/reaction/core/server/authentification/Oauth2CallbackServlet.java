@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.InetAddress;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,6 +14,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -47,6 +49,8 @@ import info.esblurock.reaction.io.db.QueryBase;
 @SuppressWarnings("serial")
 public class Oauth2CallbackServlet extends HttpServlet {
 
+	private static final Logger log = Logger.getLogger(Oauth2CallbackServlet.class.getName());
+
 	private static final Collection<String> SCOPES = Arrays.asList("email", "profile");
 	private static final String USERINFO_ENDPOINT = "https://www.googleapis.com/plus/v1/people/me/openIdConnect";
 	private static final JsonFactory JSON_FACTORY = new JacksonFactory();
@@ -70,7 +74,7 @@ public class Oauth2CallbackServlet extends HttpServlet {
 		if (state == null || !state.equals(expected)) {
 			resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			System.out.println("Oauth2CallbackServlet after sendRedirect  SC_UNAUTHORIZED");
-			resp.sendRedirect("http://localhost:8080");
+			resp.sendRedirect(req.getContextPath());
 		}
 		String firstname = "";
 		String lastname = "";
@@ -131,11 +135,22 @@ public class Oauth2CallbackServlet extends HttpServlet {
 				}
 			}
 
+			System.out.println("Canonical Hostname: '" + req.getLocalAddr() + "'");
+			System.out.println("Canonical Hostname: '" + req.getLocalPort() + "'");
+			int serverport = req.getServerPort();
+			String servername = req.getServerName();
+			String red = "http://blurock-reaction.appspot.com/oauth2callback";
+			if(servername.compareTo("localhost") == 0) {
+				red = "http://localhost:8080/oauth2callback";
+			}
 			String response = "https://www.linkedin.com/oauth/v2/accessToken?state=" + newstate + "&"
-					+ "client_id=77lvn5zzefwzq0&" + "redirect_uri=http://localhost:8080/oauth2callback&"
-					+ "grant_type=authorization_code&" + "client_secret=fnmtW4at0KZBeeuN&" + "code=" + code + "&"
+					+ "client_id=77lvn5zzefwzq0&" 
+					+ "redirect_uri=" + red + "&"
+					+ "grant_type=authorization_code&" 
+					+ "client_secret=fnmtW4at0KZBeeuN&" + "code=" + code + "&"
 					+ "format=json";
 
+			log.info("Response: " + response);
 			JSONObject jsonobj = getJSONObject(response);
 			String accesstoken = (String) jsonobj.get("access_token");
 
@@ -166,13 +181,6 @@ public class Oauth2CallbackServlet extends HttpServlet {
 			String tokenurl = "https://graph.facebook.com/v3.2/me/accounts?";
 			String tokenparameters = "&state=" + newstate + "&client_id=" + CLIENT_ID + "&access_token=" + access_token;
 
-			/*
-			 * String tokenurl = "https://graph.facebook.com/v3.2/oauth/access_token?";
-			 * String tokenparameters = "redirect_uri=http://localhost:8080/oauth2callback"
-			 * + "&state=" + newstate + "&client_id=" + CLIENT_ID +
-			 * "&client_secret=2d96d4af1565af4c1a8f0226c870b8aa" +
-			 * "&grant_type=client_credentials";
-			 */
 			System.out.println(tokenparameters);
 			System.out.println("Size of call: " + tokenparameters.length());
 			String url = tokenurl + java.net.URLEncoder.encode(tokenparameters, "UTF-8");
@@ -246,7 +254,10 @@ public class Oauth2CallbackServlet extends HttpServlet {
 		accountNameC.setMaxAge(60 * 60);
 		resp.addCookie(accountNameC);
 
-		resp.sendRedirect("http://localhost:8080/#FirstPagePlace:First%20Page");
+		System.out.println("");
+		String redirect = req.getContextPath() + "/#FirstPagePlace:First%20Page";
+		System.out.println("Redirect: " + redirect);
+		resp.sendRedirect(redirect);
 	}
 
 	JSONObject getJSONObject(String response) throws IOException {

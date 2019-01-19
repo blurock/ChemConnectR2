@@ -12,10 +12,15 @@ import info.esblurock.reaction.chemconnect.core.client.place.IsolateMatrixBlockP
 import info.esblurock.reaction.chemconnect.core.client.place.UploadFileToBlobStoragePlace;
 import info.esblurock.reaction.chemconnect.core.client.place.DatabasePersonDefinitionPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.ManageCatalogHierarchyPlace;
+import info.esblurock.reaction.chemconnect.core.client.place.MissionStatementPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.OrganizationDefinitionPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.TutorialExamplePlace;
 import info.esblurock.reaction.chemconnect.core.client.place.FirstPagePlace;
 import info.esblurock.reaction.chemconnect.core.client.place.FirstSiteLandingPagePlace;
+import info.esblurock.reaction.chemconnect.core.client.place.AboutSummaryPlace;
+import info.esblurock.reaction.chemconnect.core.client.place.ChemConnectPartnersPlace;
+import info.esblurock.reaction.chemconnect.core.client.place.ContactInformationPlace;
+import info.esblurock.reaction.chemconnect.core.client.place.DataManagementPlace;
 
 /**
  * PlaceHistoryMapper interface is used to attach all places which the
@@ -36,6 +41,11 @@ import info.esblurock.reaction.chemconnect.core.client.place.FirstSiteLandingPag
 	TutorialExamplePlace.Tokenizer.class,
 	FirstPagePlace.Tokenizer.class,
 	FirstSiteLandingPagePlace.Tokenizer.class,
+	MissionStatementPlace.Tokenizer.class,
+	AboutSummaryPlace.Tokenizer.class,
+	ChemConnectPartnersPlace.Tokenizer.class,
+	ContactInformationPlace.Tokenizer.class,
+	DataManagementPlace.Tokenizer.class
 	}
 
 )
