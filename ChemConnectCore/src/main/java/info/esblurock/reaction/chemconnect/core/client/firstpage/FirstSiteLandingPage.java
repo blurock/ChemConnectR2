@@ -6,17 +6,25 @@ import java.util.Random;
 import com.google.gwt.core.client.GWT;
 
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialButton;
+import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialPanel;
+import gwt.material.design.client.ui.MaterialParallax;
+import gwt.material.design.client.ui.MaterialTitle;
 import gwt.material.design.client.ui.MaterialToast;
+import info.esblurock.reaction.chemconnect.core.client.resources.info.about.InfoAboutResources;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.FirstSiteLandingPageView;
 
 public class FirstSiteLandingPage extends Composite implements FirstSiteLandingPageView {
@@ -29,6 +37,7 @@ public class FirstSiteLandingPage extends Composite implements FirstSiteLandingP
 	interface FirstSiteLandingPageUiBinder extends UiBinder<Widget, FirstSiteLandingPage> {
 	}
 
+	InfoAboutResources inforesources = GWT.create(InfoAboutResources.class);
 	Presenter listener;
 
 	
@@ -38,11 +47,24 @@ public class FirstSiteLandingPage extends Composite implements FirstSiteLandingP
 	}
 
 	@UiField
-	MaterialButton googleLogin;
+	MaterialPanel headerpanel;
 	@UiField
-	MaterialButton linkedinLogin;
-	//@UiField
-	//MaterialButton facebookLogin;
+	HTML introduction;
+	@UiField
+	MaterialParallax smartconnected;
+	@UiField
+	MaterialParallax interactionpanel;
+	@UiField
+	MaterialParallax developerpanel;
+	@UiField
+	MaterialParallax smartobjects;
+	@UiField
+	HTML introduction2;
+	@UiField
+	HTML introduction3;
+	@UiField
+	HTML developer;
+	
 	@UiField
 	MaterialPanel footerpanel;
 	@UiField
@@ -50,6 +72,33 @@ public class FirstSiteLandingPage extends Composite implements FirstSiteLandingP
 
 
 	void init() {
+		ImageResource headerimage = inforesources.ChemConnectHeader();
+		Image image = new Image(headerimage.getSafeUri());
+		headerpanel.add(image);
+		introduction.setTitle("CHEMCONNECT: Connected Smart Data");
+		introduction.setHTML(inforesources.IntroductionAbstract().getText());
+		
+		ImageResource smartimage = inforesources.ConnectedSmartDatabase();
+		Image smart = new Image(smartimage.getSafeUri());
+		smartconnected.add(smart);
+		introduction2.setTitle("Center of data management");
+		introduction2.setHTML(inforesources.Introduction2Abstract().getText());
+		
+		ImageResource interactimage = inforesources.ChemConnectInteractions();
+		Image interact = new Image(interactimage);
+		interactionpanel.add(interact);
+		introduction3.setTitle("CHEMCONNECT: Knowledge-Base driving interface, data and descriptions");
+		introduction3.setHTML(inforesources.Introduction3Abstract().getText());
+		
+		ImageResource developerimage = inforesources.DeveloperMe();
+		Image developerme = new Image(developerimage);
+		developerpanel.add(developerme);
+		developer.setTitle("Who is behind CHEMCONNECT");
+		developer.setHTML(inforesources.Developer().getText());
+		
+		ImageResource smartdataimage = inforesources.ConnectedSmartDataObjects();
+		Image smartdata = new Image(smartdataimage.getSafeUri());
+		smartobjects.add(smartdata);
 	}
 	/*
 	@UiHandler("facebookLogin")
@@ -82,62 +131,8 @@ public class FirstSiteLandingPage extends Composite implements FirstSiteLandingP
 	}
 	*/
 	
-	@UiHandler("linkedinLogin")
-	void onClickLinkedIn(ClickEvent e) {
-		String CLIENT_ID = "77lvn5zzefwzq0";
-		String secretState = "linkedin" + new Random().nextInt(999_999);
-		Cookies.setCookie("secret", secretState);
-
-		String authurl = "https://www.linkedin.com/oauth/v2/authorization?";
-		String redirect = callbackWithServer();
-		MaterialToast.fireToast("Redirect: " + redirect);
-		String reststr = "response_type=code&"
-				+ "client_id=" + CLIENT_ID + "&"
-				+ "redirect_uri=" + redirect + "&"
-				+ "state=" + secretState + "&"
-				+ "scope=r_basicprofile%20r_emailaddress";
-		String urlS = authurl + reststr;
-		MaterialToast.fireToast("URL: " + redirect);
-
-		Window.open(urlS, "_blank", "");
 	
-	}
 	
-	private String callbackWithServer() {
-		MaterialToast.fireToast("callbackWithServer()");
-		MaterialToast.fireToast("callbackWithServer(): '" + Window.Location.getHostName() + "'");
-		String redirect = "http://blurock-reaction.appspot.com/oauth2callback";
-		if(Window.Location.getHostName().compareTo("localhost") == 0) {
-			redirect = "http://localhost:8080/oauth2callback";
-		}
-		MaterialToast.fireToast("callbackWithServer(): " + redirect);
-		return redirect;
-	}
-	
-	@UiHandler("googleLogin")
-	void onClickGoogle(ClickEvent e) {
-		String CLIENT_ID = "664636228487-pbsb9lh39tvi2ec1rg0lqk4uq371bhr9.apps.googleusercontent.com";
-		String SCOPE = "https://www.googleapis.com/auth/drive.metadata.readonly";
-		
-		String secretState = "google" + new Random().nextInt(999_999);
-		Cookies.setCookie("secret", secretState);
-		
-		String authurl = "https://accounts.google.com/o/oauth2/v2/auth?";
-		String redirect = callbackWithServer();
-		
-		String reststr =
-				"scope=" + SCOPE + "&" + 
-				"access_type=offline&" + 
-				"include_granted_scopes=true&" + 
-				"state=" + secretState + "&" + 
-				"redirect_uri=" + redirect + "&" + 
-				"response_type=code&" + 
-				"client_id=" + CLIENT_ID;
-		String urlS = authurl + reststr;
-
-		Window.open(urlS, "_blank", "");
-		
-	}
 
 	@Override
 	public void setName(String helloName) {

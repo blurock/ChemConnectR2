@@ -17,22 +17,46 @@
 	</ui:style>
 	<m:MaterialPanel ui:field="panel" width="100%">
 		<m:MaterialPanel ui:field="modalpanel" />
-		<m:MaterialRow>
+		<!--  m:MaterialRow>
 			<m:MaterialColumn grid="s6">
 				<m:MaterialButton ui:field="googleLogin"
 					textColor="BLACK" width="100%"
-					backgroundColor="BLUE_GREY_LIGHTEN_2" fontSize="1.5em" text="Google Login" />
+					backgroundColor="BLUE_GREY_LIGHTEN_2" fontSize="1.5em"
+					text="Google Login" />
 			</m:MaterialColumn>
 			<m:MaterialColumn grid="s6">
 				<m:MaterialButton ui:field="linkedinLogin"
 					textColor="BLACK" width="100%"
-					backgroundColor="BLUE_GREY_LIGHTEN_2" fontSize="1.5em" text="LinkedIn Login" />
+					backgroundColor="BLUE_GREY_LIGHTEN_2" fontSize="1.5em"
+					text="LinkedIn Login" />
 			</m:MaterialColumn>
-			<!--m:MaterialColumn grid="s4">
-				<m:MaterialButton ui:field="facebookLogin"
-					textColor="BLACK" width="100%"
-					backgroundColor="BLUE_GREY_LIGHTEN_2" fontSize="1.5em" text="Facebook Login" />
-			</m:MaterialColumn -->
+			<-m:MaterialColumn grid="s4"> <m:MaterialButton ui:field="facebookLogin" 
+				textColor="BLACK" width="100%" backgroundColor="BLUE_GREY_LIGHTEN_2" fontSize="1.5em" 
+				text="Facebook Login" /> </m:MaterialColumn>
+		</m:MaterialRow -->
+		<m:MaterialRow>
+			<m:MaterialPanel ui:field="headerpanel" />
+			<!-- m:MaterialParallax height="300px"> </m:MaterialParallax -->
+			<m:MaterialPanel margin="30">
+				<g:HTML ui:field="introduction" />
+			</m:MaterialPanel>
+			<m:MaterialParallax ui:field="smartconnected"
+				height="400px" />
+			<m:MaterialPanel margin="30">
+				<g:HTML ui:field="introduction2" />
+			</m:MaterialPanel>
+			<m:MaterialParallax ui:field="interactionpanel"
+				height="400px" />
+			<m:MaterialPanel margin="30">
+				<g:HTML ui:field="introduction3" />
+			</m:MaterialPanel>
+			<m:MaterialParallax ui:field="developerpanel"
+				height="300px" />
+			<m:MaterialPanel margin="30">
+				<g:HTML ui:field="developer" />
+			</m:MaterialPanel>
+			<m:MaterialParallax ui:field="smartobjects"
+				height="500px" />
 		</m:MaterialRow>
 		<m:MaterialRow>
 			<m:MaterialPanel ui:field="footerpanel" />

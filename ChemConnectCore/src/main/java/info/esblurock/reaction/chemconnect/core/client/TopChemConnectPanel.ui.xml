@@ -9,10 +9,9 @@
 	</ui:style>
 	<m:MaterialPanel>
 		<m:MaterialRow margin="0" backgroundColor="WHITE">
-			<m:MaterialColumn grid="l2" backgroundColor="PURPLE"
-				height="100%" textAlign="CENTER" padding="60">
-				<m:MaterialIcon iconType="CHAT" opacity="0.8"
-					iconColor="WHITE" />
+			<m:MaterialColumn grid="l2" backgroundColor="GREY"
+				height="100%" textAlign="CENTER">
+				<m:MaterialPanel ui:field="cornerIcon"/>
 			</m:MaterialColumn>
 			<m:MaterialColumn grid="l10">
 				<m:MaterialLabel ui:field="title" text="ChemConnect: The Intelligent Repository" fontSize="2em"
@@ -20,7 +19,7 @@
 				<m:MaterialLabel ui:field="subtitle" text="backed by a knowledge base" fontSize="1.5em"/>
 				<!-- MenuBar component -->
 				<ma:menubar.MaterialMenuBar
-					backgroundColor="PURPLE">
+					backgroundColor="GREY">
 					<m:MaterialLink ui:field="mission" padding="12" waves="DEFAULT" text="Mission"
 						textColor="WHITE" />
 					<m:MaterialLink padding="12" waves="DEFAULT" text="Create"
@@ -31,6 +30,8 @@
 						textColor="WHITE" activates="dp-info" />
 					<m:MaterialLink ui:field="about" padding="12" waves="DEFAULT" text="About"
 						textColor="WHITE" />
+					<m:MaterialLink padding="12" waves="DEFAULT" text="Login"
+						textColor="WHITE" activates="dp-login" />
 
 					<m:MaterialDropDown ui:field="dpCreate"
 						activator="dp-create" belowOrigin="true">
@@ -64,6 +65,13 @@
 						belowOrigin="true">
 						<m:MaterialLink text="General" separator="true"
 							textColor="BLACK" />
+					</m:MaterialDropDown>
+					<m:MaterialDropDown ui:field="dplogin"
+						activator="dp-login" belowOrigin="true">
+						<m:MaterialLink ui:field="linkedinLogin" separator="true" text="LikedIn"
+							textColor="BLACK" />
+						<m:MaterialLink ui:field="googleLogin" separator="true" text="Google"
+							textColor="BLACK" />						
 					</m:MaterialDropDown>
 				</ma:menubar.MaterialMenuBar>
 			</m:MaterialColumn>
