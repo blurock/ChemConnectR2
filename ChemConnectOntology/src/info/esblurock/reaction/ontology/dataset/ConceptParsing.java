@@ -231,7 +231,7 @@ public class ConceptParsing {
 		
 		String query = "SELECT ?subsystem { ?subsystem <" + ReasonerVocabulary.directSubClassOf + "> " + topnode
 				+ " .\n" + "FILTER (?subsystem != " + topnode + ") .\n" + "}";
-
+		
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
 		if (maxlevel > 0 || maxlevel < 0) {

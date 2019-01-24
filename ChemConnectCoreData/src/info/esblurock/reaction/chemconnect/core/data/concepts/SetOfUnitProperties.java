@@ -91,6 +91,8 @@ public class SetOfUnitProperties implements Serializable {
 		build.append(prefix + "Set of Units: " + topUnitType);
 		if(classification) {
 			build.append(" Classification ");
+		} else {
+			build.append(" No Classification ");
 		}
 		if(keyword) {
 			build.append(" Keyword ");

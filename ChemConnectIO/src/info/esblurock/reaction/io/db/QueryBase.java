@@ -152,8 +152,6 @@ public class QueryBase {
 		//query = query.limit(parameters.getAnswerLimit());
 		
 		//query = query.filter(MetaDataKeywords.access,parameters.getAccess());
-		Filter filter;
-		
 		if(parameters.getQueryvalues() != null) {
 			for(QueryPropertyValue pv : parameters.getQueryvalues()) {
 				if(pv.isStringvalue()) {

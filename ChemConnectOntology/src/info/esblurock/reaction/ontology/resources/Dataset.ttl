@@ -3002,12 +3002,6 @@ Under the general type of is the actual data object referenced by the ChemConnec
                       rdfs:label "Organization" .
 
 
-###  http://www.esblurock.info/dataset#DataTypePressureSensor
-:DataTypePressureSensor rdf:type owl:Class ;
-                        rdfs:subClassOf :DataTypeSensor ;
-                        rdfs:label "Pressure Sensor" .
-
-
 ###  http://www.esblurock.info/dataset#DataTypeProtocol
 :DataTypeProtocol rdf:type owl:Class ;
                   rdfs:subClassOf :DataTypeDataStructure ,
@@ -7979,7 +7973,9 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#PressureSensor
 :PressureSensor rdf:type owl:Class ;
-                rdfs:subClassOf :ChemConnectConceptSensor .
+                rdfs:subClassOf :ChemConnectConceptSensor ,
+                                :DataTypeSensor ;
+                rdfs:label "Pressure Sensor" .
 
 
 ###  http://www.esblurock.info/dataset#PressureTrace
@@ -8282,11 +8278,6 @@ Under the general type of is the actual data object referenced by the ChemConnec
  ] .
 
 
-###  http://www.esblurock.info/dataset#RCMDriverPiston
-:RCMDriverPiston rdf:type owl:Class ;
-                 rdfs:subClassOf :RapidCompressionMachineSubsystems .
-
-
 ###  http://www.esblurock.info/dataset#RCMExperimentalMeasurement
 :RCMExperimentalMeasurement rdf:type owl:Class ;
                             rdfs:subClassOf :ChemConnectConceptInstrument .
@@ -8413,6 +8404,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                           rdfs:subClassOf :RapidCompressionMachineSubsystems .
 
 
+###  http://www.esblurock.info/dataset#RCMReactorChamberPiston
+:RCMReactorChamberPiston rdf:type owl:Class ;
+                         rdfs:subClassOf :RapidCompressionMachineSubsystems .
+
+
 ###  http://www.esblurock.info/dataset#RCMReactorChamberViewPort
 :RCMReactorChamberViewPort rdf:type owl:Class ;
                            rdfs:subClassOf :RapidCompressionMachineSubsystems .
@@ -8424,12 +8420,17 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                         [ rdf:type owl:Restriction ;
                                           owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                          owl:onClass :DataTypePressureSensor
+                                          owl:onClass :PressureSensor
                                         ] ,
                                         [ rdf:type owl:Restriction ;
                                           owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                           owl:onClass :RCMReactorChamberGasPort
+                                        ] ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onClass :RCMReactorChamberPiston
                                         ] ,
                                         [ rdf:type owl:Restriction ;
                                           owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
@@ -8449,7 +8450,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
    owl:annotatedTarget [ rdf:type owl:Restriction ;
                          owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                         owl:onClass :DataTypePressureSensor
+                         owl:onClass :PressureSensor
                        ] ;
    <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
  ] .
@@ -8557,6 +8558,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                          [ rdf:type owl:Restriction ;
                                            owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
                                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                           owl:onClass :RCMHydraulicDriverSubSystem
+                                         ] ,
+                                         [ rdf:type owl:Restriction ;
+                                           owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                            owl:onClass :RCMMixingChamber
                                          ] ,
                                          [ rdf:type owl:Restriction ;
@@ -8571,6 +8577,17 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                          ] ;
                          rdfs:comment "Rapid Compression Machine" ;
                          rdfs:label "Rapid Compression Machine" .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource :RapidCompressionMachine ;
+   owl:annotatedProperty rdfs:subClassOf ;
+   owl:annotatedTarget [ rdf:type owl:Restriction ;
+                         owl:onProperty <http://www.w3.org/2004/02/skos/core#related> ;
+                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                         owl:onClass :RCMHydraulicDriverSubSystem
+                       ] ;
+   <http://purl.org/dc/elements/1.1/type> <http://www.w3.org/ns/ssn/hasSubSystem>
+ ] .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :RapidCompressionMachine ;

@@ -64,10 +64,14 @@ public class Oauth2CallbackServlet extends HttpServlet {
 
 		Cookie[] cookies = req.getCookies();
 		String expected = "";
+		if(cookies != null) {
 		for (Cookie cookie : cookies) {
 			if (cookie.getName().compareTo("secret") == 0) {
 				expected = cookie.getValue();
 			}
+		}
+		} else {
+			System.out.println("Oauth2CallbackServlet after sendRedirect  SC_UNAUTHORIZED no cookies");
 		}
 		// Ensure that this is no request forgery going on, and that the user
 		// sending us this connect request is the user that was supposed to.
@@ -139,7 +143,7 @@ public class Oauth2CallbackServlet extends HttpServlet {
 			System.out.println("Canonical Hostname: '" + req.getLocalPort() + "'");
 			int serverport = req.getServerPort();
 			String servername = req.getServerName();
-			String red = "http://blurock-reaction.appspot.com/oauth2callback";
+			String red = "http://blurock-chemconnect.appspot.com/oauth2callback";
 			if(servername.compareTo("localhost") == 0) {
 				red = "http://localhost:8080/oauth2callback";
 			}

@@ -71,11 +71,13 @@ public class AlternativeEntryWithAppFiles extends AlternativeEntry {
 	public String getQUDTQuantityLocal() {
 		String path = "info/esblurock/reaction/ontology/resources/quantity.owl";
 		URL url = getClass().getClassLoader().getResource(path);
+		System.out.println("getQUDTQuantityLocal(): " + url.toString());
 		return url.toString();
 	}
 	public String getQUDTQudtLocal() {
 		String path = "info/esblurock/reaction/ontology/resources/qudt.owl";
 		URL url = getClass().getClassLoader().getResource(path);
+		System.out.println("getQUDTQudtLocal(): " + url.toString());
 		return url.toString();
 	}
 

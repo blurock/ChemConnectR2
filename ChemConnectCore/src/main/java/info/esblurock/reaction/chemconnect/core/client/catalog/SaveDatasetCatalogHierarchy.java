@@ -55,6 +55,7 @@ public class SaveDatasetCatalogHierarchy extends Composite {
 	public void openModal() {
 		String owner = topitem.getHierarchy().getObject().getOwner();
 		String account = Cookies.getCookie("account_name");
+		if(account != null) {
 		MaterialToast.fireToast("Saving under user: '" + account + "'   (" + owner + ")");
 
 		String accessInput = Cookies.getCookie(MetaDataKeywords.accessDataInput);
@@ -83,6 +84,9 @@ public class SaveDatasetCatalogHierarchy extends Composite {
 			MaterialToast.fireToast("Have to have write authorization to save: not allowed for user: " + account);
 		} else {
 			modal.open();
+		}
+		} else {
+			MaterialToast.fireToast("The user is not logged in (or session expired");
 		}
 	}
 

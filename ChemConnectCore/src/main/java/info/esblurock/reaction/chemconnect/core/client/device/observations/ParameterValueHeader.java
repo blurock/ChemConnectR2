@@ -1,7 +1,6 @@
 package info.esblurock.reaction.chemconnect.core.client.device.observations;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.uibinder.client.UiHandler;
+
 
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.TextAlign;
@@ -16,10 +15,9 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.structure.Database
 public class ParameterValueHeader extends PrimitiveParameterValueRow {
 	
 	
-	boolean valueinput;
-	boolean uncertaintyinput;
 	ParameterValue parameter;
 	DatabaseObjectHierarchy parameterinfo;
+
 	
 	public ParameterValueHeader() {
 		super();
@@ -37,10 +35,14 @@ public class ParameterValueHeader extends PrimitiveParameterValueRow {
 		valueTextBox.setTextColor(Color.BLACK);
 		valueTextBox.setTextAlign(TextAlign.LEFT);
 		valueTextBox.setText("Value");
+		valueTextBox.setVisible(true);
+		valueTextBox.setEnabled(true);
+		
 		uncertaintyTextBox.setTextColor(Color.BLACK);
 		uncertaintyTextBox.setText("Uncertainty");
-		valuetip.setText("Value");
-		uncertaintytip.setText("Uncertainty");
+		
+		valuetip.setText("Parameter Value");
+		uncertaintytip.setText("Uncertainty Value");
 		unitstip.setText("Units");
 		uncertaintyclasstip.setText("Uncertainty Type");
 		valueinput = false;
@@ -72,27 +74,6 @@ public class ParameterValueHeader extends PrimitiveParameterValueRow {
 		}
 	}
 	
-	@UiHandler("valueTextBox")
-	public void onClickInputValue(ClickEvent event) {
-		if (!setOfUnitProperties.isClassification()) {
-			InputLineModal line = new InputLineModal("Parameter Value", "type value here: ", this);
-			modalpanel.clear();
-			modalpanel.add(line);
-			line.openModal();
-			valueinput = true;
-		} else {
-			MaterialToast.fireToast("Choose from units");
-		}
-	}
-	
-	@UiHandler("uncertaintyTextBox")
-	public void onClickUncertainty(ClickEvent event) {
-		InputLineModal line = new InputLineModal("Uncertainty Value", "type uncertainty here: ", this);
-		modalpanel.clear();
-		modalpanel.add(line);
-		line.openModal();
-		uncertaintyinput = true;
-	}
 
 	public boolean updateObject() {
 		super.updateObject();
@@ -110,12 +91,16 @@ public class ParameterValueHeader extends PrimitiveParameterValueRow {
 		parameter.setIdentifier(obj.getIdentifier());
 		identifiertip.setText(parameter.getIdentifier());
 	}
+	
+
 	public void setLineContent(String line) {
 		if (valueinput) {
 			valueinput = false;
+			parameter.setValueAsString(line);
 			valueTextBox.setText(line);
 		} else if (uncertaintyinput) {
 			uncertaintyinput = false;
+			parameter.setUncertainty(line);
 			uncertaintyTextBox.setText(line);
 		} else if (unitchoice) {
 			if (setOfUnitProperties.isClassification()) {
@@ -126,8 +111,17 @@ public class ParameterValueHeader extends PrimitiveParameterValueRow {
 					linemodal.openModal();
 					otherchoice = true;
 				} else {
-				valueTextBox.setText(TextUtilities.removeNamespace(line));
+
+					parameterUnits.setText(TextUtilities.removeNamespace(line));
 				chosenUnit = line;
+				}
+			} else {
+				unitproperties = setOfUnitProperties.getUnitPropertyFromAbbreviation(line);
+				if (unitproperties != null) {
+					chosenUnit = unitproperties.getUnitName();
+					parameterUnits.setText(TextUtilities.removeNamespace(chosenUnit));
+				} else {
+					MaterialToast.fireToast("Units for '" + line + "' are null");
 				}
 			}
 		} else if(otherchoice) {

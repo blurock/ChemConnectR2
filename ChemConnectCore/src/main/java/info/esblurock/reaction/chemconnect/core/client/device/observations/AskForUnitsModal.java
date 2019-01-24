@@ -44,8 +44,8 @@ public class AskForUnitsModal extends Composite {
 	}
 	@UiHandler("done")
 	void onClickDone(ClickEvent e) {
-		modal.close();
 		setline.setLineContent(unitschoice.getSingleValue());
+		modal.close();
 	}
 	@UiHandler("close")
 	void onClickClose(ClickEvent e) {

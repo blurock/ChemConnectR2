@@ -1,10 +1,12 @@
 package info.esblurock.reaction.chemconnect.core.client.info.tutorial;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialLink;
@@ -40,7 +42,6 @@ public class TutorialExample extends Composite implements TutorialExampleView {
 	}
 
 	void init() {
-		//HTML intoductionhtml = new HTML(tutorial.Introdction().getText());
 		HTML intoductionhtml = new HTML(" Text Example Summary");
 		introductiontext.add(intoductionhtml);
 		introductionlink.setText("Outline");
@@ -48,6 +49,12 @@ public class TutorialExample extends Composite implements TutorialExampleView {
 		explanationtext.add(explanationhtml);
 		explanationlink.setText("Overview");
 		HTML filestaginghtml = new HTML(tutorial.filestaging().getText());
+		ImageResource uploadimg = tutorial.uploadingFilesProcess();
+		Image upload = new Image(uploadimg);
+		filestagingtext.add(upload);
+		ImageResource uploadimg2 = tutorial.fileStagingIdentification();
+		Image upload2 = new Image(uploadimg2);
+		filestagingtext.add(upload2);
 		filestagingtext.add(filestaginghtml);
 		filestaginglink.setText("File Staging");
 	}

@@ -7,7 +7,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -56,7 +55,7 @@ public class PrimitiveParameterValueRow extends Composite
 	MaterialColumn labelcolumn;
 	
 	@UiField
-	MaterialLink valueTextBox;
+	protected MaterialLink valueTextBox;
 	@UiField
 	MaterialLink uncertaintyTextBox;
 	@UiField
@@ -64,7 +63,7 @@ public class PrimitiveParameterValueRow extends Composite
 	@UiField
 	MaterialLink parameterLabel;
 	@UiField
-	MaterialLink parameterUnits;
+	protected MaterialLink parameterUnits;
 	@UiField
 	MaterialLink purpose;
 	@UiField
@@ -115,6 +114,11 @@ public class PrimitiveParameterValueRow extends Composite
 	DatabaseObjectHierarchy info;
 	boolean unitchoice;
 	boolean otherchoice;
+	boolean valuechoice;
+	boolean uncertaintychoice;
+	protected boolean valueinput;
+	protected boolean uncertaintyinput;
+	
 
 	SetOfUnitProperties setOfUnitProperties;
 	UnitProperties unitproperties;
@@ -157,8 +161,6 @@ public class PrimitiveParameterValueRow extends Composite
 	public void fill(DatabaseObjectHierarchy spechierarchy) {
 		this.spechierarchy = spechierarchy;
 		specification = (ParameterSpecification) spechierarchy.getObject();
-		
-		Window.alert("PrimitiveParameterValueRow\n" + specification);
 		
 		setFullIdentifier();
 		
@@ -255,9 +257,9 @@ public class PrimitiveParameterValueRow extends Composite
 
 	@UiHandler("delete")
 	public void onClickClear(ClickEvent event) {
-		MaterialToast.fireToast("Delete");
+		MaterialToast.fireToast("Delete not implemented");
 	}
-
+	
 	@UiHandler("parameterLabel")
 	public void onClickLabel(ClickEvent event) {
 		ArrayList<String> choices = new ArrayList<String>();
@@ -288,6 +290,28 @@ public class PrimitiveParameterValueRow extends Composite
 		} else {
 			parameterUnits.setVisible(true);
 		}
+	}
+
+	@UiHandler("valueTextBox")
+	public void onClickInputValue(ClickEvent event) {
+		if (!setOfUnitProperties.isClassification()) {
+			InputLineModal line = new InputLineModal("Parameter Value", "type value here: ", this);
+			modalpanel.clear();
+			modalpanel.add(line);
+			line.openModal();
+			valueinput = true;
+		} else {
+			MaterialToast.fireToast("Choose from units");
+		}
+	}
+	
+	@UiHandler("uncertaintyTextBox")
+	public void onClickUncertainty(ClickEvent event) {
+		InputLineModal line = new InputLineModal("Uncertainty Value", "type uncertainty here: ", this);
+		modalpanel.clear();
+		modalpanel.add(line);
+		line.openModal();
+		uncertaintyinput = true;
 	}
 
 	public void setUpUnitList(SetOfUnitProperties set) {

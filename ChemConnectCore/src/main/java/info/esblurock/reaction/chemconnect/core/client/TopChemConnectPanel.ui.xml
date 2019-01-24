@@ -20,6 +20,8 @@
 				<!-- MenuBar component -->
 				<ma:menubar.MaterialMenuBar
 					backgroundColor="GREY">
+					<m:MaterialLink ui:field="home" padding="12" waves="DEFAULT" text="Home"
+						textColor="WHITE" />
 					<m:MaterialLink ui:field="mission" padding="12" waves="DEFAULT" text="Mission"
 						textColor="WHITE" />
 					<m:MaterialLink padding="12" waves="DEFAULT" text="Create"
@@ -30,8 +32,14 @@
 						textColor="WHITE" activates="dp-info" />
 					<m:MaterialLink ui:field="about" padding="12" waves="DEFAULT" text="About"
 						textColor="WHITE" />
-					<m:MaterialLink padding="12" waves="DEFAULT" text="Login"
+					<m:MaterialTooltip ui:field="logintooltip">
+					<m:MaterialLink ui:field="loginchoice" padding="12" waves="DEFAULT" text="Login"
 						textColor="WHITE" activates="dp-login" />
+						</m:MaterialTooltip>
+						<m:MaterialTooltip ui:field="logouttooltip">
+					<m:MaterialLink ui:field="logout" padding="12" waves="DEFAULT" text="Logout"
+						textColor="WHITE" />
+						</m:MaterialTooltip>
 
 					<m:MaterialDropDown ui:field="dpCreate"
 						activator="dp-create" belowOrigin="true">

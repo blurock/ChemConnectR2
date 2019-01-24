@@ -5,6 +5,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -69,7 +70,7 @@ public class UploadFileToBlobStorage extends Composite implements DetermineBlobT
 		init();
 	}
 
-	void init() {
+	void init() {		
 		httpupload.setText("Upload as URL");
 		textareaupload.setText("Upload text area");
 		title.setTitle("File Upload Staging");
@@ -92,6 +93,19 @@ public class UploadFileToBlobStorage extends Composite implements DetermineBlobT
 				}
 			});
 		filenamegiven = false;
+		
+		checkUserLoggedIn();
+	}
+	
+	private void checkUserLoggedIn() {
+		String account = Cookies.getCookie("account_name");
+		boolean loggedin = true;
+		if(account == null) {
+			loggedin = false;
+		}
+		httpupload.setEnabled(loggedin);
+		uploader.setEnabled(loggedin);
+		textareaupload.setEnabled(loggedin);
 	}
 	
 	@UiHandler("httpupload")
@@ -138,6 +152,7 @@ public class UploadFileToBlobStorage extends Composite implements DetermineBlobT
 	
 	@Override
 	public void refresh() {
+		checkUserLoggedIn();
 		collapsible.clear();
 		getUploadedFiles();		
 	}

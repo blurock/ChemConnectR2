@@ -76,6 +76,13 @@ public class OntologyBase {
 				datasetmodel.getDocumentManager().addAltEntry(alt.getFoafURL(), alt.getFoafLocal());
 				datasetmodel.getDocumentManager().addAltEntry(alt.getSKOSURL(), alt.getSKOSLocal());
 				
+				datasetmodel.getDocumentManager().addAltEntry(alt.getQUDTQudt(), alt.getQUDTQudtLocal());
+				datasetmodel.getDocumentManager().addAltEntry(alt.getQUDTDimension(), alt.getQUDTQudtLocal());
+				datasetmodel.getDocumentManager().addAltEntry(alt.getQUDTQuantity(), alt.getQUDTQuantityLocal());
+				datasetmodel.getDocumentManager().addAltEntry(alt.getQUDTUnit(), alt.getQUDTUnitLocal());
+				datasetmodel.getDocumentManager().addAltEntry(alt.getPhysicsUnit(), alt.getPhysicsUnitLocal());
+				
+				
 				String filename = "/info/esblurock/reaction/ontology/resources/Dataset.ttl";
 				InputStream str = OntologyBase.class.getResourceAsStream(filename);
 				

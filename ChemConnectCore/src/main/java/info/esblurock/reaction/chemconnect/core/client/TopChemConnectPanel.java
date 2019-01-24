@@ -21,12 +21,16 @@ import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialToast;
+import gwt.material.design.client.ui.MaterialTooltip;
 import info.esblurock.reaction.chemconnect.core.client.activity.ClientFactory;
+import info.esblurock.reaction.chemconnect.core.client.firstpage.FirstSiteLandingPage;
 import info.esblurock.reaction.chemconnect.core.client.firstpage.StandardFooter;
 import info.esblurock.reaction.chemconnect.core.client.place.AboutSummaryPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.ChemConnectObservationPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.DatabasePersonDefinitionPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.DeviceWithSubystemsDefinitionPlace;
+import info.esblurock.reaction.chemconnect.core.client.place.FirstPagePlace;
+import info.esblurock.reaction.chemconnect.core.client.place.FirstSiteLandingPagePlace;
 import info.esblurock.reaction.chemconnect.core.client.place.IsolateMatrixBlockPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.ManageCatalogHierarchyPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.MissionStatementPlace;
@@ -35,6 +39,8 @@ import info.esblurock.reaction.chemconnect.core.client.place.ProtocolDefinitionP
 import info.esblurock.reaction.chemconnect.core.client.place.TutorialExamplePlace;
 import info.esblurock.reaction.chemconnect.core.client.place.UploadFileToBlobStoragePlace;
 import info.esblurock.reaction.chemconnect.core.client.resources.info.about.InfoAboutResources;
+import info.esblurock.reaction.chemconnect.core.common.client.async.LoginService;
+import info.esblurock.reaction.chemconnect.core.common.client.async.LoginServiceAsync;
 
 public class TopChemConnectPanel extends Composite {
 
@@ -77,6 +83,8 @@ public class TopChemConnectPanel extends Composite {
 	@UiField
 	MaterialLink mission;
 	@UiField
+	MaterialLink home;
+	@UiField
 	MaterialLink about;
 	@UiField
 	MaterialPanel cornerIcon;
@@ -84,7 +92,14 @@ public class TopChemConnectPanel extends Composite {
 	MaterialLink linkedinLogin;
 	@UiField
 	MaterialLink googleLogin;
-
+	@UiField
+	MaterialLink logout;
+	@UiField
+	MaterialTooltip logouttooltip;
+	@UiField
+	MaterialTooltip logintooltip;
+	@UiField
+	MaterialLink loginchoice;
 	ClientFactory clientFactory;
 	String hosturl;
 	
@@ -111,9 +126,29 @@ public class TopChemConnectPanel extends Composite {
 		people.setText("researchers in database");
 		organizations.setText("organizations in database");
 		tutorialreadfile.setText("Interpret data files");
+		logout.setText("Logout");
+		logouttooltip.setText("Log out current user (to Guest");
+		logintooltip.setText("Choose method of login");
+		String account = Cookies.getCookie("account_name");
+		if(account != null) {
+			if(account.compareTo("Guest") == 0) {
+				setLoginVisibility(true);
+			} else {
+				setLoginVisibility(false);
+			}
+		} else {
+			setLoginVisibility(true);
+		}
 		
-		
+		home.setText("Home");
+		title.setText("ChemConnect: The Intelligent Repository");
 	}
+	
+	void setLoginVisibility(boolean loginvisible) {
+		logout.setVisible(!loginvisible);
+		loginchoice.setVisible(loginvisible);
+	}
+	
 	@UiHandler("linkedinLogin")
 	void onClickLinkedIn(ClickEvent e) {
 		String CLIENT_ID = "77lvn5zzefwzq0";
@@ -130,13 +165,13 @@ public class TopChemConnectPanel extends Composite {
 				+ "scope=r_basicprofile%20r_emailaddress";
 		String urlS = authurl + reststr;
 		MaterialToast.fireToast("URL: " + redirect);
-
+		setLoginVisibility(false);
 		Window.open(urlS, "_blank", "");
 	
 	}
 	@UiHandler("googleLogin")
 	void onClickGoogle(ClickEvent e) {
-		String CLIENT_ID = "664636228487-pbsb9lh39tvi2ec1rg0lqk4uq371bhr9.apps.googleusercontent.com";
+		String CLIENT_ID = "571384264595-am69s6l6nuu1hg4o2vmlcmaj63pscd3d.apps.googleusercontent.com";
 		String SCOPE = "https://www.googleapis.com/auth/drive.metadata.readonly";
 		
 		String secretState = "google" + new Random().nextInt(999_999);
@@ -154,6 +189,7 @@ public class TopChemConnectPanel extends Composite {
 				"response_type=code&" + 
 				"client_id=" + CLIENT_ID;
 		String urlS = authurl + reststr;
+		setLoginVisibility(false);
 
 		Window.open(urlS, "_blank", "");
 		
@@ -161,7 +197,7 @@ public class TopChemConnectPanel extends Composite {
 	private String callbackWithServer() {
 		MaterialToast.fireToast("callbackWithServer()");
 		MaterialToast.fireToast("callbackWithServer(): '" + Window.Location.getHostName() + "'");
-		String redirect = "http://blurock-reaction.appspot.com/oauth2callback";
+		String redirect = "http://blurock-chemconnect.appspot.com/oauth2callback";
 		if(Window.Location.getHostName().compareTo("localhost") == 0) {
 			redirect = "http://localhost:8080/oauth2callback";
 		}
@@ -169,11 +205,27 @@ public class TopChemConnectPanel extends Composite {
 		return redirect;
 	}
 
+	@UiHandler("home")
+	public void onHome(ClickEvent event) {
+		subtitle.setText("ChemConnect: The Intelligent Repository");
+		goTo(new FirstSiteLandingPagePlace("Home"));
+	}
+	@UiHandler("logout")
+	public void onLogout(ClickEvent event) {
+		MaterialToast.fireToast("Logout");
+		subtitle.setText("");
+		setLoginVisibility(true);
+		LoginServiceAsync async = LoginService.Util.getInstance();
+		SimpleLoginCallback callback = new SimpleLoginCallback();
+		async.loginGuestServer(callback);		
+	}
+	
 	@UiHandler("catalog")
 	public void onCatalogClick(ClickEvent event) {
 		subtitle.setText("Manage Catalog Structure");
 		goTo(new ManageCatalogHierarchyPlace("Manage Catalog Structure"));
 	}
+	
 	@UiHandler("upload")
 	public void onUploadClick(ClickEvent event) {
 		subtitle.setText("File staging");

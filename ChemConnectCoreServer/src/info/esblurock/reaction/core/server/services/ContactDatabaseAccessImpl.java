@@ -121,9 +121,7 @@ public class ContactDatabaseAccessImpl extends ServerBase implements ContactData
 
 	@Override
 	public HierarchyNode hierarchyOfConceptsWithLevelLimit(String topnode, int maxlevel) {
-		System.out.println("hierarchyOfConceptsWithLevelLimit" + topnode + ": " + maxlevel);
 		HierarchyNode hierarchy = ConceptParsing.conceptHierarchy(topnode, maxlevel);
-		System.out.println("hierarchyOfConceptsWithLevelLimit" + hierarchy);
 		return hierarchy;
 	}
 	public String getObjectIDFromLinkConcept(String concept) {
