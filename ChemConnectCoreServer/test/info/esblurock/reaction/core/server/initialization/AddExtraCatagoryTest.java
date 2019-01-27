@@ -2,7 +2,6 @@ package info.esblurock.reaction.core.server.initialization;
 
 //import static org.junit.Assert.*;
 
-import java.io.IOException;
 
 import org.junit.After;
 import org.junit.Before;
@@ -27,14 +26,10 @@ import info.esblurock.reaction.chemconnect.core.data.gcs.RegisterGCSClasses;
 import info.esblurock.reaction.chemconnect.core.data.image.RegisterImageInformation;
 import info.esblurock.reaction.chemconnect.core.data.initialization.RegisterInitializationData;
 import info.esblurock.reaction.chemconnect.core.data.login.RegisterUserLoginData;
-import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.observations.RegisterObservationData;
 import info.esblurock.reaction.chemconnect.core.data.rdf.RegisterRDFData;
 import info.esblurock.reaction.chemconnect.core.data.transaction.RegisterTransactionData;
-import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
-import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.db.image.BlobKeyCorrespondence;
-import info.esblurock.reaction.io.metadata.StandardDatasetMetaData;
 
 public class AddExtraCatagoryTest {
 	protected Closeable session;
@@ -78,6 +73,7 @@ public class AddExtraCatagoryTest {
 
 	@Test
 	public void test() {
+		/*
 		String sourceID   = "1";
 		String username   = "Administration";
 		String access     = "Administration";
@@ -121,7 +117,7 @@ public class AddExtraCatagoryTest {
 		}
 
 		
-
+*/
 	}
 
 }

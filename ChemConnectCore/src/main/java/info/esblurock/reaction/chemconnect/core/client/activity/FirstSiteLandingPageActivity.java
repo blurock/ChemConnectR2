@@ -1,5 +1,6 @@
 package info.esblurock.reaction.chemconnect.core.client.activity;
 
+
 import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
@@ -29,9 +30,10 @@ public class FirstSiteLandingPageActivity extends AbstractActivity implements Fi
 	}
 	   @Override
 	    public String mayStop() {
-			return "This will cause the user to be logged out and window information lost";
+			return null;
 	    }
 
+	   
 	@Override
 	public void goTo(Place place) {
 		clientFactory.getPlaceController().goTo(place);

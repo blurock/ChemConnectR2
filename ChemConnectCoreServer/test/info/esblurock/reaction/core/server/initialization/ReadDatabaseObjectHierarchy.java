@@ -2,8 +2,6 @@ package info.esblurock.reaction.core.server.initialization;
 
 //import static org.junit.Assert.*;
 
-import java.io.IOException;
-import java.util.ArrayList;
 
 import org.junit.After;
 import org.junit.Before;
@@ -28,13 +26,9 @@ import info.esblurock.reaction.chemconnect.core.data.gcs.RegisterGCSClasses;
 import info.esblurock.reaction.chemconnect.core.data.image.RegisterImageInformation;
 import info.esblurock.reaction.chemconnect.core.data.initialization.RegisterInitializationData;
 import info.esblurock.reaction.chemconnect.core.data.login.RegisterUserLoginData;
-import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.observations.RegisterObservationData;
 import info.esblurock.reaction.chemconnect.core.data.rdf.RegisterRDFData;
 import info.esblurock.reaction.chemconnect.core.data.transaction.RegisterTransactionData;
-import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
-import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
-import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.db.image.BlobKeyCorrespondence;
 
 public class ReadDatabaseObjectHierarchy {
@@ -79,6 +73,7 @@ public class ReadDatabaseObjectHierarchy {
 
 	@Test
 	public void test() {
+		/*
 		try {
 			String sourceID = "1";
 			String username = "Administration";
@@ -117,6 +112,7 @@ public class ReadDatabaseObjectHierarchy {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		*/
 	}
 
 }

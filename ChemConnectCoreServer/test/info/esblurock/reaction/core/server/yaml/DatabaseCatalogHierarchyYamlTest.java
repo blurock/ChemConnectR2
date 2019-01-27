@@ -36,7 +36,6 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.structure.Database
 import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.db.image.BlobKeyCorrespondence;
-import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFactory;
 import info.esblurock.reaction.core.server.read.ReadWriteYamlDatabaseObjectHierarchy;
 
 public class DatabaseCatalogHierarchyYamlTest {
@@ -83,16 +82,17 @@ public class DatabaseCatalogHierarchyYamlTest {
 	@Test
 	public void test() {
 		String sourceID = "1";
-		String username = "Administration";
-		String access = "Administration";
+		//String username = "Administration";
+		//String access = "Administration";
 		String owner = "Administration";
-		String orgname = "BlurockConsultingAB";
-		String title = "Blurock Consulting AB";
+		//String orgname = "BlurockConsultingAB";
+		//String title = "Blurock Consulting AB";
 
-		String userrole = MetaDataKeywords.accessTypeStandardUser;
+		//String userrole = MetaDataKeywords.accessTypeStandardUser;
+		/*
 		CreateDefaultObjectsFactory.createAndWriteDefaultUserOrgAndCatagories(username, userrole, access, owner,
 				orgname, title, sourceID);
-
+*/
 		System.out.println("---------------------------------------------------------------");
 		String id = "Administration-UserDataCatagory-Administration-sethier";
 		DatabaseObjectHierarchy hierarchy = ExtractCatalogInformation.getCatalogObject(id, MetaDataKeywords.datasetCatalogHierarchy);

@@ -28,7 +28,7 @@ import info.esblurock.reaction.chemconnect.core.data.gcs.RegisterGCSClasses;
 import info.esblurock.reaction.chemconnect.core.data.image.RegisterImageInformation;
 import info.esblurock.reaction.chemconnect.core.data.initialization.RegisterInitializationData;
 import info.esblurock.reaction.chemconnect.core.data.login.RegisterUserLoginData;
-import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
+//import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.observations.RegisterObservationData;
 import info.esblurock.reaction.chemconnect.core.data.rdf.RegisterRDFData;
 import info.esblurock.reaction.chemconnect.core.data.transaction.RegisterTransactionData;
@@ -36,7 +36,7 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.structure.Database
 import info.esblurock.reaction.core.server.db.InterpretData;
 import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.core.server.db.image.BlobKeyCorrespondence;
-import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFactory;
+//import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFactory;
 import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 
 public class FindDatabaseElements {
@@ -80,17 +80,19 @@ public class FindDatabaseElements {
 
 	@Test
 	public void test() {
+		String username = "Administration";
 		String name = DatasetOntologyParsing.getChemConnectDirectTypeHierarchy("dataset:Organization");
 		System.out.println("dataset:Organization    \t" + name);
 		InterpretData interpret = InterpretData.valueOf(name);
 		System.out.println(interpret.canonicalClassName());
-		
+		/*
 		String sourceID = "1";
-		String username = "Administration";
+		
 		//String access = "Administration";
 		String owner = "Administration";
 		String title = "Blurock Consulting AB";
 		String userrole = MetaDataKeywords.accessTypeAdministrator;
+		
 		CreateDefaultObjectsFactory.createAndWriteDefaultUserOrgAndCatagories(username, userrole, username, owner,
 				"BlurockConsultingAB-admin", title, sourceID);
 		CreateDefaultObjectsFactory.createAndWriteDefaultUserOrgAndCatagories("SecondUser", MetaDataKeywords.accessTypeStandardUser, "OtherUser", "OtherUser",
@@ -98,7 +100,7 @@ public class FindDatabaseElements {
 		CreateDefaultObjectsFactory.createAndWriteDefaultUserOrgAndCatagories("ThirdUser", MetaDataKeywords.accessTypeQuery, "Public", "OtherUser",
 				"BlurockConsultingAB-public", title, sourceID);
 		
-		
+		*/
 		
 		try {
 			

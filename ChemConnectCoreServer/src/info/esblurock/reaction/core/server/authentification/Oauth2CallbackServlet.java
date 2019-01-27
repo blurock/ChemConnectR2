@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.InetAddress;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,7 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -39,7 +37,6 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson.JacksonFactory;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
-import info.esblurock.reaction.chemconnect.core.data.contact.IndividualInformation;
 import info.esblurock.reaction.chemconnect.core.data.login.UserAccount;
 import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
 import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
@@ -141,7 +138,7 @@ public class Oauth2CallbackServlet extends HttpServlet {
 
 			System.out.println("Canonical Hostname: '" + req.getLocalAddr() + "'");
 			System.out.println("Canonical Hostname: '" + req.getLocalPort() + "'");
-			int serverport = req.getServerPort();
+			//int serverport = req.getServerPort();
 			String servername = req.getServerName();
 			String red = "http://blurock-chemconnect.appspot.com/oauth2callback";
 			if(servername.compareTo("localhost") == 0) {

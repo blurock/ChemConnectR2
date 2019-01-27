@@ -2,11 +2,7 @@ package info.esblurock.reaction.core.server.initialization;
 
 //import static org.junit.Assert.*;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 
-import org.apache.commons.collections.MapUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -24,22 +20,16 @@ import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMul
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.contact.RegisterContactData;
-import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHierarchy;
 import info.esblurock.reaction.chemconnect.core.data.dataset.RegistrerDataset;
 import info.esblurock.reaction.chemconnect.core.data.description.RegisterDescriptionData;
 import info.esblurock.reaction.chemconnect.core.data.gcs.RegisterGCSClasses;
 import info.esblurock.reaction.chemconnect.core.data.image.RegisterImageInformation;
 import info.esblurock.reaction.chemconnect.core.data.initialization.RegisterInitializationData;
 import info.esblurock.reaction.chemconnect.core.data.login.RegisterUserLoginData;
-import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.observations.RegisterObservationData;
 import info.esblurock.reaction.chemconnect.core.data.rdf.RegisterRDFData;
 import info.esblurock.reaction.chemconnect.core.data.transaction.RegisterTransactionData;
-import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
-import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.db.image.BlobKeyCorrespondence;
-import info.esblurock.reaction.core.server.read.ReadWriteYamlDatabaseObjectHierarchy;
-import info.esblurock.reaction.io.db.QueryBase;
 
 public class LoginSetupTest {
 	protected Closeable session;
@@ -83,6 +73,7 @@ public class LoginSetupTest {
 
 	@Test
 	public void test() {
+		/*
 		String username = "GUEST";
 		String access = "GUEST";
 		String userrole = MetaDataKeywords.accessTypeStandardUser;
@@ -115,6 +106,7 @@ public class LoginSetupTest {
 			for (DatabaseObject object : lstcat) {
 				System.out.println(object.getIdentifier().toString());
 			}
+			*/
 			/*
 			System.out.println("---------------------------------------------------------------");
 			
@@ -148,13 +140,14 @@ public class LoginSetupTest {
 				System.out.println(object.toString());
 			}
 			*/
+		/*
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.out.println("---------------------------------------------------------------");
 		
-		
+		*/
 		
 	}
 
