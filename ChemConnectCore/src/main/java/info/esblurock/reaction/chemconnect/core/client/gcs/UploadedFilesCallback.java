@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import gwt.material.design.client.ui.MaterialLoader;
 import info.esblurock.reaction.chemconnect.core.client.pages.primitive.observable.spreadsheet.UploadedFilesInterface;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
@@ -17,14 +18,17 @@ public class UploadedFilesCallback implements AsyncCallback<ArrayList<GCSBlobFil
 	public UploadedFilesCallback(UploadedFilesInterface top, boolean rows) {
 		this.top = top;
 		this.rows = rows;
-	}
+		MaterialLoader.loading(true);
+		}
 	@Override
 	public void onFailure(Throwable ex) {
-		Window.alert(ex.toString());
+		MaterialLoader.loading(false);
+		Window.alert("ERROR: Uploaded files\n" + ex.toString());
 	}
 
 	@Override
 	public void onSuccess(ArrayList<GCSBlobFileInformation> results) {
+		MaterialLoader.loading(false);
 		for(GCSBlobFileInformation gcsinfo: results) {
 			if(!rows) {
 				String urlS = "https://storage.googleapis.com/" + gcsinfo.getBucket() + "/" + gcsinfo.getGSFilename();				

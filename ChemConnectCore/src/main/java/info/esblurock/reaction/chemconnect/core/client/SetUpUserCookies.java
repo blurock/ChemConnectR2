@@ -56,11 +56,30 @@ public class SetUpUserCookies {
 		Cookies.setCookie(access, ansB, expires, null, "/", false);
 	}
 
+	public static void removeCookie(String name) {
+		Cookies.removeCookie(name);
+	}
+	
 	public static void zeroAllCookies() {
+		removeCookie("account_name");
+		removeCookie("family_name");
+		removeCookie("given_name");
+		removeCookie("user");
+		removeCookie("auth_id");
+		removeCookie("authorizationType");
+		removeCookie("hasAccount");
+		removeCookie("sid");
+		removeCookie("level");
+		removeCookie(MetaDataKeywords.accessUserDataInput);
+		removeCookie(MetaDataKeywords.accessUserDataDelete);
+		removeCookie(MetaDataKeywords.accessDataInput);
+		removeCookie(MetaDataKeywords.accessDataDelete);
+		/*
 		Collection<String> names = Cookies.getCookieNames();
 		for(String name: names) {
 			Cookies.removeCookie(name);
 		}
+		*/
 	}
 	
 	

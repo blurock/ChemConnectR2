@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import gwt.material.design.client.ui.MaterialLoader;
 import info.esblurock.reaction.chemconnect.core.data.image.UploadedImage;
 
 
@@ -15,16 +16,18 @@ public class UploadPhotosCallback implements AsyncCallback<ArrayList<UploadedIma
 	
 	public UploadPhotosCallback(BlobStorageUploadInterface upload) {
 		this.upload = upload;
+		MaterialLoader.loading(true);
 	}
 
 	@Override
 	public void onFailure(Throwable caught) {
-		Window.alert(caught.toString());
+		MaterialLoader.loading(false);
+		Window.alert("ERROR: Upload Photos\n" + caught.toString());
 	}
 
 	@Override
 	public void onSuccess(ArrayList<UploadedImage> result) {
-		Window.alert("UploadPhotosCallback: " + result.size());
+		MaterialLoader.loading(false);
 		for(UploadedImage imageinfo : result) {
 			upload.addImage(imageinfo);
 		}

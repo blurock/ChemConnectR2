@@ -6,6 +6,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import gwt.material.design.client.data.loader.LoadCallback;
 import gwt.material.design.client.data.loader.LoadResult;
+import gwt.material.design.client.ui.MaterialLoader;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
 
 public class SpreadSheetRowsCallback implements AsyncCallback<ArrayList<ObservationValueRow>>{
@@ -18,15 +19,18 @@ public class SpreadSheetRowsCallback implements AsyncCallback<ArrayList<Observat
 		this.callback = callback;
 		this.start = start;
 		this.total = total;
-	}
+		MaterialLoader.loading(true);
+		}
 	@Override
 	public void onFailure(Throwable caught) {
-        GWT.log("Getting people async call failed.", caught);
+		MaterialLoader.loading(false);
+		GWT.log("Getting people async call failed.", caught);
         callback.onFailure(caught);
 	}
 
 	@Override
 	public void onSuccess(ArrayList<ObservationValueRow> result) {
+		MaterialLoader.loading(false);
 		callback.onSuccess(new LoadResult<ObservationValueRow>(result, start, total));
 	}
 
