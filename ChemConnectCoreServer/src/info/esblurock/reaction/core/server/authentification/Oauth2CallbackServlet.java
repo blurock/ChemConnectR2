@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,6 +26,7 @@ import javax.servlet.http.HttpSession;
 import org.json.JSONObject;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gargoylesoftware.htmlunit.WebRequest;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
@@ -61,12 +63,12 @@ public class Oauth2CallbackServlet extends HttpServlet {
 
 		Cookie[] cookies = req.getCookies();
 		String expected = "";
-		if(cookies != null) {
-		for (Cookie cookie : cookies) {
-			if (cookie.getName().compareTo("secret") == 0) {
-				expected = cookie.getValue();
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().compareTo("secret") == 0) {
+					expected = cookie.getValue();
+				}
 			}
-		}
 		} else {
 			System.out.println("Oauth2CallbackServlet after sendRedirect  SC_UNAUTHORIZED no cookies");
 		}
@@ -106,7 +108,7 @@ public class Oauth2CallbackServlet extends HttpServlet {
 			req.getSession().setAttribute("userEmail", userIdResult.get("email"));
 			req.getSession().setAttribute("userId", userIdResult.get("sub"));
 			req.getSession().setAttribute("userImageUrl", userIdResult.get("picture"));
-			
+
 			String emailS = userIdResult.get("email");
 			Cookie emailC = new Cookie("email", emailS);
 			emailC.setMaxAge(60 * 60);
@@ -115,14 +117,13 @@ public class Oauth2CallbackServlet extends HttpServlet {
 			Cookie picC = new Cookie("userpicture", userIdResult.get("picture"));
 			picC.setMaxAge(60 * 60);
 			resp.addCookie(picC);
-			
+
 			firstname = userIdResult.get("given_name");
 			lastname = userIdResult.get("family_name");
 			auth_id = userIdResult.get("sub");
 
 			authType = "Google";
 
-		
 		} else if (state.startsWith("linkedin")) {
 			String code = req.getParameter("code");
 			List<String> list = Collections.list(req.getParameterNames());
@@ -138,18 +139,15 @@ public class Oauth2CallbackServlet extends HttpServlet {
 
 			System.out.println("Canonical Hostname: '" + req.getLocalAddr() + "'");
 			System.out.println("Canonical Hostname: '" + req.getLocalPort() + "'");
-			//int serverport = req.getServerPort();
+			// int serverport = req.getServerPort();
 			String servername = req.getServerName();
 			String red = "http://blurock-chemconnect.appspot.com/oauth2callback";
-			if(servername.compareTo("localhost") == 0) {
+			if (servername.compareTo("localhost") == 0) {
 				red = "http://localhost:8080/oauth2callback";
 			}
 			String response = "https://www.linkedin.com/oauth/v2/accessToken?state=" + newstate + "&"
-					+ "client_id=77lvn5zzefwzq0&" 
-					+ "redirect_uri=" + red + "&"
-					+ "grant_type=authorization_code&" 
-					+ "client_secret=fnmtW4at0KZBeeuN&" + "code=" + code + "&"
-					+ "format=json";
+					+ "client_id=77lvn5zzefwzq0&" + "redirect_uri=" + red + "&" + "grant_type=authorization_code&"
+					+ "client_secret=fnmtW4at0KZBeeuN&" + "code=" + code + "&" + "format=json";
 
 			log.info("Response: " + response);
 			JSONObject jsonobj = getJSONObject(response);
@@ -170,9 +168,9 @@ public class Oauth2CallbackServlet extends HttpServlet {
 			firstname = json.getString("firstName");
 			lastname = json.getString("lastName");
 			auth_id = json.getString("id");
-			
+
 			authType = "LinkedIn";
-			
+
 		} else if (state.startsWith("facebook")) {
 			String access_token = req.getParameter("access_token");
 			String CLIENT_ID = "618453741934565";
@@ -201,7 +199,7 @@ public class Oauth2CallbackServlet extends HttpServlet {
 			}
 
 		}
-		
+
 		Cookie given_nameC = new Cookie("given_name", firstname);
 		given_nameC.setMaxAge(60 * 60);
 		resp.addCookie(given_nameC);
@@ -220,8 +218,8 @@ public class Oauth2CallbackServlet extends HttpServlet {
 		String suggestion = "";
 		try {
 			System.out.println("accountUserName: " + auth_id);
-			DatabaseObject obj = QueryBase.getFirstDatabaseObjectsFromSingleProperty(UserAccount.class.getCanonicalName(),
-					"authorizationName", auth_id);
+			DatabaseObject obj = QueryBase.getFirstDatabaseObjectsFromSingleProperty(
+					UserAccount.class.getCanonicalName(), "authorizationName", auth_id);
 			UserAccount account = (UserAccount) obj;
 			System.out.println("authorizationName: TRUE\n" + account.toString());
 			suggestion = account.getAccountUserName();
@@ -229,19 +227,18 @@ public class Oauth2CallbackServlet extends HttpServlet {
 			String host = req.getRemoteHost();
 			HttpSession session = req.getSession();
 			System.out.println("SessionID: " + session.getId());
-			ContextAndSessionUtilities util 
-			= new ContextAndSessionUtilities(getServletContext(), session);
+			ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), session);
 			UserDTO user = new UserDTO(account.getAccountUserName(), session.getId(), ip, host,
 					account.getAccountPrivilege(), LoginServiceImpl.standardMaxTransitions);
 			ArrayList<String> privs = VerifyServerTransaction.getPrivledges(account.getAccountPrivilege());
 			user.setPrivledges(privs);
 			System.out.println("Oauth2CallbackServlet\n" + user.toString());
 			util.removeUser();
-			
+
 			System.out.println("After Remove: " + util.getUserInfo());
-			
+
 			util.setUserInfo(user);
-			
+
 			System.out.println("Oauth2CallbackServlet from context\n" + util.getUserInfo());
 
 		} catch (IOException ex) {
@@ -255,10 +252,18 @@ public class Oauth2CallbackServlet extends HttpServlet {
 		accountNameC.setMaxAge(60 * 60);
 		resp.addCookie(accountNameC);
 
-		System.out.println("");
-		String redirect = req.getContextPath() + "/#FirstPagePlace:First%20Page";
-		System.out.println("Redirect: " + redirect);
-		resp.sendRedirect(redirect);
+		String servername = req.getServerName();
+		System.out.println("Server: '" + servername + "'");
+		String redirect = "http://blurock-chemconnect.appspot.com/#FirstPagePlace:First%20Page";
+		if (servername.compareTo("localhost") == 0) {
+			redirect = "http://localhost:8080/#FirstPagePlace:First%20Page";
+		}
+		redirect = "/#FirstPagePlace:First%20Page";
+		System.out.println("Redirect: without clientname: '" + redirect + "'");
+		String url = resp.encodeRedirectURL(redirect);
+		System.out.println("Encoded: '" + url + "'");
+
+		resp.sendRedirect(url);
 	}
 
 	JSONObject getJSONObject(String response) throws IOException {

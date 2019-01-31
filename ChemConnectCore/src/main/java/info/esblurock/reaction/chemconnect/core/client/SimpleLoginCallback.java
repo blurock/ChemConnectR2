@@ -1,56 +1,34 @@
 package info.esblurock.reaction.chemconnect.core.client;
 
-import java.util.ArrayList;
-import java.util.Date;
-
-import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import gwt.material.design.client.ui.MaterialToast;
+import info.esblurock.reaction.chemconnect.core.client.activity.ClientFactory;
+import info.esblurock.reaction.chemconnect.core.client.place.FirstSiteLandingPagePlace;
 import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
-import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 
 public class SimpleLoginCallback implements AsyncCallback<UserDTO> {
 
+	ChemConnectCore coreentry;
+	ClientFactory clientFactory;
+	public SimpleLoginCallback(ChemConnectCore coreentry,ClientFactory clientFactory) {
+		this.coreentry = coreentry;
+		this.clientFactory= clientFactory;
+	}
+	
 	@Override
 	public void onFailure(Throwable caught) {
-		Window.alert(caught.toString());
+		Window.alert("Login fail\n" + caught.toString());
+		clientFactory.getPlaceController().goTo(new FirstSiteLandingPagePlace("Logged in user"));
 	}
 
 	@Override
 	public void onSuccess(UserDTO result) {
-		MaterialToast.fireToast("Welcome: " + result.getName() + "(" + result.getHostname() + ")");
-		String sessionID = result.getSessionId();
-		final long DURATION = 1000 * 60 * 60;
-		Date expires = new Date(System.currentTimeMillis()
-				+ DURATION);
-		Cookies.setCookie("sid", sessionID, expires, null,
-				"/", false);
-		Cookies.setCookie("user", result.getName(),
-				expires, null, "/", false);
-		Cookies.setCookie("level", result.getUserLevel(),
-				expires, null, "/", false);
-		
-		ArrayList<String> lst = result.getPrivledges();
-		setCookie(MetaDataKeywords.accessQuery,lst);
-		setCookie(MetaDataKeywords.accessUserDataInput,lst);
-		setCookie(MetaDataKeywords.accessUserDataDelete,lst);
-		setCookie(MetaDataKeywords.accessDataInput,lst);
-		setCookie(MetaDataKeywords.accessDataDelete,lst);
-		MaterialToast.fireToast("Welcome: " + result.getName() + "(" + result.getHostname() + ")");
+		SetUpUserCookies.setup(result);
+		if(coreentry != null) {
+			coreentry.setUpInterface(clientFactory);
+		}
 	}
 	
-	private void setCookie(String access, ArrayList<String> accesslist) {
-		final long DURATION = 1000 * 60 * 60;
-		Date expires = new Date(System.currentTimeMillis()
-				+ DURATION);
-		String ansB = Boolean.FALSE.toString();
-		if(accesslist.contains(access)) {
-			ansB = Boolean.TRUE.toString();
-		}
-		Cookies.setCookie(access, ansB, expires, null, "/", false);
-		
-	}
 
 }

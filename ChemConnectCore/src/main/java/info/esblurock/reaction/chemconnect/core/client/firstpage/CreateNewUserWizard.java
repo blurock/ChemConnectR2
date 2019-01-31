@@ -17,6 +17,7 @@ import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.MaterialTitle;
+import info.esblurock.reaction.chemconnect.core.client.TopChemConnectPanel;
 import info.esblurock.reaction.chemconnect.core.client.modal.OKAnswerInterface;
 import info.esblurock.reaction.chemconnect.core.client.modal.OKModal;
 import info.esblurock.reaction.chemconnect.core.common.client.async.LoginService;
@@ -59,9 +60,11 @@ public class CreateNewUserWizard extends Composite implements OKAnswerInterface 
 	MaterialCollapsible collapsiblePanel;
 	MaterialPanel modalpanel;
 	MaterialPanel mainPanel;
+	TopChemConnectPanel toppanel;
 	
-	public CreateNewUserWizard(MaterialPanel mainPanel, MaterialCollapsible collapsiblePanel,MaterialPanel modalpanel) {
+	public CreateNewUserWizard(TopChemConnectPanel toppanel, MaterialPanel mainPanel, MaterialCollapsible collapsiblePanel,MaterialPanel modalpanel) {
 		initWidget(uiBinder.createAndBindUi(this));
+		this.toppanel = toppanel;
 		this.collapsiblePanel = collapsiblePanel;
 		this.modalpanel = modalpanel;
 		this.mainPanel = mainPanel;
@@ -92,9 +95,7 @@ public class CreateNewUserWizard extends Composite implements OKAnswerInterface 
 		personlastname.setText(family_nameS);
 		authID = Cookies.getCookie("auth_id");
 		String account = Cookies.getCookie("account_name");
-		
-		Window.alert("CreateNewUserWizard:   " + account + ": " + authID);
-		
+		Cookies.setCookie("user", account);
 		accountname.setText(account);
 		authSource = Cookies.getCookie("authorizationType");
 	}
@@ -120,11 +121,14 @@ public class CreateNewUserWizard extends Composite implements OKAnswerInterface 
 
 	@Override
 	public void answeredOK(String answer) {
+		Window.alert("CreateNewUserWizard: answeredOK: \n" + useraccount.toString());
+		Window.alert("CreateNewUserWizard: answeredOK: '" + Cookies.getCookie("account_name"));
 		Cookies.setCookie("user", useraccount.getAccountUserName());
+		toppanel.setInUser();
 		mainPanel.clear();
 		LoginServiceAsync async = LoginService.Util.getInstance();
 		collapsiblePanel.clear();
-		SetUpAfterUserCreation callback = new SetUpAfterUserCreation(collapsiblePanel,modalpanel);
+		SetUpAfterUserCreation callback = new SetUpAfterUserCreation(toppanel,collapsiblePanel,modalpanel);
 		async.createNewUser(useraccount, person,callback);
 	}
 

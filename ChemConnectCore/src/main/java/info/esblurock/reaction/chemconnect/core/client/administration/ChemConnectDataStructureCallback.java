@@ -6,6 +6,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import gwt.material.design.client.ui.MaterialCollapsible;
+import gwt.material.design.client.ui.MaterialLoader;
 import gwt.material.design.client.ui.MaterialPanel;
 import info.esblurock.reaction.chemconnect.core.client.pages.MainDataStructureCollapsible;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
@@ -25,17 +26,20 @@ public class ChemConnectDataStructureCallback implements AsyncCallback<ChemConne
 		this.topobj = topobj;
 		modal = top.getModalPanel();
 		content = top.getInfoContentCollapisble();
+		MaterialLoader.loading(true);
 	}
 	
 	@Override
 	public void onFailure(Throwable arg0) {
-		Window.alert(arg0.toString());
+		Window.alert("ERROR: Data structure retrieve\n" + arg0.toString());
+		MaterialLoader.loading(false);
 	}
 
 	@Override
 	public void onSuccess(ChemConnectDataStructure structure) {
 		addHierarchialModal(topobj,structure);
 		top.setIdentifer(topobj);
+		MaterialLoader.loading(false);
 	}
 	/*
 	 * ChemConnectDataStructure has the information structure, but the elements are not filled in

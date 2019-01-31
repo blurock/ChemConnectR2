@@ -3,6 +3,7 @@ package info.esblurock.reaction.chemconnect.core.client.activity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.PlaceController;
 
+import info.esblurock.reaction.chemconnect.core.client.TopChemConnectPanel;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.AboutSummaryView;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.ChemConnectAdministrationView;
 import info.esblurock.reaction.chemconnect.core.client.ui.view.ChemConnectObservationView;
@@ -24,6 +25,9 @@ import info.esblurock.reaction.chemconnect.core.client.ui.view.UploadFileToBlobS
 public interface ClientFactory {
 	EventBus getEventBus();
 	PlaceController getPlaceController();
+	
+	void setInUser();
+	TopChemConnectPanel getTopPanel();
 
 	ChemConnectAdministrationView getChemConnectAdministrationView();
 	ChemConnectObservationView getChemConnectObservationView();

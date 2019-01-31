@@ -8,8 +8,10 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.place.shared.PlaceHistoryHandler;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.ui.RootPanel;
 
+import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.chemconnect.core.client.activity.ClientFactory;
 import info.esblurock.reaction.chemconnect.core.client.mvp.AppActivityMapper;
 import info.esblurock.reaction.chemconnect.core.client.mvp.AppPlaceHistoryMapper;
@@ -23,7 +25,6 @@ public class ChemConnectCore implements EntryPoint {
 	//private Place defaultPlace = new ChemConnectAdministrationPlace("Top");
 	private Place defaultPlace = new FirstSiteLandingPagePlace("Top");
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onModuleLoad() {
 		/*
@@ -31,18 +32,27 @@ public class ChemConnectCore implements EntryPoint {
 		GeneralVoidReturnCallback initialcallback = new GeneralVoidReturnCallback("Initialization completed");
 		initialize.initializeDatabaseObjects(initialcallback);
 		*/
-		LoginServiceAsync async = LoginService.Util.getInstance();
-		SimpleLoginCallback callback = new SimpleLoginCallback();
-		async.loginGuestServer(callback);
-		
 		ClientFactory clientFactory = GWT.create(ClientFactory.class);
+		String username = Cookies.getCookie("account_name");
+		if(username == null) {
+			LoginServiceAsync async = LoginService.Util.getInstance();
+			SimpleLoginCallback callback = new SimpleLoginCallback(this,clientFactory);
+			async.loginGuestServer(callback);
+		} else {
+			MaterialToast.fireToast("Continue as: " + username);
+			setUpInterface(clientFactory);
+		}
+	}
+	@SuppressWarnings("deprecation")
+	public void setUpInterface(ClientFactory clientFactory) {
 		EventBus eventBus = clientFactory.getEventBus();
 		PlaceController placeController = clientFactory.getPlaceController();
 				
 		// Start ActivityManager for the main widget with our ActivityMapper
 		ActivityMapper activityMapper = new AppActivityMapper(clientFactory);
 		ActivityManager activityManager = new ActivityManager(activityMapper, eventBus);
-		TopChemConnectPanel toppanel = new TopChemConnectPanel(clientFactory);
+		TopChemConnectPanel toppanel = clientFactory.getTopPanel();
+		//TopChemConnectPanel toppanel = new TopChemConnectPanel(clientFactory);
 		activityManager.setDisplay(toppanel.getContentPanel());
 
 		// Start PlaceHistoryHandler with our PlaceHistoryMapper
@@ -53,6 +63,6 @@ public class ChemConnectCore implements EntryPoint {
 		
 		RootPanel.get().add(toppanel);
 		historyHandler.handleCurrentHistory();
+		
 	}
-
 }

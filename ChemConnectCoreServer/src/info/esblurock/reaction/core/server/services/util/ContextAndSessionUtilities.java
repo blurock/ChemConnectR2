@@ -56,11 +56,15 @@ public class ContextAndSessionUtilities {
 	}
 
 	public UserDTO getUserInfoFromContext() {
+		System.out.println("getUserInfoFromContext():");
+		System.out.println("getUserInfoFromContext(): \n" + context);
 		UserDTO user = null;
 		Object obj = context.getAttribute(userattribute);
+		System.out.println("getUserInfoFromContext(): \n" + obj);
 		if (obj != null && obj instanceof UserDTO) {
 			user = (UserDTO) obj;
 		}
+		System.out.println("getUserInfoFromContext(): done \n" + user);
 
 		return user;
 	}

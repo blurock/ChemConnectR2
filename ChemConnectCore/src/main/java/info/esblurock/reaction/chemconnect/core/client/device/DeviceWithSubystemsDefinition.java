@@ -52,14 +52,7 @@ public class DeviceWithSubystemsDefinition extends Composite
 		init();
 	}
 	private void init() {
-		ArrayList<String> choices = new ArrayList<String>();
-		choices.add(MetaDataKeywords.dataTypeDevice);
-		choices.add(MetaDataKeywords.dataTypeSubSystem);
-		choices.add(MetaDataKeywords.dataTypeComponent);
-		String user = Cookies.getCookie("user");
-		String object = MetaDataKeywords.subSystemDescription;
-		choose = new ChooseFullNameFromCatagoryRow(this,user,object,choices,modalpanel);
-		topPanel.add(choose);
+		refresh();
 	}
 	public void createCatalogObject(DatabaseObject obj,DataCatalogID datid) {
 		SetUpDatabaseObjectHierarchyCallback callback = new SetUpDatabaseObjectHierarchyCallback(contentcollapsible,modalpanel);
@@ -79,6 +72,18 @@ public class DeviceWithSubystemsDefinition extends Composite
 	@Override
 	public void setPresenter(Presenter listener) {
 		this.listener = listener;
+	}
+	@Override
+	public void refresh() {
+		ArrayList<String> choices = new ArrayList<String>();
+		choices.add(MetaDataKeywords.dataTypeDevice);
+		choices.add(MetaDataKeywords.dataTypeSubSystem);
+		choices.add(MetaDataKeywords.dataTypeComponent);
+		String user = Cookies.getCookie("user");
+		String object = MetaDataKeywords.subSystemDescription;
+		choose = new ChooseFullNameFromCatagoryRow(this,user,object,choices,modalpanel);
+		topPanel.clear();
+		topPanel.add(choose);
 	}
 
 

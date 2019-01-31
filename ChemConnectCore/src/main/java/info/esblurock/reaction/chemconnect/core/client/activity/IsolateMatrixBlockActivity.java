@@ -25,6 +25,7 @@ public class IsolateMatrixBlockActivity extends AbstractActivity implements Isol
 		IsolateMatrixBlockView IsolateMatrixBlockView = clientFactory.getIsolateMatrixBlockView();
 		IsolateMatrixBlockView.setName(name);
 		IsolateMatrixBlockView.setPresenter(this);
+		IsolateMatrixBlockView.refresh();
 		containerWidget.setWidget(IsolateMatrixBlockView.asWidget());
 	}
 	   @Override

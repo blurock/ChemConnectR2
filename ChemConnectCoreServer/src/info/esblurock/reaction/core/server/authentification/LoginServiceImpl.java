@@ -59,8 +59,11 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 	}
 	
 	public UserDTO getUserInfo() {
+		System.out.println("getUserInfo() start");
 		ContextAndSessionUtilities util = getUtilities();
+		System.out.println("getUserInfo(): ContextAndSessionUtilities: " + util);
 		UserDTO user = util.getUserInfoFromContext();
+		System.out.println("getUserInfo()\n" + user);
 		return user;
 	}
 	

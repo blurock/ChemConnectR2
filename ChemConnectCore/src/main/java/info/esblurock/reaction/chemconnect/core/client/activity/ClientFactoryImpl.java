@@ -4,6 +4,7 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.place.shared.PlaceController;
 
+import info.esblurock.reaction.chemconnect.core.client.TopChemConnectPanel;
 import info.esblurock.reaction.chemconnect.core.client.administration.ChemConnectAdministrationImpl;
 import info.esblurock.reaction.chemconnect.core.client.catalog.ManageCatalogHierarchy;
 import info.esblurock.reaction.chemconnect.core.client.catalog.protocol.ProtocolDefinition;
@@ -60,6 +61,7 @@ public class ClientFactoryImpl implements ClientFactory {
 	private final ChemConnectPartnersView chemConnectPartnersView = new ChemConnectPartners();
 	private final ContactInformationView contactInformationView = new ContactInformation();
 	private final DataManagementView dataManagementView = new DataManagement();
+	private final TopChemConnectPanel toppanel = new TopChemConnectPanel(this);
 
 	@Override
 	public EventBus getEventBus() {
@@ -69,7 +71,7 @@ public class ClientFactoryImpl implements ClientFactory {
 	public PlaceController getPlaceController() {
 		return placeController;
 	}
-
+	
 	@Override
 	public ChemConnectAdministrationView getChemConnectAdministrationView() {
 		return chemConnectAdministrationView;
@@ -139,5 +141,13 @@ public class ClientFactoryImpl implements ClientFactory {
 	public DataManagementView getDataManagementView() {
 		return dataManagementView;
 	}
-
+	@Override
+	public void setInUser() {
+		toppanel.setInUser();
+	}
+	@Override
+	public TopChemConnectPanel getTopPanel() {
+		return toppanel;
+	}
+	
 }

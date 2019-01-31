@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import gwt.material.design.client.ui.MaterialLoader;
 import info.esblurock.reaction.chemconnect.core.client.pages.MainDataStructureInstanceCollapsible;
 import info.esblurock.reaction.chemconnect.core.client.pages.RecordStructureCollapsible;
 import info.esblurock.reaction.chemconnect.core.data.transfer.CompoundDataStructureInformation;
@@ -17,11 +18,13 @@ public class CompoundDataStructureCallback implements AsyncCallback<RecordInform
 
 	public CompoundDataStructureCallback(MainDataStructureInstanceCollapsible main) {
 		this.main = main;
+		MaterialLoader.loading(true);
 	}
 
 	@Override
 	public void onFailure(Throwable arg0) {
 		Window.alert(arg0.toString());
+		MaterialLoader.loading(false);
 	}
 
 	@Override
@@ -32,6 +35,7 @@ public class CompoundDataStructureCallback implements AsyncCallback<RecordInform
 			RecordStructureCollapsible collapsible = new RecordStructureCollapsible(record.getObject(), info);
 			main.getCollapsible().add(collapsible);
 		}
+		MaterialLoader.loading(false);
 	}
 
 }

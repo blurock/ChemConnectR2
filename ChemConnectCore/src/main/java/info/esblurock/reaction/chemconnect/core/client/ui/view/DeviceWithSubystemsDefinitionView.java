@@ -10,4 +10,6 @@ public interface DeviceWithSubystemsDefinitionView extends IsWidget {
 	public interface Presenter {
 		void goTo(Place place);
 	}
+
+	void refresh();
 }

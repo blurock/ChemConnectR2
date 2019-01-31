@@ -36,8 +36,6 @@ import info.esblurock.reaction.chemconnect.core.client.place.ProtocolDefinitionP
 import info.esblurock.reaction.chemconnect.core.client.place.TutorialExamplePlace;
 import info.esblurock.reaction.chemconnect.core.client.place.UploadFileToBlobStoragePlace;
 import info.esblurock.reaction.chemconnect.core.client.resources.info.about.InfoAboutResources;
-import info.esblurock.reaction.chemconnect.core.common.client.async.LoginService;
-import info.esblurock.reaction.chemconnect.core.common.client.async.LoginServiceAsync;
 
 public class TopChemConnectPanel extends Composite {
 
@@ -97,6 +95,13 @@ public class TopChemConnectPanel extends Composite {
 	MaterialTooltip logintooltip;
 	@UiField
 	MaterialLink loginchoice;
+	@UiField
+	MaterialLabel userlabel;
+	@UiField
+	MaterialLink username;
+	@UiField
+	MaterialLink createbutton;
+	
 	ClientFactory clientFactory;
 	String hosturl;
 	
@@ -126,24 +131,9 @@ public class TopChemConnectPanel extends Composite {
 		logout.setText("Logout");
 		logouttooltip.setText("Log out current user (to Guest");
 		logintooltip.setText("Choose method of login");
-		String account = Cookies.getCookie("account_name");
-		if(account != null) {
-			if(account.compareTo("Guest") == 0) {
-				setLoginVisibility(true);
-			} else {
-				setLoginVisibility(false);
-			}
-		} else {
-			setLoginVisibility(true);
-		}
-		
+		setInUser();
 		home.setText("Home");
 		title.setText("ChemConnect: The Intelligent Repository");
-	}
-	
-	void setLoginVisibility(boolean loginvisible) {
-		logout.setVisible(!loginvisible);
-		loginchoice.setVisible(loginvisible);
 	}
 	
 	@UiHandler("linkedinLogin")
@@ -191,14 +181,36 @@ public class TopChemConnectPanel extends Composite {
 		Window.open(urlS, "_blank", "");
 		
 	}
+	
+	void setLoginVisibility(boolean loginvisible) {
+		logout.setVisible(!loginvisible);
+		loginchoice.setVisible(loginvisible);
+	}
+	
+	public void setInUser() {
+		String account = Cookies.getCookie("account_name");
+		userlabel.setText("User");
+		if(account != null) {
+			username.setText(account);
+			if(account.compareTo("Guest") == 0) {
+				Window.alert("TopPanel: setInUser as guest '" + account + "'");
+				setLoginVisibility(true);
+			} else {
+				Window.alert("TopPanel: setInUser as not guest '" + account + "'");
+				setLoginVisibility(false);
+			}
+		} else {
+			username.setText("Guest*");
+			setLoginVisibility(true);
+		}
+		createbutton.setVisible(true);
+	}
+	
 	private String callbackWithServer() {
-		MaterialToast.fireToast("callbackWithServer()");
-		MaterialToast.fireToast("callbackWithServer(): '" + Window.Location.getHostName() + "'");
 		String redirect = "http://blurock-chemconnect.appspot.com/oauth2callback";
 		if(Window.Location.getHostName().compareTo("localhost") == 0) {
 			redirect = "http://localhost:8080/oauth2callback";
 		}
-		MaterialToast.fireToast("callbackWithServer(): " + redirect);
 		return redirect;
 	}
 
@@ -212,30 +224,35 @@ public class TopChemConnectPanel extends Composite {
 		MaterialToast.fireToast("Logout");
 		subtitle.setText("");
 		setLoginVisibility(true);
+		SetUpUserCookies.zeroAllCookies();
+		createbutton.setVisible(false);
+		/*
 		LoginServiceAsync async = LoginService.Util.getInstance();
-		SimpleLoginCallback callback = new SimpleLoginCallback();
-		async.loginGuestServer(callback);		
+		SimpleLoginCallback callback = new SimpleLoginCallback(null);
+		async.loginGuestServer(callback);
+		*/
+		username.setText("No User");
 	}
 	
 	@UiHandler("catalog")
 	public void onCatalogClick(ClickEvent event) {
-		subtitle.setText("Manage Catalog Structure");
+		setSubTitle("Manage Catalog Structure");
 		goTo(new ManageCatalogHierarchyPlace("Manage Catalog Structure"));
 	}
 	
 	@UiHandler("upload")
 	public void onUploadClick(ClickEvent event) {
-		subtitle.setText("File staging");
+		setSubTitle("File staging");
 		goTo(new UploadFileToBlobStoragePlace("File staging"));
 	}
 	@UiHandler("isolate")
 	public void onIsolateClick(ClickEvent event) {
-		subtitle.setText("Isolate data block");
+		setSubTitle("Isolate data block");
 		goTo(new IsolateMatrixBlockPlace("Isolate data block"));
 	}
 	@UiHandler("specification")
 	public void onSpecificationClick(ClickEvent event) {
-		subtitle.setText("File staging");
+		setSubTitle("File staging");
 		goTo(new ChemConnectObservationPlace("File staging"));
 	}
 	@UiHandler("protocol")
@@ -245,39 +262,43 @@ public class TopChemConnectPanel extends Composite {
 	}
 	@UiHandler("dataSet")
 	public void onDataSetClick(ClickEvent event) {
-		subtitle.setText("Observation Specification");
+		setSubTitle("Observation Specification");
 		goTo(new ChemConnectObservationPlace("Observation Specification"));
 	}
 	@UiHandler("devices")
 	public void onDevicesClick(ClickEvent event) {
-		subtitle.setText("Manage Device Info");
+		setSubTitle("Manage Device Info");
 		goTo(new DeviceWithSubystemsDefinitionPlace("Manage Device Info"));
 	}
 	@UiHandler("people")
 	public void onPeopleClick(ClickEvent event) {
-		subtitle.setText("Manage Contact Info");
+		setSubTitle("Manage Contact Info");
 		goTo(new DatabasePersonDefinitionPlace("Manage Contact Info"));
 	}
 	@UiHandler("organizations")
 	public void onOrganizationsClick(ClickEvent event) {
-		subtitle.setText("Manage Organizations");
+		setSubTitle("Manage Organizations");
 		goTo(new OrganizationDefinitionPlace("Manage Organizations"));
 	}
 	@UiHandler("tutorialreadfile")
 	public void onTutorialReadFileClick(ClickEvent event) {
-		subtitle.setText("Tutorial: Reading and Interpreting data files");
+		setSubTitle("Tutorial: Reading and Interpreting data files");
 		goTo(new TutorialExamplePlace("Tutorial: Reading and Interpreting data files"));
 	}
 	
 	@UiHandler("mission")
 	public void onMissionClick(ClickEvent event) {
-		subtitle.setText("Mission Statement");
+		setSubTitle("Mission Statement");
 		goTo(new MissionStatementPlace("Mission Statement"));
 	}
 	@UiHandler("about")
 	public void onAboutClick(ClickEvent event) {
-		subtitle.setText("About ChemConnect");
+		setSubTitle("About ChemConnect");
 		goTo(new AboutSummaryPlace("About ChemConnect"));
+	}
+	
+	public void setSubTitle(String subtitletext) {
+		subtitle.setText(subtitletext);
 	}
 
 	public SimplePanel getContentPanel() {
@@ -286,5 +307,9 @@ public class TopChemConnectPanel extends Composite {
 
 	private void goTo(Place place) {
 		clientFactory.getPlaceController().goTo(place);
+	}
+
+	public ClientFactory getClientFactory() {
+		return clientFactory;
 	}
 }

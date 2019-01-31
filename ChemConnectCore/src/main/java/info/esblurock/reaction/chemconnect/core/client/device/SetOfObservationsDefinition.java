@@ -57,13 +57,9 @@ public class SetOfObservationsDefinition extends Composite implements ChemConnec
 	}
 
 	private void init() {
-		ArrayList<String> choices = new ArrayList<String>();
-		choices.add(MetaDataKeywords.chemConnectObservable);
-		String user = Cookies.getCookie("user");
-		String object = MetaDataKeywords.observationCorrespondenceSpecification;
-		choose = new ChooseFullNameFromCatagoryRow(this,user,object,choices,modalpanel);
-		topPanel.add(choose);
+		refresh();
 	}
+
 	@Override
 	public void createCatalogObject(DatabaseObject obj,DataCatalogID datid) {
 		SetUpDatabaseObjectHierarchyCallback callback = new SetUpDatabaseObjectHierarchyCallback(contentcollapsible,modalpanel);
@@ -86,6 +82,15 @@ public class SetOfObservationsDefinition extends Composite implements ChemConnec
 	@Override
 	public void setPresenter(Presenter listener) {
 		this.listener = listener;
+	}
+	public void refresh() {
+		ArrayList<String> choices = new ArrayList<String>();
+		choices.add(MetaDataKeywords.chemConnectObservable);
+		String user = Cookies.getCookie("user");
+		String object = MetaDataKeywords.observationCorrespondenceSpecification;
+		choose = new ChooseFullNameFromCatagoryRow(this,user,object,choices,modalpanel);
+		topPanel.clear();
+		topPanel.add(choose);
 	}
 
 
