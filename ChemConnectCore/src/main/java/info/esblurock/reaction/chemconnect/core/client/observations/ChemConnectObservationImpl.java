@@ -65,13 +65,7 @@ public class ChemConnectObservationImpl extends Composite implements ChemConnect
 	void init() {
 		navtitle.setText("Observation Setup and Management");
 		observationsdeclaration.setText(basetext.observations());
-		
-		ArrayList<String> choices = new ArrayList<String>();
-		choices.add(MetaDataKeywords.chemConnectObservable);
-		String user = Cookies.getCookie("user");
-		String object = MetaDataKeywords.observationCorrespondenceSpecification;
-		choose = new ChooseFullNameFromCatagoryRow(this,user,object,choices,toppanel);
-		catagorysetup.add(choose);
+		refresh();
 
 	}
 
@@ -124,6 +118,16 @@ public class ChemConnectObservationImpl extends Composite implements ChemConnect
 	public void insertCatalogObject(DatabaseObjectHierarchy subs) {
 		
 		
+	}
+
+	@Override
+	public void refresh() {
+		ArrayList<String> choices = new ArrayList<String>();
+		choices.add(MetaDataKeywords.chemConnectObservable);
+		String user = Cookies.getCookie("user");
+		String object = MetaDataKeywords.observationCorrespondenceSpecification;
+		choose = new ChooseFullNameFromCatagoryRow(this,user,object,choices,toppanel);
+		catagorysetup.add(choose);
 	}
 
 	

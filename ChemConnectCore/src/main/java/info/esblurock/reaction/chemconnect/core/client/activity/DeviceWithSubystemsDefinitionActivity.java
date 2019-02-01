@@ -25,8 +25,8 @@ public class DeviceWithSubystemsDefinitionActivity extends AbstractActivity impl
 		DeviceWithSubystemsDefinitionView DeviceWithSubystemsDefinitionView = clientFactory.getDeviceWithSubystemsDefinitionView();
 		DeviceWithSubystemsDefinitionView.setName(name);
 		DeviceWithSubystemsDefinitionView.setPresenter(this);
-		DeviceWithSubystemsDefinitionView.refresh();
 		clientFactory.setInUser();
+		DeviceWithSubystemsDefinitionView.refresh();
 		containerWidget.setWidget(DeviceWithSubystemsDefinitionView.asWidget());
 	}
 	   @Override

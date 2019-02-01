@@ -27,6 +27,8 @@ public class SetOfObservationsDefinitionActivity extends AbstractActivity implem
 		SetOfObservationsDefinitionView.setName(name);
 		SetOfObservationsDefinitionView.setPresenter(this);
 		containerWidget.setWidget(SetOfObservationsDefinitionView.asWidget());
+		clientFactory.setInUser();
+		SetOfObservationsDefinitionView.refresh();
 	}
 	   @Override
 	    public String mayStop() {

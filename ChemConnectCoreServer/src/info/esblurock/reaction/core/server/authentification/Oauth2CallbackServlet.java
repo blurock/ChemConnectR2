@@ -228,10 +228,10 @@ public class Oauth2CallbackServlet extends HttpServlet {
 			ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), session);
 			UserDTO user = new UserDTO(account.getAccountUserName(), session.getId(), ip, host,
 					account.getAccountPrivilege(), LoginServiceImpl.standardMaxTransitions);
+			util.setUserInfo(user);
 			ArrayList<String> privs = VerifyServerTransaction.getPrivledges(account.getAccountPrivilege());
 			user.setPrivledges(privs);
 			System.out.println("Oauth2CallbackServlet\n" + user.toString());
-			util.removeUser();
 /*
 			System.out.println("After Remove: " + util.getUserInfo());
 

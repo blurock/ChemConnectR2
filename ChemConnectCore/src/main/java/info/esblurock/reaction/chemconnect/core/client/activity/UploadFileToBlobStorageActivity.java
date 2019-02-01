@@ -25,6 +25,7 @@ public class UploadFileToBlobStorageActivity extends AbstractActivity implements
 		UploadFileToBlobStorageView.setName(name);
 		UploadFileToBlobStorageView.setPresenter(this);
 		containerWidget.setWidget(UploadFileToBlobStorageView.asWidget());
+		clientFactory.setInUser();
 		UploadFileToBlobStorageView.refresh();
 	}
 	   @Override

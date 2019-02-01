@@ -11,4 +11,6 @@ public interface ChemConnectObservationView extends IsWidget {
 		void goTo(Place place);
 	}
 
+	void refresh();
+
 }

@@ -54,12 +54,7 @@ public class ProtocolDefinition extends Composite implements ObjectVisualization
 	}
 	
 	private void init() {
-		ArrayList<String> choices = new ArrayList<String>();
-		choices.add(MetaDataKeywords.dataTypeProtocol);
-		String user = Cookies.getCookie("user");
-		String object = MetaDataKeywords.protocol;
-		choose = new ChooseFullNameFromCatagoryRow(this,user,object,choices,modalpanel);
-		topPanel.add(choose);
+		refresh();
 	}
 
 	@Override
@@ -84,6 +79,16 @@ public class ProtocolDefinition extends Composite implements ObjectVisualization
 	@Override
 	public void setPresenter(Presenter listener) {
 		this.listener = listener;
+	}
+
+	@Override
+	public void refresh() {
+		ArrayList<String> choices = new ArrayList<String>();
+		choices.add(MetaDataKeywords.dataTypeProtocol);
+		String user = Cookies.getCookie("user");
+		String object = MetaDataKeywords.protocol;
+		choose = new ChooseFullNameFromCatagoryRow(this,user,object,choices,modalpanel);
+		topPanel.add(choose);
 	}
 
 

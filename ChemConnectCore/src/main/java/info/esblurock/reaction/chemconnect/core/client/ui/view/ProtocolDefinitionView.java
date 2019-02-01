@@ -11,4 +11,6 @@ public interface ProtocolDefinitionView extends IsWidget {
 		void goTo(Place place);
 	}
 
+	void refresh();
+
 }

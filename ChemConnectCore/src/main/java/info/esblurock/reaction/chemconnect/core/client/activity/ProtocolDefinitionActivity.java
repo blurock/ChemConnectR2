@@ -26,6 +26,8 @@ public class ProtocolDefinitionActivity extends AbstractActivity implements Prot
 		ProtocolDefinitionView.setName(name);
 		ProtocolDefinitionView.setPresenter(this);
 		containerWidget.setWidget(ProtocolDefinitionView.asWidget());
+		clientFactory.setInUser();
+		ProtocolDefinitionView.refresh();
 	}
 	   @Override
 	    public String mayStop() {

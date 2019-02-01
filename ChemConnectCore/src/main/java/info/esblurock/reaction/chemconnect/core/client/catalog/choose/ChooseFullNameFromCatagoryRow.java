@@ -104,7 +104,7 @@ public class ChooseFullNameFromCatagoryRow extends Composite
 	}
 	
 	void init() {
-		username = Cookies.getCookie("user");
+		username = Cookies.getCookie("account_name");
 		catalog.setText("Set catalog");
 		objecttype.setText("Set objecttype");
 		objectname.setText("Set name");
