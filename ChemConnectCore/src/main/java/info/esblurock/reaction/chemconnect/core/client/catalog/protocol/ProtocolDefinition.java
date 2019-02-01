@@ -88,6 +88,7 @@ public class ProtocolDefinition extends Composite implements ObjectVisualization
 		String user = Cookies.getCookie("user");
 		String object = MetaDataKeywords.protocol;
 		choose = new ChooseFullNameFromCatagoryRow(this,user,object,choices,modalpanel);
+		topPanel.clear();
 		topPanel.add(choose);
 	}
 
