@@ -36,6 +36,8 @@ import info.esblurock.reaction.chemconnect.core.client.place.ProtocolDefinitionP
 import info.esblurock.reaction.chemconnect.core.client.place.TutorialExamplePlace;
 import info.esblurock.reaction.chemconnect.core.client.place.UploadFileToBlobStoragePlace;
 import info.esblurock.reaction.chemconnect.core.client.resources.info.about.InfoAboutResources;
+import info.esblurock.reaction.chemconnect.core.common.client.async.LoginService;
+import info.esblurock.reaction.chemconnect.core.common.client.async.LoginServiceAsync;
 
 public class TopChemConnectPanel extends Composite {
 
@@ -83,6 +85,8 @@ public class TopChemConnectPanel extends Composite {
 	MaterialLink about;
 	@UiField
 	MaterialPanel cornerIcon;
+	@UiField
+	MaterialLink guestLogin;
 	@UiField
 	MaterialLink linkedinLogin;
 	@UiField
@@ -135,7 +139,12 @@ public class TopChemConnectPanel extends Composite {
 		home.setText("Home");
 		title.setText("ChemConnect: The Intelligent Repository");
 	}
-	
+	@UiHandler("guestLogin")
+	void onClickGuest(ClickEvent e) {
+		LoginServiceAsync async = LoginService.Util.getInstance();
+		SimpleLoginCallback callback = new SimpleLoginCallback(null,clientFactory);
+		async.loginGuestServer(callback);		
+	}
 	@UiHandler("linkedinLogin")
 	void onClickLinkedIn(ClickEvent e) {
 		String CLIENT_ID = "77lvn5zzefwzq0";
@@ -193,10 +202,8 @@ public class TopChemConnectPanel extends Composite {
 		if(account != null) {
 			username.setText(account);
 			if(account.compareTo("Guest") == 0) {
-				Window.alert("TopPanel: setInUser as guest '" + account + "'");
 				setLoginVisibility(true);
 			} else {
-				Window.alert("TopPanel: setInUser as not guest '" + account + "'");
 				setLoginVisibility(false);
 			}
 		} else {
@@ -226,11 +233,9 @@ public class TopChemConnectPanel extends Composite {
 		setLoginVisibility(true);
 		SetUpUserCookies.zeroAllCookies();
 		createbutton.setVisible(false);
-		/*
 		LoginServiceAsync async = LoginService.Util.getInstance();
-		SimpleLoginCallback callback = new SimpleLoginCallback(null);
-		async.loginGuestServer(callback);
-		*/
+		GeneralVoidReturnCallback callback = new GeneralVoidReturnCallback("Logout Successful");
+		async.logout(callback);
 		username.setText("No User");
 	}
 	

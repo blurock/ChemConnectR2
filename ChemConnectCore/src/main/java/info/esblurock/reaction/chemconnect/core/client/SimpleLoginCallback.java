@@ -29,6 +29,7 @@ public class SimpleLoginCallback implements AsyncCallback<UserDTO> {
 	public void onSuccess(UserDTO result) {
 		MaterialLoader.loading(false);
 		SetUpUserCookies.setup(result);
+		clientFactory.getTopPanel().setInUser();
 		if(coreentry != null) {
 			coreentry.setUpInterface(clientFactory);
 		}

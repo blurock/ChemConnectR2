@@ -449,8 +449,11 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		return hierarchy;
 	}
 	
-	public DatabaseObjectHierarchy getCatalogObject(String id, String dataType) {
+	public DatabaseObjectHierarchy getCatalogObject(String id, String dataType) throws IOException {
 		DatabaseObjectHierarchy readhierarchy = ExtractCatalogInformation.getCatalogObject(id,dataType);
+		if(readhierarchy == null) {
+			throw new IOException("Catalog Object Not Found: " + id);
+		}
 		return readhierarchy;
 	}
 	

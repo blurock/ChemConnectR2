@@ -94,6 +94,8 @@
 					</m:MaterialDropDown>
 					<m:MaterialDropDown ui:field="dplogin"
 						activator="dp-login" belowOrigin="true">
+						<m:MaterialLink ui:field="guestLogin"
+							separator="true" text="Guest" textColor="BLACK" />
 						<m:MaterialLink ui:field="linkedinLogin"
 							separator="true" text="LikedIn" textColor="BLACK" />
 						<m:MaterialLink ui:field="googleLogin"

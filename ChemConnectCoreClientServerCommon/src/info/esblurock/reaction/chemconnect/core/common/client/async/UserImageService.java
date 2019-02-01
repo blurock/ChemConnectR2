@@ -99,7 +99,7 @@ public interface UserImageService  extends RemoteService  {
 	
 	HierarchyNode getIDHierarchyFromDataCatalogID(String basecatalog, String catalog) throws IOException;
 	
-	DatabaseObjectHierarchy getCatalogObject(String id, String dataType);
+	DatabaseObjectHierarchy getCatalogObject(String id, String dataType) throws IOException;
 	
 	void writeYamlObjectHierarchy(String id, String canonicalclass) throws IOException;
 	

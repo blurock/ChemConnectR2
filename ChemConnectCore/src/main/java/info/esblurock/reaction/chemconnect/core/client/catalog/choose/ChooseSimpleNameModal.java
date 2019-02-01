@@ -10,6 +10,7 @@ import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -18,6 +19,7 @@ import gwt.material.design.addins.client.tree.MaterialTreeItem;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialDialog;
 import gwt.material.design.client.ui.MaterialTextBox;
+import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.chemconnect.core.client.catalog.HierarchyNodeCallback;
 import info.esblurock.reaction.chemconnect.core.client.catalog.HierarchyNodeCallbackInterface;
 import info.esblurock.reaction.chemconnect.core.client.graph.hierarchy.ConvertToMaterialTree;
@@ -108,8 +110,12 @@ public class ChooseSimpleNameModal extends Composite implements HierarchyNodeCal
 	public void onSelected(SelectionEvent<MaterialTreeItem> event) {
 		MaterialTreeItemWithPath item = (MaterialTreeItemWithPath) event.getSelectedItem();
 		if (item.getTreeItems().size() == 0) {
-			answer.objectChosen(item.getIdentifier());
-			modal.close();
+			if(item.getPath().size() == 0) {
+				MaterialToast.fireToast("Not pre-saved objects: type name of new object to be created");
+			} else {
+				answer.objectChosen(item.getIdentifier());
+				modal.close();
+			}
 		} else {
 			item.expand();
 		}

@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLink;
+import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.MaterialTooltip;
 import info.esblurock.reaction.chemconnect.core.client.UpdateDataObjectHeaderInterface;
 import info.esblurock.reaction.chemconnect.core.client.catalog.DatasetStandardDataCatalogIDHeader;
@@ -197,6 +198,10 @@ public class StandardDatasetObservationCorrespondenceSpecificationHeader extends
 
 	@Override
 	public void setInHierarchy(DatabaseObjectHierarchy subs) {
+		if(subs == null) {
+			MaterialToast.fireToast("No Block Isolation found, create one and try again");
+			attach.setEnabled(true);
+		} else {
 		if(retrieveObservationBlock) {
 			attachedObservationBlockFromSpreadSheet = subs;
 			ObservationBlockFromSpreadSheet block = (ObservationBlockFromSpreadSheet) subs.getObject();
@@ -210,6 +215,7 @@ public class StandardDatasetObservationCorrespondenceSpecificationHeader extends
 		} else if(retrieveObservationsFromSpreadSheet) {
 			attachedObservationsFromSpreadSheet = subs;
 			setInReferenceMatrix(subs);
+		}
 		}
 	}
 	

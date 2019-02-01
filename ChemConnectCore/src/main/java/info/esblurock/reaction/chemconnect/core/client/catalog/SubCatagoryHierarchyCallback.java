@@ -23,8 +23,8 @@ public class SubCatagoryHierarchyCallback implements AsyncCallback<DatabaseObjec
 
 	@Override
 	public void onSuccess(DatabaseObjectHierarchy subs) {
-		top.setInHierarchy(subs);
 		MaterialLoader.loading(false);
+		top.setInHierarchy(subs);
 	}
 
 }

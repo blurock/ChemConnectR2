@@ -36,7 +36,6 @@ public class SetUpAfterUserCreation implements AsyncCallback<DatabaseObjectHiera
 	@Override
 	public void onSuccess(DatabaseObjectHierarchy hierarchy) {
 		MaterialLoader.loading(false);
-		Window.alert("SetUpAfterUserCreation: onSuccess:");
 		String account = Cookies.getCookie("account_name");
 		Cookies.setCookie("user", account);
 		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(null,hierarchy,modalpanel);		

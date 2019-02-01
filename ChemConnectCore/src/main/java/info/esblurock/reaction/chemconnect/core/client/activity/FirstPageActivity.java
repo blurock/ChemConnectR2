@@ -24,7 +24,6 @@ public class FirstPageActivity  extends AbstractActivity implements FirstPageVie
 	
 	@Override
 	public void start(AcceptsOneWidget containerWidget, EventBus eventBus) {
-		Window.alert("FirstPageActivity: start");
 		FirstPageView firstPageView = clientFactory.getFirstPageView();
 		firstPageView.setName(name);
 		firstPageView.setPresenter(this);

@@ -54,13 +54,11 @@ public class FirstPage extends Composite implements FirstPageView {
 	}
 	
 	public void asNewUser() {
-		Window.alert("FirstPage: asNewUser()");
 		CreateNewUserWizard wizard = new CreateNewUserWizard(toppanel,mainPanel,mainCollapsible,modalPanel);
 		mainPanel.clear();
 		mainPanel.add(wizard);
 	}
 	public void asExistingUser() {
-		Window.alert("FirstPage: asExistingUser()");
 		String account = Cookies.getCookie("account_name");
 		Cookies.setCookie("user", account);
 		LoginServiceAsync async = LoginService.Util.getInstance();

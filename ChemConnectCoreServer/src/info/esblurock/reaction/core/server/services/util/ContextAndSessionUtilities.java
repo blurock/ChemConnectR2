@@ -42,6 +42,10 @@ public class ContextAndSessionUtilities {
 	public void removeUser() {
 		deleteUserFromSession();
 		removeUserFromContext();
+		
+	    if (session != null) {
+		      session.invalidate();
+		}
 	}
 
 	public void setUserInfoInContext(UserDTO dto) {

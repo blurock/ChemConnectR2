@@ -234,12 +234,13 @@ public class Oauth2CallbackServlet extends HttpServlet {
 			user.setPrivledges(privs);
 			System.out.println("Oauth2CallbackServlet\n" + user.toString());
 			util.removeUser();
-
+/*
 			System.out.println("After Remove: " + util.getUserInfo());
 
 			util.setUserInfo(user);
 
 			System.out.println("Oauth2CallbackServlet from context\n" + util.getUserInfo());
+			*/
 
 		} catch (IOException ex) {
 			inSystemC.setValue(Boolean.FALSE.toString());
