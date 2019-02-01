@@ -1,10 +1,7 @@
 package info.esblurock.reaction.chemconnect.core.client;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-
-import org.apache.http.client.HttpClient;
 
 import com.google.gwt.user.client.Cookies;
 
