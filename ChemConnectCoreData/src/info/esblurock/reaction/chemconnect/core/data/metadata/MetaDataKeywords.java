@@ -47,7 +47,6 @@ public class MetaDataKeywords {
 	
 	public static String chemConnectPurpose = "dataset:ChemConnectPurpose";
 	public static String chemConnectConceptProperties = "dataset:ChemConnectConceptProperties";
-	public static String chemConnectParameter = "dataset:ChemConnectProperties";
 	public static String chemConnectUncertaintyTypes = "dataset:ChemConnectUncertaintyTypes";
 	public static String chemConnectObservable = "dataset:ChemConnectObservable";
 	public static String observationsFromSpreadSheet = "dataset:ObservationsFromSpreadSheet";
@@ -100,7 +99,7 @@ public class MetaDataKeywords {
 	public static String conceptContact = "dataset:ChemConnectContactConcept";
 	public static String purposeOrganization = "dataset:PurposeOrganization";
 	public static String observationStructureChoice = "dataset:ObservationStructureChoice";
-	public static String chemConnectProperties = "dataset:ChemConnectProperties";
+	public static String chemConnectParameter = "dataset:ChemConnectParameter";
 	public static String datasetCatalogHierarchy = "dataset:DatasetCatalogHierarchy";
 	public static String conceptLinkDataStructures = "dataset:ConceptLinkDataStructures";
 	public static String undefined = "undefined";

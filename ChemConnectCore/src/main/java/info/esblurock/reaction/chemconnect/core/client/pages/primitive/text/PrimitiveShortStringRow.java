@@ -32,7 +32,7 @@ public class PrimitiveShortStringRow extends Composite implements HasText, Choos
 	interface PrimitiveShortStringRowUiBinder extends UiBinder<Widget, PrimitiveShortStringRow> {
 	}
 
-	String chemconnectPropertiesS = MetaDataKeywords.chemConnectProperties;
+	String chemconnectPropertiesS = MetaDataKeywords.chemConnectParameter;
 	
 	@UiField
 	MaterialIcon info;

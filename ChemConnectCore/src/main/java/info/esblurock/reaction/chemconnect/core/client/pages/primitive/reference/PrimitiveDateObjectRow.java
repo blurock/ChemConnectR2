@@ -42,7 +42,7 @@ public class PrimitiveDateObjectRow extends Composite implements ChooseFromConce
 	@UiField
 	MaterialPanel toppanel;
 	
-	String chemconnectPropertiesS = MetaDataKeywords.chemConnectProperties;
+	String chemconnectPropertiesS = MetaDataKeywords.chemConnectParameter;
 	String typeWithNamespace;
 	String identifier;
 	boolean typeSet;

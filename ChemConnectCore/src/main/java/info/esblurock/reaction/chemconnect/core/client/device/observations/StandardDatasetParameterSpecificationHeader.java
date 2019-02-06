@@ -60,7 +60,7 @@ public class StandardDatasetParameterSpecificationHeader extends Composite
 	@UiHandler("parameterhead")
 	void parameterHead(ClickEvent event) {
 		ArrayList<String> choices = new ArrayList<String>();
-		choices.add(MetaDataKeywords.chemConnectProperties);
+		choices.add(MetaDataKeywords.chemConnectParameter);
 		ChooseFromConceptHierarchies choice = new ChooseFromConceptHierarchies(choices, this);
 		item.getModalpanel().clear();
 		item.getModalpanel().add(choice);

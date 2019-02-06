@@ -64,7 +64,7 @@ public class DefaultPrimitiveStructureRow extends Composite implements ChooseFro
 		type.setTextColor(Color.BLACK);
 		value.setTextColor(Color.BLACK);
 		typeSet = false;
-		chemconnectPropertiesS = MetaDataKeywords.chemConnectProperties;
+		chemconnectPropertiesS = MetaDataKeywords.chemConnectParameter;
 	}
 	public void fill(PrimitiveDataStructureInformation info) {
 		typeWithNamespace = info.getType();

@@ -37,7 +37,7 @@ public class PrimitiveOneLineRow extends Composite implements HasText, ChooseFro
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
 	}
-	String chemconnectPropertiesS = MetaDataKeywords.chemConnectProperties;
+	String chemconnectPropertiesS = MetaDataKeywords.chemConnectParameter;
 	
 	@UiField
 	MaterialIcon info;
