@@ -24,6 +24,7 @@
 			</m:MaterialTooltip>
 		</m:MaterialCollapsibleHeader>
 		<m:MaterialCollapsibleBody>
+		<m:MaterialPanel>
 			<m:MaterialRow padding="0">
 				<m:MaterialColumn grid="s12">
 					<m:MaterialPanel ui:field="catidpanel" />
@@ -63,12 +64,7 @@
 					<m:MaterialCollapsible ui:field="objectpanel" />
 				</m:MaterialColumn>
 			</m:MaterialRow>
-			<!--  m:MaterialRow padding="0">
-				<m:MaterialColumn grid="s12">
-					<m:MaterialTextArea ui:field="textDescription"
-						placeholder="Description" styleName="{style.panel}" padding="0" />
-				</m:MaterialColumn>
-			</m:MaterialRow -->
+			</m:MaterialPanel>
 		</m:MaterialCollapsibleBody>
 	</m:MaterialCollapsibleItem>
 </ui:UiBinder> 

@@ -188,11 +188,7 @@ public enum VisualizeMedia {
 	}
 	
 	void insertSpreadSheetVisualization(DatabaseObjectHierarchy hierarchy, String title, VisualizationOfBlobStorage visual) {
-		MaterialPanel modalpanel = new MaterialPanel();
-		StandardDatasetObjectHierarchyItem visualitem = new StandardDatasetObjectHierarchyItem(null,hierarchy,modalpanel);
-		
-		//SpreadSheetBlockMatrix matrix = new SpreadSheetBlockMatrix(hierarchy);
-		visual.insertVisualization(visualitem);	
+		visual.insertCatalogObject(hierarchy);
 	}
 	
 	

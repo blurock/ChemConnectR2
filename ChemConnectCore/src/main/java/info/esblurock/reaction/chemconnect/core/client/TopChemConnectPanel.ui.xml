@@ -39,14 +39,8 @@
 					backgroundColor="GREY">
 					<m:MaterialLink ui:field="home" padding="12"
 						waves="DEFAULT" text="Home" textColor="WHITE" />
-					<m:MaterialLink ui:field="mission" padding="12"
-						waves="DEFAULT" text="Mission" textColor="WHITE" />
 					<m:MaterialLink ui:field="createbutton" padding="12" waves="DEFAULT"
 						text="Create" textColor="WHITE" activates="dp-create" />
-					<m:MaterialLink padding="12" waves="DEFAULT"
-						text="Tutorial" textColor="WHITE" activates="dp-tutorial" />
-					<m:MaterialLink padding="12" waves="DEFAULT"
-						text="Information" textColor="WHITE" activates="dp-info" />
 					<m:MaterialLink ui:field="about" padding="12"
 						waves="DEFAULT" text="About" textColor="WHITE" />
 					<m:MaterialTooltip ui:field="logintooltip">

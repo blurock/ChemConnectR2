@@ -10,7 +10,6 @@
 	}	
 	
 	</ui:style>
-	<m:MaterialPanel>
 		<m:MaterialRow>
 			<m:MaterialColumn grid="s10">
 				<m:MaterialTooltip ui:field="titletooltip">
@@ -26,5 +25,4 @@
 				iconColor="BLACK" iconPosition="RIGHT" textColor="BLACK" />
 		</m:MaterialColumn>
 		</m:MaterialRow>
-	</m:MaterialPanel>
 </ui:UiBinder> 

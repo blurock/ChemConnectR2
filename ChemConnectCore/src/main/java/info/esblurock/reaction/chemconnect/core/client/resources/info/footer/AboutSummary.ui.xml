@@ -8,12 +8,38 @@
 		font-weight: bold;
 	}
 	</ui:style>
-	<m:MaterialPanel backgroundColor="INDIGO_LIGHTEN_3"
-		shadow="3">
-		<m:MaterialRow>
+	<m:MaterialPanel backgroundColor="GREY">
+		<m:MaterialRow shadow="3">
 			<m:MaterialColumn>
 				<m:MaterialTitle ui:field="title" />
 			</m:MaterialColumn>
 		</m:MaterialRow>
+		<m:MaterialDivider/>
+		<m:MaterialRow shadow="3">
+			<m:MaterialColumn grid="s3">
+				<m:MaterialLink ui:field="chemconnect" textColor="BLACK"/>
+			</m:MaterialColumn>
+			<m:MaterialColumn grid="s9">
+				<m:MaterialLink ui:field="chemconnectdescription" textColor="BLACK" />
+			</m:MaterialColumn>
+		</m:MaterialRow>
+		<m:MaterialDivider/>
+		<m:MaterialRow shadow="3">
+			<m:MaterialColumn grid="s3">
+				<m:MaterialLink ui:field="blurockconsultingab" textColor="BLACK" />
+			</m:MaterialColumn>
+			<m:MaterialColumn grid="s9">
+				<m:MaterialLink ui:field="blurockconsultingabdescription" textColor="BLACK" />
+			</m:MaterialColumn>
+		</m:MaterialRow>
+		<m:MaterialRow shadow="3">
+			<m:MaterialColumn grid="s3">
+				<m:MaterialLink ui:field="blurock" textColor="BLACK" />
+			</m:MaterialColumn>
+			<m:MaterialColumn grid="s9">
+				<m:MaterialLink ui:field="blurockdescription" textColor="BLACK" />
+			</m:MaterialColumn>
+		</m:MaterialRow>
+		<m:MaterialDivider/>
 	</m:MaterialPanel>
 </ui:UiBinder>

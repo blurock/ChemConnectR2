@@ -21,8 +21,8 @@ public class WriteDatasetObjectHierarchyCallback  implements AsyncCallback<Datab
 
 	@Override
 	public void onSuccess(DatabaseObjectHierarchy hierarchy) {
-		item.updateHierarchy(hierarchy);
 		MaterialLoader.loading(false);
+		item.updateHierarchy(hierarchy);
 	}
 
 }

@@ -50,8 +50,10 @@ public class StandardFooter extends Composite {
 	}
 	@UiHandler("btnManagement")
 	void onClickDataManagement(ClickEvent e) {
-		Window.alert("Data Management");
-		goTo(new DataManagementPlace("Data Management"));
+		Window.open("https://sites.google.com/view/blurock-consulting-ab", "_blank", "");
+
+		//Window.alert("Data Management");
+		//goTo(new DataManagementPlace("Data Management"));
 	}
 	
 	private void goTo(Place place) {

@@ -6,6 +6,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -54,36 +55,38 @@ public class SaveDatasetCatalogHierarchy extends Composite {
 	public void openModal() {
 		String owner = topitem.getHierarchy().getObject().getOwner();
 		String account = Cookies.getCookie("account_name");
-		if(account != null) {
-		MaterialToast.fireToast("Saving under user: '" + account + "'   (" + owner + ")");
+		if (account != null) {
+			MaterialToast.fireToast("Saving under user: '" + account + "'   (" + owner + ")");
 
-		String accessInput = Cookies.getCookie(MetaDataKeywords.accessDataInput);
-		String userInput = Cookies.getCookie(MetaDataKeywords.accessUserDataInput);
-		boolean vInput = Boolean.FALSE;
-		boolean vUserInput = Boolean.FALSE;
+			String accessInput = Cookies.getCookie(MetaDataKeywords.accessDataInput);
+			String userInput = Cookies.getCookie(MetaDataKeywords.accessUserDataInput);
+			boolean vInput = Boolean.FALSE;
+			boolean vUserInput = Boolean.FALSE;
 
-		if (accessInput != null) {
-			vInput = accessInput.compareTo(Boolean.TRUE.toString()) == 0;
-		}
-		if (accessInput != null) {
-			vUserInput = userInput.compareTo(Boolean.TRUE.toString()) == 0;
-		}
-		boolean allowed = Boolean.FALSE;
-		if (vInput) {
-			allowed = Boolean.TRUE;
-		}
-		if (vUserInput && owner != null) {
-			if (owner.compareTo(account) == 0) {
-				allowed = Boolean.TRUE;
-			} else {
-				MaterialToast.fireToast("Owner: " + owner + " and log in: " + account + " don't match");
+			if (accessInput != null) {
+				vInput = accessInput.compareTo(Boolean.TRUE.toString()) == 0;
 			}
-		}
-		if (!allowed) {
-			MaterialToast.fireToast("Have to have write authorization to save: not allowed for user: " + account);
-		} else {
-			modal.open();
-		}
+			if (accessInput != null) {
+				vUserInput = userInput.compareTo(Boolean.TRUE.toString()) == 0;
+			}
+			boolean allowed = Boolean.FALSE;
+			if (vInput) {
+				allowed = Boolean.TRUE;
+			}
+			if (vUserInput && owner != null) {
+				if (owner.compareTo(account) == 0) {
+					allowed = Boolean.TRUE;
+				} else {
+					MaterialToast.fireToast("Owner: " + owner + " and log in: " + account + " don't match");
+				}
+			}
+			if (!allowed) {
+				MaterialToast.fireToast("Have to have write authorization to save: not allowed for user: " + account);
+				Window.alert("SaveDatasetCatalogHierarchy don't open modal");
+			} else {
+				Window.alert("SaveDatasetCatalogHierarchy open modal");
+				modal.open();
+			}
 		} else {
 			MaterialToast.fireToast("The user is not logged in (or session expired");
 		}

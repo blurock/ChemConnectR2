@@ -83,10 +83,10 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 	String typeInstance;
 	String linkUrl;
 	GCSBlobContent content;
-	MaterialPanel modalpanel;
 	String visualType;
 	MaterialImage image;
 	UploadedTextObject textobject;
+	MaterialPanel modalpanel;
 	
 	DataCatalogID catid;
 	ChooseFullNameFromCatagoryRow choose;

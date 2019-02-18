@@ -1661,7 +1661,7 @@ xsd:date rdf:type rdfs:Datatype .
 
 ###  http://www.esblurock.info/dataset#ChemConnectClassifications
 :ChemConnectClassifications rdf:type owl:Class ;
-                            rdfs:subClassOf :ChemConnectConceptProperties .
+                            rdfs:subClassOf :ChemConnectDomainConcept .
 
 
 ###  http://www.esblurock.info/dataset#ChemConnectCompoundDataStructure
@@ -1761,7 +1761,7 @@ xsd:date rdf:type rdfs:Datatype .
 
 ###  http://www.esblurock.info/dataset#ChemConnectDynamicParameter
 :ChemConnectDynamicParameter rdf:type owl:Class ;
-                             rdfs:subClassOf :ChemConnectProperties ,
+                             rdfs:subClassOf :ChemConnectParameter ,
                                              [ rdf:type owl:Restriction ;
                                                owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#elementKind> ;
                                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
@@ -1790,7 +1790,7 @@ xsd:date rdf:type rdfs:Datatype .
 
 ###  http://www.esblurock.info/dataset#ChemConnectFixedParameter
 :ChemConnectFixedParameter rdf:type owl:Class ;
-                           rdfs:subClassOf :ChemConnectProperties ,
+                           rdfs:subClassOf :ChemConnectParameter ,
                                            [ rdf:type owl:Restriction ;
                                              owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#elementKind> ;
                                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
@@ -1988,14 +1988,22 @@ xsd:date rdf:type rdfs:Datatype .
                                 <http://www.w3.org/2004/02/skos/core#altLabel> "measurementprotocol" .
 
 
-###  http://www.esblurock.info/dataset#ChemConnectMediaTypes
-:ChemConnectMediaTypes rdf:type owl:Class ;
+###  http://www.esblurock.info/dataset#ChemConnectObservable
+:ChemConnectObservable rdf:type owl:Class ;
                        rdfs:subClassOf :ChemConnectDomainConcept .
 
 
-###  http://www.esblurock.info/dataset#ChemConnectObservable
-:ChemConnectObservable rdf:type owl:Class ;
-                       rdfs:subClassOf :ChemConnectProperties .
+###  http://www.esblurock.info/dataset#ChemConnectParameter
+:ChemConnectParameter rdf:type owl:Class ;
+                      rdfs:subClassOf :ChemConnectDomainConcept ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty <http://www.w3.org/2004/02/skos/core#relatedMatch> ;
+                                        owl:someValuesFrom :ConceptLinkCorrespondenceSpecification
+                                      ] ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty <http://www.w3.org/2004/02/skos/core#relatedMatch> ;
+                                        owl:someValuesFrom :ConceptLinkObservationMatrixBlock
+                                      ] .
 
 
 ###  http://www.esblurock.info/dataset#ChemConnectParameterTypeChoice
@@ -2023,19 +2031,6 @@ Under the data type is the specific instance of the data referenced by the ComCo
 The direct subclass of this class is the general type of data (for example, Password, City, Email). This is used by ChemConnect UI to determine how the data is to be presented
 
 Under the general type of is the actual data object referenced by the ChemConnectCompoundDataStructure"""^^xsd:string .
-
-
-###  http://www.esblurock.info/dataset#ChemConnectProperties
-:ChemConnectProperties rdf:type owl:Class ;
-                       rdfs:subClassOf :ChemConnectDomainConcept ,
-                                       [ rdf:type owl:Restriction ;
-                                         owl:onProperty <http://www.w3.org/2004/02/skos/core#relatedMatch> ;
-                                         owl:someValuesFrom :ConceptLinkCorrespondenceSpecification
-                                       ] ,
-                                       [ rdf:type owl:Restriction ;
-                                         owl:onProperty <http://www.w3.org/2004/02/skos/core#relatedMatch> ;
-                                         owl:someValuesFrom :ConceptLinkObservationMatrixBlock
-                                       ] .
 
 
 ###  http://www.esblurock.info/dataset#ChemConnectProtocol
@@ -2133,6 +2128,10 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#ChemConnectTimeSeries
 :ChemConnectTimeSeries rdf:type owl:Class ;
                        rdfs:subClassOf :ChemConnectObservable ,
+                                       [ rdf:type owl:Restriction ;
+                                         owl:onProperty <http://purl.org/linked-data/cube#dimension> ;
+                                         owl:someValuesFrom <http://data.nasa.gov/qudt/owl/qudt#TimeUnit>
+                                       ] ,
                                        [ rdf:type owl:Restriction ;
                                          owl:onProperty <http://purl.org/linked-data/cube#sliceStructure> ;
                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
@@ -3625,7 +3624,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#ExperimentalIgnitionDelayTime
 :ExperimentalIgnitionDelayTime rdf:type owl:Class ;
-                               rdfs:subClassOf :ChemConnectConceptObservations .
+                               rdfs:subClassOf :MeasuredTimeWithinEvent .
 
 
 ###  http://www.esblurock.info/dataset#ExperimentalPressure
@@ -6985,6 +6984,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                             <http://purl.org/dc/elements/1.1/type> <http://purl.org/linked-data/cube#measure> .
 
 
+###  http://www.esblurock.info/dataset#MeasuredTimeWithinEvent
+:MeasuredTimeWithinEvent rdf:type owl:Class ;
+                         rdfs:subClassOf :ChemConnectConceptObservations .
+
+
 ###  http://www.esblurock.info/dataset#MeasurementFromComponent
 :MeasurementFromComponent rdf:type owl:Class ;
                           rdfs:subClassOf :DeviceMeasurementProtocol ;
@@ -7981,11 +7985,6 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#PressureTrace
 :PressureTrace rdf:type owl:Class ;
                rdfs:subClassOf :ChemConnectTimeSeries ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty <http://purl.org/linked-data/cube#dimension> ;
-                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                 owl:onClass :ExperimentalPressure
-                               ] ,
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty <http://purl.org/linked-data/cube#dimension> ;
                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
@@ -9616,6 +9615,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#ThermodynamicProperties
 :ThermodynamicProperties rdf:type owl:Class ;
                          rdfs:subClassOf :SpeciesProperties .
+
+
+###  http://www.esblurock.info/dataset#TimeInEvent
+:TimeInEvent rdf:type owl:Class ;
+             rdfs:subClassOf :TimeParameter .
 
 
 ###  http://www.esblurock.info/dataset#TimeParameter
@@ -11500,8 +11504,8 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
                                     <http://purl.org/dc/terms/issued> "2000-07-11"^^xsd:date .
 
 
-<http://purl.org/dc/terms/rights> rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
-                                  <http://purl.org/dc/terms/issued> "2008-01-14"^^xsd:date ;
+<http://purl.org/dc/terms/rights> <http://purl.org/dc/terms/issued> "2008-01-14"^^xsd:date ;
+                                  rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
                                   rdfs:label "Rights"@en ;
                                   rdfs:comment "Information about rights held in and over the resource."@en ;
                                   <http://purl.org/dc/terms/modified> "2008-01-14"^^xsd:date ;
@@ -11509,8 +11513,8 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
                                   <http://purl.org/dc/terms/description> "Typically, rights information includes a statement about various property rights associated with the resource, including intellectual property rights."@en .
 
 
-<http://purl.org/dc/terms/rightsHolder> <http://purl.org/dc/terms/hasVersion> <http://dublincore.org/usage/terms/history/#rightsHolder-002> ;
-                                        rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
+<http://purl.org/dc/terms/rightsHolder> rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
+                                        <http://purl.org/dc/terms/hasVersion> <http://dublincore.org/usage/terms/history/#rightsHolder-002> ;
                                         <http://purl.org/dc/terms/modified> "2008-01-14"^^xsd:date ;
                                         rdfs:comment "A person or organization owning or managing rights over the resource."@en ;
                                         <http://purl.org/dc/terms/issued> "2004-06-14"^^xsd:date ;
@@ -11635,7 +11639,6 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
 
 :DataSetReference <http://purl.org/dc/elements/1.1/type> "DataSetReference"^^xsd:string ;
                   <http://purl.org/dc/terms/identifier> "terms:BibliographicResource"^^xsd:string ;
-                  rdfs:isDefinedBy <http://purl.org/dc/terms/BibliographicResource> ;
                   <http://www.w3.org/2004/02/skos/core#altLabel> "ref"^^xsd:string ;
                   rdfs:label "Data Set Reference"^^xsd:string .
 

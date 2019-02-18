@@ -17,13 +17,13 @@ public class SetObjectTypeCallback  implements AsyncCallback<String>  {
 	@Override
 	public void onFailure(Throwable err) {
 		Window.alert("ERROR: Set object type\n" + err.toString());
-		MaterialLoader.loading(true);		
+		MaterialLoader.loading(false);		
 	}
 
 	@Override
 	public void onSuccess(String objectType) {
 		choose.setObjectType(objectType);
-		MaterialLoader.loading(true);		
+		MaterialLoader.loading(false);		
 	}
 
 }

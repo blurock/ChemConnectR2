@@ -78,8 +78,6 @@ public class TopChemConnectPanel extends Composite {
 	@UiField
 	MaterialLink tutorialreadfile;
 	@UiField
-	MaterialLink mission;
-	@UiField
 	MaterialLink home;
 	@UiField
 	MaterialLink about;
@@ -291,11 +289,6 @@ public class TopChemConnectPanel extends Composite {
 		goTo(new TutorialExamplePlace("Tutorial: Reading and Interpreting data files"));
 	}
 	
-	@UiHandler("mission")
-	public void onMissionClick(ClickEvent event) {
-		setSubTitle("Mission Statement");
-		goTo(new MissionStatementPlace("Mission Statement"));
-	}
 	@UiHandler("about")
 	public void onAboutClick(ClickEvent event) {
 		setSubTitle("About ChemConnect");

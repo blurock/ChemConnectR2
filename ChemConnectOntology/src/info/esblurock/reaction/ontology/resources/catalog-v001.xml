@@ -13,12 +13,13 @@
     <uri id="Imports Wizard Entry" name="http://www.w3.org/ns/prov-o-20130430" uri="https://www.w3.org/ns/prov-o"/>
     <uri id="Imports Wizard Entry" name="http://www.w3.org/2006/vcard/ns" uri="vcard.ttl"/>
     <group id="Folder Repository, directory=, recursive=true, Auto-Update=true, version=2" prefer="public" xml:base="">
-        <uri id="Automatically generated entry, Timestamp=1518468126751" name="http://data.qudt.org/qudt/owl/1.0.0/dimension.owl" uri="dimension.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1518468126751" name="http://data.qudt.org/qudt/owl/1.0.0/nist-constants.owl" uri="nist-constants.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1518468126751" name="http://data.qudt.org/qudt/owl/1.0.0/quantity.owl" uri="quantity.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1518468126751" name="http://data.qudt.org/qudt/owl/1.0.0/qudt.owl" uri="qudt.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1518468126751" name="http://data.qudt.org/qudt/owl/1.0.0/unit.owl" uri="unit.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1518468126751" name="http://www.esblurock.info/dataset" uri="datasetrdf.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1518468126751" name="http://www.w3.org/2004/02/skos/core" uri="skos.rdf"/>
+        <uri id="Automatically generated entry, Timestamp=1549531086875" name="http://data.qudt.org/qudt/owl/1.0.0/dimension.owl" uri="dimension.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1549531086875" name="http://data.qudt.org/qudt/owl/1.0.0/nist-constants.owl" uri="nist-constants.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1549531086875" name="http://data.qudt.org/qudt/owl/1.0.0/quantity.owl" uri="quantity.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1549531086875" name="http://data.qudt.org/qudt/owl/1.0.0/qudt.owl" uri="qudt.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1549531086875" name="http://data.qudt.org/qudt/owl/1.0.0/unit.owl" uri="unit.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1549531086875" name="duplicate:http://www.esblurock.info/dataset" uri="Dataset.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1549531086875" name="duplicate:http://www.esblurock.info/dataset" uri="datasetrdf.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1549531086875" name="http://www.w3.org/2004/02/skos/core" uri="skos.rdf"/>
     </group>
 </catalog>
