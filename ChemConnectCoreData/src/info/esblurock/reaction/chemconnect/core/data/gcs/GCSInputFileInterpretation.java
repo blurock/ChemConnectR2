@@ -15,6 +15,9 @@ public class GCSInputFileInterpretation  extends DatabaseObject {
 	@Index
 	String interpretingClass;
 	
+	public GCSInputFileInterpretation() {
+	}
+	
 	public GCSInputFileInterpretation(DatabaseObject obj, 
 			String bucket, String fullBlobName, String interpretingClass) {
 		super(obj);

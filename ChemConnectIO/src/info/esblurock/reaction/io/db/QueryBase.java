@@ -198,7 +198,7 @@ public class QueryBase {
 	}
 	public static void deleteObject(Object o) {
 		if(o != null) {
-			deleteObject(o);
+			ofy().delete().entity(o);
 		}
 	}
 }

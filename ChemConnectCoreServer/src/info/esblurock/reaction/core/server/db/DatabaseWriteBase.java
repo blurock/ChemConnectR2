@@ -2,8 +2,13 @@ package info.esblurock.reaction.core.server.db;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.image.UploadedImage;
+import info.esblurock.reaction.chemconnect.core.data.query.QueryPropertyValue;
+import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
+import info.esblurock.reaction.chemconnect.core.data.query.SetOfQueryPropertyValues;
+import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.data.transaction.TransactionInfo;
 import info.esblurock.reaction.core.server.delete.DeleteDataStructures;
+import info.esblurock.reaction.io.db.QueryBase;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -92,10 +97,34 @@ public class DatabaseWriteBase {
 	 * 
 	 * This writes the transaction object and the TransactionInfo.
 	 * The TransactionInfo uses the base parameters (id,access,owner and sourceID) of the object.
+	 * @throws IOException 
 	 * 
 	 */
 	static public void writeObjectWithTransaction(DatabaseObject object) {
 		String classname = object.getClass().getName();
+		
+		String transclass = TransactionInfo.class.getCanonicalName();
+		SetOfQueryPropertyValues values = new SetOfQueryPropertyValues();
+		QueryPropertyValue value1 = new QueryPropertyValue("identifier",object.getIdentifier());
+		values.add(value1);
+		QueryPropertyValue value2 = new QueryPropertyValue("transactionObjectType",classname);
+		values.add(value2);
+		QuerySetupBase query = new QuerySetupBase(object.getOwner(),transclass, values);
+		System.out.println(query.toString("writeObjectWithTransaction"));
+		SingleQueryResult result;
+		try {
+			result = QueryBase.StandardQueryResult(query);
+			List<DatabaseObject> objs = result.getResults();
+			System.out.println("deletePreviousBlobStorageMoves: " + objs.size());
+			for(DatabaseObject obj : objs) {
+				TransactionInfo info = (TransactionInfo) obj;
+				deleteTransactionInfo(info);
+			}
+		} catch (ClassNotFoundException e) {
+			System.out.println("writeObjectWithTransaction: ClassNotFoundException ");
+		} catch (IOException ex) {
+			System.out.println("writeObjectWithTransaction: IOException ");
+		}
 		TransactionInfo transaction = new TransactionInfo(
 				object.getIdentifier(), object.getAccess(), object.getOwner(),object.getSourceID(),classname);
 		writeDatabaseObject(object);

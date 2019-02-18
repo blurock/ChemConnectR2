@@ -15,6 +15,7 @@ import com.googlecode.objectify.ObjectifyService;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
+import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.query.ListOfQueries;
 import info.esblurock.reaction.chemconnect.core.data.query.QueryPropertyValue;
@@ -30,7 +31,8 @@ import info.esblurock.reaction.core.server.services.util.ParseUtilities;
 import info.esblurock.reaction.io.db.QueryBase;
 import info.esblurock.reaction.io.db.QueryFactory;
 import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
-import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;;
+import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
+import info.esblurock.reaction.chemconnect.core.data.transaction.TransactionInfo;;
 
 public class WriteReadDatabaseObjects {
 
@@ -321,5 +323,39 @@ public class WriteReadDatabaseObjects {
 		}
 		ObjectifyService.ofy().delete().entity(hierarchy.getObject());
 	}
-
+/*
+ * The lastest blob store write takes precedence
+ * on overwrite, previous writes are deleted.
+ * 
+ */
+	public static void deletePreviousBlobStorageMoves(GCSBlobFileInformation target) throws IOException {
+		String classname = GCSBlobFileInformation.class.getCanonicalName();
+		SetOfQueryPropertyValues values = new SetOfQueryPropertyValues();
+		QueryPropertyValue value1 = new QueryPropertyValue("filename",target.getFilename());
+		values.add(value1);
+		QueryPropertyValue value2 = new QueryPropertyValue("path",target.getPath());
+		values.add(value2);
+		QuerySetupBase query = new QuerySetupBase(target.getOwner(),classname, values);
+		System.out.println(query.toString("deletePreviousBlobStorageMoves"));
+		try {
+			SingleQueryResult result = QueryBase.StandardQueryResult(query);
+			List<DatabaseObject> objs = result.getResults();
+			System.out.println("deletePreviousBlobStorageMoves: " + objs.size());
+			for(DatabaseObject obj : objs) {
+				System.out.println(obj.toString("deletePreviousBlobStorageMoves: object: "));
+				List<DatabaseObject> transactions = QueryBase.getDatabaseObjectsFromSingleProperty(TransactionInfo.class.getCanonicalName(), 
+						"identifier", obj.getIdentifier());
+				System.out.println("deletePreviousBlobStorageMoves: transactions: " + transactions.size());
+				QueryBase.deleteObject(obj);
+				for(DatabaseObject transaction : transactions) {
+					System.out.println(transaction.toString("deletePreviousBlobStorageMoves: transaction: "));
+					QueryBase.deleteObject(transaction);
+				}
+				System.out.println("deletePreviousBlobStorageMoves: done with transactions");
+			}
+			System.out.println("deletePreviousBlobStorageMoves: done with objects");
+		} catch (ClassNotFoundException e) {
+			throw new IOException("deletePreviousBlobStorageMoves: class not found");
+		}
+	}
 }

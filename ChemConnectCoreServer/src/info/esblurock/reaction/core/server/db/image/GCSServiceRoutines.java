@@ -21,6 +21,7 @@ import info.esblurock.reaction.chemconnect.core.data.base.GoogleCloudStorageCons
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobContent;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
+import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.io.db.QueryBase;
 
 public class GCSServiceRoutines {
@@ -123,7 +124,9 @@ public class GCSServiceRoutines {
 		GCSBlobContent gcscontent = new GCSBlobContent(url, target);
 		String sourceID = QueryBase.getDataSourceIdentification(target.getOwner());
 		target.setSourceID(sourceID);
-		target.nullKey();
+		System.out.println("GCSServiceRoutines: moveBlob before delete");
+		WriteReadDatabaseObjects.deletePreviousBlobStorageMoves(target);
+		System.out.println("GCSServiceRoutines: moveBlob after delete");
 		DatabaseWriteBase.writeObjectWithTransaction(target);
 		return gcscontent;
 	}

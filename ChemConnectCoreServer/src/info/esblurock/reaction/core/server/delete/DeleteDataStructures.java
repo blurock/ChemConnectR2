@@ -6,8 +6,10 @@ import java.util.StringTokenizer;
 
 import com.googlecode.objectify.ObjectifyService;
 
+import info.esblurock.reaction.chemconnect.core.data.gcs.GCSInputFileInterpretation;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
+import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.core.server.db.image.UserImageServiceImpl;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
@@ -33,6 +35,15 @@ public enum DeleteDataStructures {
 		public String deleteStructure(DatabaseObject info) throws IOException {
 			GCSBlobFileInformation gcsinfo = (GCSBlobFileInformation) info;
 			UserImageServiceImpl.deleteBlob(gcsinfo);
+			return null;
+		}
+		
+	}, GCSInputFileInterpretation {
+
+		@Override
+		public String deleteStructure(DatabaseObject info) throws IOException {
+			GCSInputFileInterpretation gcsinput = (GCSInputFileInterpretation) info;
+			WriteReadDatabaseObjects.deleteObject(gcsinput.getIdentifier(), gcsinput.getInterpretingClass());
 			return null;
 		}
 		
