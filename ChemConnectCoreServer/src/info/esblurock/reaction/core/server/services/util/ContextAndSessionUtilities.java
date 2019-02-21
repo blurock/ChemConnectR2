@@ -1,13 +1,9 @@
 package info.esblurock.reaction.core.server.services.util;
 
-import java.io.IOException;
-
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
-import info.esblurock.reaction.chemconnect.core.data.login.UserAccount;
 import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
-import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
 
 
 public class ContextAndSessionUtilities {

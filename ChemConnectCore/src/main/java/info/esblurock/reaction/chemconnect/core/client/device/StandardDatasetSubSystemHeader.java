@@ -11,11 +11,17 @@ import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialTooltip;
+import info.esblurock.reaction.chemconnect.core.client.GeneralVoidReturnCallback;
 import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
+import info.esblurock.reaction.chemconnect.core.client.modal.OKAnswerInterface;
+import info.esblurock.reaction.chemconnect.core.client.modal.OKModal;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
+import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
+import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
+import info.esblurock.reaction.chemconnect.core.data.dataset.ObservationCorrespondenceSpecification;
 import info.esblurock.reaction.chemconnect.core.data.dataset.device.SubSystemDescription;
 
-public class StandardDatasetSubSystemHeader extends Composite {
+public class StandardDatasetSubSystemHeader extends Composite implements OKAnswerInterface {
 
 	private static StandardDatasetSubSystemHeaderUiBinder uiBinder = GWT
 			.create(StandardDatasetSubSystemHeaderUiBinder.class);
@@ -53,7 +59,18 @@ public class StandardDatasetSubSystemHeader extends Composite {
 		
 	}
 	@UiHandler("delete")
-	void onClickDelete(ClickEvent event) {
-		Window.alert("Delete Object not implemented");
+	void deleteClick(ClickEvent event) {
+		OKModal askifok = new OKModal("askifOK","Are you sure you want to delete catalog obj","Delete",this);	
+		item.getModalpanel().clear();
+		item.getModalpanel().add(askifok);
+		askifok.openModal();
 	}
+	@Override
+	public void answeredOK(String answer) {
+		UserImageServiceAsync async = UserImageService.Util.getInstance();
+		GeneralVoidReturnCallback callback = new GeneralVoidReturnCallback("Subsystem deletion successful");
+		async.deleteObject(ObservationCorrespondenceSpecification.class.getCanonicalName(),
+				item.getObject().getIdentifier(),callback);
+	}
+
 }

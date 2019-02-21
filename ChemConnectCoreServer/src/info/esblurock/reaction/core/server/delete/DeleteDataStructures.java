@@ -6,17 +6,32 @@ import java.util.StringTokenizer;
 
 import com.googlecode.objectify.ObjectifyService;
 
-import info.esblurock.reaction.chemconnect.core.data.gcs.GCSInputFileInterpretation;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetInputInformation;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
 import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.core.server.db.image.UserImageServiceImpl;
+
+import info.esblurock.reaction.io.db.QueryBase;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
+import info.esblurock.reaction.chemconnect.core.data.image.DatasetImage;
+import info.esblurock.reaction.chemconnect.core.data.image.ImageInformation;
 
 public enum DeleteDataStructures {
 
-	SpreadSheetInputInformation {
+	DatasetImage {
+
+		@Override
+		public String deleteStructure(DatabaseObject info) throws IOException {
+			DatasetImage image = (DatasetImage) info;
+			String imageinfoid = image.getImageInformation();
+			ImageInformation imageinfo = (ImageInformation) QueryBase.getDatabaseObjectFromIdentifier(ImageInformation.class.getCanonicalName(), imageinfoid);
+			String imageurl = imageinfo.getImageURL();
+			WriteReadDatabaseObjects.deleteBlobFromURL(imageurl);
+			return null;
+		}
+		
+	}, SpreadSheetInputInformation {
 
 		@Override
 		public String deleteStructure(DatabaseObject info) throws IOException {
@@ -42,8 +57,20 @@ public enum DeleteDataStructures {
 
 		@Override
 		public String deleteStructure(DatabaseObject info) throws IOException {
-			GCSInputFileInterpretation gcsinput = (GCSInputFileInterpretation) info;
-			WriteReadDatabaseObjects.deleteObject(gcsinput.getIdentifier(), gcsinput.getInterpretingClass());
+			return null;
+		}
+		
+	}, ObservationCorrespondenceSpecification {
+
+		@Override
+		public String deleteStructure(DatabaseObject info) throws IOException {
+			return null;
+		}
+		
+	}, DatasetCatalogHierarchy {
+
+		@Override
+		public String deleteStructure(DatabaseObject info) throws IOException {
 			return null;
 		}
 		
@@ -54,6 +81,11 @@ public enum DeleteDataStructures {
 	
 	public abstract String deleteStructure(DatabaseObject info) throws IOException;
 
+	
+	public void deleteFromBlobURL(String url) {
+		
+	}
+	
 	/**
 	 * Find key root.
 	 *
@@ -72,8 +104,12 @@ public enum DeleteDataStructures {
 
 	public static String deleteObject(DatabaseObject entity) throws IOException {
 		String root = findKeyRoot(entity.getClass().getCanonicalName());
-		System.out.println("DeleteDataStructure: " + root);
-		String ans = valueOf(root).deleteStructure(entity);
+		DeleteDataStructures deletedata = valueOf(root);
+		String ans = "No special delete";
+		if(deletedata != null) {
+			ans = valueOf(root).deleteStructure(entity);
+		}
 		return ans;
 	}
+	
 }

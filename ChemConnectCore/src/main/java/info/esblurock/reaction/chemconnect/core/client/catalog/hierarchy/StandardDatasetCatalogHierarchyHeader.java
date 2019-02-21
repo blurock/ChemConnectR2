@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialToast;
+import info.esblurock.reaction.chemconnect.core.client.GeneralVoidReturnCallback;
 import info.esblurock.reaction.chemconnect.core.client.cards.CardModal;
 import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.client.catalog.SubCatagoryHierarchyCallback;
@@ -20,16 +21,19 @@ import info.esblurock.reaction.chemconnect.core.client.catalog.choose.ChooseFull
 import info.esblurock.reaction.chemconnect.core.client.catalog.choose.SubCatagoryHierarchyCallbackInterface;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHeirarchy;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchies;
+import info.esblurock.reaction.chemconnect.core.client.modal.OKAnswerInterface;
+import info.esblurock.reaction.chemconnect.core.client.modal.OKModal;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHierarchy;
+import info.esblurock.reaction.chemconnect.core.data.dataset.ObservationCorrespondenceSpecification;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 public class StandardDatasetCatalogHierarchyHeader extends Composite 
-	implements SubCatagoryHierarchyCallbackInterface, ChooseFromConceptHeirarchy {
+	implements SubCatagoryHierarchyCallbackInterface, ChooseFromConceptHeirarchy,OKAnswerInterface {
 
 	private static StandardDatasetCatalogHierarchyHeaderUiBinder uiBinder = GWT
 			.create(StandardDatasetCatalogHierarchyHeaderUiBinder.class);
@@ -88,8 +92,21 @@ public class StandardDatasetCatalogHierarchyHeader extends Composite
 		
 		if (item.getSubitems().size() > 0) {
 			MaterialToast.fireToast("Delete subcatagories first");
+		} else {
+			OKModal askifok = new OKModal("askifOK","Are you sure you want to delete catalog obj","Delete",this);	
+			item.getModalpanel().clear();
+			item.getModalpanel().add(askifok);
+			askifok.openModal();
 		}
 		
+	}
+	
+	@Override
+	public void answeredOK(String answer) {
+		UserImageServiceAsync async = UserImageService.Util.getInstance();
+		GeneralVoidReturnCallback callback = new GeneralVoidReturnCallback("Specification deletion successful");
+		async.deleteObject(DatasetCatalogHierarchy.class.getCanonicalName(),
+				item.getObject().getIdentifier(),callback);
 	}
 
 	@UiHandler("add")

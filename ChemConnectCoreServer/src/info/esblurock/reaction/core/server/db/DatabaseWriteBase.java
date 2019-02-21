@@ -7,6 +7,8 @@ import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.data.query.SetOfQueryPropertyValues;
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.data.transaction.TransactionInfo;
+import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
+import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.delete.DeleteDataStructures;
 import info.esblurock.reaction.io.db.QueryBase;
 
@@ -60,7 +62,9 @@ public class DatabaseWriteBase {
 		DatabaseObject entity = (DatabaseObject) ObjectifyService.ofy().load().type(typeclass).filter("sourceID",sourceID).first().now();
 		if(entity != null) {
 			DeleteDataStructures.deleteObject(entity);
-			ObjectifyService.ofy().delete().entity(entity);
+			DatabaseObjectHierarchy hierarchy = ExtractCatalogInformation.getCatalogObject(info.getIdentifier(), 
+					info.getClass().getCanonicalName());
+			WriteReadDatabaseObjects.deleteHierarchy(hierarchy);
 		}
 		ObjectifyService.ofy().delete().entity(info);
 	}

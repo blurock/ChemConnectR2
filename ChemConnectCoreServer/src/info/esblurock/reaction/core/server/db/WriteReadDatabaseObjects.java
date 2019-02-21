@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.cloud.storage.BlobId;
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 
@@ -36,6 +39,11 @@ import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.data.transaction.TransactionInfo;;
 
 public class WriteReadDatabaseObjects {
+	public static Storage storage = null;
+	static {
+		storage = StorageOptions.getDefaultInstance().getService();
+	}
+
 
 	public static void updateSourceID(DatabaseObjectHierarchy objecthierarchy) {
 		DatabaseObject object = objecthierarchy.getObject();
@@ -168,12 +176,12 @@ public class WriteReadDatabaseObjects {
 		return topnode;
 	}
 	private static HierarchyNode hierarchialList(List<DatabaseObject> objs) {
-		HierarchyNode topnode = new HierarchyNode("Database Objects");
+		Set<String> ids = new HashSet<String>();
 		for(DatabaseObject obj : objs) {
 			DataCatalogID datid = (DataCatalogID) obj;
-			HierarchyNode subnode = new HierarchyNode(datid.getParentLink(),datid.getSimpleCatalogName());
-			topnode.addSubNode(subnode);
+			ids.add(datid.getParentLink());
 		}
+		HierarchyNode topnode = ParseUtilities.parseIDsToHierarchyNode(MetaDataKeywords.defaultTopNodeHierarchy,ids,true);
 		return topnode;
 	}
 
@@ -302,12 +310,19 @@ public class WriteReadDatabaseObjects {
 		return topnode;
 	}
 	
-	public static void deleteObject(String id, String type) {
-		DatabaseObjectHierarchy hierarchy = ExtractCatalogInformation.getCatalogObject(id, type);
-		if(hierarchy != null) {
-			deleteHierarchy(hierarchy);
-		}
+	public static void deleteObject(String id, String type) throws IOException {
+		List<DatabaseObject> infoset =  QueryBase.getDatabaseObjectsFromSingleProperty(TransactionInfo.class.getCanonicalName(), 
+				"identifier",id);
+		if(infoset.size() > 0) {
+			for(DatabaseObject obj : infoset) {
+				TransactionInfo info = (TransactionInfo) obj;
+				DatabaseWriteBase.deleteTransactionInfo(info);
+			}
+		}		
 	}
+	
+	
+	
 	public static void deleteHierarchy(DatabaseObjectHierarchy hierarchy) {
 		for(DatabaseObjectHierarchy sub : hierarchy.getSubobjects()) {
 			deleteHierarchy(sub);
@@ -344,6 +359,21 @@ public class WriteReadDatabaseObjects {
 			throw new IOException("deletePreviousBlobStorageMoves: class not found");
 		}
 	}
+	
+	public static void deleteBlobFromURL(String url) {
+		// "https://storage.googleapis.com/"
+		String prefix = "https://storage.googleapis.com/";
+		int bucketend = url.indexOf('/', prefix.length());
+		String bucket = url.substring(prefix.length(), bucketend);
+		String path = url.substring(bucketend + 1);
+		
+		BlobId blobId = BlobId.of(bucket, path);
+		storage.delete(blobId);
+	
+
+	}
+
+	
 	public static UserAccount getAccount(String username) {
 		UserAccount account = null;
 		try {

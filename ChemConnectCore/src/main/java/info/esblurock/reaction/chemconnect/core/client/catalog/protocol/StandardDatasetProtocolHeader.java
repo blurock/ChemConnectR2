@@ -15,18 +15,22 @@ import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTooltip;
+import info.esblurock.reaction.chemconnect.core.client.GeneralVoidReturnCallback;
 import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
+import info.esblurock.reaction.chemconnect.core.client.modal.OKAnswerInterface;
+import info.esblurock.reaction.chemconnect.core.client.modal.OKModal;
 import info.esblurock.reaction.chemconnect.core.client.pages.DataStructurePages;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
+import info.esblurock.reaction.chemconnect.core.data.dataset.ObservationCorrespondenceSpecification;
 import info.esblurock.reaction.chemconnect.core.data.methodology.ChemConnectProtocol;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ProtocolSetupTransfer;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
-public class StandardDatasetProtocolHeader extends Composite {
+public class StandardDatasetProtocolHeader extends Composite implements OKAnswerInterface {
 
 	private static StandardDatasetProtocolHeaderUiBinder uiBinder = GWT
 			.create(StandardDatasetProtocolHeaderUiBinder.class);
@@ -135,8 +139,18 @@ public class StandardDatasetProtocolHeader extends Composite {
 		overlay.open();
 	}
 	@UiHandler("delete")
-	void onClickDelete(ClickEvent event) {
-		Window.alert("Delete Object not implemented");
+	void deleteClick(ClickEvent event) {
+		OKModal askifok = new OKModal("askifOK","Are you sure you want to delete catalog obj","Delete",this);	
+		item.getModalpanel().clear();
+		item.getModalpanel().add(askifok);
+		askifok.openModal();
+	}
+	@Override
+	public void answeredOK(String answer) {
+		UserImageServiceAsync async = UserImageService.Util.getInstance();
+		GeneralVoidReturnCallback callback = new GeneralVoidReturnCallback("Protocol deletion successful");
+		async.deleteObject(ObservationCorrespondenceSpecification.class.getCanonicalName(),
+				item.getObject().getIdentifier(),callback);
 	}
 
 	public boolean updateProtocol() {

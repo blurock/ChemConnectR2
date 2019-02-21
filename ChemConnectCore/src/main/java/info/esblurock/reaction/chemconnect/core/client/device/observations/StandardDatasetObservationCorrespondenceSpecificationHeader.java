@@ -15,6 +15,7 @@ import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.MaterialTooltip;
+import info.esblurock.reaction.chemconnect.core.client.GeneralVoidReturnCallback;
 import info.esblurock.reaction.chemconnect.core.client.UpdateDataObjectHeaderInterface;
 import info.esblurock.reaction.chemconnect.core.client.catalog.DatasetStandardDataCatalogIDHeader;
 import info.esblurock.reaction.chemconnect.core.client.catalog.HierarchyNodeCallback;
@@ -22,10 +23,13 @@ import info.esblurock.reaction.chemconnect.core.client.catalog.HierarchyNodeCall
 import info.esblurock.reaction.chemconnect.core.client.catalog.SaveDatasetCatalogHierarchy;
 import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.client.catalog.SubCatagoryHierarchyCallback;
+import info.esblurock.reaction.chemconnect.core.client.catalog.WriteDatasetObjectHierarchyCallback;
 import info.esblurock.reaction.chemconnect.core.client.catalog.choose.SubCatagoryHierarchyCallbackInterface;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHeirarchy;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchies;
 import info.esblurock.reaction.chemconnect.core.client.device.observations.matrix.MatrixSpecificationCorrespondenceSetHeader;
+import info.esblurock.reaction.chemconnect.core.client.modal.OKAnswerInterface;
+import info.esblurock.reaction.chemconnect.core.client.modal.OKModal;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
@@ -41,7 +45,7 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.structure.Database
 public class StandardDatasetObservationCorrespondenceSpecificationHeader extends Composite 
 	implements HierarchyNodeCallbackInterface, ChooseFromHierarchyTreeInterface, 
 		SubCatagoryHierarchyCallbackInterface, UpdateDataObjectHeaderInterface,
-		ChooseFromConceptHeirarchy {
+		ChooseFromConceptHeirarchy, OKAnswerInterface {
 
 	private static StandardDatasetObservationCorrespondenceSpecificationHeaderUiBinder uiBinder = GWT
 			.create(StandardDatasetObservationCorrespondenceSpecificationHeaderUiBinder.class);
@@ -157,6 +161,21 @@ public class StandardDatasetObservationCorrespondenceSpecificationHeader extends
 		saveit.openModal();
 	}
 	
+	@UiHandler("delete")
+	void deleteClick(ClickEvent event) {
+		OKModal askifok = new OKModal("askifOK","Are you sure you want to delete catalog obj","Delete",this);	
+		item.getModalpanel().clear();
+		item.getModalpanel().add(askifok);
+		askifok.openModal();
+	}
+	@Override
+	public void answeredOK(String answer) {
+		UserImageServiceAsync async = UserImageService.Util.getInstance();
+		GeneralVoidReturnCallback callback = new GeneralVoidReturnCallback("Specification deletion successful");
+		async.deleteObject(ObservationCorrespondenceSpecification.class.getCanonicalName(),
+				value.getIdentifier(),callback);
+	}
+
 	private void fillInSubItems() {
 		catidheader = (DatasetStandardDataCatalogIDHeader) item.getItemHeaderFromID(value.getCatalogDataID());
 		matspecheader = (MatrixSpecificationCorrespondenceSetHeader) item.getItemHeaderFromID(value.getMatrixSpecificationCorrespondenceSet());
@@ -231,4 +250,5 @@ public class StandardDatasetObservationCorrespondenceSpecificationHeader extends
 		obsspec.setObservationParameterType(observationType);
 		return true;
 	}
+
 }

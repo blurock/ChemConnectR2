@@ -201,4 +201,6 @@ public class QueryBase {
 			ofy().delete().entity(o);
 		}
 	}
+	
+
 }

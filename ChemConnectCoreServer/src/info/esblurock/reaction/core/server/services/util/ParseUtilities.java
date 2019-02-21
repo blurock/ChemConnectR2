@@ -195,12 +195,10 @@ public class ParseUtilities {
 			ParseUtilities.fillInHierarchy(topnode, path, id);
 		}
 		
-		System.out.println("parseIDsToHierarchyNode:\n" + topnode.toString("Unsimplified: "));
-		
 		if(simplify) {
 			while(topnode.getSubNodes().size() == 1) {
 				HierarchyNode newtopnode = topnode.getSubNodes().get(0);
-				String id = topnode.getLabel();
+				String id = newtopnode.getLabel();
 				StringTokenizer tok = new StringTokenizer(id,"-");
 				String current = id;
 				String last = current;
@@ -208,12 +206,10 @@ public class ParseUtilities {
 					last = current;
 					current = tok.nextToken();
 				}
-				topnode = new HierarchyNode(last,id);
+				topnode = new HierarchyNode(id,last);
 				topnode.setSubNodes(newtopnode.getSubNodes());
-				}
+			}
 		}
-		System.out.println("parseIDsToHierarchyNode:\n" + topnode.toString("Simplified: "));
-		
 		return topnode;
 	}
 	

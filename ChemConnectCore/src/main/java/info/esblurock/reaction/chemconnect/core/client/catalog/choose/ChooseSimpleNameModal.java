@@ -110,12 +110,8 @@ public class ChooseSimpleNameModal extends Composite implements HierarchyNodeCal
 	public void onSelected(SelectionEvent<MaterialTreeItem> event) {
 		MaterialTreeItemWithPath item = (MaterialTreeItemWithPath) event.getSelectedItem();
 		if (item.getTreeItems().size() == 0) {
-			if(item.getPath().size() == 0) {
-				MaterialToast.fireToast("Not pre-saved objects: type name of new object to be created");
-			} else {
 				answer.objectChosen(item.getIdentifier());
 				modal.close();
-			}
 		} else {
 			item.expand();
 		}
