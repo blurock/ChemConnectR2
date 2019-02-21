@@ -84,7 +84,6 @@ public class SaveDatasetCatalogHierarchy extends Composite {
 				MaterialToast.fireToast("Have to have write authorization to save: not allowed for user: " + account);
 				Window.alert("SaveDatasetCatalogHierarchy don't open modal");
 			} else {
-				Window.alert("SaveDatasetCatalogHierarchy open modal");
 				modal.open();
 			}
 		} else {

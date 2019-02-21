@@ -32,10 +32,6 @@ public class ImageInformationHeader extends Composite {
 	MaterialLink type;
 	@UiField
 	MaterialPanel imagePanel;
-	@UiField
-	MaterialLink delete;
-	@UiField
-	MaterialLink save;
 
 	StandardDatasetObjectHierarchyItem item;
 	DatabaseObjectHierarchy hierarchy;
@@ -65,24 +61,6 @@ public class ImageInformationHeader extends Composite {
 	void init() {
 		type.setText("Type");
 		typetooltip.setText("Type of Image");
-	}
-
-	@UiHandler("save")
-	void onClickSave(ClickEvent e) {
-		SaveDatasetCatalogHierarchy savemodal = new SaveDatasetCatalogHierarchy(item);
-		item.getModalpanel().clear();
-		item.getModalpanel().add(savemodal);
-		savemodal.openModal();		
-	}
-	
-	@UiHandler("delete")
-	void onClickDelete(ClickEvent e) {
-		Window.alert("Delete!");
-	}
-	
-	@UiHandler("type")
-	void onClickHeader(ClickEvent e) {
-		Window.alert("type!");
 	}
 
 	public void updateData() {

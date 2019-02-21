@@ -16,6 +16,7 @@ import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
+import info.esblurock.reaction.chemconnect.core.data.login.UserAccount;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.query.ListOfQueries;
 import info.esblurock.reaction.chemconnect.core.data.query.QueryPropertyValue;
@@ -147,12 +148,6 @@ public class WriteReadDatabaseObjects {
 	
 	public static HierarchyNode getIDHierarchyFromDataCatalogID(String user,
 			String basecatalog, String catalog) throws IOException {
-		System.out.println("getIDHierarchyFromDataCatalogID user" + user);
-		System.out.println("getIDHierarchyFromDataCatalogID basecatalog" + basecatalog);
-		System.out.println("getIDHierarchyFromDataCatalogID catalog" + catalog);
-		
-		
-		
 		String classname = DataCatalogID.class.getCanonicalName();
 		SetOfQueryPropertyValues values = new SetOfQueryPropertyValues();
 
@@ -166,8 +161,6 @@ public class WriteReadDatabaseObjects {
 		try {
 			results = QueryBase.StandardSetOfQueries(queries);
 			List<DatabaseObject> objs = results.retrieveAndClear();
-			System.out.println("getIDHierarchyFromDataCatalogID results:\n" + objs);
-			
 			topnode = hierarchialList(objs);
 		} catch (ClassNotFoundException e) {
 			throw new IOException("getIDHierarchyFromDataCatalogID Class not found: " + classname);
@@ -270,7 +263,7 @@ public class WriteReadDatabaseObjects {
 			}
 			
 			
-			topnode = ParseUtilities.parseIDsToHierarchyNode("Objects",ids,true);
+			topnode = ParseUtilities.parseIDsToHierarchyNode(MetaDataKeywords.defaultTopNodeHierarchy,ids,true);
 		} catch (ClassNotFoundException e) {
 			throw new IOException("getIDHierarchyFromDataCatalogIDAndClassType DataCatalog Class not found: " + datacatalog);
 		}
@@ -286,7 +279,6 @@ public class WriteReadDatabaseObjects {
 		SetOfQueryPropertyValues values = new SetOfQueryPropertyValues();
 		DataElementInformation info = DatasetOntologyParsing.getSubElementStructureFromIDObject(classtype);
 		String suffix = info.getSuffix();
-		System.out.println("getIDHierarchyFromDataCatalogIDAndClassType suffix: " + suffix);
 		QueryPropertyValue value2 = new QueryPropertyValue("CatalogBaseName",catalogbasename);
 		values.add(value2);
 		ListOfQueries queries = QueryFactory.accessQueryForUser(classname, user, values);
@@ -295,7 +287,6 @@ public class WriteReadDatabaseObjects {
 		HierarchyNode topnode = null;
 		try {
 			results = QueryBase.StandardSetOfQueries(queries);
-			System.out.println("getIDHierarchyFromDataCatalogIDAndClassType results: \n" + results);
 			List<DatabaseObject> objs = results.retrieveAndClear();
 			for(DatabaseObject obj : objs) {
 				DataCatalogID datid = (DataCatalogID) obj;
@@ -304,7 +295,7 @@ public class WriteReadDatabaseObjects {
 					ids.add(datid.getParentLink());
 				}
 			}
-			topnode = ParseUtilities.parseIDsToHierarchyNode("Objects",ids,true);
+			topnode = ParseUtilities.parseIDsToHierarchyNode(MetaDataKeywords.defaultTopNodeHierarchy,ids,true);
 		} catch (ClassNotFoundException e) {
 			throw new IOException("getIDHierarchyFromDataCatalogIDAndClassType Class not found: " + classtype);
 		}
@@ -340,22 +331,28 @@ public class WriteReadDatabaseObjects {
 		try {
 			SingleQueryResult result = QueryBase.StandardQueryResult(query);
 			List<DatabaseObject> objs = result.getResults();
-			System.out.println("deletePreviousBlobStorageMoves: " + objs.size());
 			for(DatabaseObject obj : objs) {
 				System.out.println(obj.toString("deletePreviousBlobStorageMoves: object: "));
 				List<DatabaseObject> transactions = QueryBase.getDatabaseObjectsFromSingleProperty(TransactionInfo.class.getCanonicalName(), 
 						"identifier", obj.getIdentifier());
-				System.out.println("deletePreviousBlobStorageMoves: transactions: " + transactions.size());
 				QueryBase.deleteObject(obj);
 				for(DatabaseObject transaction : transactions) {
-					System.out.println(transaction.toString("deletePreviousBlobStorageMoves: transaction: "));
 					QueryBase.deleteObject(transaction);
 				}
-				System.out.println("deletePreviousBlobStorageMoves: done with transactions");
 			}
-			System.out.println("deletePreviousBlobStorageMoves: done with objects");
 		} catch (ClassNotFoundException e) {
 			throw new IOException("deletePreviousBlobStorageMoves: class not found");
 		}
 	}
+	public static UserAccount getAccount(String username) {
+		UserAccount account = null;
+		try {
+			account = (UserAccount) QueryBase.getFirstDatabaseObjectsFromSingleProperty(
+					UserAccount.class.getCanonicalName(), "accountUserName", username);
+		} catch (IOException e) {
+		}
+		return account;
+	}
+	
+	
 }

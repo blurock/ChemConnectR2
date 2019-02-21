@@ -10,16 +10,10 @@
 	</ui:style>
 		<m:MaterialPanel>
 			<m:MaterialRow>
-				<m:MaterialColumn grid="s10" styleName="{style.rowbox}">
+				<m:MaterialColumn grid="s12" styleName="{style.rowbox}">
 					<m:MaterialTooltip ui:field="typetooltip">
 					<m:MaterialLink ui:field="type" />
 					</m:MaterialTooltip>
-				</m:MaterialColumn>
-				<m:MaterialColumn grid="s1" >
-					<m:MaterialLink ui:field="delete" iconColor="BLACK" iconType="DELETE" />
-				</m:MaterialColumn>
-				<m:MaterialColumn grid="s1" >
-					<m:MaterialLink ui:field="save" iconColor="BLACK" iconType="SAVE" />
 				</m:MaterialColumn>
 			</m:MaterialRow>
 			<m:MaterialRow>

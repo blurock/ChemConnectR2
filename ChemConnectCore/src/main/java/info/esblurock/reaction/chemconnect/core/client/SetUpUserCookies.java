@@ -18,6 +18,11 @@ public class SetUpUserCookies {
 		String accountPrivilege = MetaDataKeywords.accessTypeQuery;
 		int maximumTransactions = 10000000;
 		UserDTO guest = new UserDTO(username,sessionid,ip,host,accountPrivilege,maximumTransactions);
+		ArrayList<String> privs = new ArrayList<String>();
+		privs.add(MetaDataKeywords.accessLogin);
+		privs.add(MetaDataKeywords.accessQuery);
+		guest.setPrivledges(privs);
+		setDefaultCookie("account_name", "Guest");
 		setup(guest);
 	}
 	
@@ -42,6 +47,15 @@ public class SetUpUserCookies {
 		setCookie(MetaDataKeywords.accessDataDelete,lst);
 		MaterialToast.fireToast("Welcome: " + result.getName() + "(" + result.getHostname() + ")");
 	}
+
+	public static void setDefaultCookie(String name, String value) {
+		final long DURATION = 1000 * 60 * 60;
+		Date expires = new Date(System.currentTimeMillis()
+				+ DURATION);
+		Cookies.setCookie(name, value,
+				expires, null, "/", false);		
+	}
+	
 	public static void setCookie(String access, ArrayList<String> accesslist) {
 		final long DURATION = 1000 * 60 * 60;
 		Date expires = new Date(System.currentTimeMillis()

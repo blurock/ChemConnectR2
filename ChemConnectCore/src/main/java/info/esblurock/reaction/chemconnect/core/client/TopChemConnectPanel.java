@@ -30,7 +30,6 @@ import info.esblurock.reaction.chemconnect.core.client.place.DeviceWithSubystems
 import info.esblurock.reaction.chemconnect.core.client.place.FirstSiteLandingPagePlace;
 import info.esblurock.reaction.chemconnect.core.client.place.IsolateMatrixBlockPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.ManageCatalogHierarchyPlace;
-import info.esblurock.reaction.chemconnect.core.client.place.MissionStatementPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.OrganizationDefinitionPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.ProtocolDefinitionPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.TutorialExamplePlace;
@@ -205,8 +204,9 @@ public class TopChemConnectPanel extends Composite {
 				setLoginVisibility(false);
 			}
 		} else {
-			username.setText("Guest*");
+			username.setText("Guest");
 			setLoginVisibility(true);
+			SetUpUserCookies.setupDefaultGuestUserCookies();
 		}
 		createbutton.setVisible(true);
 	}
@@ -224,6 +224,7 @@ public class TopChemConnectPanel extends Composite {
 		subtitle.setText("ChemConnect: The Intelligent Repository");
 		goTo(new FirstSiteLandingPagePlace("Home"));
 	}
+	
 	@UiHandler("logout")
 	public void onLogout(ClickEvent event) {
 		MaterialToast.fireToast("Logout");
@@ -234,7 +235,8 @@ public class TopChemConnectPanel extends Composite {
 		LoginServiceAsync async = LoginService.Util.getInstance();
 		GeneralVoidReturnCallback callback = new GeneralVoidReturnCallback("Logout Successful");
 		async.logout(callback);
-		username.setText("No User");
+		SetUpUserCookies.setupDefaultGuestUserCookies();
+		username.setText("Guest");
 	}
 	
 	@UiHandler("catalog")

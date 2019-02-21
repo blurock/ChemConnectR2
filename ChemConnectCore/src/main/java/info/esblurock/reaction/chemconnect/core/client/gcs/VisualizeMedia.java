@@ -1,7 +1,5 @@
 package info.esblurock.reaction.chemconnect.core.client.gcs;
 
-import gwt.material.design.client.ui.MaterialPanel;
-import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServices;
 import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServicesAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;

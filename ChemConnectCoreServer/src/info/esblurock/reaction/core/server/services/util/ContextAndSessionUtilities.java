@@ -1,9 +1,13 @@
 package info.esblurock.reaction.core.server.services.util;
 
+import java.io.IOException;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
+import info.esblurock.reaction.chemconnect.core.data.login.UserAccount;
 import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
+import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
 
 
 public class ContextAndSessionUtilities {
@@ -60,16 +64,11 @@ public class ContextAndSessionUtilities {
 	}
 
 	public UserDTO getUserInfoFromContext() {
-		System.out.println("getUserInfoFromContext():");
-		System.out.println("getUserInfoFromContext(): \n" + context);
 		UserDTO user = null;
 		Object obj = context.getAttribute(userattribute);
-		System.out.println("getUserInfoFromContext(): \n" + obj);
 		if (obj != null && obj instanceof UserDTO) {
 			user = (UserDTO) obj;
 		}
-		System.out.println("getUserInfoFromContext(): done \n" + user);
-
 		return user;
 	}
 	public void removeUserFromContext() {
@@ -81,10 +80,11 @@ public class ContextAndSessionUtilities {
 		Object userObj = session.getAttribute(userattribute);
 		if (userObj != null && userObj instanceof UserDTO) {
 			user = (UserDTO) userObj;
+		} else {
 		}
 		return user;
 	}
-
+	
 	private void storeUserInSession(UserDTO user) {
 		Object userObj = session.getAttribute(userattribute);
 		if(userObj == null) {
@@ -92,7 +92,7 @@ public class ContextAndSessionUtilities {
 		}
 	}
 
-	private void deleteUserFromSession() {
+	public void deleteUserFromSession() {
 		session.removeAttribute(userattribute);
 	}
 }

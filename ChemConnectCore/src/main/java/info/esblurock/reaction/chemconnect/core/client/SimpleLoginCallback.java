@@ -20,9 +20,14 @@ public class SimpleLoginCallback implements AsyncCallback<UserDTO> {
 	
 	@Override
 	public void onFailure(Throwable caught) {
+		SetUpUserCookies.setupDefaultGuestUserCookies();
 		MaterialLoader.loading(false);
 		Window.alert("Login fail\n" + caught.toString());
-		clientFactory.getPlaceController().goTo(new FirstSiteLandingPagePlace("Logged in user"));
+		if(coreentry != null) {
+			coreentry.setUpInterface(clientFactory);
+			clientFactory.getTopPanel().setInUser();
+		}
+		
 	}
 
 	@Override

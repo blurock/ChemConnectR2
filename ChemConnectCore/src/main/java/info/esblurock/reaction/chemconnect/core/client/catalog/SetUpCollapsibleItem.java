@@ -1,9 +1,5 @@
 package info.esblurock.reaction.chemconnect.core.client.catalog;
 
-
-
-
-
 import info.esblurock.reaction.chemconnect.core.client.catalog.description.StandardDatasetDescriptionDataDataHeader;
 import info.esblurock.reaction.chemconnect.core.client.catalog.hierarchy.StandardDatasetCatalogHierarchyHeader;
 import info.esblurock.reaction.chemconnect.core.client.catalog.image.DatasetImageHeader;

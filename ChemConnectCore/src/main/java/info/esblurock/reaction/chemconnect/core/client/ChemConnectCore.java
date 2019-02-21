@@ -9,9 +9,9 @@ import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.place.shared.PlaceHistoryHandler;
 import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 
-import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.chemconnect.core.client.activity.ClientFactory;
 import info.esblurock.reaction.chemconnect.core.client.mvp.AppActivityMapper;
 import info.esblurock.reaction.chemconnect.core.client.mvp.AppPlaceHistoryMapper;
@@ -32,14 +32,25 @@ public class ChemConnectCore implements EntryPoint {
 		GeneralVoidReturnCallback initialcallback = new GeneralVoidReturnCallback("Initialization completed");
 		initialize.initializeDatabaseObjects(initialcallback);
 		*/
-		ClientFactory clientFactory = GWT.create(ClientFactory.class);
-		String username = Cookies.getCookie("account_name");
-		if(username == null) {
+		String redirect = Cookies.getCookie("redirect");
+		String account_name = Cookies.getCookie("account_name");
+		Cookies.removeCookie("redirect");
+		boolean firsttime = true;
+		if(redirect == null || account_name == null) {
+			firsttime = true;
+		}  else if(redirect.compareTo(account_name) == 0) {
+			firsttime = false;
+		}
+		Window.alert("onModuleLoad(): '" + account_name + "'");
+		if(firsttime) {
+			SetUpUserCookies.setupDefaultGuestUserCookies();
+			ClientFactory clientFactory = GWT.create(ClientFactory.class);
 			LoginServiceAsync async = LoginService.Util.getInstance();
 			SimpleLoginCallback callback = new SimpleLoginCallback(this,clientFactory);
 			async.loginGuestServer(callback);
 		} else {
-			MaterialToast.fireToast("Continue as: " + username);
+			Window.alert("onModuleLoad(): redirect '" + account_name + "'");	
+			ClientFactory clientFactory = GWT.create(ClientFactory.class);
 			setUpInterface(clientFactory);
 		}
 	}

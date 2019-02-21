@@ -12,6 +12,7 @@ import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.rdf.KeywordRDF;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
+import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFactory;
 import info.esblurock.reaction.core.server.services.ServerBase;
 import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
@@ -37,10 +38,14 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 
 	@Override
 	public UserDTO loginGuestServer() throws IOException {
+		System.out.println("loginGuestServer()");
 		ContextAndSessionUtilities util = getUtilities();
 		String name = "Guest";
-		UserAccount account = getAccount(name);
+		System.out.println("loginGuestServer() call getAccount");
+		UserAccount account = WriteReadDatabaseObjects.getAccount(name);
+		System.out.println("loginGuestServer() getAccount\n" + account);
 		if(account == null) {
+			System.out.println("loginGuestServer(): Create Guest");
 			String accountUserName = name;
 			String authorizationName = name;
 			String authorizationType = "Default";
@@ -51,6 +56,8 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 			NameOfPerson person = new NameOfPerson(structure, "", "", name);
 			createNewUser(account, person);
 		} else {
+			System.out.println("loginGuestServer(): Account");
+			System.out.println(account.toString("Account:"));
 			setUpSessionUser(account);
 			verify(login, login);
 		}
@@ -79,6 +86,7 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 		addAccessKeys(user);
 		user.setPrivledges(getPrivledges(lvl));
 		util.setUserInfo(user);
+		System.out.println("setUpSessionUser User:\n" + user.toString());
 	}
 	
 	public DatabaseObjectHierarchy createNewUser(UserAccount uaccount,
@@ -100,17 +108,14 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 	public void logout() {
 		ContextAndSessionUtilities util = getUtilities();
 		util.removeUser();
+		UserAccount account = WriteReadDatabaseObjects.getAccount("Guest");
+		try {
+			setUpSessionUser(account);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
-	public UserAccount getAccount(String username) {
-		UserAccount account = null;
-		try {
-			account = (UserAccount) QueryBase.getFirstDatabaseObjectsFromSingleProperty(
-					UserAccount.class.getCanonicalName(), "accountUserName", username);
-		} catch (IOException e) {
-		}
-		return account;
-	}
 
 
 	/**
@@ -121,5 +126,11 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 		QueryBase.deleteUsingPropertyValue(UserAccount.class, "accountUserName", username);
 		String ans = "SUCCESS";
 		return ans;
+	}
+
+	@Override
+	public UserAccount getAccount(String key) {
+		UserAccount account = WriteReadDatabaseObjects.getAccount(key);
+		return account;
 	}
 }

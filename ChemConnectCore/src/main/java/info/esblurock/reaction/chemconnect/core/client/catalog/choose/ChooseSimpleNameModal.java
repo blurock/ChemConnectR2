@@ -26,6 +26,7 @@ import info.esblurock.reaction.chemconnect.core.client.graph.hierarchy.MaterialT
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 
 public class ChooseSimpleNameModal extends Composite implements HierarchyNodeCallbackInterface {
@@ -125,10 +126,14 @@ public class ChooseSimpleNameModal extends Composite implements HierarchyNodeCal
 	@Override
 	public void insertTree(HierarchyNode topnode) {
 		tree.clear();
-		ArrayList<String> path = new ArrayList<String>();
-		path.add("First");
-		ConvertToMaterialTree.addHierarchyTop(topnode, tree);
-		tree.collapse();
+		boolean showtree = true;
+		if(topnode.getSubNodes().size() == 0 && topnode.getLabel().compareTo(MetaDataKeywords.defaultTopNodeHierarchy) == 0) {
+			showtree = false;
+		}
+		if(showtree) {
+			ConvertToMaterialTree.addHierarchyTop(topnode, tree);
+			tree.collapse();
+		}
 	}
 
 

@@ -35,6 +35,7 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson.JacksonFactory;
+import com.google.gwt.user.client.Cookies;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.login.UserAccount;
@@ -214,54 +215,46 @@ public class Oauth2CallbackServlet extends HttpServlet {
 		Cookie inSystemC = new Cookie("hasAccount", Boolean.TRUE.toString());
 		inSystemC.setMaxAge(60 * 60);
 		String suggestion = "";
+		HttpSession session = req.getSession();
+		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), session);
+		util.removeUserFromContext();
+		util.deleteUserFromSession();
 		try {
-			System.out.println("accountUserName: " + auth_id);
+			System.out.println("Authorization Name: " + auth_id);
 			DatabaseObject obj = QueryBase.getFirstDatabaseObjectsFromSingleProperty(
 					UserAccount.class.getCanonicalName(), "authorizationName", auth_id);
 			UserAccount account = (UserAccount) obj;
-			System.out.println("authorizationName: TRUE\n" + account.toString());
 			suggestion = account.getAccountUserName();
 			String ip = req.getRemoteAddr();
 			String host = req.getRemoteHost();
-			HttpSession session = req.getSession();
-			System.out.println("SessionID: " + session.getId());
-			ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), session);
 			UserDTO user = new UserDTO(account.getAccountUserName(), session.getId(), ip, host,
 					account.getAccountPrivilege(), LoginServiceImpl.standardMaxTransitions);
-			util.setUserInfo(user);
 			ArrayList<String> privs = VerifyServerTransaction.getPrivledges(account.getAccountPrivilege());
 			user.setPrivledges(privs);
-			System.out.println("Oauth2CallbackServlet\n" + user.toString());
-/*
-			System.out.println("After Remove: " + util.getUserInfo());
-
 			util.setUserInfo(user);
-
-			System.out.println("Oauth2CallbackServlet from context\n" + util.getUserInfo());
-			*/
-
+			System.out.println("Existing User:\n" + user.toString());
 		} catch (IOException ex) {
 			inSystemC.setValue(Boolean.FALSE.toString());
 			suggestion = suggestALoginName(firstname, lastname);
-			System.out.println("authorizationName: FALSE\n" + suggestion);
 		}
 		resp.addCookie(inSystemC);
 
 		Cookie accountNameC = new Cookie("account_name", suggestion);
 		accountNameC.setMaxAge(60 * 60);
 		resp.addCookie(accountNameC);
+		Cookie redirectC = new Cookie("redirect", suggestion);
+		redirectC.setMaxAge(60 * 60);
+		resp.addCookie(redirectC);
 
 		String servername = req.getServerName();
-		System.out.println("Server: '" + servername + "'");
 		String redirect = "http://blurock-chemconnect.appspot.com/#FirstPagePlace:First%20Page";
 		if (servername.compareTo("localhost") == 0) {
 			redirect = "http://localhost:8080/#FirstPagePlace:First%20Page";
 		}
 		redirect = "/#FirstPagePlace:First%20Page";
-		System.out.println("Redirect: without clientname: '" + redirect + "'");
 		String url = resp.encodeRedirectURL(redirect);
-		System.out.println("Encoded: '" + url + "'");
-
+		System.out.println("Call redirect: inSystemS: ");
+		System.out.println("Call redirect: User:\n" + util.getUserInfo());
 		resp.sendRedirect(url);
 	}
 

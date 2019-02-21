@@ -301,15 +301,10 @@ public class StandardDatasetObjectHierarchyItem extends Composite
 	}
 
 	public void updateHierarchy(DatabaseObjectHierarchy hierarchy) {
-		Window.alert("updateHierarchy: 1");
-		Window.alert("updateHierarchy: 1: " + this.getParent().getClass().getSimpleName());
 		MaterialCollapsible parent = (MaterialCollapsible) this.getParent();
 		this.removeFromParent();
-		Window.alert("updateHierarchy: 2");
 		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(this,hierarchy, modalpanel);
-		Window.alert("updateHierarchy: 3");
 		parent.add(item);
-		Window.alert("updateHierarchy: 4");
 	}
 	public void addLinkToCatalogItem(String linkConcept, String dataStructure) {
 		if(parent == null) {

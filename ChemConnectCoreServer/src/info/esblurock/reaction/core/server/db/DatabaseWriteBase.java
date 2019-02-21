@@ -57,14 +57,12 @@ public class DatabaseWriteBase {
 		} catch (ClassNotFoundException e) {
 			throw new IOException("Delete: Can't resolve source class: " + sourceClass);
 		}
-		System.out.println("deleteTransactionInfo: sourceID:          " + sourceID);
-		System.out.println("deleteTransactionInfo: classname:         " + sourceClass);
 		DatabaseObject entity = (DatabaseObject) ObjectifyService.ofy().load().type(typeclass).filter("sourceID",sourceID).first().now();
-		System.out.println("deleteTransactionInfo: number of objects: " + entity.toString());
-		DeleteDataStructures.deleteObject(entity);
-		ObjectifyService.ofy().delete().entity(entity);
+		if(entity != null) {
+			DeleteDataStructures.deleteObject(entity);
+			ObjectifyService.ofy().delete().entity(entity);
+		}
 		ObjectifyService.ofy().delete().entity(info);
-		System.out.println("deleteTransactionInfo:  ");
 	}
 
 	
@@ -110,12 +108,10 @@ public class DatabaseWriteBase {
 		QueryPropertyValue value2 = new QueryPropertyValue("transactionObjectType",classname);
 		values.add(value2);
 		QuerySetupBase query = new QuerySetupBase(object.getOwner(),transclass, values);
-		System.out.println(query.toString("writeObjectWithTransaction"));
 		SingleQueryResult result;
 		try {
 			result = QueryBase.StandardQueryResult(query);
 			List<DatabaseObject> objs = result.getResults();
-			System.out.println("deletePreviousBlobStorageMoves: " + objs.size());
 			for(DatabaseObject obj : objs) {
 				TransactionInfo info = (TransactionInfo) obj;
 				deleteTransactionInfo(info);

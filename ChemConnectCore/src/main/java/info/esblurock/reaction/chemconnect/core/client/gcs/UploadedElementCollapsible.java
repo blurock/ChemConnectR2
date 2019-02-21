@@ -40,7 +40,8 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNod
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 
-public class UploadedElementCollapsible extends Composite implements ObjectVisualizationInterface, VisualizationOfBlobStorage, ChooseFromConceptHeirarchy, InsertBlobContentInterface {
+public class UploadedElementCollapsible extends Composite implements ObjectVisualizationInterface,
+		VisualizationOfBlobStorage, ChooseFromConceptHeirarchy, InsertBlobContentInterface {
 
 	private static UploadedElementCollapsibleUiBinder uiBinder = GWT.create(UploadedElementCollapsibleUiBinder.class);
 
@@ -59,8 +60,6 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 	MaterialLink delete;
 	@UiField
 	HTMLPanel imagepanel;
-	//@UiField
-	//MaterialTextArea textDescription;
 	@UiField
 	MaterialLink url;
 	@UiField
@@ -73,7 +72,7 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 	MaterialPanel catidpanel;
 	@UiField
 	MaterialCollapsible objectpanel;
-	
+
 	GCSBlobFileInformation info;
 	Map<String, ClassificationInformation> interpretmap;
 	ClassificationInformation interpretinfo;
@@ -87,116 +86,118 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 	MaterialImage image;
 	UploadedTextObject textobject;
 	MaterialPanel modalpanel;
-	
+
 	DataCatalogID catid;
 	ChooseFullNameFromCatagoryRow choose;
-	
-	public UploadedElementCollapsible(GCSBlobContent content,MaterialPanel modalpanel) {
+
+	public UploadedElementCollapsible(GCSBlobContent content, MaterialPanel modalpanel) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.modalpanel = modalpanel;
 		this.content = content;
 		init();
 		fill(content);
 		String object = null;
-		if(isText()) {
+		if (isText()) {
 			object = MetaDataKeywords.observationsFromSpreadSheetFull;
 		}
-		if(isImage()) {
+		if (isImage()) {
 			object = MetaDataKeywords.datasetImage;
 		}
 		ArrayList<String> choices = new ArrayList<String>();
 		choices.add(MetaDataKeywords.dataFileInformationStructure);
 		String user = Cookies.getCookie("user");
-		choose = new ChooseFullNameFromCatagoryRow(this,user,object,choices,modalpanel);
+		choose = new ChooseFullNameFromCatagoryRow(this, user, object, choices, modalpanel);
 		catidpanel.add(choose);
 	}
-	
+
 	void init() {
 		typeClass = null;
 		typeInstance = null;
 		identifier = null;
-		//textDescription.setLabel("Description");
+		// textDescription.setLabel("Description");
 		urltooltip.setText("Download File");
 	}
-	
+
 	void fill(GCSBlobContent content) {
 		this.content = content;
 		info = content.getInfo();
 		linkUrl = content.getUrl();
-		if(linkUrl != null) {
+		if (linkUrl != null) {
 			urltooltip.setText(linkUrl);
 		} else {
 			UserImageServiceAsync async = UserImageService.Util.getInstance();
 			GCSContentCallback callback = new GCSContentCallback(this);
-			async.getBlobContent(info,callback);
+			async.getBlobContent(info, callback);
 			urltooltip.setText("");
 		}
-		
-		if(info != null) {
+
+		if (info != null) {
 			parseType(info.getFiletype());
 			type.setText(info.getFiletype());
 			typetooltip.setText(info.getFiletype());
 			identifiertooltip.setText(info.getGSFilename());
 			path.setText(info.getFilename());
-			//textDescription.setText(info.getDescription());
+			// textDescription.setText(info.getDescription());
 			setContentVisual();
 		}
-		
+
 	}
 
-	
 	public void setContentVisual() {
-			if(isImage()) {
-				image = new MaterialImage(linkUrl);				
-				imagepanel.add(image);
-			} else if(isText()) {
-				textobject = new UploadedTextObject(this.content,modalpanel);
-				imagepanel.add(textobject);
-			}
+		if (isImage()) {
+			image = new MaterialImage(linkUrl);
+			imagepanel.add(image);
+		} else if (isText()) {
+			textobject = new UploadedTextObject(this.content, modalpanel);
+			imagepanel.add(textobject);
+		}
 	}
-	
+
 	public boolean isImage() {
 		boolean ans = false;
-		if(typeClass != null) {
-			if(typeClass.compareTo(imageClassS) == 0) {
+		if (typeClass != null) {
+			if (typeClass.compareTo(imageClassS) == 0) {
 				ans = true;
 			}
 		}
 		return ans;
 	}
+
 	public boolean isText() {
 		boolean ans = false;
-		if(typeClass != null) {
-			if(typeClass.compareTo(textClassS) == 0) {
+		if (typeClass != null) {
+			if (typeClass.compareTo(textClassS) == 0) {
 				ans = true;
 			}
 		}
 		return ans;
 	}
-	
+
 	void parseType(String type) {
 		int pos = type.indexOf("/");
-		if(pos >= 0) {
+		if (pos >= 0) {
 			typeClass = type.substring(0, pos);
-			typeInstance = type.substring(pos+1);
+			typeInstance = type.substring(pos + 1);
 		}
 		visualType = null;
-		if(typeClass.startsWith(type)) {
+		if (typeClass.startsWith(type)) {
 			visualType = "Image";
 		} else {
-			
+
 		}
 	}
-	
+
 	@UiHandler("type")
 	void onClickType(ClickEvent e) {
 		askForType();
 	}
+
 	void askForType() {
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		FindFileTypeCallback callback = new FindFileTypeCallback(this);
-		async.getFileInterpretionChoices(info,callback);		
+		async.getFileInterpretionChoices(info, callback);
 	}
+
 	@UiHandler("delete")
 	void onClickDelete(ClickEvent e) {
 		Window.alert("Delete");
@@ -205,14 +206,16 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 		async.deleteTransaction(info.getSourceID(), callback);
 		this.removeFromParent();
 	}
+
 	@UiHandler("url")
 	void onClickUrl(ClickEvent e) {
 		Window.open(linkUrl, "Download", "");
 	}
+
 	public String setIdentifier(String identifierRoot) {
 		this.identifierRoot = identifierRoot;
 		this.identifier = this.identifierRoot;
-		if(info != null) {
+		if (info != null) {
 			this.identifier = this.identifierRoot + "-" + info.getFilename();
 		}
 		return this.identifier;
@@ -222,6 +225,7 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 	public void insertVisualization(Widget panel) {
 		imagepanel.add(panel);
 	}
+
 	public String getPath() {
 		return path.getText();
 	}
@@ -235,59 +239,60 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 
 	public void askForInterpretationType(HierarchyNode hierarchy) {
 		interpretmap = new HashMap<String, ClassificationInformation>();
-		findClassifications(hierarchy,interpretmap);
+		findClassifications(hierarchy, interpretmap);
 		ChooseFromConceptHierarchies choose = new ChooseFromConceptHierarchies(this);
 		choose.setupTree(hierarchy);
 		modalpanel.add(choose);
 		choose.open();
 	}
-	
+
 	private void findClassifications(HierarchyNode hierarchy, Map<String, ClassificationInformation> interpretmap) {
 		String name = hierarchy.getLabel();
 		String shortname = name;
-		if(name.startsWith("dataset:")) {
+		if (name.startsWith("dataset:")) {
 			shortname = name.substring(8);
 		}
-		if(shortname.startsWith("FileType")) {
+		if (shortname.startsWith("FileType")) {
 			shortname = shortname.substring(8);
 		}
 		hierarchy.setLabel(shortname);
-		if(hierarchy.getInfo() != null) {
-			interpretmap.put(shortname,hierarchy.getInfo());
+		if (hierarchy.getInfo() != null) {
+			interpretmap.put(shortname, hierarchy.getInfo());
 		}
-		if(hierarchy.getSubNodes() != null) {
-			for(HierarchyNode node : hierarchy.getSubNodes()) {
-				findClassifications(node,interpretmap);
+		if (hierarchy.getSubNodes() != null) {
+			for (HierarchyNode node : hierarchy.getSubNodes()) {
+				findClassifications(node, interpretmap);
 			}
 		}
 	}
 
 	@Override
 	public void insertBlobInformation(GCSBlobContent content) {
-	if(isImage()) {
-		linkUrl = content.getUrl();
-		imagepanel.clear();
-		MaterialImage image = new MaterialImage(linkUrl);				
-		imagepanel.add(image);
-	}
+		if (isImage()) {
+			linkUrl = content.getUrl();
+			imagepanel.clear();
+			MaterialImage image = new MaterialImage(linkUrl);
+			imagepanel.add(image);
+		}
 	}
 
 	@Override
 	public void createCatalogObject(DatabaseObject obj, DataCatalogID catid) {
-		if(visualType == null) {
+		if (visualType == null) {
 			MaterialToast.fireToast("Specify exact file type for interpretation and press Submit again");
 			askForType();
 		}
-		InterpretUploadedFile interpret = InterpretUploadedFile.valueOf(ChemConnectCompoundDataStructure.removeNamespace(catid.getDataCatalog()));
-		interpret.interpretStructure(obj,catid,visualType,info,this);
+		InterpretUploadedFile interpret = InterpretUploadedFile
+				.valueOf(ChemConnectCompoundDataStructure.removeNamespace(catid.getDataCatalog()));
+		interpret.interpretStructure(obj, catid, visualType, info, this);
 	}
 
 	@Override
 	public void insertCatalogObject(DatabaseObjectHierarchy subs) {
-		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(null,subs,modalpanel);
+		StandardDatasetObjectHierarchyItem item = new StandardDatasetObjectHierarchyItem(null, subs, modalpanel);
 		objectpanel.add(item);
 	}
-	
+
 	public MaterialCollapsible getObjectPanel() {
 		return objectpanel;
 	}

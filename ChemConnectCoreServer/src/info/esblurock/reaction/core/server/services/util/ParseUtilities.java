@@ -197,6 +197,15 @@ public class ParseUtilities {
 		if(simplify) {
 			while(topnode.getSubNodes().size() == 1) {
 				topnode = topnode.getSubNodes().get(0);
+				String id = topnode.getLabel();
+				StringTokenizer tok = new StringTokenizer(id,"-");
+				String current = id;
+				String last = current;
+				while(tok.hasMoreTokens()) {
+					last = current;
+					current = tok.nextToken();
+				}
+				topnode = new HierarchyNode(last,id);
 				}
 		}
 		return topnode;

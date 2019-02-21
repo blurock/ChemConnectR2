@@ -93,25 +93,6 @@ public class GCSServiceRoutines {
 	}
 
 	public static GCSBlobContent moveBlob(GCSBlobFileInformation target, GCSBlobFileInformation source) throws IOException {
-		/*
-		Storage storage = StorageOptions.getDefaultInstance().getService();
-		String sourcefilename = source.getGSFilename();
-		String sourcebucket = source.getBucket();
-		
-	    BlobId blobId = BlobId.of(sourcebucket, sourcefilename);
-	    ByteArrayOutputStream bbuilder = new ByteArrayOutputStream();
-	    Blob blob1 = storage.get(blobId);
-	    Blob blob2 = storage.cop
-	    try (ReadChannel reader = storage.reader(blobId)) {
-	      ByteBuffer bytes = ByteBuffer.allocate(64 * 1024);
-	      while (reader.read(bytes) > 0) {
-	        bytes.flip();
-	        bbuilder.write(bytes.array());
-	        bytes.clear();
-	      }
-	    }
-	    bbuilder.close();
-	    */
 	    CopyRequest request = CopyRequest.newBuilder()
 	        .setSource(BlobId.of(source.getBucket(), source.getGSFilename()))
 	        .setTarget(BlobId.of(target.getBucket(), target.getGSFilename()))
@@ -120,13 +101,10 @@ public class GCSServiceRoutines {
 	    blob.createAcl(Acl.of(User.ofAllUsers(), Acl.Role.READER));
 
 	    String url = "https://storage.googleapis.com/" + target.getBucket() + "/" + target.getGSFilename();
-	    System.out.println("URL: " + url);
 		GCSBlobContent gcscontent = new GCSBlobContent(url, target);
 		String sourceID = QueryBase.getDataSourceIdentification(target.getOwner());
 		target.setSourceID(sourceID);
-		System.out.println("GCSServiceRoutines: moveBlob before delete");
 		WriteReadDatabaseObjects.deletePreviousBlobStorageMoves(target);
-		System.out.println("GCSServiceRoutines: moveBlob after delete");
 		DatabaseWriteBase.writeObjectWithTransaction(target);
 		return gcscontent;
 	}

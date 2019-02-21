@@ -409,11 +409,7 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	public DatabaseObjectHierarchy createDatasetImage(DatabaseObject obj,DataCatalogID catid,
 			String imageType, GCSBlobFileInformation info) throws IOException {
 		String path = catid.getFullPath("/");
-		System.out.println(info.toString("createDatasetImage  info: "));
-		System.out.println(catid.toString("createDatasetImage catid: "));
 		String extension = ConceptParsing.getFileExtension(imageType);
-		System.out.println("createDatasetImage extension: " + imageType + ":" + extension);
-		
 		String filename = null;
 		if(extension != null) {
 			filename = catid.getSimpleCatalogName() + "." + extension;
@@ -423,11 +419,9 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		
 		GCSBlobFileInformation target = new GCSBlobFileInformation(obj, GoogleCloudStorageConstants.storageBucket, path,
 				filename, info.getFiletype(), info.getDescription());
-		System.out.println(target.toString("createDatasetImage  target: "));
 		info.setSourceID(target.getSourceID());
 
 		GCSBlobContent content = moveBlob(target,info);
-		System.out.println(content.toString("createDatasetImage  content: "));
 
 		DatabaseObjectHierarchy hierarchy = CreateDefaultObjectsFactory.fillDatasetImage(obj, catid, imageType, content.getUrl());
 		return hierarchy;

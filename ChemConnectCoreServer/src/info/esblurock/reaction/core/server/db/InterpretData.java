@@ -762,8 +762,6 @@ public enum InterpretData {
 			hierarchy.addSubobject(infohierarchy);
 			hierarchy.transferSubObjects(structurehierarchy);
 			
-			System.out.println(hierarchy.toString("Create DatasetImage: "));
-			
 		return hierarchy;
 		}
 
