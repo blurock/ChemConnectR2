@@ -322,11 +322,6 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		retrieveContentFromStream(in, source);
 		return source;
 	}
-
-	public void deleteTransaction(String sourceID) throws IOException {
-		deleteTransactionFromSourceID(sourceID);
-	}
-
 	private void retrieveContentFromStream(InputStream in, GCSBlobFileInformation source) {
 		BlobInfo info = BlobInfo.newBuilder(source.getBucket(), source.getGSFilename())
 				.setAcl(new ArrayList<>(Arrays.asList(Acl.of(User.ofAllUsers(), Role.READER))))
@@ -571,13 +566,13 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		ParsedFilename parsed = ParseUtilities.fillFileInformation(info, info.getFilename(), info.getFiletype());
 		return parsed;
 	}
-
+/*
 	public static void deleteTransactionFromSourceID(String sourceID) throws IOException {
 		TransactionInfo info = (TransactionInfo) QueryBase.getFirstDatabaseObjectsFromSingleProperty(
 				TransactionInfo.class.getCanonicalName(), "sourceID", sourceID);
 		DatabaseWriteBase.deleteTransactionInfo(info);
 	}
-
+*/
 	public static void deleteBlob(GCSBlobFileInformation gcsinfo) {
 		BlobId blobId = BlobId.of(gcsinfo.getBucket(), gcsinfo.getGSFilename());
 		storage.delete(blobId);

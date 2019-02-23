@@ -20,6 +20,7 @@ import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageSer
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ObservationCorrespondenceSpecification;
 import info.esblurock.reaction.chemconnect.core.data.dataset.device.SubSystemDescription;
+import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 
 public class StandardDatasetSubSystemHeader extends Composite implements OKAnswerInterface {
 
@@ -69,8 +70,9 @@ public class StandardDatasetSubSystemHeader extends Composite implements OKAnswe
 	public void answeredOK(String answer) {
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		GeneralVoidReturnCallback callback = new GeneralVoidReturnCallback("Subsystem deletion successful");
-		async.deleteObject(ObservationCorrespondenceSpecification.class.getCanonicalName(),
-				item.getObject().getIdentifier(),callback);
+		async.deleteObject(item.getObject().getIdentifier(),
+				MetaDataKeywords.subSystemDescription,
+				callback);
 	}
 
 }

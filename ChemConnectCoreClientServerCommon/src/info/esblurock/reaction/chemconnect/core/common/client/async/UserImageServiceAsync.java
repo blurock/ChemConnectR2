@@ -48,8 +48,6 @@ public interface UserImageServiceAsync {
 
 	void retrieveBlobFromURL(String requestUrl, AsyncCallback<GCSBlobFileInformation> callback);
 
-	void deleteTransaction(String sourceID, AsyncCallback<Void> callback);
-
 	void getFileInterpretionChoices(GCSBlobFileInformation info, AsyncCallback<HierarchyNode> callback);
 
 	void getUserDatasetCatalogHierarchy(String username, AsyncCallback<DatabaseObjectHierarchy> callback);

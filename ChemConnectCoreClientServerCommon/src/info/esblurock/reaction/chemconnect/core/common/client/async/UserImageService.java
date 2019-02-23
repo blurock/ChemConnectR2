@@ -70,8 +70,6 @@ public interface UserImageService  extends RemoteService  {
 	
 	GCSBlobFileInformation retrieveBlobFromURL(String requestUrl) throws IOException;
 	
-	void deleteTransaction(String sourceID) throws IOException;
-	
 	HierarchyNode getFileInterpretionChoices(GCSBlobFileInformation info) throws IOException;
 	
 	DatabaseObjectHierarchy getUserDatasetCatalogHierarchy(String username) throws IOException;

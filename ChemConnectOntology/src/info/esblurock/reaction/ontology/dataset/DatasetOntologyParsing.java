@@ -389,6 +389,12 @@ dataset:ChemConnectPrimitiveDataStructure:
 		return classification;
 	}
 
+	public static String getTypeFromCanonicalDataType(String candatatype) {
+		int pos = candatatype.lastIndexOf('.');
+		String datatype = candatatype.substring(pos+1);
+		return DatasetOntologyParsing.getTypeFromDataType(datatype);
+	}
+	
 	public static String getTypeFromDataType(String datatype) {
 		String query = "SELECT ?type\n" + 
 				"	WHERE { ?type <http://purl.org/dc/elements/1.1/type> \"" + datatype + "\"^^xsd:string\n" + 

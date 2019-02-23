@@ -20,6 +20,7 @@ import info.esblurock.reaction.chemconnect.core.data.query.QueryPropertyValue;
 import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.data.query.SetOfQueryPropertyValues;
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
+import info.esblurock.reaction.chemconnect.core.data.transaction.TransactionInfo;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
@@ -148,8 +149,10 @@ public class SpreadSheetServicesImpl extends ServerBase implements SpreadSheetSe
 		SpreadSheetInputInformation spreadsheet = (SpreadSheetInputInformation) 
 				QueryBase.getFirstDatabaseObjectsFromSingleProperty(SpreadSheetInputInformation.class.getCanonicalName(), 
 				"source", filename);
-		String sourceID = spreadsheet.getSourceID();
-		UserImageServiceImpl.deleteTransactionFromSourceID(sourceID);
+		TransactionInfo info = (TransactionInfo)
+				QueryBase.getFirstDatabaseObjectsFromSingleProperty(SpreadSheetInputInformation.class.getCanonicalName(), 
+				"identifier", spreadsheet.getIdentifier());
+		DatabaseWriteBase.deleteTransactionInfo(info, MetaDataKeywords.spreadSheetInputInformation);
 	}
 	
 	public DatabaseObjectHierarchy isolateFromMatrix(DataCatalogID catid,  

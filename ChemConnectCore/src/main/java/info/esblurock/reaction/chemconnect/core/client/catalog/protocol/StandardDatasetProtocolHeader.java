@@ -25,6 +25,7 @@ import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageSer
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ObservationCorrespondenceSpecification;
+import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.methodology.ChemConnectProtocol;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ProtocolSetupTransfer;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
@@ -149,8 +150,9 @@ public class StandardDatasetProtocolHeader extends Composite implements OKAnswer
 	public void answeredOK(String answer) {
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		GeneralVoidReturnCallback callback = new GeneralVoidReturnCallback("Protocol deletion successful");
-		async.deleteObject(ObservationCorrespondenceSpecification.class.getCanonicalName(),
-				item.getObject().getIdentifier(),callback);
+		async.deleteObject(item.getObject().getIdentifier(),
+				MetaDataKeywords.chemConnectProtocol,
+				callback);
 	}
 
 	public boolean updateProtocol() {

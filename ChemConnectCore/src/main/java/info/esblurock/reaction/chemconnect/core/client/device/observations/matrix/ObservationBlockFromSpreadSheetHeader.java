@@ -10,14 +10,21 @@ import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialTooltip;
+import info.esblurock.reaction.chemconnect.core.client.GeneralVoidReturnCallback;
 import info.esblurock.reaction.chemconnect.core.client.catalog.SaveDatasetCatalogHierarchy;
 import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
+import info.esblurock.reaction.chemconnect.core.client.modal.OKAnswerInterface;
+import info.esblurock.reaction.chemconnect.core.client.modal.OKModal;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
+import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
+import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
+import info.esblurock.reaction.chemconnect.core.data.dataset.ObservationCorrespondenceSpecification;
+import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationBlockFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
-public class ObservationBlockFromSpreadSheetHeader extends Composite {
+public class ObservationBlockFromSpreadSheetHeader extends Composite implements OKAnswerInterface{
 
 	private static ObservationBlockFromSpreadSheetHeaderUiBinder uiBinder = GWT
 			.create(ObservationBlockFromSpreadSheetHeaderUiBinder.class);
@@ -66,4 +73,21 @@ public class ObservationBlockFromSpreadSheetHeader extends Composite {
 		item.getModalpanel().add(savemodal);
 		savemodal.openModal();		
 	}
+	@UiHandler("delete")
+	void deleteClick(ClickEvent event) {
+		OKModal askifok = new OKModal("askifOK","Are you sure you want to delete catalog obj","Delete",this);	
+		item.getModalpanel().clear();
+		item.getModalpanel().add(askifok);
+		askifok.openModal();
+	}
+
+	@Override
+	public void answeredOK(String answer) {
+		UserImageServiceAsync async = UserImageService.Util.getInstance();
+		GeneralVoidReturnCallback callback = new GeneralVoidReturnCallback("Isolate Block Definition deletion successful");
+		async.deleteObject(item.getObject().getIdentifier(),
+				MetaDataKeywords.observationBlockFromSpreadSheet,
+				callback);
+	}
+
 }

@@ -41,7 +41,6 @@ public class ChemConnectCore implements EntryPoint {
 		}  else if(redirect.compareTo(account_name) == 0) {
 			firsttime = false;
 		}
-		Window.alert("onModuleLoad(): '" + account_name + "'");
 		if(firsttime) {
 			SetUpUserCookies.setupDefaultGuestUserCookies();
 			ClientFactory clientFactory = GWT.create(ClientFactory.class);
@@ -49,7 +48,6 @@ public class ChemConnectCore implements EntryPoint {
 			SimpleLoginCallback callback = new SimpleLoginCallback(this,clientFactory);
 			async.loginGuestServer(callback);
 		} else {
-			Window.alert("onModuleLoad(): redirect '" + account_name + "'");	
 			ClientFactory clientFactory = GWT.create(ClientFactory.class);
 			setUpInterface(clientFactory);
 		}

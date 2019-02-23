@@ -90,9 +90,9 @@ public class TransactionInfo extends DatabaseObject {
 	public String toString(String prefix) {
 		StringBuilder build = new StringBuilder();
 		super.toString(prefix);
-		build.append("Object Type:       " + transactionObjectType + "\n");
-		build.append("Stored Object Key: " + storedObjectKey + "\n");
-		build.append("Object Type: " + transactionObjectType + "\n");
+		build.append(prefix + "Object Type:       " + transactionObjectType + "\n");
+		build.append(prefix + "Stored Object Key: " + storedObjectKey + "\n");
+		build.append(prefix + "Object Type: " + transactionObjectType + "\n");
 		
 		
 		return build.toString();

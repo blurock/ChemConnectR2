@@ -172,8 +172,9 @@ public class StandardDatasetObservationCorrespondenceSpecificationHeader extends
 	public void answeredOK(String answer) {
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		GeneralVoidReturnCallback callback = new GeneralVoidReturnCallback("Specification deletion successful");
-		async.deleteObject(ObservationCorrespondenceSpecification.class.getCanonicalName(),
-				value.getIdentifier(),callback);
+		async.deleteObject(value.getIdentifier(),
+				MetaDataKeywords.observationCorrespondenceSpecification,
+				callback);
 	}
 
 	private void fillInSubItems() {

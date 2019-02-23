@@ -21,6 +21,7 @@ import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageSer
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.dataset.ObservationCorrespondenceSpecification;
 import info.esblurock.reaction.chemconnect.core.data.image.DatasetImage;
+import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 
 public class DatasetImageHeader extends Composite implements OKAnswerInterface {
@@ -84,8 +85,9 @@ public class DatasetImageHeader extends Composite implements OKAnswerInterface {
 	public void answeredOK(String answer) {
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		GeneralVoidReturnCallback callback = new GeneralVoidReturnCallback("Specification deletion successful");
-		async.deleteObject(ObservationCorrespondenceSpecification.class.getCanonicalName(),
-				image.getIdentifier(),callback);
+		async.deleteObject(image.getIdentifier(),
+				MetaDataKeywords.datasetImage,
+				callback);
 	}
 	@UiHandler("header")
 	void onClickHeader(ClickEvent e) {

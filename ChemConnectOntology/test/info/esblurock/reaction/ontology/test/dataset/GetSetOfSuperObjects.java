@@ -35,6 +35,14 @@ public class GetSetOfSuperObjects {
 		String s2 = IndividualInformation.class.getSimpleName();
 		String t2 = DatasetOntologyParsing.getTypeFromDataType(s2);
 		System.out.println(s2 + ": " + t2);
+		String s3 = IndividualInformation.class.getCanonicalName();
+		int pos = s3.lastIndexOf('.');
+		String s4 = s3.substring(pos+1);
+		String t3 = DatasetOntologyParsing.getTypeFromDataType(s4);
+		System.out.println(s3 + ": " + s4 + ": " + t3);
+		
+		String t4 = DatasetOntologyParsing.getTypeFromCanonicalDataType(s3);
+		System.out.println(s3  + ": " + t4);
 
 }
 

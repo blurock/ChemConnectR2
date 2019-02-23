@@ -105,8 +105,9 @@ public class StandardDatasetCatalogHierarchyHeader extends Composite
 	public void answeredOK(String answer) {
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		GeneralVoidReturnCallback callback = new GeneralVoidReturnCallback("Specification deletion successful");
-		async.deleteObject(DatasetCatalogHierarchy.class.getCanonicalName(),
-				item.getObject().getIdentifier(),callback);
+		async.deleteObject(item.getObject().getIdentifier(),
+				MetaDataKeywords.datasetCatalogHierarchy,
+				callback);
 	}
 
 	@UiHandler("add")

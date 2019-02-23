@@ -33,7 +33,6 @@ public class FirstPageActivity  extends AbstractActivity implements FirstPageVie
 
 		String inSystemS = Cookies.getCookie("hasAccount");
 		if(Boolean.parseBoolean(inSystemS)) {
-			Window.alert("FirstPageActivity: " + Cookies.getCookie("account_name"));
 			firstPageView.asExistingUser();
 		} else {
 			firstPageView.asNewUser();

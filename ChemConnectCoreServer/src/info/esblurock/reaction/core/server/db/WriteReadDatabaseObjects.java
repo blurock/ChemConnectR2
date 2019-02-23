@@ -311,12 +311,17 @@ public class WriteReadDatabaseObjects {
 	}
 	
 	public static void deleteObject(String id, String type) throws IOException {
+		System.out.println("deleteObject: " + id + "   " + type);
 		List<DatabaseObject> infoset =  QueryBase.getDatabaseObjectsFromSingleProperty(TransactionInfo.class.getCanonicalName(), 
 				"identifier",id);
+		System.out.println("deleteObject: size=" + infoset.size());
+
 		if(infoset.size() > 0) {
 			for(DatabaseObject obj : infoset) {
 				TransactionInfo info = (TransactionInfo) obj;
-				DatabaseWriteBase.deleteTransactionInfo(info);
+				System.out.println("deleteObject: " + info.toString());
+				DatabaseWriteBase.deleteTransactionInfo(info, type);
+				System.out.println("deleteObject: done delete");
 			}
 		}		
 	}

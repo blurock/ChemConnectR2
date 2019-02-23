@@ -72,6 +72,7 @@ public class MetaDataKeywords {
 	public static String subSystemDescription = "dataset:SubSystemDescription";
 	public static String dataTypeProtocol = "dataset:DataTypeProtocol";
 	public static String protocol = "dataset:Protocol";
+	public static String chemConnectProtocol = "dataset:ChemConnectProtocol";
 	
 	public static String observationCorrespondenceSpecification = "dataset:ObservationCorrespondenceSpecification";
 	public static String dataFileInformationStructure = "dataset:DataFileInformationStructure";
@@ -115,4 +116,6 @@ public class MetaDataKeywords {
 	public static String publishedResultsCatagory = "dataset:PublishedResultsCatagory";
 	public static String singleExperimentDataCatagory = "dataset:SingleExperimentDataCatagory";
 	public static String userDataCatagory = "dataset:UserDataCatagory";
+	public static String gcsBlobFileInformation = "dataset:GCSBlobFileInformation";
+	public static String spreadSheetInputInformation = "dataset:SpreadSheetInputInformation";
 }

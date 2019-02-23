@@ -11,6 +11,7 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.structure.Database
 import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.delete.DeleteDataStructures;
 import info.esblurock.reaction.io.db.QueryBase;
+import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -50,22 +51,12 @@ public class DatabaseWriteBase {
 		ObjectifyService.ofy().save().entity(entity).now();
 	}
 
-	public static void deleteTransactionInfo(TransactionInfo info) throws IOException {
-		String sourceID = info.getSourceID();
-		String sourceClass = info.getTransactionObjectType();
-		Class<?> typeclass;
-		try {
-			typeclass = Class.forName(sourceClass);
-		} catch (ClassNotFoundException e) {
-			throw new IOException("Delete: Can't resolve source class: " + sourceClass);
-		}
-		DatabaseObject entity = (DatabaseObject) ObjectifyService.ofy().load().type(typeclass).filter("sourceID",sourceID).first().now();
-		if(entity != null) {
-			DeleteDataStructures.deleteObject(entity);
-			DatabaseObjectHierarchy hierarchy = ExtractCatalogInformation.getCatalogObject(info.getIdentifier(), 
-					info.getClass().getCanonicalName());
-			WriteReadDatabaseObjects.deleteHierarchy(hierarchy);
-		}
+	public static void deleteTransactionInfo(TransactionInfo info, String datatype) throws IOException {
+		String ID = info.getIdentifier();
+		DeleteDataStructures.deleteObject(datatype,ID);
+		DatabaseObjectHierarchy hierarchy = ExtractCatalogInformation.getCatalogObject(info.getIdentifier(), 
+					datatype);
+		WriteReadDatabaseObjects.deleteHierarchy(hierarchy);
 		ObjectifyService.ofy().delete().entity(info);
 	}
 
@@ -118,7 +109,12 @@ public class DatabaseWriteBase {
 			List<DatabaseObject> objs = result.getResults();
 			for(DatabaseObject obj : objs) {
 				TransactionInfo info = (TransactionInfo) obj;
-				deleteTransactionInfo(info);
+				String datatype = info.getTransactionObjectType();
+				int pos = datatype.lastIndexOf('.');
+				if(pos > 0) {
+					String type = DatasetOntologyParsing.getTypeFromCanonicalDataType(datatype);
+					deleteTransactionInfo(info,type);
+				}
 			}
 		} catch (ClassNotFoundException e) {
 			System.out.println("writeObjectWithTransaction: ClassNotFoundException ");

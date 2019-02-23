@@ -203,7 +203,7 @@ public class UploadedElementCollapsible extends Composite implements ObjectVisua
 		Window.alert("Delete");
 		UserImageServiceAsync async = UserImageService.Util.getInstance();
 		DeleteObjectCallback callback = new DeleteObjectCallback(path.getText());
-		async.deleteTransaction(info.getSourceID(), callback);
+		async.deleteObject(info.getSourceID(), MetaDataKeywords.gcsBlobFileInformation, callback);
 		this.removeFromParent();
 	}
 
