@@ -8,6 +8,7 @@ import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -298,13 +299,23 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		InputStream in = urlstream.openStream();
 		ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), this.getThreadLocalRequest().getSession());
 		String path = GCSServiceRoutines.createUploadPath(util.getUserName());
+		String name = extractNameFromURL(requestUrl);
 		GCSBlobFileInformation source = GCSServiceRoutines.createInitialUploadInfo(
 				GoogleCloudStorageConstants.uploadBucket,
-				path, requestUrl, contentType, uploadDescriptionText,
+				path, name, contentType, uploadDescriptionText,
 				util.getId(),util.getUserName());
 		retrieveContentFromStream(in, source);
 
 		return source;
+	}
+	
+	public String extractNameFromURL(String url) {
+		int pos = url.lastIndexOf("/");
+		String name = url;
+		if(pos > 0) {
+			name = url.substring(pos+1);
+		}
+		return name;
 	}
 
 	public GCSBlobFileInformation retrieveBlobFromContent(String filename, String content) throws IOException {
@@ -604,20 +615,14 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 	}
 */
 	public static InputStream getInputStream(GCSBlobFileInformation info) {
-		GCSBlobContent content = getContent(info);
-		String contentstring = content.getBytes();
-		InputStream inputstream = new ByteArrayInputStream(contentstring.getBytes(StandardCharsets.UTF_8));
-		/*
-		 * BlobId id = BlobId.of(info.getBucket(), info.getGSFilename());
-		 * System.out.println("getInputStream blobId info" + id.toString()); GcsFilename
-		 * fileName = new GcsFilename(id.getBucket(), id.getName());
-		 * 
-		 * 
-		 * //GcsFilename fileName = new GcsFilename(info.getBucket(),
-		 * info.getGSFilename()); GcsInputChannel readChannel =
-		 * gcsService.openPrefetchingReadChannel(fileName, 0, BUFFER_SIZE); InputStream
-		 * inputstream = Channels.newInputStream(readChannel);
-		 */
+		System.out.println("InputStream getInputStream");
+		//GCSBlobContent content = getContent(info);
+		//InputStream inputstream = new ByteArrayInputStream(content.getBytes().getBytes());
+		BlobId blobId = BlobId.of(info.getBucket(), info.getGSFilename());
+		System.out.println(info.toString("getInputStream: "));
+		Blob blob = storage.get(blobId);
+		byte[] bytes = blob.getContent(BlobSourceOption.generationMatch());
+		InputStream inputstream = new ByteArrayInputStream(bytes);
 		return inputstream;
 	}
 
@@ -625,8 +630,9 @@ public class UserImageServiceImpl extends ServerBase implements UserImageService
 		BlobId blobId = BlobId.of(gcsinfo.getBucket(), gcsinfo.getGSFilename());
 		Blob blob = storage.get(blobId);
 		byte[] bytes = blob.getContent(BlobSourceOption.generationMatch());
-		String bytesS = new String(bytes);
+		String bytesS = Base64.getEncoder().encodeToString(bytes);
 		String urlS = "https://storage.googleapis.com/" + gcsinfo.getBucket() + "/" + gcsinfo.getGSFilename();
+		System.out.println("getContent: '" + urlS + "'");
 		GCSBlobContent gcs = new GCSBlobContent(urlS, gcsinfo);
 		gcs.setBytes(bytesS);
 		return gcs;

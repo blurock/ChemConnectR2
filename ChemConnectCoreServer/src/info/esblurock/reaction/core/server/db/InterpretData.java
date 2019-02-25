@@ -73,6 +73,7 @@ import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ValuePa
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationDatasetFromProtocol;
 import info.esblurock.reaction.chemconnect.core.data.image.ImageInformation;
 import info.esblurock.reaction.chemconnect.core.data.image.DatasetImage;
+import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 
 public enum InterpretData {
 
@@ -680,7 +681,67 @@ public enum InterpretData {
 			return ObservationsFromSpreadSheet.class.getCanonicalName();
 		}
 		
-	}, ImageInformation {
+	}, GCSBlobFileInformation {
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
+			DatabaseObject refobj = new DatabaseObject(obj);
+			refobj.nullKey();
+			String bucket = "combustion";
+			String path = obj.getOwner();
+			String filename = "filename.txt";
+			String filetype = "text";
+			String description = "default";
+			GCSBlobFileInformation gcsinfo = new GCSBlobFileInformation(refobj, 
+					bucket, path, filename, filetype,description);
+			DatabaseObjectHierarchy refhier = new DatabaseObjectHierarchy(gcsinfo);
+			return refhier;
+			
+		}
+
+		@Override
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml,
+				String sourceID) throws IOException {
+			GCSBlobFileInformation gcsinfo = null;
+			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
+			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);					
+			String bucket = (String) yaml.get(StandardDatasetMetaData.bucketName);
+			String path = (String) yaml.get(StandardDatasetMetaData.filepath);
+			String filename = (String) yaml.get(StandardDatasetMetaData.filename);
+			String filetype = (String) yaml.get(StandardDatasetMetaData.fileTypeS);
+			String description = (String) yaml.get(StandardDatasetMetaData.descriptionKeyS);
+			gcsinfo = new GCSBlobFileInformation(objdata, 
+					bucket, path, filename, filetype,description);
+			
+			return gcsinfo;
+		}
+
+		@Override
+		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
+			GCSBlobFileInformation gcsinfo = (GCSBlobFileInformation) object;
+			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
+			Map<String, Object> map = interpret.createYamlFromObject(object);
+			map.put(StandardDatasetMetaData.bucketName, gcsinfo.getBucket());
+			map.put(StandardDatasetMetaData.filepath, gcsinfo.getPath());
+			map.put(StandardDatasetMetaData.filename, gcsinfo.getFilename());
+			map.put(StandardDatasetMetaData.fileTypeS, gcsinfo.getFiletype());
+			map.put(StandardDatasetMetaData.descriptionKeyS, gcsinfo.getDescription());
+			return map;
+		}
+
+		@Override
+		public DatabaseObject readElementFromDatabase(
+				String identifier) throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(GCSBlobFileInformation.class.getCanonicalName(),
+					identifier);
+		}
+
+		@Override
+		public String canonicalClassName() {
+			return GCSBlobFileInformation.class.getCanonicalName();
+		}
+		
+	},	ImageInformation {
 
 		@Override
 		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {

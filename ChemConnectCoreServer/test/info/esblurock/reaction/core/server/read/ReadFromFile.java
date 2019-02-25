@@ -17,6 +17,9 @@ import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.junit.Test;
 
+import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
+
 public class ReadFromFile {
 
 	@Test
@@ -40,8 +43,17 @@ public class ReadFromFile {
 		}
 		*/
 		try {
-			String url = "http://cms.heatfluxburner.org/wp-content/uploads/Bosschaart_CH4_Air_1atm_Tu_295K_thesis.xls";
-			readXLSFile(url);
+			String url = "https://storage.googleapis.com/chemconnect/upload/Blurock/Bosschaart_CH4_Air_1atm_Tu_295K_thesis.xls";
+			//String url = "http://cms.heatfluxburner.org/wp-content/uploads/Bosschaart_CH4_Air_1atm_Tu_295K_thesis.xls";
+			ArrayList<ObservationValueRow> set = new ArrayList<ObservationValueRow>();
+			DatabaseObject obj = new DatabaseObject();
+			URL oracle;
+			oracle = new URL(url);
+			InputStream is = oracle.openStream();
+			InterpretSpreadSheet.readXLSFile(is, obj, set);
+			for(ObservationValueRow row : set) {
+				System.out.println(row.toString("Result: "));
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

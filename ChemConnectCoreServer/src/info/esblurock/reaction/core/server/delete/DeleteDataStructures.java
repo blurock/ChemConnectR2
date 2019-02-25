@@ -25,8 +25,8 @@ public enum DeleteDataStructures {
 	DatasetImage {
 
 		@Override
-		public String deleteStructure(String sourceClass, String ID) throws IOException {
-			DatasetImage image = (DatasetImage) getEntity(sourceClass,ID);
+		public String deleteStructure(String ID) throws IOException {
+			DatasetImage image = (DatasetImage) getEntity("DatasetImage",ID);
 			String imageinfoid = image.getImageInformation();
 			ImageInformation imageinfo = (ImageInformation) QueryBase
 					.getDatabaseObjectFromIdentifier(ImageInformation.class.getCanonicalName(), imageinfoid);
@@ -39,8 +39,8 @@ public enum DeleteDataStructures {
 	SpreadSheetInputInformation {
 
 		@Override
-		public String deleteStructure(String sourceClass, String ID) throws IOException {
-			SpreadSheetInputInformation spread = (SpreadSheetInputInformation) getEntity(sourceClass,ID);
+		public String deleteStructure(String ID) throws IOException {
+			SpreadSheetInputInformation spread = (SpreadSheetInputInformation) getEntity("SpreadSheetInputInformation",ID);
 			String sourceID = spread.getSourceID();
 
 			List<ObservationValueRow> entities = ObjectifyService.ofy().load().type(ObservationValueRow.class)
@@ -54,8 +54,8 @@ public enum DeleteDataStructures {
 	GCSBlobFileInformation {
 
 		@Override
-		public String deleteStructure(String sourceClass, String ID) throws IOException {
-			GCSBlobFileInformation gcsinfo = (GCSBlobFileInformation) getEntity(sourceClass,ID);
+		public String deleteStructure(String ID) throws IOException {
+			GCSBlobFileInformation gcsinfo = (GCSBlobFileInformation) getEntity("GCSBlobFileInformation",ID);
 			UserImageServiceImpl.deleteBlob(gcsinfo);
 			return null;
 		}
@@ -64,7 +64,7 @@ public enum DeleteDataStructures {
 	GCSInputFileInterpretation {
 
 		@Override
-		public String deleteStructure(String sourceClass, String ID) throws IOException {
+		public String deleteStructure(String ID) throws IOException {
 			return null;
 		}
 
@@ -72,7 +72,7 @@ public enum DeleteDataStructures {
 	ObservationCorrespondenceSpecification {
 
 		@Override
-		public String deleteStructure(String sourceClass, String ID) throws IOException {
+		public String deleteStructure(String ID) throws IOException {
 			return null;
 		}
 
@@ -80,7 +80,7 @@ public enum DeleteDataStructures {
 	DatasetCatalogHierarchy {
 
 		@Override
-		public String deleteStructure(String sourceClass, String ID) throws IOException {
+		public String deleteStructure(String ID) throws IOException {
 			return null;
 		}
 
@@ -88,13 +88,13 @@ public enum DeleteDataStructures {
 	ObservationBlockFromSpreadSheet {
 
 		@Override
-		public String deleteStructure(String sourceClass, String ID) throws IOException {
+		public String deleteStructure(String ID) throws IOException {
 			return null;
 		}
 
 	};
 
-	public abstract String deleteStructure(String sourceClass, String ID) throws IOException;
+	public abstract String deleteStructure(String ID) throws IOException;
 
 	public void deleteFromBlobURL(String url) {
 
@@ -122,8 +122,8 @@ public enum DeleteDataStructures {
 		DeleteDataStructures deletedata = valueOf(chemconnecttype);
 		String ans = "No special delete";
 		if (deletedata != null) {
-			DatabaseObject entity = getEntity(element.getChemconnectStructure(), ID);
-			ans = deletedata.deleteStructure(chemconnecttype,ID);
+			//DatabaseObject entity = getEntity(element.getChemconnectStructure(), ID);
+			ans = deletedata.deleteStructure(ID);
 		}
 		return ans;
 	}
@@ -133,7 +133,7 @@ public enum DeleteDataStructures {
 		DeleteDataStructures deletedata = valueOf(root);
 		String ans = "No special delete";
 		if (deletedata != null) {
-			ans = valueOf(root).deleteStructure(entity.getClass().getCanonicalName(),entity.getIdentifier());
+			ans = valueOf(root).deleteStructure(entity.getIdentifier());
 		}
 		return ans;
 	}

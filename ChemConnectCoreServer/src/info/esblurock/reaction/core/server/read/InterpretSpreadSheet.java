@@ -44,6 +44,7 @@ public class InterpretSpreadSheet {
 			SpreadSheetInputInformation input, 
 			DataCatalogID catid) throws IOException {
 		InputStream stream = UserImageServiceImpl.getInputStream(gcsinfo);
+		System.out.println("readSpreadSheetFromGCS: " + gcsinfo.toString("readSpreadSheetFromGCS: "));
 		return streamReadSpreadSheet(stream, input, catid);
 	}
 
@@ -59,15 +60,18 @@ public class InterpretSpreadSheet {
 			String source = input.getSource();
 			is = new ByteArrayInputStream(source.getBytes(StandardCharsets.UTF_8));
 		} else if (input.isSourceType(SpreadSheetInputInformation.BLOBSOURCE)) {
+			System.out.println("readSpreadSheet:  BLOBSOURCE");
 		}
 		if (is == null) {
 			throw new IOException("Source Error: couldn't open source");
 		}
+		System.out.println(input.toString("readSpreadSheet: "));
 		return streamReadSpreadSheet(is, input,catid);
 	}
 
 	public static DatabaseObjectHierarchy streamReadSpreadSheet(InputStream is, 
 			SpreadSheetInputInformation spreadinput, DataCatalogID catid) throws IOException {
+		System.out.println("streamReadSpreadSheet:");
 		ArrayList<ObservationValueRow> set = new ArrayList<ObservationValueRow>();
 		DatabaseObject obj = new DatabaseObject(spreadinput);
 		obj.nullKey();
@@ -86,6 +90,8 @@ public class InterpretSpreadSheet {
 		DatabaseObjectHierarchy valuemulthier = observehierarchy.getSubObject(values.getObservationRowValue());
 		ChemConnectCompoundMultiple valuemult = (ChemConnectCompoundMultiple) valuemulthier.getObject();
 
+		System.out.println(spreadinput.toString("streamReadSpreadSheet spreadinput:"));
+		System.out.println("streamReadSpreadSheet spreadinput: is ReadXLSFile: " + spreadinput.isType(SpreadSheetInputInformation.XLS));
 		
 		if (spreadinput.isType(SpreadSheetInputInformation.XLS)) {
 			readXLSFile(is, valuemult, set);
@@ -98,12 +104,14 @@ public class InterpretSpreadSheet {
 		} else if (spreadinput.isType(SpreadSheetInputInformation.TabDelimited)) {
 			readDelimitedFile(is, "\t", valuemult, set);
 		}
-		
+		System.out.println("streamReadSpreadSheet: set size=" + set.size());
 		valuemult.setNumberOfElements(set.size());
 		input.localFill(spreadinput);
 		cat.localFill(catid);
 		for(int rowcount = 0; rowcount < set.size(); rowcount++) {
 			ObservationValueRow obs = set.get(rowcount);
+			System.out.println(obs.toString("streamReadSpreadSheet: row: "));
+			
 			DatabaseObjectHierarchy obshier = new DatabaseObjectHierarchy(obs);
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(StandardDatasetMetaData.observationValueRow);

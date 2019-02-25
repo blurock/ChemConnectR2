@@ -113,7 +113,6 @@ public class SpreadSheetServicesImpl extends ServerBase implements SpreadSheetSe
 				for(DatabaseObject obj: result.getResults()) {
 					SpreadSheetInputInformation spreadinput = (SpreadSheetInputInformation) obj;
 					String parentid = spreadinput.getParentLink();
-					System.out.println("interpretSpreadSheetGCS:  already stored: " + parentid);
 					if(obsid.compareTo(parentid) == 0) {
 						System.out.println("The new one is already: " + obsid);
 						originalid = parentid;

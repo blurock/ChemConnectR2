@@ -269,5 +269,8 @@ public class StandardDatasetMetaData {
 	public static String authorizationType = "dataset:AuthorizationType";
 	public static String accountPrivilege = "dataet:AccountPrivilege";
 	
+	public static String filename = "dataset:GCSFileName";
+	public static String filepath = "dataet:GCSFilePath";
+	public static String bucketName = "dataset:GCSBucketName";
 	
 }

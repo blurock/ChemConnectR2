@@ -4452,6 +4452,60 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                     rdfs:subClassOf :ChemConnectPurposeSensor .
 
 
+###  http://www.esblurock.info/dataset#GCSBlobFileInformation
+:GCSBlobFileInformation rdf:type owl:Class ;
+                        rdfs:subClassOf :ChemConnectCompoundDataStructure ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                          owl:someValuesFrom :DescriptionAbstract
+                                        ] ;
+                        <http://purl.org/dc/elements/1.1/type> "GCSBlobFileInformation"^^xsd:string ;
+                        <http://purl.org/dc/terms/identifier> "dataset:GCSBlobFileInformation"^^xsd:string ;
+                        rdfs:comment "Google Cloud Storage Blob File Information"@en ;
+                        rdfs:label "GCSBlobFileInformation"^^xsd:string ;
+                        <http://www.w3.org/2004/02/skos/core#altLabel> "gcsfileinfo"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#GCSBucketName
+:GCSBucketName rdf:type owl:Class ;
+               rdfs:subClassOf :ShortStringLabel ;
+               <http://purl.org/dc/elements/1.1/type> "ShortName"^^xsd:string ;
+               <http://purl.org/dc/terms/identifier> "dataset:GCSBucketName"^^xsd:string ;
+               rdfs:comment "Google Cloud Storage Bucket Name"@en ;
+               rdfs:label "GCSBucketName"^^xsd:string ;
+               <http://www.w3.org/2004/02/skos/core#altLabel> "bucket"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#GCSFileName
+:GCSFileName rdf:type owl:Class ;
+             rdfs:subClassOf :ShortStringLabel ;
+             <http://purl.org/dc/elements/1.1/type> "ShortString"^^xsd:string ;
+             <http://purl.org/dc/terms/identifier> "dataset:bucketName"^^xsd:string ;
+             rdfs:comment "Google Cloud Storage File Name"^^xsd:string ;
+             rdfs:label "GCSFileName"^^xsd:string ;
+             <http://www.w3.org/2004/02/skos/core#altLabel> "gcsfilename"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#GCSFilePath
+:GCSFilePath rdf:type owl:Class ;
+             rdfs:subClassOf :ShortStringLabel ;
+             <http://purl.org/dc/elements/1.1/type> "ShortString"^^xsd:string ;
+             <http://purl.org/dc/terms/identifier> "dataset:GCSFilePath"^^xsd:string ;
+             rdfs:comment "Google Cloud Storage Path"^^xsd:string ;
+             rdfs:label "GCSFilePath"^^xsd:string ;
+             <http://www.w3.org/2004/02/skos/core#altLabel> "gcspath"^^xsd:string .
+
+
+###  http://www.esblurock.info/dataset#GCSInputFileInterpretation
+:GCSInputFileInterpretation rdf:type owl:Class ;
+                            rdfs:subClassOf :ChemConnectCompoundDataStructure ;
+                            <http://purl.org/dc/elements/1.1/type> "GCSInputFileInterpretation"@en ;
+                            <http://purl.org/dc/terms/identifier> "dataset:GCSInputFileInterpretation"@en ;
+                            rdfs:comment "Google Cloud Storage Input File Interpretation"@en ;
+                            rdfs:label "GCSInputFileInterpretation"@en ;
+                            <http://www.w3.org/2004/02/skos/core#altLabel> "gcsfileinterpret"@en .
+
+
 ###  http://www.esblurock.info/dataset#GPS
 :GPS rdf:type owl:Class ;
      rdfs:subClassOf :ChemConnectPrimitiveCompound .
@@ -11508,8 +11562,8 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
                                     <http://purl.org/dc/terms/issued> "2000-07-11"^^xsd:date .
 
 
-<http://purl.org/dc/terms/rights> <http://purl.org/dc/terms/issued> "2008-01-14"^^xsd:date ;
-                                  rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
+<http://purl.org/dc/terms/rights> rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
+                                  <http://purl.org/dc/terms/issued> "2008-01-14"^^xsd:date ;
                                   rdfs:label "Rights"@en ;
                                   rdfs:comment "Information about rights held in and over the resource."@en ;
                                   <http://purl.org/dc/terms/modified> "2008-01-14"^^xsd:date ;
@@ -11517,8 +11571,8 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
                                   <http://purl.org/dc/terms/description> "Typically, rights information includes a statement about various property rights associated with the resource, including intellectual property rights."@en .
 
 
-<http://purl.org/dc/terms/rightsHolder> rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
-                                        <http://purl.org/dc/terms/hasVersion> <http://dublincore.org/usage/terms/history/#rightsHolder-002> ;
+<http://purl.org/dc/terms/rightsHolder> <http://purl.org/dc/terms/hasVersion> <http://dublincore.org/usage/terms/history/#rightsHolder-002> ;
+                                        rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
                                         <http://purl.org/dc/terms/modified> "2008-01-14"^^xsd:date ;
                                         rdfs:comment "A person or organization owning or managing rights over the resource."@en ;
                                         <http://purl.org/dc/terms/issued> "2004-06-14"^^xsd:date ;
