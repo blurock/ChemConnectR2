@@ -22,6 +22,14 @@ import info.esblurock.reaction.chemconnect.core.data.image.ImageInformation;
 
 public enum DeleteDataStructures {
 
+	ObservationsFromSpreadSheetFull {
+
+		@Override
+		public String deleteStructure(String ID) throws IOException {
+			return null;
+		}
+		
+	},
 	DatasetImage {
 
 		@Override
@@ -122,7 +130,6 @@ public enum DeleteDataStructures {
 		DeleteDataStructures deletedata = valueOf(chemconnecttype);
 		String ans = "No special delete";
 		if (deletedata != null) {
-			//DatabaseObject entity = getEntity(element.getChemconnectStructure(), ID);
 			ans = deletedata.deleteStructure(ID);
 		}
 		return ans;
