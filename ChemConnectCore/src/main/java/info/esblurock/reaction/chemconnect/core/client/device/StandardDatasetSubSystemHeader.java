@@ -5,7 +5,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -18,7 +17,6 @@ import info.esblurock.reaction.chemconnect.core.client.modal.OKModal;
 import info.esblurock.reaction.chemconnect.core.client.resources.TextUtilities;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageServiceAsync;
-import info.esblurock.reaction.chemconnect.core.data.dataset.ObservationCorrespondenceSpecification;
 import info.esblurock.reaction.chemconnect.core.data.dataset.device.SubSystemDescription;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 

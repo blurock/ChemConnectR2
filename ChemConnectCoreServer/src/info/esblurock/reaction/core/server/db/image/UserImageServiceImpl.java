@@ -43,7 +43,6 @@ import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.query.QuerySetupBase;
 import info.esblurock.reaction.chemconnect.core.data.query.SetOfQueryPropertyValues;
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
-import info.esblurock.reaction.chemconnect.core.data.transaction.TransactionInfo;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.ProtocolSetupTransfer;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;

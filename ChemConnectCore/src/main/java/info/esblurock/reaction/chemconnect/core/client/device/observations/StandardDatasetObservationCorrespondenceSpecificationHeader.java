@@ -23,7 +23,6 @@ import info.esblurock.reaction.chemconnect.core.client.catalog.HierarchyNodeCall
 import info.esblurock.reaction.chemconnect.core.client.catalog.SaveDatasetCatalogHierarchy;
 import info.esblurock.reaction.chemconnect.core.client.catalog.StandardDatasetObjectHierarchyItem;
 import info.esblurock.reaction.chemconnect.core.client.catalog.SubCatagoryHierarchyCallback;
-import info.esblurock.reaction.chemconnect.core.client.catalog.WriteDatasetObjectHierarchyCallback;
 import info.esblurock.reaction.chemconnect.core.client.catalog.choose.SubCatagoryHierarchyCallbackInterface;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHeirarchy;
 import info.esblurock.reaction.chemconnect.core.client.concepts.ChooseFromConceptHierarchies;

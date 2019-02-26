@@ -14,7 +14,6 @@ import gwt.material.design.client.ui.MaterialButton;
 import info.esblurock.reaction.chemconnect.core.client.activity.ClientFactory;
 import info.esblurock.reaction.chemconnect.core.client.place.ChemConnectPartnersPlace;
 import info.esblurock.reaction.chemconnect.core.client.place.ContactInformationPlace;
-import info.esblurock.reaction.chemconnect.core.client.place.DataManagementPlace;
 
 public class StandardFooter extends Composite {
 

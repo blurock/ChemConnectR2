@@ -28,7 +28,6 @@ import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageSer
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHierarchy;
-import info.esblurock.reaction.chemconnect.core.data.dataset.ObservationCorrespondenceSpecification;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 

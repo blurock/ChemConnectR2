@@ -1,7 +1,5 @@
 package info.esblurock.reaction.core.server.gcs;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
 public class BlobIsolateFromURL {

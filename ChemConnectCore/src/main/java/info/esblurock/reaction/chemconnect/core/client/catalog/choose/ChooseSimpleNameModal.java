@@ -1,7 +1,5 @@
 package info.esblurock.reaction.chemconnect.core.client.catalog.choose;
 
-import java.util.ArrayList;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -18,7 +16,6 @@ import gwt.material.design.addins.client.tree.MaterialTreeItem;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialDialog;
 import gwt.material.design.client.ui.MaterialTextBox;
-import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.chemconnect.core.client.catalog.HierarchyNodeCallback;
 import info.esblurock.reaction.chemconnect.core.client.catalog.HierarchyNodeCallbackInterface;
 import info.esblurock.reaction.chemconnect.core.client.graph.hierarchy.ConvertToMaterialTree;

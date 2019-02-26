@@ -5,7 +5,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import gwt.material.design.client.ui.MaterialLoader;
 import info.esblurock.reaction.chemconnect.core.client.activity.ClientFactory;
-import info.esblurock.reaction.chemconnect.core.client.place.FirstSiteLandingPagePlace;
 import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
 
 public class SimpleLoginCallback implements AsyncCallback<UserDTO> {
