@@ -7365,6 +7365,16 @@ Under the general type of is the actual data object referenced by the ChemConnec
                rdfs:subClassOf :SamplingProbe .
 
 
+###  http://www.esblurock.info/dataset#NumberOfColumns
+:NumberOfColumns rdf:type owl:Class ;
+                 rdfs:subClassOf :ShortStringLabel ;
+                 <http://purl.org/dc/elements/1.1/type> "ShortString"^^xsd:string ;
+                 <http://purl.org/dc/terms/identifier> "dataset:NumberOfColumns"^^xsd:string ;
+                 rdfs:comment "The maximum number of columns in the matrix"^^xsd:string ;
+                 rdfs:label "NumberOfColumns"^^xsd:string ;
+                 <http://www.w3.org/2004/02/skos/core#altLabel> "numcols"^^xsd:string .
+
+
 ###  http://www.esblurock.info/dataset#NumberOfThermocouplesInBurner
 :NumberOfThermocouplesInBurner rdf:type owl:Class ;
                                rdfs:subClassOf :CountParameter ,
@@ -7473,6 +7483,10 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#ObservationMatrixValues
 :ObservationMatrixValues rdf:type owl:Class ;
                          rdfs:subClassOf :ChemConnectCompoundDataStructure ,
+                                         [ rdf:type owl:Restriction ;
+                                           owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+                                           owl:someValuesFrom :NumberOfColumns
+                                         ] ,
                                          [ rdf:type owl:Restriction ;
                                            owl:onProperty <http://www.w3.org/ns/dcat#record> ;
                                            owl:someValuesFrom :ObservationValueRow

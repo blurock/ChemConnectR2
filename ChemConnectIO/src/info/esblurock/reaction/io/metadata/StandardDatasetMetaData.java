@@ -63,6 +63,7 @@ public class StandardDatasetMetaData {
 	public static String observationRowUnits = "dataset:ObservationRowUnits";
 	public static String observationValueRow = "dataset:ObservationValueRow";
 	public static String position = "qb:order";
+	public static String numberOfColumns = "dataset:NumberOfColumns";
 	
 	
 	public static String LastColumnInMatrix = "dataset:LastColumnInMatrix";

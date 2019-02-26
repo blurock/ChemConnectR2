@@ -78,12 +78,14 @@ public class SpreadSheetBlockMatrix extends Composite {
 		table = new MaterialDataTable<ObservationValueRow>();
 		matrix = new ArrayList<ObservationValueRow>();
 		if(titles == null) {
-			numbercolumns = 4;
+			numbercolumns = Integer.valueOf(values.getNumberOfColumns());
+			/*
 			if(rowvalueshier.getSubobjects().size() > 0) {
 				DatabaseObjectHierarchy subhier = rowvalueshier.getSubobjects().get(0);
 				ObservationValueRow row = (ObservationValueRow) subhier.getObject();
 				numbercolumns = row.getRow().size();
 			}
+			*/
 			for (int i = 0; i < numbercolumns; i++) {
 				String name = "Col:" + i;
 				addColumn(i, name);

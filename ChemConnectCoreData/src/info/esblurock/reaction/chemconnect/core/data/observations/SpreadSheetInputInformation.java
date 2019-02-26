@@ -13,6 +13,7 @@ public class SpreadSheetInputInformation  extends ChemConnectCompoundDataStructu
 	
 	public static String CSV = "dataset:CSV";
 	public static String XLS = "dataset:XLS";
+	public static String XLSX = "dataset:XLSX";
 	public static String SpaceDelimited    = "dataset:SpaceDelimited";
 	public static String TabDelimited      = "dataset:TabDelimited";
 	public static String Delimited         = "dataset:Delimited";
@@ -23,7 +24,7 @@ public class SpreadSheetInputInformation  extends ChemConnectCompoundDataStructu
 	public static String STRINGSOURCE = "dataset:StringSource";
 	public static String BLOBSOURCE   = "dataset:BlobSourceFile";
 	
-	public static String[] choices = {CSV,XLS,SpaceDelimited,TabDelimited,Delimited};
+	public static String[] choices = {CSV,XLS,XLSX,SpaceDelimited,TabDelimited,Delimited};
 	public static String[] sourcechoices = {URL,STRINGSOURCE,BLOBSOURCE};
 	
 	

@@ -18,6 +18,11 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.ibm.icu.util.StringTokenizer;
 
@@ -51,7 +56,7 @@ public class InterpretSpreadSheet {
 	public static DatabaseObjectHierarchy readSpreadSheet(SpreadSheetInputInformation input, DataCatalogID catid)
 			throws IOException {
 		InputStream is = null;
-
+		
 		if (input.isSourceType(SpreadSheetInputInformation.URL)) {
 			URL oracle;
 			oracle = new URL(input.getSource());
@@ -92,19 +97,24 @@ public class InterpretSpreadSheet {
 
 		System.out.println(spreadinput.toString("streamReadSpreadSheet spreadinput:"));
 		System.out.println("streamReadSpreadSheet spreadinput: is ReadXLSFile: " + spreadinput.isType(SpreadSheetInputInformation.XLS));
-		
+		int numberOfColumns = 0;
 		if (spreadinput.isType(SpreadSheetInputInformation.XLS)) {
-			readXLSFile(is, valuemult, set);
+			numberOfColumns = readXLSFile(is, valuemult, set);
+		} else if (spreadinput.isType(SpreadSheetInputInformation.XLSX)) {
+			numberOfColumns = readXLSXFile(is, valuemult, set);
 		} else if (spreadinput.isType(SpreadSheetInputInformation.CSV)) {
-			readDelimitedFile(is, ",", valuemult, set);
+			numberOfColumns = readDelimitedFile(is, ",", valuemult, set);
 		} else if (spreadinput.isType(SpreadSheetInputInformation.Delimited)) {
-			readDelimitedFile(is, spreadinput.getDelimitor(), valuemult, set);
+			numberOfColumns = readDelimitedFile(is, spreadinput.getDelimitor(), valuemult, set);
 		} else if (spreadinput.isType(SpreadSheetInputInformation.SpaceDelimited)) {
-			readDelimitedFile(is, " ", valuemult, set);
+			numberOfColumns = readDelimitedFile(is, " ", valuemult, set);
 		} else if (spreadinput.isType(SpreadSheetInputInformation.TabDelimited)) {
-			readDelimitedFile(is, "\t", valuemult, set);
+			numberOfColumns = readDelimitedFile(is, "\t", valuemult, set);
 		}
-		System.out.println("streamReadSpreadSheet: set size=" + set.size());
+		String numberOfColumnsS = Integer.toString(numberOfColumns);
+		values.setNumberOfColumns(numberOfColumnsS);
+		System.out.println("streamReadSpreadSheet: number of columns=" + set.size());
+		System.out.println("streamReadSpreadSheet:          set size=" + numberOfColumns);
 		valuemult.setNumberOfElements(set.size());
 		input.localFill(spreadinput);
 		cat.localFill(catid);
@@ -205,6 +215,46 @@ public class InterpretSpreadSheet {
 		wb.close();
 		return numberOfColumns;
 	}
+	
+	public static int readXLSXFile(InputStream is, DatabaseObject obj, ArrayList<ObservationValueRow> rowset)
+			throws IOException {
+		XSSFWorkbook wb = new XSSFWorkbook(is);
+
+		XSSFSheet sheet = wb.getSheetAt(0);
+		XSSFRow row;
+		XSSFCell cell;
+
+		int numberOfColumns = 0;
+		Iterator<Row> rows = sheet.rowIterator();
+		int count = 0;
+		while (rows.hasNext()) {
+			row = (XSSFRow) rows.next();
+			Iterator<Cell> cells = row.cellIterator();
+			ArrayList<String> array = new ArrayList<String>();
+			while (cells.hasNext()) {
+				cell = (XSSFCell) cells.next();
+				if (cell.getCellTypeEnum() == CellType.STRING) {
+					String element = cell.getStringCellValue();
+					array.add(element);
+				} else if (cell.getCellTypeEnum() == CellType.NUMERIC) {
+					double dbl = cell.getNumericCellValue();
+					Double elementD = new Double(dbl);
+					String elementS = elementD.toString();
+					array.add(elementS);
+				} else {
+					// U Can Handel Boolean, Formula, Errors
+				}
+			}
+			if (array.size() > numberOfColumns) {
+				numberOfColumns = array.size();
+			}
+			ObservationValueRow arrayrow = createSpreadSheetRow(obj, count++, array);
+			rowset.add(arrayrow);
+		}
+		wb.close();
+		return numberOfColumns;
+	}
+	
 /*
 	public static SpreadSheetBlockInformation findBlocks(ObservationsFromSpreadSheet obs, ArrayList<ObservationValueRow> rows) {
 		Iterator<ObservationValueRow> iter = rows.iterator();

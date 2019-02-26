@@ -2056,7 +2056,7 @@ public enum InterpretData {
 					InterpretData.ChemConnectCompoundDataStructure.createEmptyObject(obj);
 			ChemConnectCompoundDataStructure structure = (ChemConnectCompoundDataStructure) comphier.getObject();
 			ObservationMatrixValues obsmat = new ObservationMatrixValues(structure,
-					matspechier.getObject().getIdentifier());
+					matspechier.getObject().getIdentifier(),"0");
 			obsmat.setIdentifier(matid);
 			DatabaseObjectHierarchy hier = new DatabaseObjectHierarchy(obsmat);
 			hier.addSubobject(matspechier);
@@ -2071,7 +2071,8 @@ public enum InterpretData {
 			ChemConnectCompoundDataStructure structure = (ChemConnectCompoundDataStructure) 
 					InterpretData.ChemConnectCompoundDataStructure.fillFromYamlString(top, yaml, sourceID);
 			String values = (String) yaml.get(StandardDatasetMetaData.observationValueRowID);
-			ObservationMatrixValues corr = new ObservationMatrixValues(structure,values);
+			String numberOfColumns = (String) yaml.get(StandardDatasetMetaData.numberOfColumns);
+			ObservationMatrixValues corr = new ObservationMatrixValues(structure,values,numberOfColumns);
 			return corr;
 		}
 
@@ -2084,6 +2085,7 @@ public enum InterpretData {
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
 			map.put(StandardDatasetMetaData.observationValueRowID, values.getObservationRowValue());
+			map.put(StandardDatasetMetaData.numberOfColumns, values.getNumberOfColumns());
 
 			return map;
 		}
