@@ -3814,7 +3814,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 ###  http://www.esblurock.info/dataset#FileTypeExcelOffice
 :FileTypeExcelOffice rdf:type owl:Class ;
                      rdfs:subClassOf :ApplicationSpreadSheet ;
-                     <http://purl.org/dc/elements/1.1/type> "XLS"^^xsd:string ;
+                     <http://purl.org/dc/elements/1.1/type> "XLSX"^^xsd:string ;
                      <http://purl.org/dc/terms/identifier> "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"^^xsd:string ;
                      :fileextension "xlsx"^^xsd:string ;
                      rdfs:comment "Excel spread sheet (xsl)" ;

@@ -113,7 +113,6 @@ public class DatabaseWriteBase {
 				int pos = datatype.lastIndexOf('.');
 				if(pos > 0) {
 					String type = DatasetOntologyParsing.getTypeFromCanonicalDataType(datatype);
-					System.out.println("writeObjectWithTransaction: " + datatype + ": " + type);
 					deleteTransactionInfo(info,type);
 				}
 			}

@@ -390,9 +390,11 @@ dataset:ChemConnectPrimitiveDataStructure:
 	}
 
 	public static String getTypeFromCanonicalDataType(String candatatype) {
+		System.out.println("getTypeFromCanonicalDataType: '" + candatatype);
 		int pos = candatatype.lastIndexOf('.');
 		String datatype = candatatype.substring(pos+1);
 		String type = DatasetOntologyParsing.getTypeFromDataType(datatype);
+		System.out.println("getTypeFromCanonicalDataType: '" + datatype + "' '" + type);
 		return type;
 	}
 	

@@ -18,6 +18,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -76,7 +77,6 @@ public class InterpretSpreadSheet {
 
 	public static DatabaseObjectHierarchy streamReadSpreadSheet(InputStream is, 
 			SpreadSheetInputInformation spreadinput, DataCatalogID catid) throws IOException {
-		System.out.println("streamReadSpreadSheet:");
 		ArrayList<ObservationValueRow> set = new ArrayList<ObservationValueRow>();
 		DatabaseObject obj = new DatabaseObject(spreadinput);
 		obj.nullKey();
@@ -94,9 +94,6 @@ public class InterpretSpreadSheet {
 				
 		DatabaseObjectHierarchy valuemulthier = observehierarchy.getSubObject(values.getObservationRowValue());
 		ChemConnectCompoundMultiple valuemult = (ChemConnectCompoundMultiple) valuemulthier.getObject();
-
-		System.out.println(spreadinput.toString("streamReadSpreadSheet spreadinput:"));
-		System.out.println("streamReadSpreadSheet spreadinput: is ReadXLSFile: " + spreadinput.isType(SpreadSheetInputInformation.XLS));
 		int numberOfColumns = 0;
 		if (spreadinput.isType(SpreadSheetInputInformation.XLS)) {
 			numberOfColumns = readXLSFile(is, valuemult, set);
@@ -113,15 +110,11 @@ public class InterpretSpreadSheet {
 		}
 		String numberOfColumnsS = Integer.toString(numberOfColumns);
 		values.setNumberOfColumns(numberOfColumnsS);
-		System.out.println("streamReadSpreadSheet: number of columns=" + set.size());
-		System.out.println("streamReadSpreadSheet:          set size=" + numberOfColumns);
 		valuemult.setNumberOfElements(set.size());
 		input.localFill(spreadinput);
 		cat.localFill(catid);
 		for(int rowcount = 0; rowcount < set.size(); rowcount++) {
 			ObservationValueRow obs = set.get(rowcount);
-			System.out.println(obs.toString("streamReadSpreadSheet: row: "));
-			
 			DatabaseObjectHierarchy obshier = new DatabaseObjectHierarchy(obs);
 			DataElementInformation element = DatasetOntologyParsing
 					.getSubElementStructureFromIDObject(StandardDatasetMetaData.observationValueRow);
@@ -180,31 +173,55 @@ public class InterpretSpreadSheet {
 	public static int readXLSFile(InputStream is, DatabaseObject obj, ArrayList<ObservationValueRow> rowset)
 			throws IOException {
 		HSSFWorkbook wb = new HSSFWorkbook(is);
-
-		HSSFSheet sheet = wb.getSheetAt(0);
-		HSSFRow row;
-		HSSFCell cell;
+		Sheet sheet = wb.getSheetAt(0);
+		int numberOfColumns = readSpreadSheet(sheet,obj,rowset);
+		wb.close();
+		return numberOfColumns;
+	}
+	public static int readSpreadSheet(Sheet sheet, DatabaseObject obj, ArrayList<ObservationValueRow> rowset) {
+		
+		
+		Row row;
+		Cell cell;
 
 		int numberOfColumns = 0;
 		Iterator<Row> rows = sheet.rowIterator();
 		int count = 0;
 		while (rows.hasNext()) {
-			row = (HSSFRow) rows.next();
+			row = (Row) rows.next();
 			Iterator<Cell> cells = row.cellIterator();
 			ArrayList<String> array = new ArrayList<String>();
+			int columnnumber = 0;
 			while (cells.hasNext()) {
-				cell = (HSSFCell) cells.next();
+				cell = (Cell) cells.next();
+				while(columnnumber < cell.getAddress().getColumn()) {
+					array.add("");
+					columnnumber++;
+				}
+								
 				if (cell.getCellTypeEnum() == CellType.STRING) {
 					String element = cell.getStringCellValue();
 					array.add(element);
-				} else if (cell.getCellTypeEnum() == CellType.NUMERIC) {
+				} else if (cell.getCellTypeEnum() == CellType.NUMERIC || cell.getCellTypeEnum() == CellType.FORMULA) {
 					double dbl = cell.getNumericCellValue();
 					Double elementD = new Double(dbl);
 					String elementS = elementD.toString();
 					array.add(elementS);
-				} else {
-					// U Can Handel Boolean, Formula, Errors
+				} else if (cell.getCellTypeEnum() == CellType.BLANK) {
+					array.add("");
+				} else if (cell.getCellTypeEnum() == CellType.ERROR) {
+					array.add("error");
+				} else if (cell.getCellTypeEnum() == CellType.BOOLEAN) {
+					boolean ans = cell.getBooleanCellValue();
+					if(ans) {
+						array.add(Boolean.TRUE.toString());
+					} else {
+						array.add(Boolean.FALSE.toString());
+					}
+				} else if (cell.getCellTypeEnum() == CellType._NONE) {
+					array.add("");
 				}
+				columnnumber++;
 			}
 			if (array.size() > numberOfColumns) {
 				numberOfColumns = array.size();
@@ -212,7 +229,6 @@ public class InterpretSpreadSheet {
 			ObservationValueRow arrayrow = createSpreadSheetRow(obj, count++, array);
 			rowset.add(arrayrow);
 		}
-		wb.close();
 		return numberOfColumns;
 	}
 	
@@ -220,9 +236,13 @@ public class InterpretSpreadSheet {
 			throws IOException {
 		XSSFWorkbook wb = new XSSFWorkbook(is);
 
-		XSSFSheet sheet = wb.getSheetAt(0);
-		XSSFRow row;
-		XSSFCell cell;
+		Sheet sheet = wb.getSheetAt(0);
+		int numberOfColumns = readSpreadSheet(sheet,obj,rowset);
+		wb.close();
+		return numberOfColumns;
+		/*
+		Row row;
+		Cell cell;
 
 		int numberOfColumns = 0;
 		Iterator<Row> rows = sheet.rowIterator();
@@ -236,13 +256,16 @@ public class InterpretSpreadSheet {
 				if (cell.getCellTypeEnum() == CellType.STRING) {
 					String element = cell.getStringCellValue();
 					array.add(element);
-				} else if (cell.getCellTypeEnum() == CellType.NUMERIC) {
+				} else if (cell.getCellType() == CellType.NUMERIC || cell.getCellType() == CellType.FORMULA) {
 					double dbl = cell.getNumericCellValue();
 					Double elementD = new Double(dbl);
 					String elementS = elementD.toString();
 					array.add(elementS);
+				} else if (cell.getCellType() == CellType.BLANK) {
+					array.add("");
 				} else {
-					// U Can Handel Boolean, Formula, Errors
+					System.out.println("not STRING or NUMERIC: " + cell.getCellTypeEnum());
+					System.out.println("not STRING or NUMERIC: " + cell.getNumericCellValue());
 				}
 			}
 			if (array.size() > numberOfColumns) {
@@ -252,7 +275,7 @@ public class InterpretSpreadSheet {
 			rowset.add(arrayrow);
 		}
 		wb.close();
-		return numberOfColumns;
+		*/
 	}
 	
 /*

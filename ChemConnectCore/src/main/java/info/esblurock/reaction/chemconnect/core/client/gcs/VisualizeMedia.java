@@ -77,7 +77,7 @@ public enum VisualizeMedia {
 				VisualizationOfBlobStorage visual) {
 			SpreadSheetInputInformation spread = (SpreadSheetInputInformation) interpret;
 			SpreadSheetInputInformation modified = new SpreadSheetInputInformation(spread,
-					SpreadSheetInputInformation.XLSX,
+					SpreadSheetInputInformation.XLS,
 					spread.getSourceType(),spread.getSource());
 			interpretSpreadSheetAsMatrix("FileTypeMSExcel",catid, info,modified,visual);
 		}
@@ -96,7 +96,7 @@ public enum VisualizeMedia {
 				VisualizationOfBlobStorage visual) {
 			SpreadSheetInputInformation spread = (SpreadSheetInputInformation) interpret;
 			SpreadSheetInputInformation modified = new SpreadSheetInputInformation(spread,
-					SpreadSheetInputInformation.XLS,
+					SpreadSheetInputInformation.XLSX,
 					spread.getSourceType(),spread.getSource());
 			interpretSpreadSheetAsMatrix("FileTypeExcelOffice", catid, info,modified,visual);
 		}
