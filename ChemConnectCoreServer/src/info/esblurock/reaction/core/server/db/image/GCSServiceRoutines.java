@@ -1,6 +1,8 @@
 package info.esblurock.reaction.core.server.db.image;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -36,7 +38,7 @@ public class GCSServiceRoutines {
 		return path;
 	}
 
-	public static GCSBlobFileInformation createInitialUploadInfo(String bucket, String path, String filename, String contentType,
+	public static GCSBlobFileInformation createInitialUploadInfo(String path, String filename, String contentType,
 			String uploadDescriptionText, String ip, String username) {
 
 		String id = ip + ":" + username;
@@ -44,7 +46,7 @@ public class GCSServiceRoutines {
 		String owner = username;
 		String sourceID = QueryBase.getDataSourceIdentification(username);
 		DatabaseObject obj = new DatabaseObject(id, access, owner, sourceID);
-		GCSBlobFileInformation source = new GCSBlobFileInformation(obj, bucket, path,
+		GCSBlobFileInformation source = new GCSBlobFileInformation(obj, path,
 				filename, contentType, uploadDescriptionText);
 		return source;
 	}
@@ -53,7 +55,6 @@ public class GCSServiceRoutines {
 			String path, String filename, String contentType, String description, String contentS)
 			throws IOException {
 		GCSBlobFileInformation info = createInitialUploadInfo(
-				bucket,
 				path, filename, contentType, description, ip, username);
 		System.out.println("uploadFileBlob: \n" + info.toString());
 		String url = null;
@@ -65,7 +66,7 @@ public class GCSServiceRoutines {
 	public static void writeBlobContent(GCSBlobContent gcs) throws IOException {
 		GCSBlobFileInformation info = gcs.getInfo();
 		String contentS = gcs.getBytes();
-		BlobId blobId = BlobId.of(info.getBucket(), info.getGSFilename());
+		BlobId blobId = BlobId.of(GCSServiceRoutines.getGCSStorageBucket(),info.getGSFilename());
 
 		byte[] content = contentS.getBytes(StandardCharsets.UTF_8);
 		
@@ -86,7 +87,7 @@ public class GCSServiceRoutines {
 			
 			System.out.println("writeBlobContent: " + ex.toString());
 			
-			throw new IOException("Failure to write blob: " + info.getBucket() + ": " + info.getGSFilename()
+			throw new IOException("Failure to write blob: " + info.getGSFilename()
 					+ " with size " + contentS.length() + "bytes");
 		}
 		DatabaseWriteBase.writeObjectWithTransaction(gcs.getInfo());
@@ -94,13 +95,13 @@ public class GCSServiceRoutines {
 
 	public static GCSBlobContent moveBlob(GCSBlobFileInformation target, GCSBlobFileInformation source) throws IOException {
 	    CopyRequest request = CopyRequest.newBuilder()
-	        .setSource(BlobId.of(source.getBucket(), source.getGSFilename()))
-	        .setTarget(BlobId.of(target.getBucket(), target.getGSFilename()))
+	        .setSource(BlobId.of(GCSServiceRoutines.getGCSStorageBucket(), source.getGSFilename()))
+	        .setTarget(BlobId.of(GCSServiceRoutines.getGCSStorageBucket(), target.getGSFilename()))
 	        .build();
 	    Blob blob = storage.copy(request).getResult();
 	    blob.createAcl(Acl.of(User.ofAllUsers(), Acl.Role.READER));
 
-	    String url = "https://storage.googleapis.com/" + target.getBucket() + "/" + target.getGSFilename();
+	    String url = "https://storage.googleapis.com/" + GCSServiceRoutines.getGCSStorageBucket() + "/" + target.getGSFilename();
 		GCSBlobContent gcscontent = new GCSBlobContent(url, target);
 		String sourceID = QueryBase.getDataSourceIdentification(target.getOwner());
 		target.setSourceID(sourceID);
@@ -109,5 +110,18 @@ public class GCSServiceRoutines {
 		return gcscontent;
 	}
 
-
+public static String getGCSStorageBucket() throws IOException  {
+	String bucket = "blurock-chemconnect.appspot.com";
+	String hostname;
+	try {
+		hostname = InetAddress.getLocalHost().getHostName();
+		System.out.println("getGCSStorageBucket(): '" + hostname + "'");
+		if(!hostname.startsWith("blurock-chemconnect.appspot.com")) {
+			bucket = "blurock-chemconnect-localhost";
+		}
+	} catch (UnknownHostException e) {
+		throw new IOException("Cannot retrieve hostname for bucket assignment.. using localhost bucket");
+	}
+	return bucket;
+	}
 }

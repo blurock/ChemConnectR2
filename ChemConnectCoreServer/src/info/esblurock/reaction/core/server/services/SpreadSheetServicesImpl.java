@@ -7,7 +7,6 @@ import java.util.Comparator;
 
 import info.esblurock.reaction.chemconnect.core.common.client.async.SpreadSheetServices;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
-import info.esblurock.reaction.chemconnect.core.data.base.GoogleCloudStorageConstants;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSInputFileInterpretation;
@@ -133,10 +132,9 @@ public class SpreadSheetServicesImpl extends ServerBase implements SpreadSheetSe
 			WriteReadDatabaseObjects.writeDatabaseObjectHierarchy(hierarchy);
 			GCSBlobFileInformation source = new GCSBlobFileInformation(gcsinfo);
 			source.setPath(catid.getFullName("/"));
-			source.setBucket(GoogleCloudStorageConstants.storageBucket);
 			GCSServiceRoutines.moveBlob(source,gcsinfo);
 			GCSInputFileInterpretation transaction = new GCSInputFileInterpretation(hierarchy.getObject(),
-					source.getBucket(),source.getGSFilename(),
+					source.getGSFilename(),
 					hierarchy.getObject().getClass().getCanonicalName());
 			DatabaseWriteBase.writeObjectWithTransaction(transaction);
 		}

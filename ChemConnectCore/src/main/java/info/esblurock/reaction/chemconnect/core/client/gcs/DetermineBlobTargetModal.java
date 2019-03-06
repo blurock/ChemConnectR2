@@ -79,7 +79,7 @@ public class DetermineBlobTargetModal extends Composite  {
 		
 		
 		GCSBlobFileInformation fileinfo = new GCSBlobFileInformation(
-				obj, bucket.getText(), path.getText(), filename.getText(), 
+				obj, path.getText(), filename.getText(), 
 				filetype.getText(), textArea.getText());
 		top.handleTargetBlob(fileinfo);
 	}

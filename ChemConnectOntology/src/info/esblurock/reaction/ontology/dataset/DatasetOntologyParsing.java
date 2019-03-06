@@ -1,5 +1,6 @@
 package info.esblurock.reaction.ontology.dataset;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -390,11 +391,11 @@ dataset:ChemConnectPrimitiveDataStructure:
 	}
 
 	public static String getTypeFromCanonicalDataType(String candatatype) {
-		System.out.println("getTypeFromCanonicalDataType: '" + candatatype);
+		//System.out.println("getTypeFromCanonicalDataType: '" + candatatype);
 		int pos = candatatype.lastIndexOf('.');
 		String datatype = candatatype.substring(pos+1);
 		String type = DatasetOntologyParsing.getTypeFromDataType(datatype);
-		System.out.println("getTypeFromCanonicalDataType: '" + datatype + "' '" + type);
+		//System.out.println("getTypeFromCanonicalDataType: '" + datatype + "' '" + type);
 		return type;
 	}
 	
@@ -425,6 +426,7 @@ dataset:ChemConnectPrimitiveDataStructure:
 	 *         <http://purl.org/dc/terms/references> ?type . ?type
 	 *         <http://purl.org/dc/terms/identifier> ?id . ?type rdfs:subClassOf
 	 *         ?super . ?super rdfs:subClassOf dcat:Dataset }
+	 * @throws IOException 
 	 */
 	static public DataElementInformation getSubElementStructureFromIDObject(String structure) {
 		String query = "SELECT ?id ?type ?super ?altl\n" 
@@ -446,6 +448,9 @@ dataset:ChemConnectPrimitiveDataStructure:
 			//String superS = stringlst.get(0).get("super");
 			String altlabelS = stringlst.get(0).get("altl");
 			info = new DataElementInformation(structure, null, true, 1, typeS, idS,altlabelS);
+		}
+		if(info == null) {
+			System.out.println("Structural information not found: " + structure);
 		}
 		return info;
 	}
@@ -719,7 +724,7 @@ dataset:ChemConnectPrimitiveDataStructure:
 		for (String name : subelements) {
 			String obj = getStructureFromDataStructure(name);
 			if (obj == null)
-				System.out.println("Empty:" + name);
+				System.out.println("SubObjectsOfDataStructure: Empty:" + name);
 			set.add(obj);
 		}
 
@@ -828,9 +833,7 @@ dataset:ChemConnectPrimitiveDataStructure:
 		String query = "SELECT ?type \n" + 
 				"	WHERE {?type dataset:fileextension  \"" + extension + "\"^^xsd:string }";
 		List<Map<String, RDFNode>> lst = OntologyBase.resultSetToMap(query);
-		System.out.println(lst.size());
 		List<Map<String, String>> stringlst = OntologyBase.resultmapToStrings(lst);
-		System.out.println(stringlst.size());
 		for(Map<String, String> maptype : stringlst) {
 			String exttype = maptype.get("type");
 			if(exttype != null) {

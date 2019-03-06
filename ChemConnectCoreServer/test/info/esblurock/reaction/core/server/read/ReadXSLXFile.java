@@ -36,9 +36,9 @@ public class ReadXSLXFile {
 			DatabaseObject obj1 = new DatabaseObject();
 			int numberOfColumns1 = InterpretSpreadSheet.readXLSFile(is1, obj1, set1);
 			System.out.println("Number of Columns: " + numberOfColumns1);
-			for(ObservationValueRow row : set1) {
+			//for(ObservationValueRow row : set1) {
 				//System.out.println(row.toString("Result: "));
-			}
+			//}
 			System.out.println("Number of Columns: " + numberOfColumns);
 			
 			

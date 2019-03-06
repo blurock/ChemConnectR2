@@ -8,7 +8,6 @@ import com.google.cloud.storage.Acl;
 import com.google.cloud.storage.Acl.Role;
 import com.google.cloud.storage.Acl.User;
 
-import info.esblurock.reaction.chemconnect.core.data.base.GoogleCloudStorageConstants;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
 import info.esblurock.reaction.core.server.db.image.GCSServiceRoutines;
@@ -52,13 +51,12 @@ public class FileUploadServlet extends HttpServlet {
 				ContextAndSessionUtilities util = new ContextAndSessionUtilities(getServletContext(), request.getSession());
 				String path = GCSServiceRoutines.createUploadPath(util.getUserName());
 				GCSBlobFileInformation source = GCSServiceRoutines.createInitialUploadInfo(
-						GoogleCloudStorageConstants.uploadBucket, 
 						path, fileItem.getName(), 
 						fileItem.getContentType(), 
 						uploadDescriptionText,
 						util.getId(),util.getUserName());
 				
-				BlobInfo info = BlobInfo.newBuilder(source.getBucket(), source.getGSFilename())
+				BlobInfo info = BlobInfo.newBuilder(GCSServiceRoutines.getGCSStorageBucket(), source.getGSFilename())
 						.setAcl(new ArrayList<>(Arrays.asList(Acl.of(User.ofAllUsers(), Role.READER))))
 						.setContentType(fileItem.getContentType())
 						.build();

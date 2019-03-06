@@ -31,7 +31,7 @@ public class UploadedFilesCallback implements AsyncCallback<ArrayList<GCSBlobFil
 		MaterialLoader.loading(false);
 		for(GCSBlobFileInformation gcsinfo: results) {
 			if(!rows) {
-				String urlS = "https://storage.googleapis.com/" + gcsinfo.getBucket() + "/" + gcsinfo.getGSFilename();				
+				String urlS = getBlobURL(gcsinfo);	
 				GCSBlobContent content = new GCSBlobContent(urlS, gcsinfo);
 				UploadedElementCollapsible coll = new UploadedElementCollapsible(content,top.getModalPanel());
 				top.addCollapsible(coll);
@@ -41,4 +41,14 @@ public class UploadedFilesCallback implements AsyncCallback<ArrayList<GCSBlobFil
 		}
 	}
 
+	private String getBlobURL(GCSBlobFileInformation gcsinfo) {
+		String bucket = "blurock-chemconnect.appspot.com";
+		String host = Window.Location.getHostName();
+		if(host.startsWith("localhost")) {
+			bucket = "blurock-chemconnect-localhost";
+		}
+		String urlS = "https://storage.googleapis.com/" + bucket + "/" + gcsinfo.getGSFilename();		
+		Window.alert("URL: " + urlS);
+		return urlS;
+	}
 }

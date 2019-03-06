@@ -3,11 +3,11 @@ package info.esblurock.reaction.chemconnect.core.data.dataset;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
 
-import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
+import info.esblurock.reaction.chemconnect.core.data.methodology.ProtocolObservationSource;
 
 @SuppressWarnings("serial")
 @Entity
-public class ObservationCorrespondenceSpecification extends ChemConnectDataStructure {
+public class ObservationCorrespondenceSpecification extends ProtocolObservationSource {
 	@Index
 	String observationSpecification;
 	@Index
@@ -17,13 +17,14 @@ public class ObservationCorrespondenceSpecification extends ChemConnectDataStruc
 		init();
 	}
 	
-	public ObservationCorrespondenceSpecification(ChemConnectDataStructure structure) {
+	public ObservationCorrespondenceSpecification(ProtocolObservationSource structure) {
 		super(structure);
 		init();
 	}
 	
-	public ObservationCorrespondenceSpecification(ChemConnectDataStructure structure, 
-			String observationSpecification, String matrixSpecificationCorrespondenceSet) {
+	public ObservationCorrespondenceSpecification(ProtocolObservationSource structure, 
+			String observationSpecification, 
+			String matrixSpecificationCorrespondenceSet) {
 		super(structure);
 		init();
 		this.observationSpecification = observationSpecification;

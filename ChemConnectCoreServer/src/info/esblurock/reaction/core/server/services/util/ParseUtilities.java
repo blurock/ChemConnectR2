@@ -227,7 +227,7 @@ public class ParseUtilities {
 			}
 		}
 		GCSBlobFileInformation gcsinfo = new GCSBlobFileInformation(object, 
-				info.getBucket(), path, filename, filetype, description);
+				path, filename, filetype, description);
 		return gcsinfo;
 	}
 	

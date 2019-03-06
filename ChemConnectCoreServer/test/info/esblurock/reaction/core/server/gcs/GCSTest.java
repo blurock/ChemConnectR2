@@ -22,7 +22,6 @@ import com.googlecode.objectify.util.Closeable;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
-import info.esblurock.reaction.chemconnect.core.data.base.GoogleCloudStorageConstants;
 import info.esblurock.reaction.chemconnect.core.data.contact.NameOfPerson;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
@@ -90,7 +89,7 @@ public class GCSTest {
 			String ip = "localhost:8080";
 			String path = GCSServiceRoutines.createUploadPath(username);
 			GCSServiceRoutines.uploadFileBlob(user.getObject().getIdentifier(),
-					GoogleCloudStorageConstants.storageBucket, 
+					GCSServiceRoutines.getGCSStorageBucket(), 
 					ip,username,
 					path, filename,contentType,title,wS.toString());
 		} catch (IOException e) {

@@ -74,6 +74,8 @@ import info.esblurock.reaction.chemconnect.core.data.observations.ObservationDat
 import info.esblurock.reaction.chemconnect.core.data.image.ImageInformation;
 import info.esblurock.reaction.chemconnect.core.data.image.DatasetImage;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
+import info.esblurock.reaction.chemconnect.core.data.methodology.ProtocolObservationSource;
+import info.esblurock.reaction.chemconnect.core.data.methodology.ObervationsFromUserInterface;
 
 public enum InterpretData {
 
@@ -687,13 +689,12 @@ public enum InterpretData {
 		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
 			DatabaseObject refobj = new DatabaseObject(obj);
 			refobj.nullKey();
-			String bucket = "combustion";
 			String path = obj.getOwner();
 			String filename = "filename.txt";
 			String filetype = "text";
 			String description = "default";
 			GCSBlobFileInformation gcsinfo = new GCSBlobFileInformation(refobj, 
-					bucket, path, filename, filetype,description);
+					path, filename, filetype,description);
 			DatabaseObjectHierarchy refhier = new DatabaseObjectHierarchy(gcsinfo);
 			return refhier;
 			
@@ -705,13 +706,12 @@ public enum InterpretData {
 			GCSBlobFileInformation gcsinfo = null;
 			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
 			DatabaseObject objdata = interpret.fillFromYamlString(top, yaml, sourceID);					
-			String bucket = (String) yaml.get(StandardDatasetMetaData.bucketName);
 			String path = (String) yaml.get(StandardDatasetMetaData.filepath);
 			String filename = (String) yaml.get(StandardDatasetMetaData.filename);
 			String filetype = (String) yaml.get(StandardDatasetMetaData.fileTypeS);
 			String description = (String) yaml.get(StandardDatasetMetaData.descriptionKeyS);
 			gcsinfo = new GCSBlobFileInformation(objdata, 
-					bucket, path, filename, filetype,description);
+					path, filename, filetype,description);
 			
 			return gcsinfo;
 		}
@@ -721,7 +721,6 @@ public enum InterpretData {
 			GCSBlobFileInformation gcsinfo = (GCSBlobFileInformation) object;
 			InterpretData interpret = InterpretData.valueOf("DatabaseObject");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
-			map.put(StandardDatasetMetaData.bucketName, gcsinfo.getBucket());
 			map.put(StandardDatasetMetaData.filepath, gcsinfo.getPath());
 			map.put(StandardDatasetMetaData.filename, gcsinfo.getFilename());
 			map.put(StandardDatasetMetaData.fileTypeS, gcsinfo.getFiletype());
@@ -857,13 +856,120 @@ public enum InterpretData {
 			return DatasetImage.class.getCanonicalName();
 		}
 		
+	}, ObervationsFromUserInterface {
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
+				DatabaseObject userobj = new DatabaseObject(obj);
+				userobj.nullKey();
+				DataElementInformation element = DatasetOntologyParsing
+						.getSubElementStructureFromIDObject(MetaDataKeywords.obervationsFromUserInterface);
+				String catid = createSuffix(obj, element);
+				userobj.setIdentifier(catid);
+
+				InterpretData interpret = InterpretData.valueOf("ProtocolObservationSource");
+				DatabaseObjectHierarchy structurehierarchy = interpret.createEmptyObject(obj);
+
+				ProtocolObservationSource structure = (ProtocolObservationSource) structurehierarchy.getObject();
+				ObervationsFromUserInterface source = new ObervationsFromUserInterface(structure);
+				source.setIdentifier(catid);
+				
+				DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(source);
+				hierarchy.transferSubObjects(structurehierarchy);
+				return hierarchy;
+		}
+
+		@Override
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml,
+				String sourceID) throws IOException {
+			ObervationsFromUserInterface source = null;
+			InterpretData interpret = InterpretData.valueOf("ProtocolObservationSource");
+			ProtocolObservationSource structure = (ProtocolObservationSource) interpret.fillFromYamlString(top, yaml, sourceID);
+			source = new ObervationsFromUserInterface(structure);
+			return source;
+		}
+
+		@Override
+		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
+			InterpretData interpret = InterpretData.valueOf("ProtocolObservationSource");
+			Map<String, Object> map = interpret.createYamlFromObject(object);
+			return map;
+		}
+
+		@Override
+		public DatabaseObject readElementFromDatabase(
+				String identifier) throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(ObervationsFromUserInterface.class.getCanonicalName(),
+					identifier);
+		}
+
+		@Override
+		public String canonicalClassName() {
+			return ObervationsFromUserInterface.class.getCanonicalName();
+		}
+		
+	},
+	ProtocolObservationSource {
+
+		@Override
+		public DatabaseObjectHierarchy createEmptyObject(DatabaseObject obj) {
+			DatabaseObject sourceobj = new DatabaseObject(obj);
+			sourceobj.nullKey();
+			DataElementInformation element = DatasetOntologyParsing
+					.getSubElementStructureFromIDObject(MetaDataKeywords.protocolObservationSource);
+			String catid = createSuffix(obj, element);
+			sourceobj.setIdentifier(catid);
+
+			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
+			DatabaseObjectHierarchy structurehierarchy = interpret.createEmptyObject(sourceobj);
+
+			ChemConnectDataStructure structure = (ChemConnectDataStructure) structurehierarchy.getObject();
+			ProtocolObservationSource source = new ProtocolObservationSource(structure, 
+					MetaDataKeywords.oneObservationSet);
+			source.setIdentifier(catid);
+			
+			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(source);
+			hierarchy.transferSubObjects(structurehierarchy);
+			return hierarchy;
+		}
+
+		@Override
+		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml,
+				String sourceID) throws IOException {
+			ProtocolObservationSource source = null;
+			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
+			ChemConnectDataStructure structure = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
+			String numberOfObservations = (String) yaml.get(MetaDataKeywords.numberOfObservations);			
+			source = new ProtocolObservationSource(structure,numberOfObservations);
+			return source;
+		}
+
+		@Override
+		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
+			ProtocolObservationSource obssource = (ProtocolObservationSource) object;
+			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
+			Map<String, Object> map = interpret.createYamlFromObject(object);
+			map.put(MetaDataKeywords.numberOfObservations, obssource.getNumberOfObservations());
+			return map;
+		}
+
+		@Override
+		public DatabaseObject readElementFromDatabase(String identifier) throws IOException {
+			return QueryBase.getDatabaseObjectFromIdentifier(ProtocolObservationSource.class.getCanonicalName(),
+					identifier);
+		}
+
+		@Override
+		public String canonicalClassName() {
+			return ProtocolObservationSource.class.getCanonicalName();
+		}
 	}, ObservationCorrespondenceSpecification {
 
 		@Override
 		public Map<String, Object> createYamlFromObject(
 				DatabaseObject object) throws IOException {
 			ObservationCorrespondenceSpecification datastructure = (ObservationCorrespondenceSpecification) object;
-			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
+			InterpretData interpret = InterpretData.valueOf("ProtocolObservationSource");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 
 			map.put(StandardDatasetMetaData.matrixSpecificationCorrespondenceSetID, datastructure.getMatrixSpecificationCorrespondenceSet());
@@ -895,8 +1001,8 @@ public enum InterpretData {
 			
 			DatabaseObjectHierarchy obspechier = InterpretData.ObservationSpecification.createEmptyObject(obsobj);
 			DatabaseObjectHierarchy matrixspecehier = InterpretData.MatrixSpecificationCorrespondenceSet.createEmptyObject(obsobj);
-			DatabaseObjectHierarchy structurehier = InterpretData.ChemConnectDataStructure.createEmptyObject(obsobj);
-			ChemConnectDataStructure structure = (ChemConnectDataStructure) structurehier.getObject();
+			DatabaseObjectHierarchy structurehier = InterpretData.ProtocolObservationSource.createEmptyObject(obsobj);
+			ProtocolObservationSource structure = (ProtocolObservationSource) structurehier.getObject();
 			ObservationCorrespondenceSpecification set = new ObservationCorrespondenceSpecification(structure,
 					obspechier.getObject().getIdentifier(),
 					matrixspecehier.getObject().getIdentifier());
@@ -912,8 +1018,8 @@ public enum InterpretData {
 		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml,
 				String sourceID) throws IOException {
 			ObservationCorrespondenceSpecification set = null;
-			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
-			ChemConnectDataStructure objdata = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);
+			InterpretData interpret = InterpretData.valueOf("ProtocolObservationSource");
+			ProtocolObservationSource objdata = (ProtocolObservationSource) interpret.fillFromYamlString(top, yaml, sourceID);
 					
 			String parameterTypeS = (String) yaml.get(StandardDatasetMetaData.matrixSpecificationCorrespondenceSetID);			
 			String measurementValuesS = (String) yaml.get(StandardDatasetMetaData.observationSpecificationID);			
@@ -1075,20 +1181,22 @@ public enum InterpretData {
 		@Override
 		public DatabaseObject fillFromYamlString(DatabaseObject top, Map<String, Object> yaml,String sourceID) throws IOException {
 			ChemConnectProtocol methodology = null;
-			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
-			ChemConnectDataStructure objdata = (ChemConnectDataStructure) interpret.fillFromYamlString(top, yaml, sourceID);					
+			InterpretData interpret = InterpretData.valueOf("ProtocolObservationSource");
+			ProtocolObservationSource objdata = (ProtocolObservationSource) interpret.fillFromYamlString(top, yaml, sourceID);					
 			String parameterValuesS = (String) yaml.get(StandardDatasetMetaData.parameterValueS);			
+			String observationSourcesS = (String) yaml.get(MetaDataKeywords.protocolObservationSource);			
 			
-			methodology = new ChemConnectProtocol(objdata,parameterValuesS);
+			methodology = new ChemConnectProtocol(objdata,parameterValuesS,observationSourcesS);
 			return methodology;
 		}
 
 		@Override
 		public Map<String, Object> createYamlFromObject(DatabaseObject object) throws IOException {
 			ChemConnectProtocol methodology = (ChemConnectProtocol) object;
-			InterpretData interpret = InterpretData.valueOf("ChemConnectDataStructure");
+			InterpretData interpret = InterpretData.valueOf("ProtocolObservationSource");
 			Map<String, Object> map = interpret.createYamlFromObject(object);
 			map.put(StandardDatasetMetaData.parameterValueS, methodology.getParameterValues());
+			map.put(MetaDataKeywords.protocolObservationSource, methodology.getObservationSources());
 			return map;
 		}
 
@@ -1114,19 +1222,24 @@ public enum InterpretData {
 			methobj.setIdentifier(methid);
 
 			
-			DatabaseObjectHierarchy structhier = InterpretData.ChemConnectDataStructure.createEmptyObject(methobj);
-			ChemConnectDataStructure structure = (ChemConnectDataStructure) structhier.getObject();
+			DatabaseObjectHierarchy structhier = InterpretData.ProtocolObservationSource.createEmptyObject(methobj);
+			ProtocolObservationSource structure = (ProtocolObservationSource) structhier.getObject();
 
 			DatabaseObjectHierarchy paramhier = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(methobj);
 			setChemConnectCompoundMultipleType(paramhier,OntologyKeys.parameterValue);
 			
+			DatabaseObjectHierarchy sourceshier = InterpretData.ChemConnectCompoundMultiple.createEmptyObject(methobj);
+			setChemConnectCompoundMultipleType(sourceshier,MetaDataKeywords.protocolObservationSource);
+			
 			ChemConnectProtocol methodology = new ChemConnectProtocol(structure,
-					paramhier.getObject().getIdentifier()
+					paramhier.getObject().getIdentifier(),
+					sourceshier.getObject().getIdentifier()
 					);
 			methodology.setIdentifier(obj.getIdentifier());
 			DatabaseObjectHierarchy hierarchy = new DatabaseObjectHierarchy(methodology);
 			hierarchy.transferSubObjects(structhier);
 			hierarchy.addSubobject(paramhier);
+			hierarchy.addSubobject(sourceshier);
 			return hierarchy;
 		}
 		

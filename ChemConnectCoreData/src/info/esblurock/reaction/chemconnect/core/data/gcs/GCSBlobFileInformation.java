@@ -10,8 +10,6 @@ import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 public class GCSBlobFileInformation extends DatabaseObject {
 
 	@Index
-	String bucket;
-	@Index
 	String path;
 	@Index
 	String filename;
@@ -23,10 +21,9 @@ public class GCSBlobFileInformation extends DatabaseObject {
 	public GCSBlobFileInformation() {
 	}
 	public GCSBlobFileInformation(DatabaseObject obj, 
-			String bucket, String path, String filename, String filetype, 
+			String path, String filename, String filetype, 
 			String description) {
 		super(obj);
-		this.bucket = bucket;
 		this.path = path;
 		this.filename = filename;
 		this.filetype = filetype;
@@ -34,14 +31,10 @@ public class GCSBlobFileInformation extends DatabaseObject {
 }
 	public GCSBlobFileInformation(GCSBlobFileInformation info) {
 		super(info);
-		this.bucket = info.getBucket();
 		this.path = info.getPath();
 		this.filename = info.getFilename();
 		this.filetype = info.getFiletype();
 		this.description = info.getDescription();		
-	}
-	public String getBucket() {
-		return bucket;
 	}
 	public String getPath() {
 		return path;
@@ -56,9 +49,6 @@ public class GCSBlobFileInformation extends DatabaseObject {
 		return description;
 	}
 
-	public void setBucket(String bucket) {
-		this.bucket = bucket;
-	}
 	public void setPath(String path) {
 		this.path = path;
 	}
@@ -88,7 +78,7 @@ public class GCSBlobFileInformation extends DatabaseObject {
 	public String toString(String prefix) {
 		StringBuilder build = new StringBuilder();
 		build.append(super.toString(prefix));
-		build.append(prefix + bucket + ":   " + getGSFilename() + "\n");
+		build.append(prefix + getGSFilename() + "\n");
 		build.append("    (Type: " + filetype + "        " + description + ")\n");
 		return build.toString();
 	}

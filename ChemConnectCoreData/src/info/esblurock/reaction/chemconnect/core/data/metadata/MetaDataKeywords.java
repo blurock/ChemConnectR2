@@ -118,4 +118,10 @@ public class MetaDataKeywords {
 	public static String userDataCatagory = "dataset:UserDataCatagory";
 	public static String gcsBlobFileInformation = "dataset:GCSBlobFileInformation";
 	public static String spreadSheetInputInformation = "dataset:SpreadSheetInputInformation";
+	
+	public static String obervationsFromUserInterface = "dataset:ObervationsFromUserInterface";
+	public static String protocolObservationSource = "dataset:ProtocolObservationSource";
+	public static String numberOfObservations = "dataset:NumberOfObservations";
+	public static String multipleObservationSets = "dataset:MultipleObservationSets";
+	public static String oneObservationSet = "dataset:OneObservationSet";
 }

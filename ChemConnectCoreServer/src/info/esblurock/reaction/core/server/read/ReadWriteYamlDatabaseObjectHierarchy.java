@@ -23,7 +23,6 @@ import com.esotericsoftware.yamlbeans.YamlWriter;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
-import info.esblurock.reaction.chemconnect.core.data.base.GoogleCloudStorageConstants;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataObjectLink;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHierarchy;
@@ -66,7 +65,7 @@ public class ReadWriteYamlDatabaseObjectHierarchy {
 		
 		String title = structure.getClass().getSimpleName() + ": " + structure.getIdentifier();
 		GCSServiceRoutines.uploadFileBlob(tophierarchy.getObject().getIdentifier(),
-			GoogleCloudStorageConstants.storageBucket, 
+				GCSServiceRoutines.getGCSStorageBucket(), 
 			sessionid,username,
 			path, filename,contentType,title,yaml);
 	}
