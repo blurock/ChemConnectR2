@@ -16,7 +16,7 @@ import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFactory;
 import info.esblurock.reaction.core.server.services.ServerBase;
 import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
-import info.esblurock.reaction.io.db.QueryBase;
+import info.esblurock.reaction.ontology.QueryBase;
 
 public class LoginServiceImpl extends ServerBase implements LoginService {
 	private static final long serialVersionUID = 4456105400553118785L;

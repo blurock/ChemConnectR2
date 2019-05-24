@@ -11,7 +11,7 @@ import info.esblurock.reaction.chemconnect.core.data.description.DescriptionData
 import info.esblurock.reaction.chemconnect.core.data.transfer.ChemConnectRecordInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
 import info.esblurock.reaction.core.server.db.InterpretData;
-import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
+import info.esblurock.reaction.ontology.DatasetOntologyParsing;
 
 
 public class TestChemConnectRecordInformation {

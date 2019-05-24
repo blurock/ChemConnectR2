@@ -28,9 +28,9 @@ import info.esblurock.reaction.core.server.db.extract.GeocodingLatituteAndLongit
 import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFactory;
 import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
 import info.esblurock.reaction.core.server.services.util.DatabaseObjectUtilities;
-import info.esblurock.reaction.io.db.QueryBase;
+import info.esblurock.reaction.ontology.DatasetOntologyParsing;
+import info.esblurock.reaction.ontology.QueryBase;
 import info.esblurock.reaction.ontology.dataset.ConceptParsing;
-import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 import info.esblurock.reaction.ontology.units.OntologyUnits;
 import info.esblurock.reaction.chemconnect.core.data.transfer.RecordInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;

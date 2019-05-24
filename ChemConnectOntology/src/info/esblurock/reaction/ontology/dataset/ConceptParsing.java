@@ -26,7 +26,6 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.SetOfObservationsI
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.SubSystemConceptLink;
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.SubsystemInformation;
-import info.esblurock.reaction.ontology.OntologyBase;
 import info.esblurock.reaction.ontology.OntologyKeys;
 
 public class ConceptParsing {
@@ -525,6 +524,7 @@ public class ConceptParsing {
 		List<Map<String, RDFNode>> lst1 = OntologyBase.resultSetToMap(query1);
 		List<Map<String, String>> stringlst1 = OntologyBase.resultmapToStrings(lst1);
 		for (Map<String, String> map : stringlst1) {
+			System.out.println("fillAnnotatedExample: " + map.toString());
 			String example = map.get("example");
 			String unit = map.get("unit");
 
@@ -543,6 +543,7 @@ public class ConceptParsing {
 		List<Map<String, String>> stringlst2 = OntologyBase.resultmapToStrings(lst2);
 
 		for (Map<String, String> map : stringlst2) {
+			System.out.println("fillInProperties: " + map);
 			String propS = map.get("prop");
 			String parameterS = map.get("parameter");
 			if (propS.compareTo("dataset:hasPurpose") == 0) {

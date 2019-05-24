@@ -4,7 +4,8 @@ package info.esblurock.reaction.ontology.test.dataset;
 
 import org.junit.Test;
 
-import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
+import info.esblurock.reaction.ontology.DatasetOntologyParsing;
+
 
 public class GetStructureFromDataStructureTest {
 

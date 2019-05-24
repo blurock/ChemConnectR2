@@ -57,9 +57,9 @@ import info.esblurock.reaction.core.server.read.ReadWriteYamlDatabaseObjectHiera
 import info.esblurock.reaction.core.server.services.ServerBase;
 import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
 import info.esblurock.reaction.core.server.services.util.ParseUtilities;
-import info.esblurock.reaction.io.db.QueryBase;
+import info.esblurock.reaction.ontology.DatasetOntologyParsing;
+import info.esblurock.reaction.ontology.QueryBase;
 import info.esblurock.reaction.ontology.dataset.ConceptParsing;
-import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 
 @SuppressWarnings("serial")
 public class UserImageServiceImpl extends ServerBase implements UserImageService {

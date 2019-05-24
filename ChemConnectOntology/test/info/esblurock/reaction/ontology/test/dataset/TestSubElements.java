@@ -5,7 +5,7 @@ package info.esblurock.reaction.ontology.test.dataset;
 import org.junit.Test;
 
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectCompoundDataStructure;
-import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
+import info.esblurock.reaction.ontology.DatasetOntologyParsing;
 
 public class TestSubElements {
 
@@ -20,6 +20,8 @@ public class TestSubElements {
 		System.out.println(subs1.toString());
 		ChemConnectCompoundDataStructure subs2 = DatasetOntologyParsing.subElementsOfStructure("dataset:DataObjectLink");
 		System.out.println(subs2.toString());
+		ChemConnectCompoundDataStructure subs3 = DatasetOntologyParsing.subElementsOfStructure("dataset:SubSystemDescription");
+		System.out.println(subs3.toString());
 		
 	}
 

@@ -36,8 +36,8 @@ public class ScribeAuthorizationImpl extends ServerBase {
 */
         try (OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
-                .scope("profile") // replace with desired scope
-                .state(secretState)
+                .withScope("profile") // replace with desired scope
+                .apiSecret(secretState)
                 .callback("callback")
                 .build(GoogleApi20.instance())) {
             @SuppressWarnings("resource")

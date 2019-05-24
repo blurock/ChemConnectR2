@@ -12,9 +12,8 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInforma
 import info.esblurock.reaction.core.server.db.InterpretData;
 import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.core.server.db.image.UserImageServiceImpl;
-
-import info.esblurock.reaction.io.db.QueryBase;
-import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
+import info.esblurock.reaction.ontology.DatasetOntologyParsing;
+import info.esblurock.reaction.ontology.QueryBase;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.gcs.GCSBlobFileInformation;
 import info.esblurock.reaction.chemconnect.core.data.image.DatasetImage;

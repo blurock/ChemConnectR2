@@ -5,7 +5,7 @@ import java.util.Map;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConnectDataStructure;
 import info.esblurock.reaction.core.server.db.ReadWriteDatabaseObjectsWithSubobjects;
-import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
+import info.esblurock.reaction.ontology.DatasetOntologyParsing;
 
 public class BuildFromCatalogInformation {
 	

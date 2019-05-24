@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
+import info.esblurock.reaction.chemconnect.core.data.metadata.StandardDatasetMetaData;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationsFromSpreadSheetFull;
 import info.esblurock.reaction.chemconnect.core.data.observations.SpreadSheetBlockIsolation;
@@ -15,7 +16,6 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.structure.Database
 import info.esblurock.reaction.core.server.db.InterpretData;
 import info.esblurock.reaction.core.server.db.spreadsheet.CompareObservationValueRowHierarchy;
 import info.esblurock.reaction.core.server.initialization.CreateDefaultObjectsFactory;
-import info.esblurock.reaction.io.metadata.StandardDatasetMetaData;
 
 public class IsolateBlockFromMatrix {
 

@@ -32,9 +32,9 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.structure.ChemConn
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.services.util.ParseUtilities;
-import info.esblurock.reaction.io.db.QueryBase;
-import info.esblurock.reaction.io.db.QueryFactory;
-import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
+import info.esblurock.reaction.ontology.DatasetOntologyParsing;
+import info.esblurock.reaction.ontology.QueryBase;
+import info.esblurock.reaction.ontology.QueryFactory;
 import info.esblurock.reaction.chemconnect.core.data.query.SingleQueryResult;
 import info.esblurock.reaction.chemconnect.core.data.transaction.TransactionInfo;;
 

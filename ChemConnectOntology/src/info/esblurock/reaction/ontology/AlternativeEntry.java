@@ -5,6 +5,9 @@ public abstract class AlternativeEntry {
 	public String getDataCubeURL() {
 		return "http://purl.org/linked-data/cube";
 	}
+	public String getSSNURL() {
+		return "http://www.w3.org/ns/ssn/";
+	}
 	public String getVcardURL() {
 		return "http://www.w3.org/2006/vcard/ns";
 	}
@@ -27,7 +30,7 @@ public abstract class AlternativeEntry {
 		return "http://xmlns.com/foaf/0.1/";
 	}
 	public String getSKOSURL() {
-		return "http://xmlns.com/foaf/0.1/";
+		return "https://www.w3.org/2009/08/skos-reference/skos.rdf";
 	}
 	public String getDataCiteURL() {
 		return "http://purl.org/spar/datacite/";
@@ -51,6 +54,10 @@ public abstract class AlternativeEntry {
 		return "http://www.w3.org/2001/XMLSchema";
 	}
 	
+	public String getQUDTUnitOwl() {
+		return "http://data.qudt.org/qudt/owl/1.0.0/unit.owl";
+	}
+	abstract public String getQUDTUnitOwlLocal();
 	public String getQUDTUnit() {
 		return "http://data.nasa.gov/qudt/owl/unit";
 	}
@@ -67,9 +74,15 @@ public abstract class AlternativeEntry {
 	}
 	
 	public String getQUDTQuantity() {
-		return "http://data.nasa.gov/qudt/owl/quantity";
+		//return "http://data.nasa.gov/qudt/owl/quantity";
+		return "http://data.qudt.org/qudt/owl/1.0.0/quantity.owl";
 	}
 	abstract public String getQUDTQuantityLocal();
+
+	public String getQUDTOwl() {
+		return "http://data.qudt.org/qudt/owl/1.0.0/qudt.owl";
+	}
+	abstract public String getQUDTOwlLocal();
 	
 	public String getQUDTQudt() {
 		return "http://data.nasa.gov/qudt/owl/qudt";
@@ -79,4 +92,12 @@ public abstract class AlternativeEntry {
 		return "http://data.qudt.org/qudt/owl/1.0.0/dimension.owl";
 	}
 	abstract public String getQUDTDimensionLocal();
+	public String getElements() {
+		return "http://purl.org/dc/elements/1.1/";
+	}
+	abstract public String getElementsLocal();
+	public String getSOSA() {
+		return "http://www.w3.org/ns/sosa/";
+	}
+	abstract public String getSOSALocal();
 }

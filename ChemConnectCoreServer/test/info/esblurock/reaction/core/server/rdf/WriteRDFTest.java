@@ -18,7 +18,7 @@ import com.googlecode.objectify.util.Closeable;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.rdf.KeywordRDF;
-import info.esblurock.reaction.io.rdf.DatabaseWriteBase;
+import info.esblurock.reaction.core.server.db.gcs.DatabaseWriteBase;
 
 public class WriteRDFTest {
 	protected Closeable session;
@@ -27,7 +27,7 @@ public class WriteRDFTest {
 	@BeforeClass
 	public static void setUpBeforeClass() {
 		// Reset the Factory so that all translators work properly.
-		ObjectifyService.setFactory(new ObjectifyFactory());
+		//ObjectifyService.setFactory(new ObjectifyFactory());
 	}
 	@Before
 	public void setUp() {

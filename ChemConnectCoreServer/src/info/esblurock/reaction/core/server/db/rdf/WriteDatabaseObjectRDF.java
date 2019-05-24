@@ -8,8 +8,8 @@ import java.util.Map;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
 import info.esblurock.reaction.core.server.db.InterpretData;
-import info.esblurock.reaction.io.rdf.StoreObject;
-import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
+import info.esblurock.reaction.core.server.db.gcs.StoreObject;
+import info.esblurock.reaction.ontology.DatasetOntologyParsing;
 
 public class WriteDatabaseObjectRDF {
 

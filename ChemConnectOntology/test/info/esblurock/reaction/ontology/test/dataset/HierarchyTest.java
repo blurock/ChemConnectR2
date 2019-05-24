@@ -7,7 +7,7 @@ import java.util.List;
 import org.junit.Test;
 
 import info.esblurock.reaction.chemconnect.core.data.transfer.graph.HierarchyNode;
-import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
+import info.esblurock.reaction.ontology.DatasetOntologyParsing;
 
 public class HierarchyTest {
 

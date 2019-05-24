@@ -20,20 +20,20 @@ import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundDat
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectCompoundMultiple;
 import info.esblurock.reaction.chemconnect.core.data.base.ChemConnectDataStructure;
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
-import info.esblurock.reaction.chemconnect.core.data.contact.RegisterContactData;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataObjectLink;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHierarchy;
-import info.esblurock.reaction.chemconnect.core.data.dataset.RegistrerDataset;
-import info.esblurock.reaction.chemconnect.core.data.description.RegisterDescriptionData;
-import info.esblurock.reaction.chemconnect.core.data.gcs.RegisterGCSClasses;
-import info.esblurock.reaction.chemconnect.core.data.image.RegisterImageInformation;
-import info.esblurock.reaction.chemconnect.core.data.initialization.RegisterInitializationData;
-import info.esblurock.reaction.chemconnect.core.data.login.RegisterUserLoginData;
-import info.esblurock.reaction.chemconnect.core.data.observations.RegisterObservationData;
-import info.esblurock.reaction.chemconnect.core.data.rdf.RegisterRDFData;
-import info.esblurock.reaction.chemconnect.core.data.transaction.RegisterTransactionData;
+import info.esblurock.reaction.chemconnect.core.data.register.RegisterContactData;
+import info.esblurock.reaction.chemconnect.core.data.register.RegisterDescriptionData;
+import info.esblurock.reaction.chemconnect.core.data.register.RegisterGCSClasses;
+import info.esblurock.reaction.chemconnect.core.data.register.RegisterImageInformation;
+import info.esblurock.reaction.chemconnect.core.data.register.RegisterInitializationData;
+import info.esblurock.reaction.chemconnect.core.data.register.RegisterObservationData;
+import info.esblurock.reaction.chemconnect.core.data.register.RegisterRDFData;
+import info.esblurock.reaction.chemconnect.core.data.register.RegisterTransactionData;
+import info.esblurock.reaction.chemconnect.core.data.register.RegisterUserLoginData;
+import info.esblurock.reaction.chemconnect.core.data.register.RegisterDataset;
 import info.esblurock.reaction.core.server.db.image.BlobKeyCorrespondence;
-import info.esblurock.reaction.io.db.QueryBase;
+import info.esblurock.reaction.ontology.QueryBase;
 
 public class InitializeFromGCSURLTest {
 	protected Closeable session;
@@ -42,7 +42,7 @@ public class InitializeFromGCSURLTest {
 	@BeforeClass
 	public static void setUpBeforeClass() {
 		// Reset the Factory so that all translators work properly.
-		ObjectifyService.setFactory(new ObjectifyFactory());
+		//ObjectifyService.setFactory(new ObjectifyFactory());
 	}
 
 	@Before
@@ -53,7 +53,7 @@ public class InitializeFromGCSURLTest {
 		RegisterInitializationData.register();
 		RegisterRDFData.register();
 		RegisterTransactionData.register();
-		RegistrerDataset.register();
+		RegisterDataset.register();
 		RegisterUserLoginData.register();
 		RegisterImageInformation.register();
 		RegisterGCSClasses.register();

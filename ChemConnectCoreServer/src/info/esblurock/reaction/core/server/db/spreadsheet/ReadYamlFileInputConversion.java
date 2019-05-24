@@ -11,8 +11,8 @@ import com.esotericsoftware.yamlbeans.YamlException;
 import com.esotericsoftware.yamlbeans.YamlReader;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
+import info.esblurock.reaction.chemconnect.core.data.metadata.StandardDatasetMetaData;
 import info.esblurock.reaction.core.server.db.InterpretData;
-import info.esblurock.reaction.io.metadata.StandardDatasetMetaData;
 
 public class ReadYamlFileInputConversion {
 	@SuppressWarnings("unchecked")

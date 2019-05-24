@@ -20,8 +20,8 @@ import com.google.appengine.api.images.ServingUrlOptions;
 import info.esblurock.reaction.chemconnect.core.common.client.async.UserImageService;
 import info.esblurock.reaction.chemconnect.core.data.image.UploadedImage;
 import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
+import info.esblurock.reaction.core.server.db.gcs.StoreObject;
 import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
-import info.esblurock.reaction.io.rdf.StoreObject;
 
 import com.google.appengine.api.images.ImagesService;
 import com.google.appengine.api.blobstore.BlobKey;

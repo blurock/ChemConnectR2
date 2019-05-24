@@ -16,7 +16,7 @@ import info.esblurock.reaction.chemconnect.core.data.transfer.structure.Database
 import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
 import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.core.server.read.ReadWriteYamlDatabaseObjectHierarchy;
-import info.esblurock.reaction.io.db.QueryBase;
+import info.esblurock.reaction.ontology.QueryBase;
 
 public class DatabaseInterpretBase {
 

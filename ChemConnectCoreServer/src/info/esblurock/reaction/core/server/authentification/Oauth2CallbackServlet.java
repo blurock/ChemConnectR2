@@ -34,14 +34,15 @@ import com.google.api.client.http.HttpRequestFactory;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson.JacksonFactory;
+//import com.google.api.client.json.jackson.JacksonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
 import info.esblurock.reaction.chemconnect.core.data.login.UserAccount;
 import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
 import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
 import info.esblurock.reaction.core.server.services.util.VerifyServerTransaction;
-import info.esblurock.reaction.io.db.QueryBase;
+import info.esblurock.reaction.ontology.QueryBase;
 
 @SuppressWarnings("serial")
 public class Oauth2CallbackServlet extends HttpServlet {
@@ -50,14 +51,16 @@ public class Oauth2CallbackServlet extends HttpServlet {
 
 	private static final Collection<String> SCOPES = Arrays.asList("email", "profile");
 	private static final String USERINFO_ENDPOINT = "https://www.googleapis.com/plus/v1/people/me/openIdConnect";
-	private static final JsonFactory JSON_FACTORY = new JacksonFactory();
 	private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
-
 	private GoogleAuthorizationCodeFlow flow;
+	private static final JsonFactory JSON_FACTORY = new JacksonFactory();
 
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+		System.out.println("Oauth2CallbackServlet: ");
+		
 		String state = req.getParameter("state");
+		System.out.println("Oauth2CallbackServlet: state='" + state + "'");
 
 		Cookie[] cookies = req.getCookies();
 		String expected = "";
@@ -70,6 +73,8 @@ public class Oauth2CallbackServlet extends HttpServlet {
 		} else {
 			System.out.println("Oauth2CallbackServlet after sendRedirect  SC_UNAUTHORIZED no cookies");
 		}
+		System.out.println("Oauth2CallbackServlet: '" + expected + "'");
+		
 		// Ensure that this is no request forgery going on, and that the user
 		// sending us this connect request is the user that was supposed to.
 		if (state == null || !state.equals(expected)) {
@@ -246,13 +251,15 @@ public class Oauth2CallbackServlet extends HttpServlet {
 		resp.addCookie(redirectC);
 
 		String servername = req.getServerName();
+		System.out.println("servername: " + servername);
 		String redirect = "http://blurock-chemconnect.appspot.com/#FirstPagePlace:First%20Page";
 		if (servername.compareTo("localhost") == 0) {
 			redirect = "http://localhost:8080/#FirstPagePlace:First%20Page";
 		}
 		redirect = "/#FirstPagePlace:First%20Page";
+		System.out.println("Call redirect: " + redirect);
 		String url = resp.encodeRedirectURL(redirect);
-		System.out.println("Call redirect: inSystemS: ");
+		System.out.println("Call redirect: " + redirect);
 		System.out.println("Call redirect: User:\n" + util.getUserInfo());
 		resp.sendRedirect(url);
 	}

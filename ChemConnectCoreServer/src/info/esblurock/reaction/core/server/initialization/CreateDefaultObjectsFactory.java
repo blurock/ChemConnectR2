@@ -31,8 +31,6 @@ import info.esblurock.reaction.core.server.db.InterpretData;
 import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.db.spreadsheet.block.IsolateBlockFromMatrix;
-import info.esblurock.reaction.io.db.QueryBase;
-import info.esblurock.reaction.io.metadata.StandardDatasetMetaData;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataObjectLink;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHierarchy;
@@ -51,6 +49,7 @@ import info.esblurock.reaction.chemconnect.core.data.image.DatasetImage;
 import info.esblurock.reaction.chemconnect.core.data.image.ImageInformation;
 import info.esblurock.reaction.chemconnect.core.data.login.UserAccount;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
+import info.esblurock.reaction.chemconnect.core.data.metadata.StandardDatasetMetaData;
 import info.esblurock.reaction.chemconnect.core.data.methodology.ChemConnectProtocol;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationBlockFromSpreadSheet;
 import info.esblurock.reaction.chemconnect.core.data.observations.ObservationDatasetFromProtocol;
@@ -64,9 +63,10 @@ import info.esblurock.reaction.chemconnect.core.data.observations.matrix.Observa
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRow;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ObservationValueRowTitle;
 import info.esblurock.reaction.chemconnect.core.data.observations.matrix.ValueParameterComponents;
+import info.esblurock.reaction.ontology.DatasetOntologyParsing;
 import info.esblurock.reaction.ontology.OntologyKeys;
+import info.esblurock.reaction.ontology.QueryBase;
 import info.esblurock.reaction.ontology.dataset.ConceptParsing;
-import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 
 public class CreateDefaultObjectsFactory {
 	

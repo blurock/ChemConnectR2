@@ -27,14 +27,14 @@ import info.esblurock.reaction.chemconnect.core.data.dataset.DataCatalogID;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DataObjectLink;
 import info.esblurock.reaction.chemconnect.core.data.dataset.DatasetCatalogHierarchy;
 import info.esblurock.reaction.chemconnect.core.data.metadata.MetaDataKeywords;
+import info.esblurock.reaction.chemconnect.core.data.metadata.StandardDatasetMetaData;
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.db.InterpretData;
 import info.esblurock.reaction.core.server.db.WriteReadDatabaseObjects;
 import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.db.image.GCSServiceRoutines;
-import info.esblurock.reaction.io.metadata.StandardDatasetMetaData;
+import info.esblurock.reaction.ontology.DatasetOntologyParsing;
 import info.esblurock.reaction.ontology.dataset.ConceptParsing;
-import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 
 public class ReadWriteYamlDatabaseObjectHierarchy {
 	

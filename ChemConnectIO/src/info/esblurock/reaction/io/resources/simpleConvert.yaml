@@ -1,9 +1,0 @@
-SimpleConvertMatrix
-        dataset:conversionType: ConvertToMatrixOfObjects
-        dc:identifier: simpleConvertMatrix
-        dcterms:publisher: Admnistration
-        dataset:accessibility: Administration
-        dataset:inputType: ConvertToMatrixOfString
-        dataset:outputType: ConvertToMatrixOfMatrix
-        dataset:fileType: TEXT
-        dataset:delimitor: TAB

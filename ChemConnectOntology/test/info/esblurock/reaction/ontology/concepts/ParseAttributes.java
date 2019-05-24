@@ -58,7 +58,6 @@ public class ParseAttributes {
 		for(AttributeDescription descr : attrs) {
 			System.out.println(descr);
 		}
-
 		System.out.println("TotalAttributes       -------------------------------------------------------------");
 		Set<AttributeDescription> totalattr = ConceptParsing.totalSetOfAttributesInConcept("dataset:HeatFluxBurner");
 		for(AttributeDescription descr : totalattr) {

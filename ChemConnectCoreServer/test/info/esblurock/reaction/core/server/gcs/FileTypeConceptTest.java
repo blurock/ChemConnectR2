@@ -4,7 +4,7 @@ package info.esblurock.reaction.core.server.gcs;
 
 import org.junit.Test;
 
-import info.esblurock.reaction.io.metadata.StandardDatasetMetaData;
+import info.esblurock.reaction.chemconnect.core.data.metadata.StandardDatasetMetaData;
 import info.esblurock.reaction.ontology.dataset.ConceptParsing;
 
 public class FileTypeConceptTest {

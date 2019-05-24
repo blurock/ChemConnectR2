@@ -6,11 +6,11 @@ import java.io.InputStream;
 import com.googlecode.objectify.ObjectifyService;
 
 import info.esblurock.reaction.chemconnect.core.data.base.DatabaseObject;
-import info.esblurock.reaction.chemconnect.core.data.contact.RegisterContactData;
-import info.esblurock.reaction.chemconnect.core.data.dataset.RegistrerDataset;
-import info.esblurock.reaction.chemconnect.core.data.description.RegisterDescriptionData;
-import info.esblurock.reaction.chemconnect.core.data.initialization.RegisterInitializationData;
-import info.esblurock.reaction.chemconnect.core.data.rdf.RegisterRDFData;
+import info.esblurock.reaction.chemconnect.core.data.register.RegisterContactData;
+import info.esblurock.reaction.chemconnect.core.data.register.RegisterDescriptionData;
+import info.esblurock.reaction.chemconnect.core.data.register.RegisterInitializationData;
+import info.esblurock.reaction.chemconnect.core.data.register.RegisterRDFData;
+import info.esblurock.reaction.chemconnect.core.data.register.RegisterDataset;
 
 public class ReadYamlBase {
 	public static void test(InputStream in) {		
@@ -18,7 +18,7 @@ public class ReadYamlBase {
 		RegisterDescriptionData.register();
 		RegisterInitializationData.register();
 		RegisterRDFData.register();
-		RegistrerDataset.register();
+		RegisterDataset.register();
 		ObjectifyService.register(DatabaseObject.class);
 		//String sourceID = "1";
 		/*

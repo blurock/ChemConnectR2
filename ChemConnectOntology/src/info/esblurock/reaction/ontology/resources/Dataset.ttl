@@ -9,12 +9,11 @@
 <http://www.esblurock.info/dataset> rdf:type owl:Ontology ;
                                      owl:imports <http://purl.org/linked-data/cube> ,
                                                  <http://www.w3.org/2006/vcard/ns> ,
-                                                 <http://data.qudt.org/qudt/owl/1.0.0/quantity.owl> ,
                                                  <http://www.w3.org/ns/dcat> ,
+                                                 <http://qudt.org/1.1/vocab/quantity> ,
                                                  <http://www.w3.org/ns/ssn/> ,
                                                  <http://xmlns.com/foaf/0.1/> ,
                                                  <http://www.w3.org/2004/02/skos/core> ;
-                                     <http://purl.org/dc/terms/publisher> <http://purl.org/dc/aboutdcmi#DCMI> ;
                                      <http://purl.org/dc/terms/title> "DCMI Type Vocabulary"@en ;
                                      <http://purl.org/dc/terms/modified> "2012-06-14"^^xsd:date ;
                                      <http://purl.org/dc/terms/title> "DCMI Metadata Terms - other"@en .
@@ -23,20 +22,20 @@
 #    Annotation properties
 #################################################################
 
-###  http://data.nasa.gov/qudt/owl/qudt#abbreviation
-<http://data.nasa.gov/qudt/owl/qudt#abbreviation> rdf:type owl:AnnotationProperty .
+###  http://qudt.org/1.1/vocab/quantity#abbreviation
+<http://qudt.org/1.1/vocab/quantity#abbreviation> rdf:type owl:AnnotationProperty .
 
 
-###  http://data.nasa.gov/qudt/owl/qudt#conversionMultiplier
-<http://data.nasa.gov/qudt/owl/qudt#conversionMultiplier> rdf:type owl:AnnotationProperty .
+###  http://qudt.org/1.1/vocab/quantity#conversionMultiplier
+<http://qudt.org/1.1/vocab/quantity#conversionMultiplier> rdf:type owl:AnnotationProperty .
 
 
-###  http://data.nasa.gov/qudt/owl/qudt#conversionOffset
-<http://data.nasa.gov/qudt/owl/qudt#conversionOffset> rdf:type owl:AnnotationProperty .
+###  http://qudt.org/1.1/vocab/quantity#conversionOffset
+<http://qudt.org/1.1/vocab/quantity#conversionOffset> rdf:type owl:AnnotationProperty .
 
 
-###  http://data.nasa.gov/qudt/owl/qudt#symbol
-<http://data.nasa.gov/qudt/owl/qudt#symbol> rdf:type owl:AnnotationProperty .
+###  http://qudt.org/1.1/vocab/quantity#symbol
+<http://qudt.org/1.1/vocab/quantity#symbol> rdf:type owl:AnnotationProperty .
 
 
 ###  http://purl.org/dc/dcam/memberOf
@@ -365,6 +364,22 @@
                                  rdfs:range rdfs:Literal .
 
 
+###  http://qudt.org/1.1/vocab/quantity#abbreviation
+<http://qudt.org/1.1/vocab/quantity#abbreviation> rdf:type owl:AnnotationProperty .
+
+
+###  http://qudt.org/1.1/vocab/quantity#conversionMultiplier
+<http://qudt.org/1.1/vocab/quantity#conversionMultiplier> rdf:type owl:AnnotationProperty .
+
+
+###  http://qudt.org/1.1/vocab/quantity#conversionOffset
+<http://qudt.org/1.1/vocab/quantity#conversionOffset> rdf:type owl:AnnotationProperty .
+
+
+###  http://qudt.org/1.1/vocab/quantity#symbol
+<http://qudt.org/1.1/vocab/quantity#symbol> rdf:type owl:AnnotationProperty .
+
+
 ###  http://www.esblurock.info/dataset#GPSLocationID
 :GPSLocationID rdf:type owl:AnnotationProperty .
 
@@ -503,14 +518,6 @@ xsd:date rdf:type rdfs:Datatype .
 #################################################################
 #    Object Properties
 #################################################################
-
-###  http://data.nasa.gov/qudt/owl/qudt#unit
-<http://data.nasa.gov/qudt/owl/qudt#unit> rdf:type owl:ObjectProperty .
-
-
-###  http://data.nasa.gov/qudt/owl/qudt#unitSystem
-<http://data.nasa.gov/qudt/owl/qudt#unitSystem> rdf:type owl:ObjectProperty .
-
 
 ###  http://purl.org/dc/terms/accessRights
 <http://purl.org/dc/terms/accessRights> rdf:type owl:ObjectProperty ;
@@ -672,6 +679,14 @@ xsd:date rdf:type rdfs:Datatype .
 
 ###  http://purl.org/dc/terms/type
 <http://purl.org/dc/terms/type> rdf:type owl:ObjectProperty .
+
+
+###  http://qudt.org/1.1/vocab/quantity#unit
+<http://qudt.org/1.1/vocab/quantity#unit> rdf:type owl:ObjectProperty .
+
+
+###  http://qudt.org/1.1/vocab/quantity#unitSystem
+<http://qudt.org/1.1/vocab/quantity#unitSystem> rdf:type owl:ObjectProperty .
 
 
 ###  http://www.esblurock.info/dataset#hasComponent
@@ -849,22 +864,6 @@ xsd:date rdf:type rdfs:Datatype .
 #################################################################
 #    Classes
 #################################################################
-
-###  http://data.nasa.gov/qudt/owl/qudt#ChemistryQuantityKind
-<http://data.nasa.gov/qudt/owl/qudt#ChemistryQuantityKind> rdf:type owl:Class .
-
-
-###  http://data.nasa.gov/qudt/owl/qudt#ThermodynamicsUnit
-<http://data.nasa.gov/qudt/owl/qudt#ThermodynamicsUnit> rdf:type owl:Class .
-
-
-###  http://data.nasa.gov/qudt/owl/qudt#Unit
-<http://data.nasa.gov/qudt/owl/qudt#Unit> rdf:type owl:Class .
-
-
-###  http://data.nasa.gov/qudt/owl/qudt#VolumePerTimeUnit
-<http://data.nasa.gov/qudt/owl/qudt#VolumePerTimeUnit> rdf:type owl:Class .
-
 
 ###  http://purl.org/dc/dcam/VocabularyEncodingScheme
 <http://purl.org/dc/dcam/VocabularyEncodingScheme> rdf:type owl:Class .
@@ -1113,6 +1112,39 @@ xsd:date rdf:type rdfs:Datatype .
 <http://purl.org/dc/terms/Standard> rdf:type owl:Class .
 
 
+###  http://qudt.org/1.1/vocab/quantity#ChemistryQuantityKind
+<http://qudt.org/1.1/vocab/quantity#ChemistryQuantityKind> rdf:type owl:Class ;
+                                                           rdfs:subClassOf <http://qudt.org/schema/qudt#QuantityKind> .
+
+
+###  http://qudt.org/1.1/vocab/quantity#CountingUnit
+<http://qudt.org/1.1/vocab/quantity#CountingUnit> rdf:type owl:Class .
+
+
+###  http://qudt.org/1.1/vocab/quantity#LinearVelocityUnit
+<http://qudt.org/1.1/vocab/quantity#LinearVelocityUnit> rdf:type owl:Class .
+
+
+###  http://qudt.org/1.1/vocab/quantity#ThermalEnergyUnit
+<http://qudt.org/1.1/vocab/quantity#ThermalEnergyUnit> rdf:type owl:Class .
+
+
+###  http://qudt.org/1.1/vocab/quantity#ThermodynamicsUnit
+<http://qudt.org/1.1/vocab/quantity#ThermodynamicsUnit> rdf:type owl:Class .
+
+
+###  http://qudt.org/1.1/vocab/quantity#TimeUnit
+<http://qudt.org/1.1/vocab/quantity#TimeUnit> rdf:type owl:Class .
+
+
+###  http://qudt.org/1.1/vocab/quantity#Unit
+<http://qudt.org/1.1/vocab/quantity#Unit> rdf:type owl:Class .
+
+
+###  http://qudt.org/1.1/vocab/quantity#VolumePerTimeUnit
+<http://qudt.org/1.1/vocab/quantity#VolumePerTimeUnit> rdf:type owl:Class .
+
+
 ###  http://www.esblurock.info/dataset#AbsoluteSpeciesAmount
 :AbsoluteSpeciesAmount rdf:type owl:Class ;
                        rdfs:subClassOf :SpeciesAmountConcept .
@@ -1283,12 +1315,12 @@ xsd:date rdf:type rdfs:Datatype .
                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                        owl:onClass :SubsystemGeometryAndConfiguration
                                      ] ;
-                     <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#Centimeter> .
+                     <http://www.w3.org/2004/02/skos/core#example> <http://qudt.org/vocab/unit#Centimeter> .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :BurnerPlateDiameter ;
    owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
-   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#Centimeter> ;
+   owl:annotatedTarget <http://qudt.org/vocab/unit#Centimeter> ;
    <http://www.w3.org/2004/02/skos/core#example> 3
  ] .
 
@@ -1528,12 +1560,12 @@ xsd:date rdf:type rdfs:Datatype .
                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                        owl:onClass :FlameDefinition
                                      ] ;
-                     <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#DegreeCelsius> .
+                     <http://www.w3.org/2004/02/skos/core#example> <http://qudt.org/vocab/unit#DegreeCelsius> .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :BurntGasTemperature ;
    owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
-   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#DegreeCelsius> ;
+   owl:annotatedTarget <http://qudt.org/vocab/unit#DegreeCelsius> ;
    <http://www.w3.org/2004/02/skos/core#example> 120
  ] .
 
@@ -1551,12 +1583,12 @@ xsd:date rdf:type rdfs:Datatype .
                                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                      owl:onClass :FlameStability
                                                    ] ;
-                                   <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#DegreeCelsius> .
+                                   <http://www.w3.org/2004/02/skos/core#example> <http://qudt.org/vocab/unit#DegreeCelsius> .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :BurntUnburntTemperatureDifference ;
    owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
-   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#DegreeCelsius> ;
+   owl:annotatedTarget <http://qudt.org/vocab/unit#DegreeCelsius> ;
    <http://www.w3.org/2004/02/skos/core#example> 70
  ] .
 
@@ -1784,21 +1816,16 @@ xsd:date rdf:type rdfs:Datatype .
 
 ###  http://www.esblurock.info/dataset#ChemConnectDynamicParameter
 :ChemConnectDynamicParameter rdf:type owl:Class ;
-                             rdfs:subClassOf :ChemConnectParameter ,
-                                             [ rdf:type owl:Restriction ;
-                                               owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#elementKind> ;
-                                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                               owl:onClass :DynamicParameter
-                                             ] .
+                             rdfs:subClassOf :ChemConnectParameter .
 
 
 ###  http://www.esblurock.info/dataset#ChemConnectEnergy
 :ChemConnectEnergy rdf:type owl:Class ;
                    rdfs:subClassOf :ChemConnectValueParameter ,
                                    [ rdf:type owl:Restriction ;
-                                     owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
+                                     owl:onProperty <http://qudt.org/1.1/vocab/quantity#unitSystem> ;
                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                     owl:onClass <http://data.nasa.gov/qudt/owl/qudt#ThermalEnergyUnit>
+                                     owl:onClass <http://qudt.org/1.1/vocab/quantity#ThermalEnergyUnit>
                                    ] .
 
 
@@ -1813,12 +1840,7 @@ xsd:date rdf:type rdfs:Datatype .
 
 ###  http://www.esblurock.info/dataset#ChemConnectFixedParameter
 :ChemConnectFixedParameter rdf:type owl:Class ;
-                           rdfs:subClassOf :ChemConnectParameter ,
-                                           [ rdf:type owl:Restriction ;
-                                             owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#elementKind> ;
-                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                             owl:onClass :FixedParameter
-                                           ] .
+                           rdfs:subClassOf :ChemConnectParameter .
 
 
 ###  http://www.esblurock.info/dataset#ChemConnectFlowParameter
@@ -2100,7 +2122,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :ChemConnectProtocolApplication rdf:type owl:Class ;
                                 rdfs:subClassOf :ChemConnectActivity ,
                                                 [ rdf:type owl:Restriction ;
-                                                  owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unit> ;
+                                                  owl:onProperty <http://qudt.org/1.1/vocab/quantity#unit> ;
                                                   owl:someValuesFrom :DataObjectLink
                                                 ] ,
                                                 [ rdf:type owl:Restriction ;
@@ -2149,7 +2171,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                        rdfs:subClassOf :ChemConnectObservable ,
                                        [ rdf:type owl:Restriction ;
                                          owl:onProperty <http://purl.org/linked-data/cube#dimension> ;
-                                         owl:someValuesFrom <http://data.nasa.gov/qudt/owl/qudt#TimeUnit>
+                                         owl:someValuesFrom <http://qudt.org/1.1/vocab/quantity#TimeUnit>
                                        ] ,
                                        [ rdf:type owl:Restriction ;
                                          owl:onProperty <http://purl.org/linked-data/cube#sliceStructure> ;
@@ -2197,7 +2219,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#ClassificationUnit
 :ClassificationUnit rdf:type owl:Class ;
-                    rdfs:subClassOf <http://data.nasa.gov/qudt/owl/qudt#Unit> .
+                    rdfs:subClassOf <http://qudt.org/schema/qudt#Unit> .
 
 
 ###  http://www.esblurock.info/dataset#CombustionFeature
@@ -2727,9 +2749,9 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :CountParameter rdf:type owl:Class ;
                 rdfs:subClassOf :ChemConnectValueParameter ,
                                 [ rdf:type owl:Restriction ;
-                                  owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
+                                  owl:onProperty <http://qudt.org/1.1/vocab/quantity#unitSystem> ;
                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                  owl:onClass <http://data.nasa.gov/qudt/owl/qudt#CountingUnit>
+                                  owl:onClass <http://qudt.org/1.1/vocab/quantity#CountingUnit>
                                 ] .
 
 
@@ -3290,7 +3312,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#DescriptionUnit
 :DescriptionUnit rdf:type owl:Class ;
-                 rdfs:subClassOf <http://data.nasa.gov/qudt/owl/qudt#Unit> .
+                 rdfs:subClassOf <http://qudt.org/schema/qudt#Unit> .
 
 
 ###  http://www.esblurock.info/dataset#DeterminesSpeciesAmount
@@ -3430,9 +3452,9 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :DistanceParameter rdf:type owl:Class ;
                    rdfs:subClassOf :ChemConnectValueParameter ,
                                    [ rdf:type owl:Restriction ;
-                                     owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
+                                     owl:onProperty <http://qudt.org/1.1/vocab/quantity#unitSystem> ;
                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                     owl:onClass <http://data.nasa.gov/qudt/owl/qudt#LengthUnit>
+                                     owl:onClass <http://qudt.org/schema/qudt#LengthUnit>
                                    ] .
 
 
@@ -3520,14 +3542,14 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :EquivalenceRatioParameter rdf:type owl:Class ;
                            rdfs:subClassOf :ChemConnectFixedParameter ,
                                            [ rdf:type owl:Restriction ;
-                                             owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
-                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                             owl:onClass :FuelEquivalenceRatio
-                                           ] ,
-                                           [ rdf:type owl:Restriction ;
                                              owl:onProperty <http://purl.org/linked-data/cube#sliceStructure> ;
                                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                              owl:onClass :SingleObservation
+                                           ] ,
+                                           [ rdf:type owl:Restriction ;
+                                             owl:onProperty <http://qudt.org/1.1/vocab/quantity#unitSystem> ;
+                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                             owl:onClass :FuelEquivalenceRatio
                                            ] ;
                            <http://www.w3.org/2004/02/skos/core#example> :EquivalenceRatio .
 
@@ -3613,14 +3635,14 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :EvaporationSystemType rdf:type owl:Class ;
                        rdfs:subClassOf :FuelEvaporatorKeywordParameter ,
                                        [ rdf:type owl:Restriction ;
-                                         owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
-                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                         owl:onClass :EvaporationSystemClassification
-                                       ] ,
-                                       [ rdf:type owl:Restriction ;
                                          owl:onProperty <http://purl.org/linked-data/cube#concept> ;
                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                          owl:onClass :LiquidFuelToGas
+                                       ] ,
+                                       [ rdf:type owl:Restriction ;
+                                         owl:onProperty <http://qudt.org/1.1/vocab/quantity#unitSystem> ;
+                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                         owl:onClass :EvaporationSystemClassification
                                        ] ,
                                        [ rdf:type owl:Restriction ;
                                          owl:onProperty :hasPurpose ;
@@ -3664,12 +3686,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                                    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                    owl:onClass :MeasurementLimitation
                                                  ] ;
-                                 <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#Kelvin> .
+                                 <http://www.w3.org/2004/02/skos/core#example> <http://qudt.org/vocab/unit#Kelvin> .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :ExperimentRangeLowerTemperature ;
    owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
-   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#Kelvin> ;
+   owl:annotatedTarget <http://qudt.org/vocab/unit#Kelvin> ;
    <http://www.w3.org/2004/02/skos/core#example> 1000
  ] .
 
@@ -3702,12 +3724,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                         owl:onClass :ExperimentalCondition
                                       ] ;
-                      <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#AtmosphereStandard> .
+                      <http://www.w3.org/2004/02/skos/core#example> <http://qudt.org/vocab/unit#AtmosphereStandard> .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :ExperimentalPressure ;
    owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
-   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#AtmosphereStandard> ;
+   owl:annotatedTarget <http://qudt.org/vocab/unit#AtmosphereStandard> ;
    <http://www.w3.org/2004/02/skos/core#example> 1
  ] .
 
@@ -3729,12 +3751,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                   owl:onClass :MeasurementLimitation
                                                 ] ;
-                                <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#Bar> .
+                                <http://www.w3.org/2004/02/skos/core#example> <http://qudt.org/vocab/unit#Bar> .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :ExperimentalRangeLowerPressure ;
    owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
-   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#Bar> ;
+   owl:annotatedTarget <http://qudt.org/vocab/unit#Bar> ;
    <http://www.w3.org/2004/02/skos/core#example> 1
  ] .
 
@@ -3747,12 +3769,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                   owl:onClass :MeasurementLimitation
                                                 ] ;
-                                <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#Bar> .
+                                <http://www.w3.org/2004/02/skos/core#example> <http://qudt.org/vocab/unit#Bar> .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :ExperimentalRangeUpperPressure ;
    owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
-   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#Bar> ;
+   owl:annotatedTarget <http://qudt.org/vocab/unit#Bar> ;
    <http://www.w3.org/2004/02/skos/core#example> 10
  ] .
 
@@ -3765,12 +3787,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                      owl:onClass :MeasurementLimitation
                                                    ] ;
-                                   <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#Kelvin> .
+                                   <http://www.w3.org/2004/02/skos/core#example> <http://qudt.org/vocab/unit#Kelvin> .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :ExperimentalRangeUpperTemperature ;
    owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
-   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#Kelvin> ;
+   owl:annotatedTarget <http://qudt.org/vocab/unit#Kelvin> ;
    <http://www.w3.org/2004/02/skos/core#example> 2000
  ] .
 
@@ -3813,12 +3835,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                            owl:onClass :ExperimentalCondition
                                          ] ;
-                         <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#Kelvin> .
+                         <http://www.w3.org/2004/02/skos/core#example> <http://qudt.org/vocab/unit#Kelvin> .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :ExperimentalTemperature ;
    owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
-   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#Kelvin> ;
+   owl:annotatedTarget <http://qudt.org/vocab/unit#Kelvin> ;
    <http://www.w3.org/2004/02/skos/core#example> 1000
  ] .
 
@@ -4288,26 +4310,26 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :FlameVelocity rdf:type owl:Class ;
                rdfs:subClassOf :ChemConnectFlowParameter ,
                                [ rdf:type owl:Restriction ;
-                                 owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
-                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                 owl:onClass <http://data.nasa.gov/qudt/owl/qudt#LinearVelocityUnit>
-                               ] ,
-                               [ rdf:type owl:Restriction ;
                                  owl:onProperty <http://purl.org/linked-data/cube#concept> ;
                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                  owl:onClass :HeatFluxBurnerFlameVelocity
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty <http://qudt.org/1.1/vocab/quantity#unitSystem> ;
+                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                 owl:onClass <http://qudt.org/1.1/vocab/quantity#LinearVelocityUnit>
                                ] ,
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty :hasPurpose ;
                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                  owl:onClass :FlameProperty
                                ] ;
-               <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#CentimeterPerSecond> .
+               <http://www.w3.org/2004/02/skos/core#example> <http://qudt.org/vocab/unit#CentimeterPerSecond> .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :FlameVelocity ;
    owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
-   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#CentimeterPerSecond> ;
+   owl:annotatedTarget <http://qudt.org/vocab/unit#CentimeterPerSecond> ;
    <http://www.w3.org/2004/02/skos/core#example> 35
  ] .
 
@@ -4450,14 +4472,14 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :FluidCoolingHeatingSystem rdf:type owl:Class ;
                            rdfs:subClassOf :KeywordParameter ,
                                            [ rdf:type owl:Restriction ;
-                                             owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
-                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                             owl:onClass :TemperatureRegulationClassification
-                                           ] ,
-                                           [ rdf:type owl:Restriction ;
                                              owl:onProperty <http://purl.org/linked-data/cube#concept> ;
                                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                              owl:onClass :TemperatureControl
+                                           ] ,
+                                           [ rdf:type owl:Restriction ;
+                                             owl:onProperty <http://qudt.org/1.1/vocab/quantity#unitSystem> ;
+                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                             owl:onClass :TemperatureRegulationClassification
                                            ] ,
                                            [ rdf:type owl:Restriction ;
                                              owl:onProperty :hasPurpose ;
@@ -4504,7 +4526,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#FuelEquivalenceRatio
 :FuelEquivalenceRatio rdf:type owl:Class ;
-                      rdfs:subClassOf <http://data.nasa.gov/qudt/owl/qudt#ChemistryQuantityKind> ;
+                      rdfs:subClassOf <http://qudt.org/1.1/vocab/quantity#ChemistryQuantityKind> ;
                       <http://purl.org/dc/elements/1.1/type> "FuelEquivalenceRatio" .
 
 
@@ -4690,14 +4712,14 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :GasMFCType rdf:type owl:Class ;
             rdfs:subClassOf :MassFlowControllerKeywordParameter ,
                             [ rdf:type owl:Restriction ;
-                              owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
-                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                              owl:onClass :GasMFCClassification
-                            ] ,
-                            [ rdf:type owl:Restriction ;
                               owl:onProperty <http://purl.org/linked-data/cube#concept> ;
                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                               owl:onClass :ConceptMassFlowControllerConfiguration
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty <http://qudt.org/1.1/vocab/quantity#unitSystem> ;
+                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                              owl:onClass :GasMFCClassification
                             ] ;
             <http://www.w3.org/2004/02/skos/core#example> :GasMFCClassification .
 
@@ -5561,14 +5583,14 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :HeatFluxBurnerParabolicParameter rdf:type owl:Class ;
                                   rdfs:subClassOf :CalculatedParameter ,
                                                   [ rdf:type owl:Restriction ;
-                                                    owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
-                                                    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                    owl:onClass :TemperaturePerAreaUnit
-                                                  ] ,
-                                                  [ rdf:type owl:Restriction ;
                                                     owl:onProperty <http://purl.org/linked-data/cube#concept> ;
                                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                     owl:onClass :ParabolicParameter
+                                                  ] ,
+                                                  [ rdf:type owl:Restriction ;
+                                                    owl:onProperty <http://qudt.org/1.1/vocab/quantity#unitSystem> ;
+                                                    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                    owl:onClass :TemperaturePerAreaUnit
                                                   ] ,
                                                   [ rdf:type owl:Restriction ;
                                                     owl:onProperty :hasPurpose ;
@@ -5885,12 +5907,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                          owl:onClass :FundamentalExperimentalMeasurement
                                                        ] ;
-                                       <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#DegreeCelsius> .
+                                       <http://www.w3.org/2004/02/skos/core#example> <http://qudt.org/vocab/unit#DegreeCelsius> .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :HeatFluxBurnerThermocoupleTemperature ;
    owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
-   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#DegreeCelsius> ;
+   owl:annotatedTarget <http://qudt.org/vocab/unit#DegreeCelsius> ;
    <http://www.w3.org/2004/02/skos/core#example> 80
  ] .
 
@@ -5930,12 +5952,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                      owl:onClass :ExperimentalIgnitionDelayTime
                                    ] ;
-                   <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#MilliSecond> .
+                   <http://www.w3.org/2004/02/skos/core#example> <http://qudt.org/vocab/unit#MilliSecond> .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :IgnitionDelayTime ;
    owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
-   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#MilliSecond> ;
+   owl:annotatedTarget <http://qudt.org/vocab/unit#MilliSecond> ;
    <http://www.w3.org/2004/02/skos/core#example> 100
  ] .
 
@@ -6043,14 +6065,14 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :InverseTemperatureParameter rdf:type owl:Class ;
                              rdfs:subClassOf :ChemConnectValueParameter ,
                                              [ rdf:type owl:Restriction ;
-                                               owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
-                                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                               owl:onClass :InverseTemperatureUnit
-                                             ] ,
-                                             [ rdf:type owl:Restriction ;
                                                owl:onProperty <http://purl.org/linked-data/cube#concept> ;
                                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                owl:onClass :InverseTemperatureOfExperiment
+                                             ] ,
+                                             [ rdf:type owl:Restriction ;
+                                               owl:onProperty <http://qudt.org/1.1/vocab/quantity#unitSystem> ;
+                                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                               owl:onClass :InverseTemperatureUnit
                                              ] ,
                                              [ rdf:type owl:Restriction ;
                                                owl:onProperty :hasPurpose ;
@@ -6069,7 +6091,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#InverseTemperatureUnit
 :InverseTemperatureUnit rdf:type owl:Class ;
-                        rdfs:subClassOf <http://data.nasa.gov/qudt/owl/qudt#ThermodynamicsUnit> ;
+                        rdfs:subClassOf <http://qudt.org/schema/qudt#ThermodynamicsUnit> ;
                         rdfs:label "Inverse Temperature (Kelvin)"^^xsd:string .
 
 
@@ -6087,7 +6109,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :IonizationSource rdf:type owl:Class ;
                   rdfs:subClassOf :MoleculeBeamKeywords ,
                                   [ rdf:type owl:Restriction ;
-                                    owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
+                                    owl:onProperty <http://qudt.org/1.1/vocab/quantity#unitSystem> ;
                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                     owl:onClass :IonizationSourceClassification
                                   ] ;
@@ -6197,14 +6219,14 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :LiquidMFCType rdf:type owl:Class ;
                rdfs:subClassOf :MassFlowControllerKeywordParameter ,
                                [ rdf:type owl:Restriction ;
-                                 owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
-                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                 owl:onClass :LiquidMFCClassification
-                               ] ,
-                               [ rdf:type owl:Restriction ;
                                  owl:onProperty <http://purl.org/linked-data/cube#concept> ;
                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                  owl:onClass :LiquidFlowRegulation
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty <http://qudt.org/1.1/vocab/quantity#unitSystem> ;
+                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                 owl:onClass :LiquidMFCClassification
                                ] ,
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty :hasPurpose ;
@@ -6367,12 +6389,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                        owl:onClass :DeviceComponentSpecification
                                      ] ;
-                     <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#KilometerPerHour> .
+                     <http://www.w3.org/2004/02/skos/core#example> <http://qudt.org/vocab/unit#KilometerPerHour> .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :MFCAutoShutOffLimit ;
    owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
-   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#KilometerPerHour> ;
+   owl:annotatedTarget <http://qudt.org/vocab/unit#KilometerPerHour> ;
    <http://www.w3.org/2004/02/skos/core#example> 1.6
  ] .
 
@@ -6403,12 +6425,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                    owl:onClass :SpecifySpeciesAmount
                                  ] ;
-                 <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#KilogramPerSecond> .
+                 <http://www.w3.org/2004/02/skos/core#example> <http://qudt.org/vocab/unit#KilogramPerSecond> .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :MFCMassFlowRate ;
    owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
-   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#KilogramPerSecond> ;
+   owl:annotatedTarget <http://qudt.org/vocab/unit#KilogramPerSecond> ;
    <http://www.w3.org/2004/02/skos/core#example> 30
  ] .
 
@@ -6466,12 +6488,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                   owl:onClass :DeviceComponentSpecification
                                                 ] ;
-                                <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#KilometerPerHour> .
+                                <http://www.w3.org/2004/02/skos/core#example> <http://qudt.org/vocab/unit#KilometerPerHour> .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :MFCMinimumFlowRateFullScaleGas ;
    owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
-   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#KilometerPerHour> ;
+   owl:annotatedTarget <http://qudt.org/vocab/unit#KilometerPerHour> ;
    <http://www.w3.org/2004/02/skos/core#example> 10
  ] .
 
@@ -6489,12 +6511,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                      owl:onClass :DeviceComponentSpecification
                                                    ] ;
-                                   <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#KilometerPerHour> .
+                                   <http://www.w3.org/2004/02/skos/core#example> <http://qudt.org/vocab/unit#KilometerPerHour> .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :MFCMinimumFlowRateFullScaleLiquid ;
    owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
-   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#KilometerPerHour> ;
+   owl:annotatedTarget <http://qudt.org/vocab/unit#KilometerPerHour> ;
    <http://www.w3.org/2004/02/skos/core#example> 5
  ] .
 
@@ -6512,12 +6534,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                        owl:onClass :DeviceComponentSpecification
                                                      ] ;
-                                     <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#Percent> .
+                                     <http://www.w3.org/2004/02/skos/core#example> <http://qudt.org/vocab/unit#Percent> .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :MFCPartialTotalDifferentialPressure ;
    owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
-   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#Percent> ;
+   owl:annotatedTarget <http://qudt.org/vocab/unit#Percent> ;
    <http://www.w3.org/2004/02/skos/core#example> 50
  ] .
 
@@ -6535,12 +6557,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                    owl:onClass :DeviceComponentSpecification
                                  ] ;
-                 <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#SecondTime> .
+                 <http://www.w3.org/2004/02/skos/core#example> <http://qudt.org/vocab/unit#SecondTime> .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :MFCSettlingTime ;
    owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
-   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#SecondTime> ;
+   owl:annotatedTarget <http://qudt.org/vocab/unit#SecondTime> ;
    <http://www.w3.org/2004/02/skos/core#example> 0.5
  ] .
 
@@ -6558,12 +6580,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                     owl:onClass :DeviceComponentSpecification
                                   ] ;
-                  <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#KilometerPerHour> .
+                  <http://www.w3.org/2004/02/skos/core#example> <http://qudt.org/vocab/unit#KilometerPerHour> .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :MFCZeroStability ;
    owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
-   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#KilometerPerHour> ;
+   owl:annotatedTarget <http://qudt.org/vocab/unit#KilometerPerHour> ;
    rdfs:comment 0.50
  ] .
 
@@ -6767,12 +6789,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                   owl:onClass :MeasurementLimitation
                                                 ] ;
-                                <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#Percent> .
+                                <http://www.w3.org/2004/02/skos/core#example> <http://qudt.org/vocab/unit#Percent> .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :MassFlowControllerControlRange ;
    owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
-   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#Percent> ;
+   owl:annotatedTarget <http://qudt.org/vocab/unit#Percent> ;
    <http://www.w3.org/2004/02/skos/core#example> "2-100"
  ] .
 
@@ -6799,7 +6821,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :MassFlowControllerManufacturer rdf:type owl:Class ;
                                 rdfs:subClassOf :MassFlowControllerKeywordParameter ,
                                                 [ rdf:type owl:Restriction ;
-                                                  owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
+                                                  owl:onProperty <http://qudt.org/1.1/vocab/quantity#unitSystem> ;
                                                   owl:someValuesFrom :ComponentManufacturerName
                                                 ] ,
                                                 [ rdf:type owl:Restriction ;
@@ -6819,7 +6841,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :MassFlowControllerModel rdf:type owl:Class ;
                          rdfs:subClassOf :MassFlowControllerKeywordParameter ,
                                          [ rdf:type owl:Restriction ;
-                                           owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
+                                           owl:onProperty <http://qudt.org/1.1/vocab/quantity#unitSystem> ;
                                            owl:someValuesFrom :ComponentModelName
                                          ] ,
                                          [ rdf:type owl:Restriction ;
@@ -6847,12 +6869,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                        owl:onClass :MeasurementLimitation
                                                      ] ;
-                                     <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#SecondTime> .
+                                     <http://www.w3.org/2004/02/skos/core#example> <http://qudt.org/vocab/unit#SecondTime> .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :MassFlowControllerSettlingTimeRange ;
    owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
-   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#SecondTime> ;
+   owl:annotatedTarget <http://qudt.org/vocab/unit#SecondTime> ;
    <http://www.w3.org/2004/02/skos/core#example> 0.5
  ] .
 
@@ -6936,6 +6958,11 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                rdfs:subClassOf :Spectrometer ;
                                rdfs:comment "Mass Spectrometry Molecular Beam" ;
                                rdfs:label "Mass Spectrometry Molecular Beam" .
+
+
+###  http://www.esblurock.info/dataset#MassToChargeRatio
+:MassToChargeRatio rdf:type owl:Class ;
+                   rdfs:subClassOf <http://qudt.org/schema/qudt#ElectrochemistryUnit> .
 
 
 ###  http://www.esblurock.info/dataset#MatrixBlockBeginClassification
@@ -7537,12 +7564,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                  owl:onClass :DeviceComponentSpecification
                                                ] ;
-                               <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/qudt#CountingUnit> .
+                               <http://www.w3.org/2004/02/skos/core#example> <http://qudt.org/1.1/vocab/quantity#CountingUnit> .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :NumberOfThermocouplesInBurner ;
    owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
-   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/qudt#CountingUnit> ;
+   owl:annotatedTarget <http://qudt.org/1.1/vocab/quantity#CountingUnit> ;
    <http://www.w3.org/2004/02/skos/core#example> 8
  ] .
 
@@ -8006,14 +8033,14 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#PercentUnit
 :PercentUnit rdf:type owl:Class ;
-             rdfs:subClassOf <http://data.nasa.gov/qudt/owl/qudt#DimensionlessUnit> .
+             rdfs:subClassOf <http://qudt.org/schema/qudt#DimensionlessUnit> .
 
 
 ###  http://www.esblurock.info/dataset#Percentage
 :Percentage rdf:type owl:Class ;
             rdfs:subClassOf :ChemConnectValueParameter ,
                             [ rdf:type owl:Restriction ;
-                              owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
+                              owl:onProperty <http://qudt.org/1.1/vocab/quantity#unitSystem> ;
                               owl:someValuesFrom :PercentUnit
                             ] .
 
@@ -8218,9 +8245,9 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :PressureParameter rdf:type owl:Class ;
                    rdfs:subClassOf :ChemConnectValueParameter ,
                                    [ rdf:type owl:Restriction ;
-                                     owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
+                                     owl:onProperty <http://qudt.org/1.1/vocab/quantity#unitSystem> ;
                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                     owl:onClass <http://data.nasa.gov/qudt/owl/qudt#PressureOrStressUnit>
+                                     owl:onClass <http://qudt.org/schema/qudt#PressureOrStressUnit>
                                    ] .
 
 
@@ -8310,14 +8337,14 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :ProbeMaterial rdf:type owl:Class ;
                rdfs:subClassOf :ProbeKeywordParameters ,
                                [ rdf:type owl:Restriction ;
-                                 owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
-                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                 owl:onClass :ProbeMaterialClassification
-                               ] ,
-                               [ rdf:type owl:Restriction ;
                                  owl:onProperty <http://purl.org/linked-data/cube#concept> ;
                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                  owl:onClass :ProbeConfiguration
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty <http://qudt.org/1.1/vocab/quantity#unitSystem> ;
+                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                 owl:onClass :ProbeMaterialClassification
                                ] ;
                <http://www.w3.org/2004/02/skos/core#example> :ProbeMaterialClassification .
 
@@ -8362,7 +8389,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
                               owl:someValuesFrom :ProbeConfiguration
                             ] ,
                             [ rdf:type owl:Restriction ;
-                              owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
+                              owl:onProperty <http://qudt.org/1.1/vocab/quantity#unitSystem> ;
                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                               owl:onClass :ProbeShapeClassication
                             ] ;
@@ -8520,12 +8547,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                           owl:onClass :FundamentalExperimentalMeasurement
                                         ] ;
-                        <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#Bar> .
+                        <http://www.w3.org/2004/02/skos/core#example> <http://qudt.org/vocab/unit#Bar> .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :RCMCompressionPressure ;
    owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
-   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#Bar> ;
+   owl:annotatedTarget <http://qudt.org/vocab/unit#Bar> ;
    <http://www.w3.org/2004/02/skos/core#example> 15.0
  ] .
 
@@ -8543,12 +8570,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                              owl:onClass :FundamentalExperimentalMeasurement
                                            ] ;
-                           <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#Kelvin> .
+                           <http://www.w3.org/2004/02/skos/core#example> <http://qudt.org/vocab/unit#Kelvin> .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :RCMCompressionTemperature ;
    owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
-   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#Kelvin> ;
+   owl:annotatedTarget <http://qudt.org/vocab/unit#Kelvin> ;
    <http://www.w3.org/2004/02/skos/core#example> 800.0
  ] .
 
@@ -8566,12 +8593,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                       owl:onClass :FundamentalExperimentalMeasurement
                                     ] ;
-                    <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#MilliSecond> .
+                    <http://www.w3.org/2004/02/skos/core#example> <http://qudt.org/vocab/unit#MilliSecond> .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :RCMCompressionTime ;
    owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
-   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#MilliSecond> ;
+   owl:annotatedTarget <http://qudt.org/vocab/unit#MilliSecond> ;
    <http://www.w3.org/2004/02/skos/core#example> 50.0
  ] .
 
@@ -9087,12 +9114,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                  owl:onClass :SensorCharacteristic
                                                ] ;
-                               <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#Percent> .
+                               <http://www.w3.org/2004/02/skos/core#example> <http://qudt.org/vocab/unit#Percent> .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :RelativeThermalcoupleAccuracy ;
    owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
-   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#Percent> ;
+   owl:annotatedTarget <http://qudt.org/vocab/unit#Percent> ;
    rdfs:comment 0.7
  ] .
 
@@ -9428,14 +9455,14 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :SpeciesLabel rdf:type owl:Class ;
               rdfs:subClassOf :SpeciesParameter ,
                               [ rdf:type owl:Restriction ;
-                                owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
-                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                owl:onClass :KeywordUnit
-                              ] ,
-                              [ rdf:type owl:Restriction ;
                                 owl:onProperty <http://purl.org/linked-data/cube#concept> ;
                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                 owl:onClass :IdentificationOfSpecies
+                              ] ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty <http://qudt.org/1.1/vocab/quantity#unitSystem> ;
+                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                owl:onClass :KeywordUnit
                               ] ,
                               [ rdf:type owl:Restriction ;
                                 owl:onProperty :hasPurpose ;
@@ -9454,13 +9481,13 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#SpeciesMassFraction
 :SpeciesMassFraction rdf:type owl:Class ;
-                     rdfs:subClassOf <http://data.nasa.gov/qudt/owl/qudt#ChemistryQuantityKind> ;
+                     rdfs:subClassOf <http://qudt.org/1.1/vocab/quantity#ChemistryQuantityKind> ;
                      <http://purl.org/dc/elements/1.1/type> "SpeciesMassFraction" .
 
 
 ###  http://www.esblurock.info/dataset#SpeciesMoleFraction
 :SpeciesMoleFraction rdf:type owl:Class ;
-                     rdfs:subClassOf <http://data.nasa.gov/qudt/owl/qudt#ChemistryQuantityKind> ;
+                     rdfs:subClassOf <http://qudt.org/1.1/vocab/quantity#ChemistryQuantityKind> ;
                      <http://purl.org/dc/elements/1.1/type> "SpeciesMoleFraction" .
 
 
@@ -9481,14 +9508,14 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :SpeciesPercentage rdf:type owl:Class ;
                    rdfs:subClassOf :SpeciesAmount ,
                                    [ rdf:type owl:Restriction ;
-                                     owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
-                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                     owl:onClass :PercentUnit
-                                   ] ,
-                                   [ rdf:type owl:Restriction ;
                                      owl:onProperty <http://purl.org/linked-data/cube#sliceStructure> ;
                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                      owl:onClass :SingleObservation
+                                   ] ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty <http://qudt.org/1.1/vocab/quantity#unitSystem> ;
+                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                     owl:onClass :PercentUnit
                                    ] ;
                    <http://www.w3.org/2004/02/skos/core#example> :SpeciesPercentageQuantity .
 
@@ -9512,7 +9539,7 @@ Under the general type of is the actual data object referenced by the ChemConnec
 
 ###  http://www.esblurock.info/dataset#SpeciesPercentageQuantity
 :SpeciesPercentageQuantity rdf:type owl:Class ;
-                           rdfs:subClassOf <http://data.nasa.gov/qudt/owl/qudt#ChemistryQuantityKind> .
+                           rdfs:subClassOf <http://qudt.org/1.1/vocab/quantity#ChemistryQuantityKind> .
 
 
 ###  http://www.esblurock.info/dataset#SpeciesProperties
@@ -9784,15 +9811,15 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :TemperatureParameter rdf:type owl:Class ;
                       rdfs:subClassOf :ChemConnectValueParameter ,
                                       [ rdf:type owl:Restriction ;
-                                        owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
+                                        owl:onProperty <http://qudt.org/1.1/vocab/quantity#unitSystem> ;
                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                        owl:onClass <http://data.nasa.gov/qudt/owl/qudt#TemperatureUnit>
+                                        owl:onClass <http://qudt.org/schema/qudt#TemperatureUnit>
                                       ] .
 
 
 ###  http://www.esblurock.info/dataset#TemperaturePerAreaUnit
 :TemperaturePerAreaUnit rdf:type owl:Class ;
-                        rdfs:subClassOf <http://data.nasa.gov/qudt/owl/qudt#ThermodynamicsUnit> .
+                        rdfs:subClassOf <http://qudt.org/schema/qudt#ThermodynamicsUnit> .
 
 
 ###  http://www.esblurock.info/dataset#TemperatureRange
@@ -9860,12 +9887,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                 owl:onClass :SensorCharacteristic
                                               ] ;
-                              <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#Kelvin> .
+                              <http://www.w3.org/2004/02/skos/core#example> <http://qudt.org/vocab/unit#Kelvin> .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :ThermocoupleAbsoluteAccuracy ;
    owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
-   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#Kelvin> ;
+   owl:annotatedTarget <http://qudt.org/vocab/unit#Kelvin> ;
    <http://www.w3.org/2004/02/skos/core#example> 2.2
  ] .
 
@@ -9893,12 +9920,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                 owl:onClass :SensorPositionInSubsystem
                                               ] ;
-                              <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#Centimeter> .
+                              <http://www.w3.org/2004/02/skos/core#example> <http://qudt.org/vocab/unit#Centimeter> .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :ThermocouplePositionInBurner ;
    owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
-   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#Centimeter> ;
+   owl:annotatedTarget <http://qudt.org/vocab/unit#Centimeter> ;
    <http://www.w3.org/2004/02/skos/core#example> 4
  ] .
 
@@ -9912,14 +9939,14 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :ThermocoupleType rdf:type owl:Class ;
                   rdfs:subClassOf :KeywordParameter ,
                                   [ rdf:type owl:Restriction ;
-                                    owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
-                                    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                    owl:onClass :ThermocoupleTypeClassification
-                                  ] ,
-                                  [ rdf:type owl:Restriction ;
                                     owl:onProperty <http://purl.org/linked-data/cube#concept> ;
                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                     owl:onClass :TemperatureSensor
+                                  ] ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty <http://qudt.org/1.1/vocab/quantity#unitSystem> ;
+                                    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                    owl:onClass :ThermocoupleTypeClassification
                                   ] ,
                                   [ rdf:type owl:Restriction ;
                                     owl:onProperty :hasPurpose ;
@@ -10010,9 +10037,9 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :TimeParameter rdf:type owl:Class ;
                rdfs:subClassOf :ChemConnectValueParameter ,
                                [ rdf:type owl:Restriction ;
-                                 owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
+                                 owl:onProperty <http://qudt.org/1.1/vocab/quantity#unitSystem> ;
                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                 owl:onClass <http://data.nasa.gov/qudt/owl/qudt#TimeUnit>
+                                 owl:onClass <http://qudt.org/schema/qudt#TimeUnit>
                                ] ,
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty :hasPurpose ;
@@ -10056,12 +10083,12 @@ Under the general type of is the actual data object referenced by the ChemConnec
                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                          owl:onClass :FlameDefinition
                                        ] ;
-                       <http://www.w3.org/2004/02/skos/core#example> <http://data.nasa.gov/qudt/owl/unit#DegreeCelsius> .
+                       <http://www.w3.org/2004/02/skos/core#example> <http://qudt.org/vocab/unit#DegreeCelsius> .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource :UnburntGasTemperature ;
    owl:annotatedProperty <http://www.w3.org/2004/02/skos/core#example> ;
-   owl:annotatedTarget <http://data.nasa.gov/qudt/owl/unit#DegreeCelsius> ;
+   owl:annotatedTarget <http://qudt.org/vocab/unit#DegreeCelsius> ;
    <http://www.w3.org/2004/02/skos/core#example> 50
  ] .
 
@@ -10273,14 +10300,14 @@ Under the general type of is the actual data object referenced by the ChemConnec
 :ViewPortWindow rdf:type owl:Class ;
                 rdfs:subClassOf :ProbeKeywordParameters ,
                                 [ rdf:type owl:Restriction ;
-                                  owl:onProperty <http://data.nasa.gov/qudt/owl/qudt#unitSystem> ;
-                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                  owl:onClass :ProbeMaterialTypeChoice
-                                ] ,
-                                [ rdf:type owl:Restriction ;
                                   owl:onProperty <http://purl.org/linked-data/cube#concept> ;
                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                   owl:onClass :RapidCompressionMachineConfiguration
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty <http://qudt.org/1.1/vocab/quantity#unitSystem> ;
+                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                  owl:onClass :ProbeMaterialTypeChoice
                                 ] ,
                                 [ rdf:type owl:Restriction ;
                                   owl:onProperty :hasPurpose ;
@@ -10864,7 +10891,14 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
 
 
 ###  http://www.esblurock.info/dataset
-<http://www.esblurock.info/dataset> rdf:type owl:NamedIndividual .
+<http://www.esblurock.info/dataset> rdf:type owl:NamedIndividual ;
+                                    <http://purl.org/dc/terms/publisher> <http://purl.org/dc/aboutdcmi#DCMI> .
+
+
+###  http://www.esblurock.info/dataset#AMU
+:AMU rdf:type owl:NamedIndividual ,
+              :MassToChargeRatio ;
+     <http://qudt.org/schema/qudt#description> "Mass to charge ratio for mass spectrometers, amu is the standard unit, with the hydrogen atom being one" .
 
 
 ###  http://www.esblurock.info/dataset#ConsortiumID
@@ -10967,35 +11001,35 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
 ###  http://www.esblurock.info/dataset#InverseTemperature
 :InverseTemperature rdf:type owl:NamedIndividual ,
                              :InverseTemperatureUnit ;
-                    <http://data.nasa.gov/qudt/owl/qudt#abbreviation> "1/K"^^xsd:string ;
-                    <http://data.nasa.gov/qudt/owl/qudt#conversionMultiplier> 1.0 ;
-                    <http://data.nasa.gov/qudt/owl/qudt#conversionOffset> 0.0 ;
-                    <http://data.nasa.gov/qudt/owl/qudt#symbol> "1/K"^^xsd:string .
+                    <http://qudt.org/1.1/vocab/quantity#abbreviation> "1/K"^^xsd:string ;
+                    <http://qudt.org/1.1/vocab/quantity#conversionMultiplier> 1.0 ;
+                    <http://qudt.org/1.1/vocab/quantity#conversionOffset> 0.0 ;
+                    <http://qudt.org/1.1/vocab/quantity#symbol> "1/K"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#InverseTemperatureTimes1000
 :InverseTemperatureTimes1000 rdf:type owl:NamedIndividual ,
                                       :InverseTemperatureUnit ;
-                             <http://data.nasa.gov/qudt/owl/qudt#abbreviation> "1000/K"^^xsd:string ;
-                             <http://data.nasa.gov/qudt/owl/qudt#conversionMultiplier> "0.001"^^xsd:string ;
-                             <http://data.nasa.gov/qudt/owl/qudt#conversionOffset> "0.0"^^xsd:string ;
-                             <http://data.nasa.gov/qudt/owl/qudt#symbol> "1000/K"^^xsd:string .
+                             <http://qudt.org/1.1/vocab/quantity#abbreviation> "1000/K"^^xsd:string ;
+                             <http://qudt.org/1.1/vocab/quantity#conversionMultiplier> "0.001"^^xsd:string ;
+                             <http://qudt.org/1.1/vocab/quantity#conversionOffset> "0.0"^^xsd:string ;
+                             <http://qudt.org/1.1/vocab/quantity#symbol> "1000/K"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#KelvinPerSquareM
 :KelvinPerSquareM rdf:type owl:NamedIndividual ;
-                  <http://data.nasa.gov/qudt/owl/qudt#abbreviation> "K m^-1"^^xsd:string ;
-                  <http://data.nasa.gov/qudt/owl/qudt#conversionMultiplier> "1.0"^^xsd:double ;
-                  <http://data.nasa.gov/qudt/owl/qudt#conversionOffset> "0.0"^^xsd:double ;
-                  <http://data.nasa.gov/qudt/owl/qudt#symbol> "K m^-1"^^xsd:string .
+                  <http://qudt.org/1.1/vocab/quantity#abbreviation> "K m^-1"^^xsd:string ;
+                  <http://qudt.org/1.1/vocab/quantity#conversionMultiplier> "1.0"^^xsd:double ;
+                  <http://qudt.org/1.1/vocab/quantity#conversionOffset> "0.0"^^xsd:double ;
+                  <http://qudt.org/1.1/vocab/quantity#symbol> "K m^-1"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#KelvinPerSquareMM
 :KelvinPerSquareMM rdf:type owl:NamedIndividual ;
-                   <http://data.nasa.gov/qudt/owl/qudt#abbreviation> "K mm^-1"^^xsd:string ;
-                   <http://data.nasa.gov/qudt/owl/qudt#conversionMultiplier> "1000000.0"^^xsd:double ;
-                   <http://data.nasa.gov/qudt/owl/qudt#conversionOffset> "0.0"^^xsd:double ;
-                   <http://data.nasa.gov/qudt/owl/qudt#symbol> "K mm^-1"^^xsd:string .
+                   <http://qudt.org/1.1/vocab/quantity#abbreviation> "K mm^-1"^^xsd:string ;
+                   <http://qudt.org/1.1/vocab/quantity#conversionMultiplier> "1000000.0"^^xsd:double ;
+                   <http://qudt.org/1.1/vocab/quantity#conversionOffset> "0.0"^^xsd:double ;
+                   <http://qudt.org/1.1/vocab/quantity#symbol> "K mm^-1"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#Keyword
@@ -11005,7 +11039,7 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
 
 ###  http://www.esblurock.info/dataset#LiterPerSecond
 :LiterPerSecond rdf:type owl:NamedIndividual ,
-                         <http://data.nasa.gov/qudt/owl/qudt#VolumePerTimeUnit> .
+                         <http://qudt.org/1.1/vocab/quantity#VolumePerTimeUnit> .
 
 
 ###  http://www.esblurock.info/dataset#LocationAddress
@@ -11038,10 +11072,10 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
 
 ###  http://www.esblurock.info/dataset#MolPerLiter
 :MolPerLiter rdf:type owl:NamedIndividual ;
-             <http://data.nasa.gov/qudt/owl/qudt#abbreviation> "mol/l"^^xsd:string ;
-             <http://data.nasa.gov/qudt/owl/qudt#conversionMultiplier> "1000.0"^^xsd:double ;
-             <http://data.nasa.gov/qudt/owl/qudt#conversionOffset> "0.0"^^xsd:double ;
-             <http://data.nasa.gov/qudt/owl/qudt#symbol> "mol/l"^^xsd:string .
+             <http://qudt.org/1.1/vocab/quantity#abbreviation> "mol/l"^^xsd:string ;
+             <http://qudt.org/1.1/vocab/quantity#conversionMultiplier> "1000.0"^^xsd:double ;
+             <http://qudt.org/1.1/vocab/quantity#conversionOffset> "0.0"^^xsd:double ;
+             <http://qudt.org/1.1/vocab/quantity#symbol> "mol/l"^^xsd:string .
 
 
 ###  http://www.esblurock.info/dataset#NameOfPerson
@@ -11139,6 +11173,12 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
 
 [ rdf:type <http://www.w3.org/2006/vcard/ns#Contact>
 ] .
+
+[ owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger
+ ] .
+
+[ owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger
+ ] .
 
 [ owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger
  ] .
@@ -11888,8 +11928,8 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
                                     <http://purl.org/dc/terms/issued> "2000-07-11"^^xsd:date .
 
 
-<http://purl.org/dc/terms/rights> rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
-                                  <http://purl.org/dc/terms/issued> "2008-01-14"^^xsd:date ;
+<http://purl.org/dc/terms/rights> <http://purl.org/dc/terms/issued> "2008-01-14"^^xsd:date ;
+                                  rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
                                   rdfs:label "Rights"@en ;
                                   rdfs:comment "Information about rights held in and over the resource."@en ;
                                   <http://purl.org/dc/terms/modified> "2008-01-14"^^xsd:date ;
@@ -11897,8 +11937,8 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
                                   <http://purl.org/dc/terms/description> "Typically, rights information includes a statement about various property rights associated with the resource, including intellectual property rights."@en .
 
 
-<http://purl.org/dc/terms/rightsHolder> <http://purl.org/dc/terms/hasVersion> <http://dublincore.org/usage/terms/history/#rightsHolder-002> ;
-                                        rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
+<http://purl.org/dc/terms/rightsHolder> rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
+                                        <http://purl.org/dc/terms/hasVersion> <http://dublincore.org/usage/terms/history/#rightsHolder-002> ;
                                         <http://purl.org/dc/terms/modified> "2008-01-14"^^xsd:date ;
                                         rdfs:comment "A person or organization owning or managing rights over the resource."@en ;
                                         <http://purl.org/dc/terms/issued> "2004-06-14"^^xsd:date ;

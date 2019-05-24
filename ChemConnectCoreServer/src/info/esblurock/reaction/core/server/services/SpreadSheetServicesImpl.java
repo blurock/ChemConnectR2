@@ -30,8 +30,8 @@ import info.esblurock.reaction.core.server.db.image.GCSServiceRoutines;
 import info.esblurock.reaction.core.server.db.spreadsheet.block.IsolateBlockFromMatrix;
 import info.esblurock.reaction.core.server.read.InterpretSpreadSheet;
 import info.esblurock.reaction.core.server.services.util.ContextAndSessionUtilities;
-import info.esblurock.reaction.io.db.QueryBase;
-import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
+import info.esblurock.reaction.ontology.DatasetOntologyParsing;
+import info.esblurock.reaction.ontology.QueryBase;
 
 @SuppressWarnings("serial")
 public class SpreadSheetServicesImpl extends ServerBase implements SpreadSheetServices {

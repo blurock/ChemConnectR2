@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 import info.esblurock.reaction.chemconnect.core.data.login.UserDTO;
 import info.esblurock.reaction.chemconnect.core.data.transaction.SessionEvent;
 import info.esblurock.reaction.core.server.db.DatabaseWriteBase;
-import info.esblurock.reaction.io.db.QueryBase;
+import info.esblurock.reaction.ontology.QueryBase;
 
 public class RegisterEvent {
 	@SuppressWarnings("unused")

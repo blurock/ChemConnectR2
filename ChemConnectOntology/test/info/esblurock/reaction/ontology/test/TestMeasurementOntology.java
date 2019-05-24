@@ -1,5 +1,7 @@
 package info.esblurock.reaction.ontology.test;
 
+import java.util.Set;
+
 //import static org.junit.Assert.*;
 
 import org.junit.Test;
@@ -11,7 +13,6 @@ public class TestMeasurementOntology {
 
 	@Test
 	public void test() {
-		
 		System.out.println("---------------------------------------------------------------");
 		String topunit1 = "qudt:TimeUnit";
 		SetOfUnitProperties set1 = OntologyUnits.getSetOfUnitProperties(topunit1);
@@ -21,8 +22,10 @@ public class TestMeasurementOntology {
 		SetOfUnitProperties set2 = OntologyUnits.getSetOfUnitProperties(topunit2);
 		System.out.println(set2.toString());
 		System.out.println("---------------------------------------------------------------");
-		String topunit = "dataset:ThermocoupleClassification";
+		String topunit = "dataset:ThermocoupleTypeClassification";
 		SetOfUnitProperties set = OntologyUnits.getSetOfUnitProperties(topunit);
+		Set<String> classifications = OntologyUnits.classifications(topunit);
+		System.out.println("Classifications\n" + classifications);
 		System.out.println(set.toString());
 		System.out.println("---------------------------------------------------------------");
 		String topunit3 = "dataset:ManufacturerName";

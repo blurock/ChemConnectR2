@@ -5,7 +5,7 @@ package info.esblurock.reaction.ontology.concepts;
 import org.junit.Test;
 
 import info.esblurock.reaction.chemconnect.core.data.description.DescriptionDataData;
-import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
+import info.esblurock.reaction.ontology.DatasetOntologyParsing;
 
 public class DataTypeTest {
 

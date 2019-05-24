@@ -1,15 +1,17 @@
 package info.esblurock.reaction.chemconnect.core.data.base;
 
-import java.text.DateFormat;
 import java.util.Date;
 
+import com.google.gwt.i18n.client.DateTimeFormat;
+
 public class DateAsString {
-	static DateFormat format = DateFormat.getInstance();
+	@SuppressWarnings("deprecation")
 	public static String dateAsString(Date date) {
+		
 		if(date != null) {
-		return format.format(date);
+		return DateTimeFormat.getShortDateFormat().format(date);
 		} else {
-			return format.format(new Date());
+			return DateTimeFormat.getShortDateFormat().format(new Date());
 		}
 	}
 }

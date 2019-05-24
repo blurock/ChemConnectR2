@@ -5,8 +5,8 @@ package info.esblurock.reaction.core.server.ontology;
 import org.junit.Test;
 
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
-import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
 import info.esblurock.reaction.core.server.db.extract.BuildSetOfObservationsInformation;
+import info.esblurock.reaction.ontology.DatasetOntologyParsing;
 
 public class SetofObservationsInformation {
 

@@ -8,8 +8,7 @@ import org.junit.Test;
 
 import info.esblurock.reaction.chemconnect.core.data.transfer.ClassificationInformation;
 import info.esblurock.reaction.chemconnect.core.data.transfer.DataElementInformation;
-//import info.esblurock.reaction.ontology.OntologyBase;
-import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
+import info.esblurock.reaction.ontology.DatasetOntologyParsing;
 
 public class SimpleReadDatasetInformation {
 

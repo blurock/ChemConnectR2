@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import info.esblurock.reaction.chemconnect.core.data.contact.IndividualInformation;
 import info.esblurock.reaction.chemconnect.core.data.contact.PersonalDescription;
-import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
+import info.esblurock.reaction.ontology.DatasetOntologyParsing;
 
 public class GetSetOfSuperObjects {
 

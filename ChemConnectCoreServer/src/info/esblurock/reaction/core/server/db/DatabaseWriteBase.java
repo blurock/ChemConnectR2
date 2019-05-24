@@ -10,8 +10,8 @@ import info.esblurock.reaction.chemconnect.core.data.transaction.TransactionInfo
 import info.esblurock.reaction.chemconnect.core.data.transfer.structure.DatabaseObjectHierarchy;
 import info.esblurock.reaction.core.server.db.extract.ExtractCatalogInformation;
 import info.esblurock.reaction.core.server.delete.DeleteDataStructures;
-import info.esblurock.reaction.io.db.QueryBase;
-import info.esblurock.reaction.ontology.dataset.DatasetOntologyParsing;
+import info.esblurock.reaction.ontology.DatasetOntologyParsing;
+import info.esblurock.reaction.ontology.QueryBase;
 
 import java.io.IOException;
 import java.util.ArrayList;

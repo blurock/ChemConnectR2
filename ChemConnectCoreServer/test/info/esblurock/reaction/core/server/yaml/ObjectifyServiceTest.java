@@ -31,7 +31,7 @@ public class ObjectifyServiceTest {
     @BeforeClass
     public static void setUpBeforeClass() {
         // Reset the Factory so that all translators work properly.
-        ObjectifyService.setFactory(new ObjectifyFactory());
+        //ObjectifyService.setFactory(new ObjectifyFactory());
         ObjectifyService.register(Food.class);
     }
 

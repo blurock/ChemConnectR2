@@ -16,13 +16,13 @@ import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.cache.AsyncCacheFilter;
 import com.googlecode.objectify.util.Closeable;
 
-import info.esblurock.reaction.chemconnect.core.data.contact.RegisterContactData;
-import info.esblurock.reaction.chemconnect.core.data.dataset.RegistrerDataset;
-import info.esblurock.reaction.chemconnect.core.data.description.RegisterDescriptionData;
-import info.esblurock.reaction.chemconnect.core.data.initialization.RegisterInitializationData;
-import info.esblurock.reaction.chemconnect.core.data.login.RegisterUserLoginData;
-import info.esblurock.reaction.chemconnect.core.data.rdf.RegisterRDFData;
-import info.esblurock.reaction.chemconnect.core.data.transaction.RegisterTransactionData;
+import info.esblurock.reaction.chemconnect.core.data.register.RegisterContactData;
+import info.esblurock.reaction.chemconnect.core.data.register.RegisterDescriptionData;
+import info.esblurock.reaction.chemconnect.core.data.register.RegisterInitializationData;
+import info.esblurock.reaction.chemconnect.core.data.register.RegisterRDFData;
+import info.esblurock.reaction.chemconnect.core.data.register.RegisterTransactionData;
+import info.esblurock.reaction.chemconnect.core.data.register.RegisterUserLoginData;
+import info.esblurock.reaction.chemconnect.core.data.register.RegisterDataset;
 
 public class ReadUserYamlRDF {
 	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
@@ -31,7 +31,7 @@ public class ReadUserYamlRDF {
 	@BeforeClass
 	public static void setUpBeforeClass() {
 		// Reset the Factory so that all translators work properly.
-		ObjectifyService.setFactory(new ObjectifyFactory());
+		//ObjectifyService.setFactory(new ObjectifyFactory());
 	}
 
 	@Before
@@ -42,7 +42,7 @@ public class ReadUserYamlRDF {
 		RegisterInitializationData.register();
 		RegisterRDFData.register();
 		RegisterTransactionData.register();
-		RegistrerDataset.register();
+		RegisterDataset.register();
 		RegisterUserLoginData.register();
 
 		helper.setUp();

@@ -14,8 +14,8 @@ import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.cache.AsyncCacheFilter;
 import com.googlecode.objectify.util.Closeable;
 
-import info.esblurock.reaction.chemconnect.core.data.transaction.RegisterTransactionData;
-import info.esblurock.reaction.io.db.QueryBase;
+import info.esblurock.reaction.chemconnect.core.data.register.RegisterTransactionData;
+import info.esblurock.reaction.ontology.QueryBase;
 
 public class SourceIDTest {
 	protected Closeable session;
@@ -24,7 +24,7 @@ public class SourceIDTest {
 	@BeforeClass
 	public static void setUpBeforeClass() {
 		// Reset the Factory so that all translators work properly.
-		ObjectifyService.setFactory(new ObjectifyFactory());
+		//ObjectifyService.setFactory(new ObjectifyFactory());
 	}
 
 	@Before
